@@ -1,0 +1,41 @@
+import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provider.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+class AnalyseDataDialog extends ConsumerWidget {
+  final num? feedId;
+  const AnalyseDataDialog({Key? key, this.feedId}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final action = feedId == null ? "Saving" : "Updating";
+    final name = ref.watch(feedProvider).feedName;
+    return CupertinoAlertDialog(
+      title: Text(
+        'See full Analysis of - ${name.toUpperCase()} - without ${action.toUpperCase()} it',
+        style: const TextStyle(
+            //color: feedId != null ? AppConstants.appCarrotColor : AppConstants.appBlueColor
+            // color: Theme.of(context).colorScheme.error
+            ),
+      ),
+      content: const Text('Are You Sure?'),
+      actions: [
+        CupertinoDialogAction(
+          isDestructiveAction: true,
+          child: const Text('Analyse'),
+          onPressed: () {
+            ref.read(feedProvider.notifier).analyse();
+            Navigator.pop(context);
+          },
+        ),
+        CupertinoDialogAction(
+          isDefaultAction: true,
+          child: const Text('Cancel'),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        )
+      ],
+    );
+  }
+}

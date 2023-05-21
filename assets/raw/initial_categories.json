@@ -1,0 +1,59 @@
+[
+    {
+        "category": "Cereal grains",
+        "category_id": 1
+    },
+    {
+        "category": "Cereal byproducts",
+        "category_id": 2
+    },
+    {
+        "category": "Legumes and oilseed",
+        "category_id": 3
+    },
+    {
+        "category": "Oil byproducts",
+        "category_id": 4
+    },
+    {
+        "category": "Animal products",
+        "category_id": 5
+    },
+    {
+        "category": "Diary products",
+        "category_id": 6
+    },
+    {
+        "category": "Oils and Fats",
+        "category_id": 7
+    },
+    {
+        "category": "Mineral products",
+        "category_id": 8
+    },
+    {
+        "category": "Concentrates",
+        "category_id": 9
+    },
+    {
+        "category": "Amino Acids",
+        "category_id": 10
+    },
+    {
+        "category": "Roots and byproducts",
+        "category_id": 11
+    },
+    {
+        "category": "Fruits and byproducts",
+        "category_id": 12
+    },
+    {
+        "category": "Other plant products",
+        "category_id": 13
+    },
+	 {
+        "category": "Uncategorized",
+        "category_id": 14
+    }
+	
+]
