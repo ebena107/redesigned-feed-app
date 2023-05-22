@@ -73,7 +73,7 @@ final routerProvider = Provider<GoRouter>(
                 name: "pdfPreview",
                 path: 'pdf',
                 builder: (context, state) =>
-                    PdfPreviewPage(feed: state.extra! as Feed),
+                    PdfPreviewPage(feed: state.extra! as Feed, type: state.queryParameters['type'] as String,),
               ),
             ],
           ),

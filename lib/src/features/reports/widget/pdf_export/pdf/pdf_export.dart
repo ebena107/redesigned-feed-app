@@ -15,7 +15,7 @@ import 'package:pdf/pdf.dart';
 
 import 'package:pdf/widgets.dart';
 
-Future<Uint8List> makePdf(Feed feed, WidgetRef ref, String currency) async {
+Future<Uint8List> makePdf(Feed feed, WidgetRef ref, String type, String currency) async {
   final pdf = Document(
       title: "Feed Estimator",
       author: "ebena.com.ng",
@@ -89,7 +89,7 @@ Future<Uint8List> makePdf(Feed feed, WidgetRef ref, String currency) async {
             SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.only(top: 10),
-              child: Text('REPORT',
+              child: Text( type=="estimate"?'ESTIMATED REPORT': 'REPORT',
                   style: Theme.of(context)
                       .header3
                       .copyWith(fontWeight: FontWeight.bold),
@@ -171,12 +171,15 @@ Future<Uint8List> makePdf(Feed feed, WidgetRef ref, String currency) async {
         final provider = ref.watch(resultProvider);
         final data = provider.results;
 
-        final result = feed.feedId == 9999 || feed.feedId == null
+        //final result = feed.feedId == 9999 || feed.feedId == null
+        final result = type == 'estimate'
             ? provider.myResult
             : provider.results.isNotEmpty
                 ? data.firstWhere((r) => r.feedId == feed.feedId,
                     orElse: () => Result())
                 : null;
+
+
 
         return Column(
           children: [
@@ -222,7 +225,7 @@ Future<Uint8List> makePdf(Feed feed, WidgetRef ref, String currency) async {
                 height: 40,
                 color: PdfColors.grey800,
                 child: Center(
-                  child: Text('FEED ANALYSIS',
+                  child: Text(type == 'estimate' ? 'ESTIMATED FEED ANALYSIS' :'FEED ANALYSIS',
                       style: Theme.of(context).header2.copyWith(
                           fontWeight: FontWeight.bold, color: PdfColors.white),
                       textAlign: TextAlign.center),

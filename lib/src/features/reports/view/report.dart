@@ -40,8 +40,7 @@ class AnalysisPage extends ConsumerWidget {
     final feed = type == 'estimate'
         ? ref.watch(feedProvider).newFeed
         : feedList.firstWhere((f) => f.feedId == feedId, orElse: () => Feed());
-    debugPrint(
-        '+++++++++++++++++++++++++++${feed!.toJson().toString()}+++++++++++++++++++++++++++++++++');
+
 
     final toggle = ref.watch(resultProvider).toggle;
 
@@ -72,7 +71,7 @@ class AnalysisPage extends ConsumerWidget {
                       ),
                       IconButton(
                         onPressed: () =>
-                            context.pushNamed("pdfPreview", extra: feed),
+                            context.pushNamed("pdfPreview", extra: feed, queryParameters: {'type': type}),
                         icon: const Icon(Icons.picture_as_pdf_outlined,
                             color: AppConstants.appBackgroundColor),
                       ),
@@ -99,9 +98,7 @@ class AnalysisPage extends ConsumerWidget {
                   ),
                 ),
 
-                // SliverFillRemaining(
-                //   child: ResultCard(feedId: feedId)
-                // )
+
               ],
             ),
           ),
@@ -128,7 +125,7 @@ class AnalysisPage extends ConsumerWidget {
           //     ),
           //     child: NameCard(feed: feed)),
 
-          FeedImage(id: feed.animalId as int),
+          FeedImage(id: feed!.animalId as int),
           NameCard(feed: feed),
           ReturnButton(feedId: feedId),
           toggle
@@ -180,51 +177,14 @@ class AnalysisPage extends ConsumerWidget {
                   ),
                 )
 
-          // CustomScrollView(
-          //   //   scrollDirection: Axis.horizontal,
-          //   slivers: <Widget>[
-          //     SliverToBoxAdapter(
-          //       child: Container(
-          //         //   alignment: Alignment.bottomCenter,
-          //
-          //         margin: EdgeInsets.only(
-          //           top: displayHeight(context) * .6,
-          //
-          //           // left: displayWidth(context) * .3,
-          //         ),
-          //         child: SizedBox(
-          //           height: displayHeight(context) * .43,
-          //           child: Column(
-          //             children: [
-          //               const Spacer(),
-          //               id != null || feed.feedId != null
-          //                   ? ResultCard(id: id ?? feed.feedId)
-          //                   : const Center(child: CircularProgressIndicator()),
-          //               const Spacer(),
-          //             ],
-          //           ),
-          //         ),
-          //       ),
-          //     ),
-          //     SliverFillRemaining(
-          //       child: Container(
-          //           color: Colors.transparent,
-          //           child: ReportIngredientList(feed: feed)),
-          //     )
-          //   ],
-          // ),
+
         ],
       ),
       bottomNavigationBar: const ReportBottomBar(),
     );
   }
 
-  //
-  // Future<void> _onShare(BuildContext context) async {
-  //   final RenderBox box = context.findRenderObject() as RenderBox;
-  //   await Share.share( 'Result Page', subject: '',   sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
-  //
-  // }
+
 }
 
 class ReturnButton extends ConsumerWidget {

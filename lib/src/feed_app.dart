@@ -18,6 +18,7 @@ class FeedApp extends ConsumerWidget {
 
       routerConfig: router,
       debugShowCheckedModeBanner: false,
+
       title: 'Feed Estimator',
       // routeInformationParser: router.routeInformationParser,
       // routeInformationProvider: router.routeInformationProvider,

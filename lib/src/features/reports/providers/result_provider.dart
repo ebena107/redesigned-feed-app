@@ -168,7 +168,7 @@ class ResultNotifier extends StateNotifier<ResultsState> {
       await calculateResult();
 
       _newResult = Result(
-          feedId: feedId,
+          feedId: _feed.feedId,
           mEnergy: _mEnergy,
           cProtein: _cProtein,
           cFat: _cFat,

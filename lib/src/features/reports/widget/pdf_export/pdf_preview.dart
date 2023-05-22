@@ -9,7 +9,8 @@ import 'package:printing/printing.dart';
 
 class PdfPreviewPage extends ConsumerWidget {
   final Feed feed;
-  const PdfPreviewPage({Key? key, required this.feed}) : super(key: key);
+  final String type;
+  const PdfPreviewPage( {Key? key, required this.feed, required this.type,}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,7 +24,7 @@ class PdfPreviewPage extends ConsumerWidget {
         title: Text(
             'Ebena Feed Estimator | ${feed.feedName!.toUpperCase()} Print Preview'),
       ),
-      body: PdfPreview(build: (context) => makePdf(feed, ref, currency)),
+      body: PdfPreview(build: (context) => makePdf(feed, ref, type, currency)),
     );
   }
 }
