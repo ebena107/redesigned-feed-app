@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+1
+version: 0.0.9+1
 
 environment:
   sdk: '>=2.19.2 <3.0.0'
@@ -39,10 +39,10 @@ dependencies:
   go_router: ^7.0.0
   sqflite:
   flutter_riverpod: ^2.2.0
-  flutter_spinkit:
-  flutter_sparkline: ^0.1.0
+  #flutter_spinkit:
+  #flutter_sparkline: ^0.1.0
   freezed_annotation: ^2.2.0
-  flex_color_scheme: ^6.1.2
+  #flex_color_scheme: ^6.1.2
   json_annotation: ^4.8.0
   riverpod_annotation: ^1.2.1
   path: ^1.8.2
@@ -99,10 +99,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/RobotoRegular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

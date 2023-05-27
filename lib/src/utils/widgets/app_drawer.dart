@@ -150,18 +150,18 @@ class FeedAppDrawer extends ConsumerWidget {
                               endIndent: 16,
                               height: 0,
                             ),
-                            ListTile(
-                              leading: const Icon(
-                                  CupertinoIcons.pencil_ellipsis_rectangle),
-                              trailing: const Icon(CupertinoIcons.forward),
-                              dense: true,
-                              title: const Text("Update Stored Feed"),
-                              onTap: () {
-                                context.pop();
-                                //     : context.go('/newIngredient');
-                                context.pushNamed('feedStore');
-                              },
-                            ),
+                            // ListTile(
+                            //   leading: const Icon(
+                            //       CupertinoIcons.pencil_ellipsis_rectangle),
+                            //   trailing: const Icon(CupertinoIcons.forward),
+                            //   dense: true,
+                            //   title: const Text("Update Stored Feed"),
+                            //   onTap: () {
+                            //     context.pop();
+                            //     //     : context.go('/newIngredient');
+                            //     context.pushNamed('feedStore');
+                            //   },
+                            // ),
                             const Divider(
                               thickness: 1,
                               indent: 16,

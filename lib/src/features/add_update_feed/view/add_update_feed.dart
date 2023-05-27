@@ -1,6 +1,6 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:feed_estimator/src/core/router/navigation_providers.dart';
-import 'package:feed_estimator/src/core/router/router.dart';
+
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
 import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provider.dart';
 import 'package:feed_estimator/src/features/add_update_feed/widget/analyse_data_dialog.dart';
@@ -8,11 +8,12 @@ import 'package:feed_estimator/src/features/main/providers/main_async_provider.d
 
 import 'package:feed_estimator/src/features/reports/providers/result_provider.dart';
 import 'package:feed_estimator/src/utils/widgets/app_drawer.dart';
-import 'package:feed_estimator/src/utils/widgets/message_handler.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:quickalert/quickalert.dart';
 
 import '../widget/estimated_result_widget.dart';
 import '../widget/feed_info.dart';
@@ -161,15 +162,17 @@ _onItemTapped(
     case 1:
       name == ""
           ? {
-              status = "failure",
+              status = "info",
               mMessage = "Feed Name is Compulsory",
             }
           : ref.read(asyncMainProvider.notifier).saveUpdateFeed(
                 todo: todo,
+        onSuccess: (response) => handleAlert(type:response, context:context, title: mMessage)
               );
       // handleMessage();
-      messageHandlerWidget(context: context, message: mMessage, type: status);
-      status == "success" ? ref.read(routerProvider).go('/') : '';
+      handleAlert(type:status, context:context, title: mMessage);
+   //   messageHandlerWidget(context: context, message: mMessage, type: status);
+    //  status == "success" ? ref.read(routerProvider).go('/') : '';
       break;
     case 2:
       final ing = ref.watch(feedProvider).feedIngredients;
@@ -181,14 +184,39 @@ _onItemTapped(
               status = "failure",
               mMessage = "Enter all feed details : Name and ingredients",
               // handleMessage()
-              messageHandlerWidget(
-                  context: context, message: mMessage, type: status)
+              // messageHandlerWidget(
+              //     context: context, message: mMessage, type: status)
+        handleAlert(type: status, context:context, title:mMessage)
             }
           : Navigator.of(context)
               .restorablePush(analyseDialogBuilder, arguments: feedId);
 
       break;
   }
+}
+
+
+handleAlert({required String type, required BuildContext context, required String title}) {
+ // String title = "";
+  QuickAlertType myType = QuickAlertType.info;
+
+  switch (type){
+    case 'success':
+      myType = QuickAlertType.success;
+      //title = 'successfully saved';
+      break;
+    case 'failure':
+      myType = QuickAlertType.error;
+    //  title = 'failed to save';
+      break;
+    case 'warning':
+      myType = QuickAlertType.warning;
+   //   title = 'checked to save';
+      break;
+  }
+
+
+  return QuickAlert.show(context: context, type: myType, title: title);
 }
 
 Route<Object?> analyseDialogBuilder(

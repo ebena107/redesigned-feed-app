@@ -15,7 +15,8 @@ import 'package:pdf/pdf.dart';
 
 import 'package:pdf/widgets.dart';
 
-Future<Uint8List> makePdf(Feed feed, WidgetRef ref, String type, String currency) async {
+Future<Uint8List> makePdf(
+    Feed feed, WidgetRef ref, String type, String currency) async {
   final pdf = Document(
       title: "Feed Estimator",
       author: "ebena.com.ng",
@@ -28,6 +29,8 @@ Future<Uint8List> makePdf(Feed feed, WidgetRef ref, String type, String currency
       (await rootBundle.load(feedImage(id: feed.animalId as int)))
           .buffer
           .asUint8List());
+  var data = await rootBundle.load('assets/fonts/RobotoRegular.ttf');
+  final font = Font.ttf(data);
 
   String? name(num? id) {
     final ingredients = ref.watch(ingredientProvider).ingredients;
@@ -89,7 +92,7 @@ Future<Uint8List> makePdf(Feed feed, WidgetRef ref, String type, String currency
             SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.only(top: 10),
-              child: Text( type=="estimate"?'ESTIMATED REPORT': 'REPORT',
+              child: Text(type == "estimate" ? 'ESTIMATED REPORT' : 'REPORT',
                   style: Theme.of(context)
                       .header3
                       .copyWith(fontWeight: FontWeight.bold),
@@ -179,8 +182,6 @@ Future<Uint8List> makePdf(Feed feed, WidgetRef ref, String type, String currency
                     orElse: () => Result())
                 : null;
 
-
-
         return Column(
           children: [
             Row(
@@ -225,7 +226,10 @@ Future<Uint8List> makePdf(Feed feed, WidgetRef ref, String type, String currency
                 height: 40,
                 color: PdfColors.grey800,
                 child: Center(
-                  child: Text(type == 'estimate' ? 'ESTIMATED FEED ANALYSIS' :'FEED ANALYSIS',
+                  child: Text(
+                      type == 'estimate'
+                          ? 'ESTIMATED FEED ANALYSIS'
+                          : 'FEED ANALYSIS',
                       style: Theme.of(context).header2.copyWith(
                           fontWeight: FontWeight.bold, color: PdfColors.white),
                       textAlign: TextAlign.center),
@@ -386,25 +390,32 @@ Future<Uint8List> makePdf(Feed feed, WidgetRef ref, String type, String currency
                         child: paddedText('%/Kg', align: TextAlign.center)),
                   ],
                 ),
-                TableRow(children: [
-                  SizedBox(),
-                  paddedText('COST /unit KG', align: TextAlign.right),
-                  paddedText(result.costPerUnit!.toStringAsFixed(2),
-                      align: TextAlign.center),
-                  SizedBox(
-                      width: 80,
-                      child:
-                          paddedText('$currency/Kg', align: TextAlign.center)),
-                ]),
-                TableRow(children: [
-                  SizedBox(),
-                  paddedText('TOTAL Cost', align: TextAlign.right),
-                  paddedText(result.totalCost!.toStringAsFixed(2),
-                      align: TextAlign.center),
-                  SizedBox(
-                      width: 80,
-                      child: paddedText(currency, align: TextAlign.center)),
-                ])
+                TableRow(
+                  children: [
+                    SizedBox(),
+                    paddedText('COST /unit KG', align: TextAlign.right),
+                    paddedText(result.costPerUnit!.toStringAsFixed(2),
+                        align: TextAlign.center),
+                    SizedBox(
+                        width: 80,
+                        child: paddedText('$currency/Kg',
+                            align: TextAlign.center)),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    SizedBox(),
+                    paddedText('TOTAL Cost', align: TextAlign.right),
+                    paddedText(result.totalCost!.toStringAsFixed(2),
+                        align: TextAlign.center),
+                    SizedBox(
+                        width: 80,
+                        //child: paddedText(currency, align: TextAlign.center)),
+                        child: Text(currency,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(font: font))),
+                  ],
+                ),
               ],
             ),
             SizedBox(height: 10),
@@ -412,19 +423,21 @@ Future<Uint8List> makePdf(Feed feed, WidgetRef ref, String type, String currency
                 'Thank you for using Ebena Feed Estimator by Ebena Agro Ltd | http://ebena.com.ng, (c) ${DateTime.now().year}',
                 align: TextAlign.center),
             Divider(height: 1),
-            Row(children: [
-              SizedBox(
-                child: paddedText('disclaimer:', align: TextAlign.right),
-              ),
-              Expanded(
-                child: Text(
-                    'Ebena Agro Ltd (or designers of this app), or any of its subsidiaries, or any person associated with it, shall not be held liable by any person, or organization,or nation for any direct or indirect damages arising from any use of Feedcalc and/or the data generated by FeedCalc. It is explicitly stated that any financial or commercial loss (for instance: loss of data, loss of customers or of orders, loss of benefit, operating loss, opportunity loss, commercial trouble) or any action directed against FeedCalc by a third party constitutes an indirect damage and is not eligible for compensation of damage by Ebena Agro Ltd.',
-                    style: Theme.of(context)
-                        .defaultTextStyle
-                        .copyWith(fontSize: 10, fontStyle: FontStyle.italic),
-                    textAlign: TextAlign.justify),
-              ),
-            ]),
+            Row(
+              children: [
+                SizedBox(
+                  child: paddedText('disclaimer:', align: TextAlign.right),
+                ),
+                Expanded(
+                  child: Text(
+                      'Ebena Agro Ltd (or designers of this app), or any of its subsidiaries, or any person associated with it, shall not be held liable by any person, or organization,or nation for any direct or indirect damages arising from any use of Feedcalc and/or the data generated by FeedCalc. It is explicitly stated that any financial or commercial loss (for instance: loss of data, loss of customers or of orders, loss of benefit, operating loss, opportunity loss, commercial trouble) or any action directed against FeedCalc by a third party constitutes an indirect damage and is not eligible for compensation of damage by Ebena Agro Ltd.',
+                      style: Theme.of(context)
+                          .defaultTextStyle
+                          .copyWith(fontSize: 10, fontStyle: FontStyle.italic),
+                      textAlign: TextAlign.justify),
+                ),
+              ],
+            ),
           ],
         );
       },
@@ -434,9 +447,14 @@ Future<Uint8List> makePdf(Feed feed, WidgetRef ref, String type, String currency
   return pdf.save();
 }
 
-Widget paddedText(final String text,
-        {final TextAlign align = TextAlign.left}) =>
+Widget paddedText(
+  final String text, {
+  final TextAlign align = TextAlign.left,
+}) =>
     Padding(
       padding: const EdgeInsets.all(8),
-      child: Text(text, textAlign: align, style: const TextStyle()),
+      child: Text(
+        text,
+        textAlign: align,
+      ),
     );

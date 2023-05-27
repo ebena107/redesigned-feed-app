@@ -27,158 +27,160 @@ class FeedIngredientsField extends ConsumerWidget {
     double? width = displayWidth(context);
 
     return feedIngredients.isNotEmpty
-        ? Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            verticalDirection: VerticalDirection.down,
-            children: [
-              const Divider(
-                thickness: 2,
-                color: AppConstants.appIconGreyColor,
-              ),
-              Expanded(
-                flex: 0,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      width: width * .32,
-                      child: Text(
-                        "Ingredient",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
-                            .copyWith(fontSize: 14),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    SizedBox(
-                      width: width * .2,
-                      child: Text(
-                        "Price/Unit",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
-                            .copyWith(fontSize: 14),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    Expanded(
-                      //  width: width * .2,
-                      child: Text(
-                        "Quantity",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
-                            .copyWith(fontSize: 14),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    Expanded(
-                      //  width: width * .2,
-                      child: Text(
-                        "T: ${data.totalQuantity} Kg",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
-                            .copyWith(fontSize: 14),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ],
+        ?  Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              verticalDirection: VerticalDirection.down,
+              children: [
+                const Divider(
+                  thickness: 2,
+                  color: AppConstants.appIconGreyColor,
                 ),
-              ),
-              const Divider(
-                thickness: 3,
-                color: AppConstants.appIconGreyColor,
-              ),
-              Expanded(
-                child: CustomScrollView(
-                  shrinkWrap: true,
-                  slivers: [
-                    SliverFixedExtentList(
-                      itemExtent: 48.0,
-                      delegate: SliverChildBuilderDelegate(
-                        (BuildContext context, int index) {
-                          final ingredient = feedIngredients[index];
+                Expanded(
+                  flex: 0,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        width: width * .32,
+                        child: Text(
+                          "Ingredient",
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(fontSize: 14),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      SizedBox(
+                        width: width * .2,
+                        child: Text(
+                          "Price/Unit",
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(fontSize: 14),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Expanded(
+                        //  width: width * .2,
+                        child: Text(
+                          "Quantity",
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(fontSize: 14),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Expanded(
+                        //  width: width * .2,
+                        child: Text(
+                          "T: ${data.totalQuantity} Kg",
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(fontSize: 14),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const Divider(
+                  thickness: 3,
+                  color: AppConstants.appIconGreyColor,
+                ),
+                Expanded(
+                  flex: 1,
+                  child: CustomScrollView(
+                    shrinkWrap: true,
+                    slivers: [
+                      SliverFixedExtentList(
+                        itemExtent: 48.0,
+                        delegate: SliverChildBuilderDelegate(
+                          (BuildContext context, int index) {
+                            final ingredient = feedIngredients[index];
 
-                          return ListTile(
-                            onTap: () => showUpdateDialog(
-                                context, ingredient.ingredientId),
-                            //  activeColor: Commons.appCarrotColor,
-                            dense: true,
+                            return ListTile(
+                              onTap: () => showUpdateDialog(
+                                  context, ingredient.ingredientId),
+                              //  activeColor: Commons.appCarrotColor,
+                              dense: true,
 
-                            title: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                SizedBox(
-                                  width: width * 0.32,
-                                  child: GetIngredientName(
-                                      id: ingredient.ingredientId),
-                                ),
-                                Expanded(
-                                  // width: width * .2,
-                                  child: Text(
-                                    ingredient.priceUnitKg.toString(),
-                                    textAlign: TextAlign.center,
+                              title: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  SizedBox(
+                                    width: width * 0.32,
+                                    child: GetIngredientName(
+                                        id: ingredient.ingredientId),
                                   ),
-                                ),
-                                SizedBox(
-                                  width: width * .3,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(ingredient.quantity == null
-                                          ? ""
-                                          : ingredient.quantity.toString()),
-                                      Text(
-                                        data.totalQuantity > 0
-                                            ? "${ref.watch(feedProvider.notifier).calcPercent(ingredient.quantity).toStringAsFixed(1)}%"
-                                            : "0.0%",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium,
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Expanded(
-                                  //   width: width * .12,
-                                  child: IconButton(
-                                    padding: const EdgeInsets.all(0),
-                                    onPressed: () {
-                                      Navigator.of(context).restorablePush(
-                                        deleteDialogBuilder,
-                                        arguments: ingredient.ingredientId,
-                                      );
-                                    },
-                                    icon: const Icon(
-                                      CupertinoIcons.delete,
-                                      size: 16,
-                                      color: Colors.redAccent,
+                                  Expanded(
+                                    // width: width * .2,
+                                    child: Text(
+                                      ingredient.priceUnitKg.toString(),
+                                      textAlign: TextAlign.center,
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                        childCount: data.feedIngredients.length,
+                                  SizedBox(
+                                    width: width * .3,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(ingredient.quantity == null
+                                            ? ""
+                                            : ingredient.quantity.toString()),
+                                        Text(
+                                          data.totalQuantity > 0
+                                              ? "${ref.watch(feedProvider.notifier).calcPercent(ingredient.quantity).toStringAsFixed(1)}%"
+                                              : "0.0%",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    //   width: width * .12,
+                                    child: IconButton(
+                                      padding: const EdgeInsets.all(0),
+                                      onPressed: () {
+                                        Navigator.of(context).restorablePush(
+                                          deleteDialogBuilder,
+                                          arguments: ingredient.ingredientId,
+                                        );
+                                      },
+                                      icon: const Icon(
+                                        CupertinoIcons.delete,
+                                        size: 16,
+                                        color: Colors.redAccent,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          childCount: data.feedIngredients.length,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              // const Expanded(
-              //     flex: 1,
-              //     child: Divider(thickness: 2, color: AppConstants.mainAppColor)),
-            ],
-          )
+                // const Expanded(
+                //     flex: 1,
+                //     child: Divider(thickness: 2, color: AppConstants.mainAppColor)),
+              ],
+            )
+
         : const SizedBox();
   }
 }

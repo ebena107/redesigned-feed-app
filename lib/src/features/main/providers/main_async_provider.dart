@@ -2,6 +2,7 @@ import 'package:feed_estimator/src/core/router/router.dart';
 import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provider.dart';
 import 'package:feed_estimator/src/features/main/model/feed.dart';
 import 'package:feed_estimator/src/features/reports/providers/result_provider.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -57,12 +58,15 @@ class AsyncMain extends _$AsyncMain {
   }
 
 //required VoidCallback Function() onSuccess, required VoidCallback Function() onFailure
-  Future<void> saveUpdateFeed({
+  Future<void> saveUpdateFeed( {
     required String todo,
+    required ValueChanged<String> onSuccess
   }) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
-      await ref.read(feedProvider.notifier).saveUpdateFeed(todo: todo);
+     final response = await ref.read(feedProvider.notifier).saveUpdateFeed(todo: todo);
+
+     onSuccess(response);
       return loadFeed();
     });
 

@@ -16,13 +16,14 @@ class SaveUpdateFeedController extends _$SaveUpdateFeedController {
     // ref.onDispose(() => key = null);
   }
 
-  Future<void> saveUpdateFeed({required String todo}) async {
+  Future<void> saveUpdateFeed({required String todo, required ValueChanged<String> onSuccess}) async {
     final provider = ref.read(feedProvider.notifier);
     state = const AsyncLoading();
-    // final key = this.key;
+
     state = await AsyncValue.guard(() => provider.saveUpdateFeed(
-          todo: todo,
-        ));
+        todo: todo,
+      )
+    );
     //
     // if (key == this.key) {
     //   state = newState;
@@ -33,7 +34,7 @@ class SaveUpdateFeedController extends _$SaveUpdateFeedController {
     debugPrint('finished ${state.hasValue.toString()}');
 
     if (state.hasError == false) {
-      debugPrint('finished');
+   onSuccess('Success');
       // ref.read(asyncMainProvider.notifier).loadFeed();
       // ref.read(resultProvider.notifier).setFeed();
 
