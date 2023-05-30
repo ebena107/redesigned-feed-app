@@ -1,6 +1,7 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient_category.dart';
-import 'package:feed_estimator/src/features/add_ingredients/provider/ingredient_save_controller.dart';
+import 'package:feed_estimator/src/features/add_ingredients/provider/form_controllers.dart';
+
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
 import 'package:feed_estimator/src/features/add_ingredients/widgets/save_ingredient_dialog.dart';
 import 'package:feed_estimator/src/utils/widgets/message_handler.dart';
@@ -9,11 +10,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
-Widget nameField(WidgetRef ref, int? ingId) {
-  final data = ref.watch(ingredientProvider).name;
-  TextEditingController nameController =
-      TextEditingController(text: data!.value);
+Widget nameField(WidgetRef ref, int? ingId, BuildContext context) {
+  final myRef = ref.watch(ingredientProvider);
+  final data = myRef.name;
+  final nameController = ref.watch(nameFieldController(data!.value));
+
   return Card(
       child: ingId == null
           ? Focus(
@@ -26,6 +30,7 @@ Widget nameField(WidgetRef ref, int? ingId) {
               },
               child: TextFormField(
                 controller: nameController,
+
                 // initialValue: data.name!.value,
                 decoration: inputDecoration(
                     hint: 'Ingredient Name',
@@ -42,6 +47,7 @@ Widget nameField(WidgetRef ref, int? ingId) {
                 onTapOutside: (value) => ref
                     .read(ingredientProvider.notifier)
                     .setName(nameController.value.text),
+                onEditingComplete: () => FocusScope.of(context).nextFocus(),
               ),
             )
           : SizedBox(
@@ -82,7 +88,10 @@ class NameField extends ConsumerWidget {
   }
 }
 
-Widget categoryField(WidgetRef ref) {
+Widget categoryField(
+  WidgetRef ref,
+  int? ingId,
+) {
   final data = ref.watch(ingredientProvider);
   final int? ingCat;
 
@@ -94,7 +103,7 @@ Widget categoryField(WidgetRef ref) {
 
   final categories = data.categoryList;
   return Card(
-    child: ingCat == null
+    child: ingId == null
         ? DropdownButtonFormField(
             dropdownColor: AppConstants.appBackgroundColor.withOpacity(.8),
             items: categories.map((IngredientCategory cat) {
@@ -124,10 +133,12 @@ Widget categoryField(WidgetRef ref) {
   );
 }
 
-Widget proteinField(WidgetRef ref) {
-  final data = ref.watch(ingredientProvider).crudeProtein;
-  TextEditingController proteinController =
-      TextEditingController(text: data!.value);
+Widget proteinField(WidgetRef ref, context) {
+  final myRef = ref.watch(ingredientProvider);
+  final data = myRef.crudeProtein;
+  final proteinController = ref.watch(proteinFieldController(data!.value));
+  // TextEditingController proteinController =
+  //     TextEditingController(text: data!.value);
   return Card(
     child: Focus(
       onFocusChange: (hasFocus) {
@@ -152,24 +163,26 @@ Widget proteinField(WidgetRef ref) {
         onTapOutside: (value) => ref
             .read(ingredientProvider.notifier)
             .setProtein(proteinController.value.text),
+        onEditingComplete: () => FocusScope.of(context).nextFocus(),
       ),
     ),
   );
 }
 
 Widget fatField(WidgetRef ref) {
-  final data = ref.watch(ingredientProvider).crudeFat;
-  TextEditingController fatController =
-      TextEditingController(text: data!.value);
+  final myRef = ref.watch(ingredientProvider);
+  final data = myRef.crudeFat;
+  final myController = ref.watch(fatFieldController(data!.value));
+
   return Card(
     child: Focus(
       onFocusChange: (hasFocus) {
         if (!hasFocus) {
-          ref.read(ingredientProvider.notifier).setFat(fatController.text);
+          ref.read(ingredientProvider.notifier).setFat(myController.text);
         }
       },
       child: TextFormField(
-        controller: fatController,
+        controller: myController,
         decoration: inputDecoration(
             hint: 'Fat',
             errorText: data.error,
@@ -181,15 +194,16 @@ Widget fatField(WidgetRef ref) {
         onSaved: (value) => ref.read(ingredientProvider.notifier).setFat(value),
         onTapOutside: (value) => ref
             .read(ingredientProvider.notifier)
-            .setFat(fatController.value.text),
+            .setFat(myController.value.text),
       ),
     ),
   );
 }
 
 Widget fibreField(WidgetRef ref) {
-  final data = ref.watch(ingredientProvider).crudeFiber;
-  TextEditingController myController = TextEditingController(text: data!.value);
+  final myRef = ref.watch(ingredientProvider);
+  final data = myRef.crudeFiber;
+  final myController = ref.watch(fiberFieldController(data!.value));
   return Card(
     child: Focus(
       onFocusChange: (hasFocus) {
@@ -218,8 +232,9 @@ Widget fibreField(WidgetRef ref) {
 }
 
 Widget energyField(WidgetRef ref) {
-  final data = ref.watch(ingredientProvider).meAdultPig;
-  TextEditingController myController = TextEditingController(text: data!.value);
+  final myRef = ref.watch(ingredientProvider);
+  final data = myRef.meAdultPig;
+  final myController = ref.watch(energyFieldController(data!.value));
   return Card(
     child: Focus(
       onFocusChange: (hasFocus) {
@@ -248,8 +263,9 @@ Widget energyField(WidgetRef ref) {
 }
 
 Widget energyAdultPigField(WidgetRef ref) {
-  final data = ref.watch(ingredientProvider).meAdultPig;
-  TextEditingController myController = TextEditingController(text: data!.value);
+  final myRef = ref.watch(ingredientProvider);
+  final data = myRef.meAdultPig;
+  final myController = ref.watch(adultPigFieldController(data!.value));
   return Card(
     child: Focus(
       onFocusChange: (hasFocus) {
@@ -280,8 +296,9 @@ Widget energyAdultPigField(WidgetRef ref) {
 }
 
 Widget energyGrowingPigField(WidgetRef ref) {
-  final data = ref.watch(ingredientProvider).meGrowingPig;
-  TextEditingController myController = TextEditingController(text: data!.value);
+  final myRef = ref.watch(ingredientProvider);
+  final data = myRef.meGrowingPig;
+  final myController = ref.watch(growPigFieldController(data!.value));
   return Card(
     child: Focus(
       onFocusChange: (hasFocus) {
@@ -312,8 +329,9 @@ Widget energyGrowingPigField(WidgetRef ref) {
 }
 
 Widget energyRabbitField(WidgetRef ref) {
-  final data = ref.watch(ingredientProvider).meRabbit;
-  TextEditingController myController = TextEditingController(text: data!.value);
+  final myRef = ref.watch(ingredientProvider);
+  final data = myRef.meRabbit;
+  final myController = ref.watch(rabbitFieldController(data!.value));
   return Card(
     child: Focus(
       onFocusChange: (hasFocus) {
@@ -344,8 +362,9 @@ Widget energyRabbitField(WidgetRef ref) {
 }
 
 Widget energyRuminantField(WidgetRef ref) {
-  final data = ref.watch(ingredientProvider).meRuminant;
-  TextEditingController myController = TextEditingController(text: data!.value);
+  final myRef = ref.watch(ingredientProvider);
+  final data = myRef.meRuminant;
+  final myController = ref.watch(ruminantFieldController(data!.value));
   return Card(
     child: Focus(
       onFocusChange: (hasFocus) {
@@ -376,8 +395,9 @@ Widget energyRuminantField(WidgetRef ref) {
 }
 
 Widget energyPoultryField(WidgetRef ref) {
-  final data = ref.watch(ingredientProvider).mePoultry;
-  TextEditingController myController = TextEditingController(text: data!.value);
+  final myRef = ref.watch(ingredientProvider);
+  final data = myRef.mePoultry;
+  final myController = ref.watch(poultryFieldController(data!.value));
   return Card(
     child: Focus(
       onFocusChange: (hasFocus) {
@@ -408,8 +428,9 @@ Widget energyPoultryField(WidgetRef ref) {
 }
 
 Widget energyFishField(WidgetRef ref) {
-  final data = ref.watch(ingredientProvider).deSalmonids;
-  TextEditingController myController = TextEditingController(text: data!.value);
+  final myRef = ref.watch(ingredientProvider);
+  final data = myRef.deSalmonids;
+  final myController = ref.watch(fishFieldController(data!.value));
   return Card(
     child: Focus(
       onFocusChange: (hasFocus) {
@@ -440,8 +461,9 @@ Widget energyFishField(WidgetRef ref) {
 }
 
 Widget lyzineField(WidgetRef ref) {
-  final data = ref.watch(ingredientProvider).lysine;
-  TextEditingController myController = TextEditingController(text: data!.value);
+  final myRef = ref.watch(ingredientProvider);
+  final data = myRef.lysine;
+  final myController = ref.watch(lyzineFieldController(data!.value));
   return Card(
     child: Focus(
       onFocusChange: (hasFocus) {
@@ -470,8 +492,9 @@ Widget lyzineField(WidgetRef ref) {
 }
 
 Widget methionineField(WidgetRef ref) {
-  final data = ref.watch(ingredientProvider).methionine;
-  TextEditingController myController = TextEditingController(text: data!.value);
+  final myRef = ref.watch(ingredientProvider);
+  final data = myRef.methionine;
+  final myController = ref.watch(methionineFieldController(data!.value));
   return Card(
     child: Focus(
       onFocusChange: (hasFocus) {
@@ -500,8 +523,9 @@ Widget methionineField(WidgetRef ref) {
 }
 
 Widget phosphorusField(WidgetRef ref) {
-  final data = ref.watch(ingredientProvider).phosphorus;
-  TextEditingController myController = TextEditingController(text: data!.value);
+  final myRef = ref.watch(ingredientProvider);
+  final data = myRef.phosphorus;
+  final myController = ref.watch(phosphorousFieldController(data!.value));
   return Card(
     child: Focus(
       onFocusChange: (hasFocus) {
@@ -532,8 +556,9 @@ Widget phosphorusField(WidgetRef ref) {
 }
 
 Widget calciumField(WidgetRef ref) {
-  final data = ref.watch(ingredientProvider).calcium;
-  TextEditingController myController = TextEditingController(text: data!.value);
+  final myRef = ref.watch(ingredientProvider);
+  final data = myRef.calcium;
+  final myController = ref.watch(calciumFieldController(data!.value));
   return Card(
     child: Focus(
       onFocusChange: (hasFocus) {
@@ -562,8 +587,9 @@ Widget calciumField(WidgetRef ref) {
 }
 
 Widget priceField(WidgetRef ref) {
-  final data = ref.watch(ingredientProvider).priceKg;
-  TextEditingController myController = TextEditingController(text: data!.value);
+  final myRef = ref.watch(ingredientProvider);
+  final data = myRef.priceKg;
+  final myController = ref.watch(priceFieldController(data!.value));
   return Card(
     child: Focus(
       onFocusChange: (hasFocus) {
@@ -592,8 +618,9 @@ Widget priceField(WidgetRef ref) {
 }
 
 Widget availableQuantityField(WidgetRef ref) {
-  final data = ref.watch(ingredientProvider).availableQty;
-  TextEditingController myController = TextEditingController(text: data!.value);
+  final myRef = ref.watch(ingredientProvider);
+  final data = myRef.availableQty;
+  final myController = ref.watch(quantityFieldController(data!.value));
   return Card(
     child: Focus(
       onFocusChange: (hasFocus) {
@@ -658,26 +685,37 @@ class SaveButton extends ConsumerWidget {
     final data = ref.watch(ingredientProvider);
 
     return SizedBox(
-      width: displayWidth(context) / 2,
+      width: displayWidth(context),
       child: ElevatedButton.icon(
-          onPressed: () {
-            if (myKey!.currentState!.validate()) {
-              //  ref.read(ingredientProvider.notifier).validate()
-              // if (data.validate) {
-              ref
-                  .read(ingredientSaveControllerProvider.notifier)
-                  .saveUpdateIngredient(ingId);
+          onPressed: () async {
+            ref.read(ingredientProvider.notifier).validate();
+           //  debugPrint('form === ${myKey!.currentState!.validate().toString()}');
+            if (data.validate && myKey!.currentState!.validate()) {
+              ingId != null
+                  ? ref.read(ingredientProvider.notifier).updateIngredient(
+                      ingId,
+                      onSuccess: () {
+                        context.pop();
+                        showAlert(context, QuickAlertType.success,
+                            'Ingredient Updated Successfully');
+                      },
+                      onFailure: () => showAlert(
+                          context, QuickAlertType.error, 'Failed to save'))
+                  : {
+                      ref.read(ingredientProvider.notifier).createIngredient(),
+                      await ref
+                          .read(ingredientProvider.notifier)
+                          .saveIngredient(
+                              onSuccess: () {
+                                context.pop();
+                                showAlert(context, QuickAlertType.success,
+                                    'Ingredient Created Successfully');
+                              },
+                              onFailure: () => showAlert(context,
+                                  QuickAlertType.error, 'Failed to save'))
+                    };
 
-              if (data.status == "success") {
-                messageHandlerWidget(
-                    context: context, message: data.message, type: data.status);
-                myKey!.currentState!.reset();
-                context.pop();
-                saveDialogBuilder(context, ingId);
-              } else {
-                messageHandlerWidget(
-                    context: context, message: data.message, type: data.status);
-              }
+
             } else {
               messageHandlerWidget(
                   context: context,
@@ -721,3 +759,12 @@ Route<Object?> saveDialogBuilder(
 //     ),
 //   );
 // }
+
+showAlert(context, QuickAlertType type, String message) {
+  QuickAlert.show(
+    context: context,
+    type: type,
+    text: message,
+    autoCloseDuration: const Duration(seconds: 2),
+  );
+}

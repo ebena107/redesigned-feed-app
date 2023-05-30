@@ -198,7 +198,8 @@ class __$$_StoreIngredientStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_StoreIngredientState extends _StoreIngredientState {
+class _$_StoreIngredientState extends _StoreIngredientState
+    with DiagnosticableTreeMixin {
   const _$_StoreIngredientState(
       {final List<Ingredient> ingredients = const [],
       this.selectedIngredient,
@@ -246,8 +247,24 @@ class _$_StoreIngredientState extends _StoreIngredientState {
   final String message;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'StoreIngredientState(ingredients: $ingredients, selectedIngredient: $selectedIngredient, validate: $validate, id: $id, priceKg: $priceKg, availableQty: $availableQty, favourite: $favourite, status: $status, message: $message)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'StoreIngredientState'))
+      ..add(DiagnosticsProperty('ingredients', ingredients))
+      ..add(DiagnosticsProperty('selectedIngredient', selectedIngredient))
+      ..add(DiagnosticsProperty('validate', validate))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('priceKg', priceKg))
+      ..add(DiagnosticsProperty('availableQty', availableQty))
+      ..add(DiagnosticsProperty('favourite', favourite))
+      ..add(DiagnosticsProperty('status', status))
+      ..add(DiagnosticsProperty('message', message));
   }
 
   @override

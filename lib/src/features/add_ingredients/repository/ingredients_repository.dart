@@ -2,6 +2,7 @@ import 'package:feed_estimator/src/core/database/app_db.dart';
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dart';
 import 'package:feed_estimator/src/core/repositories/repository.dart';
 import 'package:feed_estimator/src/features/add_ingredients/repository/ingredient_category_repository.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final ingredientsRepositoryProvider =
@@ -77,6 +78,7 @@ class IngredientsRepository implements Repository {
 
   @override
   Future<int> create(placeData) async {
+
     return db.insert(tableName: tableName, columns: columns, values: placeData);
   }
 
@@ -102,6 +104,7 @@ class IngredientsRepository implements Repository {
 
   @override
   Future<int> update(Map<String, Object?> placeData, num id) async {
+
     return db.update(tableName, colId, id, placeData);
   }
 }

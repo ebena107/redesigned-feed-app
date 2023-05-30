@@ -18,7 +18,7 @@ class MainView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final data = ref.watch(asyncMainProvider);
-    //debugPrint(data.value.toString());
+
 
     return Scaffold(
       drawer: const FeedAppDrawer(),

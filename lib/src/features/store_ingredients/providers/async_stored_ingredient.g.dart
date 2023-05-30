@@ -7,7 +7,7 @@ part of 'async_stored_ingredient.dart';
 // **************************************************************************
 
 String _$asyncStoredIngredientsHash() =>
-    r'41becae143463a9fd946867434651aed27eeaa5a';
+    r'43858c0364e85b6b2e4d3bda326bca501ec57298';
 
 /// See also [AsyncStoredIngredients].
 @ProviderFor(AsyncStoredIngredients)

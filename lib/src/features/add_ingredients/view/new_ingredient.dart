@@ -12,7 +12,7 @@ class NewIngredient extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(ingredientId);
+
     final int? ingId =
         (ingredientId == null || ingredientId == "null" || ingredientId == "")
             ? null
@@ -58,7 +58,7 @@ class NewIngredient extends StatelessWidget {
                 ),
                 child: FlexibleSpaceBar(
                     title: Text(
-                        ingId != null ? "Update Ingredient" : 'New Ingredient'),
+                        ingId != null ? "Update Ingredient" : 'Add Ingredient'),
                     centerTitle: true,
                     background: const Image(
                         image: AssetImage('assets/images/back.png'))),

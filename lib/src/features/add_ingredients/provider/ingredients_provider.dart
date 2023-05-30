@@ -1,4 +1,5 @@
 import 'package:feed_estimator/src/core/models/validation_model.dart';
+
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dart';
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient_category.dart';
 import 'package:feed_estimator/src/features/add_ingredients/repository/ingredient_category_repository.dart';
@@ -238,7 +239,7 @@ class IngredientNotifier extends StateNotifier<IngredientState> {
 
     state = state.copyWith(selectedIngredients: feedIngredients);
 
-    await ref.read(feedIngredientRepository).delete(ingredientId!);
+    await ref.watch(feedIngredientRepository).delete(ingredientId!);
 
     updateCount();
     final count = state.count;
@@ -247,6 +248,7 @@ class IngredientNotifier extends StateNotifier<IngredientState> {
 
   void setDefaultValues() {
     state = state.copyWith(
+      newIngredient: Ingredient(),
       name: ValidationModel(value: null, error: null, isValid: false),
       crudeProtein: ValidationModel(value: null, error: null, isValid: false),
       crudeFiber: ValidationModel(value: null, error: null, isValid: false),
@@ -324,7 +326,7 @@ class IngredientNotifier extends StateNotifier<IngredientState> {
   }
 
   setProtein(String? value) {
-    if (value!.isValidNumber) {
+    if (value!.isNotEmpty && value.isValidNumber) {
       if (state.newIngredient!.ingredientId != null) {
         final ing =
             state.newIngredient!.copyWith(crudeProtein: double.tryParse(value));
@@ -345,7 +347,7 @@ class IngredientNotifier extends StateNotifier<IngredientState> {
   }
 
   setFat(String? value) {
-    if (value!.isValidNumber) {
+    if (value!.isNotEmpty && value.isValidNumber) {
       if (state.newIngredient!.ingredientId != null) {
         final ing =
             state.newIngredient!.copyWith(crudeFat: double.tryParse(value));
@@ -365,7 +367,7 @@ class IngredientNotifier extends StateNotifier<IngredientState> {
   }
 
   setFiber(String? value) {
-    if (value!.isValidNumber) {
+    if (value!.isNotEmpty && value.isValidNumber) {
       if (state.newIngredient!.ingredientId != null) {
         final ing =
             state.newIngredient!.copyWith(crudeFiber: double.tryParse(value));
@@ -386,7 +388,7 @@ class IngredientNotifier extends StateNotifier<IngredientState> {
   }
 
   setEnergyAdultPig(String? value) {
-    if (value!.isValidNumber) {
+    if (value!.isNotEmpty && value.isValidNumber) {
       if (state.newIngredient!.ingredientId != null) {
         final ing =
             state.newIngredient!.copyWith(meAdultPig: int.tryParse(value));
@@ -407,7 +409,7 @@ class IngredientNotifier extends StateNotifier<IngredientState> {
   }
 
   setEnergyGrowPig(String? value) {
-    if (value!.isValidNumber) {
+    if (value!.isNotEmpty && value.isValidNumber) {
       if (state.newIngredient!.ingredientId != null) {
         final ing =
             state.newIngredient!.copyWith(meGrowingPig: int.tryParse(value));
@@ -428,7 +430,7 @@ class IngredientNotifier extends StateNotifier<IngredientState> {
   }
 
   setEnergyRabbit(String? value) {
-    if (value!.isValidNumber) {
+    if (value!.isNotEmpty && value.isValidNumber) {
       if (state.newIngredient!.ingredientId != null) {
         final ing =
             state.newIngredient!.copyWith(meRabbit: int.tryParse(value));
@@ -448,7 +450,7 @@ class IngredientNotifier extends StateNotifier<IngredientState> {
   }
 
   setEnergyRuminant(String? value) {
-    if (value!.isValidNumber) {
+    if (value!.isNotEmpty && value.isValidNumber) {
       if (state.newIngredient!.ingredientId != null) {
         final ing =
             state.newIngredient!.copyWith(meRuminant: int.tryParse(value));
@@ -469,7 +471,7 @@ class IngredientNotifier extends StateNotifier<IngredientState> {
   }
 
   setEnergyPoultry(String? value) {
-    if (value!.isValidNumber) {
+    if (value!.isNotEmpty && value.isValidNumber) {
       if (state.newIngredient!.ingredientId != null) {
         final ing =
             state.newIngredient!.copyWith(mePoultry: int.tryParse(value));
@@ -490,7 +492,7 @@ class IngredientNotifier extends StateNotifier<IngredientState> {
   }
 
   setEnergyFish(String? value) {
-    if (value!.isValidNumber) {
+    if (value!.isNotEmpty && value.isValidNumber) {
       if (state.newIngredient!.ingredientId != null) {
         final ing =
             state.newIngredient!.copyWith(deSalmonids: int.tryParse(value));
@@ -511,7 +513,7 @@ class IngredientNotifier extends StateNotifier<IngredientState> {
   }
 
   setLyzine(String? value) {
-    if (value!.isValidNumber) {
+    if (value!.isNotEmpty && value.isValidNumber) {
       if (state.newIngredient!.ingredientId != null) {
         final ing =
             state.newIngredient!.copyWith(lysine: double.tryParse(value));
@@ -530,7 +532,7 @@ class IngredientNotifier extends StateNotifier<IngredientState> {
   }
 
   setMeth(String? value) {
-    if (value!.isValidNumber) {
+    if (value!.isNotEmpty && value.isValidNumber) {
       if (state.newIngredient!.ingredientId != null) {
         final ing =
             state.newIngredient!.copyWith(methionine: double.tryParse(value));
@@ -551,7 +553,7 @@ class IngredientNotifier extends StateNotifier<IngredientState> {
   }
 
   setCalcium(String? value) {
-    if (value!.isValidNumber) {
+    if (value!.isNotEmpty && value.isValidNumber) {
       if (state.newIngredient!.ingredientId != null) {
         final ing =
             state.newIngredient!.copyWith(calcium: double.tryParse(value));
@@ -570,7 +572,7 @@ class IngredientNotifier extends StateNotifier<IngredientState> {
   }
 
   setPhosphorous(String? value) {
-    if (value!.isValidNumber) {
+    if (value!.isNotEmpty && value.isValidNumber) {
       if (state.newIngredient!.ingredientId != null) {
         final ing =
             state.newIngredient!.copyWith(phosphorus: double.tryParse(value));
@@ -591,7 +593,7 @@ class IngredientNotifier extends StateNotifier<IngredientState> {
   }
 
   setPrice(String? value) {
-    if (value!.isValidNumber) {
+    if (value!.isNotEmpty && value.isValidNumber) {
       if (state.newIngredient!.ingredientId != null) {
         final ing =
             state.newIngredient!.copyWith(priceKg: double.tryParse(value));
@@ -610,7 +612,7 @@ class IngredientNotifier extends StateNotifier<IngredientState> {
   }
 
   setAvailableQuantity(String? value) {
-    if (value!.isValidNumber) {
+    if (value!.isNotEmpty && value.isValidNumber) {
       if (state.newIngredient!.ingredientId != null) {
         final ing =
             state.newIngredient!.copyWith(availableQty: double.tryParse(value));
@@ -686,42 +688,79 @@ class IngredientNotifier extends StateNotifier<IngredientState> {
     }
   }
 
-  Future<void> saveUpdateIngredient(int? ingredientId) async {
-    if (state.newIngredient != Ingredient()) {
-      await ref
-          .watch(ingredientsRepository)
-          .update(state.newIngredient!.toJson(), ingredientId as num);
-      await loadIngredients();
-    } else {
-      Ingredient newIngredient = Ingredient();
+  createIngredient() {
+    Ingredient newIngredient = Ingredient();
+    validate();
+    if (state.validate) {
+      newIngredient = newIngredient.copyWith(
+        name: state.name!.value,
+        crudeProtein: double.tryParse(state.crudeProtein!.value.toString()),
+        meGrowingPig: int.tryParse(state.meGrowingPig!.value.toString()),
+        meAdultPig: int.tryParse(state.meAdultPig!.value.toString()),
+        mePoultry: int.tryParse(state.mePoultry!.value.toString()),
+        meRuminant: int.tryParse(state.meRuminant!.value.toString()),
+        meRabbit: int.tryParse(state.meRabbit!.value.toString()),
+        deSalmonids: int.tryParse(state.deSalmonids!.value.toString()),
+        crudeFat: double.tryParse(state.crudeFat!.value.toString()),
+        crudeFiber: double.tryParse(state.crudeFiber!.value.toString()),
+        calcium: double.tryParse(state.calcium!.value.toString()),
+        phosphorus: double.tryParse(state.phosphorus!.value.toString()),
+        lysine: double.tryParse(state.lysine!.value.toString()),
+        methionine: double.tryParse(state.methionine!.value.toString()),
+        priceKg: double.tryParse(state.priceKg!.value.toString()),
+        availableQty: double.tryParse(state.availableQty!.value.toString()),
+        categoryId: int.tryParse(state.categoryId!.value.toString()),
+        favourite: state.favourite,
+      );
+      state = state.copyWith(newIngredient: newIngredient);
+    }
+  }
 
-      validate();
-      if (state.validate) {
-        newIngredient = newIngredient.copyWith(
-          name: state.name!.value,
-          crudeProtein: double.tryParse(state.crudeProtein!.value.toString()),
-          meGrowingPig: int.tryParse(state.meGrowingPig!.value.toString()),
-          meAdultPig: int.tryParse(state.meAdultPig!.value.toString()),
-          mePoultry: int.tryParse(state.mePoultry!.value.toString()),
-          meRuminant: int.tryParse(state.meRuminant!.value.toString()),
-          meRabbit: int.tryParse(state.meRabbit!.value.toString()),
-          deSalmonids: int.tryParse(state.deSalmonids!.value.toString()),
-          crudeFat: double.tryParse(state.crudeFat!.value.toString()),
-          crudeFiber: double.tryParse(state.crudeFiber!.value.toString()),
-          calcium: double.tryParse(state.calcium!.value.toString()),
-          phosphorus: double.tryParse(state.phosphorus!.value.toString()),
-          lysine: double.tryParse(state.lysine!.value.toString()),
-          methionine: double.tryParse(state.methionine!.value.toString()),
-          priceKg: double.tryParse(state.priceKg!.value.toString()),
-          availableQty: double.tryParse(state.availableQty!.value.toString()),
-          categoryId: int.tryParse(state.categoryId!.value.toString()),
-          favourite: state.favourite,
-        );
-        state = state.copyWith(newIngredient: newIngredient);
+  Future<void> updateIngredient(
+    int? ingId, {
+    required VoidCallback? onSuccess,
+    required VoidCallback? onFailure,
+  }) async {
 
-        await ref.watch(ingredientsRepository).create(newIngredient.toJson());
-        await loadIngredients();
+
+    int? response;
+    try {
+      if (state.newIngredient != Ingredient()) {
+        response = await ref
+            .read(ingredientsRepository)
+            .update(state.newIngredient!.toJson(), ingId as num);
       }
+    } catch (e) {
+      return onFailure!();
+    }
+
+    if (response!.isNaN) {
+      return onFailure!();
+    } else {
+      return onSuccess!();
+    }
+  }
+
+  Future<void> saveIngredient({
+    required VoidCallback? onSuccess,
+    required VoidCallback onFailure,
+  }) async {
+    await createIngredient();
+    int? response;
+    try {
+      if (state.newIngredient != Ingredient()) {
+        response = await ref
+            .read(ingredientsRepository)
+            .create(state.newIngredient!.toJson());
+      }
+    } catch (e) {
+      return onFailure();
+    }
+
+    if (response!.isNaN) {
+      return onFailure();
+    } else {
+      return onSuccess!();
     }
   }
 

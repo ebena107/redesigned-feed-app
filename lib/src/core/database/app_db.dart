@@ -5,7 +5,7 @@ import 'package:feed_estimator/src/features/main/repository/feed_ingredient_repo
 import 'package:feed_estimator/src/features/main/repository/feed_repository.dart';
 import 'package:feed_estimator/src/features/add_ingredients/repository/ingredient_category_repository.dart';
 
-import 'package:flutter/foundation.dart';
+
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sqflite/sqflite.dart';
@@ -28,6 +28,7 @@ class AppDatabase {
     required String columns,
     required Map<String, Object?> values,
   }) async {
+
     //return _database .rawInsert('INSERT INTO $tableName ($columns) VALUES($values)');
     return _database.insert(tableName, values);
   }
@@ -164,7 +165,7 @@ Future _populateTables(Database db) async {
 
   List<dynamic> result = await batch.commit();
   //
-  debugPrint(result.toString());
+
 
   //await batch.commit();
 }

@@ -21,11 +21,11 @@ class IngredientForm extends ConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            nameField(ref, ingId),
+            nameField(ref, ingId, context),
             Card(
               child: Row(
                 children: [
-                  Flexible(child: categoryField(ref)),
+                  Flexible(child: categoryField(ref, ingId)),
                 ],
               ),
             ),
@@ -90,7 +90,7 @@ class IngredientForm extends ConsumerWidget {
               child: Row(
                 children: [
                   Expanded(
-                    child: proteinField(ref),
+                    child: proteinField(ref, context),
                   ),
                   Expanded(child: fatField(ref)),
                   Expanded(child: fibreField(ref)),
