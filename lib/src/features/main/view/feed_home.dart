@@ -2,8 +2,8 @@ import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
 import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provider.dart';
 import 'package:feed_estimator/src/features/main/providers/main_async_provider.dart';
+import 'package:feed_estimator/src/features/main/widget/feed_grid.dart';
 
-import 'package:feed_estimator/src/features/main/widget/feed_list.dart';
 import 'package:feed_estimator/src/features/reports/providers/result_provider.dart';
 
 import 'package:feed_estimator/src/utils/widgets/app_drawer.dart';
@@ -30,18 +30,18 @@ class MainView extends ConsumerWidget {
             floating: false,
             expandedHeight: 160.0,
             //  leading: IconButton(onPressed: (){}, icon: const Icon(Icons.menu, color: Commons.appBackgroundColor,)),
-            actions: [
-              FloatingActionButton(
-                foregroundColor: AppConstants.mainAppColor,
-                backgroundColor: AppConstants.appBackgroundColor,
-                child: const Icon(CupertinoIcons.add),
-                onPressed: () {
-                  ref.read(resultProvider.notifier).resetResult();
-                  ref.read(ingredientProvider.notifier).resetSelections();
-                  ref.read(feedProvider.notifier).resetProvider();
-                  context.pushNamed('newFeed');
-                },
-              ),
+            actions: const [
+              // FloatingActionButton(
+              //   foregroundColor: AppConstants.mainAppColor,
+              //   backgroundColor: AppConstants.appBackgroundColor,
+              //   child: const Icon(CupertinoIcons.add),
+              //   onPressed: () {
+              //     ref.read(resultProvider.notifier).resetResult();
+              //     ref.read(ingredientProvider.notifier).resetSelections();
+              //     ref.read(feedProvider.notifier).resetProvider();
+              //     context.pushNamed('newFeed');
+              //   },
+              // ),
               //   IconButton(
               //     iconSize: 36,
               //     onPressed: () {
@@ -77,14 +77,25 @@ class MainView extends ConsumerWidget {
             ),
           ),
           data.when(
-              data: (data) => const FeedList(),
+              data: (data) => const FeedGrid(),
               error: (er, stack) =>
                   SliverFillRemaining(child: Text(er.toString())),
               loading: () =>
                   const SliverFillRemaining(child: CircularProgressIndicator()))
         ],
       ),
-      //  floatingActionButton:
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: AppConstants.appCarrotColor,
+        onPressed: () {
+          ref.read(resultProvider.notifier).resetResult();
+          ref.read(ingredientProvider.notifier).resetSelections();
+          ref.read(feedProvider.notifier).resetProvider();
+          context.pushNamed('newFeed');
+        },
+        label: const Text('Add Feed'),
+        icon: const Icon(CupertinoIcons.add_circled),
+      ),
     );
+
   }
 }
