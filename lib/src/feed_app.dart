@@ -14,10 +14,10 @@ class FeedApp extends ConsumerWidget {
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     return MaterialApp.router(
-      // supportedLocales: const [
-      //   Locale('en', 'US'),
-      //   Locale('en', 'NGR')
-      // ],
+      supportedLocales: const [
+        Locale('en', 'US'),
+        Locale('en', 'NGR')
+      ],
 
       routerConfig: router,
       debugShowCheckedModeBanner: false,

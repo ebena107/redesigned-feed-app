@@ -163,7 +163,7 @@ Future _populateTables(Database db) async {
       .map((c) => {batch.insert(AnimalTypeRepository.tableName, c.toJson())})
       .toList();
 
-  List<dynamic> result = await batch.commit();
+   await batch.commit();
   //
 
 

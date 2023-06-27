@@ -21,7 +21,7 @@ class ResultEstimateCard extends StatelessWidget {
               children: [
                 EstimatedContentCard(
                   value: data.mEnergy,
-                  title: 'ME: ',
+                  title: 'Energy: ',
                   //   unit: ' kcal',
                 ),
                 EstimatedContentCard(

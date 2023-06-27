@@ -6,23 +6,6 @@ part of 'async_stored_ingredient.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$asyncStoredIngredientsHash() =>
-    r'43858c0364e85b6b2e4d3bda326bca501ec57298';
-
-/// See also [AsyncStoredIngredients].
-@ProviderFor(AsyncStoredIngredients)
-final asyncStoredIngredientsProvider = AutoDisposeAsyncNotifierProvider<
-    AsyncStoredIngredients, List<Ingredient>>.internal(
-  AsyncStoredIngredients.new,
-  name: r'asyncStoredIngredientsProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$asyncStoredIngredientsHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$AsyncStoredIngredients = AutoDisposeAsyncNotifier<List<Ingredient>>;
 String _$quantityControllerHash() =>
     r'8639398acc10d4babc11821129be873c9ef0aa47';
 
@@ -55,4 +38,21 @@ final storedIngredientFormKeyProvider = AutoDisposeProvider<dynamic>.internal(
 );
 
 typedef StoredIngredientFormKeyRef = AutoDisposeProviderRef<dynamic>;
+String _$asyncStoredIngredientsHash() =>
+    r'43858c0364e85b6b2e4d3bda326bca501ec57298';
+
+/// See also [AsyncStoredIngredients].
+@ProviderFor(AsyncStoredIngredients)
+final asyncStoredIngredientsProvider = AutoDisposeAsyncNotifierProvider<
+    AsyncStoredIngredients, List<Ingredient>>.internal(
+  AsyncStoredIngredients.new,
+  name: r'asyncStoredIngredientsProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$asyncStoredIngredientsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$AsyncStoredIngredients = AutoDisposeAsyncNotifier<List<Ingredient>>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

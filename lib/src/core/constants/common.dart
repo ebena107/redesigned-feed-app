@@ -48,12 +48,12 @@ class AppConstants {
 
 //=================DEVICE SIZES ==========================//
 Size displaySize(BuildContext context) {
-  return MediaQuery.of(context).size;
+  return MediaQuery.sizeOf(context);
 }
 
 double displayHeight(BuildContext context) {
   // print("H:-  " + MediaQuery.of(context).size.height.toString());
-  return MediaQuery.of(context).size.height;
+  return MediaQuery.sizeOf(context).height;
 }
 
 double displayWidth(BuildContext context) {
@@ -92,6 +92,123 @@ TextStyle gridTitleTextStyle() {
   return const TextStyle(
     fontSize: 15.0,
   );
+}
+
+//=================TEXT StyleSheet========================//
+TextStyle sideBarTitleStyle() {
+  return const TextStyle(
+      color: AppConstants.appBackgroundColor, fontSize: 24, fontWeight: FontWeight.w800);
+}
+
+TextStyle sideBarSubTitleStyle() {
+  return const TextStyle(
+      color: AppConstants.appBackgroundColor, fontSize: 12, fontWeight: FontWeight.w200);
+}
+
+TextStyle sideBarMenuStyle() {
+  return const TextStyle(
+      color: AppConstants.appBackgroundColor, fontSize: 16, fontWeight: FontWeight.w400);
+}
+
+TextStyle appTitleStyle(context) {
+  return TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: displayHeight(context) * .05,
+    color: const Color(0xffffffff),
+    fontWeight: FontWeight.w900,
+    height: 1,
+    shadows: const [
+      Shadow(
+        color: Color(0xff04b45c),
+        offset: Offset(0, 3),
+        blurRadius: 6,
+      )
+    ],
+  );
+}
+
+TextStyle appSubTitleStyle(context) {
+  return TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: displayHeight(context) * .03,
+    color: const Color(0xffffffff),
+    fontWeight: FontWeight.w900,
+    height: 1,
+    shadows: const [
+      Shadow(
+        color: Color(0xff04b45c),
+        offset: Offset(0, 3),
+        blurRadius: 6,
+      )
+    ],
+  );
+}
+
+TextStyle appButtonStyle(context) {
+  return TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: displayHeight(context) * 0.035,
+    color: AppConstants.mainAppColor,
+    fontWeight: FontWeight.w500,
+    height: 1.5,
+  );
+}
+
+TextStyle formStyle(context) {
+  return TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: displayHeight(context) * 0.035,
+    color: AppConstants.mainAppColor,
+    fontWeight: FontWeight.w400,
+    height: 1,
+  );
+}
+
+TextStyle formTitleStyle(context) {
+  return TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: displayHeight(context) * 0.035,
+    color: AppConstants.mainAppColor,
+    fontWeight: FontWeight.w900,
+    height: 1,
+  );
+}
+
+TextStyle formFieldStyle(context, myColor) {
+  return TextStyle(
+      fontFamily: 'Roboto',
+      fontSize: displayHeight(context) * 0.020,
+      fontWeight: FontWeight.w300,
+      color: myColor,
+      decoration: TextDecoration.none);
+}
+
+TextStyle listFieldStyle(context, myColor) {
+  return TextStyle(
+      fontFamily: 'Roboto',
+      fontSize: displayHeight(context) * 0.025,
+      fontWeight: FontWeight.w500,
+      color: myColor,
+      decoration: TextDecoration.none);
+}
+
+TextStyle detailTitleStyle(context, myColor, bool bold) {
+  return TextStyle(
+      fontFamily: 'Roboto',
+      fontSize:
+      bold ? displayHeight(context) * 0.025 : displayHeight(context) * 0.02,
+      fontWeight: bold ? FontWeight.w600 : FontWeight.w400,
+      color: myColor,
+      decoration: TextDecoration.none);
+}
+
+TextStyle detailSubTitleStyle(context, myColor, bool bold) {
+  return TextStyle(
+      fontFamily: 'Roboto',
+      fontSize: bold ? 20 : 18,
+      fontWeight: bold ? FontWeight.bold : FontWeight.normal,
+      color: myColor,
+      decoration: TextDecoration.none);
 }
 
 int currentTimeInSecond() {

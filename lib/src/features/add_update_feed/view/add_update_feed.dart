@@ -11,6 +11,7 @@ import 'package:feed_estimator/src/utils/widgets/app_drawer.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quickalert/quickalert.dart';
@@ -41,72 +42,86 @@ class NewFeedPage extends ConsumerWidget {
     //debugPrint(' newFeed - id: $id and feedId: $feedId  and title: $title');
     // String title = id == null ? "Add/Check Feed" : "Update Feed";
     //int? feedId = id != null ? int.parse(id!): null;
-    return Scaffold(
-      drawer: const FeedAppDrawer(),
-      backgroundColor: AppConstants.appBackgroundColor,
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            pinned: true,
-            snap: false,
-            floating: true,
-            //  automaticallyImplyLeading: false,
-            backgroundColor: feedId != null
-                ? AppConstants.appCarrotColor
-                : AppConstants.appBlueColor,
-            expandedHeight: displayHeight(context) * .25,
-            //  title: feedId == null ? Text("Set New Feed") : Text("Update Feed"),
-            flexibleSpace: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.bottomLeft,
-                  end: Alignment.topRight,
-                  tileMode: TileMode.repeated,
-                  stops: const [0.6, 0.9],
-                  colors: feedId != null
-                      ? [const Color(0xffff6f00), Colors.deepOrange]
-                      : [Colors.blue, const Color(0xff2962ff)],
-                ),
-              ),
-              child: FlexibleSpaceBar(
-                  centerTitle: true,
-                  title: Text(
-                    title,
-                    // style: titleTextStyle(),
+    return SafeArea(
+      child: Scaffold(
+        appBar:PreferredSize(
+          preferredSize:  const Size.fromHeight(0),
+          child: AppBar(
+
+            systemOverlayStyle:  SystemUiOverlayStyle(
+              // systemNavigationBarColor: Colors.blue, // Navigation bar
+              statusBarColor: feedId != null
+                  ? AppConstants.appCarrotColor
+                  : AppConstants.appBlueColor, // Status bar
+            ),
+          ),
+        ),
+        drawer: const FeedAppDrawer(),
+        backgroundColor: AppConstants.appBackgroundColor,
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              pinned: true,
+              snap: false,
+              floating: true,
+              //  automaticallyImplyLeading: false,
+              backgroundColor: feedId != null
+                  ? AppConstants.appCarrotColor
+                  : AppConstants.appBlueColor,
+              expandedHeight: displayHeight(context) * .25,
+              //  title: feedId == null ? Text("Set New Feed") : Text("Update Feed"),
+              flexibleSpace: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomLeft,
+                    end: Alignment.topRight,
+                    tileMode: TileMode.repeated,
+                    stops: const [0.6, 0.9],
+                    colors: feedId != null
+                        ? [const Color(0xffff6f00), Colors.deepOrange]
+                        : [Colors.blue, const Color(0xff2962ff)],
                   ),
-                  background:
-                      const Image(image: AssetImage('assets/images/back.png'))),
+                ),
+                child: FlexibleSpaceBar(
+                    centerTitle: true,
+                    title: Text(
+                      title,
+                      // style: titleTextStyle(),
+                    ),
+                    background:
+                        const Image(image: AssetImage('assets/images/back.png'))),
+              ),
             ),
-          ),
-          SliverToBoxAdapter(
-            child: Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.only(top: displayHeight(context) * .05),
-              child: FeedInfo(feedId: feedId),
+            SliverToBoxAdapter(
+              child: Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.only(top: displayHeight(context) * .05),
+                child: FeedInfo(feedId: feedId),
+              ),
             ),
-          ),
-          SliverToBoxAdapter(
-            child: Consumer(
-              builder: (context, WidgetRef ref, child) {
-                final data = ref.watch(resultProvider).myResult;
-                return data != null
-                    ? data.mEnergy != null
-                        ? SizedBox(
-                            child:
-                                ResultEstimateCard(data: data, feedId: feedId))
-                        : const SizedBox()
-                    : const SizedBox();
-              },
+            SliverToBoxAdapter(
+              child: Consumer(
+                builder: (context, WidgetRef ref, child) {
+                  final data = ref.watch(resultProvider).myResult;
+                  return data != null
+                      ? data.mEnergy != null
+                          ? SizedBox(
+                              child:
+                                  ResultEstimateCard(data: data, feedId: feedId))
+                          : const SizedBox()
+                      : const SizedBox();
+                },
+              ),
             ),
-          ),
-          const SliverFillRemaining(
-            fillOverscroll: true,
-            child: FeedIngredientsField(),
-          ),
-        ],
-      ),
-      bottomNavigationBar: buildBottomBar(
-        feedId: feedId,
+            const SliverFillRemaining(
+              fillOverscroll: true,
+              child: FeedIngredientsField(),
+            ),
+          ],
+        ),
+        bottomNavigationBar: buildBottomBar(
+          feedId: feedId,
+        ),
       ),
     );
   }

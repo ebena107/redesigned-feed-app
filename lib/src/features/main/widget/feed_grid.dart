@@ -22,9 +22,10 @@ class FeedGrid extends ConsumerWidget {
       data: (feeds) => feeds.isNotEmpty
           ? SliverGrid(
               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 150.0,
-                mainAxisSpacing: 10.0,
-                crossAxisSpacing: 10.0,
+
+                maxCrossAxisExtent: 200.0,
+                // mainAxisSpacing: 10.0,
+                // crossAxisSpacing: 5.0,
                 childAspectRatio: 1.0,
               ),
               delegate: _feedGridDelegate(feeds),
@@ -53,7 +54,7 @@ SliverChildDelegate _feedGridDelegate(List<Feed> data) {
   return SliverChildBuilderDelegate((BuildContext context, int index) {
     final feed = data[index];
     return Padding(
-      padding: const EdgeInsets.all(4.0),
+      padding: const EdgeInsets.all(16.0),
       child: GestureDetector(
         onTap: () {
           context.pushNamed("result",
@@ -83,7 +84,11 @@ SliverChildDelegate _feedGridDelegate(List<Feed> data) {
                       ),
                     ),
                   ),
-                  GridMenu(feed: feed),
+                  SizedBox(
+                    width: 24,
+                      child: Align(
+                          alignment: Alignment.centerRight,
+                          child: GridMenu(feed: feed))),
                 ],
               ),
               // trailing: _gridMenu(context, feeds),

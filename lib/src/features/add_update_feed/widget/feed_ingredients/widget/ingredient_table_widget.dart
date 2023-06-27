@@ -59,16 +59,13 @@ class IngredientDataTable extends ConsumerWidget {
       }
     }
 
-    Future<void> onSelectedRow(bool selected, Ingredient ingredient) async => {
-          ref.read(ingredientProvider.notifier).selectIngredient(ingredient),
-          // ref.read(feedProvider.notifier).addSelectedIngredient(ingredient)
-        };
+    Future<void> onSelectedRow(bool selected, Ingredient ingredient) async => ref.read(ingredientProvider.notifier).selectIngredient(ingredient);
     return Container(
       color: AppConstants.mainAppColor.withOpacity(0.08),
       child: DataTable(
         sortAscending: sort,
         sortColumnIndex: 0,
-        dataRowHeight: 40,
+        dataRowMinHeight: 40,
         showCheckboxColumn: true,
         columns: [
           DataColumn(

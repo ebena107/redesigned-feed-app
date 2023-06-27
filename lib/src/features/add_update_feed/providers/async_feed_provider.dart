@@ -30,11 +30,7 @@ class AsyncFeed extends _$AsyncFeed {
     num? ingredientId,
   ) async {
     state = const AsyncLoading();
-    state = await AsyncValue.guard(() async => {
-          await ref.read(feedProvider.notifier).removeIng(ingredientId),
-          //  ref.read(feedIngredientRepository).delete(ingredientId!)
-          // await ref.read(feedIngredientRepository).deleteByIngredientId(feedId:feedId,  ingredientId: ingredientId as int);
-        });
+    state = await AsyncValue.guard(() async => await ref.read(feedProvider.notifier).removeIng(ingredientId),);
 
     if (state.hasError == false) {
       //  debugPrint('finished delete');

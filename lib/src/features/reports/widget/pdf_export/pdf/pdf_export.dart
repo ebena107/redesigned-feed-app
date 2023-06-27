@@ -247,7 +247,7 @@ Future<Uint8List> makePdf(
                     ),
                     Expanded(
                         // width: 40,
-                        child: paddedText('Meth. Energy')),
+                        child: paddedText(feed.animalId == 5 ?'Digestive Energy': 'Metabolic Energy')),
                     SizedBox(
                         width: 120,
                         child: paddedText(

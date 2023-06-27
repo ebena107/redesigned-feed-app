@@ -15,9 +15,9 @@ class About extends StatelessWidget {
       applicationLegalese: '(c) ${DateTime.now().year} All Right Reserved',
 
       children: [
-        Card(
+        const Card(
           child: Column(
-            children: const [
+            children: [
               SizedBox(
                 height: 20,
               ),

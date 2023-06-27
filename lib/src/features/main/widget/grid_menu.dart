@@ -22,6 +22,10 @@ class GridMenu extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return PopupMenuButton<String>(
+      constraints: const BoxConstraints(
+          minWidth: 2.0 * 36.0,
+           maxWidth: 4.0 * 36.0,
+         ),
       //splashRadius: 50.0,
       icon: const Icon(
         Icons.more_vert,
@@ -34,7 +38,9 @@ class GridMenu extends ConsumerWidget {
       },
 
       //padding: const EdgeInsets.all(0),
-      itemBuilder: (context) => <PopupMenuItem<String>>[
+      itemBuilder: (context) =>
+      <PopupMenuItem<String>>[
+
         PopupMenuItem(
           //  padding: const EdgeInsets.all(0),
           value: "1",
@@ -51,6 +57,7 @@ class GridMenu extends ConsumerWidget {
             label: Text("View", style: menuTextStyle()),
           ),
         ),
+
         PopupMenuItem(
           value: "2",
           child: TextButton.icon(
@@ -84,7 +91,7 @@ class GridMenu extends ConsumerWidget {
               )),
         ),
       ],
-       color: AppConstants.appBackgroundColor.withOpacity(.8),
+       color: AppConstants.appBackgroundColor.withOpacity(.9),
     );
   }
 }

@@ -16,7 +16,7 @@ class PdfPreviewPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     //final locale = Localizations.localeOf(context);
     final format =
-        NumberFormat.simpleCurrency(locale: Platform.localeName, name: 'NGN');
+        NumberFormat.simpleCurrency(locale: Platform.localeName, );
     final currency = format.currencySymbol;
 
     return Scaffold(

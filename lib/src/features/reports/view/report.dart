@@ -167,6 +167,7 @@ class AnalysisPage extends ConsumerWidget {
                         const Spacer(),
                         feedId != null || feed.feedId != null
                             ? ResultCard(
+                          feed:feed,
                                 id: feedId ?? feed.feedId,
                                 type: type,
                               )
@@ -313,10 +314,10 @@ class FeedImage extends ConsumerWidget {
 }
 
 class ResultCard extends ConsumerWidget {
-//final FeedModel? feed;
+final Feed? feed;
   final num? id;
   final String? type;
-  const ResultCard({
+  const ResultCard( {this.feed,
     Key? key,
     this.id,
     this.type,
@@ -344,7 +345,7 @@ class ResultCard extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       EnergyContentCard(
-                        title: 'Metabolic Energy',
+                        title: feed!.animalId == 5 ?'Digestive Energy': 'Metabolic Energy',
                         value: result.mEnergy,
                         unit: 'Kcal/unit',
                       ),

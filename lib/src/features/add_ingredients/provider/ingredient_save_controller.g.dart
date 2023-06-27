@@ -7,7 +7,7 @@ part of 'ingredient_save_controller.dart';
 // **************************************************************************
 
 String _$ingredientSaveControllerHash() =>
-    r'ffa515ca2b45b95e81b7f179d90f71dd2f9ffdba';
+    r'a0a1c21182a2f8938dee1626fe7a5781dcdfcec6';
 
 /// See also [IngredientSaveController].
 @ProviderFor(IngredientSaveController)
