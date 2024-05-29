@@ -7,7 +7,7 @@ import 'form_widgets.dart';
 
 class IngredientForm extends ConsumerWidget {
   final int? ingId;
-  const IngredientForm({Key? key, this.ingId}) : super(key: key);
+  const IngredientForm({super.key, this.ingId});
 
   static final _formKey = GlobalKey<FormState>();
 

@@ -12,7 +12,7 @@ part of 'stored_ingredient_provider.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$StoreIngredientState {
@@ -115,11 +115,11 @@ class _$StoreIngredientStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_StoreIngredientStateCopyWith<$Res>
+abstract class _$$StoreIngredientStateImplCopyWith<$Res>
     implements $StoreIngredientStateCopyWith<$Res> {
-  factory _$$_StoreIngredientStateCopyWith(_$_StoreIngredientState value,
-          $Res Function(_$_StoreIngredientState) then) =
-      __$$_StoreIngredientStateCopyWithImpl<$Res>;
+  factory _$$StoreIngredientStateImplCopyWith(_$StoreIngredientStateImpl value,
+          $Res Function(_$StoreIngredientStateImpl) then) =
+      __$$StoreIngredientStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -135,11 +135,11 @@ abstract class _$$_StoreIngredientStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_StoreIngredientStateCopyWithImpl<$Res>
-    extends _$StoreIngredientStateCopyWithImpl<$Res, _$_StoreIngredientState>
-    implements _$$_StoreIngredientStateCopyWith<$Res> {
-  __$$_StoreIngredientStateCopyWithImpl(_$_StoreIngredientState _value,
-      $Res Function(_$_StoreIngredientState) _then)
+class __$$StoreIngredientStateImplCopyWithImpl<$Res>
+    extends _$StoreIngredientStateCopyWithImpl<$Res, _$StoreIngredientStateImpl>
+    implements _$$StoreIngredientStateImplCopyWith<$Res> {
+  __$$StoreIngredientStateImplCopyWithImpl(_$StoreIngredientStateImpl _value,
+      $Res Function(_$StoreIngredientStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -155,7 +155,7 @@ class __$$_StoreIngredientStateCopyWithImpl<$Res>
     Object? status = null,
     Object? message = null,
   }) {
-    return _then(_$_StoreIngredientState(
+    return _then(_$StoreIngredientStateImpl(
       ingredients: null == ingredients
           ? _value._ingredients
           : ingredients // ignore: cast_nullable_to_non_nullable
@@ -198,9 +198,9 @@ class __$$_StoreIngredientStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_StoreIngredientState extends _StoreIngredientState
+class _$StoreIngredientStateImpl extends _StoreIngredientState
     with DiagnosticableTreeMixin {
-  const _$_StoreIngredientState(
+  const _$StoreIngredientStateImpl(
       {final List<Ingredient> ingredients = const [],
       this.selectedIngredient,
       this.validate = false,
@@ -268,10 +268,10 @@ class _$_StoreIngredientState extends _StoreIngredientState
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_StoreIngredientState &&
+            other is _$StoreIngredientStateImpl &&
             const DeepCollectionEquality()
                 .equals(other._ingredients, _ingredients) &&
             (identical(other.selectedIngredient, selectedIngredient) ||
@@ -304,9 +304,10 @@ class _$_StoreIngredientState extends _StoreIngredientState
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_StoreIngredientStateCopyWith<_$_StoreIngredientState> get copyWith =>
-      __$$_StoreIngredientStateCopyWithImpl<_$_StoreIngredientState>(
-          this, _$identity);
+  _$$StoreIngredientStateImplCopyWith<_$StoreIngredientStateImpl>
+      get copyWith =>
+          __$$StoreIngredientStateImplCopyWithImpl<_$StoreIngredientStateImpl>(
+              this, _$identity);
 }
 
 abstract class _StoreIngredientState extends StoreIngredientState {
@@ -319,7 +320,7 @@ abstract class _StoreIngredientState extends StoreIngredientState {
       final num availableQty,
       final num favourite,
       final String status,
-      final String message}) = _$_StoreIngredientState;
+      final String message}) = _$StoreIngredientStateImpl;
   const _StoreIngredientState._() : super._();
 
   @override
@@ -342,6 +343,6 @@ abstract class _StoreIngredientState extends StoreIngredientState {
   String get message;
   @override
   @JsonKey(ignore: true)
-  _$$_StoreIngredientStateCopyWith<_$_StoreIngredientState> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$StoreIngredientStateImplCopyWith<_$StoreIngredientStateImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

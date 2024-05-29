@@ -21,10 +21,10 @@ class AnalysisPage extends ConsumerWidget {
   final String? id;
   final String? type;
   const AnalysisPage({
-    Key? key,
+    super.key,
     this.id,
     this.type,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, ref) {
@@ -191,9 +191,9 @@ class AnalysisPage extends ConsumerWidget {
 class ReturnButton extends ConsumerWidget {
   final num? feedId;
   const ReturnButton({
-    Key? key,
+    super.key,
     this.feedId,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -237,7 +237,7 @@ class ReturnButton extends ConsumerWidget {
 
 class NameCard extends ConsumerWidget {
   final Feed? feed;
-  const NameCard({Key? key, required this.feed}) : super(key: key);
+  const NameCard({super.key, required this.feed});
 
   @override
   Widget build(BuildContext context, ref) {
@@ -287,9 +287,9 @@ class NameCard extends ConsumerWidget {
 class FeedImage extends ConsumerWidget {
   final int? id;
   const FeedImage({
-    Key? key,
+    super.key,
     required this.id,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -318,10 +318,10 @@ final Feed? feed;
   final num? id;
   final String? type;
   const ResultCard( {this.feed,
-    Key? key,
+    super.key,
     this.id,
     this.type,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -441,11 +441,11 @@ class UpperContentCard extends StatelessWidget {
   final num? value;
   final String? unit;
   const UpperContentCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.value,
     this.unit,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -494,11 +494,11 @@ class EnergyContentCard extends StatelessWidget {
   final num? value;
   final String? unit;
   const EnergyContentCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.value,
     this.unit,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -547,11 +547,11 @@ class LowerContentCard extends StatelessWidget {
   final num? value;
   final String? unit;
   const LowerContentCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.value,
     this.unit,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -585,8 +585,8 @@ class LowerContentCard extends StatelessWidget {
 
 class ReportBottomBar extends ConsumerWidget {
   const ReportBottomBar({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

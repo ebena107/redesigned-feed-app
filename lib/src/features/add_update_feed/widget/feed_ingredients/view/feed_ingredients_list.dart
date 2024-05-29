@@ -15,9 +15,9 @@ import '../widget/ingredient_search_widget.dart';
 class IngredientList extends ConsumerWidget {
   final String? feedId;
   const IngredientList({
-    Key? key,
+    super.key,
     this.feedId,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -7,9 +7,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class ReportIngredientList extends ConsumerWidget {
   final Feed? feed;
   const ReportIngredientList({
-    Key? key,
+    super.key,
     this.feed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -98,8 +98,8 @@ class ResultIngredientList extends ConsumerWidget {
 
   const ResultIngredientList({
     this.feed,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -4,7 +4,6 @@ import 'package:feed_estimator/src/core/database/app_db.dart';
 import 'package:feed_estimator/src/features/add_ingredients/repository/ingredient_category_repository.dart';
 import 'package:feed_estimator/src/features/main/model/feed.dart';
 import 'package:feed_estimator/src/core/repositories/repository.dart';
-import 'package:flutter/foundation.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,6 +18,11 @@ class FeedIngredientRepository implements Repository {
   FeedIngredientRepository(this.db);
 
   AppDatabase db;
+
+  debugPrint(error) {
+    // TODO: implement debugPrint
+    throw " ******* feed repository loading feed - $error";
+  }
 
   static const tableName = 'feed_ingredients';
 

@@ -6,9 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class FooterResultCard extends ConsumerWidget {
   final num? feedId;
   const FooterResultCard({
-    Key? key,
+    super.key,
     required this.feedId,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,7 +23,7 @@ class FooterResultCard extends ConsumerWidget {
                   children: [
                     ContentCard(
                       title: 'Energy',
-                      value: myResult.mEnergy,
+                      value: myResult.mEnergy!.round(),
                     ),
                     ContentCard(
                       title: 'Fat',
@@ -37,7 +37,7 @@ class FooterResultCard extends ConsumerWidget {
                   children: [
                     ContentCard(
                       title: 'Protein',
-                      value: myResult.cProtein,
+                      value: myResult.cProtein!.ceilToDouble(),
                     ),
                     ContentCard(
                       title: 'Fiber',
@@ -56,10 +56,10 @@ class ContentCard extends StatelessWidget {
   final String? title;
   final num? value;
   const ContentCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.value,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +76,8 @@ class ContentCard extends StatelessWidget {
               ),
             ),
             Text(
-              value!.toStringAsFixed(2),
+              //value!.toStringAsFixed(2),
+              value!.toString(),
               // value!.toInt().toString(),
               style: const TextStyle(
                 fontSize: 12,

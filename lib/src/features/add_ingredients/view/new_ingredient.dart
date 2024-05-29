@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 class NewIngredient extends StatelessWidget {
   final String? ingredientId;
   const NewIngredient({
-    Key? key,
+    super.key,
     this.ingredientId,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

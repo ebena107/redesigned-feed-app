@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 
 class SaveIngredientDialog extends ConsumerWidget {
   final num? feedId;
-  const SaveIngredientDialog({Key? key, this.feedId}) : super(key: key);
+  const SaveIngredientDialog({super.key, this.feedId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

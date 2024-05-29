@@ -14,11 +14,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class MainView extends ConsumerWidget {
-  const MainView({Key? key}) : super(key: key);
+  const MainView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final data = ref.watch(asyncMainProvider);
+    debugPrint('feedList main- ${data.error}');
 
 
     return Scaffold(
@@ -75,10 +76,13 @@ class MainView extends ConsumerWidget {
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
                       begin: Alignment.bottomLeft,
-                      end: Alignment.topRight,
-                      tileMode: TileMode.repeated,
+                      end: Alignment.bottomRight,
+                     // tileMode: TileMode.repeated,
                       stops: [0.6, 0.9],
-                      colors: [AppConstants.mainAppColor, Color(0xff67C79F)]),
+                      colors: [AppConstants.mainAppColor, Color(0xff67C79F)],
+                 transform: GradientRotation(45)
+                    ),
+                  
                 ),
                 child: const FlexibleSpaceBar(
                     title: Text('Feed Estimator'),

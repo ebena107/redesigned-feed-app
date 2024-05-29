@@ -28,14 +28,14 @@ final routerProvider = Provider<GoRouter>(
             name: "newFeed",
             path: 'newFeed',
             builder: (context, state) => NewFeedPage(
-              id: state.queryParameters['id'],
+              id: state.pathParameters['id'],
             ),
             routes: [
               GoRoute(
                 name: "ingredientList",
                 path: 'ingredientList',
                 builder: (context, state) => IngredientList(
-                  feedId: state.queryParameters['id'],
+                  feedId: state.pathParameters['id'],
                 ),
               ),
               // GoRoute(
@@ -59,21 +59,21 @@ final routerProvider = Provider<GoRouter>(
             name: "newIngredient",
             path: 'newIngredient',
             builder: (context, state) =>
-                NewIngredient(ingredientId: state.queryParameters['id']),
+                NewIngredient(ingredientId: state.pathParameters ['id']),
           ),
           GoRoute(
             name: "result",
             path: 'result',
             builder: (context, state) => AnalysisPage(
-              id: state.queryParameters['id'],
-              type: state.queryParameters['type'],
+              id: state.pathParameters['id'],
+              type: state.pathParameters['type'],
             ),
             routes: [
               GoRoute(
                 name: "pdfPreview",
                 path: 'pdf',
                 builder: (context, state) =>
-                    PdfPreviewPage(feed: state.extra! as Feed, type: state.queryParameters['type'] as String,),
+                    PdfPreviewPage(feed: state.extra! as Feed, type: state.pathParameters['type'] as String,),
               ),
             ],
           ),

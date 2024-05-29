@@ -13,8 +13,8 @@ import 'grid_menu.dart';
 
 class FeedList extends ConsumerWidget {
   const FeedList({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -73,7 +73,7 @@ SliverChildDelegate _feedListDelegate(List<Feed> feeds) {
 
 class FeedListTile extends ConsumerWidget {
   final Feed? feed;
-  const FeedListTile({Key? key, this.feed}) : super(key: key);
+  const FeedListTile({super.key, this.feed});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

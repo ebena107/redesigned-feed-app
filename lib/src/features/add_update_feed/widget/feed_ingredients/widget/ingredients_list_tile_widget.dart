@@ -9,11 +9,11 @@ class IngredientListTileWidget extends ConsumerWidget {
   final bool isSelected;
 //  final ValueChanged<Ingredients> onSelectedIngredient;
   const IngredientListTileWidget({
-    Key? key,
+    super.key,
     required this.ingredient,
     required this.isSelected,
     // required this.onSelectedIngredient
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -11,8 +11,8 @@ import 'grid_menu.dart';
 
 class FeedGrid extends ConsumerWidget {
   const FeedGrid({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

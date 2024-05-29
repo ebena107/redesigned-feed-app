@@ -56,8 +56,8 @@ Widget nameField(WidgetRef ref, int? ingId, BuildContext context) {
 
 class NameField extends ConsumerWidget {
   const NameField({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -677,8 +677,8 @@ class SaveButton extends ConsumerWidget {
   const SaveButton({
     this.myKey,
     this.ingId,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

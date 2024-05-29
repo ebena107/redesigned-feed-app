@@ -9,9 +9,9 @@ import 'ingredients_list_tile_widget.dart';
 class IngredientData extends ConsumerWidget {
   final String? feedId;
   const IngredientData({
-    Key? key,
+    super.key,
     this.feedId,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

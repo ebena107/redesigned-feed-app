@@ -15,8 +15,8 @@ import 'package:go_router/go_router.dart';
 
 class FeedIngredientsField extends ConsumerWidget {
   const FeedIngredientsField({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -206,7 +206,7 @@ Route<Object?> deleteDialogBuilder(
 
 class _DeleteIng extends ConsumerWidget {
   final num? ingredientId;
-  const _DeleteIng({Key? key, this.ingredientId}) : super(key: key);
+  const _DeleteIng({this.ingredientId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

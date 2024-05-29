@@ -13,14 +13,19 @@ part 'main_async_provider.g.dart';
 
 @riverpod
 class AsyncMain extends _$AsyncMain {
+
   Future<List<Feed>> loadFeed() async {
+
+    final List<Feed> newFeedList = [];
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
     final ingList = await ref.read(feedIngredientRepository).getAll();
     final feedList = await ref.read(feedRepository).getAll();
 
     //debugPrint('feedList - ${feedList.length.toString()}');
     //debugPrint('ingList - ${ingList.length.toString()}');
 
-    final List<Feed> newFeedList = [];
+
     if (feedList.isNotEmpty) {
       for (var feed in feedList) {
         final feedIng = ingList.where((i) => i.feedId == feed.feedId).toList();
@@ -31,12 +36,10 @@ class AsyncMain extends _$AsyncMain {
 
     ref.read(resultProvider.notifier).setFeed(newFeedList);
     return newFeedList;
-  }
+  });
+    return newFeedList;
+        }
 
-  @override
-  FutureOr<List<Feed>> build() async {
-    return await loadFeed();
-  }
 
   Future<void> deleteFeed(num? feedId) async {
     state = const AsyncValue.loading();
@@ -80,4 +83,10 @@ class AsyncMain extends _$AsyncMain {
       ref.read(routerProvider).go('/');
     }
   }
+
+  @override
+  FutureOr<List<Feed>> build() async {
+    return await loadFeed();
+  }
+
 }

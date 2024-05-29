@@ -12,7 +12,7 @@ part of 'result_provider.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ResultsState {
@@ -69,22 +69,22 @@ class _$ResultsStateCopyWithImpl<$Res, $Val extends ResultsState>
 }
 
 /// @nodoc
-abstract class _$$_ResultsStateCopyWith<$Res>
+abstract class _$$ResultsStateImplCopyWith<$Res>
     implements $ResultsStateCopyWith<$Res> {
-  factory _$$_ResultsStateCopyWith(
-          _$_ResultsState value, $Res Function(_$_ResultsState) then) =
-      __$$_ResultsStateCopyWithImpl<$Res>;
+  factory _$$ResultsStateImplCopyWith(
+          _$ResultsStateImpl value, $Res Function(_$ResultsStateImpl) then) =
+      __$$ResultsStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<Result> results, Result? myResult, bool toggle});
 }
 
 /// @nodoc
-class __$$_ResultsStateCopyWithImpl<$Res>
-    extends _$ResultsStateCopyWithImpl<$Res, _$_ResultsState>
-    implements _$$_ResultsStateCopyWith<$Res> {
-  __$$_ResultsStateCopyWithImpl(
-      _$_ResultsState _value, $Res Function(_$_ResultsState) _then)
+class __$$ResultsStateImplCopyWithImpl<$Res>
+    extends _$ResultsStateCopyWithImpl<$Res, _$ResultsStateImpl>
+    implements _$$ResultsStateImplCopyWith<$Res> {
+  __$$ResultsStateImplCopyWithImpl(
+      _$ResultsStateImpl _value, $Res Function(_$ResultsStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -94,7 +94,7 @@ class __$$_ResultsStateCopyWithImpl<$Res>
     Object? myResult = freezed,
     Object? toggle = null,
   }) {
-    return _then(_$_ResultsState(
+    return _then(_$ResultsStateImpl(
       results: null == results
           ? _value._results
           : results // ignore: cast_nullable_to_non_nullable
@@ -113,8 +113,8 @@ class __$$_ResultsStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ResultsState extends _ResultsState with DiagnosticableTreeMixin {
-  _$_ResultsState(
+class _$ResultsStateImpl extends _ResultsState with DiagnosticableTreeMixin {
+  _$ResultsStateImpl(
       {final List<Result> results = const [],
       this.myResult,
       this.toggle = false})
@@ -152,10 +152,10 @@ class _$_ResultsState extends _ResultsState with DiagnosticableTreeMixin {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ResultsState &&
+            other is _$ResultsStateImpl &&
             const DeepCollectionEquality().equals(other._results, _results) &&
             (identical(other.myResult, myResult) ||
                 other.myResult == myResult) &&
@@ -169,15 +169,15 @@ class _$_ResultsState extends _ResultsState with DiagnosticableTreeMixin {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ResultsStateCopyWith<_$_ResultsState> get copyWith =>
-      __$$_ResultsStateCopyWithImpl<_$_ResultsState>(this, _$identity);
+  _$$ResultsStateImplCopyWith<_$ResultsStateImpl> get copyWith =>
+      __$$ResultsStateImplCopyWithImpl<_$ResultsStateImpl>(this, _$identity);
 }
 
 abstract class _ResultsState extends ResultsState {
   factory _ResultsState(
       {final List<Result> results,
       final Result? myResult,
-      final bool toggle}) = _$_ResultsState;
+      final bool toggle}) = _$ResultsStateImpl;
   _ResultsState._() : super._();
 
   @override
@@ -188,6 +188,6 @@ abstract class _ResultsState extends ResultsState {
   bool get toggle;
   @override
   @JsonKey(ignore: true)
-  _$$_ResultsStateCopyWith<_$_ResultsState> get copyWith =>
+  _$$ResultsStateImplCopyWith<_$ResultsStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

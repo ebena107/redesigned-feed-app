@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:feed_estimator/src/features/add_ingredients/repository/ingredients_repository.dart';
@@ -7,85 +6,83 @@ import 'package:feed_estimator/src/features/add_update_feed/repository/animal_ty
 import 'package:feed_estimator/src/features/main/repository/feed_ingredient_repository.dart';
 import 'package:feed_estimator/src/features/main/repository/feed_repository.dart';
 import 'package:feed_estimator/src/features/add_ingredients/repository/ingredient_category_repository.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:sqflite_common/sqflite.dart';
 
-
-//import 'package:path/path.dart' as path;
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import 'initial_data_uploader.dart';
 
 const dbFileName = 'feed_app_db';
 
-final appDatabase = Provider<AppDatabase>((ref) => AppDatabase.instance);
+final appDatabase = Provider<AppDatabase>((ref) => AppDatabase());
 
 class AppDatabase {
   static final AppDatabase _instance = AppDatabase._();
 
-  static AppDatabase get instance => _instance;
+  factory AppDatabase() => _instance;
 
-  // Completer is used for transforming synchronous code into asynchronous code.
-  Completer<Database>? _dbOpenCompleter;
-
-  AppDatabase._();
-
-//  static Database? _database;
-
-  // Future<Database> get database async {
-  //   _database ??= await _initDb();
-  //   return _database!;
-  // }
-
-
-
-  // Database object accessor
-  Future<Database> get database async {
-    // If completer is null, AppDatabaseClass is newly instantiated, so database is not yet opened
-    if (_dbOpenCompleter == null) {
-      _dbOpenCompleter = Completer();
-      // Calling _openDatabase will also complete the completer with database instance
-      _initDb();
-    }
-    // If the database is already opened, awaiting the future will happen instantly.
-    // Otherwise, awaiting the returned future will take some time - until complete() is called
-    // on the Completer in _openDatabase() below.
-    return _dbOpenCompleter!.future;
+  AppDatabase._() {
+    _initDb();
   }
 
-  Future _initDb() async {
-  try {
-  final databaseFactorySqflite = Platform.isWindows || Platform.isLinux
-  ? getDatabaseFactorySqflite(sqflite_ffi.databaseFactoryFfi)
-      : getDatabaseFactorySqflite(sqflite.databaseFactory);
-  // Get a platform-specific directory where persistent app data can be stored
-  final appDocumentDir = await getApplicationDocumentsDirectory();
-  // Path with the form: /platform-specific-directory/demo.db
-  final dbPath = join(appDocumentDir.path, 'ExampleDB.db');
+  static Database? _database;
 
-  var factory = databaseFactorySqflite;
-  var db = await factory.openDatabase(
-    version: 1,
-    dbPath,
-    onConfigure: onConfigure,
-    onCreate: (db, version) async {
-      await _createAll(db);
-    },
-  );
-
-  // Any code awaiting the Completer's future will now start executing
-  _dbOpenCompleter!.complete(db);
-  } catch (e, st) {
-
-}
-}
-
+  Future<Database> get database async {
+    _database ??= await _initDb();
+    return _database!;
+  }
 
   Future onConfigure(Database db) async {
     await db.execute('PRAGMA foreignKeys = ON');
+  }
+
+  // Future<Database> _initDb() async {
+  //   final dbFolder = await getDatabasesPath();
+  //   final dbPath = path.join(dbFolder, dbFileName);
+  //
+  //   return openDatabase(
+  //     version: 1,
+  //     dbPath,
+  //     onConfigure: onConfigure,
+  //     onCreate: (db, version) async {
+  //       await _createAll(db);
+  //     },
+  //   );
+  // }
+
+  Future<Database> _initDb() async {
+    if (Platform.isWindows || Platform.isLinux) {
+      sqfliteFfiInit();
+      final databaseFactory = databaseFactoryFfi;
+      final appDocumentsDir = await getApplicationDocumentsDirectory();
+      final dbPath = join(appDocumentsDir.path, "databases", dbFileName);
+      final winLinuxDB = await databaseFactory.openDatabase(
+        dbPath,
+        options: OpenDatabaseOptions(
+          version: 1,
+          onCreate: (db, version) async {
+            await _createAll(db);
+          },
+        ),
+      );
+      return winLinuxDB;
+    } else if (Platform.isAndroid || Platform.isIOS || Platform.isMacOS) {
+      final documentsDirectory = await getApplicationDocumentsDirectory();
+      final path = join(documentsDirectory.path, dbFileName);
+      final iOSAndroidDB = await openDatabase(
+        path,
+        version: 1,
+        onCreate:(db, version) async {
+          await _createAll(db);
+        },
+      );
+      return iOSAndroidDB;
+    }
+    throw Exception("Unsupported platform");
   }
 
   /// this should be run when the database is being created
@@ -121,7 +118,7 @@ class AppDatabase {
     await batch.commit();
     //
 
-    //await batch.commit();
+    debugPrint('**************DB created');
   }
 
   Future<int> insert({
@@ -221,3 +218,4 @@ class AppDatabase {
     return id;
   }
 }
+

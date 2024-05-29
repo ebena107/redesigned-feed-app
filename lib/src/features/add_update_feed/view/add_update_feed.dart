@@ -24,8 +24,8 @@ class NewFeedPage extends ConsumerWidget {
   final String? id;
   const NewFeedPage({
     this.id,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   static const routeName = 'newFeed';
   @override

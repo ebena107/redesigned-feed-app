@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AnalyseDataDialog extends ConsumerWidget {
   final num? feedId;
-  const AnalyseDataDialog({Key? key, this.feedId}) : super(key: key);
+  const AnalyseDataDialog({super.key, this.feedId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

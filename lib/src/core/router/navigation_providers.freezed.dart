@@ -12,7 +12,7 @@ part of 'navigation_providers.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$AppNavigationState {
@@ -57,22 +57,22 @@ class _$AppNavigationStateCopyWithImpl<$Res, $Val extends AppNavigationState>
 }
 
 /// @nodoc
-abstract class _$$_AppNavigationStateCopyWith<$Res>
+abstract class _$$AppNavigationStateImplCopyWith<$Res>
     implements $AppNavigationStateCopyWith<$Res> {
-  factory _$$_AppNavigationStateCopyWith(_$_AppNavigationState value,
-          $Res Function(_$_AppNavigationState) then) =
-      __$$_AppNavigationStateCopyWithImpl<$Res>;
+  factory _$$AppNavigationStateImplCopyWith(_$AppNavigationStateImpl value,
+          $Res Function(_$AppNavigationStateImpl) then) =
+      __$$AppNavigationStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int navIndex});
 }
 
 /// @nodoc
-class __$$_AppNavigationStateCopyWithImpl<$Res>
-    extends _$AppNavigationStateCopyWithImpl<$Res, _$_AppNavigationState>
-    implements _$$_AppNavigationStateCopyWith<$Res> {
-  __$$_AppNavigationStateCopyWithImpl(
-      _$_AppNavigationState _value, $Res Function(_$_AppNavigationState) _then)
+class __$$AppNavigationStateImplCopyWithImpl<$Res>
+    extends _$AppNavigationStateCopyWithImpl<$Res, _$AppNavigationStateImpl>
+    implements _$$AppNavigationStateImplCopyWith<$Res> {
+  __$$AppNavigationStateImplCopyWithImpl(_$AppNavigationStateImpl _value,
+      $Res Function(_$AppNavigationStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -80,7 +80,7 @@ class __$$_AppNavigationStateCopyWithImpl<$Res>
   $Res call({
     Object? navIndex = null,
   }) {
-    return _then(_$_AppNavigationState(
+    return _then(_$AppNavigationStateImpl(
       navIndex: null == navIndex
           ? _value.navIndex
           : navIndex // ignore: cast_nullable_to_non_nullable
@@ -91,8 +91,8 @@ class __$$_AppNavigationStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_AppNavigationState extends _AppNavigationState {
-  const _$_AppNavigationState({this.navIndex = 1}) : super._();
+class _$AppNavigationStateImpl extends _AppNavigationState {
+  const _$AppNavigationStateImpl({this.navIndex = 1}) : super._();
 
   @override
   @JsonKey()
@@ -104,10 +104,10 @@ class _$_AppNavigationState extends _AppNavigationState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AppNavigationState &&
+            other is _$AppNavigationStateImpl &&
             (identical(other.navIndex, navIndex) ||
                 other.navIndex == navIndex));
   }
@@ -118,20 +118,20 @@ class _$_AppNavigationState extends _AppNavigationState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AppNavigationStateCopyWith<_$_AppNavigationState> get copyWith =>
-      __$$_AppNavigationStateCopyWithImpl<_$_AppNavigationState>(
+  _$$AppNavigationStateImplCopyWith<_$AppNavigationStateImpl> get copyWith =>
+      __$$AppNavigationStateImplCopyWithImpl<_$AppNavigationStateImpl>(
           this, _$identity);
 }
 
 abstract class _AppNavigationState extends AppNavigationState {
   const factory _AppNavigationState({final int navIndex}) =
-      _$_AppNavigationState;
+      _$AppNavigationStateImpl;
   const _AppNavigationState._() : super._();
 
   @override
   int get navIndex;
   @override
   @JsonKey(ignore: true)
-  _$$_AppNavigationStateCopyWith<_$_AppNavigationState> get copyWith =>
+  _$$AppNavigationStateImplCopyWith<_$AppNavigationStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

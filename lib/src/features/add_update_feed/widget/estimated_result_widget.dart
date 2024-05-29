@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 class ResultEstimateCard extends StatelessWidget {
   final Result data;
   final int? feedId;
-  const ResultEstimateCard({required this.data, Key? key, this.feedId})
-      : super(key: key);
+  const ResultEstimateCard({required this.data, super.key, this.feedId});
 
   @override
   Widget build(BuildContext context) {
@@ -56,11 +55,11 @@ class EstimatedContentCard extends StatelessWidget {
   final num? value;
   final String? unit;
   const EstimatedContentCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.value,
     this.unit,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -17,7 +17,7 @@ import '../providers/main_async_provider.dart';
 class GridMenu extends ConsumerWidget {
   final Feed? feed;
 
-  const GridMenu({Key? key, required this.feed}) : super(key: key);
+  const GridMenu({super.key, required this.feed});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -117,9 +117,8 @@ class _DeleteFeed extends ConsumerWidget {
   final num? feedId;
 
   const _DeleteFeed({
-    Key? key,
     this.feedId,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 
 class StoredFeeds extends StatelessWidget {
   const StoredFeeds({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

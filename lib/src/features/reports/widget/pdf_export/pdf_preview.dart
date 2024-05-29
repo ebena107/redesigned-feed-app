@@ -10,7 +10,7 @@ import 'package:printing/printing.dart';
 class PdfPreviewPage extends ConsumerWidget {
   final Feed feed;
   final String type;
-  const PdfPreviewPage( {Key? key, required this.feed, required this.type,}) : super(key: key);
+  const PdfPreviewPage( {super.key, required this.feed, required this.type,});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

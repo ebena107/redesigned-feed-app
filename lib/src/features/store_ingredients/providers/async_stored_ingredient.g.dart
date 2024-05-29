@@ -11,7 +11,7 @@ String _$quantityControllerHash() =>
 
 /// See also [quantityController].
 @ProviderFor(quantityController)
-final quantityControllerProvider = AutoDisposeProvider<dynamic>.internal(
+final quantityControllerProvider = AutoDisposeProvider<Object?>.internal(
   quantityController,
   name: r'quantityControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -21,13 +21,13 @@ final quantityControllerProvider = AutoDisposeProvider<dynamic>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef QuantityControllerRef = AutoDisposeProviderRef<dynamic>;
+typedef QuantityControllerRef = AutoDisposeProviderRef<Object?>;
 String _$storedIngredientFormKeyHash() =>
     r'6a864924176a97ddb4cd1511f99f8ec7a83ced71';
 
 /// See also [storedIngredientFormKey].
 @ProviderFor(storedIngredientFormKey)
-final storedIngredientFormKeyProvider = AutoDisposeProvider<dynamic>.internal(
+final storedIngredientFormKeyProvider = AutoDisposeProvider<Object?>.internal(
   storedIngredientFormKey,
   name: r'storedIngredientFormKeyProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -37,7 +37,7 @@ final storedIngredientFormKeyProvider = AutoDisposeProvider<dynamic>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef StoredIngredientFormKeyRef = AutoDisposeProviderRef<dynamic>;
+typedef StoredIngredientFormKeyRef = AutoDisposeProviderRef<Object?>;
 String _$asyncStoredIngredientsHash() =>
     r'43858c0364e85b6b2e4d3bda326bca501ec57298';
 
@@ -55,4 +55,5 @@ final asyncStoredIngredientsProvider = AutoDisposeAsyncNotifierProvider<
 );
 
 typedef _$AsyncStoredIngredients = AutoDisposeAsyncNotifier<List<Ingredient>>;
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

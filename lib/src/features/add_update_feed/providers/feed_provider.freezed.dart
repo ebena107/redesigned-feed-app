@@ -12,7 +12,7 @@ part of 'feed_provider.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$FeedState {
@@ -107,10 +107,11 @@ class _$FeedStateCopyWithImpl<$Res, $Val extends FeedState>
 }
 
 /// @nodoc
-abstract class _$$_FeedStateCopyWith<$Res> implements $FeedStateCopyWith<$Res> {
-  factory _$$_FeedStateCopyWith(
-          _$_FeedState value, $Res Function(_$_FeedState) then) =
-      __$$_FeedStateCopyWithImpl<$Res>;
+abstract class _$$FeedStateImplCopyWith<$Res>
+    implements $FeedStateCopyWith<$Res> {
+  factory _$$FeedStateImplCopyWith(
+          _$FeedStateImpl value, $Res Function(_$FeedStateImpl) then) =
+      __$$FeedStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -125,11 +126,11 @@ abstract class _$$_FeedStateCopyWith<$Res> implements $FeedStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_FeedStateCopyWithImpl<$Res>
-    extends _$FeedStateCopyWithImpl<$Res, _$_FeedState>
-    implements _$$_FeedStateCopyWith<$Res> {
-  __$$_FeedStateCopyWithImpl(
-      _$_FeedState _value, $Res Function(_$_FeedState) _then)
+class __$$FeedStateImplCopyWithImpl<$Res>
+    extends _$FeedStateCopyWithImpl<$Res, _$FeedStateImpl>
+    implements _$$FeedStateImplCopyWith<$Res> {
+  __$$FeedStateImplCopyWithImpl(
+      _$FeedStateImpl _value, $Res Function(_$FeedStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -144,7 +145,7 @@ class __$$_FeedStateCopyWithImpl<$Res>
     Object? message = null,
     Object? status = null,
   }) {
-    return _then(_$_FeedState(
+    return _then(_$FeedStateImpl(
       feedName: null == feedName
           ? _value.feedName
           : feedName // ignore: cast_nullable_to_non_nullable
@@ -183,8 +184,8 @@ class __$$_FeedStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_FeedState extends _FeedState with DiagnosticableTreeMixin {
-  _$_FeedState(
+class _$FeedStateImpl extends _FeedState with DiagnosticableTreeMixin {
+  _$FeedStateImpl(
       {this.feedName = "",
       this.animalTypeId = 1,
       final List<AnimalTypes> animalTypes = const [],
@@ -254,10 +255,10 @@ class _$_FeedState extends _FeedState with DiagnosticableTreeMixin {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_FeedState &&
+            other is _$FeedStateImpl &&
             (identical(other.feedName, feedName) ||
                 other.feedName == feedName) &&
             (identical(other.animalTypeId, animalTypeId) ||
@@ -288,8 +289,8 @@ class _$_FeedState extends _FeedState with DiagnosticableTreeMixin {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_FeedStateCopyWith<_$_FeedState> get copyWith =>
-      __$$_FeedStateCopyWithImpl<_$_FeedState>(this, _$identity);
+  _$$FeedStateImplCopyWith<_$FeedStateImpl> get copyWith =>
+      __$$FeedStateImplCopyWithImpl<_$FeedStateImpl>(this, _$identity);
 }
 
 abstract class _FeedState extends FeedState {
@@ -301,7 +302,7 @@ abstract class _FeedState extends FeedState {
       final num totalQuantity,
       final Feed? newFeed,
       final String message,
-      final String status}) = _$_FeedState;
+      final String status}) = _$FeedStateImpl;
   _FeedState._() : super._();
 
   @override
@@ -322,6 +323,6 @@ abstract class _FeedState extends FeedState {
   String get status;
   @override
   @JsonKey(ignore: true)
-  _$$_FeedStateCopyWith<_$_FeedState> get copyWith =>
+  _$$FeedStateImplCopyWith<_$FeedStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

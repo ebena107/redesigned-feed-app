@@ -7,8 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class IngredientSortingWidget extends StatelessWidget {
   const IngredientSortingWidget({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(
@@ -20,8 +20,8 @@ class IngredientSortingWidget extends StatelessWidget {
 
 class CategorySortField extends ConsumerWidget {
   const CategorySortField({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

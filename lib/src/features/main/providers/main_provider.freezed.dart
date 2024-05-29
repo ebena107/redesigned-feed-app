@@ -12,7 +12,7 @@ part of 'main_provider.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$MainViewState {
@@ -73,11 +73,11 @@ class _$MainViewStateCopyWithImpl<$Res, $Val extends MainViewState>
 }
 
 /// @nodoc
-abstract class _$$_MainViewStateCopyWith<$Res>
+abstract class _$$MainViewStateImplCopyWith<$Res>
     implements $MainViewStateCopyWith<$Res> {
-  factory _$$_MainViewStateCopyWith(
-          _$_MainViewState value, $Res Function(_$_MainViewState) then) =
-      __$$_MainViewStateCopyWithImpl<$Res>;
+  factory _$$MainViewStateImplCopyWith(
+          _$MainViewStateImpl value, $Res Function(_$MainViewStateImpl) then) =
+      __$$MainViewStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -87,11 +87,11 @@ abstract class _$$_MainViewStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_MainViewStateCopyWithImpl<$Res>
-    extends _$MainViewStateCopyWithImpl<$Res, _$_MainViewState>
-    implements _$$_MainViewStateCopyWith<$Res> {
-  __$$_MainViewStateCopyWithImpl(
-      _$_MainViewState _value, $Res Function(_$_MainViewState) _then)
+class __$$MainViewStateImplCopyWithImpl<$Res>
+    extends _$MainViewStateCopyWithImpl<$Res, _$MainViewStateImpl>
+    implements _$$MainViewStateImplCopyWith<$Res> {
+  __$$MainViewStateImplCopyWithImpl(
+      _$MainViewStateImpl _value, $Res Function(_$MainViewStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -101,7 +101,7 @@ class __$$_MainViewStateCopyWithImpl<$Res>
     Object? animalTypes = null,
     Object? feedIngredients = null,
   }) {
-    return _then(_$_MainViewState(
+    return _then(_$MainViewStateImpl(
       feeds: null == feeds
           ? _value._feeds
           : feeds // ignore: cast_nullable_to_non_nullable
@@ -120,8 +120,8 @@ class __$$_MainViewStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_MainViewState extends _MainViewState with DiagnosticableTreeMixin {
-  const _$_MainViewState(
+class _$MainViewStateImpl extends _MainViewState with DiagnosticableTreeMixin {
+  const _$MainViewStateImpl(
       {final List<Feed> feeds = const [],
       this.animalTypes = 0,
       final List<FeedIngredients> feedIngredients = const []})
@@ -166,10 +166,10 @@ class _$_MainViewState extends _MainViewState with DiagnosticableTreeMixin {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MainViewState &&
+            other is _$MainViewStateImpl &&
             const DeepCollectionEquality().equals(other._feeds, _feeds) &&
             (identical(other.animalTypes, animalTypes) ||
                 other.animalTypes == animalTypes) &&
@@ -187,15 +187,15 @@ class _$_MainViewState extends _MainViewState with DiagnosticableTreeMixin {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MainViewStateCopyWith<_$_MainViewState> get copyWith =>
-      __$$_MainViewStateCopyWithImpl<_$_MainViewState>(this, _$identity);
+  _$$MainViewStateImplCopyWith<_$MainViewStateImpl> get copyWith =>
+      __$$MainViewStateImplCopyWithImpl<_$MainViewStateImpl>(this, _$identity);
 }
 
 abstract class _MainViewState extends MainViewState {
   const factory _MainViewState(
       {final List<Feed> feeds,
       final int animalTypes,
-      final List<FeedIngredients> feedIngredients}) = _$_MainViewState;
+      final List<FeedIngredients> feedIngredients}) = _$MainViewStateImpl;
   const _MainViewState._() : super._();
 
   @override
@@ -206,6 +206,6 @@ abstract class _MainViewState extends MainViewState {
   List<FeedIngredients> get feedIngredients;
   @override
   @JsonKey(ignore: true)
-  _$$_MainViewStateCopyWith<_$_MainViewState> get copyWith =>
+  _$$MainViewStateImplCopyWith<_$MainViewStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

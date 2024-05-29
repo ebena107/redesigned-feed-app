@@ -5,9 +5,9 @@ class FeedTileText extends StatelessWidget {
   final String? name;
 
   const FeedTileText({
-    Key? key,
+    super.key,
     required this.name,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

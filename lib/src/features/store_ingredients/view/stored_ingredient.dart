@@ -15,8 +15,8 @@ import 'package:quickalert/quickalert.dart';
 
 class StoredIngredients extends ConsumerWidget {
   const StoredIngredients({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -199,8 +199,8 @@ class StoredIngredients extends ConsumerWidget {
 
 class StoredIngredientForm extends ConsumerWidget {
   const StoredIngredientForm({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -359,9 +359,7 @@ Route<Object?> deleteDialogBuilder(BuildContext context, Object? argument) {
 }
 
 class _DeleteIng extends ConsumerWidget {
-  const _DeleteIng({
-    Key? key,
-  }) : super(key: key);
+  const _DeleteIng();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -12,7 +12,7 @@ part of 'ingredients_provider.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$IngredientState {
@@ -293,11 +293,11 @@ class _$IngredientStateCopyWithImpl<$Res, $Val extends IngredientState>
 }
 
 /// @nodoc
-abstract class _$$_IngredientStateCopyWith<$Res>
+abstract class _$$IngredientStateImplCopyWith<$Res>
     implements $IngredientStateCopyWith<$Res> {
-  factory _$$_IngredientStateCopyWith(
-          _$_IngredientState value, $Res Function(_$_IngredientState) then) =
-      __$$_IngredientStateCopyWithImpl<$Res>;
+  factory _$$IngredientStateImplCopyWith(_$IngredientStateImpl value,
+          $Res Function(_$IngredientStateImpl) then) =
+      __$$IngredientStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -338,11 +338,11 @@ abstract class _$$_IngredientStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_IngredientStateCopyWithImpl<$Res>
-    extends _$IngredientStateCopyWithImpl<$Res, _$_IngredientState>
-    implements _$$_IngredientStateCopyWith<$Res> {
-  __$$_IngredientStateCopyWithImpl(
-      _$_IngredientState _value, $Res Function(_$_IngredientState) _then)
+class __$$IngredientStateImplCopyWithImpl<$Res>
+    extends _$IngredientStateCopyWithImpl<$Res, _$IngredientStateImpl>
+    implements _$$IngredientStateImplCopyWith<$Res> {
+  __$$IngredientStateImplCopyWithImpl(
+      _$IngredientStateImpl _value, $Res Function(_$IngredientStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -383,7 +383,7 @@ class __$$_IngredientStateCopyWithImpl<$Res>
     Object? status = null,
     Object? message = null,
   }) {
-    return _then(_$_IngredientState(
+    return _then(_$IngredientStateImpl(
       ingredients: null == ingredients
           ? _value._ingredients
           : ingredients // ignore: cast_nullable_to_non_nullable
@@ -523,8 +523,9 @@ class __$$_IngredientStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_IngredientState extends _IngredientState with DiagnosticableTreeMixin {
-  const _$_IngredientState(
+class _$IngredientStateImpl extends _IngredientState
+    with DiagnosticableTreeMixin {
+  const _$IngredientStateImpl(
       {final List<Ingredient> ingredients = const [],
       final List<IngredientCategory> categoryList = const [],
       final List<Ingredient> filteredIngredients = const [],
@@ -723,10 +724,10 @@ class _$_IngredientState extends _IngredientState with DiagnosticableTreeMixin {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_IngredientState &&
+            other is _$IngredientStateImpl &&
             const DeepCollectionEquality()
                 .equals(other._ingredients, _ingredients) &&
             const DeepCollectionEquality()
@@ -829,8 +830,9 @@ class _$_IngredientState extends _IngredientState with DiagnosticableTreeMixin {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_IngredientStateCopyWith<_$_IngredientState> get copyWith =>
-      __$$_IngredientStateCopyWithImpl<_$_IngredientState>(this, _$identity);
+  _$$IngredientStateImplCopyWith<_$IngredientStateImpl> get copyWith =>
+      __$$IngredientStateImplCopyWithImpl<_$IngredientStateImpl>(
+          this, _$identity);
 }
 
 abstract class _IngredientState extends IngredientState {
@@ -868,7 +870,7 @@ abstract class _IngredientState extends IngredientState {
       final ValidationModel? categoryId,
       final num favourite,
       final String status,
-      final String message}) = _$_IngredientState;
+      final String message}) = _$IngredientStateImpl;
   const _IngredientState._() : super._();
 
   @override
@@ -941,6 +943,6 @@ abstract class _IngredientState extends IngredientState {
   String get message;
   @override
   @JsonKey(ignore: true)
-  _$$_IngredientStateCopyWith<_$_IngredientState> get copyWith =>
+  _$$IngredientStateImplCopyWith<_$IngredientStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

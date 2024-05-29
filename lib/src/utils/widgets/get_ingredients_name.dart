@@ -7,8 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class GetIngredientName extends ConsumerWidget {
   final num? id;
   final Color? color;
-  const GetIngredientName({this.color, Key? key, required this.id})
-      : super(key: key);
+  const GetIngredientName({this.color, super.key, required this.id});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

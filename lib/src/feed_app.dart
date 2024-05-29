@@ -5,27 +5,33 @@ import 'core/router/router.dart';
 
 class FeedApp extends ConsumerWidget {
   const FeedApp({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
+
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-    return MaterialApp.router(
-      supportedLocales: const [
-        Locale('en', 'US'),
-        Locale('en', 'NGR')
-      ],
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          systemStatusBarContrastEnforced: false,
+          systemNavigationBarColor: Colors.transparent,
+          systemNavigationBarDividerColor: Colors.transparent,
+          systemNavigationBarContrastEnforced: false),
+    );
 
+    return MaterialApp.router(
+      supportedLocales: const [Locale('en', 'US'), Locale('en', 'NGR')],
       routerConfig: router,
       debugShowCheckedModeBanner: false,
-
       title: 'Feed Estimator',
-      // routeInformationParser: router.routeInformationParser,
-      // routeInformationProvider: router.routeInformationProvider,
-      // routerDelegate: router.routerDelegate,
+      routeInformationParser: router.routeInformationParser,
+      routeInformationProvider: router.routeInformationProvider,
+      routerDelegate: router.routerDelegate,
     );
   }
 }

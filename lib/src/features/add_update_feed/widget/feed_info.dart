@@ -11,7 +11,7 @@ import 'package:go_router/go_router.dart';
 
 class FeedInfo extends StatelessWidget {
   final int? feedId;
-  const FeedInfo({Key? key, this.feedId}) : super(key: key);
+  const FeedInfo({super.key, this.feedId});
 
   @override
   Widget build(BuildContext context) {
@@ -52,9 +52,9 @@ class FeedNameField extends ConsumerWidget {
   final int? feedId;
 
   const FeedNameField({
-    Key? key,
+    super.key,
     this.feedId,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -126,9 +126,9 @@ class FeedNameField extends ConsumerWidget {
 class AnimalTypeField extends ConsumerWidget {
   final int? feedId;
   const AnimalTypeField({
-    Key? key,
+    super.key,
     this.feedId,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, ref) {
@@ -218,7 +218,7 @@ class AnimalTypeField extends ConsumerWidget {
 //
 class AddIngredientButton extends ConsumerWidget {
   final int? feedId;
-  const AddIngredientButton({Key? key, required this.feedId}) : super(key: key);
+  const AddIngredientButton({super.key, required this.feedId});
 
   @override
   Widget build(BuildContext context, ref) {

@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class IngredientDataTable extends ConsumerWidget {
   final int? feedId;
-  const IngredientDataTable({Key? key, this.feedId}) : super(key: key);
+  const IngredientDataTable({super.key, this.feedId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
