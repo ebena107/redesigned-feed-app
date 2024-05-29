@@ -18,7 +18,7 @@ extension ExtString on String {
   }
 
   bool get isValidInt {
-    final nameRegExp =    RegExp(r"^\d*$");
+    final nameRegExp = RegExp(r"^\d*$");
 
     //RegExp(r"^(?:-?(?:0|[1-9][0-9]*))$");
     return nameRegExp.hasMatch(this);
@@ -27,16 +27,14 @@ extension ExtString on String {
   bool get isValidDouble {
     final nameRegExp =
         //RegExp(r"^(?:-?(?:[0-9]+))?(?:\.[0-9]*)?(?:[eE][\+\-]?(?:[0-9]+))?$");
-   RegExp(r"^\d*\.?\d+$");
+        RegExp(r"^\d*\.?\d+$");
     return nameRegExp.hasMatch(this);
   }
 
   bool get isValidNumber {
-    final intRegExp =  RegExp(r"^\d*$");
-    final doubleRegExp =
-    RegExp(r"^\d*\.?\d+$");
+    final intRegExp = RegExp(r"^\d*$");
+    final doubleRegExp = RegExp(r"^\d*\.?\d+$");
     return intRegExp.hasMatch(this) || doubleRegExp.hasMatch(this);
-
   }
 
   bool get isValidPassword {

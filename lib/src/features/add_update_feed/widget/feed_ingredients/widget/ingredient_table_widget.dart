@@ -59,7 +59,8 @@ class IngredientDataTable extends ConsumerWidget {
       }
     }
 
-    Future<void> onSelectedRow(bool selected, Ingredient ingredient) async => ref.read(ingredientProvider.notifier).selectIngredient(ingredient);
+    Future<void> onSelectedRow(bool selected, Ingredient ingredient) async =>
+        ref.read(ingredientProvider.notifier).selectIngredient(ingredient);
     return Container(
       color: AppConstants.mainAppColor.withOpacity(0.08),
       child: DataTable(
@@ -100,10 +101,10 @@ class IngredientDataTable extends ConsumerWidget {
                       // ),
                       ),
                 ],
-                color: MaterialStateProperty.resolveWith<Color>(
-                    (Set<MaterialState> states) {
+                color: WidgetStateProperty.resolveWith<Color>(
+                    (Set<WidgetState> states) {
                   // All rows will have the same selected color.
-                  if (states.contains(MaterialState.selected)) {
+                  if (states.contains(WidgetState.selected)) {
                     return AppConstants.mainAppColor.withOpacity(0.5);
                   }
                   // Even rows will have a grey color.
@@ -117,9 +118,9 @@ class IngredientDataTable extends ConsumerWidget {
               ),
             )
             .toList(),
-        headingRowColor: MaterialStateProperty.resolveWith<Color>(
-            (Set<MaterialState> states) {
-          if (states.contains(MaterialState.hovered)) {
+        headingRowColor:
+            WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
+          if (states.contains(WidgetState.hovered)) {
             return Theme.of(context).colorScheme.primary.withOpacity(0.08);
           }
           return AppConstants.mainAppColor

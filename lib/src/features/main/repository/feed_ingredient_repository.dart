@@ -19,11 +19,6 @@ class FeedIngredientRepository implements Repository {
 
   AppDatabase db;
 
-  debugPrint(error) {
-    // TODO: implement debugPrint
-    throw " ******* feed repository loading feed - $error";
-  }
-
   static const tableName = 'feed_ingredients';
 
   static const colId = 'id';
@@ -53,13 +48,11 @@ class FeedIngredientRepository implements Repository {
 
   Future<int> deleteByIngredientId(
       {required num feedId, required num ingredientId}) async {
-    debugPrint('deleting ==== feedId: $feedId and ingredient: $ingredientId');
-
     final int0 = await db.deleteWithTwoId(
         tableName: tableName,
         query: '$colFeedId = ? AND $colIngredientId = ?',
         param: [feedId, ingredientId]);
-    debugPrint(int0.toString());
+
     return int0;
   }
 

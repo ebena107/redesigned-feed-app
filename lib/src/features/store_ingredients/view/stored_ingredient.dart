@@ -97,7 +97,7 @@ class StoredIngredients extends ConsumerWidget {
                                         child: TextButton.icon(
                                           style: ButtonStyle(
                                               backgroundColor:
-                                                  MaterialStateProperty.all(
+                                                  WidgetStateProperty.all(
                                                       Colors.blue)),
                                           icon: const Icon(
                                             Icons.save,
@@ -124,7 +124,7 @@ class StoredIngredients extends ConsumerWidget {
                                         child: TextButton.icon(
                                           style: ButtonStyle(
                                               backgroundColor:
-                                                  MaterialStateProperty.all(
+                                                  WidgetStateProperty.all(
                                                       Colors.red)),
                                           icon: const Icon(
                                             Icons.delete,
@@ -153,7 +153,7 @@ class StoredIngredients extends ConsumerWidget {
                                         child: TextButton.icon(
                                           style: ButtonStyle(
                                               backgroundColor:
-                                                  MaterialStateProperty.all(
+                                                  WidgetStateProperty.all(
                                                       Colors.green)),
                                           onPressed: () {
                                             ref
