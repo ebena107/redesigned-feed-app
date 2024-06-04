@@ -3,7 +3,8 @@ import 'dart:typed_data';
 import 'package:feed_estimator/src/core/constants/common.dart';
 
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
-import 'package:feed_estimator/src/features/main/model/feed.dart';
+import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provider.dart';
+
 import 'package:feed_estimator/src/features/reports/model/result.dart';
 import 'package:feed_estimator/src/features/reports/providers/result_provider.dart';
 import 'package:flutter/foundation.dart';
@@ -15,18 +16,18 @@ import 'package:pdf/pdf.dart';
 
 import 'package:pdf/widgets.dart';
 
-Future<Uint8List> makePdf(
-    Feed feed, WidgetRef ref, String type, String currency) async {
+Future<Uint8List> makePdf(WidgetRef ref, String type, String currency) async {
   final pdf = Document(
       title: "Feed Estimator",
       author: "ebena.com.ng",
       subject: "Feed Analysis",
       creator: "Ebena Agro Ltd");
+  final feed = ref.watch(feedProvider).newFeed;
   final imageLogo = MemoryImage(
       (await rootBundle.load('assets/images/logo.png')).buffer.asUint8List());
 
   final myFeedLogo = MemoryImage(
-      (await rootBundle.load(feedImage(id: feed.animalId as int)))
+      (await rootBundle.load(feedImage(id: feed!.animalId as int)))
           .buffer
           .asUint8List());
   var data = await rootBundle.load('assets/fonts/RobotoRegular.ttf');
@@ -247,7 +248,9 @@ Future<Uint8List> makePdf(
                     ),
                     Expanded(
                         // width: 40,
-                        child: paddedText(feed.animalId == 5 ?'Digestive Energy': 'Metabolic Energy')),
+                        child: paddedText(feed.animalId == 5
+                            ? 'Digestive Energy'
+                            : 'Metabolic Energy')),
                     SizedBox(
                         width: 120,
                         child: paddedText(
@@ -332,7 +335,7 @@ Future<Uint8List> makePdf(
                             align: TextAlign.center)),
                     SizedBox(
                         width: 80,
-                        child: paddedText('%/Kg', align: TextAlign.center)),
+                        child: paddedText('g/Kg', align: TextAlign.center)),
                   ],
                 ),
                 TableRow(
@@ -350,7 +353,7 @@ Future<Uint8List> makePdf(
                             align: TextAlign.center)),
                     SizedBox(
                         width: 80,
-                        child: paddedText('%/Kg', align: TextAlign.center)),
+                        child: paddedText('g/Kg', align: TextAlign.center)),
                   ],
                 ),
                 TableRow(
@@ -368,7 +371,7 @@ Future<Uint8List> makePdf(
                             align: TextAlign.center)),
                     SizedBox(
                         width: 80,
-                        child: paddedText('%/Kg', align: TextAlign.center)),
+                        child: paddedText('g/Kg', align: TextAlign.center)),
                   ],
                 ),
                 TableRow(
@@ -387,7 +390,7 @@ Future<Uint8List> makePdf(
                     ),
                     SizedBox(
                         width: 80,
-                        child: paddedText('%/Kg', align: TextAlign.center)),
+                        child: paddedText('g/Kg', align: TextAlign.center)),
                   ],
                 ),
                 TableRow(

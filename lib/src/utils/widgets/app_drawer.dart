@@ -1,4 +1,5 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
+import 'package:feed_estimator/src/core/router/routes.dart';
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
 import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provider.dart';
 
@@ -27,12 +28,13 @@ class FeedAppDrawer extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final InAppReview inAppReview = InAppReview.instance;
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: const  SystemUiOverlayStyle(statusBarColor: AppConstants.mainAppColor),
+      value:
+          const SystemUiOverlayStyle(statusBarColor: AppConstants.mainAppColor),
       child: Theme(
         data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
         child: Drawer(
             child: Container(
-              padding: const EdgeInsets.all(0.0),
+          padding: const EdgeInsets.all(0.0),
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
               //  topRight: Radius.elliptical(50, 50),
@@ -120,23 +122,20 @@ class FeedAppDrawer extends ConsumerWidget {
                             height: 0,
                           ),
                           ListTile(
-                              leading: const Icon(CupertinoIcons.add_circled),
-                              trailing: const Icon(CupertinoIcons.forward),
-                              dense: true,
-                              title: const Text("Add New Feed"),
-                              onTap: () async => {
-                                    context.pop(),
-                                    ref
-                                        .read(resultProvider.notifier)
-                                        .resetResult(),
-                                    ref
-                                        .read(ingredientProvider.notifier)
-                                        .resetSelections(),
-                                    await ref
-                                        .read(feedProvider.notifier)
-                                        .resetProvider(),
-                                    context.pushNamed('newFeed')
-                                  }),
+                            leading: const Icon(CupertinoIcons.add_circled),
+                            trailing: const Icon(CupertinoIcons.forward),
+                            dense: true,
+                            title: const Text("Add New Feed"),
+                            onTap: () => {
+                              context.pop(),
+                              ref.read(resultProvider.notifier).resetResult(),
+                              ref
+                                  .read(ingredientProvider.notifier)
+                                  .resetSelections(),
+                              ref.read(feedProvider.notifier).resetProvider(),
+                              const AddFeedRoute().go(context),
+                            },
+                          ),
                           const Divider(
                             thickness: 1,
                             indent: 16,

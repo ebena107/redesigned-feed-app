@@ -1,7 +1,8 @@
+import 'package:feed_estimator/src/core/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'core/router/router.dart';
+//import 'core/router/router.dart_';
 
 class FeedApp extends ConsumerWidget {
   const FeedApp({
@@ -29,9 +30,9 @@ class FeedApp extends ConsumerWidget {
       routerConfig: router,
       debugShowCheckedModeBanner: false,
       title: 'Feed Estimator',
-      routeInformationParser: router.routeInformationParser,
-      routeInformationProvider: router.routeInformationProvider,
-      routerDelegate: router.routerDelegate,
+      // routeInformationParser: router.routeInformationParser,
+      // routeInformationProvider: router.routeInformationProvider,
+      // routerDelegate: router.routerDelegate,
     );
   }
 }

@@ -1,10 +1,10 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
+import 'package:feed_estimator/src/core/router/routes.dart';
 import 'package:feed_estimator/src/features/main/model/feed.dart';
 import 'package:feed_estimator/src/features/main/providers/main_async_provider.dart';
 import 'package:feed_estimator/src/features/main/widget/tile_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import 'footer_result_card.dart';
 import 'grid_menu.dart';
@@ -22,7 +22,6 @@ class FeedGrid extends ConsumerWidget {
       data: (feeds) => feeds.isNotEmpty
           ? SliverGrid(
               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-
                 maxCrossAxisExtent: 200.0,
                 // mainAxisSpacing: 10.0,
                 // crossAxisSpacing: 5.0,
@@ -53,13 +52,12 @@ class FeedGrid extends ConsumerWidget {
 SliverChildDelegate _feedGridDelegate(List<Feed> data) {
   return SliverChildBuilderDelegate((BuildContext context, int index) {
     final feed = data[index];
+    //debugPrint('${data.toList().toString()} --- ${feed.toJson().toString()}');
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: GestureDetector(
         onTap: () {
-          context.pushNamed("result",
-              queryParameters: {'id': feed.feedId.toString()});
-
+          ReportRoute(feedId: feed.feedId as int).go(context);
         },
         child: GridTile(
           header: Material(
@@ -74,7 +72,7 @@ SliverChildDelegate _feedGridDelegate(List<Feed> data) {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                  //  width: displayWidth(context) * .20,
+                    //  width: displayWidth(context) * .20,
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Text(
@@ -85,7 +83,7 @@ SliverChildDelegate _feedGridDelegate(List<Feed> data) {
                     ),
                   ),
                   SizedBox(
-                    width: 24,
+                      width: 24,
                       child: Align(
                           alignment: Alignment.centerRight,
                           child: GridMenu(feed: feed))),

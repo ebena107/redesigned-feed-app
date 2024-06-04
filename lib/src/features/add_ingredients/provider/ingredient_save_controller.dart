@@ -1,4 +1,3 @@
-import 'package:feed_estimator/src/core/router/router.dart';
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dart';
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
 import 'package:feed_estimator/src/features/add_ingredients/repository/ingredients_repository.dart';
@@ -10,9 +9,7 @@ part 'ingredient_save_controller.g.dart';
 @riverpod
 class IngredientSaveController extends _$IngredientSaveController {
   @override
-  FutureOr<void> build() {
-
-  }
+  FutureOr<void> build() {}
 
   Future<void> saveIngredient({
     required VoidCallback onSuccess,
@@ -32,14 +29,12 @@ class IngredientSaveController extends _$IngredientSaveController {
     }
 
     if (state.hasError == false) {
-
       onSuccess;
       debugPrint('finished');
       //ref.read(routerProvider).pop();
     } else {
       onFailure;
     }
-
   }
 
   Future<void> updateIngredient(
@@ -60,7 +55,7 @@ class IngredientSaveController extends _$IngredientSaveController {
 
     if (state.hasError == false) {
       onSuccess;
-      ref.read(routerProvider).pop();
+      //   ref.read(routerProvider).pop();
     } else {
       onFailure;
     }

@@ -1,17 +1,17 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
+import 'package:feed_estimator/src/core/router/routes.dart';
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
 import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provider.dart';
 import 'package:feed_estimator/src/features/main/providers/main_async_provider.dart';
 import 'package:feed_estimator/src/features/main/widget/feed_grid.dart';
 
- import 'package:feed_estimator/src/features/reports/providers/result_provider.dart';
+import 'package:feed_estimator/src/features/reports/providers/result_provider.dart';
 
 import 'package:feed_estimator/src/utils/widgets/app_drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class MainView extends ConsumerWidget {
   const MainView({super.key});
@@ -21,22 +21,16 @@ class MainView extends ConsumerWidget {
     final data = ref.watch(asyncMainProvider);
     debugPrint('feedList main- ${data.error}');
 
-
     return Scaffold(
-      appBar:PreferredSize(
-          preferredSize: const Size.fromHeight(0),
-          child: AppBar(
-
-            systemOverlayStyle: const SystemUiOverlayStyle(
-              // systemNavigationBarColor: Colors.blue, // Navigation bar
-              statusBarColor: AppConstants.mainAppColor, // Status bar
-            ),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(0),
+        child: AppBar(
+          systemOverlayStyle: const SystemUiOverlayStyle(
+            // systemNavigationBarColor: Colors.blue, // Navigation bar
+            statusBarColor: AppConstants.mainAppColor, // Status bar
           ),
+        ),
       ),
-
-
-
-
       drawer: const FeedAppDrawer(),
       body: SafeArea(
         child: CustomScrollView(
@@ -77,12 +71,10 @@ class MainView extends ConsumerWidget {
                   gradient: LinearGradient(
                       begin: Alignment.bottomLeft,
                       end: Alignment.bottomRight,
-                     // tileMode: TileMode.repeated,
+                      // tileMode: TileMode.repeated,
                       stops: [0.6, 0.9],
                       colors: [AppConstants.mainAppColor, Color(0xff67C79F)],
-                 transform: GradientRotation(45)
-                    ),
-                  
+                      transform: GradientRotation(45)),
                 ),
                 child: const FlexibleSpaceBar(
                     title: Text('Feed Estimator'),
@@ -100,8 +92,8 @@ class MainView extends ConsumerWidget {
                 data: (data) => const FeedGrid(),
                 error: (er, stack) =>
                     SliverFillRemaining(child: Text(er.toString())),
-                loading: () =>
-                    const SliverFillRemaining(child: CircularProgressIndicator()))
+                loading: () => const SliverFillRemaining(
+                    child: Center(child: CircularProgressIndicator())))
           ],
         ),
       ),
@@ -111,12 +103,11 @@ class MainView extends ConsumerWidget {
           ref.read(resultProvider.notifier).resetResult();
           ref.read(ingredientProvider.notifier).resetSelections();
           ref.read(feedProvider.notifier).resetProvider();
-          context.pushNamed('newFeed');
+          const AddFeedRoute().go(context);
         },
         label: const Text('Add Feed'),
         icon: const Icon(CupertinoIcons.add_circled),
       ),
     );
-
   }
 }

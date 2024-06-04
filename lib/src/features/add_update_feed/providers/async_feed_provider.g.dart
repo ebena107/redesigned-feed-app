@@ -6,7 +6,7 @@ part of 'async_feed_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$asyncFeedHash() => r'2bf77826368d9951f49d22bf140e7fae66c8387d';
+String _$asyncFeedHash() => r'9f18b1866a1d59fa320418bcf8fc06fc4af9bb11';
 
 /// See also [AsyncFeed].
 @ProviderFor(AsyncFeed)

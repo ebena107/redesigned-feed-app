@@ -3,5 +3,6 @@
         "riverpod",
         "sqflite"
     ],
-    "cmake.sourceDirectory": "F:/dev/app/windows/flutter"
+    "cmake.sourceDirectory": "F:/dev/app/windows/flutter",
+    "cmake.ignoreCMakeListsMissing": true
 }

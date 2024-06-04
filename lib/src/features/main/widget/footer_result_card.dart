@@ -21,9 +21,9 @@ class FooterResultCard extends ConsumerWidget {
               Expanded(
                 child: Column(
                   children: [
-                    ContentCard(
+                    EnergyContentCard(
                       title: 'Energy',
-                      value: myResult.mEnergy!.round(),
+                      value: myResult.mEnergy,
                     ),
                     ContentCard(
                       title: 'Fat',
@@ -37,7 +37,7 @@ class FooterResultCard extends ConsumerWidget {
                   children: [
                     ContentCard(
                       title: 'Protein',
-                      value: myResult.cProtein!.ceilToDouble(),
+                      value: myResult.cProtein!,
                     ),
                     ContentCard(
                       title: 'Fiber',
@@ -76,8 +76,47 @@ class ContentCard extends StatelessWidget {
               ),
             ),
             Text(
+              value!.toStringAsFixed(2),
+              //value!.toString(),
+              // value!.toInt().toString(),
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class EnergyContentCard extends StatelessWidget {
+  final String? title;
+  final num? value;
+  const EnergyContentCard({
+    super.key,
+    required this.title,
+    required this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      //   color: Commons.appBackgroundColor.withOpacity(.8),
+      child: Center(
+        child: Column(
+          children: [
+            Text(
+              title!,
+              style: const TextStyle(
+                fontSize: 10,
+                // fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
               //value!.toStringAsFixed(2),
-              value!.toString(),
+              value!.round().toString(),
               // value!.toInt().toString(),
               style: const TextStyle(
                 fontSize: 12,

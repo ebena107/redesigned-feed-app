@@ -1,19 +1,19 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:feed_estimator/src/core/router/navigation_providers.dart';
+import 'package:feed_estimator/src/core/router/routes.dart';
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
 import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provider.dart';
 import 'package:feed_estimator/src/features/add_update_feed/widget/feed_ingredients/widget/ingredient_sort_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import '../cart/cart_widget.dart';
 import '../widget/ingredient_data_list.dart';
 import '../widget/ingredient_search_widget.dart';
 
 class IngredientList extends ConsumerWidget {
-  final String? feedId;
+  final int? feedId;
   const IngredientList({
     super.key,
     this.feedId,
@@ -148,7 +148,7 @@ class IngredientList extends ConsumerWidget {
   }
 }
 
-Widget buildBottomBar({String? feedId}) {
+Widget buildBottomBar({int? feedId}) {
   return Consumer(builder: (context, ref, child) {
     final currentIndex = ref.watch(appNavigationProvider).navIndex;
 
@@ -176,7 +176,7 @@ Widget buildBottomBar({String? feedId}) {
 }
 
 Future<void> _onItemTapped(
-    int index, BuildContext context, WidgetRef ref, String? feedId) async {
+    int index, BuildContext context, WidgetRef ref, int? feedId) async {
   switch (index) {
     // case 0:
     //   break;
@@ -188,7 +188,9 @@ Future<void> _onItemTapped(
 
       ref.read(feedProvider.notifier).addSelectedIngredients(ingList);
       ref.read(ingredientProvider.notifier).resetSelections();
-      context.goNamed("newFeed", queryParameters: {"id": feedId});
+      feedId != null
+          ? FeedRoute(feedId: feedId).go(context)
+          : const AddFeedRoute().go(context);
 
       break;
   }

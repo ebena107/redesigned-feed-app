@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:feed_estimator/src/core/database/app_db.dart';
-import 'package:feed_estimator/src/core/router/router.dart';
+import 'package:feed_estimator/src/core/router/routes.dart';
+
 import 'package:feed_estimator/src/features/add_update_feed/repository/animal_type_repository.dart';
 
 import 'package:feed_estimator/src/features/add_update_feed/model/animal_type.dart';
@@ -182,7 +183,7 @@ class FeedNotifier extends StateNotifier<FeedState> {
     resetProvider();
     // ref.read(asyncMainProvider.notifier).loadFeed();
     state = state.copyWith(status: 'success');
-    ref.read(routerProvider).go('/');
+    const HomeRoute().location;
   }
 
   updateFeed() async {
@@ -231,7 +232,7 @@ class FeedNotifier extends StateNotifier<FeedState> {
       resetProvider();
       //   ref.read(asyncMainProvider.notifier).loadFeed();
       state = state.copyWith(status: 'success');
-      ref.read(routerProvider).go('/');
+      const HomeRoute().location;
     } else {
       state = state.copyWith(status: 'failure');
     }
@@ -413,8 +414,7 @@ class FeedNotifier extends StateNotifier<FeedState> {
           .read(resultProvider.notifier)
           .estimatedResult(feed: state.newFeed);
 
-      ref.read(routerProvider).pushNamed("result",
-          queryParameters: {'id': feed.feedId.toString(), 'type': "estimate"});
+      ViewFeedReportRoute(feed.feedId as int, "estimate");
     }
   }
 }

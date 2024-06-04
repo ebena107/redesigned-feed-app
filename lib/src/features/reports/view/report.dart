@@ -1,5 +1,6 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:feed_estimator/src/core/router/navigation_providers.dart';
+import 'package:feed_estimator/src/core/router/routes.dart';
 import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provider.dart';
 
 import 'package:feed_estimator/src/features/main/model/feed.dart';
@@ -18,17 +19,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class AnalysisPage extends ConsumerWidget {
-  final String? id;
+  final int? feedId;
   final String? type;
   const AnalysisPage({
     super.key,
-    this.id,
+    this.feedId,
     this.type,
   });
 
   @override
   Widget build(BuildContext context, ref) {
-    final feedId = id != null ? int.tryParse(id!) : null;
+    //final feedId = id != null ? int.tryParse(id!) : null;
 
     final List<Feed> feedList =
         feedId != null ? ref.watch(asyncMainProvider).value as List<Feed> : [];
@@ -37,11 +38,12 @@ class AnalysisPage extends ConsumerWidget {
     //     ? ref.watch(feedProvider).newFeed
     //     : feedList.firstWhere((f) => f.feedId == feedId, orElse: () => Feed());
 
+    final myType = type ?? '';
     final feed = type == 'estimate'
         ? ref.watch(feedProvider).newFeed
         : feedList.firstWhere((f) => f.feedId == feedId, orElse: () => Feed());
 
-
+    debugPrint(' report -- feedId: $feedId, feed: ${feed.toString()} %%%%%%% type : $myType');
     final toggle = ref.watch(resultProvider).toggle;
 
     return Scaffold(
@@ -70,8 +72,11 @@ class AnalysisPage extends ConsumerWidget {
                         ),
                       ),
                       IconButton(
-                        onPressed: () =>
-                            context.pushNamed("pdfPreview", extra: feed, queryParameters: {'type': type}),
+                        onPressed: () => PdfRoute(feedId as int,
+                                type: myType, $extra: feed as Feed)
+                            .location,
+                        // onPressed: () => context.pushNamed("pdfPreview",
+                        //     extra: feed, queryParameters: {'type': type}),
                         icon: const Icon(Icons.picture_as_pdf_outlined,
                             color: AppConstants.appBackgroundColor),
                       ),
@@ -97,8 +102,6 @@ class AnalysisPage extends ConsumerWidget {
                     )),
                   ),
                 ),
-
-
               ],
             ),
           ),
@@ -167,7 +170,7 @@ class AnalysisPage extends ConsumerWidget {
                         const Spacer(),
                         feedId != null || feed.feedId != null
                             ? ResultCard(
-                          feed:feed,
+                                feed: feed,
                                 id: feedId ?? feed.feedId,
                                 type: type,
                               )
@@ -177,15 +180,11 @@ class AnalysisPage extends ConsumerWidget {
                     ),
                   ),
                 )
-
-
         ],
       ),
       bottomNavigationBar: const ReportBottomBar(),
     );
   }
-
-
 }
 
 class ReturnButton extends ConsumerWidget {
@@ -314,10 +313,11 @@ class FeedImage extends ConsumerWidget {
 }
 
 class ResultCard extends ConsumerWidget {
-final Feed? feed;
+  final Feed? feed;
   final num? id;
   final String? type;
-  const ResultCard( {this.feed,
+  const ResultCard({
+    this.feed,
     super.key,
     this.id,
     this.type,
@@ -345,7 +345,9 @@ final Feed? feed;
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       EnergyContentCard(
-                        title: feed!.animalId == 5 ?'Digestive Energy': 'Metabolic Energy',
+                        title: feed!.animalId == 5
+                            ? 'Digestive Energy'
+                            : 'Metabolic Energy',
                         value: result.mEnergy,
                         unit: 'Kcal/unit',
                       ),

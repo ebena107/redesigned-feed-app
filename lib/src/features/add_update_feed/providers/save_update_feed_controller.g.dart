@@ -7,7 +7,7 @@ part of 'save_update_feed_controller.dart';
 // **************************************************************************
 
 String _$saveUpdateFeedControllerHash() =>
-    r'4b6e06c67ba3a854a35ac1695adc8b88d507ccd1';
+    r'27397d5e27364a132aa2d654c861c7e9e42c3d07';
 
 /// See also [SaveUpdateFeedController].
 @ProviderFor(SaveUpdateFeedController)

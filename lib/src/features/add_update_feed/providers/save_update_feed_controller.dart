@@ -1,4 +1,4 @@
-import 'package:feed_estimator/src/core/router/router.dart';
+import 'package:feed_estimator/src/core/router/routes.dart';
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -16,14 +16,14 @@ class SaveUpdateFeedController extends _$SaveUpdateFeedController {
     // ref.onDispose(() => key = null);
   }
 
-  Future<void> saveUpdateFeed({required String todo, required ValueChanged<String> onSuccess}) async {
+  Future<void> saveUpdateFeed(
+      {required String todo, required ValueChanged<String> onSuccess}) async {
     final provider = ref.read(feedProvider.notifier);
     state = const AsyncLoading();
 
     state = await AsyncValue.guard(() => provider.saveUpdateFeed(
-        todo: todo,
-      )
-    );
+          todo: todo,
+        ));
     //
     // if (key == this.key) {
     //   state = newState;
@@ -34,11 +34,11 @@ class SaveUpdateFeedController extends _$SaveUpdateFeedController {
     debugPrint('finished ${state.hasValue.toString()}');
 
     if (state.hasError == false) {
-   onSuccess('Success');
+      onSuccess('Success');
       // ref.read(asyncMainProvider.notifier).loadFeed();
       // ref.read(resultProvider.notifier).setFeed();
 
-      ref.read(routerProvider).go('/');
+      const HomeRoute().location;
     }
   }
 }

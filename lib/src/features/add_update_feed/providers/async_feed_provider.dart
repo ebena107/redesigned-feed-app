@@ -1,6 +1,6 @@
+import 'package:feed_estimator/src/core/router/routes.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../core/router/router.dart';
 import '../../main/providers/main_async_provider.dart';
 import '../../reports/providers/result_provider.dart';
 import 'feed_provider.dart';
@@ -22,7 +22,7 @@ class AsyncFeed extends _$AsyncFeed {
       await ref.read(asyncMainProvider.notifier).loadFeed();
       // await ref.read(resultProvider.notifier).setFeed();
 
-      ref.read(routerProvider).go('/');
+      const HomeRoute().location;
     }
   }
 
@@ -30,7 +30,9 @@ class AsyncFeed extends _$AsyncFeed {
     num? ingredientId,
   ) async {
     state = const AsyncLoading();
-    state = await AsyncValue.guard(() async => await ref.read(feedProvider.notifier).removeIng(ingredientId),);
+    state = await AsyncValue.guard(
+      () async => await ref.read(feedProvider.notifier).removeIng(ingredientId),
+    );
 
     if (state.hasError == false) {
       //  debugPrint('finished delete');

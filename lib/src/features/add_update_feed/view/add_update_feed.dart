@@ -1,5 +1,6 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:feed_estimator/src/core/router/navigation_providers.dart';
+import 'package:feed_estimator/src/core/router/routes.dart';
 
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
 import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provider.dart';
@@ -14,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:quickalert/quickalert.dart';
 
 import '../widget/estimated_result_widget.dart';
@@ -21,9 +23,10 @@ import '../widget/feed_info.dart';
 import '../widget/feed_ingredients.dart';
 
 class NewFeedPage extends ConsumerWidget {
-  final String? id;
+  final int? feedId;
+
   const NewFeedPage({
-    this.id,
+    this.feedId,
     super.key,
   });
 
@@ -31,24 +34,21 @@ class NewFeedPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     String title;
-    int? feedId;
-    if (id == null || id == "null" || int.tryParse(id!) == 9999 || id == "") {
+
+    if (feedId == null || feedId == 9999 || feedId == 0) {
       title = "Add/Check Feed";
-      feedId = null;
     } else {
       title = "Update Feed";
-      feedId = int.tryParse(id!);
     }
     //debugPrint(' newFeed - id: $id and feedId: $feedId  and title: $title');
     // String title = id == null ? "Add/Check Feed" : "Update Feed";
     //int? feedId = id != null ? int.parse(id!): null;
     return SafeArea(
       child: Scaffold(
-        appBar:PreferredSize(
-          preferredSize:  const Size.fromHeight(0),
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(0),
           child: AppBar(
-
-            systemOverlayStyle:  SystemUiOverlayStyle(
+            systemOverlayStyle: SystemUiOverlayStyle(
               // systemNavigationBarColor: Colors.blue, // Navigation bar
               statusBarColor: feedId != null
                   ? AppConstants.appCarrotColor
@@ -88,8 +88,8 @@ class NewFeedPage extends ConsumerWidget {
                       title,
                       // style: titleTextStyle(),
                     ),
-                    background:
-                        const Image(image: AssetImage('assets/images/back.png'))),
+                    background: const Image(
+                        image: AssetImage('assets/images/back.png'))),
               ),
             ),
             SliverToBoxAdapter(
@@ -106,8 +106,8 @@ class NewFeedPage extends ConsumerWidget {
                   return data != null
                       ? data.mEnergy != null
                           ? SizedBox(
-                              child:
-                                  ResultEstimateCard(data: data, feedId: feedId))
+                              child: ResultEstimateCard(
+                                  data: data, feedId: feedId))
                           : const SizedBox()
                       : const SizedBox();
                 },
@@ -171,23 +171,25 @@ _onItemTapped(
       feedId != null
           ? ref.read(ingredientProvider.notifier).loadFeedExistingIngredients()
           : '';
-      context.goNamed('ingredientList',
-          queryParameters: {"id": feedId.toString()});
+      feedId != null
+          ? FeedIngredientsRoute(feedId).go(context)
+          : NewFeedIngredientsRoute(feedId).go(context);
       break;
     case 1:
       name == ""
           ? {
               status = "info",
               mMessage = "Feed Name is Compulsory",
+              handleAlert(type: status, context: context, title: mMessage),
             }
           : ref.read(asyncMainProvider.notifier).saveUpdateFeed(
-                todo: todo,
-        onSuccess: (response) => handleAlert(type:response, context:context, title: mMessage)
-              );
+              todo: todo,
+              onSuccess: (response) => handleAlert(
+                  type: response, context: context, title: mMessage));
       // handleMessage();
-      handleAlert(type:status, context:context, title: mMessage);
-   //   messageHandlerWidget(context: context, message: mMessage, type: status);
-    //  status == "success" ? ref.read(routerProvider).go('/') : '';
+
+      //   messageHandlerWidget(context: context, message: mMessage, type: status);
+      //  status == "success" ? ref.read(routerProvider).go('/') : '';
       break;
     case 2:
       final ing = ref.watch(feedProvider).feedIngredients;
@@ -201,7 +203,7 @@ _onItemTapped(
               // handleMessage()
               // messageHandlerWidget(
               //     context: context, message: mMessage, type: status)
-        handleAlert(type: status, context:context, title:mMessage)
+              handleAlert(type: status, context: context, title: mMessage)
             }
           : Navigator.of(context)
               .restorablePush(analyseDialogBuilder, arguments: feedId);
@@ -210,26 +212,28 @@ _onItemTapped(
   }
 }
 
-
-handleAlert({required String type, required BuildContext context, required String title}) {
- // String title = "";
+handleAlert(
+    {required String type,
+    required BuildContext context,
+    required String title}) {
+  // String title = "";
   QuickAlertType myType = QuickAlertType.info;
 
-  switch (type){
+  switch (type) {
     case 'success':
       myType = QuickAlertType.success;
       //title = 'successfully saved';
+      context.pop();
       break;
     case 'failure':
       myType = QuickAlertType.error;
-    //  title = 'failed to save';
+      //  title = 'failed to save';
       break;
     case 'warning':
       myType = QuickAlertType.warning;
-   //   title = 'checked to save';
+      //   title = 'checked to save';
       break;
   }
-
 
   return QuickAlert.show(context: context, type: myType, title: title);
 }

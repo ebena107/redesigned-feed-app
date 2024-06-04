@@ -1,4 +1,5 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
+import 'package:feed_estimator/src/core/router/routes.dart';
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
 import 'package:feed_estimator/src/features/add_update_feed/model/animal_type.dart';
 import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provider.dart';
@@ -7,7 +8,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class FeedInfo extends StatelessWidget {
   final int? feedId;
@@ -246,7 +246,9 @@ class AddIngredientButton extends ConsumerWidget {
                                 .read(ingredientProvider.notifier)
                                 .loadFeedExistingIngredients()
                             : null;
-                        context.goNamed('ingredientList');
+                        feedId != null
+                            ? FeedIngredientsRoute(feedId as int).go(context)
+                            : NewFeedIngredientsRoute(feedId).go(context);
                         //    const IngredientList(),
                       },
                       child: const Text(

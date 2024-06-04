@@ -1,5 +1,5 @@
-
 import 'package:feed_estimator/src/core/constants/common.dart';
+import 'package:feed_estimator/src/core/router/routes.dart';
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
 import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provider.dart';
 import 'package:feed_estimator/src/features/main/model/feed.dart';
@@ -23,9 +23,9 @@ class GridMenu extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return PopupMenuButton<String>(
       constraints: const BoxConstraints(
-          minWidth: 2.0 * 36.0,
-           maxWidth: 4.0 * 36.0,
-         ),
+        minWidth: 2.0 * 36.0,
+        maxWidth: 4.0 * 36.0,
+      ),
       //splashRadius: 50.0,
       icon: const Icon(
         Icons.more_vert,
@@ -38,17 +38,14 @@ class GridMenu extends ConsumerWidget {
       },
 
       //padding: const EdgeInsets.all(0),
-      itemBuilder: (context) =>
-      <PopupMenuItem<String>>[
-
+      itemBuilder: (context) => <PopupMenuItem<String>>[
         PopupMenuItem(
           //  padding: const EdgeInsets.all(0),
           value: "1",
           child: TextButton.icon(
             onPressed: () {
               context.pop();
-              context.pushNamed("result",
-                  queryParameters: {'id': feed!.feedId.toString()});
+              ReportRoute(feedId: feed!.feedId as int).go(context);
             },
             icon: const Icon(
               Icons.view_list,
@@ -57,7 +54,6 @@ class GridMenu extends ConsumerWidget {
             label: Text("View", style: menuTextStyle()),
           ),
         ),
-
         PopupMenuItem(
           value: "2",
           child: TextButton.icon(
@@ -69,11 +65,10 @@ class GridMenu extends ConsumerWidget {
                 ref.read(feedProvider.notifier).setFeed(feed!);
 
                 context.pop();
-                context.goNamed("newFeed",
-                    queryParameters: {'id': feed!.feedId.toString()});
+                FeedRoute(feedId: feed!.feedId as int).go(context);
               },
               icon:
-              const Icon(Icons.update, color: AppConstants.appCarrotColor),
+                  const Icon(Icons.update, color: AppConstants.appCarrotColor),
               label: Text("Update", style: menuTextStyle())),
         ),
         PopupMenuItem(
@@ -91,7 +86,7 @@ class GridMenu extends ConsumerWidget {
               )),
         ),
       ],
-       color: AppConstants.appBackgroundColor.withOpacity(.9),
+      color: AppConstants.appBackgroundColor.withOpacity(.9),
     );
   }
 }
@@ -127,7 +122,7 @@ class _DeleteFeed extends ConsumerWidget {
     return asyncFeeds.when(
         data: (feeds) {
           final feed =
-          feeds.firstWhere((f) => f.feedId == feedId, orElse: () => Feed());
+              feeds.firstWhere((f) => f.feedId == feedId, orElse: () => Feed());
 
           return CupertinoAlertDialog(
             title: Text(
@@ -156,11 +151,11 @@ class _DeleteFeed extends ConsumerWidget {
           );
         },
         error: (er, stack) => Center(
-          child: Text(er.toString()),
-        ),
+              child: Text(er.toString()),
+            ),
         loading: () => const Center(
-          child: CircularProgressIndicator(),
-        ));
+              child: CircularProgressIndicator(),
+            ));
     // final feed =
     //     data.feeds.firstWhere((f) => f.feedId == feedId, orElse: () => Feed());
   }

@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'ingredients_list_tile_widget.dart';
 
 class IngredientData extends ConsumerWidget {
-  final String? feedId;
+  final int? feedId;
   const IngredientData({
     super.key,
     this.feedId,

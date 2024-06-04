@@ -1,5 +1,5 @@
 import 'package:feed_estimator/src/core/models/validation_model.dart';
-import 'package:feed_estimator/src/core/router/router.dart';
+
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dart';
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
 import 'package:feed_estimator/src/features/add_ingredients/repository/ingredients_repository.dart';
@@ -111,12 +111,12 @@ class StoreIngredientNotifier extends StateNotifier<StoreIngredientState> {
       await ref
           .read(ingredientProvider.notifier)
           .setIngredient(state.selectedIngredient!.ingredientId);
-      ref.read(routerProvider).goNamed(
-        "newIngredient",
-        queryParameters: {
-          'id': state.selectedIngredient!.ingredientId.toString(),
-        },
-      );
+      // ref.read(routerProvider).goNamed(
+      //   "newIngredient",
+      //   queryParameters: {
+      //     'id': state.selectedIngredient!.ingredientId.toString(),
+      //   },
+      // );
     }
   }
 }

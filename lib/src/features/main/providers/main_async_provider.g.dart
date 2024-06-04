@@ -6,7 +6,7 @@ part of 'main_async_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$asyncMainHash() => r'29717dc325e2d9abf2a675db4a00d7b7032d3cf4';
+String _$asyncMainHash() => r'150ad0e6b10ae305f9350894775de71b142adfad';
 
 /// See also [AsyncMain].
 @ProviderFor(AsyncMain)
