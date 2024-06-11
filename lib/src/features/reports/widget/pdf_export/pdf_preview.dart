@@ -21,7 +21,7 @@ class PdfPreviewPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     //final locale = Localizations.localeOf(context);
-    debugPrint('feedId: $feedId, type: - $type');
+    debugPrint('feedId: $feedId, type: - $type , feed - ${feed.toJson().toString()}');
     final format = NumberFormat.simpleCurrency(
       locale: Platform.localeName,
     );
@@ -32,7 +32,7 @@ class PdfPreviewPage extends ConsumerWidget {
         title: Text(
             'Ebena Feed Estimator | ${feed.feedName!.toUpperCase()} Print Preview'),
       ),
-      body: PdfPreview(build: (context) => makePdf(ref, type, currency)),
+      body: PdfPreview(build: (context) => makePdf(ref, type, feed, currency)),
     );
   }
 }

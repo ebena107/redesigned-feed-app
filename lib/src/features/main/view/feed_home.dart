@@ -99,6 +99,7 @@ class MainView extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: AppConstants.appCarrotColor,
+        foregroundColor: AppConstants.appBackgroundColor,
         onPressed: () {
           ref.read(resultProvider.notifier).resetResult();
           ref.read(ingredientProvider.notifier).resetSelections();
@@ -107,6 +108,9 @@ class MainView extends ConsumerWidget {
         },
         label: const Text('Add Feed'),
         icon: const Icon(CupertinoIcons.add_circled),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(25)),
+        ),
       ),
     );
   }

@@ -150,7 +150,6 @@ class FeedAppDrawer extends ConsumerWidget {
                             onTap: () {
                               context.pop();
                               //     : context.go('/newIngredient');
-                              context.goNamed('newIngredient');
                             },
                           ),
                           const Divider(

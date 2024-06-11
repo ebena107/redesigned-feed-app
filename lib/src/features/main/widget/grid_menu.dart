@@ -45,7 +45,7 @@ class GridMenu extends ConsumerWidget {
           child: TextButton.icon(
             onPressed: () {
               context.pop();
-              ReportRoute(feedId: feed!.feedId as int).go(context);
+              ReportRoute(feed!.feedId as int).go(context);
             },
             icon: const Icon(
               Icons.view_list,

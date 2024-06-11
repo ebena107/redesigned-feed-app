@@ -21,11 +21,7 @@ part 'routes.g.dart';
     ),
     TypedGoRoute<ReportRoute>(
       path: 'report/:feedId',
-      routes: [
-        TypedGoRoute<PdfRoute>(
-          path: 'pdf/:type',
-        )
-      ],
+      routes: [TypedGoRoute<PdfRoute>(path: 'pdf')],
     ),
     TypedGoRoute<FeedRoute>(
       path: "feed/:feedId",
@@ -40,6 +36,7 @@ part 'routes.g.dart';
 @TypedGoRoute<AboutRoute>(path: '/about')
 @TypedGoRoute<FeedStoreRoute>(path: '/feedStore')
 @TypedGoRoute<IngredientStoreRoute>(path: '/ingredientStore')
+
 @immutable
 class HomeRoute extends GoRouteData {
   const HomeRoute();
@@ -92,33 +89,33 @@ class AddFeedRoute extends GoRouteData {
 
 @immutable
 class ReportRoute extends GoRouteData {
-  const ReportRoute({required this.feedId, this.$extra});
+  const ReportRoute(this.feedId, {this.type});
   final int feedId;
-  final String? $extra;
+  final String? type;
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return AnalysisPage(
       feedId: feedId,
-      type: $extra,
+      type: type,
     );
   }
 }
 
 @immutable
 class PdfRoute extends GoRouteData {
-  const PdfRoute(this.feedId, {required this.type, required this.$extra});
+  const PdfRoute(this.feedId, { this.type,  this.$extra});
   final int feedId;
-  final String type;
-  final Feed $extra;
+  final String? type;
+  final Feed? $extra;
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
     debugPrint('inside routes: pdfroute - ${$extra}');
     return PdfPreviewPage(
       feedId: feedId,
-      type: type,
-      feed: $extra,
+      type: type as String,
+      feed: $extra as Feed,
     );
   }
 }

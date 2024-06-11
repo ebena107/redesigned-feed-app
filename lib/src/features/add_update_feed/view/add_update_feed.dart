@@ -1,21 +1,17 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:feed_estimator/src/core/router/navigation_providers.dart';
 import 'package:feed_estimator/src/core/router/routes.dart';
-
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
 import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provider.dart';
 import 'package:feed_estimator/src/features/add_update_feed/widget/analyse_data_dialog.dart';
 import 'package:feed_estimator/src/features/main/providers/main_async_provider.dart';
-
 import 'package:feed_estimator/src/features/reports/providers/result_provider.dart';
 import 'package:feed_estimator/src/utils/widgets/app_drawer.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:quickalert/quickalert.dart';
 
 import '../widget/estimated_result_widget.dart';
@@ -31,15 +27,19 @@ class NewFeedPage extends ConsumerWidget {
   });
 
   static const routeName = 'newFeed';
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     String title;
+    bool isEdit;
+    int? id;
 
-    if (feedId == null || feedId == 9999 || feedId == 0) {
-      title = "Add/Check Feed";
-    } else {
-      title = "Update Feed";
-    }
+    isEdit = feedId == null || feedId == 9999 || feedId == 0 ? false : true;
+
+    id = feedId == null || feedId == 9999 || feedId == 0 ? null : feedId;
+
+    title = isEdit ? "Update Feed" : "Add/Check Feed";
+
     //debugPrint(' newFeed - id: $id and feedId: $feedId  and title: $title');
     // String title = id == null ? "Add/Check Feed" : "Update Feed";
     //int? feedId = id != null ? int.parse(id!): null;
@@ -50,7 +50,7 @@ class NewFeedPage extends ConsumerWidget {
           child: AppBar(
             systemOverlayStyle: SystemUiOverlayStyle(
               // systemNavigationBarColor: Colors.blue, // Navigation bar
-              statusBarColor: feedId != null
+              statusBarColor: isEdit
                   ? AppConstants.appCarrotColor
                   : AppConstants.appBlueColor, // Status bar
             ),
@@ -65,7 +65,7 @@ class NewFeedPage extends ConsumerWidget {
               snap: false,
               floating: true,
               //  automaticallyImplyLeading: false,
-              backgroundColor: feedId != null
+              backgroundColor: isEdit
                   ? AppConstants.appCarrotColor
                   : AppConstants.appBlueColor,
               expandedHeight: displayHeight(context) * .25,
@@ -77,7 +77,7 @@ class NewFeedPage extends ConsumerWidget {
                     end: Alignment.topRight,
                     tileMode: TileMode.repeated,
                     stops: const [0.6, 0.9],
-                    colors: feedId != null
+                    colors: isEdit
                         ? [const Color(0xffff6f00), Colors.deepOrange]
                         : [Colors.blue, const Color(0xff2962ff)],
                   ),
@@ -96,7 +96,7 @@ class NewFeedPage extends ConsumerWidget {
               child: Container(
                 alignment: Alignment.center,
                 margin: EdgeInsets.only(top: displayHeight(context) * .05),
-                child: FeedInfo(feedId: feedId),
+                child: FeedInfo(feedId: id),
               ),
             ),
             SliverToBoxAdapter(
@@ -106,8 +106,7 @@ class NewFeedPage extends ConsumerWidget {
                   return data != null
                       ? data.mEnergy != null
                           ? SizedBox(
-                              child: ResultEstimateCard(
-                                  data: data, feedId: feedId))
+                              child: ResultEstimateCard(data: data, feedId: id))
                           : const SizedBox()
                       : const SizedBox();
                 },
@@ -120,21 +119,28 @@ class NewFeedPage extends ConsumerWidget {
           ],
         ),
         bottomNavigationBar: buildBottomBar(
-          feedId: feedId,
+          isEdit: isEdit,
+          feedId: id,
         ),
       ),
     );
   }
 }
 
-Widget buildBottomBar({int? feedId}) {
+Widget buildBottomBar({int? feedId, required bool isEdit}) {
   return Consumer(builder: (context, ref, child) {
     // final currentIndex = ref.watch(appNavigationProvider).navIndex;
 
     return BottomNavigationBar(
         onTap: (int index) {
           ref.read(appNavigationProvider.notifier).changeIndex(index);
-          _onItemTapped(index, context, ref, feedId);
+          _onItemTapped(
+            index,
+            context,
+            ref,
+            feedId,
+            isEdit,
+          );
         },
         backgroundColor: AppConstants.appBackgroundColor,
         currentIndex: 1,
@@ -147,10 +153,10 @@ Widget buildBottomBar({int? feedId}) {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              feedId != null ? Icons.update : CupertinoIcons.floppy_disk,
-              color: feedId != null ? AppConstants.appCarrotColor : Colors.blue,
+              isEdit ? Icons.update : CupertinoIcons.floppy_disk,
+              color: isEdit ? AppConstants.appCarrotColor : Colors.blue,
             ),
-            label: feedId != null ? 'Update' : 'Save',
+            label: isEdit ? 'Update' : 'Save',
           ),
           const BottomNavigationBarItem(
               icon: Icon(CupertinoIcons.forward_end_alt), label: 'Analyse'),
@@ -159,20 +165,20 @@ Widget buildBottomBar({int? feedId}) {
   });
 }
 
-_onItemTapped(
-    int index, BuildContext context, WidgetRef ref, int? feedId) async {
+_onItemTapped(int index, BuildContext context, WidgetRef ref, int? feedId,
+    bool isEdit) async {
   final name = ref.watch(feedProvider).feedName;
-  String todo = feedId != null ? "update" : "save";
+  String todo = isEdit ? "update" : "save";
   var mMessage = ref.watch(feedProvider).message;
   var status = ref.watch(feedProvider).status;
 
   switch (index) {
     case 0:
-      feedId != null
+      isEdit
           ? ref.read(ingredientProvider.notifier).loadFeedExistingIngredients()
           : '';
-      feedId != null
-          ? FeedIngredientsRoute(feedId).go(context)
+      isEdit
+          ? FeedIngredientsRoute(feedId!).go(context)
           : NewFeedIngredientsRoute(feedId).go(context);
       break;
     case 1:

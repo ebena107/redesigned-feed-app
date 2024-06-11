@@ -413,8 +413,7 @@ class FeedNotifier extends StateNotifier<FeedState> {
       await ref
           .read(resultProvider.notifier)
           .estimatedResult(feed: state.newFeed);
-
-      ViewFeedReportRoute(feed.feedId as int, "estimate");
+//      ReportRoute(feedId: feed.feedId as int).go(context);
     }
   }
 }

@@ -32,30 +32,44 @@ class CartIconWithBadge extends ConsumerWidget {
                         itemBuilder: (BuildContext context, int index) {
                           final items = data.selectedIngredients[index];
 
-                          return Card(
-                            color: Colors.transparent,
-                            child: Row(
-                              children: [
-                                Text(
-                                  "${index + 1} - ",
+                          // return ListTile(
+                          //   title: Text(
+                          //     "${index + 1} - ${ref.watch(ingredientProvider.notifier).getName(items.ingredientId as int)}",
+                          //     softWrap: true,
+                          //     style: const TextStyle(
+                          //         color: AppConstants.appBackgroundColor),
+                          //   ),
+                          //   trailing: IconButton(
+                          //     icon: const Icon(Icons.delete),
+                          //     onPressed: () {},
+                          //   ),
+                          // );
+                          return Row(
+                            children: [
+                              Text(
+                                "${index + 1} - ",
+                                style: const TextStyle(
+                                    color: AppConstants.appBackgroundColor),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  ref
+                                      .watch(ingredientProvider.notifier)
+                                      .getName(items.ingredientId as int),
+                                  softWrap: true,
                                   style: const TextStyle(
                                       color: AppConstants.appBackgroundColor),
                                 ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    ref
-                                        .watch(ingredientProvider.notifier)
-                                        .getName(items.ingredientId as int),
-                                    softWrap: true,
-                                    style: const TextStyle(
-                                        color: AppConstants.appBackgroundColor),
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                              // IconButton(
+                              //   icon: const Icon(Icons.delete),
+                              //   onPressed: () {},
+                              //   color: AppConstants.appBackgroundColor,
+                              // ),
+                            ],
                           );
                         },
                         itemCount: counter,
@@ -88,9 +102,7 @@ class CartIconWithBadge extends ConsumerWidget {
                     ],*/
                   )
                 : Container();
-          })) {
-        
-      }
+          })) {}
     }
 
     return Center(

@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ReportIngredientList extends ConsumerWidget {
   final Feed? feed;
+
   const ReportIngredientList({
     super.key,
     this.feed,
@@ -15,10 +16,10 @@ class ReportIngredientList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return ListView(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 8, right: 32),
-          child: Card(
-            color: Colors.transparent,
+        Card(
+          color: Colors.transparent,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

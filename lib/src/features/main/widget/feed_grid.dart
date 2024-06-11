@@ -1,8 +1,11 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:feed_estimator/src/core/router/routes.dart';
+import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
+import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provider.dart';
 import 'package:feed_estimator/src/features/main/model/feed.dart';
 import 'package:feed_estimator/src/features/main/providers/main_async_provider.dart';
 import 'package:feed_estimator/src/features/main/widget/tile_image.dart';
+import 'package:feed_estimator/src/features/reports/providers/result_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -29,10 +32,23 @@ class FeedGrid extends ConsumerWidget {
               ),
               delegate: _feedGridDelegate(feeds),
             )
-          : const SliverFillRemaining(
+          : SliverFillRemaining(
               child: Align(
                 alignment: Alignment.center,
-                child: Text('No Feed Available'),
+                child: Column(
+                  children: [
+                    const Text('No Feed Available'),
+                    IconButton(
+                      onPressed: () {
+                        ref.read(resultProvider.notifier).resetResult();
+                        ref.read(ingredientProvider.notifier).resetSelections();
+                        ref.read(feedProvider.notifier).resetProvider();
+                        const AddFeedRoute().go(context);
+                      },
+                      icon: const Icon(Icons.add_circle_outline_rounded),
+                    )
+                  ],
+                ),
               ),
             ),
       error: (error, stack) => const SliverFillRemaining(
@@ -57,13 +73,15 @@ SliverChildDelegate _feedGridDelegate(List<Feed> data) {
       padding: const EdgeInsets.all(16.0),
       child: GestureDetector(
         onTap: () {
-          ReportRoute(feedId: feed.feedId as int).go(context);
+          ReportRoute(
+            feed.feedId as int,
+          ).go(context);
         },
         child: GridTile(
           header: Material(
             color: Colors.transparent,
             shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(4)),
+              borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
             ),
             clipBehavior: Clip.antiAlias,
             child: GridTileBar(

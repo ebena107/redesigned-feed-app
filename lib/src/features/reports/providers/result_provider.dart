@@ -151,7 +151,7 @@ class ResultNotifier extends StateNotifier<ResultsState> {
     } else if (ingList != null && ingList.isNotEmpty) {
       _feed = Feed(
         //  feedId: feedId ?? 0,
-        animalId: animal ?? 1,
+        animalId: animal ?? 1, //type of animal or default to 1
         feedIngredients: ingList,
       );
 
