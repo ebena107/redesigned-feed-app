@@ -62,7 +62,7 @@ class IngredientDataTable extends ConsumerWidget {
     Future<void> onSelectedRow(bool selected, Ingredient ingredient) async =>
         ref.read(ingredientProvider.notifier).selectIngredient(ingredient);
     return Container(
-      color: AppConstants.mainAppColor.withOpacity(0.08),
+      color: AppConstants.mainAppColor.withValues(alpha: 0.08),
       child: DataTable(
         sortAscending: sort,
         sortColumnIndex: 0,
@@ -105,15 +105,15 @@ class IngredientDataTable extends ConsumerWidget {
                     (Set<WidgetState> states) {
                   // All rows will have the same selected color.
                   if (states.contains(WidgetState.selected)) {
-                    return AppConstants.mainAppColor.withOpacity(0.5);
+                    return AppConstants.mainAppColor.withValues(alpha: 0.5);
                   }
                   // Even rows will have a grey color.
                   if (e.ingredientId! % 2 != 0) {
-                    return const Color(0xFFB2DFDB).withOpacity(0.7);
+                    return const Color(0xFFB2DFDB).withValues(alpha: 0.7);
                   }
 
                   // Use default value for other states and odd rows.
-                  return const Color(0xFFB2DFDB).withOpacity(0.1);
+                  return const Color(0xFFB2DFDB).withValues(alpha: 0.1);
                 }),
               ),
             )
@@ -121,10 +121,13 @@ class IngredientDataTable extends ConsumerWidget {
         headingRowColor:
             WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
           if (states.contains(WidgetState.hovered)) {
-            return Theme.of(context).colorScheme.primary.withOpacity(0.08);
+            return Theme.of(context)
+                .colorScheme
+                .primary
+                .withValues(alpha: 0.08);
           }
           return AppConstants.mainAppColor
-              .withOpacity(0.9); // Use the default value.
+              .withValues(alpha: 0.9); // Use the default value.
         }),
       ),
     );

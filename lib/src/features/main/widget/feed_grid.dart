@@ -85,7 +85,8 @@ SliverChildDelegate _feedGridDelegate(List<Feed> data) {
             ),
             clipBehavior: Clip.antiAlias,
             child: GridTileBar(
-              backgroundColor: AppConstants.appIconGreyColor.withOpacity(.4),
+              backgroundColor:
+                  AppConstants.appIconGreyColor.withValues(alpha: .4),
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

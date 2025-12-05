@@ -105,7 +105,8 @@ Widget categoryField(
   return Card(
     child: ingId == null
         ? DropdownButtonFormField(
-            dropdownColor: AppConstants.appBackgroundColor.withOpacity(.8),
+            dropdownColor:
+                AppConstants.appBackgroundColor.withValues(alpha: .8),
             items: categories.map((IngredientCategory cat) {
               return DropdownMenuItem<num>(
                 value: cat.categoryId,
@@ -689,7 +690,7 @@ class SaveButton extends ConsumerWidget {
       child: ElevatedButton.icon(
           onPressed: () async {
             ref.read(ingredientProvider.notifier).validate();
-           //  debugPrint('form === ${myKey!.currentState!.validate().toString()}');
+            //  debugPrint('form === ${myKey!.currentState!.validate().toString()}');
             if (data.validate && myKey!.currentState!.validate()) {
               ingId != null
                   ? ref.read(ingredientProvider.notifier).updateIngredient(
@@ -714,8 +715,6 @@ class SaveButton extends ConsumerWidget {
                               onFailure: () => showAlert(context,
                                   QuickAlertType.error, 'Failed to save'))
                     };
-
-
             } else {
               messageHandlerWidget(
                   context: context,

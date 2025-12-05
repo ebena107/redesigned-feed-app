@@ -60,7 +60,7 @@ class AsyncStoredIngredients extends _$AsyncStoredIngredients {
 // });
 
 @riverpod
-quantityController<TextEditingController>(QuantityControllerRef ref) {
+quantityController<T>(QuantityControllerRef ref) {
   var qty = ref.watch(storeIngredientProvider).selectedIngredient!.availableQty;
   qty = qty ?? 0;
   return qty.toString();

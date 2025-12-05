@@ -83,13 +83,13 @@ class FeedListTile extends ConsumerWidget {
         orElse: () => Result());
 
     return Card(
-      color: const Color(0xff87643E).withOpacity(.1),
+      color: const Color(0xff87643E).withValues(alpha: .1),
       child: ListTile(
         leading: SizedBox(
           height: 48,
           width: 48,
           child: CircleAvatar(
-            backgroundColor: const Color(0xff87643E).withOpacity(.5),
+            backgroundColor: const Color(0xff87643E).withValues(alpha: .5),
             // backgroundColor: Colors.transparent,
             child: Image.asset(
               feedImage(id: feed!.animalId as int),

@@ -12,7 +12,6 @@ class NewIngredient extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final int? ingId =
         (ingredientId == null || ingredientId == "null" || ingredientId == "")
             ? null
@@ -54,12 +53,13 @@ class NewIngredient extends StatelessWidget {
                         ],
                         colors: [
                           const Color(0xff87643E),
-                          const Color(0xff87643E).withOpacity(.7)
+                          const Color(0xff87643E).withValues(alpha: .7)
                         ]),
                   ),
                   child: FlexibleSpaceBar(
-                      title: Text(
-                          ingId != null ? "Update Ingredient" : 'Add Ingredient'),
+                      title: Text(ingId != null
+                          ? "Update Ingredient"
+                          : 'Add Ingredient'),
                       centerTitle: true,
                       background: const Image(
                           image: AssetImage('assets/images/back.png'))),

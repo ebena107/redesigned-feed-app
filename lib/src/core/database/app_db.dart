@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:feed_estimator/src/features/add_ingredients/repository/ingredients_repository.dart';
@@ -7,6 +8,7 @@ import 'package:feed_estimator/src/features/main/repository/feed_ingredient_repo
 import 'package:feed_estimator/src/features/main/repository/feed_repository.dart';
 import 'package:feed_estimator/src/features/add_ingredients/repository/ingredient_category_repository.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart';
@@ -22,6 +24,9 @@ final appDatabase = Provider<AppDatabase>((ref) => AppDatabase());
 
 class AppDatabase {
   static final AppDatabase _instance = AppDatabase._();
+
+  // Current database version - increment when adding migrations
+  static const int _currentVersion = 3;
 
   factory AppDatabase() => _instance;
 
@@ -63,10 +68,11 @@ class AppDatabase {
       final winLinuxDB = await databaseFactory.openDatabase(
         dbPath,
         options: OpenDatabaseOptions(
-          version: 1,
+          version: _currentVersion,
           onCreate: (db, version) async {
             await _createAll(db);
           },
+          onUpgrade: _onUpgrade,
         ),
       );
       return winLinuxDB;
@@ -75,14 +81,86 @@ class AppDatabase {
       final path = join(documentsDirectory.path, dbFileName);
       final iOSAndroidDB = await openDatabase(
         path,
-        version: 1,
-        onCreate:(db, version) async {
+        version: _currentVersion,
+        onCreate: (db, version) async {
           await _createAll(db);
         },
+        onUpgrade: _onUpgrade,
       );
       return iOSAndroidDB;
     }
     throw Exception("Unsupported platform");
+  }
+
+  /// Handles database upgrades from old versions to new versions
+  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    debugPrint('Upgrading database from version $oldVersion to $newVersion');
+
+    // Run migrations sequentially
+    for (int version = oldVersion + 1; version <= newVersion; version++) {
+      await _runMigration(db, version);
+    }
+  }
+
+  /// Runs a specific migration based on version number
+  Future<void> _runMigration(Database db, int version) async {
+    debugPrint('Running migration to version $version');
+
+    switch (version) {
+      case 2:
+        await _migrationV1ToV2(db);
+        break;
+      case 3:
+        await _migrationV2ToV3(db);
+        break;
+      // Add future migrations here
+      default:
+        debugPrint('No migration defined for version $version');
+    }
+  }
+
+  /// Migration from v1 to v2: Fix rice bran fiber value
+  Future<void> _migrationV1ToV2(Database db) async {
+    debugPrint('Migration 1→2: Fixing rice bran fiber value');
+
+    // Fix rice bran fiber value (was 0.0, should be ~11.5)
+    await db.execute('''
+      UPDATE ${IngredientsRepository.tableName}
+      SET fiber = 11.5
+      WHERE LOWER(name) LIKE '%rice bran%' AND (fiber = 0.0 OR fiber IS NULL)
+    ''');
+
+    debugPrint('Migration 1→2: Complete');
+  }
+
+  /// Migration from v2 to v3: Add new ingredients
+  Future<void> _migrationV2ToV3(Database db) async {
+    debugPrint('Migration 2→3: Adding new ingredients');
+
+    try {
+      // Load new ingredients from JSON
+      final String jsonString =
+          await rootBundle.loadString('assets/raw/new_ingredients.json');
+      final List<dynamic> jsonData = json.decode(jsonString);
+
+      // Insert new ingredients
+      Batch batch = db.batch();
+      for (var ingredientData in jsonData) {
+        batch.insert(
+          IngredientsRepository.tableName,
+          ingredientData,
+          conflictAlgorithm: ConflictAlgorithm.ignore, // Skip if already exists
+        );
+      }
+      await batch.commit(noResult: true);
+
+      debugPrint('Migration 2→3: Added ${jsonData.length} new ingredients');
+    } catch (e) {
+      debugPrint('Migration 2→3: Error loading new ingredients: $e');
+      // Don't fail the migration if new ingredients can't be loaded
+    }
+
+    debugPrint('Migration 2→3: Complete');
   }
 
   /// this should be run when the database is being created
@@ -218,4 +296,3 @@ class AppDatabase {
     return id;
   }
 }
-

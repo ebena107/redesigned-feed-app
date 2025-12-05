@@ -59,7 +59,7 @@ class CategorySortField extends ConsumerWidget {
           // disabledHint:Text("Disabled"),
           elevation: 8,
           value: data.sortByCategory,
-          dropdownColor: AppConstants.appIconGreyColor.withOpacity(.8),
+          dropdownColor: AppConstants.appIconGreyColor.withValues(alpha: .8),
           items: categories.map((IngredientCategory cat) {
             return DropdownMenuItem<num>(
               alignment: AlignmentDirectional.center,

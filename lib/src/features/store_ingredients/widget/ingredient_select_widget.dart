@@ -48,7 +48,8 @@ class IngredientSSelectWidget extends ConsumerWidget {
                   // disabledHint:Text("Disabled"),
                   elevation: 8,
                   value: provider.selectedIngredient?.ingredientId,
-                  dropdownColor: AppConstants.appIconGreyColor.withOpacity(.8),
+                  dropdownColor:
+                      AppConstants.appIconGreyColor.withValues(alpha: .8),
                   items: ingredients.map((Ingredient ing) {
                     return DropdownMenuItem<num>(
                       alignment: AlignmentDirectional.center,

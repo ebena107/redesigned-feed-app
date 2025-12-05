@@ -180,7 +180,8 @@ class AnimalTypeField extends ConsumerWidget {
               child: DropdownButton<int>(
                 alignment: AlignmentDirectional.center,
                 borderRadius: const BorderRadius.all(Radius.circular(25.0)),
-                dropdownColor: AppConstants.appBackgroundColor.withOpacity(.8),
+                dropdownColor:
+                    AppConstants.appBackgroundColor.withValues(alpha: .8),
                 value: newFeed.animalTypeId as int,
 
                 items: animalTypes.map((AnimalTypes t) {

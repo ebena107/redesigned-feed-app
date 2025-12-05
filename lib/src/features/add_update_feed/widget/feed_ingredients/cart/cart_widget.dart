@@ -19,7 +19,8 @@ class CartIconWithBadge extends ConsumerWidget {
           builder: (BuildContext context) {
             return counter > 0
                 ? AlertDialog(
-                    backgroundColor: AppConstants.mainAppColor.withOpacity(.9),
+                    backgroundColor:
+                        AppConstants.mainAppColor.withValues(alpha: .9),
                     title: const Text(
                       "Selected Ingredients",
                       textAlign: TextAlign.center,

@@ -46,7 +46,7 @@ class StoredFeeds extends StatelessWidget {
                       ],
                       colors: [
                         const Color(0xff87643E),
-                        const Color(0xff87643E).withOpacity(.7)
+                        const Color(0xff87643E).withValues(alpha: .7)
                       ]),
                 ),
                 child: const FlexibleSpaceBar(

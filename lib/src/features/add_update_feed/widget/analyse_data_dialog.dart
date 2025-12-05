@@ -14,7 +14,6 @@ class AnalyseDataDialog extends ConsumerWidget {
     final action = feedId == null ? "Saving" : "Updating";
     final id = feedId ?? 9999;
     final name = ref.watch(feedProvider).feedName;
-    final feed = ref.watch(feedProvider).newFeed;
     return CupertinoAlertDialog(
       title: Text(
         'See full Analysis of - ${name.toUpperCase()} - without ${action.toUpperCase()} it',

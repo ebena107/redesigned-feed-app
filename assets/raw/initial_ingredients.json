@@ -2394,8 +2394,8 @@
         "category_id": 10
     },
     {
-        "name": "Urea",
-        "crude_protein": 286,
+        "name": "Urea (Non-protein nitrogen source)",
+        "crude_protein": 0.0,
         "crude_fiber": 0.0,
         "crude_fat": 0.0,
         "calcium": 0.0,
