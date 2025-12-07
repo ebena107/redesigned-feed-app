@@ -65,7 +65,7 @@ class GridMenu extends ConsumerWidget {
                 ref.read(feedProvider.notifier).setFeed(feed!);
 
                 context.pop();
-                FeedRoute(feedId: feed!.feedId as int).go(context);
+                EditFeedRoute(feedId: feed!.feedId as int).go(context);
               },
               icon:
                   const Icon(Icons.update, color: AppConstants.appCarrotColor),

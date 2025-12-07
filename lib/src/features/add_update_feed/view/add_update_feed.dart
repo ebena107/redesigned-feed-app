@@ -178,8 +178,8 @@ _onItemTapped(int index, BuildContext context, WidgetRef ref, int? feedId,
           ? ref.read(ingredientProvider.notifier).loadFeedExistingIngredients()
           : '';
       isEdit
-          ? FeedIngredientsRoute(feedId!).go(context)
-          : NewFeedIngredientsRoute(feedId).go(context);
+          ? EditFeedIngredientsRoute(feedId!).go(context)
+          : AddFeedIngredientsRoute(feedId).go(context);
       break;
     case 1:
       name == ""

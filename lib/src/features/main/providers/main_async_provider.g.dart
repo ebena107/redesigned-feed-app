@@ -6,20 +6,47 @@ part of 'main_async_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
+@ProviderFor(AsyncMain)
+const asyncMainProvider = AsyncMainProvider._();
+
+final class AsyncMainProvider
+    extends $AsyncNotifierProvider<AsyncMain, List<Feed>> {
+  const AsyncMainProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'asyncMainProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$asyncMainHash();
+
+  @$internal
+  @override
+  AsyncMain create() => AsyncMain();
+}
+
 String _$asyncMainHash() => r'150ad0e6b10ae305f9350894775de71b142adfad';
 
-/// See also [AsyncMain].
-@ProviderFor(AsyncMain)
-final asyncMainProvider =
-    AutoDisposeAsyncNotifierProvider<AsyncMain, List<Feed>>.internal(
-  AsyncMain.new,
-  name: r'asyncMainProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$asyncMainHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$AsyncMain = AutoDisposeAsyncNotifier<List<Feed>>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+abstract class _$AsyncMain extends $AsyncNotifier<List<Feed>> {
+  FutureOr<List<Feed>> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<AsyncValue<List<Feed>>, List<Feed>>;
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<AsyncValue<List<Feed>>, List<Feed>>,
+        AsyncValue<List<Feed>>,
+        Object?,
+        Object?>;
+    element.handleValue(ref, created);
+  }
+}

@@ -189,7 +189,7 @@ Future<void> _onItemTapped(
       ref.read(feedProvider.notifier).addSelectedIngredients(ingList);
       ref.read(ingredientProvider.notifier).resetSelections();
       feedId != null
-          ? FeedRoute(feedId: feedId).go(context)
+          ? EditFeedRoute(feedId: feedId).go(context)
           : const AddFeedRoute().go(context);
 
       break;

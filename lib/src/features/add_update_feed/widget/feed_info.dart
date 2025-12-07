@@ -1,5 +1,6 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:feed_estimator/src/core/router/routes.dart';
+
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
 import 'package:feed_estimator/src/features/add_update_feed/model/animal_type.dart';
 import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provider.dart';
@@ -248,8 +249,9 @@ class AddIngredientButton extends ConsumerWidget {
                                 .loadFeedExistingIngredients()
                             : null;
                         feedId != null
-                            ? FeedIngredientsRoute(feedId as int).go(context)
-                            : NewFeedIngredientsRoute(feedId).go(context);
+                            ? EditFeedIngredientsRoute(feedId as int)
+                                .go(context)
+                            : AddFeedIngredientsRoute(feedId).go(context);
                         //    const IngredientList(),
                       },
                       child: const Text(

@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,118 +9,89 @@ part of 'stored_ingredient_provider.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
 
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
 /// @nodoc
-mixin _$StoreIngredientState {
-  List<Ingredient> get ingredients => throw _privateConstructorUsedError;
-  Ingredient? get selectedIngredient => throw _privateConstructorUsedError;
-  bool get validate => throw _privateConstructorUsedError;
-  num get id => throw _privateConstructorUsedError;
-  num get priceKg => throw _privateConstructorUsedError;
-  num get availableQty => throw _privateConstructorUsedError;
-  num get favourite => throw _privateConstructorUsedError;
-  String get status => throw _privateConstructorUsedError;
-  String get message => throw _privateConstructorUsedError;
+mixin _$StoreIngredientState implements DiagnosticableTreeMixin {
+  List<Ingredient> get ingredients;
+  Ingredient? get selectedIngredient;
+  bool get validate;
+  num get id;
+  num get priceKg;
+  num get availableQty;
+  num get favourite;
+  String get status;
+  String get message;
 
-  @JsonKey(ignore: true)
-  $StoreIngredientStateCopyWith<StoreIngredientState> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $StoreIngredientStateCopyWith<$Res> {
-  factory $StoreIngredientStateCopyWith(StoreIngredientState value,
-          $Res Function(StoreIngredientState) then) =
-      _$StoreIngredientStateCopyWithImpl<$Res, StoreIngredientState>;
-  @useResult
-  $Res call(
-      {List<Ingredient> ingredients,
-      Ingredient? selectedIngredient,
-      bool validate,
-      num id,
-      num priceKg,
-      num availableQty,
-      num favourite,
-      String status,
-      String message});
-}
-
-/// @nodoc
-class _$StoreIngredientStateCopyWithImpl<$Res,
-        $Val extends StoreIngredientState>
-    implements $StoreIngredientStateCopyWith<$Res> {
-  _$StoreIngredientStateCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
+  /// Create a copy of StoreIngredientState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
+  $StoreIngredientStateCopyWith<StoreIngredientState> get copyWith =>
+      _$StoreIngredientStateCopyWithImpl<StoreIngredientState>(
+          this as StoreIngredientState, _$identity);
+
   @override
-  $Res call({
-    Object? ingredients = null,
-    Object? selectedIngredient = freezed,
-    Object? validate = null,
-    Object? id = null,
-    Object? priceKg = null,
-    Object? availableQty = null,
-    Object? favourite = null,
-    Object? status = null,
-    Object? message = null,
-  }) {
-    return _then(_value.copyWith(
-      ingredients: null == ingredients
-          ? _value.ingredients
-          : ingredients // ignore: cast_nullable_to_non_nullable
-              as List<Ingredient>,
-      selectedIngredient: freezed == selectedIngredient
-          ? _value.selectedIngredient
-          : selectedIngredient // ignore: cast_nullable_to_non_nullable
-              as Ingredient?,
-      validate: null == validate
-          ? _value.validate
-          : validate // ignore: cast_nullable_to_non_nullable
-              as bool,
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as num,
-      priceKg: null == priceKg
-          ? _value.priceKg
-          : priceKg // ignore: cast_nullable_to_non_nullable
-              as num,
-      availableQty: null == availableQty
-          ? _value.availableQty
-          : availableQty // ignore: cast_nullable_to_non_nullable
-              as num,
-      favourite: null == favourite
-          ? _value.favourite
-          : favourite // ignore: cast_nullable_to_non_nullable
-              as num,
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as String,
-      message: null == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'StoreIngredientState'))
+      ..add(DiagnosticsProperty('ingredients', ingredients))
+      ..add(DiagnosticsProperty('selectedIngredient', selectedIngredient))
+      ..add(DiagnosticsProperty('validate', validate))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('priceKg', priceKg))
+      ..add(DiagnosticsProperty('availableQty', availableQty))
+      ..add(DiagnosticsProperty('favourite', favourite))
+      ..add(DiagnosticsProperty('status', status))
+      ..add(DiagnosticsProperty('message', message));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is StoreIngredientState &&
+            const DeepCollectionEquality()
+                .equals(other.ingredients, ingredients) &&
+            (identical(other.selectedIngredient, selectedIngredient) ||
+                other.selectedIngredient == selectedIngredient) &&
+            (identical(other.validate, validate) ||
+                other.validate == validate) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.priceKg, priceKg) || other.priceKg == priceKg) &&
+            (identical(other.availableQty, availableQty) ||
+                other.availableQty == availableQty) &&
+            (identical(other.favourite, favourite) ||
+                other.favourite == favourite) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(ingredients),
+      selectedIngredient,
+      validate,
+      id,
+      priceKg,
+      availableQty,
+      favourite,
+      status,
+      message);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'StoreIngredientState(ingredients: $ingredients, selectedIngredient: $selectedIngredient, validate: $validate, id: $id, priceKg: $priceKg, availableQty: $availableQty, favourite: $favourite, status: $status, message: $message)';
   }
 }
 
 /// @nodoc
-abstract class _$$StoreIngredientStateImplCopyWith<$Res>
-    implements $StoreIngredientStateCopyWith<$Res> {
-  factory _$$StoreIngredientStateImplCopyWith(_$StoreIngredientStateImpl value,
-          $Res Function(_$StoreIngredientStateImpl) then) =
-      __$$StoreIngredientStateImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $StoreIngredientStateCopyWith<$Res> {
+  factory $StoreIngredientStateCopyWith(StoreIngredientState value,
+          $Res Function(StoreIngredientState) _then) =
+      _$StoreIngredientStateCopyWithImpl;
   @useResult
   $Res call(
       {List<Ingredient> ingredients,
@@ -135,13 +106,15 @@ abstract class _$$StoreIngredientStateImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$StoreIngredientStateImplCopyWithImpl<$Res>
-    extends _$StoreIngredientStateCopyWithImpl<$Res, _$StoreIngredientStateImpl>
-    implements _$$StoreIngredientStateImplCopyWith<$Res> {
-  __$$StoreIngredientStateImplCopyWithImpl(_$StoreIngredientStateImpl _value,
-      $Res Function(_$StoreIngredientStateImpl) _then)
-      : super(_value, _then);
+class _$StoreIngredientStateCopyWithImpl<$Res>
+    implements $StoreIngredientStateCopyWith<$Res> {
+  _$StoreIngredientStateCopyWithImpl(this._self, this._then);
 
+  final StoreIngredientState _self;
+  final $Res Function(StoreIngredientState) _then;
+
+  /// Create a copy of StoreIngredientState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -155,52 +128,266 @@ class __$$StoreIngredientStateImplCopyWithImpl<$Res>
     Object? status = null,
     Object? message = null,
   }) {
-    return _then(_$StoreIngredientStateImpl(
+    return _then(_self.copyWith(
       ingredients: null == ingredients
-          ? _value._ingredients
+          ? _self.ingredients
           : ingredients // ignore: cast_nullable_to_non_nullable
               as List<Ingredient>,
       selectedIngredient: freezed == selectedIngredient
-          ? _value.selectedIngredient
+          ? _self.selectedIngredient
           : selectedIngredient // ignore: cast_nullable_to_non_nullable
               as Ingredient?,
       validate: null == validate
-          ? _value.validate
+          ? _self.validate
           : validate // ignore: cast_nullable_to_non_nullable
               as bool,
       id: null == id
-          ? _value.id
+          ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as num,
       priceKg: null == priceKg
-          ? _value.priceKg
+          ? _self.priceKg
           : priceKg // ignore: cast_nullable_to_non_nullable
               as num,
       availableQty: null == availableQty
-          ? _value.availableQty
+          ? _self.availableQty
           : availableQty // ignore: cast_nullable_to_non_nullable
               as num,
       favourite: null == favourite
-          ? _value.favourite
+          ? _self.favourite
           : favourite // ignore: cast_nullable_to_non_nullable
               as num,
       status: null == status
-          ? _value.status
+          ? _self.status
           : status // ignore: cast_nullable_to_non_nullable
               as String,
       message: null == message
-          ? _value.message
+          ? _self.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
 }
 
+/// Adds pattern-matching-related methods to [StoreIngredientState].
+extension StoreIngredientStatePatterns on StoreIngredientState {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_StoreIngredientState value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _StoreIngredientState() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_StoreIngredientState value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _StoreIngredientState():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_StoreIngredientState value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _StoreIngredientState() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            List<Ingredient> ingredients,
+            Ingredient? selectedIngredient,
+            bool validate,
+            num id,
+            num priceKg,
+            num availableQty,
+            num favourite,
+            String status,
+            String message)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _StoreIngredientState() when $default != null:
+        return $default(
+            _that.ingredients,
+            _that.selectedIngredient,
+            _that.validate,
+            _that.id,
+            _that.priceKg,
+            _that.availableQty,
+            _that.favourite,
+            _that.status,
+            _that.message);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            List<Ingredient> ingredients,
+            Ingredient? selectedIngredient,
+            bool validate,
+            num id,
+            num priceKg,
+            num availableQty,
+            num favourite,
+            String status,
+            String message)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _StoreIngredientState():
+        return $default(
+            _that.ingredients,
+            _that.selectedIngredient,
+            _that.validate,
+            _that.id,
+            _that.priceKg,
+            _that.availableQty,
+            _that.favourite,
+            _that.status,
+            _that.message);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            List<Ingredient> ingredients,
+            Ingredient? selectedIngredient,
+            bool validate,
+            num id,
+            num priceKg,
+            num availableQty,
+            num favourite,
+            String status,
+            String message)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _StoreIngredientState() when $default != null:
+        return $default(
+            _that.ingredients,
+            _that.selectedIngredient,
+            _that.validate,
+            _that.id,
+            _that.priceKg,
+            _that.availableQty,
+            _that.favourite,
+            _that.status,
+            _that.message);
+      case _:
+        return null;
+    }
+  }
+}
+
 /// @nodoc
 
-class _$StoreIngredientStateImpl extends _StoreIngredientState
+class _StoreIngredientState extends StoreIngredientState
     with DiagnosticableTreeMixin {
-  const _$StoreIngredientStateImpl(
+  const _StoreIngredientState(
       {final List<Ingredient> ingredients = const [],
       this.selectedIngredient,
       this.validate = false,
@@ -246,14 +433,17 @@ class _$StoreIngredientStateImpl extends _StoreIngredientState
   @JsonKey()
   final String message;
 
+  /// Create a copy of StoreIngredientState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'StoreIngredientState(ingredients: $ingredients, selectedIngredient: $selectedIngredient, validate: $validate, id: $id, priceKg: $priceKg, availableQty: $availableQty, favourite: $favourite, status: $status, message: $message)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$StoreIngredientStateCopyWith<_StoreIngredientState> get copyWith =>
+      __$StoreIngredientStateCopyWithImpl<_StoreIngredientState>(
+          this, _$identity);
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'StoreIngredientState'))
       ..add(DiagnosticsProperty('ingredients', ingredients))
@@ -271,7 +461,7 @@ class _$StoreIngredientStateImpl extends _StoreIngredientState
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$StoreIngredientStateImpl &&
+            other is _StoreIngredientState &&
             const DeepCollectionEquality()
                 .equals(other._ingredients, _ingredients) &&
             (identical(other.selectedIngredient, selectedIngredient) ||
@@ -301,48 +491,94 @@ class _$StoreIngredientStateImpl extends _StoreIngredientState
       status,
       message);
 
-  @JsonKey(ignore: true)
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'StoreIngredientState(ingredients: $ingredients, selectedIngredient: $selectedIngredient, validate: $validate, id: $id, priceKg: $priceKg, availableQty: $availableQty, favourite: $favourite, status: $status, message: $message)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$StoreIngredientStateCopyWith<$Res>
+    implements $StoreIngredientStateCopyWith<$Res> {
+  factory _$StoreIngredientStateCopyWith(_StoreIngredientState value,
+          $Res Function(_StoreIngredientState) _then) =
+      __$StoreIngredientStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {List<Ingredient> ingredients,
+      Ingredient? selectedIngredient,
+      bool validate,
+      num id,
+      num priceKg,
+      num availableQty,
+      num favourite,
+      String status,
+      String message});
+}
+
+/// @nodoc
+class __$StoreIngredientStateCopyWithImpl<$Res>
+    implements _$StoreIngredientStateCopyWith<$Res> {
+  __$StoreIngredientStateCopyWithImpl(this._self, this._then);
+
+  final _StoreIngredientState _self;
+  final $Res Function(_StoreIngredientState) _then;
+
+  /// Create a copy of StoreIngredientState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  _$$StoreIngredientStateImplCopyWith<_$StoreIngredientStateImpl>
-      get copyWith =>
-          __$$StoreIngredientStateImplCopyWithImpl<_$StoreIngredientStateImpl>(
-              this, _$identity);
+  $Res call({
+    Object? ingredients = null,
+    Object? selectedIngredient = freezed,
+    Object? validate = null,
+    Object? id = null,
+    Object? priceKg = null,
+    Object? availableQty = null,
+    Object? favourite = null,
+    Object? status = null,
+    Object? message = null,
+  }) {
+    return _then(_StoreIngredientState(
+      ingredients: null == ingredients
+          ? _self._ingredients
+          : ingredients // ignore: cast_nullable_to_non_nullable
+              as List<Ingredient>,
+      selectedIngredient: freezed == selectedIngredient
+          ? _self.selectedIngredient
+          : selectedIngredient // ignore: cast_nullable_to_non_nullable
+              as Ingredient?,
+      validate: null == validate
+          ? _self.validate
+          : validate // ignore: cast_nullable_to_non_nullable
+              as bool,
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as num,
+      priceKg: null == priceKg
+          ? _self.priceKg
+          : priceKg // ignore: cast_nullable_to_non_nullable
+              as num,
+      availableQty: null == availableQty
+          ? _self.availableQty
+          : availableQty // ignore: cast_nullable_to_non_nullable
+              as num,
+      favourite: null == favourite
+          ? _self.favourite
+          : favourite // ignore: cast_nullable_to_non_nullable
+              as num,
+      status: null == status
+          ? _self.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String,
+      message: null == message
+          ? _self.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
-abstract class _StoreIngredientState extends StoreIngredientState {
-  const factory _StoreIngredientState(
-      {final List<Ingredient> ingredients,
-      final Ingredient? selectedIngredient,
-      final bool validate,
-      final num id,
-      final num priceKg,
-      final num availableQty,
-      final num favourite,
-      final String status,
-      final String message}) = _$StoreIngredientStateImpl;
-  const _StoreIngredientState._() : super._();
-
-  @override
-  List<Ingredient> get ingredients;
-  @override
-  Ingredient? get selectedIngredient;
-  @override
-  bool get validate;
-  @override
-  num get id;
-  @override
-  num get priceKg;
-  @override
-  num get availableQty;
-  @override
-  num get favourite;
-  @override
-  String get status;
-  @override
-  String get message;
-  @override
-  @JsonKey(ignore: true)
-  _$$StoreIngredientStateImplCopyWith<_$StoreIngredientStateImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
+// dart format on

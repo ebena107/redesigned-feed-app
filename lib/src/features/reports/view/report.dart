@@ -219,7 +219,7 @@ class ReturnButton extends ConsumerWidget {
                 //  style: raisedButtonStyle,
                 onPressed: () {
                   // context.pop();
-                  FeedRoute(feedId: feedId as int).go(context);
+                  EditFeedRoute(feedId: feedId as int).go(context);
                   // context.goNamed('newFeed',
                   //     queryParameters: {'id': feedId.toString()});
                   //    const IngredientList(),

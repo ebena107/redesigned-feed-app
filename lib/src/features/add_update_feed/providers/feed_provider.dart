@@ -203,12 +203,12 @@ class FeedNotifier extends StateNotifier<FeedState> {
 
     for (var i in feedIngredients) {
       existingIngredients
-          .removeWhere((element) => element!.ingredientId == i.ingredientId);
+          .removeWhere((element) => element.ingredientId == i.ingredientId);
     }
 
     for (var i in existingIngredients) {
       await ref.read(feedIngredientRepository).deleteByIngredientId(
-          feedId: feed.feedId as num, ingredientId: i!.ingredientId as num);
+          feedId: feed.feedId as num, ingredientId: i.ingredientId as num);
     }
 
     final list = state.feedIngredients

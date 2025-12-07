@@ -11,8 +11,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'result_provider.freezed.dart';
 
-final resultProvider = StateNotifierProvider<ResultNotifier, ResultsState>(
-    (ref) => ResultNotifier(ref));
+final resultProvider =
+    NotifierProvider<ResultNotifier, ResultsState>(ResultNotifier.new);
 
 @freezed
 class ResultsState with _$ResultsState {
@@ -25,13 +25,11 @@ class ResultsState with _$ResultsState {
   ResultsState._();
 }
 
-class ResultNotifier extends StateNotifier<ResultsState> {
-  Ref ref;
-
-  ResultNotifier(
-    this.ref,
-  ) : super(ResultsState()) {
+class ResultNotifier extends Notifier<ResultsState> {
+  @override
+  ResultsState build() {
     // setFeed(ref.watch(asyncMainProvider));
+    return ResultsState();
   }
 
   num _mEnergy = 0;
