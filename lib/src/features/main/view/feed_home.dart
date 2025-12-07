@@ -100,7 +100,7 @@ class MainView extends ConsumerWidget {
                         },
                       ),
                     ),
-                loading: () => SliverFillRemaining(
+                loading: () => const SliverFillRemaining(
                       child: AppLoadingWidget(
                         message: 'Loading feeds...',
                       ),
