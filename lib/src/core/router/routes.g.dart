@@ -8,6 +8,10 @@ part of 'routes.dart';
 
 List<RouteBase> get $appRoutes => [
       $homeRoute,
+      $aboutRoute,
+      $feedStoreRoute,
+      $ingredientStoreRoute,
+      $viewFeedReportRoute,
     ];
 
 RouteBase get $homeRoute => GoRouteData.$route(
@@ -274,4 +278,120 @@ T? _$convertMapValue<T>(
 ) {
   final value = map[key];
   return value == null ? null : converter(value);
+}
+
+RouteBase get $aboutRoute => GoRouteData.$route(
+      path: '/about',
+      factory: $AboutRoute._fromState,
+    );
+
+mixin $AboutRoute on GoRouteData {
+  static AboutRoute _fromState(GoRouterState state) => const AboutRoute();
+
+  @override
+  String get location => GoRouteData.$location(
+        '/about',
+      );
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $feedStoreRoute => GoRouteData.$route(
+      path: '/feedStore',
+      factory: $FeedStoreRoute._fromState,
+    );
+
+mixin $FeedStoreRoute on GoRouteData {
+  static FeedStoreRoute _fromState(GoRouterState state) =>
+      const FeedStoreRoute();
+
+  @override
+  String get location => GoRouteData.$location(
+        '/feedStore',
+      );
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $ingredientStoreRoute => GoRouteData.$route(
+      path: '/ingredientStore',
+      factory: $IngredientStoreRoute._fromState,
+    );
+
+mixin $IngredientStoreRoute on GoRouteData {
+  static IngredientStoreRoute _fromState(GoRouterState state) =>
+      const IngredientStoreRoute();
+
+  @override
+  String get location => GoRouteData.$location(
+        '/ingredientStore',
+      );
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $viewFeedReportRoute => GoRouteData.$route(
+      path: '/viewReport/:feedId/:type',
+      factory: $ViewFeedReportRoute._fromState,
+    );
+
+mixin $ViewFeedReportRoute on GoRouteData {
+  static ViewFeedReportRoute _fromState(GoRouterState state) =>
+      ViewFeedReportRoute(
+        int.parse(state.pathParameters['feedId']!),
+        state.pathParameters['type']!,
+      );
+
+  ViewFeedReportRoute get _self => this as ViewFeedReportRoute;
+
+  @override
+  String get location => GoRouteData.$location(
+        '/viewReport/${Uri.encodeComponent(_self.feedId.toString())}/${Uri.encodeComponent(_self.type)}',
+      );
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
 }

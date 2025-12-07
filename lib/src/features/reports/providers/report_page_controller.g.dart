@@ -34,7 +34,7 @@ final class ReportPageControllerProvider
 }
 
 String _$reportPageControllerHash() =>
-    r'c6628b2ee8214715369612090cff380ad9bb82ac';
+    r'451c08e76e48e76d99d6eb0f5b2c0a59ad9b4944';
 
 abstract class _$ReportPageController extends $AsyncNotifier<void> {
   FutureOr<void> build();
