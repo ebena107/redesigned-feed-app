@@ -10,9 +10,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'stored_ingredient_provider.freezed.dart';
 
 final storeIngredientProvider =
-    StateNotifierProvider<StoreIngredientNotifier, StoreIngredientState>((ref) {
-  return StoreIngredientNotifier(ref);
-});
+    NotifierProvider<StoreIngredientNotifier, StoreIngredientState>(
+        StoreIngredientNotifier.new);
 
 @freezed
 class StoreIngredientState with _$StoreIngredientState {
@@ -31,11 +30,11 @@ class StoreIngredientState with _$StoreIngredientState {
   const StoreIngredientState._();
 }
 
-class StoreIngredientNotifier extends StateNotifier<StoreIngredientState> {
-  final Ref ref;
-
-  StoreIngredientNotifier(this.ref) : super(const StoreIngredientState()) {
+class StoreIngredientNotifier extends Notifier<StoreIngredientState> {
+  @override
+  StoreIngredientState build() {
     loadIngredients();
+    return const StoreIngredientState();
   }
 
   reset() {

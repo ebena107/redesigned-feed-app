@@ -17,7 +17,7 @@ class ReportPageController extends _$ReportPageController {
     final feeds = ref.read(feedProvider);
     final results = ref.read(resultProvider.notifier);
 
-    state = const AsyncLoading().copyWithPrevious(state);
+    state = const AsyncLoading();
     state = await AsyncValue.guard(
         () => results.estimatedResult(feed: feeds.newFeed));
   }
