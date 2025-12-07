@@ -51,7 +51,7 @@ class GridMenu extends ConsumerWidget {
               Icons.view_list,
               color: Colors.deepPurple,
             ),
-            label: Text("View", style: menuTextStyle()),
+            label: Text("View", style: bodyTextStyle()),
           ),
         ),
         PopupMenuItem(
@@ -69,7 +69,7 @@ class GridMenu extends ConsumerWidget {
               },
               icon:
                   const Icon(Icons.update, color: AppConstants.appCarrotColor),
-              label: Text("Update", style: menuTextStyle())),
+              label: Text("Update", style: bodyTextStyle())),
         ),
         PopupMenuItem(
           value: "3",
@@ -82,7 +82,7 @@ class GridMenu extends ConsumerWidget {
               icon: const Icon(Icons.delete, color: Colors.red),
               label: Text(
                 "Delete",
-                style: menuTextStyle(),
+                style: bodyTextStyle(),
               )),
         ),
       ],

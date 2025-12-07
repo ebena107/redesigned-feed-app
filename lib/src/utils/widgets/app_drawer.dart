@@ -295,7 +295,7 @@ Widget _createMenuHeader() {
     margin: EdgeInsets.zero,
     accountName: Text(
       'Feed Estimator',
-      style: sideBarTitleStyle(),
+      style: headlineTextStyle(),
       textAlign: TextAlign.center,
     ),
     accountEmail: FutureBuilder(
