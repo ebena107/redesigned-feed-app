@@ -15,9 +15,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'ingredients_provider.freezed.dart';
 
 final ingredientProvider =
-    StateNotifierProvider<IngredientNotifier, IngredientState>((ref) {
-  return IngredientNotifier(ref);
-});
+    NotifierProvider<IngredientNotifier, IngredientState>(IngredientNotifier.new);
 
 @freezed
 class IngredientState with _$IngredientState {
@@ -63,13 +61,13 @@ class IngredientState with _$IngredientState {
   const IngredientState._();
 }
 
-class IngredientNotifier extends StateNotifier<IngredientState> {
-  final Ref ref;
-
-  IngredientNotifier(this.ref) : super(const IngredientState()) {
+class IngredientNotifier extends Notifier<IngredientState> {
+  @override
+  IngredientState build() {
     loadIngredients();
     loadCategories();
     setDefaultValues();
+    return const IngredientState();
   }
 
   loadIngredients() async {

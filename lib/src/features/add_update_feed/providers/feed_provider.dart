@@ -19,9 +19,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'feed_provider.freezed.dart';
 
-final feedProvider = StateNotifierProvider<FeedNotifier, FeedState>((ref) {
-  return FeedNotifier(ref);
-});
+final feedProvider = NotifierProvider<FeedNotifier, FeedState>(FeedNotifier.new);
 
 @freezed
 class FeedState with _$FeedState {
@@ -41,11 +39,12 @@ class FeedState with _$FeedState {
   // calcPercent(double quantity) {}
 }
 
-class FeedNotifier extends StateNotifier<FeedState> {
-  Ref ref;
-  FeedNotifier(this.ref) : super(FeedState()) {
+class FeedNotifier extends Notifier<FeedState> {
+  @override
+  FeedState build() {
     resetProvider();
     loadAnimalTypes();
+    return FeedState();
   }
 
   num? _feedId;

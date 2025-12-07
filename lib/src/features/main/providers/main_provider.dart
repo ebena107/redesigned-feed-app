@@ -9,9 +9,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'main_provider.freezed.dart';
 
 final mainViewProvider =
-    StateNotifierProvider<MainViewNotifier, MainViewState>((ref) {
-  return MainViewNotifier(ref);
-});
+    NotifierProvider<MainViewNotifier, MainViewState>(MainViewNotifier.new);
 
 @freezed
 class MainViewState with _$MainViewState {
@@ -26,10 +24,11 @@ class MainViewState with _$MainViewState {
   const MainViewState._();
 }
 
-class MainViewNotifier extends StateNotifier<MainViewState> {
-  Ref ref;
-  MainViewNotifier(this.ref) : super(const MainViewState()) {
+class MainViewNotifier extends Notifier<MainViewState> {
+  @override
+  MainViewState build() {
     loadFeeds();
+    return const MainViewState();
   }
 
   loadFeeds() async {
