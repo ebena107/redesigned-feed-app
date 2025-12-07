@@ -109,7 +109,7 @@ class StoredIngredients extends ConsumerWidget {
                                                     asyncStoredIngredientsProvider
                                                         .notifier)
                                                 .saveIngredient(
-                                                    onSuccess:
+                                                    onSuccess: () =>
                                                         showAlert(context));
                                           },
                                           label: const Text(
