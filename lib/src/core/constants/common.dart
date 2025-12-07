@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
-//import 'package:intl/intl.dart';
+//=================APP CONSTANTS==========================//
 
 class AppConstants {
   AppConstants._();
+
+  // Color Palette
   static const mainAppColor = Color(0xFF229064);
-//  static const mainAppColor = const Color(0xFFf4fffc);
   static const mainAccentColor = Color(0xff26c486);
   static const appBackgroundColor = Color(0xFFf4fffc);
   static const appFontColor = Color(0xFF311436);
@@ -20,8 +21,29 @@ class AppConstants {
   static const appBlueColor = Color(0xff2962ff);
   static const appGreenColor = Color(0xff50c878);
   static const appShadowColor = Color(0xffE2FBF0);
+
+  // Gradient Colors
   static const gradientBackgroundColorStart = Color(0xff26c486);
   static const gradientBackgroundColorEnd = Color(0xFF229064);
+  static const gradientPurpleStart = Color(0xFF9C27B0); // Deep Purple
+  static const gradientPurpleEnd = Color(0xFFBA68C8); // Purple Accent
+  static const gradientBrownStart = Color(0xff87643E);
+  static const gradientBrownEnd = Color(0xffA0826D);
+
+  // Spacing Constants (8px base grid)
+  static const double spacing4 = 4.0;
+  static const double spacing8 = 8.0;
+  static const double spacing12 = 12.0;
+  static const double spacing16 = 16.0;
+  static const double spacing24 = 24.0;
+  static const double spacing32 = 32.0;
+  static const double spacing48 = 48.0;
+
+  // Border Radius
+  static const double radiusSmall = 8.0;
+  static const double radiusMedium = 16.0;
+  static const double radiusLarge = 24.0;
+  static const double radiusRound = 28.0;
 
   static SystemUiOverlayStyle pagesBar = SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
@@ -52,164 +74,113 @@ Size displaySize(BuildContext context) {
 }
 
 double displayHeight(BuildContext context) {
-  // print("H:-  " + MediaQuery.of(context).size.height.toString());
   return MediaQuery.sizeOf(context).height;
 }
 
 double displayWidth(BuildContext context) {
-  //print("W:-  " +MediaQuery.of(context).size.width.toString());
   return displaySize(context).width;
 }
 
-double widgetPadding(BuildContext context) {
-  return 14;
-}
+//=================CONSOLIDATED TEXT STYLES (Material 3)==========================//
 
-TextStyle categoryTextStyle() {
+/// Display style - Large titles (34px)
+TextStyle displayTextStyle() {
   return const TextStyle(
-      fontWeight: FontWeight.w600,
-      fontSize: 14.0,
-      color: AppConstants.appBackgroundColor);
-}
-
-TextStyle titleTextStyle() {
-  return const TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 34,
     fontWeight: FontWeight.w400,
     color: AppConstants.appBackgroundColor,
-    fontSize: 34.0,
+    height: 1.2,
   );
 }
 
-TextStyle menuTextStyle() {
-  return const TextStyle(
-    fontWeight: FontWeight.w400,
-    color: AppConstants.appFontColor,
-    fontSize: 16.0,
-  );
-}
-
-TextStyle gridTitleTextStyle() {
-  return const TextStyle(
-    fontSize: 15.0,
-  );
-}
-
-//=================TEXT StyleSheet========================//
-TextStyle sideBarTitleStyle() {
-  return const TextStyle(
-      color: AppConstants.appBackgroundColor, fontSize: 24, fontWeight: FontWeight.w800);
-}
-
-TextStyle sideBarSubTitleStyle() {
-  return const TextStyle(
-      color: AppConstants.appBackgroundColor, fontSize: 12, fontWeight: FontWeight.w200);
-}
-
-TextStyle sideBarMenuStyle() {
-  return const TextStyle(
-      color: AppConstants.appBackgroundColor, fontSize: 16, fontWeight: FontWeight.w400);
-}
-
-TextStyle appTitleStyle(context) {
+/// Headline style - Section headers (24px)
+TextStyle headlineTextStyle({Color? color}) {
   return TextStyle(
     fontFamily: 'Roboto',
-    fontSize: displayHeight(context) * .05,
-    color: const Color(0xffffffff),
-    fontWeight: FontWeight.w900,
-    height: 1,
-    shadows: const [
-      Shadow(
-        color: Color(0xff04b45c),
-        offset: Offset(0, 3),
-        blurRadius: 6,
-      )
-    ],
+    fontSize: 24,
+    fontWeight: FontWeight.w700,
+    color: color ?? AppConstants.appBackgroundColor,
+    height: 1.2,
   );
 }
 
-TextStyle appSubTitleStyle(context) {
+/// Title style - Card titles, important text (20px)
+TextStyle titleTextStyle({Color? color, FontWeight? weight}) {
   return TextStyle(
     fontFamily: 'Roboto',
-    fontSize: displayHeight(context) * .03,
-    color: const Color(0xffffffff),
-    fontWeight: FontWeight.w900,
-    height: 1,
-    shadows: const [
-      Shadow(
-        color: Color(0xff04b45c),
-        offset: Offset(0, 3),
-        blurRadius: 6,
-      )
-    ],
+    fontSize: 20,
+    fontWeight: weight ?? FontWeight.w500,
+    color: color ?? AppConstants.appFontColor,
+    height: 1.3,
   );
 }
 
-TextStyle appButtonStyle(context) {
+/// Body style - Main content (16px)
+TextStyle bodyTextStyle({Color? color, FontWeight? weight}) {
   return TextStyle(
     fontFamily: 'Roboto',
-    fontSize: displayHeight(context) * 0.035,
-    color: AppConstants.mainAppColor,
-    fontWeight: FontWeight.w500,
+    fontSize: 16,
+    fontWeight: weight ?? FontWeight.w400,
+    color: color ?? AppConstants.appFontColor,
     height: 1.5,
   );
 }
 
-TextStyle formStyle(context) {
+/// Label style - Form labels, buttons (14px)
+TextStyle labelTextStyle({Color? color, FontWeight? weight}) {
   return TextStyle(
     fontFamily: 'Roboto',
-    fontSize: displayHeight(context) * 0.035,
-    color: AppConstants.mainAppColor,
+    fontSize: 14,
+    fontWeight: weight ?? FontWeight.w500,
+    color: color ?? AppConstants.appFontColor,
+    height: 1.4,
+  );
+}
+
+/// Caption style - Timestamps, metadata (12px)
+TextStyle captionTextStyle({Color? color}) {
+  return TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 12,
     fontWeight: FontWeight.w400,
-    height: 1,
+    color: color ?? AppConstants.appIconGreyColor,
+    height: 1.3,
   );
 }
 
-TextStyle formTitleStyle(context) {
-  return TextStyle(
-    fontFamily: 'Roboto',
-    fontSize: displayHeight(context) * 0.035,
-    color: AppConstants.mainAppColor,
-    fontWeight: FontWeight.w900,
-    height: 1,
+//=================LEGACY STYLES (Deprecated - Use above instead)==========================//
+
+@Deprecated('Use displayTextStyle() instead')
+TextStyle appTitleStyle(context) {
+  return displayTextStyle().copyWith(
+    fontSize: displayHeight(context) * .05,
+    shadows: const [
+      Shadow(
+        color: Color(0xff04b45c),
+        offset: Offset(0, 3),
+        blurRadius: 6,
+      )
+    ],
   );
 }
 
-TextStyle formFieldStyle(context, myColor) {
-  return TextStyle(
-      fontFamily: 'Roboto',
-      fontSize: displayHeight(context) * 0.020,
-      fontWeight: FontWeight.w300,
-      color: myColor,
-      decoration: TextDecoration.none);
+@Deprecated('Use headlineTextStyle() instead')
+TextStyle sideBarTitleStyle() {
+  return headlineTextStyle();
 }
 
-TextStyle listFieldStyle(context, myColor) {
-  return TextStyle(
-      fontFamily: 'Roboto',
-      fontSize: displayHeight(context) * 0.025,
-      fontWeight: FontWeight.w500,
-      color: myColor,
-      decoration: TextDecoration.none);
+@Deprecated('Use bodyTextStyle() instead')
+TextStyle menuTextStyle() {
+  return bodyTextStyle();
 }
 
-TextStyle detailTitleStyle(context, myColor, bool bold) {
-  return TextStyle(
-      fontFamily: 'Roboto',
-      fontSize:
-      bold ? displayHeight(context) * 0.025 : displayHeight(context) * 0.02,
-      fontWeight: bold ? FontWeight.w600 : FontWeight.w400,
-      color: myColor,
-      decoration: TextDecoration.none);
+@Deprecated('Use labelTextStyle() instead')
+TextStyle categoryTextStyle() {
+  return labelTextStyle(color: AppConstants.appBackgroundColor);
 }
 
-TextStyle detailSubTitleStyle(context, myColor, bool bold) {
-  return TextStyle(
-      fontFamily: 'Roboto',
-      fontSize: bold ? 20 : 18,
-      fontWeight: bold ? FontWeight.bold : FontWeight.normal,
-      color: myColor,
-      decoration: TextDecoration.none);
-}
+//=================UTILITY FUNCTIONS==========================//
 
 int currentTimeInSecond() {
   var now = DateTime.now();
@@ -219,14 +190,13 @@ int currentTimeInSecond() {
 
 String secondToDate(int? seconds) {
   final myDate = DateTime.fromMillisecondsSinceEpoch(seconds!);
-
   final d = DateFormat("dd-MM-yyyy").format(myDate);
   return d;
 }
 
 InputDecorationTheme inputDecorationTheme() {
   OutlineInputBorder outlineInputBorder = OutlineInputBorder(
-    borderRadius: BorderRadius.circular(28),
+    borderRadius: BorderRadius.circular(AppConstants.radiusRound),
     borderSide: const BorderSide(color: AppConstants.appFontColor),
     gapPadding: 10,
   );

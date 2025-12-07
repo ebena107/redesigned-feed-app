@@ -16,7 +16,7 @@ class FeedTileText extends StatelessWidget {
       alignment: AlignmentDirectional.centerStart,
       child: Text(
         name!,
-        style: gridTitleTextStyle(),
+        style: titleTextStyle(color: AppConstants.appFontColor),
       ),
     );
   }
