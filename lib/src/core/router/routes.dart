@@ -36,9 +36,8 @@ part 'routes.g.dart';
 @TypedGoRoute<AboutRoute>(path: '/about')
 @TypedGoRoute<FeedStoreRoute>(path: '/feedStore')
 @TypedGoRoute<IngredientStoreRoute>(path: '/ingredientStore')
-
 @immutable
-class HomeRoute extends GoRouteData {
+class HomeRoute extends GoRouteData with $HomeRoute {
   const HomeRoute();
 
   @override
@@ -48,7 +47,7 @@ class HomeRoute extends GoRouteData {
 }
 
 @immutable
-class AboutRoute extends GoRouteData {
+class AboutRoute extends GoRouteData with $AboutRoute {
   const AboutRoute();
 
   @override
@@ -58,7 +57,7 @@ class AboutRoute extends GoRouteData {
 }
 
 @immutable
-class FeedStoreRoute extends GoRouteData {
+class FeedStoreRoute extends GoRouteData with $FeedStoreRoute {
   const FeedStoreRoute();
 
   @override
@@ -68,7 +67,7 @@ class FeedStoreRoute extends GoRouteData {
 }
 
 @immutable
-class IngredientStoreRoute extends GoRouteData {
+class IngredientStoreRoute extends GoRouteData with $IngredientStoreRoute {
   const IngredientStoreRoute();
 
   @override
@@ -78,7 +77,7 @@ class IngredientStoreRoute extends GoRouteData {
 }
 
 @immutable
-class AddFeedRoute extends GoRouteData {
+class AddFeedRoute extends GoRouteData with $AddFeedRoute {
   const AddFeedRoute();
 
   @override
@@ -88,7 +87,7 @@ class AddFeedRoute extends GoRouteData {
 }
 
 @immutable
-class ReportRoute extends GoRouteData {
+class ReportRoute extends GoRouteData with $ReportRoute {
   const ReportRoute(this.feedId, {this.type});
   final int feedId;
   final String? type;
@@ -103,8 +102,8 @@ class ReportRoute extends GoRouteData {
 }
 
 @immutable
-class PdfRoute extends GoRouteData {
-  const PdfRoute(this.feedId, { this.type,  this.$extra});
+class PdfRoute extends GoRouteData with $PdfRoute {
+  const PdfRoute(this.feedId, {this.type, this.$extra});
   final int feedId;
   final String? type;
   final Feed? $extra;
@@ -121,7 +120,8 @@ class PdfRoute extends GoRouteData {
 }
 
 @immutable
-class NewFeedIngredientsRoute extends GoRouteData {
+class NewFeedIngredientsRoute extends GoRouteData
+    with $NewFeedIngredientsRoute {
   const NewFeedIngredientsRoute(this.feedId);
   final int? feedId;
 
@@ -134,7 +134,7 @@ class NewFeedIngredientsRoute extends GoRouteData {
 }
 
 @immutable
-class FeedRoute extends GoRouteData {
+class FeedRoute extends GoRouteData with $FeedRoute {
   const FeedRoute({required this.feedId});
   final int feedId;
 
@@ -147,7 +147,7 @@ class FeedRoute extends GoRouteData {
 }
 
 @immutable
-class FeedIngredientsRoute extends GoRouteData {
+class FeedIngredientsRoute extends GoRouteData with $FeedIngredientsRoute {
   const FeedIngredientsRoute(this.feedId);
   final int feedId;
 
@@ -160,7 +160,7 @@ class FeedIngredientsRoute extends GoRouteData {
 }
 
 @immutable
-class ViewFeedReportRoute extends GoRouteData {
+class ViewFeedReportRoute extends GoRouteData with $ViewFeedReportRoute {
   const ViewFeedReportRoute(this.feedId, this.type);
   final int feedId;
   final String type;
@@ -175,7 +175,7 @@ class ViewFeedReportRoute extends GoRouteData {
 }
 
 @immutable
-class EditFeedRoute extends GoRouteData {
+class EditFeedRoute extends GoRouteData with $EditFeedRoute {
   const EditFeedRoute(this.feedId);
   final int feedId;
 

@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,76 +9,62 @@ part of 'main_provider.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
 
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
 /// @nodoc
-mixin _$MainViewState {
-  List<Feed> get feeds => throw _privateConstructorUsedError;
-  int get animalTypes => throw _privateConstructorUsedError;
-  List<FeedIngredients> get feedIngredients =>
-      throw _privateConstructorUsedError;
+mixin _$MainViewState implements DiagnosticableTreeMixin {
+  List<Feed> get feeds;
+  int get animalTypes;
+  List<FeedIngredients> get feedIngredients;
 
-  @JsonKey(ignore: true)
-  $MainViewStateCopyWith<MainViewState> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $MainViewStateCopyWith<$Res> {
-  factory $MainViewStateCopyWith(
-          MainViewState value, $Res Function(MainViewState) then) =
-      _$MainViewStateCopyWithImpl<$Res, MainViewState>;
-  @useResult
-  $Res call(
-      {List<Feed> feeds,
-      int animalTypes,
-      List<FeedIngredients> feedIngredients});
-}
-
-/// @nodoc
-class _$MainViewStateCopyWithImpl<$Res, $Val extends MainViewState>
-    implements $MainViewStateCopyWith<$Res> {
-  _$MainViewStateCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
+  /// Create a copy of MainViewState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
+  $MainViewStateCopyWith<MainViewState> get copyWith =>
+      _$MainViewStateCopyWithImpl<MainViewState>(
+          this as MainViewState, _$identity);
+
   @override
-  $Res call({
-    Object? feeds = null,
-    Object? animalTypes = null,
-    Object? feedIngredients = null,
-  }) {
-    return _then(_value.copyWith(
-      feeds: null == feeds
-          ? _value.feeds
-          : feeds // ignore: cast_nullable_to_non_nullable
-              as List<Feed>,
-      animalTypes: null == animalTypes
-          ? _value.animalTypes
-          : animalTypes // ignore: cast_nullable_to_non_nullable
-              as int,
-      feedIngredients: null == feedIngredients
-          ? _value.feedIngredients
-          : feedIngredients // ignore: cast_nullable_to_non_nullable
-              as List<FeedIngredients>,
-    ) as $Val);
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'MainViewState'))
+      ..add(DiagnosticsProperty('feeds', feeds))
+      ..add(DiagnosticsProperty('animalTypes', animalTypes))
+      ..add(DiagnosticsProperty('feedIngredients', feedIngredients));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is MainViewState &&
+            const DeepCollectionEquality().equals(other.feeds, feeds) &&
+            (identical(other.animalTypes, animalTypes) ||
+                other.animalTypes == animalTypes) &&
+            const DeepCollectionEquality()
+                .equals(other.feedIngredients, feedIngredients));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(feeds),
+      animalTypes,
+      const DeepCollectionEquality().hash(feedIngredients));
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'MainViewState(feeds: $feeds, animalTypes: $animalTypes, feedIngredients: $feedIngredients)';
   }
 }
 
 /// @nodoc
-abstract class _$$MainViewStateImplCopyWith<$Res>
-    implements $MainViewStateCopyWith<$Res> {
-  factory _$$MainViewStateImplCopyWith(
-          _$MainViewStateImpl value, $Res Function(_$MainViewStateImpl) then) =
-      __$$MainViewStateImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $MainViewStateCopyWith<$Res> {
+  factory $MainViewStateCopyWith(
+          MainViewState value, $Res Function(MainViewState) _then) =
+      _$MainViewStateCopyWithImpl;
   @useResult
   $Res call(
       {List<Feed> feeds,
@@ -87,13 +73,15 @@ abstract class _$$MainViewStateImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$MainViewStateImplCopyWithImpl<$Res>
-    extends _$MainViewStateCopyWithImpl<$Res, _$MainViewStateImpl>
-    implements _$$MainViewStateImplCopyWith<$Res> {
-  __$$MainViewStateImplCopyWithImpl(
-      _$MainViewStateImpl _value, $Res Function(_$MainViewStateImpl) _then)
-      : super(_value, _then);
+class _$MainViewStateCopyWithImpl<$Res>
+    implements $MainViewStateCopyWith<$Res> {
+  _$MainViewStateCopyWithImpl(this._self, this._then);
 
+  final MainViewState _self;
+  final $Res Function(MainViewState) _then;
+
+  /// Create a copy of MainViewState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -101,27 +89,190 @@ class __$$MainViewStateImplCopyWithImpl<$Res>
     Object? animalTypes = null,
     Object? feedIngredients = null,
   }) {
-    return _then(_$MainViewStateImpl(
+    return _then(_self.copyWith(
       feeds: null == feeds
-          ? _value._feeds
+          ? _self.feeds
           : feeds // ignore: cast_nullable_to_non_nullable
               as List<Feed>,
       animalTypes: null == animalTypes
-          ? _value.animalTypes
+          ? _self.animalTypes
           : animalTypes // ignore: cast_nullable_to_non_nullable
               as int,
       feedIngredients: null == feedIngredients
-          ? _value._feedIngredients
+          ? _self.feedIngredients
           : feedIngredients // ignore: cast_nullable_to_non_nullable
               as List<FeedIngredients>,
     ));
   }
 }
 
+/// Adds pattern-matching-related methods to [MainViewState].
+extension MainViewStatePatterns on MainViewState {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_MainViewState value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _MainViewState() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_MainViewState value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _MainViewState():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_MainViewState value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _MainViewState() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(List<Feed> feeds, int animalTypes,
+            List<FeedIngredients> feedIngredients)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _MainViewState() when $default != null:
+        return $default(_that.feeds, _that.animalTypes, _that.feedIngredients);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(List<Feed> feeds, int animalTypes,
+            List<FeedIngredients> feedIngredients)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _MainViewState():
+        return $default(_that.feeds, _that.animalTypes, _that.feedIngredients);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(List<Feed> feeds, int animalTypes,
+            List<FeedIngredients> feedIngredients)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _MainViewState() when $default != null:
+        return $default(_that.feeds, _that.animalTypes, _that.feedIngredients);
+      case _:
+        return null;
+    }
+  }
+}
+
 /// @nodoc
 
-class _$MainViewStateImpl extends _MainViewState with DiagnosticableTreeMixin {
-  const _$MainViewStateImpl(
+class _MainViewState extends MainViewState with DiagnosticableTreeMixin {
+  const _MainViewState(
       {final List<Feed> feeds = const [],
       this.animalTypes = 0,
       final List<FeedIngredients> feedIngredients = const []})
@@ -150,14 +301,16 @@ class _$MainViewStateImpl extends _MainViewState with DiagnosticableTreeMixin {
     return EqualUnmodifiableListView(_feedIngredients);
   }
 
+  /// Create a copy of MainViewState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MainViewState(feeds: $feeds, animalTypes: $animalTypes, feedIngredients: $feedIngredients)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$MainViewStateCopyWith<_MainViewState> get copyWith =>
+      __$MainViewStateCopyWithImpl<_MainViewState>(this, _$identity);
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'MainViewState'))
       ..add(DiagnosticsProperty('feeds', feeds))
@@ -169,7 +322,7 @@ class _$MainViewStateImpl extends _MainViewState with DiagnosticableTreeMixin {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$MainViewStateImpl &&
+            other is _MainViewState &&
             const DeepCollectionEquality().equals(other._feeds, _feeds) &&
             (identical(other.animalTypes, animalTypes) ||
                 other.animalTypes == animalTypes) &&
@@ -184,28 +337,58 @@ class _$MainViewStateImpl extends _MainViewState with DiagnosticableTreeMixin {
       animalTypes,
       const DeepCollectionEquality().hash(_feedIngredients));
 
-  @JsonKey(ignore: true)
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'MainViewState(feeds: $feeds, animalTypes: $animalTypes, feedIngredients: $feedIngredients)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$MainViewStateCopyWith<$Res>
+    implements $MainViewStateCopyWith<$Res> {
+  factory _$MainViewStateCopyWith(
+          _MainViewState value, $Res Function(_MainViewState) _then) =
+      __$MainViewStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {List<Feed> feeds,
+      int animalTypes,
+      List<FeedIngredients> feedIngredients});
+}
+
+/// @nodoc
+class __$MainViewStateCopyWithImpl<$Res>
+    implements _$MainViewStateCopyWith<$Res> {
+  __$MainViewStateCopyWithImpl(this._self, this._then);
+
+  final _MainViewState _self;
+  final $Res Function(_MainViewState) _then;
+
+  /// Create a copy of MainViewState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  _$$MainViewStateImplCopyWith<_$MainViewStateImpl> get copyWith =>
-      __$$MainViewStateImplCopyWithImpl<_$MainViewStateImpl>(this, _$identity);
+  $Res call({
+    Object? feeds = null,
+    Object? animalTypes = null,
+    Object? feedIngredients = null,
+  }) {
+    return _then(_MainViewState(
+      feeds: null == feeds
+          ? _self._feeds
+          : feeds // ignore: cast_nullable_to_non_nullable
+              as List<Feed>,
+      animalTypes: null == animalTypes
+          ? _self.animalTypes
+          : animalTypes // ignore: cast_nullable_to_non_nullable
+              as int,
+      feedIngredients: null == feedIngredients
+          ? _self._feedIngredients
+          : feedIngredients // ignore: cast_nullable_to_non_nullable
+              as List<FeedIngredients>,
+    ));
+  }
 }
 
-abstract class _MainViewState extends MainViewState {
-  const factory _MainViewState(
-      {final List<Feed> feeds,
-      final int animalTypes,
-      final List<FeedIngredients> feedIngredients}) = _$MainViewStateImpl;
-  const _MainViewState._() : super._();
-
-  @override
-  List<Feed> get feeds;
-  @override
-  int get animalTypes;
-  @override
-  List<FeedIngredients> get feedIngredients;
-  @override
-  @JsonKey(ignore: true)
-  _$$MainViewStateImplCopyWith<_$MainViewStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+// dart format on

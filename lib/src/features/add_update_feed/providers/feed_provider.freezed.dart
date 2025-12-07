@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,110 +9,83 @@ part of 'feed_provider.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
 
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
 /// @nodoc
-mixin _$FeedState {
-  String get feedName => throw _privateConstructorUsedError;
-  num get animalTypeId => throw _privateConstructorUsedError;
-  List<AnimalTypes> get animalTypes => throw _privateConstructorUsedError;
-  List<FeedIngredients> get feedIngredients =>
-      throw _privateConstructorUsedError;
-  num get totalQuantity => throw _privateConstructorUsedError;
-  Feed? get newFeed => throw _privateConstructorUsedError;
-  String get message => throw _privateConstructorUsedError;
-  String get status => throw _privateConstructorUsedError;
+mixin _$FeedState implements DiagnosticableTreeMixin {
+  String get feedName;
+  num get animalTypeId;
+  List<AnimalTypes> get animalTypes;
+  List<FeedIngredients> get feedIngredients;
+  num get totalQuantity;
+  Feed? get newFeed;
+  String get message;
+  String get status;
 
-  @JsonKey(ignore: true)
-  $FeedStateCopyWith<FeedState> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $FeedStateCopyWith<$Res> {
-  factory $FeedStateCopyWith(FeedState value, $Res Function(FeedState) then) =
-      _$FeedStateCopyWithImpl<$Res, FeedState>;
-  @useResult
-  $Res call(
-      {String feedName,
-      num animalTypeId,
-      List<AnimalTypes> animalTypes,
-      List<FeedIngredients> feedIngredients,
-      num totalQuantity,
-      Feed? newFeed,
-      String message,
-      String status});
-}
-
-/// @nodoc
-class _$FeedStateCopyWithImpl<$Res, $Val extends FeedState>
-    implements $FeedStateCopyWith<$Res> {
-  _$FeedStateCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
+  /// Create a copy of FeedState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
+  $FeedStateCopyWith<FeedState> get copyWith =>
+      _$FeedStateCopyWithImpl<FeedState>(this as FeedState, _$identity);
+
   @override
-  $Res call({
-    Object? feedName = null,
-    Object? animalTypeId = null,
-    Object? animalTypes = null,
-    Object? feedIngredients = null,
-    Object? totalQuantity = null,
-    Object? newFeed = freezed,
-    Object? message = null,
-    Object? status = null,
-  }) {
-    return _then(_value.copyWith(
-      feedName: null == feedName
-          ? _value.feedName
-          : feedName // ignore: cast_nullable_to_non_nullable
-              as String,
-      animalTypeId: null == animalTypeId
-          ? _value.animalTypeId
-          : animalTypeId // ignore: cast_nullable_to_non_nullable
-              as num,
-      animalTypes: null == animalTypes
-          ? _value.animalTypes
-          : animalTypes // ignore: cast_nullable_to_non_nullable
-              as List<AnimalTypes>,
-      feedIngredients: null == feedIngredients
-          ? _value.feedIngredients
-          : feedIngredients // ignore: cast_nullable_to_non_nullable
-              as List<FeedIngredients>,
-      totalQuantity: null == totalQuantity
-          ? _value.totalQuantity
-          : totalQuantity // ignore: cast_nullable_to_non_nullable
-              as num,
-      newFeed: freezed == newFeed
-          ? _value.newFeed
-          : newFeed // ignore: cast_nullable_to_non_nullable
-              as Feed?,
-      message: null == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'FeedState'))
+      ..add(DiagnosticsProperty('feedName', feedName))
+      ..add(DiagnosticsProperty('animalTypeId', animalTypeId))
+      ..add(DiagnosticsProperty('animalTypes', animalTypes))
+      ..add(DiagnosticsProperty('feedIngredients', feedIngredients))
+      ..add(DiagnosticsProperty('totalQuantity', totalQuantity))
+      ..add(DiagnosticsProperty('newFeed', newFeed))
+      ..add(DiagnosticsProperty('message', message))
+      ..add(DiagnosticsProperty('status', status));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FeedState &&
+            (identical(other.feedName, feedName) ||
+                other.feedName == feedName) &&
+            (identical(other.animalTypeId, animalTypeId) ||
+                other.animalTypeId == animalTypeId) &&
+            const DeepCollectionEquality()
+                .equals(other.animalTypes, animalTypes) &&
+            const DeepCollectionEquality()
+                .equals(other.feedIngredients, feedIngredients) &&
+            (identical(other.totalQuantity, totalQuantity) ||
+                other.totalQuantity == totalQuantity) &&
+            (identical(other.newFeed, newFeed) || other.newFeed == newFeed) &&
+            (identical(other.message, message) || other.message == message) &&
+            (identical(other.status, status) || other.status == status));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      feedName,
+      animalTypeId,
+      const DeepCollectionEquality().hash(animalTypes),
+      const DeepCollectionEquality().hash(feedIngredients),
+      totalQuantity,
+      newFeed,
+      message,
+      status);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'FeedState(feedName: $feedName, animalTypeId: $animalTypeId, animalTypes: $animalTypes, feedIngredients: $feedIngredients, totalQuantity: $totalQuantity, newFeed: $newFeed, message: $message, status: $status)';
   }
 }
 
 /// @nodoc
-abstract class _$$FeedStateImplCopyWith<$Res>
-    implements $FeedStateCopyWith<$Res> {
-  factory _$$FeedStateImplCopyWith(
-          _$FeedStateImpl value, $Res Function(_$FeedStateImpl) then) =
-      __$$FeedStateImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $FeedStateCopyWith<$Res> {
+  factory $FeedStateCopyWith(FeedState value, $Res Function(FeedState) _then) =
+      _$FeedStateCopyWithImpl;
   @useResult
   $Res call(
       {String feedName,
@@ -126,13 +99,14 @@ abstract class _$$FeedStateImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$FeedStateImplCopyWithImpl<$Res>
-    extends _$FeedStateCopyWithImpl<$Res, _$FeedStateImpl>
-    implements _$$FeedStateImplCopyWith<$Res> {
-  __$$FeedStateImplCopyWithImpl(
-      _$FeedStateImpl _value, $Res Function(_$FeedStateImpl) _then)
-      : super(_value, _then);
+class _$FeedStateCopyWithImpl<$Res> implements $FeedStateCopyWith<$Res> {
+  _$FeedStateCopyWithImpl(this._self, this._then);
 
+  final FeedState _self;
+  final $Res Function(FeedState) _then;
+
+  /// Create a copy of FeedState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -145,47 +119,255 @@ class __$$FeedStateImplCopyWithImpl<$Res>
     Object? message = null,
     Object? status = null,
   }) {
-    return _then(_$FeedStateImpl(
+    return _then(_self.copyWith(
       feedName: null == feedName
-          ? _value.feedName
+          ? _self.feedName
           : feedName // ignore: cast_nullable_to_non_nullable
               as String,
       animalTypeId: null == animalTypeId
-          ? _value.animalTypeId
+          ? _self.animalTypeId
           : animalTypeId // ignore: cast_nullable_to_non_nullable
               as num,
       animalTypes: null == animalTypes
-          ? _value._animalTypes
+          ? _self.animalTypes
           : animalTypes // ignore: cast_nullable_to_non_nullable
               as List<AnimalTypes>,
       feedIngredients: null == feedIngredients
-          ? _value._feedIngredients
+          ? _self.feedIngredients
           : feedIngredients // ignore: cast_nullable_to_non_nullable
               as List<FeedIngredients>,
       totalQuantity: null == totalQuantity
-          ? _value.totalQuantity
+          ? _self.totalQuantity
           : totalQuantity // ignore: cast_nullable_to_non_nullable
               as num,
       newFeed: freezed == newFeed
-          ? _value.newFeed
+          ? _self.newFeed
           : newFeed // ignore: cast_nullable_to_non_nullable
               as Feed?,
       message: null == message
-          ? _value.message
+          ? _self.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
       status: null == status
-          ? _value.status
+          ? _self.status
           : status // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
 }
 
+/// Adds pattern-matching-related methods to [FeedState].
+extension FeedStatePatterns on FeedState {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_FeedState value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _FeedState() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_FeedState value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _FeedState():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_FeedState value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _FeedState() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            String feedName,
+            num animalTypeId,
+            List<AnimalTypes> animalTypes,
+            List<FeedIngredients> feedIngredients,
+            num totalQuantity,
+            Feed? newFeed,
+            String message,
+            String status)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _FeedState() when $default != null:
+        return $default(
+            _that.feedName,
+            _that.animalTypeId,
+            _that.animalTypes,
+            _that.feedIngredients,
+            _that.totalQuantity,
+            _that.newFeed,
+            _that.message,
+            _that.status);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            String feedName,
+            num animalTypeId,
+            List<AnimalTypes> animalTypes,
+            List<FeedIngredients> feedIngredients,
+            num totalQuantity,
+            Feed? newFeed,
+            String message,
+            String status)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _FeedState():
+        return $default(
+            _that.feedName,
+            _that.animalTypeId,
+            _that.animalTypes,
+            _that.feedIngredients,
+            _that.totalQuantity,
+            _that.newFeed,
+            _that.message,
+            _that.status);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            String feedName,
+            num animalTypeId,
+            List<AnimalTypes> animalTypes,
+            List<FeedIngredients> feedIngredients,
+            num totalQuantity,
+            Feed? newFeed,
+            String message,
+            String status)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _FeedState() when $default != null:
+        return $default(
+            _that.feedName,
+            _that.animalTypeId,
+            _that.animalTypes,
+            _that.feedIngredients,
+            _that.totalQuantity,
+            _that.newFeed,
+            _that.message,
+            _that.status);
+      case _:
+        return null;
+    }
+  }
+}
+
 /// @nodoc
 
-class _$FeedStateImpl extends _FeedState with DiagnosticableTreeMixin {
-  _$FeedStateImpl(
+class _FeedState extends FeedState with DiagnosticableTreeMixin {
+  _FeedState(
       {this.feedName = "",
       this.animalTypeId = 1,
       final List<AnimalTypes> animalTypes = const [],
@@ -234,14 +416,16 @@ class _$FeedStateImpl extends _FeedState with DiagnosticableTreeMixin {
   @JsonKey()
   final String status;
 
+  /// Create a copy of FeedState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'FeedState(feedName: $feedName, animalTypeId: $animalTypeId, animalTypes: $animalTypes, feedIngredients: $feedIngredients, totalQuantity: $totalQuantity, newFeed: $newFeed, message: $message, status: $status)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$FeedStateCopyWith<_FeedState> get copyWith =>
+      __$FeedStateCopyWithImpl<_FeedState>(this, _$identity);
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'FeedState'))
       ..add(DiagnosticsProperty('feedName', feedName))
@@ -258,7 +442,7 @@ class _$FeedStateImpl extends _FeedState with DiagnosticableTreeMixin {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$FeedStateImpl &&
+            other is _FeedState &&
             (identical(other.feedName, feedName) ||
                 other.feedName == feedName) &&
             (identical(other.animalTypeId, animalTypeId) ||
@@ -286,43 +470,87 @@ class _$FeedStateImpl extends _FeedState with DiagnosticableTreeMixin {
       message,
       status);
 
-  @JsonKey(ignore: true)
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'FeedState(feedName: $feedName, animalTypeId: $animalTypeId, animalTypes: $animalTypes, feedIngredients: $feedIngredients, totalQuantity: $totalQuantity, newFeed: $newFeed, message: $message, status: $status)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$FeedStateCopyWith<$Res>
+    implements $FeedStateCopyWith<$Res> {
+  factory _$FeedStateCopyWith(
+          _FeedState value, $Res Function(_FeedState) _then) =
+      __$FeedStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {String feedName,
+      num animalTypeId,
+      List<AnimalTypes> animalTypes,
+      List<FeedIngredients> feedIngredients,
+      num totalQuantity,
+      Feed? newFeed,
+      String message,
+      String status});
+}
+
+/// @nodoc
+class __$FeedStateCopyWithImpl<$Res> implements _$FeedStateCopyWith<$Res> {
+  __$FeedStateCopyWithImpl(this._self, this._then);
+
+  final _FeedState _self;
+  final $Res Function(_FeedState) _then;
+
+  /// Create a copy of FeedState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  _$$FeedStateImplCopyWith<_$FeedStateImpl> get copyWith =>
-      __$$FeedStateImplCopyWithImpl<_$FeedStateImpl>(this, _$identity);
+  $Res call({
+    Object? feedName = null,
+    Object? animalTypeId = null,
+    Object? animalTypes = null,
+    Object? feedIngredients = null,
+    Object? totalQuantity = null,
+    Object? newFeed = freezed,
+    Object? message = null,
+    Object? status = null,
+  }) {
+    return _then(_FeedState(
+      feedName: null == feedName
+          ? _self.feedName
+          : feedName // ignore: cast_nullable_to_non_nullable
+              as String,
+      animalTypeId: null == animalTypeId
+          ? _self.animalTypeId
+          : animalTypeId // ignore: cast_nullable_to_non_nullable
+              as num,
+      animalTypes: null == animalTypes
+          ? _self._animalTypes
+          : animalTypes // ignore: cast_nullable_to_non_nullable
+              as List<AnimalTypes>,
+      feedIngredients: null == feedIngredients
+          ? _self._feedIngredients
+          : feedIngredients // ignore: cast_nullable_to_non_nullable
+              as List<FeedIngredients>,
+      totalQuantity: null == totalQuantity
+          ? _self.totalQuantity
+          : totalQuantity // ignore: cast_nullable_to_non_nullable
+              as num,
+      newFeed: freezed == newFeed
+          ? _self.newFeed
+          : newFeed // ignore: cast_nullable_to_non_nullable
+              as Feed?,
+      message: null == message
+          ? _self.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+      status: null == status
+          ? _self.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
-abstract class _FeedState extends FeedState {
-  factory _FeedState(
-      {final String feedName,
-      final num animalTypeId,
-      final List<AnimalTypes> animalTypes,
-      final List<FeedIngredients> feedIngredients,
-      final num totalQuantity,
-      final Feed? newFeed,
-      final String message,
-      final String status}) = _$FeedStateImpl;
-  _FeedState._() : super._();
-
-  @override
-  String get feedName;
-  @override
-  num get animalTypeId;
-  @override
-  List<AnimalTypes> get animalTypes;
-  @override
-  List<FeedIngredients> get feedIngredients;
-  @override
-  num get totalQuantity;
-  @override
-  Feed? get newFeed;
-  @override
-  String get message;
-  @override
-  String get status;
-  @override
-  @JsonKey(ignore: true)
-  _$$FeedStateImplCopyWith<_$FeedStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+// dart format on

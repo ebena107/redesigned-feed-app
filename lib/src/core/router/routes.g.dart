@@ -12,213 +12,265 @@ List<RouteBase> get $appRoutes => [
 
 RouteBase get $homeRoute => GoRouteData.$route(
       path: '/',
-      factory: $HomeRouteExtension._fromState,
+      factory: $HomeRoute._fromState,
       routes: [
         GoRouteData.$route(
           path: 'newFeed',
-          factory: $AddFeedRouteExtension._fromState,
+          factory: $AddFeedRoute._fromState,
           routes: [
             GoRouteData.$route(
               path: 'ingredientList',
-              factory: $NewFeedIngredientsRouteExtension._fromState,
+              factory: $NewFeedIngredientsRoute._fromState,
             ),
           ],
         ),
         GoRouteData.$route(
           path: 'report/:feedId',
-          factory: $ReportRouteExtension._fromState,
+          factory: $ReportRoute._fromState,
           routes: [
             GoRouteData.$route(
               path: 'pdf',
-              factory: $PdfRouteExtension._fromState,
+              factory: $PdfRoute._fromState,
             ),
           ],
         ),
         GoRouteData.$route(
           path: 'feed/:feedId',
-          factory: $FeedRouteExtension._fromState,
+          factory: $FeedRoute._fromState,
           routes: [
             GoRouteData.$route(
               path: 'editFeed',
-              factory: $EditFeedRouteExtension._fromState,
+              factory: $EditFeedRoute._fromState,
             ),
             GoRouteData.$route(
               path: 'feedIngredient',
-              factory: $FeedIngredientsRouteExtension._fromState,
+              factory: $FeedIngredientsRoute._fromState,
             ),
           ],
         ),
       ],
     );
 
-extension $HomeRouteExtension on HomeRoute {
+mixin $HomeRoute on GoRouteData {
   static HomeRoute _fromState(GoRouterState state) => const HomeRoute();
 
+  @override
   String get location => GoRouteData.$location(
         '/',
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $AddFeedRouteExtension on AddFeedRoute {
+mixin $AddFeedRoute on GoRouteData {
   static AddFeedRoute _fromState(GoRouterState state) => const AddFeedRoute();
 
+  @override
   String get location => GoRouteData.$location(
         '/newFeed',
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $NewFeedIngredientsRouteExtension on NewFeedIngredientsRoute {
+mixin $NewFeedIngredientsRoute on GoRouteData {
   static NewFeedIngredientsRoute _fromState(GoRouterState state) =>
       NewFeedIngredientsRoute(
-        _$convertMapValue('feed-id', state.uri.queryParameters, int.parse),
+        _$convertMapValue('feed-id', state.uri.queryParameters, int.tryParse),
       );
 
+  NewFeedIngredientsRoute get _self => this as NewFeedIngredientsRoute;
+
+  @override
   String get location => GoRouteData.$location(
         '/newFeed/ingredientList',
         queryParams: {
-          if (feedId != null) 'feed-id': feedId!.toString(),
+          if (_self.feedId != null) 'feed-id': _self.feedId!.toString(),
         },
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $ReportRouteExtension on ReportRoute {
+mixin $ReportRoute on GoRouteData {
   static ReportRoute _fromState(GoRouterState state) => ReportRoute(
         int.parse(state.pathParameters['feedId']!),
         type: state.uri.queryParameters['type'],
       );
 
+  ReportRoute get _self => this as ReportRoute;
+
+  @override
   String get location => GoRouteData.$location(
-        '/report/${Uri.encodeComponent(feedId.toString())}',
+        '/report/${Uri.encodeComponent(_self.feedId.toString())}',
         queryParams: {
-          if (type != null) 'type': type,
+          if (_self.type != null) 'type': _self.type,
         },
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $PdfRouteExtension on PdfRoute {
+mixin $PdfRoute on GoRouteData {
   static PdfRoute _fromState(GoRouterState state) => PdfRoute(
         int.parse(state.pathParameters['feedId']!),
         type: state.uri.queryParameters['type'],
         $extra: state.extra as Feed?,
       );
 
+  PdfRoute get _self => this as PdfRoute;
+
+  @override
   String get location => GoRouteData.$location(
-        '/report/${Uri.encodeComponent(feedId.toString())}/pdf',
+        '/report/${Uri.encodeComponent(_self.feedId.toString())}/pdf',
         queryParams: {
-          if (type != null) 'type': type,
+          if (_self.type != null) 'type': _self.type,
         },
       );
 
-  void go(BuildContext context) => context.go(location, extra: $extra);
+  @override
+  void go(BuildContext context) => context.go(location, extra: _self.$extra);
 
+  @override
   Future<T?> push<T>(BuildContext context) =>
-      context.push<T>(location, extra: $extra);
+      context.push<T>(location, extra: _self.$extra);
 
+  @override
   void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location, extra: $extra);
+      context.pushReplacement(location, extra: _self.$extra);
 
+  @override
   void replace(BuildContext context) =>
-      context.replace(location, extra: $extra);
+      context.replace(location, extra: _self.$extra);
 }
 
-extension $FeedRouteExtension on FeedRoute {
+mixin $FeedRoute on GoRouteData {
   static FeedRoute _fromState(GoRouterState state) => FeedRoute(
         feedId: int.parse(state.pathParameters['feedId']!),
       );
 
+  FeedRoute get _self => this as FeedRoute;
+
+  @override
   String get location => GoRouteData.$location(
-        '/feed/${Uri.encodeComponent(feedId.toString())}',
+        '/feed/${Uri.encodeComponent(_self.feedId.toString())}',
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $EditFeedRouteExtension on EditFeedRoute {
+mixin $EditFeedRoute on GoRouteData {
   static EditFeedRoute _fromState(GoRouterState state) => EditFeedRoute(
         int.parse(state.pathParameters['feedId']!),
       );
 
+  EditFeedRoute get _self => this as EditFeedRoute;
+
+  @override
   String get location => GoRouteData.$location(
-        '/feed/${Uri.encodeComponent(feedId.toString())}/editFeed',
+        '/feed/${Uri.encodeComponent(_self.feedId.toString())}/editFeed',
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $FeedIngredientsRouteExtension on FeedIngredientsRoute {
+mixin $FeedIngredientsRoute on GoRouteData {
   static FeedIngredientsRoute _fromState(GoRouterState state) =>
       FeedIngredientsRoute(
         int.parse(state.pathParameters['feedId']!),
       );
 
+  FeedIngredientsRoute get _self => this as FeedIngredientsRoute;
+
+  @override
   String get location => GoRouteData.$location(
-        '/feed/${Uri.encodeComponent(feedId.toString())}/feedIngredient',
+        '/feed/${Uri.encodeComponent(_self.feedId.toString())}/feedIngredient',
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
 T? _$convertMapValue<T>(
   String key,
   Map<String, String> map,
-  T Function(String) converter,
+  T? Function(String) converter,
 ) {
   final value = map[key];
   return value == null ? null : converter(value);
