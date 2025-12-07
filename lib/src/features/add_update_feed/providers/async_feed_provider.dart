@@ -31,7 +31,7 @@ class AsyncFeed extends _$AsyncFeed {
   ) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(
-      () async => await ref.read(feedProvider.notifier).removeIng(ingredientId),
+      () async => ref.read(feedProvider.notifier).removeIng(ingredientId),
     );
 
     if (state.hasError == false) {

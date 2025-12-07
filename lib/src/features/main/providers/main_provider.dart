@@ -31,7 +31,7 @@ class MainViewNotifier extends Notifier<MainViewState> {
     return const MainViewState();
   }
 
-  loadFeeds() async {
+  Future<void> loadFeeds() async {
     final feedList = await ref.read(feedRepository).getAll();
     final ingList = await ref.watch(feedIngredientRepository).getAll();
 
@@ -46,7 +46,7 @@ class MainViewNotifier extends Notifier<MainViewState> {
     }
   }
 
-  deleteFeed(num? feedId) async {
+  Future<void> deleteFeed(num? feedId) async {
     await ref.watch(feedIngredientRepository).deleteByFeedId(feedId);
     await ref.watch(feedRepository).delete(feedId!);
 

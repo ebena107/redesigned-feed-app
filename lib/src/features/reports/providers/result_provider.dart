@@ -11,8 +11,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'result_provider.freezed.dart';
 
-final resultProvider = NotifierProvider<ResultNotifier, ResultsState>(
-    ResultNotifier.new);
+final resultProvider =
+    NotifierProvider<ResultNotifier, ResultsState>(ResultNotifier.new);
 
 @freezed
 class ResultsState with _$ResultsState {
@@ -28,6 +28,7 @@ class ResultsState with _$ResultsState {
 class ResultNotifier extends Notifier<ResultsState> {
   @override
   ResultsState build() {
+    // setFeed(ref.watch(asyncMainProvider));
     return ResultsState();
   }
 
@@ -48,7 +49,7 @@ class ResultNotifier extends Notifier<ResultsState> {
   Result _newResult = Result();
   final List<Result> _resultList = [];
 
-  loadResults() async {
+  Future<void> loadResults() async {
     if (_resultList.isNotEmpty) {
       state = state.copyWith(results: _resultList);
     }
@@ -203,7 +204,7 @@ class ResultNotifier extends Notifier<ResultsState> {
     state = state.copyWith(myResult: _newResult);
   }
 
-  calculateResult() async {
+  Future<void> calculateResult() async {
     //final ingBox = Hive.box<Ingredients>(HiveBoxes.ingBox);
     //    final ingBox = await Hive.openBox<Ingredients>(HiveBoxes.ingBox);
 
@@ -223,7 +224,7 @@ class ResultNotifier extends Notifier<ResultsState> {
     }
   }
 
-  calcTotalQuantity() {
+  void calcTotalQuantity() {
     num tQuantity = 0.0;
     List<FeedIngredients>? ing = [];
 

@@ -71,11 +71,11 @@ class IngredientNotifier extends Notifier<IngredientState> {
     return const IngredientState();
   }
 
-  loadIngredients() async {
+  Future<void> loadIngredients() async {
     final ingList = await ref.watch(ingredientsRepository).getAll();
 
     state = state.copyWith(ingredients: ingList);
-    await searchIngredients("");
+    searchIngredients("");
   }
 
   Future<void> loadCategories() async {
@@ -84,7 +84,7 @@ class IngredientNotifier extends Notifier<IngredientState> {
     state = state.copyWith(categoryList: catList);
   }
 
-  searchIngredients(String val) {
+  void searchIngredients(String val) {
     state = state.copyWith(query: val);
     final query = state.query;
 
@@ -98,7 +98,7 @@ class IngredientNotifier extends Notifier<IngredientState> {
     }
   }
 
-  toggleSearch() {
+  void toggleSearch() {
     if (state.search == false) {
       if (state.sort == false) {
         state = state.copyWith(showSearch: true, showSort: false, search: true);
@@ -115,14 +115,14 @@ class IngredientNotifier extends Notifier<IngredientState> {
     }
   }
 
-  clearSearch() {
+  void clearSearch() {
     state = state.copyWith(query: "");
 //    state = state.copyWith(search: false);
     toggleSearch();
     searchIngredients("");
   }
 
-  sortIngredientByCat(num? categoryId) {
+  void sortIngredientByCat(num? categoryId) {
     state = state.copyWith(sortByCategory: categoryId);
     if (state.sort) {
       final list =
@@ -133,7 +133,7 @@ class IngredientNotifier extends Notifier<IngredientState> {
     }
   }
 
-  clearSort() {
+  void clearSort() {
     state = state.copyWith(
         filteredIngredients: state.ingredients, sortByCategory: null);
     toggleSort();
@@ -167,11 +167,11 @@ class IngredientNotifier extends Notifier<IngredientState> {
     return ing.name.toString();
   }
 
-  updateCount() {
+  void updateCount() {
     state = state.copyWith(count: state.selectedIngredients.length);
   }
 
-  removeSelected(Ingredient i) {
+  void removeSelected(Ingredient i) {
     List<FeedIngredients> feedIngredients = state.selectedIngredients;
     if (available(i)) {
       var newList = [
@@ -184,7 +184,7 @@ class IngredientNotifier extends Notifier<IngredientState> {
     //  updateCount();
   }
 
-  loadFeedExistingIngredients() {
+  void loadFeedExistingIngredients() {
     final feedIngList = ref.watch(feedProvider).feedIngredients;
     for (var i in feedIngList) {
       final ing =
@@ -193,7 +193,7 @@ class IngredientNotifier extends Notifier<IngredientState> {
     }
   }
 
-  addSelectedIngredient(
+  void addSelectedIngredient(
     Ingredient ing,
   ) {
     if (!available(ing)) {
@@ -218,7 +218,7 @@ class IngredientNotifier extends Notifier<IngredientState> {
     return avail;
   }
 
-  selectIngredient(Ingredient i) {
+  void selectIngredient(Ingredient i) {
     if (available(i)) {
       removeSelected(i);
     } else {
@@ -268,11 +268,11 @@ class IngredientNotifier extends Notifier<IngredientState> {
     );
   }
 
-  selectEnergyMode(bool? value) {
+  void selectEnergyMode(bool? value) {
     state = state.copyWith(singleEnergyValue: value!);
   }
 
-  setAllEnergy(String? value) {
+  void setAllEnergy(String? value) {
     value!.isValidNumber
         ? state = state.copyWith(
             meGrowingPig:
@@ -303,7 +303,7 @@ class IngredientNotifier extends Notifier<IngredientState> {
           );
   }
 
-  setName(String? value) {
+  void setName(String? value) {
     if (value!.length > 2) {
       if (state.newIngredient!.ingredientId != null) {
         final ing = state.newIngredient!.copyWith(name: value);
@@ -324,7 +324,7 @@ class IngredientNotifier extends Notifier<IngredientState> {
     }
   }
 
-  setProtein(String? value) {
+  void setProtein(String? value) {
     if (value!.isNotEmpty && value.isValidNumber) {
       if (state.newIngredient!.ingredientId != null) {
         final ing =
@@ -345,7 +345,7 @@ class IngredientNotifier extends Notifier<IngredientState> {
     }
   }
 
-  setFat(String? value) {
+  void setFat(String? value) {
     if (value!.isNotEmpty && value.isValidNumber) {
       if (state.newIngredient!.ingredientId != null) {
         final ing =
@@ -365,7 +365,7 @@ class IngredientNotifier extends Notifier<IngredientState> {
     }
   }
 
-  setFiber(String? value) {
+  void setFiber(String? value) {
     if (value!.isNotEmpty && value.isValidNumber) {
       if (state.newIngredient!.ingredientId != null) {
         final ing =
@@ -386,7 +386,7 @@ class IngredientNotifier extends Notifier<IngredientState> {
     }
   }
 
-  setEnergyAdultPig(String? value) {
+  void setEnergyAdultPig(String? value) {
     if (value!.isNotEmpty && value.isValidNumber) {
       if (state.newIngredient!.ingredientId != null) {
         final ing =
@@ -407,7 +407,7 @@ class IngredientNotifier extends Notifier<IngredientState> {
     }
   }
 
-  setEnergyGrowPig(String? value) {
+  void setEnergyGrowPig(String? value) {
     if (value!.isNotEmpty && value.isValidNumber) {
       if (state.newIngredient!.ingredientId != null) {
         final ing =
@@ -428,7 +428,7 @@ class IngredientNotifier extends Notifier<IngredientState> {
     }
   }
 
-  setEnergyRabbit(String? value) {
+  void setEnergyRabbit(String? value) {
     if (value!.isNotEmpty && value.isValidNumber) {
       if (state.newIngredient!.ingredientId != null) {
         final ing =
@@ -448,7 +448,7 @@ class IngredientNotifier extends Notifier<IngredientState> {
     }
   }
 
-  setEnergyRuminant(String? value) {
+  void setEnergyRuminant(String? value) {
     if (value!.isNotEmpty && value.isValidNumber) {
       if (state.newIngredient!.ingredientId != null) {
         final ing =
@@ -469,7 +469,7 @@ class IngredientNotifier extends Notifier<IngredientState> {
     }
   }
 
-  setEnergyPoultry(String? value) {
+  void setEnergyPoultry(String? value) {
     if (value!.isNotEmpty && value.isValidNumber) {
       if (state.newIngredient!.ingredientId != null) {
         final ing =
@@ -490,7 +490,7 @@ class IngredientNotifier extends Notifier<IngredientState> {
     }
   }
 
-  setEnergyFish(String? value) {
+  void setEnergyFish(String? value) {
     if (value!.isNotEmpty && value.isValidNumber) {
       if (state.newIngredient!.ingredientId != null) {
         final ing =
@@ -511,7 +511,7 @@ class IngredientNotifier extends Notifier<IngredientState> {
     }
   }
 
-  setLyzine(String? value) {
+  void setLyzine(String? value) {
     if (value!.isNotEmpty && value.isValidNumber) {
       if (state.newIngredient!.ingredientId != null) {
         final ing =
@@ -530,7 +530,7 @@ class IngredientNotifier extends Notifier<IngredientState> {
     }
   }
 
-  setMeth(String? value) {
+  void setMeth(String? value) {
     if (value!.isNotEmpty && value.isValidNumber) {
       if (state.newIngredient!.ingredientId != null) {
         final ing =
@@ -551,7 +551,7 @@ class IngredientNotifier extends Notifier<IngredientState> {
     }
   }
 
-  setCalcium(String? value) {
+  void setCalcium(String? value) {
     if (value!.isNotEmpty && value.isValidNumber) {
       if (state.newIngredient!.ingredientId != null) {
         final ing =
@@ -570,7 +570,7 @@ class IngredientNotifier extends Notifier<IngredientState> {
     }
   }
 
-  setPhosphorous(String? value) {
+  void setPhosphorous(String? value) {
     if (value!.isNotEmpty && value.isValidNumber) {
       if (state.newIngredient!.ingredientId != null) {
         final ing =
@@ -591,7 +591,7 @@ class IngredientNotifier extends Notifier<IngredientState> {
     }
   }
 
-  setPrice(String? value) {
+  void setPrice(String? value) {
     if (value!.isNotEmpty && value.isValidNumber) {
       if (state.newIngredient!.ingredientId != null) {
         final ing =
@@ -610,7 +610,7 @@ class IngredientNotifier extends Notifier<IngredientState> {
     }
   }
 
-  setAvailableQuantity(String? value) {
+  void setAvailableQuantity(String? value) {
     if (value!.isNotEmpty && value.isValidNumber) {
       if (state.newIngredient!.ingredientId != null) {
         final ing =
@@ -631,7 +631,7 @@ class IngredientNotifier extends Notifier<IngredientState> {
     }
   }
 
-  setCategory(String value) {
+  void setCategory(String value) {
     if (value.isValidNumber) {
       final myCat = state.categoryList.firstWhere(
           (c) => c.categoryId == int.parse(value),
@@ -663,7 +663,7 @@ class IngredientNotifier extends Notifier<IngredientState> {
     }
   }
 
-  validate() {
+  void validate() {
     if (state.name!.value != null &&
         state.crudeProtein!.value != null &&
         state.crudeFiber!.value != null &&
@@ -687,7 +687,7 @@ class IngredientNotifier extends Notifier<IngredientState> {
     }
   }
 
-  createIngredient() {
+  void createIngredient() {
     Ingredient newIngredient = Ingredient();
     validate();
     if (state.validate) {
@@ -745,7 +745,7 @@ class IngredientNotifier extends Notifier<IngredientState> {
     required VoidCallback? onSuccess,
     required VoidCallback onFailure,
   }) async {
-    await createIngredient();
+    createIngredient();
     int? response;
     try {
       if (state.newIngredient != Ingredient()) {

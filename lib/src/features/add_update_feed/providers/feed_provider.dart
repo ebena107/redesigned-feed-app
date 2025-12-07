@@ -58,12 +58,12 @@ class FeedNotifier extends Notifier<FeedState> {
     _totalQuantity = 0.0;
   }
 
-  loadAnimalTypes() async {
+  Future<void> loadAnimalTypes() async {
     final animals = await ref.watch(animalTypeRepository).getAll();
     state = state.copyWith(animalTypes: animals);
   }
 
-  setFeed(Feed feed) {
+  void setFeed(Feed feed) {
     resetProvider();
     _feedId = feed.feedId;
 
@@ -80,7 +80,7 @@ class FeedNotifier extends Notifier<FeedState> {
     updateQuantity();
   }
 
-  setNewFeed() {
+  void setNewFeed() {
     // final feedIngList = state.feedIngredients;
     // final List<FeedIngredients> newList = [];
     //
@@ -107,7 +107,7 @@ class FeedNotifier extends Notifier<FeedState> {
     state = state.copyWith(newFeed: newFeed);
   }
 
-  deleteFeed(num feedId) async {
+  Future<void> deleteFeed(num feedId) async {
     await ref.watch(feedRepository).delete(feedId);
     await ref.watch(feedIngredientRepository).delete(feedId);
   }
@@ -118,7 +118,7 @@ class FeedNotifier extends Notifier<FeedState> {
         state.feedIngredients.isNotEmpty &&
         state.totalQuantity != 0) {
       if (_feedId == null) {
-        await setNewFeed();
+        setNewFeed();
       }
       final newFeed = state.newFeed;
 
@@ -156,7 +156,7 @@ class FeedNotifier extends Notifier<FeedState> {
     }
   }
 
-  saveNewFeed() async {
+  Future<void> saveNewFeed() async {
     var feed = state.newFeed;
     feed = Feed(
       // feedId: feed!.feedId,
@@ -186,7 +186,7 @@ class FeedNotifier extends Notifier<FeedState> {
     const HomeRoute().location;
   }
 
-  updateFeed() async {
+  Future<void> updateFeed() async {
     var feed = state.newFeed;
     feed = Feed(
       feedId: feed!.feedId,
@@ -241,7 +241,7 @@ class FeedNotifier extends Notifier<FeedState> {
   /// add all selected ingredients
   ///
   ///
-  addSelectedIngredients(List<FeedIngredients> ingredients) {
+  void addSelectedIngredients(List<FeedIngredients> ingredients) {
     if (_feedId != null) {
       for (var ing in ingredients) {
         if (!available(ing)) {
@@ -264,7 +264,7 @@ class FeedNotifier extends Notifier<FeedState> {
     // debugPrint(state.feedIngredients.map((e) => e.toJson().toString()).toList().toString());
   }
 
-  removeIng(num? i) {
+  void removeIng(num? i) {
     List<FeedIngredients> feedIngredients = state.feedIngredients;
     final avail = feedIngredients.firstWhere(
         (element) => element.ingredientId == i,
@@ -295,11 +295,11 @@ class FeedNotifier extends Notifier<FeedState> {
     updateQuantity();
   }
 
-  setFeedName(String name) {
+  void setFeedName(String name) {
     state = state.copyWith(feedName: name);
   }
 
-  setAnimalId(num id) {
+  void setAnimalId(num id) {
     state = state.copyWith(animalTypeId: id);
 
     //  if (_totalQuantity != 0) {}
@@ -314,7 +314,7 @@ class FeedNotifier extends Notifier<FeedState> {
     return avail;
   }
 
-  setPrice(num ingredientId, String? price) {
+  void setPrice(num ingredientId, String? price) {
     final num? pce = double.tryParse(price!);
 
     List<FeedIngredients?> feedIngredients = state.feedIngredients;
@@ -329,7 +329,7 @@ class FeedNotifier extends Notifier<FeedState> {
     state = state.copyWith(feedIngredients: [...state.feedIngredients, ing]);
   }
 
-  setQuantity(num ingredientId, String? quantity) {
+  void setQuantity(num ingredientId, String? quantity) {
     final num? qty = double.tryParse(quantity!);
 
     List<FeedIngredients?> feedIngredients = state.feedIngredients;
@@ -363,7 +363,7 @@ class FeedNotifier extends Notifier<FeedState> {
     }
   }
 
-  calcPercent(num? quantity) {
+  double calcPercent(num? quantity) {
     var qty = quantity ?? 0.0;
     return (qty / _totalQuantity) * 100;
   }
@@ -393,13 +393,13 @@ class FeedNotifier extends Notifier<FeedState> {
     return available;
   }
 
-  analyse() async {
+  Future<void> analyse() async {
     if (state.feedName != "" &&
         state.animalTypeId != 0 &&
         state.feedIngredients.isNotEmpty &&
         state.totalQuantity != 0) {
       if (_feedId == null) {
-        await setNewFeed();
+        setNewFeed();
       }
       var feed = state.newFeed;
       if (feed!.feedId == null) {

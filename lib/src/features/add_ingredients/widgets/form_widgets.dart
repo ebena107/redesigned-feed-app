@@ -759,7 +759,7 @@ Route<Object?> saveDialogBuilder(
 //   );
 // }
 
-showAlert(context, QuickAlertType type, String message) {
+void showAlert(context, QuickAlertType type, String message) {
   QuickAlert.show(
     context: context,
     type: type,

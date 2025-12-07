@@ -165,8 +165,8 @@ Widget buildBottomBar({int? feedId, required bool isEdit}) {
   });
 }
 
-_onItemTapped(int index, BuildContext context, WidgetRef ref, int? feedId,
-    bool isEdit) async {
+Future<void> _onItemTapped(int index, BuildContext context, WidgetRef ref,
+    int? feedId, bool isEdit) async {
   final name = ref.watch(feedProvider).feedName;
   String todo = isEdit ? "update" : "save";
   var mMessage = ref.watch(feedProvider).message;
@@ -218,7 +218,7 @@ _onItemTapped(int index, BuildContext context, WidgetRef ref, int? feedId,
   }
 }
 
-handleAlert(
+Future<dynamic> handleAlert(
     {required String type,
     required BuildContext context,
     required String title}) {

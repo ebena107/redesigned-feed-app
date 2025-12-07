@@ -27,7 +27,7 @@ class AsyncStoredIngredients extends _$AsyncStoredIngredients {
       await ref
           .watch(ingredientProvider.notifier)
           .deleteIngredient(ingredientId);
-      await ref.watch(storeIngredientProvider.notifier).reset();
+      ref.watch(storeIngredientProvider.notifier).reset();
       return loadIngredient();
     });
   }

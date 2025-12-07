@@ -37,7 +37,7 @@ class StoreIngredientNotifier extends Notifier<StoreIngredientState> {
     return const StoreIngredientState();
   }
 
-  reset() {
+  void reset() {
     state = state.copyWith(
       selectedIngredient: Ingredient(),
       id: 0,
@@ -47,13 +47,13 @@ class StoreIngredientNotifier extends Notifier<StoreIngredientState> {
     );
   }
 
-  loadIngredients() async {
+  Future<void> loadIngredients() async {
     final ingList = await ref.watch(ingredientsRepository).getAll();
 
     state = state.copyWith(ingredients: ingList);
   }
 
-  setIngredient(num? id) async {
+  Future<void> setIngredient(num? id) async {
     final ing = state.ingredients
         .firstWhere((e) => e.ingredientId == id, orElse: () => Ingredient());
     if (ing != Ingredient()) {
@@ -65,7 +65,7 @@ class StoreIngredientNotifier extends Notifier<StoreIngredientState> {
     }
   }
 
-  setPrice(String? value) {
+  void setPrice(String? value) {
     if (value!.isValidNumber && state.selectedIngredient != Ingredient()) {
       final ing = state.selectedIngredient!
           .copyWith(priceKg: double.tryParse(value) as num);
@@ -74,7 +74,7 @@ class StoreIngredientNotifier extends Notifier<StoreIngredientState> {
     }
   }
 
-  setAvailableQuantity(String? value) {
+  void setAvailableQuantity(String? value) {
     if (value!.isValidNumber && state.selectedIngredient != Ingredient()) {
       final ing = state.selectedIngredient!
           .copyWith(availableQty: double.tryParse(value) as num);
