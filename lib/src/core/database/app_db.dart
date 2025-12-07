@@ -26,7 +26,7 @@ class AppDatabase {
   static final AppDatabase _instance = AppDatabase._();
 
   // Current database version - increment when adding migrations
-  static const int _currentVersion = 3;
+  static const int _currentVersion = 4;
 
   factory AppDatabase() => _instance;
 
@@ -113,6 +113,9 @@ class AppDatabase {
       case 3:
         await _migrationV2ToV3(db);
         break;
+      case 4:
+        await _migrationV3ToV4(db);
+        break;
       // Add future migrations here
       default:
         debugPrint('No migration defined for version $version');
@@ -161,6 +164,42 @@ class AppDatabase {
     }
 
     debugPrint('Migration 2→3: Complete');
+  }
+
+  /// Migration from v3 to v4: Add custom ingredient support
+  Future<void> _migrationV3ToV4(Database db) async {
+    debugPrint('Migration 3→4: Adding custom ingredient fields');
+
+    try {
+      // Add new columns to ingredients table
+      await db.execute('''
+        ALTER TABLE ${IngredientsRepository.tableName}
+        ADD COLUMN is_custom INTEGER DEFAULT 0
+      ''');
+
+      await db.execute('''
+        ALTER TABLE ${IngredientsRepository.tableName}
+        ADD COLUMN created_by TEXT
+      ''');
+
+      await db.execute('''
+        ALTER TABLE ${IngredientsRepository.tableName}
+        ADD COLUMN created_date INTEGER
+      ''');
+
+      await db.execute('''
+        ALTER TABLE ${IngredientsRepository.tableName}
+        ADD COLUMN notes TEXT
+      ''');
+
+      debugPrint('Migration 3→4: Custom ingredient fields added successfully');
+    } catch (e, stackTrace) {
+      debugPrint('Migration 3→4: Error adding custom ingredient fields: $e');
+      debugPrint('Stack trace: $stackTrace');
+      rethrow;
+    }
+
+    debugPrint('Migration 3→4: Complete');
   }
 
   /// this should be run when the database is being created

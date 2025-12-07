@@ -49,6 +49,10 @@ class Ingredient {
     this.availableQty,
     this.categoryId,
     this.favourite,
+    this.isCustom,
+    this.createdBy,
+    this.createdDate,
+    this.notes,
   });
 
   Ingredient.fromJson(dynamic json) {
@@ -71,6 +75,10 @@ class Ingredient {
     availableQty = json['available_qty'];
     categoryId = json['category_id'];
     favourite = json['favourite'];
+    isCustom = json['is_custom'];
+    createdBy = json['created_by'];
+    createdDate = json['created_date'];
+    notes = json['notes'];
   }
   num? ingredientId;
   String? name;
@@ -91,6 +99,10 @@ class Ingredient {
   num? availableQty;
   num? categoryId;
   num? favourite;
+  num? isCustom;
+  String? createdBy;
+  num? createdDate;
+  String? notes;
 
   Ingredient copyWith({
     num? ingredientId,
@@ -112,6 +124,10 @@ class Ingredient {
     num? availableQty,
     num? categoryId,
     num? favourite,
+    num? isCustom,
+    String? createdBy,
+    num? createdDate,
+    String? notes,
   }) =>
       Ingredient(
         ingredientId: ingredientId ?? this.ingredientId,
@@ -133,6 +149,10 @@ class Ingredient {
         availableQty: availableQty ?? this.availableQty,
         categoryId: categoryId ?? this.categoryId,
         favourite: favourite ?? this.favourite,
+        isCustom: isCustom ?? this.isCustom,
+        createdBy: createdBy ?? this.createdBy,
+        createdDate: createdDate ?? this.createdDate,
+        notes: notes ?? this.notes,
       );
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -155,6 +175,10 @@ class Ingredient {
     map['available_qty'] = availableQty;
     map['category_id'] = categoryId;
     map['favourite'] = favourite;
+    map['is_custom'] = isCustom;
+    map['created_by'] = createdBy;
+    map['created_date'] = createdDate;
+    map['notes'] = notes;
     return map;
   }
 }
