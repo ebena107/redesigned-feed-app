@@ -8,6 +8,8 @@ import 'package:feed_estimator/src/features/main/widget/feed_grid.dart';
 import 'package:feed_estimator/src/features/reports/providers/result_provider.dart';
 
 import 'package:feed_estimator/src/utils/widgets/app_drawer.dart';
+import 'package:feed_estimator/src/utils/widgets/error_widget.dart';
+import 'package:feed_estimator/src/utils/widgets/loading_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -90,10 +92,19 @@ class MainView extends ConsumerWidget {
             ),
             data.when(
                 data: (data) => const FeedGrid(),
-                error: (er, stack) =>
-                    SliverFillRemaining(child: Text(er.toString())),
-                loading: () => const SliverFillRemaining(
-                    child: Center(child: CircularProgressIndicator())))
+                error: (er, stack) => SliverFillRemaining(
+                      child: AppErrorWidget(
+                        message: 'Failed to load feeds: ${er.toString()}',
+                        onRetry: () {
+                          ref.invalidate(asyncMainProvider);
+                        },
+                      ),
+                    ),
+                loading: () => SliverFillRemaining(
+                      child: AppLoadingWidget(
+                        message: 'Loading feeds...',
+                      ),
+                    ))
           ],
         ),
       ),
