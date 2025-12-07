@@ -4,7 +4,7 @@ import 'package:feed_estimator/src/core/database/app_db.dart';
 import 'package:feed_estimator/src/features/add_ingredients/repository/ingredient_category_repository.dart';
 import 'package:feed_estimator/src/features/main/model/feed.dart';
 import 'package:feed_estimator/src/core/repositories/repository.dart';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final feedIngredientRepositoryProvider =
@@ -43,51 +43,114 @@ class FeedIngredientRepository implements Repository {
   //static final columnsString = columns.join(',');
 
   Future<int> deleteByFeedId(id) async {
-    return await db.delete(tableName: tableName, query: colFeedId, param: id);
+    try {
+      final result =
+          await db.delete(tableName: tableName, query: colFeedId, param: id);
+      debugPrint(
+          'FeedIngredientRepository: Deleted ingredients for feed $id, rows affected: $result');
+      return result;
+    } catch (e, stackTrace) {
+      debugPrint(
+          'FeedIngredientRepository: Error deleting ingredients for feed $id: $e');
+      debugPrint('Stack trace: $stackTrace');
+      rethrow;
+    }
   }
 
   Future<int> deleteByIngredientId(
       {required num feedId, required num ingredientId}) async {
-    final int0 = await db.deleteWithTwoId(
-        tableName: tableName,
-        query: '$colFeedId = ? AND $colIngredientId = ?',
-        param: [feedId, ingredientId]);
-
-    return int0;
+    try {
+      final result = await db.deleteWithTwoId(
+          tableName: tableName,
+          query: '$colFeedId = ? AND $colIngredientId = ?',
+          param: [feedId, ingredientId]);
+      debugPrint(
+          'FeedIngredientRepository: Deleted ingredient $ingredientId from feed $feedId, rows affected: $result');
+      return result;
+    } catch (e, stackTrace) {
+      debugPrint(
+          'FeedIngredientRepository: Error deleting ingredient $ingredientId from feed $feedId: $e');
+      debugPrint('Stack trace: $stackTrace');
+      rethrow;
+    }
   }
 
   @override
   Future<int> create(placeData) async {
-    return db.insert(
-      tableName: tableName,
-      columns: columns,
-      values: placeData,
-    );
+    try {
+      final result = await db.insert(
+        tableName: tableName,
+        columns: columns,
+        values: placeData,
+      );
+      debugPrint(
+          'FeedIngredientRepository: Created feed ingredient with ID: $result');
+      return result;
+    } catch (e, stackTrace) {
+      debugPrint(
+          'FeedIngredientRepository: Error creating feed ingredient: $e');
+      debugPrint('Stack trace: $stackTrace');
+      rethrow;
+    }
   }
 
   @override
   Future<int> delete(id) async {
-    return await db.delete(
-        tableName: tableName, query: colIngredientId, param: id);
+    try {
+      final result = await db.delete(
+          tableName: tableName, query: colIngredientId, param: id);
+      debugPrint(
+          'FeedIngredientRepository: Deleted ingredient $id, rows affected: $result');
+      return result;
+    } catch (e, stackTrace) {
+      debugPrint('FeedIngredientRepository: Error deleting ingredient $id: $e');
+      debugPrint('Stack trace: $stackTrace');
+      rethrow;
+    }
   }
 
   @override
   Future<List<FeedIngredients>> getAll() async {
-    final List<Map<String, Object?>> raw = await db.selectAll(tableName);
-
-    return raw.map((item) => FeedIngredients.fromJson(item)).toList();
+    try {
+      final List<Map<String, Object?>> raw = await db.selectAll(tableName);
+      debugPrint(
+          'FeedIngredientRepository: Retrieved ${raw.length} feed ingredients');
+      return raw.map((item) => FeedIngredients.fromJson(item)).toList();
+    } catch (e, stackTrace) {
+      debugPrint(
+          'FeedIngredientRepository: Error getting all feed ingredients: $e');
+      debugPrint('Stack trace: $stackTrace');
+      return []; // Return empty list on error
+    }
   }
 
   @override
-  Future<List<FeedIngredients?>> getSingle(int id) async {
-    final raw = (await db.select(tableName, colFeedId, id));
-
-    //if (raw.isEmpty) return null;
-    return raw.map((item) => FeedIngredients.fromJson(item)).toList();
+  Future<List<FeedIngredients>> getSingle(int id) async {
+    try {
+      final raw = await db.select(tableName, colFeedId, id);
+      debugPrint(
+          'FeedIngredientRepository: Retrieved ${raw.length} ingredients for feed $id');
+      return raw.map((item) => FeedIngredients.fromJson(item)).toList();
+    } catch (e, stackTrace) {
+      debugPrint(
+          'FeedIngredientRepository: Error getting ingredients for feed $id: $e');
+      debugPrint('Stack trace: $stackTrace');
+      return []; // Return empty list on error
+    }
   }
 
   @override
   Future<int> update(Map<String, Object?> placeData, num id) async {
-    return db.update(tableName, colId, id, placeData);
+    try {
+      final result = await db.update(tableName, colId, id, placeData);
+      debugPrint(
+          'FeedIngredientRepository: Updated feed ingredient $id, rows affected: $result');
+      return result;
+    } catch (e, stackTrace) {
+      debugPrint(
+          'FeedIngredientRepository: Error updating feed ingredient $id: $e');
+      debugPrint('Stack trace: $stackTrace');
+      rethrow;
+    }
   }
 }
