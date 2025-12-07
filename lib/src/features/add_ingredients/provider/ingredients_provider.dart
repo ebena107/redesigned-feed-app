@@ -692,6 +692,7 @@ class IngredientNotifier extends StateNotifier<IngredientState> {
     Ingredient newIngredient = Ingredient();
     validate();
     if (state.validate) {
+      final now = DateTime.now().millisecondsSinceEpoch;
       newIngredient = newIngredient.copyWith(
         name: state.name!.value,
         crudeProtein: double.tryParse(state.crudeProtein!.value.toString()),
@@ -711,6 +712,8 @@ class IngredientNotifier extends StateNotifier<IngredientState> {
         availableQty: double.tryParse(state.availableQty!.value.toString()),
         categoryId: int.tryParse(state.categoryId!.value.toString()),
         favourite: state.favourite,
+        isCustom: 1, // Mark as custom ingredient
+        createdDate: now, // Set creation timestamp
       );
       state = state.copyWith(newIngredient: newIngredient);
     }
@@ -721,8 +724,6 @@ class IngredientNotifier extends StateNotifier<IngredientState> {
     required VoidCallback? onSuccess,
     required VoidCallback? onFailure,
   }) async {
-
-
     int? response;
     try {
       if (state.newIngredient != Ingredient()) {

@@ -146,10 +146,13 @@ class FeedAppDrawer extends ConsumerWidget {
                             leading: const Icon(CupertinoIcons.create),
                             trailing: const Icon(CupertinoIcons.forward),
                             dense: true,
-                            title: const Text("Create Ingredient"),
+                            title: const Text("Create Custom Ingredient"),
                             onTap: () {
                               context.pop();
-                              //     : context.go('/newIngredient');
+                              ref
+                                  .read(ingredientProvider.notifier)
+                                  .setDefaultValues();
+                              context.pushNamed('newIngredient');
                             },
                           ),
                           const Divider(
