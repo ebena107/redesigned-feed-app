@@ -12,40 +12,93 @@ import 'package:feed_estimator/src/features/main/model/feed.dart';
 import 'package:feed_estimator/src/features/main/repository/feed_ingredient_repository.dart';
 import 'package:feed_estimator/src/features/main/repository/feed_repository.dart';
 import 'package:feed_estimator/src/features/reports/providers/result_provider.dart';
-import 'package:flutter/foundation.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'feed_provider.freezed.dart';
+final feedProvider =
+    NotifierProvider<FeedNotifier, FeedState>(FeedNotifier.new);
 
-final feedProvider = StateNotifierProvider<FeedNotifier, FeedState>((ref) {
-  return FeedNotifier(ref);
-});
+sealed class FeedState {
+  const FeedState({
+    this.feedName = "",
+    this.animalTypeId = 1,
+    this.animalTypes = const [],
+    this.feedIngredients = const [],
+    this.totalQuantity = 0.0,
+    this.newFeed,
+    this.message = "",
+    this.status = "",
+  });
 
-@freezed
-class FeedState with _$FeedState {
-  factory FeedState({
-    @Default("") String feedName,
-    @Default(1) num animalTypeId,
-    @Default([]) List<AnimalTypes> animalTypes,
-    @Default([]) List<FeedIngredients> feedIngredients,
-    @Default(0.0) num totalQuantity,
+  final String feedName;
+  final num animalTypeId;
+  final List<AnimalTypes> animalTypes;
+  final List<FeedIngredients> feedIngredients;
+  final num totalQuantity;
+  final Feed? newFeed;
+  final String message;
+  final String status;
+
+  FeedState copyWith({
+    String? feedName,
+    num? animalTypeId,
+    List<AnimalTypes>? animalTypes,
+    List<FeedIngredients>? feedIngredients,
+    num? totalQuantity,
     Feed? newFeed,
-    @Default("") String message,
-    @Default("") String status,
-  }) = _FeedState;
+    String? message,
+    String? status,
+  }) =>
+      _FeedState(
+        feedName: feedName ?? this.feedName,
+        animalTypeId: animalTypeId ?? this.animalTypeId,
+        animalTypes: animalTypes ?? this.animalTypes,
+        feedIngredients: feedIngredients ?? this.feedIngredients,
+        totalQuantity: totalQuantity ?? this.totalQuantity,
+        newFeed: newFeed ?? this.newFeed,
+        message: message ?? this.message,
+        status: status ?? this.status,
+      );
 
-  const FeedState._();
-
-  // calcPercent(double quantity) {}
+  const FeedState._(
+      {required this.feedName,
+      required this.animalTypeId,
+      required this.animalTypes,
+      required this.feedIngredients,
+      required this.totalQuantity,
+      this.newFeed,
+      required this.message,
+      required this.status});
 }
 
-class FeedNotifier extends StateNotifier<FeedState> {
-  Ref ref;
-  FeedNotifier(this.ref) : super(FeedState()) {
+class _FeedState extends FeedState {
+  const _FeedState({
+    String feedName = "",
+    num animalTypeId = 1,
+    List<AnimalTypes> animalTypes = const [],
+    List<FeedIngredients> feedIngredients = const [],
+    num totalQuantity = 0.0,
+    Feed? newFeed,
+    String message = "",
+    String status = "",
+  }) : super._(
+          feedName: feedName,
+          animalTypeId: animalTypeId,
+          animalTypes: animalTypes,
+          feedIngredients: feedIngredients,
+          totalQuantity: totalQuantity,
+          newFeed: newFeed,
+          message: message,
+          status: status,
+        );
+}
+
+class FeedNotifier extends Notifier<FeedState> {
+  @override
+  FeedState build() {
     resetProvider();
     loadAnimalTypes();
+    return _FeedState();
   }
 
   num? _feedId;
@@ -58,12 +111,12 @@ class FeedNotifier extends StateNotifier<FeedState> {
     _totalQuantity = 0.0;
   }
 
-  loadAnimalTypes() async {
+  Future<void> loadAnimalTypes() async {
     final animals = await ref.watch(animalTypeRepository).getAll();
     state = state.copyWith(animalTypes: animals);
   }
 
-  setFeed(Feed feed) {
+  void setFeed(Feed feed) {
     resetProvider();
     _feedId = feed.feedId;
 
@@ -80,7 +133,7 @@ class FeedNotifier extends StateNotifier<FeedState> {
     updateQuantity();
   }
 
-  setNewFeed() {
+  void setNewFeed() {
     // final feedIngList = state.feedIngredients;
     // final List<FeedIngredients> newList = [];
     //
@@ -107,7 +160,7 @@ class FeedNotifier extends StateNotifier<FeedState> {
     state = state.copyWith(newFeed: newFeed);
   }
 
-  deleteFeed(num feedId) async {
+  Future<void> deleteFeed(num feedId) async {
     await ref.watch(feedRepository).delete(feedId);
     await ref.watch(feedIngredientRepository).delete(feedId);
   }
@@ -118,7 +171,7 @@ class FeedNotifier extends StateNotifier<FeedState> {
         state.feedIngredients.isNotEmpty &&
         state.totalQuantity != 0) {
       if (_feedId == null) {
-        await setNewFeed();
+        setNewFeed();
       }
       final newFeed = state.newFeed;
 
@@ -156,7 +209,7 @@ class FeedNotifier extends StateNotifier<FeedState> {
     }
   }
 
-  saveNewFeed() async {
+  Future<void> saveNewFeed() async {
     var feed = state.newFeed;
     feed = Feed(
       // feedId: feed!.feedId,
@@ -186,7 +239,7 @@ class FeedNotifier extends StateNotifier<FeedState> {
     const HomeRoute().location;
   }
 
-  updateFeed() async {
+  Future<void> updateFeed() async {
     var feed = state.newFeed;
     feed = Feed(
       feedId: feed!.feedId,
@@ -203,12 +256,12 @@ class FeedNotifier extends StateNotifier<FeedState> {
 
     for (var i in feedIngredients) {
       existingIngredients
-          .removeWhere((element) => element!.ingredientId == i.ingredientId);
+          .removeWhere((element) => element.ingredientId == i.ingredientId);
     }
 
     for (var i in existingIngredients) {
       await ref.read(feedIngredientRepository).deleteByIngredientId(
-          feedId: feed.feedId as num, ingredientId: i!.ingredientId as num);
+          feedId: feed.feedId as num, ingredientId: i.ingredientId as num);
     }
 
     final list = state.feedIngredients
@@ -241,7 +294,7 @@ class FeedNotifier extends StateNotifier<FeedState> {
   /// add all selected ingredients
   ///
   ///
-  addSelectedIngredients(List<FeedIngredients> ingredients) {
+  void addSelectedIngredients(List<FeedIngredients> ingredients) {
     if (_feedId != null) {
       for (var ing in ingredients) {
         if (!available(ing)) {
@@ -264,7 +317,7 @@ class FeedNotifier extends StateNotifier<FeedState> {
     // debugPrint(state.feedIngredients.map((e) => e.toJson().toString()).toList().toString());
   }
 
-  removeIng(num? i) {
+  void removeIng(num? i) {
     List<FeedIngredients> feedIngredients = state.feedIngredients;
     final avail = feedIngredients.firstWhere(
         (element) => element.ingredientId == i,
@@ -295,11 +348,11 @@ class FeedNotifier extends StateNotifier<FeedState> {
     updateQuantity();
   }
 
-  setFeedName(String name) {
+  void setFeedName(String name) {
     state = state.copyWith(feedName: name);
   }
 
-  setAnimalId(num id) {
+  void setAnimalId(num id) {
     state = state.copyWith(animalTypeId: id);
 
     //  if (_totalQuantity != 0) {}
@@ -314,7 +367,7 @@ class FeedNotifier extends StateNotifier<FeedState> {
     return avail;
   }
 
-  setPrice(num ingredientId, String? price) {
+  void setPrice(num ingredientId, String? price) {
     final num? pce = double.tryParse(price!);
 
     List<FeedIngredients?> feedIngredients = state.feedIngredients;
@@ -329,7 +382,7 @@ class FeedNotifier extends StateNotifier<FeedState> {
     state = state.copyWith(feedIngredients: [...state.feedIngredients, ing]);
   }
 
-  setQuantity(num ingredientId, String? quantity) {
+  void setQuantity(num ingredientId, String? quantity) {
     final num? qty = double.tryParse(quantity!);
 
     List<FeedIngredients?> feedIngredients = state.feedIngredients;
@@ -363,7 +416,7 @@ class FeedNotifier extends StateNotifier<FeedState> {
     }
   }
 
-  calcPercent(num? quantity) {
+  double calcPercent(num? quantity) {
     var qty = quantity ?? 0.0;
     return (qty / _totalQuantity) * 100;
   }
@@ -393,13 +446,13 @@ class FeedNotifier extends StateNotifier<FeedState> {
     return available;
   }
 
-  analyse() async {
+  Future<void> analyse() async {
     if (state.feedName != "" &&
         state.animalTypeId != 0 &&
         state.feedIngredients.isNotEmpty &&
         state.totalQuantity != 0) {
       if (_feedId == null) {
-        await setNewFeed();
+        setNewFeed();
       }
       var feed = state.newFeed;
       if (feed!.feedId == null) {

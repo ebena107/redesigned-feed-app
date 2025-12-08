@@ -1,38 +1,60 @@
 import 'package:feed_estimator/src/features/main/model/feed.dart';
 import 'package:feed_estimator/src/features/main/repository/feed_ingredient_repository.dart';
 import 'package:feed_estimator/src/features/main/repository/feed_repository.dart';
-import 'package:flutter/foundation.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
-
-part 'main_provider.freezed.dart';
 
 final mainViewProvider =
-    StateNotifierProvider<MainViewNotifier, MainViewState>((ref) {
-  return MainViewNotifier(ref);
-});
+    NotifierProvider<MainViewNotifier, MainViewState>(MainViewNotifier.new);
 
-@freezed
-class MainViewState with _$MainViewState {
-  const factory MainViewState({
-    @Default([]) List<Feed> feeds,
-    @Default(0) int animalTypes,
-    @Default([]) List<FeedIngredients> feedIngredients,
-    // @Default(0.0) totalQuantity,
-    // @Default(FeedModel) FeedModel newFeed,
-  }) = _MainViewState;
+sealed class MainViewState {
+  const MainViewState({
+    this.feeds = const [],
+    this.animalTypes = 0,
+    this.feedIngredients = const [],
+  });
 
-  const MainViewState._();
+  final List<Feed> feeds;
+  final int animalTypes;
+  final List<FeedIngredients> feedIngredients;
+
+  MainViewState copyWith({
+    List<Feed>? feeds,
+    int? animalTypes,
+    List<FeedIngredients>? feedIngredients,
+  }) =>
+      _MainViewState(
+        feeds: feeds ?? this.feeds,
+        animalTypes: animalTypes ?? this.animalTypes,
+        feedIngredients: feedIngredients ?? this.feedIngredients,
+      );
+
+  const MainViewState._(
+      {required this.feeds,
+      required this.animalTypes,
+      required this.feedIngredients});
 }
 
-class MainViewNotifier extends StateNotifier<MainViewState> {
-  Ref ref;
-  MainViewNotifier(this.ref) : super(const MainViewState()) {
+class _MainViewState extends MainViewState {
+  const _MainViewState({
+    List<Feed> feeds = const [],
+    int animalTypes = 0,
+    List<FeedIngredients> feedIngredients = const [],
+  }) : super._(
+          feeds: feeds,
+          animalTypes: animalTypes,
+          feedIngredients: feedIngredients,
+        );
+}
+
+class MainViewNotifier extends Notifier<MainViewState> {
+  @override
+  MainViewState build() {
     loadFeeds();
+    return _MainViewState();
   }
 
-  loadFeeds() async {
+  Future<void> loadFeeds() async {
     final feedList = await ref.read(feedRepository).getAll();
     final ingList = await ref.watch(feedIngredientRepository).getAll();
 
@@ -47,7 +69,7 @@ class MainViewNotifier extends StateNotifier<MainViewState> {
     }
   }
 
-  deleteFeed(num? feedId) async {
+  Future<void> deleteFeed(num? feedId) async {
     await ref.watch(feedIngredientRepository).deleteByFeedId(feedId);
     await ref.watch(feedRepository).delete(feedId!);
 

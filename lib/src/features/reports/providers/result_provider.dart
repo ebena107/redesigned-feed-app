@@ -5,33 +5,55 @@ import 'package:feed_estimator/src/features/add_ingredients/repository/ingredien
 import 'package:feed_estimator/src/features/main/model/feed.dart';
 import 'package:feed_estimator/src/features/main/providers/main_provider.dart';
 import 'package:feed_estimator/src/features/reports/model/result.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'result_provider.freezed.dart';
+final resultProvider =
+    NotifierProvider<ResultNotifier, ResultsState>(ResultNotifier.new);
 
-final resultProvider = StateNotifierProvider<ResultNotifier, ResultsState>(
-    (ref) => ResultNotifier(ref));
+sealed class ResultsState {
+  const ResultsState({
+    this.results = const [],
+    this.myResult,
+    this.toggle = false,
+  });
 
-@freezed
-class ResultsState with _$ResultsState {
-  factory ResultsState({
-    @Default([]) List<Result> results,
+  final List<Result> results;
+  final Result? myResult;
+  final bool toggle;
+
+  ResultsState copyWith({
+    List<Result>? results,
     Result? myResult,
-    @Default(false) bool toggle,
-  }) = _ResultsState;
+    bool? toggle,
+  }) =>
+      _ResultsState(
+        results: results ?? this.results,
+        myResult: myResult ?? this.myResult,
+        toggle: toggle ?? this.toggle,
+      );
 
-  ResultsState._();
+  const ResultsState._(
+      {required this.results, this.myResult, required this.toggle});
 }
 
-class ResultNotifier extends StateNotifier<ResultsState> {
-  Ref ref;
+class _ResultsState extends ResultsState {
+  const _ResultsState({
+    List<Result> results = const [],
+    Result? myResult,
+    bool toggle = false,
+  }) : super._(
+          results: results,
+          myResult: myResult,
+          toggle: toggle,
+        );
+}
 
-  ResultNotifier(
-    this.ref,
-  ) : super(ResultsState()) {
+class ResultNotifier extends Notifier<ResultsState> {
+  @override
+  ResultsState build() {
     // setFeed(ref.watch(asyncMainProvider));
+    return _ResultsState();
   }
 
   num _mEnergy = 0;
@@ -51,7 +73,7 @@ class ResultNotifier extends StateNotifier<ResultsState> {
   Result _newResult = Result();
   final List<Result> _resultList = [];
 
-  loadResults() async {
+  Future<void> loadResults() async {
     if (_resultList.isNotEmpty) {
       state = state.copyWith(results: _resultList);
     }
