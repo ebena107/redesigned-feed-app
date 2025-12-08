@@ -32,7 +32,7 @@ final class AsyncFeedProvider extends $AsyncNotifierProvider<AsyncFeed, void> {
   AsyncFeed create() => AsyncFeed();
 }
 
-String _$asyncFeedHash() => r'9f18b1866a1d59fa320418bcf8fc06fc4af9bb11';
+String _$asyncFeedHash() => r'b222c6c2d5b908e31e4b0a4e5d5b959878a0b132';
 
 abstract class _$AsyncFeed extends $AsyncNotifier<void> {
   FutureOr<void> build();

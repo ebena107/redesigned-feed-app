@@ -45,7 +45,7 @@ class HomeRoute extends GoRouteData with $HomeRoute {
 
 @TypedGoRoute<AboutRoute>(path: '/about')
 @immutable
-class AboutRoute extends GoRouteData {
+class AboutRoute extends GoRouteData with $AboutRoute {
   const AboutRoute();
 
   @override
@@ -56,7 +56,7 @@ class AboutRoute extends GoRouteData {
 
 @TypedGoRoute<FeedStoreRoute>(path: '/feedStore')
 @immutable
-class FeedStoreRoute extends GoRouteData {
+class FeedStoreRoute extends GoRouteData with $FeedStoreRoute {
   const FeedStoreRoute();
 
   @override
@@ -67,7 +67,7 @@ class FeedStoreRoute extends GoRouteData {
 
 @TypedGoRoute<IngredientStoreRoute>(path: '/ingredientStore')
 @immutable
-class IngredientStoreRoute extends GoRouteData {
+class IngredientStoreRoute extends GoRouteData with $IngredientStoreRoute {
   const IngredientStoreRoute();
 
   @override
@@ -161,7 +161,7 @@ class FeedIngredientsRoute extends GoRouteData with $FeedIngredientsRoute {
 
 @TypedGoRoute<ViewFeedReportRoute>(path: '/viewReport/:feedId/:type')
 @immutable
-class ViewFeedReportRoute extends GoRouteData {
+class ViewFeedReportRoute extends GoRouteData with $ViewFeedReportRoute {
   const ViewFeedReportRoute(this.feedId, this.type);
   final int feedId;
   final String type;

@@ -187,7 +187,7 @@ class StoredIngredients extends ConsumerWidget {
     );
   }
 
-  void showAlert(context) {
+  void showAlert(BuildContext context) {
     QuickAlert.show(
       context: context,
       type: QuickAlertType.success,

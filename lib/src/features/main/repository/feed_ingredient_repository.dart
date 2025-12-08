@@ -42,7 +42,7 @@ class FeedIngredientRepository implements Repository {
 
   //static final columnsString = columns.join(',');
 
-  Future<int> deleteByFeedId(id) async {
+  Future<int> deleteByFeedId(int id) async {
     try {
       final result =
           await db.delete(tableName: tableName, query: colFeedId, param: id);

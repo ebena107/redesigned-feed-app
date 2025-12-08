@@ -184,7 +184,7 @@ class FeedIngredientsField extends ConsumerWidget {
   }
 }
 
-Future<void> _showSnackBar(context, message) async {
+Future<void> _showSnackBar(BuildContext context, String message) async {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Text(message),

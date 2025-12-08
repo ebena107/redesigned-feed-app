@@ -34,7 +34,7 @@ final class AsyncStoredIngredientsProvider
 }
 
 String _$asyncStoredIngredientsHash() =>
-    r'43858c0364e85b6b2e4d3bda326bca501ec57298';
+    r'f19b32902c3a64c59b60bbc0c182eb204e106393';
 
 abstract class _$AsyncStoredIngredients
     extends $AsyncNotifier<List<Ingredient>> {
@@ -93,7 +93,7 @@ final class QuantityControllerProvider
 }
 
 String _$quantityControllerHash() =>
-    r'd1455a66de1cfe844a0f4749e57db0e6ddfc7149';
+    r'8daae0f7b339c78d526bfc2efb7c3d82bd49b090';
 
 @ProviderFor(storedIngredientFormKey)
 const storedIngredientFormKeyProvider = StoredIngredientFormKeyProvider._();
@@ -137,4 +137,4 @@ final class StoredIngredientFormKeyProvider extends $FunctionalProvider<
 }
 
 String _$storedIngredientFormKeyHash() =>
-    r'6ae8a8b245629ac9d1ce61ce9741521b94d7b31f';
+    r'4106885a5961ec26e0dc3bed50ea271e1e6c4785';

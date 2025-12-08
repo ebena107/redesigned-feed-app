@@ -152,7 +152,7 @@ TextStyle captionTextStyle({Color? color}) {
 //=================LEGACY STYLES (Deprecated - Use above instead)==========================//
 
 @Deprecated('Use displayTextStyle() instead')
-TextStyle appTitleStyle(context) {
+TextStyle appTitleStyle(BuildContext context) {
   return displayTextStyle().copyWith(
     fontSize: displayHeight(context) * .05,
     shadows: const [
