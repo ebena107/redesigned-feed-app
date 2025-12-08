@@ -82,6 +82,7 @@ class FeedIngredients {
     this.ingredientId,
     this.quantity,
     this.priceUnitKg,
+    this.priceLastUpdated,
   });
 
   FeedIngredients.fromJson(dynamic json) {
@@ -90,12 +91,14 @@ class FeedIngredients {
     ingredientId = json['ingredient_id'];
     quantity = json['quantity'];
     priceUnitKg = json['price_unit_kg'];
+    priceLastUpdated = json['price_last_updated'];
   }
   num? id;
   num? feedId;
   num? ingredientId;
   num? quantity;
   num? priceUnitKg;
+  num? priceLastUpdated;
 
   FeedIngredients copyWith({
     num? id,
@@ -103,6 +106,7 @@ class FeedIngredients {
     num? ingredientId,
     num? quantity,
     num? priceUnitKg,
+    num? priceLastUpdated,
   }) =>
       FeedIngredients(
         id: id ?? this.id,
@@ -110,6 +114,7 @@ class FeedIngredients {
         ingredientId: ingredientId ?? this.ingredientId,
         quantity: quantity ?? this.quantity,
         priceUnitKg: priceUnitKg ?? this.priceUnitKg,
+        priceLastUpdated: priceLastUpdated ?? this.priceLastUpdated,
       );
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -118,6 +123,7 @@ class FeedIngredients {
     map['ingredient_id'] = ingredientId;
     map['quantity'] = quantity;
     map['price_unit_kg'] = priceUnitKg;
+    map['price_last_updated'] = priceLastUpdated;
     return map;
   }
 }

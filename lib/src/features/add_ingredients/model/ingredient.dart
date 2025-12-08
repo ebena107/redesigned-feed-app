@@ -46,6 +46,7 @@ class Ingredient {
     this.meRabbit,
     this.deSalmonids,
     this.priceKg,
+    this.priceLastUpdated,
     this.availableQty,
     this.categoryId,
     this.favourite,
@@ -72,6 +73,7 @@ class Ingredient {
     meRabbit = json['me_rabbit'];
     deSalmonids = json['de_salmonids'];
     priceKg = json['price_kg'];
+    priceLastUpdated = json['price_last_updated'];
     availableQty = json['available_qty'];
     categoryId = json['category_id'];
     favourite = json['favourite'];
@@ -96,6 +98,7 @@ class Ingredient {
   num? meRabbit;
   num? deSalmonids;
   num? priceKg;
+  num? priceLastUpdated;
   num? availableQty;
   num? categoryId;
   num? favourite;
@@ -121,6 +124,7 @@ class Ingredient {
     num? meRabbit,
     num? deSalmonids,
     num? priceKg,
+    num? priceLastUpdated,
     num? availableQty,
     num? categoryId,
     num? favourite,
@@ -146,6 +150,7 @@ class Ingredient {
         meRabbit: meRabbit ?? this.meRabbit,
         deSalmonids: deSalmonids ?? this.deSalmonids,
         priceKg: priceKg ?? this.priceKg,
+        priceLastUpdated: priceLastUpdated ?? this.priceLastUpdated,
         availableQty: availableQty ?? this.availableQty,
         categoryId: categoryId ?? this.categoryId,
         favourite: favourite ?? this.favourite,
@@ -172,6 +177,7 @@ class Ingredient {
     map['me_rabbit'] = meRabbit;
     map['de_salmonids'] = deSalmonids;
     map['price_kg'] = priceKg;
+    map['price_last_updated'] = priceLastUpdated;
     map['available_qty'] = availableQty;
     map['category_id'] = categoryId;
     map['favourite'] = favourite;

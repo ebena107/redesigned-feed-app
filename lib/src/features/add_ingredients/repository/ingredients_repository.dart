@@ -36,6 +36,7 @@ class IngredientsRepository implements Repository {
   static const colMeRabbit = 'me_rabbit';
   static const colDeSalmonids = 'de_salmonids';
   static const colPriceKg = 'price_kg';
+  static const colPriceLastUpdated = 'price_last_updated';
   static const colAvailableQty = 'available_qty';
   static const colCategoryId = 'category_id';
   static const colFavourite = 'favourite';
@@ -78,7 +79,6 @@ class IngredientsRepository implements Repository {
 
   @override
   Future<int> create(placeData) async {
-
     return db.insert(tableName: tableName, columns: columns, values: placeData);
   }
 
@@ -104,7 +104,20 @@ class IngredientsRepository implements Repository {
 
   @override
   Future<int> update(Map<String, Object?> placeData, num id) async {
-
     return db.update(tableName, colId, id, placeData);
+  }
+
+  /// Update ingredient price with timestamp
+  Future<int> updatePrice(num id, num priceKg) async {
+    final timestamp = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    return db.update(
+      tableName,
+      colId,
+      id,
+      {
+        colPriceKg: priceKg,
+        colPriceLastUpdated: timestamp,
+      },
+    );
   }
 }

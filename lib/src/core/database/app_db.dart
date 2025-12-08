@@ -26,7 +26,7 @@ class AppDatabase {
   static final AppDatabase _instance = AppDatabase._();
 
   // Current database version - increment when adding migrations
-  static const int _currentVersion = 4;
+  static const int _currentVersion = 6;
 
   factory AppDatabase() => _instance;
 
@@ -116,6 +116,12 @@ class AppDatabase {
       case 4:
         await _migrationV3ToV4(db);
         break;
+      case 5:
+        await _migrationV4ToV5(db);
+        break;
+      case 6:
+        await _migrationV5ToV6(db);
+        break;
       // Add future migrations here
       default:
         debugPrint('No migration defined for version $version');
@@ -200,6 +206,58 @@ class AppDatabase {
     }
 
     debugPrint('Migration 3→4: Complete');
+  }
+
+  /// Migration from v4 to v5: Add price freshness tracking
+  Future<void> _migrationV4ToV5(Database db) async {
+    debugPrint('Migration 4→5: Adding price freshness tracking');
+
+    try {
+      // Add price_last_updated column to track when ingredient prices were last updated
+      await db.execute('''
+        ALTER TABLE ${IngredientsRepository.tableName}
+        ADD COLUMN price_last_updated INTEGER DEFAULT 0
+      ''');
+
+      debugPrint('Migration 4→5: Price freshness tracking added successfully');
+    } catch (e, stackTrace) {
+      debugPrint('Migration 4→5: Error adding price freshness tracking: $e');
+      debugPrint('Stack trace: $stackTrace');
+      rethrow;
+    }
+
+    debugPrint('Migration 4→5: Complete');
+  }
+
+  /// Migration from v5 to v6: Add tropical ingredients
+  Future<void> _migrationV5ToV6(Database db) async {
+    debugPrint('Migration 5→6: Adding tropical ingredients');
+
+    try {
+      // Load tropical ingredients from JSON
+      final String jsonString =
+          await rootBundle.loadString('assets/raw/tropical_ingredients.json');
+      final List<dynamic> jsonData = json.decode(jsonString);
+
+      // Insert tropical ingredients
+      Batch batch = db.batch();
+      for (var ingredientData in jsonData) {
+        batch.insert(
+          IngredientsRepository.tableName,
+          ingredientData,
+          conflictAlgorithm: ConflictAlgorithm.ignore, // Skip if already exists
+        );
+      }
+      await batch.commit(noResult: true);
+
+      debugPrint(
+          'Migration 5→6: Added ${jsonData.length} tropical ingredients');
+    } catch (e) {
+      debugPrint('Migration 5→6: Error loading tropical ingredients: $e');
+      // Don't fail the migration if tropical ingredients can't be loaded
+    }
+
+    debugPrint('Migration 5→6: Complete');
   }
 
   /// this should be run when the database is being created
