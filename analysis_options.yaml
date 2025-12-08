@@ -10,10 +10,6 @@
 include: package:flutter_lints/flutter.yaml
 
 analyzer:
-  exclude:
-    - "**/*.freezed.dart"
-    - "**/*.g.dart"
-    - "lib/generated/**"
   errors:
     non_abstract_class_inherits_abstract_member: ignore
 

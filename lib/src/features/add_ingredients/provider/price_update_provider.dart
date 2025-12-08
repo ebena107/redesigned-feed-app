@@ -3,7 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Provider for updating ingredient prices
 final priceUpdateProvider =
-    NotifierProvider<PriceUpdateNotifier, AsyncValue<void>>(PriceUpdateNotifier.new);
+    NotifierProvider<PriceUpdateNotifier, AsyncValue<void>>(
+        PriceUpdateNotifier.new);
 
 class PriceUpdateNotifier extends Notifier<AsyncValue<void>> {
   late IngredientsRepository _ingredientsRepository;
