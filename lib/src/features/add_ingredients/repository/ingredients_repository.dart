@@ -86,7 +86,6 @@ class IngredientsRepository implements Repository {
 
   @override
   Future<int> create(placeData) async {
-
     return db.insert(tableName: tableName, columns: columns, values: placeData);
   }
 
@@ -112,7 +111,6 @@ class IngredientsRepository implements Repository {
 
   @override
   Future<int> update(Map<String, Object?> placeData, num id) async {
-
     return db.update(tableName, colId, id, placeData);
   }
 }

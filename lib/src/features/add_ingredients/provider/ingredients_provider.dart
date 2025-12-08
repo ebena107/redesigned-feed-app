@@ -7,7 +7,7 @@ import 'package:feed_estimator/src/features/add_ingredients/repository/ingredien
 import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provider.dart';
 import 'package:feed_estimator/src/features/main/model/feed.dart';
 import 'package:feed_estimator/src/features/main/repository/feed_ingredient_repository.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -240,10 +240,38 @@ class _IngredientState extends IngredientState {
 class IngredientNotifier extends Notifier<IngredientState> {
   @override
   IngredientState build() {
-    loadIngredients();
-    loadCategories();
-    setDefaultValues();
-    return const _IngredientState();
+    // Initialize state first
+    state = const _IngredientState();
+
+    // Delay async loading to after first frame when state is ready
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      loadIngredients();
+      loadCategories();
+    });
+
+    // Set default values after state initialization
+    state = state.copyWith(
+      newIngredient: Ingredient(),
+      name: ValidationModel(value: null, error: null, isValid: false),
+      crudeProtein: ValidationModel(value: null, error: null, isValid: false),
+      crudeFiber: ValidationModel(value: null, error: null, isValid: false),
+      crudeFat: ValidationModel(value: null, error: null, isValid: false),
+      calcium: ValidationModel(value: null, error: null, isValid: false),
+      phosphorus: ValidationModel(value: null, error: null, isValid: false),
+      lysine: ValidationModel(value: null, error: null, isValid: false),
+      methionine: ValidationModel(value: null, error: null, isValid: false),
+      meGrowingPig: ValidationModel(value: null, error: null, isValid: false),
+      meAdultPig: ValidationModel(value: null, error: null, isValid: false),
+      mePoultry: ValidationModel(value: null, error: null, isValid: false),
+      meRuminant: ValidationModel(value: null, error: null, isValid: false),
+      meRabbit: ValidationModel(value: null, error: null, isValid: false),
+      deSalmonids: ValidationModel(value: null, error: null, isValid: false),
+      priceKg: ValidationModel(value: null, error: null, isValid: false),
+      availableQty: ValidationModel(value: null, error: null, isValid: false),
+      categoryId: ValidationModel(value: null, error: null, isValid: false),
+    );
+
+    return state;
   }
 
   loadIngredients() async {
