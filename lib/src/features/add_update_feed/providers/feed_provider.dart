@@ -35,7 +35,7 @@ class FeedState with _$FeedState {
     @Default("") String status,
   }) = _FeedState;
 
-  const FeedState._();
+  FeedState._();
 
   // calcPercent(double quantity) {}
 }

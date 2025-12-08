@@ -25,7 +25,7 @@ class IngredientState with _$IngredientState {
     @Default([]) List<IngredientCategory> categoryList,
     @Default([]) List<Ingredient> filteredIngredients,
     @Default([]) List<FeedIngredients> selectedIngredients,
-    @Default(0) count,
+    @Default(0) dynamic count,
     @Default(false) bool search,
     @Default(false) bool sort,
     @Default(true) bool showSearch,

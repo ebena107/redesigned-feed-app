@@ -1,0 +1,437 @@
+Running Gradle task 'assembleDebug'...                          
+/C:/Users/ebenaAdmin/AppData/Local/Pub/Cache/hosted/pub.dev/url_launcher_linux-3.2.2/lib/url_launcher_linux.dart:12:8: Error: Error when reading '/C:/Users/ebenaAdmin/AppData/Local/Pub/Cache/hosted/pub.dev/url_launcher_linux-3.2.2/lib/src/messages.g.dart': The system cannot find the file specified.
+
+import 'src/messages.g.dart';
+       ^
+/C:/Users/ebenaAdmin/AppData/Local/Pub/Cache/hosted/pub.dev/url_launcher_windows-3.1.5/lib/url_launcher_windows.dart:9:8: Error: Error when reading '/C:/Users/ebenaAdmin/AppData/Local/Pub/Cache/hosted/pub.dev/url_launcher_windows-3.1.5/lib/src/messages.g.dart': The system cannot find the file specified.
+
+import 'src/messages.g.dart';
+       ^
+/C:/Users/ebenaAdmin/AppData/Local/Pub/Cache/hosted/pub.dev/url_launcher_linux-3.2.2/lib/url_launcher_linux.dart:25:9: Error: Type 'UrlLauncherApi' not found.
+  final UrlLauncherApi _hostApi;
+        ^^^^^^^^^^^^^^
+/C:/Users/ebenaAdmin/AppData/Local/Pub/Cache/hosted/pub.dev/url_launcher_linux-3.2.2/lib/url_launcher_linux.dart:17:40: Error: Type 'UrlLauncherApi' not found.
+  UrlLauncherLinux({@visibleForTesting UrlLauncherApi? api})
+                                       ^^^^^^^^^^^^^^
+/C:/Users/ebenaAdmin/AppData/Local/Pub/Cache/hosted/pub.dev/url_launcher_windows-3.1.5/lib/url_launcher_windows.dart:17:9: Error: Type 'UrlLauncherApi' not found.
+  final UrlLauncherApi _hostApi;
+        ^^^^^^^^^^^^^^
+/C:/Users/ebenaAdmin/AppData/Local/Pub/Cache/hosted/pub.dev/url_launcher_windows-3.1.5/lib/url_launcher_windows.dart:14:42: Error: Type 'UrlLauncherApi' not found.
+  UrlLauncherWindows({@visibleForTesting UrlLauncherApi? api})
+                                         ^^^^^^^^^^^^^^
+lib/src/core/router/navigation_providers.dart:11:7: Error: The non-abstract class 'AppNavigationState' is missing implementations for these members:
+ - _$AppNavigationState.navIndex
+Try to either
+ - provide an implementation,
+ - inherit an implementation from a superclass or mixin,
+ - mark the class as abstract, or
+ - provide a 'noSuchMethod' implementation.
+class AppNavigationState with _$AppNavigationState {
+      ^^^^^^^^^^^^^^^^^^
+lib/src/core/router/navigation_providers.freezed.dart:17:11: Context: '_$AppNavigationState.navIndex' is defined here.
+  int get navIndex;
+          ^^^^^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.dart:22:7: Error: The non-abstract class 'IngredientState' is missing implementations for these members:
+ - DiagnosticableTreeMixin.debugDescribeChildren
+ - DiagnosticableTreeMixin.toDiagnosticsNode
+ - DiagnosticableTreeMixin.toStringDeep
+ - DiagnosticableTreeMixin.toStringShallow
+ - DiagnosticableTreeMixin.toStringShort
+ - _$IngredientState.availableQty
+ - _$IngredientState.calcium
+ - _$IngredientState.categoryId
+ - _$IngredientState.categoryList
+ - _$IngredientState.count
+ - _$IngredientState.crudeFat
+ - _$IngredientState.crudeFiber
+ - _$IngredientState.crudeProtein
+ - _$IngredientState.deSalmonids
+ - _$IngredientState.favourite
+ - _$IngredientState.filteredIngredients
+ - _$IngredientState.ingredients
+ - _$IngredientState.lysine
+ - _$IngredientState.meAdultPig
+ - _$IngredientState.meGrowingPig
+ - _$IngredientState.mePoultry
+ - _$IngredientState.meRabbit
+ - _$IngredientState.meRuminant
+ - _$IngredientState.message
+ - _$IngredientState.methionine
+ - _$IngredientState.name
+ - _$IngredientState.newIngredient
+ - _$IngredientState.phosphorus
+ - _$IngredientState.priceKg
+ - _$IngredientState.query
+ - _$IngredientState.search
+ - _$IngredientState.selectedIngredients
+ - _$IngredientState.showSearch
+ - _$IngredientState.showSort
+ - _$IngredientState.singleEnergyValue
+ - _$IngredientState.sort
+ - _$IngredientState.sortByCategory
+ - _$IngredientState.status
+ - _$IngredientState.validate
+Try to either
+ - provide an implementation,
+ - inherit an implementation from a superclass or mixin,
+ - mark the class as abstract, or
+ - provide a 'noSuchMethod' implementation.
+class IngredientState with _$IngredientState {
+      ^^^^^^^^^^^^^^^
+/C:/Users/ebenaAdmin/develop/flutter/packages/flutter/lib/src/foundation/diagnostics.dart:3505:25: Context: 'DiagnosticableTreeMixin.debugDescribeChildren' is defined here.
+  List<DiagnosticsNode> debugDescribeChildren() => const <DiagnosticsNode>[];
+                        ^^^^^^^^^^^^^^^^^^^^^
+/C:/Users/ebenaAdmin/develop/flutter/packages/flutter/lib/src/foundation/diagnostics.dart:3500:19: Context: 'DiagnosticableTreeMixin.toDiagnosticsNode' is defined here.
+  DiagnosticsNode toDiagnosticsNode({String? name, DiagnosticsTreeStyle? style}) {
+                  ^^^^^^^^^^^^^^^^^
+/C:/Users/ebenaAdmin/develop/flutter/packages/flutter/lib/src/foundation/diagnostics.dart:3482:10: Context: 'DiagnosticableTreeMixin.toStringDeep' is defined here.
+  String toStringDeep({
+         ^^^^^^^^^^^^
+/C:/Users/ebenaAdmin/develop/flutter/packages/flutter/lib/src/foundation/diagnostics.dart:3464:10: Context: 'DiagnosticableTreeMixin.toStringShallow' is defined here.
+  String toStringShallow({String joiner = ', ', DiagnosticLevel minLevel = DiagnosticLevel.debug}) {
+         ^^^^^^^^^^^^^^^
+/C:/Users/ebenaAdmin/develop/flutter/packages/flutter/lib/src/foundation/diagnostics.dart:3497:10: Context: 'DiagnosticableTreeMixin.toStringShort' is defined here.
+  String toStringShort() => describeIdentity(this);
+         ^^^^^^^^^^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:46:24: Context: '_$IngredientState.availableQty' is defined here.
+  ValidationModel? get availableQty;
+                       ^^^^^^^^^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:35:24: Context: '_$IngredientState.calcium' is defined here.
+  ValidationModel? get calcium;
+                       ^^^^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:47:24: Context: '_$IngredientState.categoryId' is defined here.
+  ValidationModel? get categoryId;
+                       ^^^^^^^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:18:32: Context: '_$IngredientState.categoryList' is defined here.
+  List<IngredientCategory> get categoryList;
+                               ^^^^^^^^^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:21:15: Context: '_$IngredientState.count' is defined here.
+  dynamic get count;
+              ^^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:34:24: Context: '_$IngredientState.crudeFat' is defined here.
+  ValidationModel? get crudeFat;
+                       ^^^^^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:33:24: Context: '_$IngredientState.crudeFiber' is defined here.
+  ValidationModel? get crudeFiber;
+                       ^^^^^^^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:32:24: Context: '_$IngredientState.crudeProtein' is defined here.
+  ValidationModel? get crudeProtein;
+                       ^^^^^^^^^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:44:24: Context: '_$IngredientState.deSalmonids' is defined here.
+  ValidationModel? get deSalmonids;
+                       ^^^^^^^^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:48:11: Context: '_$IngredientState.favourite' is defined here.
+  num get favourite;
+          ^^^^^^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:19:24: Context: '_$IngredientState.filteredIngredients' is defined here.
+  List<Ingredient> get filteredIngredients;
+                       ^^^^^^^^^^^^^^^^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:17:24: Context: '_$IngredientState.ingredients' is defined here.
+  List<Ingredient> get ingredients;
+                       ^^^^^^^^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:37:24: Context: '_$IngredientState.lysine' is defined here.
+  ValidationModel? get lysine;
+                       ^^^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:40:24: Context: '_$IngredientState.meAdultPig' is defined here.
+  ValidationModel? get meAdultPig;
+                       ^^^^^^^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:39:24: Context: '_$IngredientState.meGrowingPig' is defined here.
+  ValidationModel? get meGrowingPig;
+                       ^^^^^^^^^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:41:24: Context: '_$IngredientState.mePoultry' is defined here.
+  ValidationModel? get mePoultry;
+                       ^^^^^^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:43:24: Context: '_$IngredientState.meRabbit' is defined here.
+  ValidationModel? get meRabbit;
+                       ^^^^^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:42:24: Context: '_$IngredientState.meRuminant' is defined here.
+  ValidationModel? get meRuminant;
+                       ^^^^^^^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:50:14: Context: '_$IngredientState.message' is defined here.
+  String get message;
+             ^^^^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:38:24: Context: '_$IngredientState.methionine' is defined here.
+  ValidationModel? get methionine;
+                       ^^^^^^^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:31:24: Context: '_$IngredientState.name' is defined here.
+  ValidationModel? get name;
+                       ^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:29:19: Context: '_$IngredientState.newIngredient' is defined here.
+  Ingredient? get newIngredient;
+                  ^^^^^^^^^^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:36:24: Context: '_$IngredientState.phosphorus' is defined here.
+  ValidationModel? get phosphorus;
+                       ^^^^^^^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:45:24: Context: '_$IngredientState.priceKg' is defined here.
+  ValidationModel? get priceKg;
+                       ^^^^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:26:14: Context: '_$IngredientState.query' is defined here.
+  String get query;
+             ^^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:22:12: Context: '_$IngredientState.search' is defined here.
+  bool get search;
+           ^^^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:20:29: Context: '_$IngredientState.selectedIngredients' is defined here.
+  List<FeedIngredients> get selectedIngredients;
+                            ^^^^^^^^^^^^^^^^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:24:12: Context: '_$IngredientState.showSearch' is defined here.
+  bool get showSearch;
+           ^^^^^^^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:25:12: Context: '_$IngredientState.showSort' is defined here.
+  bool get showSort;
+           ^^^^^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:30:12: Context: '_$IngredientState.singleEnergyValue' is defined here.
+  bool get singleEnergyValue;
+           ^^^^^^^^^^^^^^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:23:12: Context: '_$IngredientState.sort' is defined here.
+  bool get sort;
+           ^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:27:12: Context: '_$IngredientState.sortByCategory' is defined here.
+  num? get sortByCategory; //@Default(false) bool filter,
+           ^^^^^^^^^^^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:49:14: Context: '_$IngredientState.status' is defined here.
+  String get status;
+             ^^^^^^
+lib/src/features/add_ingredients/provider/ingredients_provider.freezed.dart:28:12: Context: '_$IngredientState.validate' is defined here.
+  bool get validate;
+           ^^^^^^^^
+lib/src/features/add_update_feed/providers/feed_provider.dart:26:7: Error: The non-abstract class 'FeedState' is missing implementations for these members:
+ - DiagnosticableTreeMixin.debugDescribeChildren
+ - DiagnosticableTreeMixin.toDiagnosticsNode
+ - DiagnosticableTreeMixin.toStringDeep
+ - DiagnosticableTreeMixin.toStringShallow
+ - DiagnosticableTreeMixin.toStringShort
+ - _$FeedState.animalTypeId
+ - _$FeedState.animalTypes
+ - _$FeedState.feedIngredients
+ - _$FeedState.feedName
+ - _$FeedState.message
+ - _$FeedState.newFeed
+ - _$FeedState.status
+ - _$FeedState.totalQuantity
+Try to either
+ - provide an implementation,
+ - inherit an implementation from a superclass or mixin,
+ - mark the class as abstract, or
+ - provide a 'noSuchMethod' implementation.
+class FeedState with _$FeedState {
+      ^^^^^^^^^
+/C:/Users/ebenaAdmin/develop/flutter/packages/flutter/lib/src/foundation/diagnostics.dart:3505:25: Context: 'DiagnosticableTreeMixin.debugDescribeChildren' is defined here.
+  List<DiagnosticsNode> debugDescribeChildren() => const <DiagnosticsNode>[];
+                        ^^^^^^^^^^^^^^^^^^^^^
+/C:/Users/ebenaAdmin/develop/flutter/packages/flutter/lib/src/foundation/diagnostics.dart:3500:19: Context: 'DiagnosticableTreeMixin.toDiagnosticsNode' is defined here.
+  DiagnosticsNode toDiagnosticsNode({String? name, DiagnosticsTreeStyle? style}) {
+                  ^^^^^^^^^^^^^^^^^
+/C:/Users/ebenaAdmin/develop/flutter/packages/flutter/lib/src/foundation/diagnostics.dart:3482:10: Context: 'DiagnosticableTreeMixin.toStringDeep' is defined here.
+  String toStringDeep({
+         ^^^^^^^^^^^^
+/C:/Users/ebenaAdmin/develop/flutter/packages/flutter/lib/src/foundation/diagnostics.dart:3464:10: Context: 'DiagnosticableTreeMixin.toStringShallow' is defined here.
+  String toStringShallow({String joiner = ', ', DiagnosticLevel minLevel = DiagnosticLevel.debug}) {
+         ^^^^^^^^^^^^^^^
+/C:/Users/ebenaAdmin/develop/flutter/packages/flutter/lib/src/foundation/diagnostics.dart:3497:10: Context: 'DiagnosticableTreeMixin.toStringShort' is defined here.
+  String toStringShort() => describeIdentity(this);
+         ^^^^^^^^^^^^^
+lib/src/features/add_update_feed/providers/feed_provider.freezed.dart:18:11: Context: '_$FeedState.animalTypeId' is defined here.
+  num get animalTypeId;
+          ^^^^^^^^^^^^
+lib/src/features/add_update_feed/providers/feed_provider.freezed.dart:19:25: Context: '_$FeedState.animalTypes' is defined here.
+  List<AnimalTypes> get animalTypes;
+                        ^^^^^^^^^^^
+lib/src/features/add_update_feed/providers/feed_provider.freezed.dart:20:29: Context: '_$FeedState.feedIngredients' is defined here.
+  List<FeedIngredients> get feedIngredients;
+                            ^^^^^^^^^^^^^^^
+lib/src/features/add_update_feed/providers/feed_provider.freezed.dart:17:14: Context: '_$FeedState.feedName' is defined here.
+  String get feedName;
+             ^^^^^^^^
+lib/src/features/add_update_feed/providers/feed_provider.freezed.dart:23:14: Context: '_$FeedState.message' is defined here.
+  String get message;
+             ^^^^^^^
+lib/src/features/add_update_feed/providers/feed_provider.freezed.dart:22:13: Context: '_$FeedState.newFeed' is defined here.
+  Feed? get newFeed;
+            ^^^^^^^
+lib/src/features/add_update_feed/providers/feed_provider.freezed.dart:24:14: Context: '_$FeedState.status' is defined here.
+  String get status;
+             ^^^^^^
+lib/src/features/add_update_feed/providers/feed_provider.freezed.dart:21:11: Context: '_$FeedState.totalQuantity' is defined here.
+  num get totalQuantity;
+          ^^^^^^^^^^^^^
+lib/src/features/reports/providers/result_provider.dart:18:7: Error: The non-abstract class 'ResultsState' is missing implementations for these members:
+ - DiagnosticableTreeMixin.debugDescribeChildren
+ - DiagnosticableTreeMixin.toDiagnosticsNode
+ - DiagnosticableTreeMixin.toStringDeep
+ - DiagnosticableTreeMixin.toStringShallow
+ - DiagnosticableTreeMixin.toStringShort
+ - _$ResultsState.myResult
+ - _$ResultsState.results
+ - _$ResultsState.toggle
+Try to either
+ - provide an implementation,
+ - inherit an implementation from a superclass or mixin,
+ - mark the class as abstract, or
+ - provide a 'noSuchMethod' implementation.
+class ResultsState with _$ResultsState {
+      ^^^^^^^^^^^^
+/C:/Users/ebenaAdmin/develop/flutter/packages/flutter/lib/src/foundation/diagnostics.dart:3505:25: Context: 'DiagnosticableTreeMixin.debugDescribeChildren' is defined here.
+  List<DiagnosticsNode> debugDescribeChildren() => const <DiagnosticsNode>[];
+                        ^^^^^^^^^^^^^^^^^^^^^
+/C:/Users/ebenaAdmin/develop/flutter/packages/flutter/lib/src/foundation/diagnostics.dart:3500:19: Context: 'DiagnosticableTreeMixin.toDiagnosticsNode' is defined here.
+  DiagnosticsNode toDiagnosticsNode({String? name, DiagnosticsTreeStyle? style}) {
+                  ^^^^^^^^^^^^^^^^^
+/C:/Users/ebenaAdmin/develop/flutter/packages/flutter/lib/src/foundation/diagnostics.dart:3482:10: Context: 'DiagnosticableTreeMixin.toStringDeep' is defined here.
+  String toStringDeep({
+         ^^^^^^^^^^^^
+/C:/Users/ebenaAdmin/develop/flutter/packages/flutter/lib/src/foundation/diagnostics.dart:3464:10: Context: 'DiagnosticableTreeMixin.toStringShallow' is defined here.
+  String toStringShallow({String joiner = ', ', DiagnosticLevel minLevel = DiagnosticLevel.debug}) {
+         ^^^^^^^^^^^^^^^
+/C:/Users/ebenaAdmin/develop/flutter/packages/flutter/lib/src/foundation/diagnostics.dart:3497:10: Context: 'DiagnosticableTreeMixin.toStringShort' is defined here.
+  String toStringShort() => describeIdentity(this);
+         ^^^^^^^^^^^^^
+lib/src/features/reports/providers/result_provider.freezed.dart:18:15: Context: '_$ResultsState.myResult' is defined here.
+  Result? get myResult;
+              ^^^^^^^^
+lib/src/features/reports/providers/result_provider.freezed.dart:17:20: Context: '_$ResultsState.results' is defined here.
+  List<Result> get results;
+                   ^^^^^^^
+lib/src/features/reports/providers/result_provider.freezed.dart:19:12: Context: '_$ResultsState.toggle' is defined here.
+  bool get toggle;
+           ^^^^^^
+lib/src/features/store_ingredients/providers/stored_ingredient_provider.dart:17:7: Error: The non-abstract class 'StoreIngredientState' is missing implementations for these members:
+ - DiagnosticableTreeMixin.debugDescribeChildren
+ - DiagnosticableTreeMixin.toDiagnosticsNode
+ - DiagnosticableTreeMixin.toStringDeep
+ - DiagnosticableTreeMixin.toStringShallow
+ - DiagnosticableTreeMixin.toStringShort
+ - _$StoreIngredientState.availableQty
+ - _$StoreIngredientState.favourite
+ - _$StoreIngredientState.id
+ - _$StoreIngredientState.ingredients
+ - _$StoreIngredientState.message
+ - _$StoreIngredientState.priceKg
+ - _$StoreIngredientState.selectedIngredient
+ - _$StoreIngredientState.status
+ - _$StoreIngredientState.validate
+Try to either
+ - provide an implementation,
+ - inherit an implementation from a superclass or mixin,
+ - mark the class as abstract, or
+ - provide a 'noSuchMethod' implementation.
+class StoreIngredientState with _$StoreIngredientState {
+      ^^^^^^^^^^^^^^^^^^^^
+/C:/Users/ebenaAdmin/develop/flutter/packages/flutter/lib/src/foundation/diagnostics.dart:3505:25: Context: 'DiagnosticableTreeMixin.debugDescribeChildren' is defined here.
+  List<DiagnosticsNode> debugDescribeChildren() => const <DiagnosticsNode>[];
+                        ^^^^^^^^^^^^^^^^^^^^^
+/C:/Users/ebenaAdmin/develop/flutter/packages/flutter/lib/src/foundation/diagnostics.dart:3500:19: Context: 'DiagnosticableTreeMixin.toDiagnosticsNode' is defined here.
+  DiagnosticsNode toDiagnosticsNode({String? name, DiagnosticsTreeStyle? style}) {
+                  ^^^^^^^^^^^^^^^^^
+/C:/Users/ebenaAdmin/develop/flutter/packages/flutter/lib/src/foundation/diagnostics.dart:3482:10: Context: 'DiagnosticableTreeMixin.toStringDeep' is defined here.
+  String toStringDeep({
+         ^^^^^^^^^^^^
+/C:/Users/ebenaAdmin/develop/flutter/packages/flutter/lib/src/foundation/diagnostics.dart:3464:10: Context: 'DiagnosticableTreeMixin.toStringShallow' is defined here.
+  String toStringShallow({String joiner = ', ', DiagnosticLevel minLevel = DiagnosticLevel.debug}) {
+         ^^^^^^^^^^^^^^^
+/C:/Users/ebenaAdmin/develop/flutter/packages/flutter/lib/src/foundation/diagnostics.dart:3497:10: Context: 'DiagnosticableTreeMixin.toStringShort' is defined here.
+  String toStringShort() => describeIdentity(this);
+         ^^^^^^^^^^^^^
+lib/src/features/store_ingredients/providers/stored_ingredient_provider.freezed.dart:22:11: Context: '_$StoreIngredientState.availableQty' is defined here.
+  num get availableQty;
+          ^^^^^^^^^^^^
+lib/src/features/store_ingredients/providers/stored_ingredient_provider.freezed.dart:23:11: Context: '_$StoreIngredientState.favourite' is defined here.
+  num get favourite;
+          ^^^^^^^^^
+lib/src/features/store_ingredients/providers/stored_ingredient_provider.freezed.dart:20:11: Context: '_$StoreIngredientState.id' is defined here.
+  num get id;
+          ^^
+lib/src/features/store_ingredients/providers/stored_ingredient_provider.freezed.dart:17:24: Context: '_$StoreIngredientState.ingredients' is defined here.
+  List<Ingredient> get ingredients;
+                       ^^^^^^^^^^^
+lib/src/features/store_ingredients/providers/stored_ingredient_provider.freezed.dart:25:14: Context: '_$StoreIngredientState.message' is defined here.
+  String get message;
+             ^^^^^^^
+lib/src/features/store_ingredients/providers/stored_ingredient_provider.freezed.dart:21:11: Context: '_$StoreIngredientState.priceKg' is defined here.
+  num get priceKg;
+          ^^^^^^^
+lib/src/features/store_ingredients/providers/stored_ingredient_provider.freezed.dart:18:19: Context: '_$StoreIngredientState.selectedIngredient' is defined here.
+  Ingredient? get selectedIngredient;
+                  ^^^^^^^^^^^^^^^^^^
+lib/src/features/store_ingredients/providers/stored_ingredient_provider.freezed.dart:24:14: Context: '_$StoreIngredientState.status' is defined here.
+  String get status;
+             ^^^^^^
+lib/src/features/store_ingredients/providers/stored_ingredient_provider.freezed.dart:19:12: Context: '_$StoreIngredientState.validate' is defined here.
+  bool get validate;
+           ^^^^^^^^
+lib/src/features/main/providers/main_provider.dart:15:7: Error: The non-abstract class 'MainViewState' is missing implementations for these members:
+ - DiagnosticableTreeMixin.debugDescribeChildren
+ - DiagnosticableTreeMixin.toDiagnosticsNode
+ - DiagnosticableTreeMixin.toStringDeep
+ - DiagnosticableTreeMixin.toStringShallow
+ - DiagnosticableTreeMixin.toStringShort
+ - _$MainViewState.animalTypes
+ - _$MainViewState.feedIngredients
+ - _$MainViewState.feeds
+Try to either
+ - provide an implementation,
+ - inherit an implementation from a superclass or mixin,
+ - mark the class as abstract, or
+ - provide a 'noSuchMethod' implementation.
+class MainViewState with _$MainViewState {
+      ^^^^^^^^^^^^^
+/C:/Users/ebenaAdmin/develop/flutter/packages/flutter/lib/src/foundation/diagnostics.dart:3505:25: Context: 'DiagnosticableTreeMixin.debugDescribeChildren' is defined here.
+  List<DiagnosticsNode> debugDescribeChildren() => const <DiagnosticsNode>[];
+                        ^^^^^^^^^^^^^^^^^^^^^
+/C:/Users/ebenaAdmin/develop/flutter/packages/flutter/lib/src/foundation/diagnostics.dart:3500:19: Context: 'DiagnosticableTreeMixin.toDiagnosticsNode' is defined here.
+  DiagnosticsNode toDiagnosticsNode({String? name, DiagnosticsTreeStyle? style}) {
+                  ^^^^^^^^^^^^^^^^^
+/C:/Users/ebenaAdmin/develop/flutter/packages/flutter/lib/src/foundation/diagnostics.dart:3482:10: Context: 'DiagnosticableTreeMixin.toStringDeep' is defined here.
+  String toStringDeep({
+         ^^^^^^^^^^^^
+/C:/Users/ebenaAdmin/develop/flutter/packages/flutter/lib/src/foundation/diagnostics.dart:3464:10: Context: 'DiagnosticableTreeMixin.toStringShallow' is defined here.
+  String toStringShallow({String joiner = ', ', DiagnosticLevel minLevel = DiagnosticLevel.debug}) {
+         ^^^^^^^^^^^^^^^
+/C:/Users/ebenaAdmin/develop/flutter/packages/flutter/lib/src/foundation/diagnostics.dart:3497:10: Context: 'DiagnosticableTreeMixin.toStringShort' is defined here.
+  String toStringShort() => describeIdentity(this);
+         ^^^^^^^^^^^^^
+lib/src/features/main/providers/main_provider.freezed.dart:18:11: Context: '_$MainViewState.animalTypes' is defined here.
+  int get animalTypes;
+          ^^^^^^^^^^^
+lib/src/features/main/providers/main_provider.freezed.dart:19:29: Context: '_$MainViewState.feedIngredients' is defined here.
+  List<FeedIngredients> get feedIngredients;
+                            ^^^^^^^^^^^^^^^
+lib/src/features/main/providers/main_provider.freezed.dart:17:18: Context: '_$MainViewState.feeds' is defined here.
+  List<Feed> get feeds;
+                 ^^^^^
+/C:/Users/ebenaAdmin/AppData/Local/Pub/Cache/hosted/pub.dev/url_launcher_linux-3.2.2/lib/url_launcher_linux.dart:17:40: Error: 'UrlLauncherApi' isn't a type.
+  UrlLauncherLinux({@visibleForTesting UrlLauncherApi? api})
+                                       ^^^^^^^^^^^^^^
+/C:/Users/ebenaAdmin/AppData/Local/Pub/Cache/hosted/pub.dev/url_launcher_linux-3.2.2/lib/url_launcher_linux.dart:18:25: Error: Method not found: 'UrlLauncherApi'.
+    : _hostApi = api ?? UrlLauncherApi();
+                        ^^^^^^^^^^^^^^
+/C:/Users/ebenaAdmin/AppData/Local/Pub/Cache/hosted/pub.dev/url_launcher_linux-3.2.2/lib/url_launcher_linux.dart:25:9: Error: 'UrlLauncherApi' isn't a type.
+  final UrlLauncherApi _hostApi;
+        ^^^^^^^^^^^^^^
+/C:/Users/ebenaAdmin/AppData/Local/Pub/Cache/hosted/pub.dev/url_launcher_windows-3.1.5/lib/url_launcher_windows.dart:14:42: Error: 'UrlLauncherApi' isn't a type.
+  UrlLauncherWindows({@visibleForTesting UrlLauncherApi? api})
+                                         ^^^^^^^^^^^^^^
+/C:/Users/ebenaAdmin/AppData/Local/Pub/Cache/hosted/pub.dev/url_launcher_windows-3.1.5/lib/url_launcher_windows.dart:15:25: Error: Method not found: 'UrlLauncherApi'.
+    : _hostApi = api ?? UrlLauncherApi();
+                        ^^^^^^^^^^^^^^
+/C:/Users/ebenaAdmin/AppData/Local/Pub/Cache/hosted/pub.dev/url_launcher_windows-3.1.5/lib/url_launcher_windows.dart:17:9: Error: 'UrlLauncherApi' isn't a type.
+  final UrlLauncherApi _hostApi;
+        ^^^^^^^^^^^^^^
+Target kernel_snapshot_program failed: Exception
+
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:compileFlutterBuildDebug'.
+> Process 'command 'C:\Users\ebenaAdmin\develop\flutter\bin\flutter.bat'' finished with non-zero exit value 1
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 4m 42s
+Running Gradle task 'assembleDebug'...                            282.8s
+Gradle task assembleDebug failed with exit code 1
