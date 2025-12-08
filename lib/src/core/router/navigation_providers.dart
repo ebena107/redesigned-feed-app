@@ -16,7 +16,8 @@ sealed class AppNavigationState {
 }
 
 class _AppNavigationState extends AppNavigationState {
-  const _AppNavigationState({int navIndex = 1}) : super._(navIndex: navIndex);
+  const _AppNavigationState({super.navIndex = 1})
+      : super._(navIndex: super.navIndex);
 }
 
 class AppNavigationNotifier extends Notifier<AppNavigationState> {

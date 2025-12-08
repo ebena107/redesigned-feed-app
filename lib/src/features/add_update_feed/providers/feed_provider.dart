@@ -73,14 +73,14 @@ sealed class FeedState {
 
 class _FeedState extends FeedState {
   const _FeedState({
-    String feedName = "",
-    num animalTypeId = 1,
-    List<AnimalTypes> animalTypes = const [],
-    List<FeedIngredients> feedIngredients = const [],
-    num totalQuantity = 0.0,
-    Feed? newFeed,
-    String message = "",
-    String status = "",
+    super.feedName = "",
+    super.animalTypeId = 1,
+    super.animalTypes = const [],
+    super.feedIngredients = const [],
+    super.totalQuantity = 0.0,
+    super.newFeed,
+    super.message = "",
+    super.status = "",
   }) : super._(
           feedName: feedName,
           animalTypeId: animalTypeId,
@@ -98,7 +98,7 @@ class FeedNotifier extends Notifier<FeedState> {
   FeedState build() {
     resetProvider();
     loadAnimalTypes();
-    return _FeedState();
+    return const _FeedState();
   }
 
   num? _feedId;

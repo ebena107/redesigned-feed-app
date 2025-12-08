@@ -39,9 +39,9 @@ sealed class ResultsState {
 
 class _ResultsState extends ResultsState {
   const _ResultsState({
-    List<Result> results = const [],
-    Result? myResult,
-    bool toggle = false,
+    super.results = const [],
+    super.myResult,
+    super.toggle = false,
   }) : super._(
           results: results,
           myResult: myResult,
@@ -53,7 +53,7 @@ class ResultNotifier extends Notifier<ResultsState> {
   @override
   ResultsState build() {
     // setFeed(ref.watch(asyncMainProvider));
-    return _ResultsState();
+    return const _ResultsState();
   }
 
   num _mEnergy = 0;

@@ -37,9 +37,9 @@ sealed class MainViewState {
 
 class _MainViewState extends MainViewState {
   const _MainViewState({
-    List<Feed> feeds = const [],
-    int animalTypes = 0,
-    List<FeedIngredients> feedIngredients = const [],
+    super.feeds = const [],
+    super.animalTypes = 0,
+    super.feedIngredients = const [],
   }) : super._(
           feeds: feeds,
           animalTypes: animalTypes,
@@ -51,7 +51,7 @@ class MainViewNotifier extends Notifier<MainViewState> {
   @override
   MainViewState build() {
     loadFeeds();
-    return _MainViewState();
+    return const _MainViewState();
   }
 
   Future<void> loadFeeds() async {

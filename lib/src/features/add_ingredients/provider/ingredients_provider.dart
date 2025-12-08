@@ -12,8 +12,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'ingredients_provider.freezed.dart';
-
 final ingredientProvider =
     StateNotifierProvider<IngredientNotifier, IngredientState>((ref) {
   return IngredientNotifier(ref);
