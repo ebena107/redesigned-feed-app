@@ -51,6 +51,8 @@ sealed class IngredientState {
     ValidationModel? priceKg,
     ValidationModel? availableQty,
     ValidationModel? categoryId,
+    ValidationModel? createdBy,
+    ValidationModel? notes,
     num? favourite,
     String? status,
     String? message,
@@ -87,6 +89,8 @@ sealed class IngredientState {
       priceKg: priceKg ?? this.priceKg,
       availableQty: availableQty ?? this.availableQty,
       categoryId: categoryId ?? this.categoryId,
+      createdBy: createdBy ?? this.createdBy,
+      notes: notes ?? this.notes,
       favourite: favourite ?? this.favourite,
       status: status ?? this.status,
       message: message ?? this.message,
@@ -124,6 +128,8 @@ sealed class IngredientState {
   ValidationModel? get priceKg;
   ValidationModel? get availableQty;
   ValidationModel? get categoryId;
+  ValidationModel? get createdBy;
+  ValidationModel? get notes;
   num get favourite;
   String get status;
   String get message;
@@ -162,6 +168,8 @@ class _IngredientState extends IngredientState {
     this.priceKg,
     this.availableQty,
     this.categoryId,
+    this.createdBy,
+    this.notes,
     this.favourite = 0,
     this.status = "",
     this.message = "",
@@ -230,6 +238,10 @@ class _IngredientState extends IngredientState {
   @override
   final ValidationModel? categoryId;
   @override
+  final ValidationModel? createdBy;
+  @override
+  final ValidationModel? notes;
+  @override
   final num favourite;
   @override
   final String status;
@@ -269,6 +281,8 @@ class IngredientNotifier extends Notifier<IngredientState> {
       priceKg: ValidationModel(value: null, error: null, isValid: false),
       availableQty: ValidationModel(value: null, error: null, isValid: false),
       categoryId: ValidationModel(value: null, error: null, isValid: false),
+      createdBy: ValidationModel(value: 'User', error: null, isValid: true),
+      notes: ValidationModel(value: '', error: null, isValid: true),
     );
 
     return state;
@@ -832,6 +846,32 @@ class IngredientNotifier extends Notifier<IngredientState> {
           availableQty: ValidationModel(
               value: null, error: 'Value is required', isValid: false));
     }
+  }
+
+  setCreatedBy(String? value) {
+    final trimmed = value?.trim() ?? '';
+    if (trimmed.length >= 2) {
+      final updated = state.newIngredient?.copyWith(createdBy: trimmed);
+      state = state.copyWith(
+        createdBy: ValidationModel(value: trimmed, error: null, isValid: true),
+        newIngredient: updated,
+      );
+    } else {
+      state = state.copyWith(
+        createdBy: ValidationModel(
+            value: null, error: 'Creator name required', isValid: false),
+      );
+    }
+  }
+
+  setNotes(String? value) {
+    final trimmed = value?.trim() ?? '';
+    // Notes optional; always mark valid and store
+    final updated = state.newIngredient?.copyWith(notes: trimmed);
+    state = state.copyWith(
+      notes: ValidationModel(value: trimmed, error: null, isValid: true),
+      newIngredient: updated,
+    );
   }
 
   setCategory(String value) {

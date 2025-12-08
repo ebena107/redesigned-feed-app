@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'form_widgets.dart';
+import 'custom_ingredient_fields.dart';
 
 class IngredientForm extends ConsumerWidget {
   final int? ingId;
@@ -14,6 +15,8 @@ class IngredientForm extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final data = ref.watch(ingredientProvider);
+    final isCustom = ingId == null; // New ingredients are custom
+
     return Form(
       key: _formKey,
       child: Card(
@@ -21,6 +24,7 @@ class IngredientForm extends ConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
+            if (isCustom) customIngredientHeader(),
             nameField(ref, ingId, context),
             Card(
               child: Row(
@@ -121,17 +125,16 @@ class IngredientForm extends ConsumerWidget {
                 ],
               ),
             ),
+            if (isCustom) ...[
+              const SizedBox(height: 8),
+              createdByField(ref),
+              const SizedBox(height: 8),
+              notesField(ref),
+            ],
             const SizedBox(
               height: 8,
             ),
-            // saveButton(
-            //   context: context,
-            //   myKey: _formKey,
-            //   ref:ref
-            // )
             SaveButton(myKey: _formKey, ingId: ingId)
-
-            //    _categoryField(),
           ],
         ),
       ),
