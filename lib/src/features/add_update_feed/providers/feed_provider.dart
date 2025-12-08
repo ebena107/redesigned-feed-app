@@ -13,6 +13,7 @@ import 'package:feed_estimator/src/features/main/repository/feed_ingredient_repo
 import 'package:feed_estimator/src/features/main/repository/feed_repository.dart';
 import 'package:feed_estimator/src/features/reports/providers/result_provider.dart';
 
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final feedProvider =
@@ -77,8 +78,16 @@ class _FeedState extends FeedState {
 class FeedNotifier extends Notifier<FeedState> {
   @override
   FeedState build() {
-    resetProvider();
-    loadAnimalTypes();
+    // Initialize internal state
+    _feedId = null;
+    _totalQuantity = 0.0;
+
+    // Start loading animal types asynchronously after first frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadAnimalTypes();
+    });
+
+    // Return initial state immediately
     return const _FeedState();
   }
 
@@ -86,15 +95,23 @@ class FeedNotifier extends Notifier<FeedState> {
   num _totalQuantity = 0.0;
 
   Future<void> resetProvider() async {
-    state = state.copyWith(
-        newFeed: Feed(), animalTypeId: 1, feedName: "", feedIngredients: []);
     _feedId = null;
     _totalQuantity = 0.0;
+    state = const _FeedState();
+    // Refresh animal types when resetting to keep dropdown up to date
+    await _loadAnimalTypes();
   }
 
-  Future<void> loadAnimalTypes() async {
-    final animals = await ref.watch(animalTypeRepository).getAll();
-    state = state.copyWith(animalTypes: animals);
+  Future<void> _loadAnimalTypes() async {
+    try {
+      final animals = await ref.read(animalTypeRepository).getAll();
+      if (state case var s) {
+        state = s.copyWith(animalTypes: animals);
+      }
+    } catch (e) {
+      // Log error but don't crash; UI will show empty dropdown
+      debugPrint('Error loading animal types: $e');
+    }
   }
 
   void setFeed(Feed feed) {

@@ -40,6 +40,10 @@ class IngredientsRepository implements Repository {
   static const colCategoryId = 'category_id';
   static const colFavourite = 'favourite';
   static const colTimestamp = 'timestamp';
+  static const colIsCustom = 'is_custom';
+  static const colCreatedBy = 'created_by';
+  static const colCreatedDate = 'created_date';
+  static const colNotes = 'notes';
 
   static const tableCreateQuery = 'CREATE TABLE $tableName ('
       '$colId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, '
@@ -61,6 +65,10 @@ class IngredientsRepository implements Repository {
       '$colAvailableQty REAL, '
       '$colCategoryId INTEGER, '
       '$colFavourite INTEGER, '
+      '$colIsCustom INTEGER DEFAULT 0, '
+      '$colCreatedBy TEXT, '
+      '$colCreatedDate INTEGER, '
+      '$colNotes TEXT, '
       '''$colTimestamp INTEGER DEFAULT (cast(strftime('%s','now') as INT)), '''
       'FOREIGN KEY($colCategoryId) REFERENCES ${IngredientsCategoryRepository.tableName}(${IngredientsCategoryRepository.colId}) ON DELETE NO ACTION ON UPDATE NO ACTION'
       ')';

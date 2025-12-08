@@ -3,7 +3,7 @@ import 'package:feed_estimator/src/core/value_objects/value_objects.dart';
 
 /// Demo page showcasing Phase 2 value objects
 class Phase2ValueObjectsDemo extends StatefulWidget {
-  const Phase2ValueObjectsDemo({Key? key}) : super(key: key);
+  const Phase2ValueObjectsDemo({super.key});
 
   @override
   State<Phase2ValueObjectsDemo> createState() => _Phase2ValueObjectsDemoState();
@@ -24,15 +24,15 @@ class _Phase2ValueObjectsDemoState extends State<Phase2ValueObjectsDemo> {
 
   void _initializeValueObjects() {
     // Initialize Price value objects
-    priceNGN = Price(amount: 5000.50, currency: 'NGN');
-    priceUSD = Price(amount: 12.50, currency: 'USD');
+    priceNGN = const Price(amount: 5000.50, currency: 'NGN');
+    priceUSD = const Price(amount: 12.50, currency: 'USD');
 
     // Initialize Weight value objects
-    weightKg = Weight(value: 25.5, unit: WeightUnit.kg);
-    weightLbs = Weight(value: 56.2, unit: WeightUnit.lbs);
+    weightKg = const Weight(value: 25.5, unit: WeightUnit.kg);
+    weightLbs = const Weight(value: 56.2, unit: WeightUnit.lbs);
 
     // Initialize Quantity value object
-    quantity = Quantity(value: 100, unit: 'bags');
+    quantity = const Quantity(value: 100, unit: 'bags');
   }
 
   @override
