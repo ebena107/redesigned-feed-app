@@ -32,9 +32,6 @@ sealed class ResultsState {
         myResult: myResult ?? this.myResult,
         toggle: toggle ?? this.toggle,
       );
-
-  const ResultsState._(
-      {required this.results, this.myResult, required this.toggle});
 }
 
 class _ResultsState extends ResultsState {
@@ -42,11 +39,7 @@ class _ResultsState extends ResultsState {
     super.results = const [],
     super.myResult,
     super.toggle = false,
-  }) : super._(
-          results: results,
-          myResult: myResult,
-          toggle: toggle,
-        );
+  });
 }
 
 class ResultNotifier extends Notifier<ResultsState> {

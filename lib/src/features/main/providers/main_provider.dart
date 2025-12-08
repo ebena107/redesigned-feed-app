@@ -28,11 +28,6 @@ sealed class MainViewState {
         animalTypes: animalTypes ?? this.animalTypes,
         feedIngredients: feedIngredients ?? this.feedIngredients,
       );
-
-  const MainViewState._(
-      {required this.feeds,
-      required this.animalTypes,
-      required this.feedIngredients});
 }
 
 class _MainViewState extends MainViewState {
@@ -40,11 +35,7 @@ class _MainViewState extends MainViewState {
     super.feeds = const [],
     super.animalTypes = 0,
     super.feedIngredients = const [],
-  }) : super._(
-          feeds: feeds,
-          animalTypes: animalTypes,
-          feedIngredients: feedIngredients,
-        );
+  });
 }
 
 class MainViewNotifier extends Notifier<MainViewState> {

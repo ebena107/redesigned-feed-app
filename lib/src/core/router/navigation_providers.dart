@@ -11,13 +11,10 @@ sealed class AppNavigationState {
 
   AppNavigationState copyWith({int? navIndex}) =>
       _AppNavigationState(navIndex: navIndex ?? this.navIndex);
-
-  const AppNavigationState._({required this.navIndex});
 }
 
 class _AppNavigationState extends AppNavigationState {
-  const _AppNavigationState({super.navIndex = 1})
-      : super._(navIndex: super.navIndex);
+  const _AppNavigationState({super.navIndex = 1});
 }
 
 class AppNavigationNotifier extends Notifier<AppNavigationState> {

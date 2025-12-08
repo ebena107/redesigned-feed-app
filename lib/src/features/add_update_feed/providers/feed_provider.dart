@@ -59,16 +59,6 @@ sealed class FeedState {
         message: message ?? this.message,
         status: status ?? this.status,
       );
-
-  const FeedState._(
-      {required this.feedName,
-      required this.animalTypeId,
-      required this.animalTypes,
-      required this.feedIngredients,
-      required this.totalQuantity,
-      this.newFeed,
-      required this.message,
-      required this.status});
 }
 
 class _FeedState extends FeedState {
@@ -81,16 +71,7 @@ class _FeedState extends FeedState {
     super.newFeed,
     super.message = "",
     super.status = "",
-  }) : super._(
-          feedName: feedName,
-          animalTypeId: animalTypeId,
-          animalTypes: animalTypes,
-          feedIngredients: feedIngredients,
-          totalQuantity: totalQuantity,
-          newFeed: newFeed,
-          message: message,
-          status: status,
-        );
+  });
 }
 
 class FeedNotifier extends Notifier<FeedState> {

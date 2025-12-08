@@ -10,32 +10,30 @@ import 'package:feed_estimator/src/features/main/repository/feed_ingredient_repo
 import 'package:flutter/foundation.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
 final ingredientProvider =
-    StateNotifierProvider<IngredientNotifier, IngredientState>((ref) {
-  return IngredientNotifier(ref);
+    NotifierProvider<IngredientNotifier, IngredientState>(() {
+  return IngredientNotifier();
 });
 
-@freezed
-class IngredientState with _$IngredientState {
-  const factory IngredientState({
-    @Default([]) List<Ingredient> ingredients,
-    @Default([]) List<IngredientCategory> categoryList,
-    @Default([]) List<Ingredient> filteredIngredients,
-    @Default([]) List<FeedIngredients> selectedIngredients,
-    @Default(0) count,
-    @Default(false) bool search,
-    @Default(false) bool sort,
-    @Default(true) bool showSearch,
-    @Default(true) bool showSort,
-    @Default("") String query,
-    num? sortByCategory,
+sealed class IngredientState {
+  const IngredientState();
 
-    //@Default(false) bool filter,
-    @Default(false) bool validate,
+  IngredientState copyWith({
+    List<Ingredient>? ingredients,
+    List<IngredientCategory>? categoryList,
+    List<Ingredient>? filteredIngredients,
+    List<FeedIngredients>? selectedIngredients,
+    int? count,
+    bool? search,
+    bool? sort,
+    bool? showSearch,
+    bool? showSort,
+    String? query,
+    num? sortByCategory,
+    bool? validate,
     Ingredient? newIngredient,
-    @Default(false) bool singleEnergyValue,
+    bool? singleEnergyValue,
     ValidationModel? name,
     ValidationModel? crudeProtein,
     ValidationModel? crudeFiber,
@@ -53,21 +51,199 @@ class IngredientState with _$IngredientState {
     ValidationModel? priceKg,
     ValidationModel? availableQty,
     ValidationModel? categoryId,
-    @Default(0) num favourite,
-    @Default("") String status,
-    @Default("") String message,
-  }) = _IngredientState;
+    num? favourite,
+    String? status,
+    String? message,
+  }) {
+    return _IngredientState(
+      ingredients: ingredients ?? this.ingredients,
+      categoryList: categoryList ?? this.categoryList,
+      filteredIngredients: filteredIngredients ?? this.filteredIngredients,
+      selectedIngredients: selectedIngredients ?? this.selectedIngredients,
+      count: count ?? this.count,
+      search: search ?? this.search,
+      sort: sort ?? this.sort,
+      showSearch: showSearch ?? this.showSearch,
+      showSort: showSort ?? this.showSort,
+      query: query ?? this.query,
+      sortByCategory: sortByCategory ?? this.sortByCategory,
+      validate: validate ?? this.validate,
+      newIngredient: newIngredient ?? this.newIngredient,
+      singleEnergyValue: singleEnergyValue ?? this.singleEnergyValue,
+      name: name ?? this.name,
+      crudeProtein: crudeProtein ?? this.crudeProtein,
+      crudeFiber: crudeFiber ?? this.crudeFiber,
+      crudeFat: crudeFat ?? this.crudeFat,
+      calcium: calcium ?? this.calcium,
+      phosphorus: phosphorus ?? this.phosphorus,
+      lysine: lysine ?? this.lysine,
+      methionine: methionine ?? this.methionine,
+      meGrowingPig: meGrowingPig ?? this.meGrowingPig,
+      meAdultPig: meAdultPig ?? this.meAdultPig,
+      mePoultry: mePoultry ?? this.mePoultry,
+      meRuminant: meRuminant ?? this.meRuminant,
+      meRabbit: meRabbit ?? this.meRabbit,
+      deSalmonids: deSalmonids ?? this.deSalmonids,
+      priceKg: priceKg ?? this.priceKg,
+      availableQty: availableQty ?? this.availableQty,
+      categoryId: categoryId ?? this.categoryId,
+      favourite: favourite ?? this.favourite,
+      status: status ?? this.status,
+      message: message ?? this.message,
+    );
+  }
 
-  const IngredientState._();
+  List<Ingredient> get ingredients;
+  List<IngredientCategory> get categoryList;
+  List<Ingredient> get filteredIngredients;
+  List<FeedIngredients> get selectedIngredients;
+  int get count;
+  bool get search;
+  bool get sort;
+  bool get showSearch;
+  bool get showSort;
+  String get query;
+  num? get sortByCategory;
+  bool get validate;
+  Ingredient? get newIngredient;
+  bool get singleEnergyValue;
+  ValidationModel? get name;
+  ValidationModel? get crudeProtein;
+  ValidationModel? get crudeFiber;
+  ValidationModel? get crudeFat;
+  ValidationModel? get calcium;
+  ValidationModel? get phosphorus;
+  ValidationModel? get lysine;
+  ValidationModel? get methionine;
+  ValidationModel? get meGrowingPig;
+  ValidationModel? get meAdultPig;
+  ValidationModel? get mePoultry;
+  ValidationModel? get meRuminant;
+  ValidationModel? get meRabbit;
+  ValidationModel? get deSalmonids;
+  ValidationModel? get priceKg;
+  ValidationModel? get availableQty;
+  ValidationModel? get categoryId;
+  num get favourite;
+  String get status;
+  String get message;
 }
 
-class IngredientNotifier extends StateNotifier<IngredientState> {
-  final Ref ref;
+class _IngredientState extends IngredientState {
+  const _IngredientState({
+    this.ingredients = const [],
+    this.categoryList = const [],
+    this.filteredIngredients = const [],
+    this.selectedIngredients = const [],
+    this.count = 0,
+    this.search = false,
+    this.sort = false,
+    this.showSearch = true,
+    this.showSort = true,
+    this.query = "",
+    this.sortByCategory,
+    this.validate = false,
+    this.newIngredient,
+    this.singleEnergyValue = false,
+    this.name,
+    this.crudeProtein,
+    this.crudeFiber,
+    this.crudeFat,
+    this.calcium,
+    this.phosphorus,
+    this.lysine,
+    this.methionine,
+    this.meGrowingPig,
+    this.meAdultPig,
+    this.mePoultry,
+    this.meRuminant,
+    this.meRabbit,
+    this.deSalmonids,
+    this.priceKg,
+    this.availableQty,
+    this.categoryId,
+    this.favourite = 0,
+    this.status = "",
+    this.message = "",
+  });
 
-  IngredientNotifier(this.ref) : super(const IngredientState()) {
+  @override
+  final List<Ingredient> ingredients;
+  @override
+  final List<IngredientCategory> categoryList;
+  @override
+  final List<Ingredient> filteredIngredients;
+  @override
+  final List<FeedIngredients> selectedIngredients;
+  @override
+  final int count;
+  @override
+  final bool search;
+  @override
+  final bool sort;
+  @override
+  final bool showSearch;
+  @override
+  final bool showSort;
+  @override
+  final String query;
+  @override
+  final num? sortByCategory;
+  @override
+  final bool validate;
+  @override
+  final Ingredient? newIngredient;
+  @override
+  final bool singleEnergyValue;
+  @override
+  final ValidationModel? name;
+  @override
+  final ValidationModel? crudeProtein;
+  @override
+  final ValidationModel? crudeFiber;
+  @override
+  final ValidationModel? crudeFat;
+  @override
+  final ValidationModel? calcium;
+  @override
+  final ValidationModel? phosphorus;
+  @override
+  final ValidationModel? lysine;
+  @override
+  final ValidationModel? methionine;
+  @override
+  final ValidationModel? meGrowingPig;
+  @override
+  final ValidationModel? meAdultPig;
+  @override
+  final ValidationModel? mePoultry;
+  @override
+  final ValidationModel? meRuminant;
+  @override
+  final ValidationModel? meRabbit;
+  @override
+  final ValidationModel? deSalmonids;
+  @override
+  final ValidationModel? priceKg;
+  @override
+  final ValidationModel? availableQty;
+  @override
+  final ValidationModel? categoryId;
+  @override
+  final num favourite;
+  @override
+  final String status;
+  @override
+  final String message;
+}
+
+class IngredientNotifier extends Notifier<IngredientState> {
+  @override
+  IngredientState build() {
     loadIngredients();
     loadCategories();
     setDefaultValues();
+    return const _IngredientState();
   }
 
   loadIngredients() async {

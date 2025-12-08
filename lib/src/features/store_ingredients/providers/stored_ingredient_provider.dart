@@ -5,37 +5,88 @@ import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients
 import 'package:feed_estimator/src/features/add_ingredients/repository/ingredients_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
-
-part 'stored_ingredient_provider.freezed.dart';
 
 final storeIngredientProvider =
-    StateNotifierProvider<StoreIngredientNotifier, StoreIngredientState>((ref) {
-  return StoreIngredientNotifier(ref);
+    NotifierProvider<StoreIngredientNotifier, StoreIngredientState>(() {
+  return StoreIngredientNotifier();
 });
 
-@freezed
-class StoreIngredientState with _$StoreIngredientState {
-  const factory StoreIngredientState({
-    @Default([]) List<Ingredient> ingredients,
-    Ingredient? selectedIngredient,
-    @Default(false) bool validate,
-    @Default(0) num id,
-    @Default(0) num priceKg,
-    @Default(0) num availableQty,
-    @Default(0) num favourite,
-    @Default("") String status,
-    @Default("") String message,
-  }) = _StoreIngredientState;
+sealed class StoreIngredientState {
+  const StoreIngredientState();
 
-  const StoreIngredientState._();
+  StoreIngredientState copyWith({
+    List<Ingredient>? ingredients,
+    Ingredient? selectedIngredient,
+    bool? validate,
+    num? id,
+    num? priceKg,
+    num? availableQty,
+    num? favourite,
+    String? status,
+    String? message,
+  }) {
+    return _StoreIngredientState(
+      ingredients: ingredients ?? this.ingredients,
+      selectedIngredient: selectedIngredient ?? this.selectedIngredient,
+      validate: validate ?? this.validate,
+      id: id ?? this.id,
+      priceKg: priceKg ?? this.priceKg,
+      availableQty: availableQty ?? this.availableQty,
+      favourite: favourite ?? this.favourite,
+      status: status ?? this.status,
+      message: message ?? this.message,
+    );
+  }
+
+  List<Ingredient> get ingredients;
+  Ingredient? get selectedIngredient;
+  bool get validate;
+  num get id;
+  num get priceKg;
+  num get availableQty;
+  num get favourite;
+  String get status;
+  String get message;
 }
 
-class StoreIngredientNotifier extends StateNotifier<StoreIngredientState> {
-  final Ref ref;
+class _StoreIngredientState extends StoreIngredientState {
+  const _StoreIngredientState({
+    this.ingredients = const [],
+    this.selectedIngredient,
+    this.validate = false,
+    this.id = 0,
+    this.priceKg = 0,
+    this.availableQty = 0,
+    this.favourite = 0,
+    this.status = "",
+    this.message = "",
+  });
 
-  StoreIngredientNotifier(this.ref) : super(const StoreIngredientState()) {
+  @override
+  final List<Ingredient> ingredients;
+  @override
+  final Ingredient? selectedIngredient;
+  @override
+  final bool validate;
+  @override
+  final num id;
+  @override
+  final num priceKg;
+  @override
+  final num availableQty;
+  @override
+  final num favourite;
+  @override
+  final String status;
+  @override
+  final String message;
+}
+
+class StoreIngredientNotifier extends Notifier<StoreIngredientState> {
+  @override
+  StoreIngredientState build() {
     loadIngredients();
+    return const _StoreIngredientState();
   }
 
   reset() {
