@@ -24,6 +24,8 @@ sealed class StoreIngredientState {
     num? favourite,
     String? status,
     String? message,
+    num? selectedCategoryId,
+    List<Ingredient>? filteredIngredients,
   }) {
     return _StoreIngredientState(
       ingredients: ingredients ?? this.ingredients,
@@ -35,6 +37,8 @@ sealed class StoreIngredientState {
       favourite: favourite ?? this.favourite,
       status: status ?? this.status,
       message: message ?? this.message,
+      selectedCategoryId: selectedCategoryId ?? this.selectedCategoryId,
+      filteredIngredients: filteredIngredients ?? this.filteredIngredients,
     );
   }
 
@@ -47,6 +51,8 @@ sealed class StoreIngredientState {
   num get favourite;
   String get status;
   String get message;
+  num? get selectedCategoryId;
+  List<Ingredient> get filteredIngredients;
 }
 
 class _StoreIngredientState extends StoreIngredientState {
@@ -60,6 +66,8 @@ class _StoreIngredientState extends StoreIngredientState {
     this.favourite = 0,
     this.status = "",
     this.message = "",
+    this.selectedCategoryId,
+    this.filteredIngredients = const [],
   });
 
   @override
@@ -80,6 +88,10 @@ class _StoreIngredientState extends StoreIngredientState {
   final String status;
   @override
   final String message;
+  @override
+  final num? selectedCategoryId;
+  @override
+  final List<Ingredient> filteredIngredients;
 }
 
 class StoreIngredientNotifier extends Notifier<StoreIngredientState> {
@@ -101,19 +113,42 @@ class StoreIngredientNotifier extends Notifier<StoreIngredientState> {
 
   loadIngredients() async {
     final ingList = await ref.watch(ingredientsRepository).getAll();
-
-    state = state.copyWith(ingredients: ingList);
+    state = state.copyWith(
+      ingredients: ingList,
+      filteredIngredients: ingList,
+      selectedCategoryId: null,
+    );
   }
 
   setIngredient(num? id) async {
-    final ing = state.ingredients
-        .firstWhere((e) => e.ingredientId == id, orElse: () => Ingredient());
+    final source = state.selectedCategoryId == null
+        ? state.ingredients
+        : state.filteredIngredients;
+    final ing = source.firstWhere((e) => e.ingredientId == id,
+        orElse: () => Ingredient());
     if (ing != Ingredient()) {
       state = state.copyWith(
           selectedIngredient: ing,
           priceKg: ing.priceKg as num,
           availableQty: ing.availableQty as num,
           favourite: ing.favourite as num);
+    }
+  }
+
+  setCategory(num? categoryId) {
+    if (categoryId == null) {
+      state = state.copyWith(
+        selectedCategoryId: null,
+        filteredIngredients: state.ingredients,
+      );
+    } else {
+      final filtered = state.ingredients
+          .where((ing) => ing.categoryId == categoryId)
+          .toList();
+      state = state.copyWith(
+        selectedCategoryId: categoryId,
+        filteredIngredients: filtered,
+      );
     }
   }
 
