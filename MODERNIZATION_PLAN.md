@@ -109,6 +109,7 @@
 **Current State**: Modern pattern adopted, can strengthen
 
 **Actions**:
+
 - [ ] Add `FamilyModifier` for parameterized providers
 - [ ] Implement `AsyncValue` error handling consistently
 - [ ] Add provider scoping where appropriate
@@ -116,6 +117,7 @@
 - [ ] Add `keepAlive` with `cacheTime` control
 
 ### 3.2 Async/Await & Futures
+
 **Current State**: Mixed async patterns
 
 **Actions**:

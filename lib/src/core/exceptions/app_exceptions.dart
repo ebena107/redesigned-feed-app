@@ -32,15 +32,10 @@ class RepositoryException extends AppException {
 
   RepositoryException({
     required this.operation,
-    required String message,
-    Object? originalError,
-    StackTrace? stackTrace,
-  }) : super(
-          message: message,
-          originalError: originalError,
-          stackTrace: stackTrace,
-        );
-
+    required super.message,
+    super.originalError,
+    super.stackTrace,
+  });
   @override
   String toString() => 'RepositoryException ($operation): $message';
 }
@@ -56,17 +51,12 @@ class ValidationException extends AppException {
   final String? rule;
 
   ValidationException({
-    required String message,
+    required super.message,
     this.field,
     this.rule,
-    Object? originalError,
-    StackTrace? stackTrace,
-  }) : super(
-          message: message,
-          originalError: originalError,
-          stackTrace: stackTrace,
-        );
-
+    super.originalError,
+    super.stackTrace,
+  });
   @override
   String toString() =>
       'ValidationException: $message (field: $field, rule: $rule)';
@@ -85,16 +75,11 @@ class SyncException extends AppException {
 
   SyncException({
     required this.resource,
-    required String message,
+    required super.message,
     this.isConflict = false,
-    Object? originalError,
-    StackTrace? stackTrace,
-  }) : super(
-          message: message,
-          originalError: originalError,
-          stackTrace: stackTrace,
-        );
-
+    super.originalError,
+    super.stackTrace,
+  });
   @override
   String toString() =>
       'SyncException ($resource)${isConflict ? ' [CONFLICT]' : ''}: $message';
@@ -108,16 +93,11 @@ class DateTimeException extends AppException {
   final String? value;
 
   DateTimeException({
-    required String message,
+    required super.message,
     this.value,
-    Object? originalError,
-    StackTrace? stackTrace,
-  }) : super(
-          message: message,
-          originalError: originalError,
-          stackTrace: stackTrace,
-        );
-
+    super.originalError,
+    super.stackTrace,
+  });
   @override
   String toString() => 'DateTimeException: $message (value: $value)';
 }
@@ -134,16 +114,11 @@ class CalculationException extends AppException {
 
   CalculationException({
     required this.operation,
-    required String message,
+    required super.message,
     this.values,
-    Object? originalError,
-    StackTrace? stackTrace,
-  }) : super(
-          message: message,
-          originalError: originalError,
-          stackTrace: stackTrace,
-        );
-
+    super.originalError,
+    super.stackTrace,
+  });
   @override
   String toString() => 'CalculationException ($operation): $message';
 }
@@ -157,15 +132,10 @@ class BusinessLogicException extends AppException {
 
   BusinessLogicException({
     required this.rule,
-    required String message,
-    Object? originalError,
-    StackTrace? stackTrace,
-  }) : super(
-          message: message,
-          originalError: originalError,
-          stackTrace: stackTrace,
-        );
-
+    required super.message,
+    super.originalError,
+    super.stackTrace,
+  });
   @override
   String toString() => 'BusinessLogicException: $message (rule: $rule)';
 }
@@ -183,15 +153,10 @@ class StateException extends AppException {
   StateException({
     required this.currentState,
     required this.operation,
-    required String message,
-    Object? originalError,
-    StackTrace? stackTrace,
-  }) : super(
-          message: message,
-          originalError: originalError,
-          stackTrace: stackTrace,
-        );
-
+    required super.message,
+    super.originalError,
+    super.stackTrace,
+  });
   @override
   String toString() =>
       'StateException: $message (state: $currentState, operation: $operation)';
