@@ -11,7 +11,6 @@ part 'main_provider.freezed.dart';
 final mainViewProvider =
     NotifierProvider<MainViewNotifier, MainViewState>(MainViewNotifier.new);
 
-// ignore: use_to_and_then
 @freezed
 class MainViewState with _$MainViewState {
   const factory MainViewState({

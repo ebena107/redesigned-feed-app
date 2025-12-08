@@ -18,7 +18,6 @@ final ingredientProvider =
     NotifierProvider<IngredientNotifier, IngredientState>(
         IngredientNotifier.new);
 
-// ignore: use_to_and_then
 @freezed
 class IngredientState with _$IngredientState {
   const factory IngredientState({
