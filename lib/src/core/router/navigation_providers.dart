@@ -7,6 +7,7 @@ final appNavigationProvider =
     NotifierProvider<AppNavigationNotifier, AppNavigationState>(
         AppNavigationNotifier.new);
 
+// ignore: use_to_and_then
 @freezed
 class AppNavigationState with _$AppNavigationState {
   const factory AppNavigationState({
