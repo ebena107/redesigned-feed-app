@@ -4,20 +4,42 @@ import 'package:feed_estimator/src/features/add_ingredients/model/ingredient_cat
 import 'package:feed_estimator/src/features/add_ingredients/repository/ingredient_category_repository.dart';
 import 'package:feed_estimator/src/features/store_ingredients/providers/async_stored_ingredient.dart';
 import 'package:feed_estimator/src/features/store_ingredients/providers/stored_ingredient_provider.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class IngredientSSelectWidget extends ConsumerWidget {
+class IngredientSSelectWidget extends ConsumerStatefulWidget {
   const IngredientSSelectWidget({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<IngredientSSelectWidget> createState() =>
+      _IngredientSSelectWidgetState();
+}
+
+class _IngredientSSelectWidgetState
+    extends ConsumerState<IngredientSSelectWidget> {
+  late TextEditingController _searchController;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final ref = this.ref;
     final data = ref.watch(asyncStoredIngredientsProvider);
     final provider = ref.watch(storeIngredientProvider);
     final categories = ref.watch(ingredientsCategoryProvider);
+
     return data.when(
         data: (ingredients) {
           final filtered = provider.filteredIngredients.isNotEmpty ||
@@ -25,9 +47,43 @@ class IngredientSSelectWidget extends ConsumerWidget {
               ? provider.filteredIngredients
               : ingredients;
 
+          // Further filter by search term if present
+          final searchResults = _searchController.text.isNotEmpty
+              ? filtered
+                  .where((ing) => ing.name!
+                      .toLowerCase()
+                      .contains(_searchController.text.toLowerCase()))
+                  .toList()
+              : filtered;
+
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              // Search field
+              TextField(
+                controller: _searchController,
+                decoration: InputDecoration(
+                  hintText: 'Search ingredients by name...',
+                  prefixIcon: const Icon(Icons.search),
+                  suffixIcon: _searchController.text.isNotEmpty
+                      ? IconButton(
+                          icon: const Icon(Icons.clear),
+                          onPressed: () {
+                            _searchController.clear();
+                            setState(() {});
+                          },
+                        )
+                      : null,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                ),
+                onChanged: (_) => setState(() {}),
+              ),
+              const SizedBox(height: 8),
+              // Category filter
               categories.when(
                 data: (cats) {
                   final List<DropdownMenuItem<num?>> categoryItems = [
@@ -111,6 +167,7 @@ class IngredientSSelectWidget extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 8),
+              // Ingredients dropdown with search results count
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 height: 40,
@@ -132,7 +189,7 @@ class IngredientSSelectWidget extends ConsumerWidget {
                       color: AppConstants.appBackgroundColor,
                     ),
                     hint: Text(
-                      "Select Ingredient to Update",
+                      "Select Ingredient (${searchResults.length} found)",
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             color: AppConstants.appBackgroundColor,
                           ),
@@ -142,17 +199,30 @@ class IngredientSSelectWidget extends ConsumerWidget {
                     value: provider.selectedIngredient?.ingredientId,
                     dropdownColor:
                         AppConstants.appIconGreyColor.withValues(alpha: .8),
-                    items: filtered.map((Ingredient ing) {
+                    items: searchResults.map((Ingredient ing) {
+                      final isFavourite = ing.favourite == 1;
                       return DropdownMenuItem<num>(
                         alignment: AlignmentDirectional.center,
                         value: ing.ingredientId,
-                        child: Text(
-                          ing.name.toString(),
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    color: AppConstants.appBackgroundColor,
-                                  ),
-                          textAlign: TextAlign.center,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                ing.name.toString(),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                      color: AppConstants.appBackgroundColor,
+                                    ),
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            if (isFavourite)
+                              const Icon(Icons.star,
+                                  color: Colors.orange, size: 16),
+                          ],
                         ),
                       );
                     }).toList(),
