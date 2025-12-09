@@ -10,7 +10,6 @@ import 'package:feed_estimator/src/features/reports/providers/result_provider.da
 import 'package:feed_estimator/src/utils/widgets/app_drawer.dart';
 import 'package:feed_estimator/src/utils/widgets/error_widget.dart';
 import 'package:feed_estimator/src/utils/widgets/loading_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,8 +27,9 @@ class MainView extends ConsumerWidget {
         preferredSize: const Size.fromHeight(0),
         child: AppBar(
           systemOverlayStyle: const SystemUiOverlayStyle(
-            // systemNavigationBarColor: Colors.blue, // Navigation bar
-            statusBarColor: AppConstants.mainAppColor, // Status bar
+            statusBarColor: AppConstants.mainAppColor,
+            statusBarBrightness: Brightness.light,
+            statusBarIconBrightness: Brightness.light,
           ),
         ),
       ),
@@ -37,90 +37,164 @@ class MainView extends ConsumerWidget {
       body: SafeArea(
         child: CustomScrollView(
           slivers: <Widget>[
+            // Modern SliverAppBar with Material Design 3
             SliverAppBar(
               pinned: true,
               snap: false,
               floating: false,
-              expandedHeight: 160.0,
-              //  leading: IconButton(onPressed: (){}, icon: const Icon(Icons.menu, color: Commons.appBackgroundColor,)),
-              actions: const [
-                // FloatingActionButton(
-                //   foregroundColor: AppConstants.mainAppColor,
-                //   backgroundColor: AppConstants.appBackgroundColor,
-                //   child: const Icon(CupertinoIcons.add),
-                //   onPressed: () {
-                //     ref.read(resultProvider.notifier).resetResult();
-                //     ref.read(ingredientProvider.notifier).resetSelections();
-                //     ref.read(feedProvider.notifier).resetProvider();
-                //     context.pushNamed('newFeed');
-                //   },
-                // ),
-                //   IconButton(
-                //     iconSize: 36,
-                //     onPressed: () {
-                //       ref.read(resultProvider.notifier).resetResult();
-                //       ref.read(ingredientProvider.notifier).resetSelections();
-                //       ref.read(feedProvider.notifier).resetProvider();
-                //       context.pushNamed('newFeed');
-                //     },
-                //     icon: const Icon(CupertinoIcons.add_circled),
-                //     color: AppConstants.appBackgroundColor,
-                //   )
-              ],
-              foregroundColor: AppConstants.appBackgroundColor,
-              flexibleSpace: Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.bottomLeft,
-                      end: Alignment.bottomRight,
-                      // tileMode: TileMode.repeated,
-                      stops: [0.6, 0.9],
-                      colors: [AppConstants.mainAppColor, Color(0xff67C79F)],
-                      transform: GradientRotation(45)),
+              expandedHeight: 180.0,
+              elevation: 0,
+              backgroundColor: AppConstants.mainAppColor,
+              foregroundColor: Colors.white,
+              flexibleSpace: FlexibleSpaceBar(
+                title: const Text(
+                  'Feed Estimator',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.5,
+                    color: Colors.white,
+                  ),
                 ),
-                child: const FlexibleSpaceBar(
-                    title: Text('Feed Estimator'),
-                    centerTitle: true,
-                    background:
-                        Image(image: AssetImage('assets/images/back.png'))),
+                centerTitle: true,
+                expandedTitleScale: 1.5,
+                collapseMode: CollapseMode.parallax,
+                background: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      stops: const [0.0, 0.6, 1.0],
+                      colors: [
+                        AppConstants.mainAppColor,
+                        AppConstants.mainAppColor.withValues(alpha: 0.8),
+                        const Color(0xff67C79F),
+                      ],
+                    ),
+                  ),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Opacity(
+                        opacity: 0.15,
+                        child: Image.asset(
+                          'assets/images/back.png',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      const Icon(
+                        Icons.agriculture,
+                        size: 40,
+                        color: Colors.white,
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
+
+            // Spacing between app bar and content
             const SliverToBoxAdapter(
-              child: SizedBox(
-                height: 8,
-              ),
+              child: SizedBox(height: 16),
             ),
+
+            // Main content area
             data.when(
-                data: (data) => const FeedGrid(),
-                error: (er, stack) => SliverFillRemaining(
-                      child: AppErrorWidget(
-                        message: 'Failed to load feeds: ${er.toString()}',
-                        onRetry: () {
-                          ref.invalidate(asyncMainProvider);
-                        },
+              data: (feeds) {
+                if (feeds.isEmpty) {
+                  return SliverFillRemaining(
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.feed_outlined,
+                            size: 80,
+                            color: Colors.grey.shade400,
+                          ),
+                          const SizedBox(height: 24),
+                          Text(
+                            'No Feeds Yet',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall
+                                ?.copyWith(
+                                  color: Colors.grey.shade600,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            'Create your first feed formulation',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                  color: Colors.grey.shade500,
+                                ),
+                          ),
+                          const SizedBox(height: 32),
+                          FilledButton.icon(
+                            onPressed: () {
+                              ref
+                                  .read(resultProvider.notifier)
+                                  .resetResult();
+                              ref
+                                  .read(ingredientProvider.notifier)
+                                  .resetSelections();
+                              ref
+                                  .read(feedProvider.notifier)
+                                  .resetProvider();
+                              const AddFeedRoute().go(context);
+                            },
+                            icon: const Icon(Icons.add),
+                            label: const Text('Create Feed'),
+                          ),
+                        ],
                       ),
                     ),
-                loading: () => const SliverFillRemaining(
-                      child: AppLoadingWidget(
-                        message: 'Loading feeds...',
-                      ),
-                    ))
+                  );
+                }
+                return const FeedGrid();
+              },
+              error: (er, stack) => SliverFillRemaining(
+                child: AppErrorWidget(
+                  message: 'Failed to load feeds: ${er.toString()}',
+                  onRetry: () {
+                    ref.invalidate(asyncMainProvider);
+                  },
+                ),
+              ),
+              loading: () => const SliverFillRemaining(
+                child: AppLoadingWidget(
+                  message: 'Loading feeds...',
+                ),
+              ),
+            ),
+
+            // Bottom padding
+            const SliverToBoxAdapter(
+              child: SizedBox(height: 80),
+            ),
           ],
         ),
       ),
+
+      // Modern FAB with Material Design 3
       floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: AppConstants.appCarrotColor,
-        foregroundColor: AppConstants.appBackgroundColor,
         onPressed: () {
           ref.read(resultProvider.notifier).resetResult();
           ref.read(ingredientProvider.notifier).resetSelections();
           ref.read(feedProvider.notifier).resetProvider();
           const AddFeedRoute().go(context);
         },
+        icon: const Icon(Icons.add),
         label: const Text('Add Feed'),
-        icon: const Icon(CupertinoIcons.add_circled),
+        backgroundColor: AppConstants.appCarrotColor,
+        foregroundColor: Colors.white,
+        elevation: 8,
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(25)),
+          borderRadius: BorderRadius.all(Radius.circular(16)),
         ),
       ),
     );

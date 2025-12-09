@@ -13,44 +13,142 @@ class FooterResultCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     List<Result> data = ref.watch(resultProvider).results;
-    final myResult = data.firstWhere((element) => element.feedId == feedId,
-        orElse: () => Result());
-    return myResult.mEnergy != null
-        ? Row(
-            children: [
-              Expanded(
-                child: Column(
-                  children: [
-                    EnergyContentCard(
-                      title: 'Energy',
-                      value: myResult.mEnergy,
-                    ),
-                    ContentCard(
-                      title: 'Fat',
-                      value: myResult.cFat,
-                    ),
-                  ],
-                ),
+    final myResult = data.firstWhere(
+      (element) => element.feedId == feedId,
+      orElse: () => Result(),
+    );
+
+    if (myResult.mEnergy == null) {
+      return const SizedBox.shrink();
+    }
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: _NutrientBadge(
+                title: 'Energy',
+                value: myResult.mEnergy?.round().toString() ?? '0',
+                unit: 'kcal',
+                icon: Icons.flash_on,
+                color: Colors.orange.shade600,
               ),
-              Expanded(
-                child: Column(
-                  children: [
-                    ContentCard(
-                      title: 'Protein',
-                      value: myResult.cProtein!,
-                    ),
-                    ContentCard(
-                      title: 'Fiber',
-                      value: myResult.cFibre,
-                    ),
-                  ],
-                ),
+            ),
+            const SizedBox(width: 4),
+            Expanded(
+              child: _NutrientBadge(
+                title: 'Protein',
+                value: myResult.cProtein?.toStringAsFixed(1) ?? '0',
+                unit: '%',
+                icon: Icons.breakfast_dining,
+                color: Colors.purple.shade600,
               ),
-            ],
-          )
-        : const SizedBox();
+            ),
+          ],
+        ),
+        const SizedBox(height: 4),
+        Row(
+          children: [
+            Expanded(
+              child: _NutrientBadge(
+                title: 'Fat',
+                value: myResult.cFat?.toStringAsFixed(1) ?? '0',
+                unit: '%',
+                icon: Icons.opacity,
+                color: Colors.amber.shade700,
+              ),
+            ),
+            const SizedBox(width: 4),
+            Expanded(
+              child: _NutrientBadge(
+                title: 'Fiber',
+                value: myResult.cFibre?.toStringAsFixed(1) ?? '0',
+                unit: '%',
+                icon: Icons.grass,
+                color: Colors.green.shade600,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }
+
+/// Compact nutrient display badge for cards
+class _NutrientBadge extends StatelessWidget {
+  final String title;
+  final String value;
+  final String unit;
+  final IconData icon;
+  final Color color;
+
+  const _NutrientBadge({
+    required this.title,
+    required this.value,
+    required this.unit,
+    required this.icon,
+    required this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: color.withValues(alpha: 0.3), width: 0.5),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 12, color: color),
+          const SizedBox(height: 2),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 9,
+              fontWeight: FontWeight.w600,
+              height: 1.0,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          const SizedBox(height: 1),
+          RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: value,
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w700,
+                    color: color,
+                    height: 1.0,
+                  ),
+                ),
+                TextSpan(
+                  text: unit,
+                  style: TextStyle(
+                    fontSize: 7,
+                    fontWeight: FontWeight.w500,
+                    color: color.withValues(alpha: 0.7),
+                    height: 1.0,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// Legacy components kept for compatibility but improved styling
 
 class ContentCard extends StatelessWidget {
   final String? title;
@@ -64,27 +162,32 @@ class ContentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      //   color: Commons.appBackgroundColor.withOpacity(.8),
+      elevation: 1,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       child: Center(
-        child: Column(
-          children: [
-            Text(
-              title!,
-              style: const TextStyle(
-                fontSize: 10,
-                // fontWeight: FontWeight.bold,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                title!,
+                style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  color: Colors.grey.shade700,
+                  fontWeight: FontWeight.w600,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
-            ),
-            Text(
-              value!.toStringAsFixed(2),
-              //value!.toString(),
-              // value!.toInt().toString(),
-              style: const TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
+              const SizedBox(height: 4),
+              Text(
+                value!.toStringAsFixed(2),
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
               ),
-            )
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -103,27 +206,32 @@ class EnergyContentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      //   color: Commons.appBackgroundColor.withOpacity(.8),
+      elevation: 1,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       child: Center(
-        child: Column(
-          children: [
-            Text(
-              title!,
-              style: const TextStyle(
-                fontSize: 10,
-                // fontWeight: FontWeight.bold,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                title!,
+                style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  color: Colors.grey.shade700,
+                  fontWeight: FontWeight.w600,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
-            ),
-            Text(
-              //value!.toStringAsFixed(2),
-              value!.round().toString(),
-              // value!.toInt().toString(),
-              style: const TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
+              const SizedBox(height: 4),
+              Text(
+                value!.round().toString(),
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
               ),
-            )
-          ],
+            ],
+          ),
         ),
       ),
     );

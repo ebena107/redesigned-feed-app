@@ -23,37 +23,73 @@ class FeedGrid extends ConsumerWidget {
 
     return asyncFeeds.when(
       data: (feeds) => feeds.isNotEmpty
-          ? SliverGrid(
-              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 200.0,
-                // mainAxisSpacing: 10.0,
-                // crossAxisSpacing: 5.0,
-                childAspectRatio: 1.0,
+          ? SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              sliver: SliverGrid(
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 180.0,
+                  mainAxisSpacing: 12.0,
+                  crossAxisSpacing: 12.0,
+                  childAspectRatio: 0.85,
+                ),
+                delegate: _feedGridDelegate(feeds),
               ),
-              delegate: _feedGridDelegate(feeds),
             )
           : SliverFillRemaining(
               child: Align(
                 alignment: Alignment.center,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('No Feed Available'),
-                    IconButton(
+                    Icon(
+                      Icons.feed_outlined,
+                      size: 80,
+                      color: Colors.grey.shade400,
+                    ),
+                    const SizedBox(height: 24),
+                    Text(
+                      'No Feeds Yet',
+                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                        color: Colors.grey.shade600,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      'Create your first feed formulation',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Colors.grey.shade500,
+                      ),
+                    ),
+                    const SizedBox(height: 32),
+                    FilledButton.icon(
                       onPressed: () {
                         ref.read(resultProvider.notifier).resetResult();
                         ref.read(ingredientProvider.notifier).resetSelections();
                         ref.read(feedProvider.notifier).resetProvider();
                         const AddFeedRoute().go(context);
                       },
-                      icon: const Icon(Icons.add_circle_outline_rounded),
-                    )
+                      icon: const Icon(Icons.add),
+                      label: const Text('Create Feed'),
+                    ),
                   ],
                 ),
               ),
             ),
-      error: (error, stack) => const SliverFillRemaining(
+      error: (error, stack) => SliverFillRemaining(
         child: Center(
-          child: Text('No Feed Available'),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.error_outline,
+                size: 64,
+                color: Colors.red.shade300,
+              ),
+              const SizedBox(height: 16),
+              const Text('Failed to load feeds'),
+            ],
+          ),
         ),
       ),
       loading: () => const SliverFillRemaining(
@@ -66,57 +102,110 @@ class FeedGrid extends ConsumerWidget {
 }
 
 SliverChildDelegate _feedGridDelegate(List<Feed> data) {
-  return SliverChildBuilderDelegate((BuildContext context, int index) {
-    final feed = data[index];
-    //debugPrint('${data.toList().toString()} --- ${feed.toJson().toString()}');
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: GestureDetector(
-        onTap: () {
-          ReportRoute(
-            feed.feedId as int,
-          ).go(context);
-        },
-        child: GridTile(
-          header: Material(
-            color: Colors.transparent,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
-            ),
-            clipBehavior: Clip.antiAlias,
-            child: GridTileBar(
-              backgroundColor:
-                  AppConstants.appIconGreyColor.withValues(alpha: .4),
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  return SliverChildBuilderDelegate(
+    (BuildContext context, int index) {
+      final feed = data[index];
+      return FeedGridCard(feed: feed);
+    },
+    childCount: data.length,
+  );
+}
+
+/// Modern Material Design 3 feed card with ripple effect and elevation
+class FeedGridCard extends ConsumerWidget {
+  final Feed feed;
+
+  const FeedGridCard({required this.feed, super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: () => ReportRoute(feed.feedId as int).go(context),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Image area with menu
+            Expanded(
+              flex: 3,
+              child: Stack(
                 children: [
-                  Expanded(
-                    //  width: displayWidth(context) * .20,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Text(
-                        feed.feedName.toString(),
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14),
+                  // Feed image
+                  Container(
+                    width: double.infinity,
+                    color: AppConstants.mainAppColor.withValues(alpha: 0.1),
+                    child: FeedTileImage(id: feed.animalId as int),
+                  ),
+
+                  // Menu button
+                  Positioned(
+                    top: 8,
+                    right: 8,
+                    child: Material(
+                      color: Colors.white,
+                      shape: const CircleBorder(),
+                      elevation: 2,
+                      child: SizedBox(
+                        width: 40,
+                        height: 40,
+                        child: GridMenu(feed: feed),
                       ),
                     ),
                   ),
-                  SizedBox(
-                      width: 24,
-                      child: Align(
-                          alignment: Alignment.centerRight,
-                          child: GridMenu(feed: feed))),
                 ],
               ),
-              // trailing: _gridMenu(context, feeds),
             ),
-          ),
-          footer: FooterResultCard(feedId: feed.feedId),
-          child: FeedTileImage(
-            id: feed.animalId as int,
-          ),
+
+            // Title and animal type
+            Expanded(
+              flex: 2,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Feed name
+                    Text(
+                      feed.feedName.toString(),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+
+                    const SizedBox(height: 4),
+
+                    // Animal type
+                    Text(
+                      '${animalName(id: feed.animalId as int)} Feed',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                        color: Colors.grey.shade600,
+                      ),
+                    ),
+
+                    const SizedBox(height: 6),
+
+                    // Footer with nutrients - moved to footer card
+                    Expanded(
+                      child: FooterResultCard(feedId: feed.feedId),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
-  }, childCount: data.length);
+  }
 }
