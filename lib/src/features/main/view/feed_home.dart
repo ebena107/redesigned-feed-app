@@ -136,15 +136,11 @@ class MainView extends ConsumerWidget {
                           const SizedBox(height: 32),
                           FilledButton.icon(
                             onPressed: () {
-                              ref
-                                  .read(resultProvider.notifier)
-                                  .resetResult();
+                              ref.read(resultProvider.notifier).resetResult();
                               ref
                                   .read(ingredientProvider.notifier)
                                   .resetSelections();
-                              ref
-                                  .read(feedProvider.notifier)
-                                  .resetProvider();
+                              ref.read(feedProvider.notifier).resetProvider();
                               const AddFeedRoute().go(context);
                             },
                             icon: const Icon(Icons.add),

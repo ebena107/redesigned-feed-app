@@ -49,17 +49,18 @@ class FeedGrid extends ConsumerWidget {
                     const SizedBox(height: 24),
                     Text(
                       'No Feeds Yet',
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        color: Colors.grey.shade600,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style:
+                          Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                color: Colors.grey.shade600,
+                                fontWeight: FontWeight.w600,
+                              ),
                     ),
                     const SizedBox(height: 12),
                     Text(
                       'Create your first feed formulation',
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Colors.grey.shade500,
-                      ),
+                            color: Colors.grey.shade500,
+                          ),
                     ),
                     const SizedBox(height: 32),
                     FilledButton.icon(
@@ -176,9 +177,9 @@ class FeedGridCard extends ConsumerWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 0.5,
-                      ),
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 0.5,
+                          ),
                     ),
 
                     const SizedBox(height: 4),
@@ -189,8 +190,8 @@ class FeedGridCard extends ConsumerWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: Colors.grey.shade600,
-                      ),
+                            color: Colors.grey.shade600,
+                          ),
                     ),
 
                     const SizedBox(height: 6),

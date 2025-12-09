@@ -173,9 +173,9 @@ class ContentCard extends StatelessWidget {
               Text(
                 title!,
                 style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: Colors.grey.shade700,
-                  fontWeight: FontWeight.w600,
-                ),
+                      color: Colors.grey.shade700,
+                      fontWeight: FontWeight.w600,
+                    ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -183,8 +183,8 @@ class ContentCard extends StatelessWidget {
               Text(
                 value!.toStringAsFixed(2),
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  fontWeight: FontWeight.w700,
-                ),
+                      fontWeight: FontWeight.w700,
+                    ),
               ),
             ],
           ),
@@ -217,9 +217,9 @@ class EnergyContentCard extends StatelessWidget {
               Text(
                 title!,
                 style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: Colors.grey.shade700,
-                  fontWeight: FontWeight.w600,
-                ),
+                      color: Colors.grey.shade700,
+                      fontWeight: FontWeight.w600,
+                    ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -227,8 +227,8 @@ class EnergyContentCard extends StatelessWidget {
               Text(
                 value!.round().toString(),
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  fontWeight: FontWeight.w700,
-                ),
+                      fontWeight: FontWeight.w700,
+                    ),
               ),
             ],
           ),
