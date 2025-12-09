@@ -29,7 +29,7 @@ class SaveIngredientDialog extends ConsumerWidget {
           isDefaultAction: true,
           child: const Text('YES'),
           onPressed: () {
-            context.pop();
+            context.go('/newIngredient');
           },
         )
       ],

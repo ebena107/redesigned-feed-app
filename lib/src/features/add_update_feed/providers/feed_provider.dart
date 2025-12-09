@@ -218,16 +218,11 @@ class FeedNotifier extends Notifier<FeedState> {
 
     _feedId = await ref.watch(feedRepository).create(feed.toJson());
 
-    final list = [];
-    for (var ing in state.feedIngredients) {
-      ing = ing.copyWith(feedId: _feedId);
-      list.add(ing);
-    }
-
-    list
-        .map((e) async =>
-            await ref.watch(feedIngredientRepository).create(e.toJson()))
-        .toList();
+    final futures = state.feedIngredients.map((ing) async {
+      final withFeedId = ing.copyWith(feedId: _feedId);
+      await ref.watch(feedIngredientRepository).create(withFeedId.toJson());
+    }).toList();
+    await Future.wait(futures);
 
     state = state.copyWith(
         message: '${state.newFeed!.feedName} successfully saved');
@@ -262,31 +257,22 @@ class FeedNotifier extends Notifier<FeedState> {
           feedId: feed.feedId as num, ingredientId: i.ingredientId as num);
     }
 
-    final list = state.feedIngredients
-        .map((e) async => {
-              if (e.id == null)
-                {await ref.watch(feedIngredientRepository).create(e.toJson())}
-              else
-                {
-                  await ref
-                      .watch(feedIngredientRepository)
-                      .update(e.toJson(), e.id as num)
-                }
-            })
-        .toList();
+    final futures = state.feedIngredients.map((e) async {
+      if (e.id == null) {
+        await ref.watch(feedIngredientRepository).create(e.toJson());
+      } else {
+        await ref.watch(feedIngredientRepository).update(e.toJson(), e.id!);
+      }
+    }).toList();
 
-    //  debugPrint(list.toString());
+    await Future.wait(futures);
 
-    if (list.isNotEmpty && list.length == state.feedIngredients.length) {
-      state = state.copyWith(
-          message: '${state.newFeed!.feedName} successfully updated');
-      resetProvider();
-      //   ref.read(asyncMainProvider.notifier).loadFeed();
-      state = state.copyWith(status: 'success');
-      const HomeRoute().location;
-    } else {
-      state = state.copyWith(status: 'failure');
-    }
+    state = state.copyWith(
+        message: '${state.newFeed!.feedName} successfully updated');
+    resetProvider();
+    //   ref.read(asyncMainProvider.notifier).loadFeed();
+    state = state.copyWith(status: 'success');
+    const HomeRoute().location;
   }
 
   /// add all selected ingredients
@@ -357,43 +343,48 @@ class FeedNotifier extends Notifier<FeedState> {
   }
 
   bool available(FeedIngredients i) {
-    bool avail = false;
-    if (state.feedIngredients.isNotEmpty) {
-      avail =
-          state.feedIngredients.any((e) => e.ingredientId == i.ingredientId);
-    }
-    return avail;
+    if (state.feedIngredients.isEmpty) return false;
+    return state.feedIngredients.any((e) => e.ingredientId == i.ingredientId);
   }
 
   void setPrice(num ingredientId, String? price) {
-    final num? pce = double.tryParse(price!);
+    final num? parsedPrice = double.tryParse(price ?? '');
+    if (parsedPrice == null) return;
 
-    List<FeedIngredients?> feedIngredients = state.feedIngredients;
-    FeedIngredients? ing = feedIngredients.firstWhere(
-        (element) => element?.ingredientId == ingredientId,
-        orElse: () => FeedIngredients());
+    final updated = _updateIngredient(ingredientId, (ing) {
+      return ing.copyWith(priceUnitKg: parsedPrice);
+    });
 
-    ing = ing!.copyWith(priceUnitKg: pce);
-
-    removeIngById(ingredientId);
-
-    state = state.copyWith(feedIngredients: [...state.feedIngredients, ing]);
+    if (updated) {
+      updateQuantity();
+    }
   }
 
   void setQuantity(num ingredientId, String? quantity) {
-    final num? qty = double.tryParse(quantity!);
+    final num? parsedQty = double.tryParse(quantity ?? '');
+    if (parsedQty == null) return;
 
-    List<FeedIngredients?> feedIngredients = state.feedIngredients;
-    FeedIngredients? ing = feedIngredients.firstWhere(
-        (element) => element?.ingredientId == ingredientId,
-        orElse: () => FeedIngredients());
+    final updated = _updateIngredient(ingredientId, (ing) {
+      return ing.copyWith(quantity: parsedQty);
+    });
 
-    ing = ing!.copyWith(quantity: qty);
+    if (updated) {
+      updateQuantity();
+    }
+  }
 
-    removeIngById(ingredientId);
-    state = state.copyWith(feedIngredients: [...state.feedIngredients, ing]);
+  bool _updateIngredient(
+    num ingredientId,
+    FeedIngredients Function(FeedIngredients) updater,
+  ) {
+    final list = [...state.feedIngredients];
+    final index = list.indexWhere((ing) => ing.ingredientId == ingredientId);
+    if (index == -1) return false;
 
-    updateQuantity();
+    final updated = updater(list[index]);
+    list[index] = updated;
+    state = state.copyWith(feedIngredients: list);
+    return true;
   }
 
   void updateQuantity() {

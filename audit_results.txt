@@ -1,0 +1,859 @@
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+PHASE 2: INGREDIENT NUTRIENT VALUES AUDIT
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+
+Date: 2025-12-09 05:54:06.249195
+Total Ingredients: 165
+Standards Used: NRC, ASABE, CVB, INRA
+
+SUMMARY
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+Ô£à Normal Range: 44 ingredients
+­ƒƒí Warnings: 301 issues
+­ƒö┤ Critical: 89 issues
+
+CRITICAL ISSUES ­ƒö┤
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+Crude Protein (CP) (% DM)
+Expected Range: 3.0-50.0 | Absolute: 0.0-60.0
+Typical range 5-45% for feed ingredients. Values >50% rare (e.g., pure protein supplements).
+Issues:
+  ÔÇó Blood meal: 87.7 - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+  ÔÇó Feather meal: 78.9 - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+  ÔÇó Fish meal, protein 62%: 62.6 - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+  ÔÇó Fish meal, protein 65%: 65.2 - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+  ÔÇó Fish meal, protein 70%: 69 - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+  ÔÇó Jatropha oil meal, oil < 5%, dehulled, detoxified: 63.4 - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+  ÔÇó L-lysine HCl: 95.4 - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+  ÔÇó Processed animal proteins, poultry, protein > 70%: 76.9 - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+  ÔÇó Processed animal proteins, poultry, protein 60-70%: 63.2 - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+  ÔÇó Wheat gluten: 79.8 - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+
+Crude Fiber (CF) (% DM)
+Expected Range: 0.1-40.0 | Absolute: 0.0-50.0
+High-fiber ingredients (straw, hulls) reach 40-50%. Grains/concentrates <10%.
+Issues:
+  ÔÇó Sunflower hulls: 52.3 - ­ƒö┤ CRITICAL: Above absolute maximum (50.0)
+
+Crude Fat (EE) (% DM)
+Expected Range: 0.5-15.0 | Absolute: 0.0-25.0
+Most ingredients 1-8%. High-fat ingredients (oil seeds) 6-20%.
+Issues:
+  ÔÇó Black soldier fly larvae, fat > 20%, dried: 32.6 - ­ƒö┤ CRITICAL: Above absolute maximum (25.0)
+  ÔÇó Cod liver oil: 100 - ­ƒö┤ CRITICAL: Above absolute maximum (25.0)
+  ÔÇó Fish oil: 100 - ­ƒö┤ CRITICAL: Above absolute maximum (25.0)
+  ÔÇó Lard: 99.5 - ­ƒö┤ CRITICAL: Above absolute maximum (25.0)
+  ÔÇó Maize germs: 46.1 - ­ƒö┤ CRITICAL: Above absolute maximum (25.0)
+  ÔÇó Palm oil: 99.7 - ­ƒö┤ CRITICAL: Above absolute maximum (25.0)
+  ÔÇó Poultry fat: 100 - ­ƒö┤ CRITICAL: Above absolute maximum (25.0)
+  ÔÇó Processed animal proteins, poultry, protein 45-60%: 28.3 - ­ƒö┤ CRITICAL: Above absolute maximum (25.0)
+  ÔÇó Rapeseed oil: 99.6 - ­ƒö┤ CRITICAL: Above absolute maximum (25.0)
+  ÔÇó Rapeseed, whole: 44.1 - ­ƒö┤ CRITICAL: Above absolute maximum (25.0)
+  ÔÇó Rapeseed, whole, extruded: 44.1 - ­ƒö┤ CRITICAL: Above absolute maximum (25.0)
+  ÔÇó Soybean oil: 99.7 - ­ƒö┤ CRITICAL: Above absolute maximum (25.0)
+  ÔÇó Sunflower oil: 99 - ­ƒö┤ CRITICAL: Above absolute maximum (25.0)
+  ÔÇó Sunflower seed, whole: 44.5 - ­ƒö┤ CRITICAL: Above absolute maximum (25.0)
+  ÔÇó Tallow: 100 - ­ƒö┤ CRITICAL: Above absolute maximum (25.0)
+
+Calcium (Ca) (g/kg DM)
+Expected Range: 0.5-50.0 | Absolute: 0.0-60.0
+Most ingredients 0.5-20 g/kg. Limestone/shells can exceed 400 g/kg (not typical feed).
+Issues:
+  ÔÇó calcium carbonate: 387 - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+  ÔÇó Dicalcium phosphate anhydrous: 272 - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+  ÔÇó Dicalcium phosphate dihydrate: 239 - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+  ÔÇó Dolomite limestone: 219 - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+  ÔÇó Limestone: 350 - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+  ÔÇó Monocalcium phosphate: 167 - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+  ÔÇó Monodicalcium phosphate: 173 - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+  ÔÇó Processed animal proteins, pig: 86.7 - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+  ÔÇó Seashells, ground: 345 - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+  ÔÇó Shrimp meal: 105 - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+
+Phosphorus (P) (g/kg DM)
+Expected Range: 0.5-15.0 | Absolute: 0.0-20.0
+Most ingredients 1-8 g/kg. Bone meal/phosphate can exceed 100 g/kg (mineral supplements).
+Issues:
+  ÔÇó Dicalcium phosphate anhydrous: 204 - ­ƒö┤ CRITICAL: Above absolute maximum (20.0)
+  ÔÇó Dicalcium phosphate dihydrate: 170 - ­ƒö┤ CRITICAL: Above absolute maximum (20.0)
+  ÔÇó Fish meal, protein 62%: 27.6 - ­ƒö┤ CRITICAL: Above absolute maximum (20.0)
+  ÔÇó Fish meal, protein 65%: 26.4 - ­ƒö┤ CRITICAL: Above absolute maximum (20.0)
+  ÔÇó Fish meal, protein 70%: 22.9 - ­ƒö┤ CRITICAL: Above absolute maximum (20.0)
+  ÔÇó Monocalcium phosphate: 224 - ­ƒö┤ CRITICAL: Above absolute maximum (20.0)
+  ÔÇó Monodicalcium phosphate: 222 - ­ƒö┤ CRITICAL: Above absolute maximum (20.0)
+  ÔÇó Processed animal proteins, pig: 42 - ­ƒö┤ CRITICAL: Above absolute maximum (20.0)
+
+Lysine (g/kg DM)
+Expected Range: 0.5-10.0 | Absolute: 0.0-15.0
+Most ingredients 0.5-8 g/kg. Soy products 5-7 g/kg.
+Issues:
+  ÔÇó Black soldier fly larvae, fat < 20%, dried: 28.6 - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+  ÔÇó Black soldier fly larvae, fat > 20%, dried: 21.8 - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+  ÔÇó Blood meal: 76.3 - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+  ÔÇó Brewers yeast, dried: 27 - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+  ÔÇó Canola meal, oil < 5%: 19.5 - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+  ÔÇó Faba bean, coloured flowers: 16.6 - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+  ÔÇó Faba bean, coloured flowers, extruded: 16.6 - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+  ÔÇó Faba bean, white flowers: 17.2 - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+  ÔÇó Feather meal: 18 - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+  ÔÇó Fish meal, protein 62%: 46.8 - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+  ÔÇó Fish meal, protein 65%: 48.9 - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+  ÔÇó Fish meal, protein 70%: 52 - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+  ÔÇó Groundnut meal, oil < 5%, crude fibre > 9%: 15.9 - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+  ÔÇó Groundnut meal, oil 5-20%: 15.1 - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+  ÔÇó Jatropha oil meal, oil < 5%, dehulled, detoxified: 21.9 - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+  ÔÇó L-lysine HCl: 798 - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+  ÔÇó Milk powder, skimmed: 26.9 - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+  ÔÇó Milk powder, whole: 18.9 - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+  ÔÇó Processed animal proteins, pig: 26.5 - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+  ÔÇó Processed animal proteins, poultry, protein > 70%: 39.3 - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+  ÔÇó Processed animal proteins, poultry, protein 45-60%: 24.2 - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+  ÔÇó Processed animal proteins, poultry, protein 60-70%: 30.6 - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+  ÔÇó Rapeseed meal, oil < 5%: 18.1 - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+  ÔÇó Rapeseed meal, oil 5-20%: 16.9 - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+  ÔÇó Shrimp meal: 20 - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+  ÔÇó Soybean meal, oil < 5%, 48% protein + oil, extruded: 28.8 - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+  ÔÇó Soybean meal, oil < 5%, 50% protein + oil: 30.2 - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+  ÔÇó Soybean meal, oil 5-20%: 27.2 - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+  ÔÇó Soybean, whole, extruded: 22.4 - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+  ÔÇó Soybean, whole, flaked: 22.4 - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+  ÔÇó Soybean, whole, toasted: 22.2 - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+  ÔÇó Wheat gluten: 15.2 - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+
+Methionine (g/kg DM)
+Expected Range: 0.1-5.0 | Absolute: 0.0-8.0
+Most ingredients 0.2-3 g/kg. Amino acid supplements can reach 5-8 g/kg.
+Issues:
+  ÔÇó Black soldier fly larvae, fat < 20%, dried: 9.5 - ­ƒö┤ CRITICAL: Above absolute maximum (8.0)
+  ÔÇó Blood meal: 10.1 - ­ƒö┤ CRITICAL: Above absolute maximum (8.0)
+  ÔÇó DL-methionine: 990 - ­ƒö┤ CRITICAL: Above absolute maximum (8.0)
+  ÔÇó Fish meal, protein 62%: 16.6 - ­ƒö┤ CRITICAL: Above absolute maximum (8.0)
+  ÔÇó Fish meal, protein 65%: 17.7 - ­ƒö┤ CRITICAL: Above absolute maximum (8.0)
+  ÔÇó Fish meal, protein 70%: 19.2 - ­ƒö┤ CRITICAL: Above absolute maximum (8.0)
+  ÔÇó Jatropha oil meal, oil < 5%, dehulled, detoxified: 10 - ­ƒö┤ CRITICAL: Above absolute maximum (8.0)
+  ÔÇó Milk powder, skimmed: 9.7 - ­ƒö┤ CRITICAL: Above absolute maximum (8.0)
+  ÔÇó Processed animal proteins, poultry, protein > 70%: 9.4 - ­ƒö┤ CRITICAL: Above absolute maximum (8.0)
+  ÔÇó Processed animal proteins, poultry, protein 60-70%: 11 - ­ƒö┤ CRITICAL: Above absolute maximum (8.0)
+  ÔÇó Sesame meal, oil > 5%: 10.8 - ­ƒö┤ CRITICAL: Above absolute maximum (8.0)
+  ÔÇó Shrimp meal: 8.7 - ­ƒö┤ CRITICAL: Above absolute maximum (8.0)
+  ÔÇó Wheat gluten: 11.6 - ­ƒö┤ CRITICAL: Above absolute maximum (8.0)
+
+WARNINGS ­ƒƒí
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+Crude Protein (CP) (% DM)
+Expected Range: 3.0-50.0
+Typical range 5-45% for feed ingredients. Values >50% rare (e.g., pure protein supplements).
+Issues (showing first 5):
+  ÔÇó Beet pulp, pressed: 2.1 - ­ƒƒí WARNING: Below normal range (3.0)
+  ÔÇó Black soldier fly larvae, fat < 20%, dried: 51.9 - ­ƒƒí WARNING: Above normal range (50.0)
+  ÔÇó Bone Meal,: 0.0 - ­ƒƒí WARNING: Below normal range (3.0)
+  ÔÇó calcium carbonate: 0.0 - ­ƒƒí WARNING: Below normal range (3.0)
+  ÔÇó Cassava pulp, dried: 2 - ­ƒƒí WARNING: Below normal range (3.0)
+  ... and 30 more
+
+Crude Fiber (CF) (% DM)
+Expected Range: 0.1-40.0
+High-fiber ingredients (straw, hulls) reach 40-50%. Grains/concentrates <10%.
+Issues (showing first 5):
+  ÔÇó Bone Meal,: 0.0 - ­ƒƒí WARNING: Below normal range (0.1)
+  ÔÇó calcium carbonate: 0.0 - ­ƒƒí WARNING: Below normal range (0.1)
+  ÔÇó Cod liver oil: 0.0 - ­ƒƒí WARNING: Below normal range (0.1)
+  ÔÇó Cottonseed hulls: 47.8 - ­ƒƒí WARNING: Above normal range (40.0)
+  ÔÇó Dicalcium phosphate anhydrous: 0.0 - ­ƒƒí WARNING: Below normal range (0.1)
+  ... and 35 more
+
+Crude Fat (EE) (% DM)
+Expected Range: 0.5-15.0
+Most ingredients 1-8%. High-fat ingredients (oil seeds) 6-20%.
+Issues (showing first 5):
+  ÔÇó Beet pulp, pressed: 0.1 - ­ƒƒí WARNING: Below normal range (0.5)
+  ÔÇó Bone Meal,: 0.0 - ­ƒƒí WARNING: Below normal range (0.5)
+  ÔÇó calcium carbonate: 0.0 - ­ƒƒí WARNING: Below normal range (0.5)
+  ÔÇó Cassava peel, dried: 0.1 - ­ƒƒí WARNING: Below normal range (0.5)
+  ÔÇó Cottonseed, whole: 18.2 - ­ƒƒí WARNING: Above normal range (15.0)
+  ... and 28 more
+
+Calcium (Ca) (g/kg DM)
+Expected Range: 0.5-50.0
+Most ingredients 0.5-20 g/kg. Limestone/shells can exceed 400 g/kg (not typical feed).
+Issues (showing first 5):
+  ÔÇó Barley distillers grains, whisky production, fresh: 0.3 - ­ƒƒí WARNING: Below normal range (0.5)
+  ÔÇó Cassava peel, dried: 0.0 - ­ƒƒí WARNING: Below normal range (0.5)
+  ÔÇó Cod liver oil: 0.1 - ­ƒƒí WARNING: Below normal range (0.5)
+  ÔÇó DL-methionine: 0.0 - ­ƒƒí WARNING: Below normal range (0.5)
+  ÔÇó Enzyme: 0.0 - ­ƒƒí WARNING: Below normal range (0.5)
+  ... and 39 more
+
+Phosphorus (P) (g/kg DM)
+Expected Range: 0.5-15.0
+Most ingredients 1-8 g/kg. Bone meal/phosphate can exceed 100 g/kg (mineral supplements).
+Issues (showing first 5):
+  ÔÇó Beet pulp, pressed: 0.2 - ­ƒƒí WARNING: Below normal range (0.5)
+  ÔÇó calcium carbonate: 0.3 - ­ƒƒí WARNING: Below normal range (0.5)
+  ÔÇó Cassava peel, dried: 0.0 - ­ƒƒí WARNING: Below normal range (0.5)
+  ÔÇó Citrus pulp, fresh: 0.3 - ­ƒƒí WARNING: Below normal range (0.5)
+  ÔÇó Cod liver oil: 0.0 - ­ƒƒí WARNING: Below normal range (0.5)
+  ... and 43 more
+
+Lysine (g/kg DM)
+Expected Range: 0.5-10.0
+Most ingredients 0.5-8 g/kg. Soy products 5-7 g/kg.
+Issues (showing first 5):
+  ÔÇó Bone Meal,: 0.0 - ­ƒƒí WARNING: Below normal range (0.5)
+  ÔÇó calcium carbonate: 0.0 - ­ƒƒí WARNING: Below normal range (0.5)
+  ÔÇó Cassava peel, dried: 0.0 - ­ƒƒí WARNING: Below normal range (0.5)
+  ÔÇó Chickpea, kabuli type: 12.6 - ­ƒƒí WARNING: Above normal range (10.0)
+  ÔÇó Citrus pulp, fresh: 0.4 - ­ƒƒí WARNING: Below normal range (0.5)
+  ... and 48 more
+
+Methionine (g/kg DM)
+Expected Range: 0.1-5.0
+Most ingredients 0.2-3 g/kg. Amino acid supplements can reach 5-8 g/kg.
+Issues (showing first 5):
+  ÔÇó Black soldier fly larvae, fat > 20%, dried: 6.8 - ­ƒƒí WARNING: Above normal range (5.0)
+  ÔÇó Bone Meal,: 0.0 - ­ƒƒí WARNING: Below normal range (0.1)
+  ÔÇó Brewers yeast, dried: 6.6 - ­ƒƒí WARNING: Above normal range (5.0)
+  ÔÇó calcium carbonate: 0.0 - ­ƒƒí WARNING: Below normal range (0.1)
+  ÔÇó Canola meal, oil < 5%: 7.4 - ­ƒƒí WARNING: Above normal range (5.0)
+  ... and 43 more
+
+DETAILED INGREDIENT REPORT
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+7. Barley distillers grains, whisky production, fresh ­ƒƒí
+   Calcium (Ca): 0.3 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+9. Beet pulp, pressed ­ƒƒí
+   Crude Protein (CP): 2.1 % DM - ­ƒƒí WARNING: Below normal range (3.0)
+   Crude Fat (EE): 0.1 % DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.2 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+11. Black soldier fly larvae, fat < 20%, dried ­ƒö┤
+   Crude Protein (CP): 51.9 % DM - ­ƒƒí WARNING: Above normal range (50.0)
+   Lysine: 28.6 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+   Methionine: 9.5 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (8.0)
+
+12. Black soldier fly larvae, fat > 20%, dried ­ƒö┤
+   Crude Fat (EE): 32.6 % DM - ­ƒö┤ CRITICAL: Above absolute maximum (25.0)
+   Lysine: 21.8 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+   Methionine: 6.8 g/kg DM - ­ƒƒí WARNING: Above normal range (5.0)
+
+13. Blood meal ­ƒö┤
+   Crude Protein (CP): 87.7 % DM - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+   Lysine: 76.3 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+   Methionine: 10.1 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (8.0)
+
+14. Bone Meal, ­ƒƒí
+   Crude Protein (CP): 0.0 % DM - ­ƒƒí WARNING: Below normal range (3.0)
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Crude Fat (EE): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Methionine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.1)
+
+16. Brewers yeast, dried ­ƒö┤
+   Lysine: 27 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+   Methionine: 6.6 g/kg DM - ­ƒƒí WARNING: Above normal range (5.0)
+
+17. calcium carbonate ­ƒö┤
+   Crude Protein (CP): 0.0 % DM - ­ƒƒí WARNING: Below normal range (3.0)
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Crude Fat (EE): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Calcium (Ca): 387 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+   Phosphorus (P): 0.3 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Methionine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.1)
+
+18. Canola meal, oil < 5% ­ƒö┤
+   Lysine: 19.5 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+   Methionine: 7.4 g/kg DM - ­ƒƒí WARNING: Above normal range (5.0)
+
+19. Cassava pulp, dried ­ƒƒí
+   Crude Protein (CP): 2 % DM - ­ƒƒí WARNING: Below normal range (3.0)
+
+20. Cassava peel, dried ­ƒƒí
+   Crude Fat (EE): 0.1 % DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Calcium (Ca): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Methionine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.1)
+
+21. Chickpea, kabuli type ­ƒƒí
+   Lysine: 12.6 g/kg DM - ­ƒƒí WARNING: Above normal range (10.0)
+
+23. Citrus pulp, fresh ­ƒƒí
+   Crude Protein (CP): 1.1 % DM - ­ƒƒí WARNING: Below normal range (3.0)
+   Phosphorus (P): 0.3 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.4 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+25. Cocoa meal, oil < 5% ­ƒƒí
+   Lysine: 10.5 g/kg DM - ­ƒƒí WARNING: Above normal range (10.0)
+
+26. Cod liver oil ­ƒö┤
+   Crude Protein (CP): 0.0 % DM - ­ƒƒí WARNING: Below normal range (3.0)
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Crude Fat (EE): 100 % DM - ­ƒö┤ CRITICAL: Above absolute maximum (25.0)
+   Calcium (Ca): 0.1 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Methionine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.1)
+
+27. Common bean ­ƒƒí
+   Lysine: 14.6 g/kg DM - ­ƒƒí WARNING: Above normal range (10.0)
+
+31. Cottonseed hulls ­ƒƒí
+   Crude Fiber (CF): 47.8 % DM - ­ƒƒí WARNING: Above normal range (40.0)
+
+32. Cottonseed meal, oil 5-20%, crude fibre 15-20% ­ƒƒí
+   Lysine: 14.1 g/kg DM - ­ƒƒí WARNING: Above normal range (10.0)
+   Methionine: 5.1 g/kg DM - ­ƒƒí WARNING: Above normal range (5.0)
+
+33. Cottonseed, whole ­ƒƒí
+   Crude Fat (EE): 18.2 % DM - ­ƒƒí WARNING: Above normal range (15.0)
+
+34. Cowpea seed ­ƒƒí
+   Lysine: 14.6 g/kg DM - ­ƒƒí WARNING: Above normal range (10.0)
+
+35. Dicalcium phosphate anhydrous ­ƒö┤
+   Crude Protein (CP): 0.0 % DM - ­ƒƒí WARNING: Below normal range (3.0)
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Crude Fat (EE): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Calcium (Ca): 272 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+   Phosphorus (P): 204 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (20.0)
+   Lysine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Methionine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.1)
+
+36. Dicalcium phosphate dihydrate ­ƒö┤
+   Crude Protein (CP): 0.0 % DM - ­ƒƒí WARNING: Below normal range (3.0)
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Crude Fat (EE): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Calcium (Ca): 239 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+   Phosphorus (P): 170 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (20.0)
+   Lysine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Methionine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.1)
+
+37. DL-methionine ­ƒö┤
+   Crude Protein (CP): 58.4 % DM - ­ƒƒí WARNING: Above normal range (50.0)
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Crude Fat (EE): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Calcium (Ca): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Methionine: 990 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (8.0)
+
+38. Dolomite limestone ­ƒö┤
+   Crude Protein (CP): 0.0 % DM - ­ƒƒí WARNING: Below normal range (3.0)
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Crude Fat (EE): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Calcium (Ca): 219 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+   Phosphorus (P): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Methionine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.1)
+
+39. Enzyme ­ƒƒí
+   Crude Protein (CP): 0.0 % DM - ­ƒƒí WARNING: Below normal range (3.0)
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Crude Fat (EE): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Calcium (Ca): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Methionine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.1)
+
+40. Faba bean, coloured flowers ­ƒö┤
+   Lysine: 16.6 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+
+41. Faba bean, coloured flowers, extruded ­ƒö┤
+   Lysine: 16.6 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+
+42. Faba bean, white flowers ­ƒö┤
+   Lysine: 17.2 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+
+43. Feather meal ­ƒö┤
+   Crude Protein (CP): 78.9 % DM - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+   Lysine: 18 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+   Methionine: 5.5 g/kg DM - ­ƒƒí WARNING: Above normal range (5.0)
+
+44. Fish meal, protein 62% ­ƒö┤
+   Crude Protein (CP): 62.6 % DM - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Phosphorus (P): 27.6 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (20.0)
+   Lysine: 46.8 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+   Methionine: 16.6 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (8.0)
+
+45. Fish meal, protein 65% ­ƒö┤
+   Crude Protein (CP): 65.2 % DM - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Phosphorus (P): 26.4 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (20.0)
+   Lysine: 48.9 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+   Methionine: 17.7 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (8.0)
+
+46. Fish meal, protein 70% ­ƒö┤
+   Crude Protein (CP): 69 % DM - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Phosphorus (P): 22.9 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (20.0)
+   Lysine: 52 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+   Methionine: 19.2 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (8.0)
+
+47. Fish oil ­ƒö┤
+   Crude Protein (CP): 0.0 % DM - ­ƒƒí WARNING: Below normal range (3.0)
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Crude Fat (EE): 100 % DM - ­ƒö┤ CRITICAL: Above absolute maximum (25.0)
+   Calcium (Ca): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Methionine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.1)
+
+48. Fodder beet, raw ­ƒƒí
+   Crude Protein (CP): 1.3 % DM - ­ƒƒí WARNING: Below normal range (3.0)
+   Crude Fat (EE): 0.07 % DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.4 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+52. Grapeseed oil meal ­ƒƒí
+   Crude Fiber (CF): 42.9 % DM - ­ƒƒí WARNING: Above normal range (40.0)
+
+54. Groundnut meal, oil < 5%, crude fibre > 9% ­ƒö┤
+   Lysine: 15.9 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+
+55. Groundnut meal, oil 5-20% ­ƒö┤
+   Lysine: 15.1 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+
+56. Noddle Waste ­ƒƒí
+   Calcium (Ca): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.25 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Methionine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.1)
+
+57. Jatropha oil meal, oil < 5%, dehulled, detoxified ­ƒö┤
+   Crude Protein (CP): 63.4 % DM - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+   Phosphorus (P): 19.5 g/kg DM - ­ƒƒí WARNING: Above normal range (15.0)
+   Lysine: 21.9 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+   Methionine: 10 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (8.0)
+
+58. Lard ­ƒö┤
+   Crude Protein (CP): 0.0 % DM - ­ƒƒí WARNING: Below normal range (3.0)
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Crude Fat (EE): 99.5 % DM - ­ƒö┤ CRITICAL: Above absolute maximum (25.0)
+   Calcium (Ca): 0.1 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.3 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Methionine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.1)
+
+59. Lentils ­ƒƒí
+   Lysine: 14.3 g/kg DM - ­ƒƒí WARNING: Above normal range (10.0)
+
+60. Limestone ­ƒö┤
+   Crude Protein (CP): 0.0 % DM - ­ƒƒí WARNING: Below normal range (3.0)
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Crude Fat (EE): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Calcium (Ca): 350 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+   Phosphorus (P): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Methionine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.1)
+
+61. L-lysine HCl ­ƒö┤
+   Crude Protein (CP): 95.4 % DM - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Crude Fat (EE): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Calcium (Ca): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 798 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+   Methionine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.1)
+
+62. Maize ­ƒƒí
+   Calcium (Ca): 0.4 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+65. Maize germs ­ƒö┤
+   Crude Fat (EE): 46.1 % DM - ­ƒö┤ CRITICAL: Above absolute maximum (25.0)
+
+66. Maize, extruded ­ƒƒí
+   Calcium (Ca): 0.4 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+67. Maize, high moisture ­ƒƒí
+   Calcium (Ca): 0.4 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+68. methionine Hydroxy Analog MHA ­ƒƒí
+   Crude Protein (CP): 0.0 % DM - ­ƒƒí WARNING: Below normal range (3.0)
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Crude Fat (EE): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Calcium (Ca): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Methionine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.1)
+
+69. Milk powder, skimmed ­ƒö┤
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Lysine: 26.9 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+   Methionine: 9.7 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (8.0)
+
+70. Milk powder, whole ­ƒö┤
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Crude Fat (EE): 24 % DM - ­ƒƒí WARNING: Above normal range (15.0)
+   Lysine: 18.9 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+   Methionine: 5.5 g/kg DM - ­ƒƒí WARNING: Above normal range (5.0)
+
+72. Millet, proso ­ƒƒí
+   Calcium (Ca): 0.4 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+73. Molasses, beet ­ƒƒí
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Crude Fat (EE): 0.2 % DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.2 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+74. Molasses, sugarcane ­ƒƒí
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Lysine: 0.2 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+75. Monocalcium phosphate ­ƒö┤
+   Crude Protein (CP): 0.0 % DM - ­ƒƒí WARNING: Below normal range (3.0)
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Crude Fat (EE): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Calcium (Ca): 167 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+   Phosphorus (P): 224 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (20.0)
+   Lysine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Methionine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.1)
+
+76. Monodicalcium phosphate ­ƒö┤
+   Crude Protein (CP): 0.0 % DM - ­ƒƒí WARNING: Below normal range (3.0)
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Crude Fat (EE): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Calcium (Ca): 173 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+   Phosphorus (P): 222 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (20.0)
+   Lysine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Methionine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.1)
+
+82. Palm oil ­ƒö┤
+   Crude Protein (CP): 0.0 % DM - ­ƒƒí WARNING: Below normal range (3.0)
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Crude Fat (EE): 99.7 % DM - ­ƒö┤ CRITICAL: Above absolute maximum (25.0)
+   Calcium (Ca): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Methionine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.1)
+
+83. Pea ­ƒƒí
+   Lysine: 14.8 g/kg DM - ­ƒƒí WARNING: Above normal range (10.0)
+
+84. Pea, extruded ­ƒƒí
+   Lysine: 14.8 g/kg DM - ­ƒƒí WARNING: Above normal range (10.0)
+
+85. Potato pulp, dried ­ƒƒí
+   Crude Fat (EE): 0.4 % DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+86. Potato tuber, dried ­ƒƒí
+   Crude Fat (EE): 0.4 % DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+87. Poultry fat ­ƒö┤
+   Crude Protein (CP): 0.0 % DM - ­ƒƒí WARNING: Below normal range (3.0)
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Crude Fat (EE): 100 % DM - ­ƒö┤ CRITICAL: Above absolute maximum (25.0)
+   Calcium (Ca): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Methionine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.1)
+
+88. Processed animal proteins, pig ­ƒö┤
+   Crude Protein (CP): 52.4 % DM - ­ƒƒí WARNING: Above normal range (50.0)
+   Calcium (Ca): 86.7 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+   Phosphorus (P): 42 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (20.0)
+   Lysine: 26.5 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+   Methionine: 6.7 g/kg DM - ­ƒƒí WARNING: Above normal range (5.0)
+
+89. Processed animal proteins, poultry, protein > 70% ­ƒö┤
+   Crude Protein (CP): 76.9 % DM - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+   Lysine: 39.3 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+   Methionine: 9.4 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (8.0)
+
+90. Processed animal proteins, poultry, protein 45-60% ­ƒö┤
+   Crude Protein (CP): 52.9 % DM - ­ƒƒí WARNING: Above normal range (50.0)
+   Crude Fat (EE): 28.3 % DM - ­ƒö┤ CRITICAL: Above absolute maximum (25.0)
+   Lysine: 24.2 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+   Methionine: 7.5 g/kg DM - ­ƒƒí WARNING: Above normal range (5.0)
+
+91. Processed animal proteins, poultry, protein 60-70% ­ƒö┤
+   Crude Protein (CP): 63.2 % DM - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+   Crude Fat (EE): 21.7 % DM - ­ƒƒí WARNING: Above normal range (15.0)
+   Lysine: 30.6 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+   Methionine: 11 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (8.0)
+
+92. Rapeseed meal, oil < 5% ­ƒö┤
+   Lysine: 18.1 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+   Methionine: 6.8 g/kg DM - ­ƒƒí WARNING: Above normal range (5.0)
+
+93. Rapeseed meal, oil 5-20% ­ƒö┤
+   Lysine: 16.9 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+   Methionine: 6.3 g/kg DM - ­ƒƒí WARNING: Above normal range (5.0)
+
+94. Rapeseed oil ­ƒö┤
+   Crude Protein (CP): 0.0 % DM - ­ƒƒí WARNING: Below normal range (3.0)
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Crude Fat (EE): 99.6 % DM - ­ƒö┤ CRITICAL: Above absolute maximum (25.0)
+   Calcium (Ca): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Methionine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.1)
+
+95. Rapeseed, whole ­ƒö┤
+   Crude Fat (EE): 44.1 % DM - ­ƒö┤ CRITICAL: Above absolute maximum (25.0)
+   Lysine: 11.5 g/kg DM - ­ƒƒí WARNING: Above normal range (10.0)
+
+96. Rapeseed, whole, extruded ­ƒö┤
+   Crude Fat (EE): 44.1 % DM - ­ƒö┤ CRITICAL: Above absolute maximum (25.0)
+   Lysine: 11.5 g/kg DM - ­ƒƒí WARNING: Above normal range (10.0)
+
+99. Rice, brown ­ƒƒí
+   Calcium (Ca): 0.4 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+101. Rice, polished, broken ­ƒƒí
+   Calcium (Ca): 0.4 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+103. Seashells, ground ­ƒö┤
+   Crude Protein (CP): 0.0 % DM - ­ƒƒí WARNING: Below normal range (3.0)
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Crude Fat (EE): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Calcium (Ca): 345 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+   Lysine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Methionine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.1)
+
+104. Sesame meal, oil > 5% ­ƒö┤
+   Methionine: 10.8 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (8.0)
+
+106. Shrimp meal ­ƒö┤
+   Calcium (Ca): 105 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+   Lysine: 20 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+   Methionine: 8.7 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (8.0)
+
+107. Sodium bicarbonate ­ƒƒí
+   Crude Protein (CP): 0.0 % DM - ­ƒƒí WARNING: Below normal range (3.0)
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Crude Fat (EE): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Methionine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.1)
+
+108. Sodium chloride, salt ­ƒƒí
+   Crude Protein (CP): 0.0 % DM - ­ƒƒí WARNING: Below normal range (3.0)
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Crude Fat (EE): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Calcium (Ca): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Methionine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.1)
+
+109. Sorghum ­ƒƒí
+   Calcium (Ca): 0.3 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+111. Soybean meal, oil < 5%, 48% protein + oil, extruded ­ƒö┤
+   Lysine: 28.8 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+   Methionine: 6.6 g/kg DM - ­ƒƒí WARNING: Above normal range (5.0)
+
+112. Soybean meal, oil < 5%, 50% protein + oil ­ƒö┤
+   Lysine: 30.2 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+   Methionine: 6.9 g/kg DM - ­ƒƒí WARNING: Above normal range (5.0)
+
+113. Soybean meal, oil 5-20% ­ƒö┤
+   Lysine: 27.2 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+   Methionine: 6.3 g/kg DM - ­ƒƒí WARNING: Above normal range (5.0)
+
+114. Soybean molasses ­ƒƒí
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Crude Fat (EE): 0.4 % DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+115. Soybean oil ­ƒö┤
+   Crude Protein (CP): 0.0 % DM - ­ƒƒí WARNING: Below normal range (3.0)
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Crude Fat (EE): 99.7 % DM - ­ƒö┤ CRITICAL: Above absolute maximum (25.0)
+   Calcium (Ca): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Methionine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.1)
+
+116. Soybean, whole, extruded ­ƒö┤
+   Crude Fat (EE): 18.4 % DM - ­ƒƒí WARNING: Above normal range (15.0)
+   Lysine: 22.4 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+   Methionine: 5.2 g/kg DM - ­ƒƒí WARNING: Above normal range (5.0)
+
+117. Soybean, whole, flaked ­ƒö┤
+   Crude Fat (EE): 18.4 % DM - ­ƒƒí WARNING: Above normal range (15.0)
+   Lysine: 22.4 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+   Methionine: 5.2 g/kg DM - ­ƒƒí WARNING: Above normal range (5.0)
+
+118. Soybean, whole, toasted ­ƒö┤
+   Crude Fat (EE): 19.7 % DM - ­ƒƒí WARNING: Above normal range (15.0)
+   Lysine: 22.2 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+   Methionine: 5.2 g/kg DM - ­ƒƒí WARNING: Above normal range (5.0)
+
+119. Sunflower hulls ­ƒö┤
+   Crude Fiber (CF): 52.3 % DM - ­ƒö┤ CRITICAL: Above absolute maximum (50.0)
+
+120. Sunflower meal, oil 5-20%, dehulled ­ƒƒí
+   Lysine: 12.1 g/kg DM - ­ƒƒí WARNING: Above normal range (10.0)
+   Methionine: 7.6 g/kg DM - ­ƒƒí WARNING: Above normal range (5.0)
+
+121. Sunflower oil ­ƒö┤
+   Crude Protein (CP): 0.0 % DM - ­ƒƒí WARNING: Below normal range (3.0)
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Crude Fat (EE): 99 % DM - ­ƒö┤ CRITICAL: Above absolute maximum (25.0)
+   Calcium (Ca): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Methionine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.1)
+
+122. Sunflower seed, whole ­ƒö┤
+   Crude Fat (EE): 44.5 % DM - ­ƒö┤ CRITICAL: Above absolute maximum (25.0)
+
+124. Tallow ­ƒö┤
+   Crude Protein (CP): 0.0 % DM - ­ƒƒí WARNING: Below normal range (3.0)
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Crude Fat (EE): 100 % DM - ­ƒö┤ CRITICAL: Above absolute maximum (25.0)
+   Calcium (Ca): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Methionine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.1)
+
+126. Toxin Binder ­ƒƒí
+   Crude Protein (CP): 0.0 % DM - ­ƒƒí WARNING: Below normal range (3.0)
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Crude Fat (EE): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Calcium (Ca): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Methionine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.1)
+
+127. Urea (Non-protein nitrogen source) ­ƒƒí
+   Crude Protein (CP): 0.0 % DM - ­ƒƒí WARNING: Below normal range (3.0)
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Crude Fat (EE): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Calcium (Ca): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Methionine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.1)
+
+128. Vitamin Premix ­ƒƒí
+   Crude Protein (CP): 0.0 % DM - ­ƒƒí WARNING: Below normal range (3.0)
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Crude Fat (EE): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Calcium (Ca): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Methionine: 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.1)
+
+131. Wheat gluten ­ƒö┤
+   Crude Protein (CP): 79.8 % DM - ­ƒö┤ CRITICAL: Above absolute maximum (60.0)
+   Lysine: 15.2 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (15.0)
+   Methionine: 11.6 g/kg DM - ­ƒö┤ CRITICAL: Above absolute maximum (8.0)
+
+136. Whey powder, acid ­ƒƒí
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+
+137. Whey powder, sweet ­ƒƒí
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+
+138. Yeast, SingleCellProtein ­ƒƒí
+   Crude Fiber (CF): 0.0 % DM - ­ƒƒí WARNING: Below normal range (0.1)
+   Calcium (Ca): 0.0 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+142. Cassava (Manihot) leaves, dried ­ƒƒí
+   Phosphorus (P): 0.4 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+143. Cassava (Manihot) root, dried ­ƒƒí
+   Crude Protein (CP): 2.5 % DM - ­ƒƒí WARNING: Below normal range (3.0)
+   Calcium (Ca): 0.2 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.1 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.1 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Methionine: 0.05 g/kg DM - ­ƒƒí WARNING: Below normal range (0.1)
+
+144. Moringa (Drumstick) leaves, dried ­ƒƒí
+   Phosphorus (P): 0.3 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+145. Bamboo leaves, dried ­ƒƒí
+   Phosphorus (P): 0.2 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+146. Maize germ, dried ­ƒƒí
+   Calcium (Ca): 0.05 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+147. Maize flour, fine ­ƒƒí
+   Calcium (Ca): 0.02 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.25 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.25 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+148. Sweet potato (Ipomoea) root, dried ­ƒƒí
+   Calcium (Ca): 0.2 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.2 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.3 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+149. Sorghum grain, whole ­ƒƒí
+   Calcium (Ca): 0.3 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.3 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.3 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+150. Millet, whole ­ƒƒí
+   Calcium (Ca): 0.4 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.35 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.35 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+151. Groundnut (Peanut) meal ­ƒƒí
+   Calcium (Ca): 0.2 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+152. Groundnut (Peanut) shell ­ƒƒí
+   Calcium (Ca): 0.1 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.1 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.1 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Methionine: 0.05 g/kg DM - ­ƒƒí WARNING: Below normal range (0.1)
+
+153. Neem (Azadirachta) cake ­ƒƒí
+   Calcium (Ca): 0.4 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.3 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+154. Shea (Vitellaria) cake ­ƒƒí
+   Calcium (Ca): 0.3 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.25 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.4 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+155. Teff grain, whole ­ƒƒí
+   Calcium (Ca): 0.2 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.35 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.35 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+156. Cowpea (Black-eyed pea) grain ­ƒƒí
+   Phosphorus (P): 0.4 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+157. Pigeon pea grain ­ƒƒí
+   Phosphorus (P): 0.35 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+158. Bambara groundnut grain ­ƒƒí
+   Phosphorus (P): 0.3 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+160. Setaria (Foxtail millet) grain ­ƒƒí
+   Calcium (Ca): 0.3 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.32 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.32 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+161. Fonio grain ­ƒƒí
+   Calcium (Ca): 0.25 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.3 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.3 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+162. Baobab (Adansonia) fruit pulp ­ƒƒí
+   Crude Protein (CP): 2.5 % DM - ­ƒƒí WARNING: Below normal range (3.0)
+   Crude Fat (EE): 0.3 % DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Calcium (Ca): 0.25 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.1 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.2 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Methionine: 0.05 g/kg DM - ­ƒƒí WARNING: Below normal range (0.1)
+
+163. Baobab leaf powder ­ƒƒí
+   Phosphorus (P): 0.4 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+164. Locust bean (Parkia) pod meal ­ƒƒí
+   Calcium (Ca): 0.2 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Phosphorus (P): 0.15 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+   Lysine: 0.3 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+165. Okra (Abelmoschus) seed meal ­ƒƒí
+   Crude Fat (EE): 15.5 % DM - ­ƒƒí WARNING: Above normal range (15.0)
+   Calcium (Ca): 0.35 g/kg DM - ­ƒƒí WARNING: Below normal range (0.5)
+
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+END OF AUDIT
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ

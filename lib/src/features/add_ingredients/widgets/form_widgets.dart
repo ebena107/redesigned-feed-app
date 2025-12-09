@@ -696,7 +696,7 @@ class SaveButton extends ConsumerWidget {
                   ? ref.read(ingredientProvider.notifier).updateIngredient(
                       ingId,
                       onSuccess: () {
-                        context.pop();
+                        context.go('/');
                         showAlert(context, QuickAlertType.success,
                             'Ingredient Updated Successfully');
                       },
@@ -708,7 +708,7 @@ class SaveButton extends ConsumerWidget {
                           .read(ingredientProvider.notifier)
                           .saveIngredient(
                               onSuccess: () {
-                                context.pop();
+                                context.go('/');
                                 showAlert(context, QuickAlertType.success,
                                     'Ingredient Created Successfully');
                               },

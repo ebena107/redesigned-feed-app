@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dart';
 import 'package:feed_estimator/src/features/add_ingredients/repository/ingredients_repository.dart';
+import 'package:feed_estimator/src/features/add_ingredients/services/ingredient_import_export_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -156,5 +158,151 @@ class UserIngredientsNotifier extends Notifier<UserIngredientsState> {
     return state.userIngredients
         .where((ing) => ing.createdBy == creatorName)
         .toList();
+  }
+
+  /// Export custom ingredients to JSON file
+  Future<File?> exportToJsonFile() async {
+    try {
+      state = state.copyWith(isLoading: true, status: 'exporting');
+      final jsonString = await IngredientImportExportService.exportToJson(
+          state.userIngredients);
+      final timestamp = DateTime.now().millisecondsSinceEpoch;
+      final file = await IngredientImportExportService.saveToFile(
+        jsonString,
+        'custom_ingredients_$timestamp.json',
+      );
+      state = state.copyWith(
+        isLoading: false,
+        status: 'success',
+        message: 'Exported ${state.userIngredients.length} ingredients to JSON',
+      );
+      return file;
+    } catch (e) {
+      if (kDebugMode) print('Export to JSON failed: $e');
+      state = state.copyWith(
+        isLoading: false,
+        status: 'error',
+        message: 'Failed to export to JSON',
+      );
+      return null;
+    }
+  }
+
+  /// Export custom ingredients to CSV file
+  Future<File?> exportToCsvFile() async {
+    try {
+      state = state.copyWith(isLoading: true, status: 'exporting');
+      final csvString = await IngredientImportExportService.exportToCsv(
+          state.userIngredients);
+      final timestamp = DateTime.now().millisecondsSinceEpoch;
+      final file = await IngredientImportExportService.saveToFile(
+        csvString,
+        'custom_ingredients_$timestamp.csv',
+      );
+      state = state.copyWith(
+        isLoading: false,
+        status: 'success',
+        message: 'Exported ${state.userIngredients.length} ingredients to CSV',
+      );
+      return file;
+    } catch (e) {
+      if (kDebugMode) print('Export to CSV failed: $e');
+      state = state.copyWith(
+        isLoading: false,
+        status: 'error',
+        message: 'Failed to export to CSV',
+      );
+      return null;
+    }
+  }
+
+  /// Import custom ingredients from JSON string
+  Future<void> importFromJson(String jsonString) async {
+    try {
+      state = state.copyWith(isLoading: true, status: 'importing');
+      final ingredients =
+          await IngredientImportExportService.importFromJson(jsonString);
+
+      // Save each ingredient to database
+      int imported = 0;
+      for (final ing in ingredients) {
+        try {
+          // Mark as custom and set creation timestamp if not present
+          final customIng = ing.copyWith(
+            isCustom: 1,
+            createdDate:
+                ing.createdDate ?? DateTime.now().millisecondsSinceEpoch,
+          );
+          await ref.read(ingredientsRepository).create(customIng.toJson());
+          imported++;
+        } catch (e) {
+          if (kDebugMode) print('Failed to import ${ing.name}: $e');
+        }
+      }
+
+      // Reload to get fresh list
+      await loadUserIngredients();
+      state = state.copyWith(
+        status: 'success',
+        message: 'Imported $imported of ${ingredients.length} ingredients',
+      );
+    } catch (e) {
+      if (kDebugMode) print('Import from JSON failed: $e');
+      state = state.copyWith(
+        isLoading: false,
+        status: 'error',
+        message: 'Failed to import from JSON',
+      );
+    }
+  }
+
+  /// Import custom ingredients from CSV string
+  Future<void> importFromCsv(String csvString) async {
+    try {
+      state = state.copyWith(isLoading: true, status: 'importing');
+      final ingredients =
+          await IngredientImportExportService.importFromCsv(csvString);
+
+      // Save each ingredient to database
+      int imported = 0;
+      for (final ing in ingredients) {
+        try {
+          // Mark as custom and set creation timestamp if not present
+          final customIng = ing.copyWith(
+            isCustom: 1,
+            createdDate:
+                ing.createdDate ?? DateTime.now().millisecondsSinceEpoch,
+          );
+          await ref.read(ingredientsRepository).create(customIng.toJson());
+          imported++;
+        } catch (e) {
+          if (kDebugMode) print('Failed to import ${ing.name}: $e');
+        }
+      }
+
+      // Reload to get fresh list
+      await loadUserIngredients();
+      state = state.copyWith(
+        status: 'success',
+        message: 'Imported $imported of ${ingredients.length} ingredients',
+      );
+    } catch (e) {
+      if (kDebugMode) print('Import from CSV failed: $e');
+      state = state.copyWith(
+        isLoading: false,
+        status: 'error',
+        message: 'Failed to import from CSV',
+      );
+    }
+  }
+
+  /// Read file content for import (wrapper for service method)
+  Future<String> readFileContent(String filename) async {
+    try {
+      return await IngredientImportExportService.readFile(filename);
+    } catch (e) {
+      if (kDebugMode) print('Failed to read file $filename: $e');
+      return '';
+    }
   }
 }

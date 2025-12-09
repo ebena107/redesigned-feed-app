@@ -1,5 +1,6 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dart';
+import 'package:feed_estimator/src/features/add_ingredients/widgets/user_ingredients_widget.dart';
 
 import 'package:feed_estimator/src/features/store_ingredients/providers/async_stored_ingredient.dart';
 
@@ -11,6 +12,7 @@ import 'package:feed_estimator/src/utils/widgets/methods.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:quickalert/quickalert.dart';
 
 class StoredIngredients extends ConsumerWidget {
@@ -71,9 +73,6 @@ class StoredIngredients extends ConsumerWidget {
                 ),
               ),
             ),
-            // const SliverToBoxAdapter(
-            //   child: SizedBox(height: 20,)
-            // ),
             SliverToBoxAdapter(
               child: Column(
                 children: [
@@ -180,7 +179,16 @@ class StoredIngredients extends ConsumerWidget {
                             ))
                 ],
               ),
-            )
+            ),
+            const SliverToBoxAdapter(
+              child: Divider(height: 32, thickness: 2),
+            ),
+            const SliverToBoxAdapter(
+              child: SizedBox(
+                height: 600,
+                child: UserIngredientsWidget(),
+              ),
+            ),
           ],
         ),
       ),
@@ -378,15 +386,14 @@ class _DeleteIng extends ConsumerWidget {
             ref
                 .read(asyncStoredIngredientsProvider.notifier)
                 .deleteIngredient(ing.ingredientId);
-            //  ref.read(feedIngredientProvider.notifier).updateCount();
-            Navigator.pop(context);
+            context.pop();
           },
         ),
         CupertinoDialogAction(
           isDefaultAction: true,
           child: const Text('Cancel'),
           onPressed: () {
-            Navigator.pop(context);
+            context.pop();
           },
         )
       ],

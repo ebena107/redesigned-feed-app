@@ -17,13 +17,14 @@ import 'package:pdf/pdf.dart';
 
 import 'package:pdf/widgets.dart';
 
-Future<Uint8List> makePdf(WidgetRef ref, String type, Feed feed, String currency) async {
+Future<Uint8List> makePdf(
+    WidgetRef ref, String type, Feed feed, String currency) async {
   final pdf = Document(
       title: "Feed Estimator",
       author: "ebena.com.ng",
       subject: "Feed Analysis",
       creator: "Ebena Agro Ltd");
- // final feed = ref.watch(feedProvider).newFeed;
+  // final feed = ref.watch(feedProvider).newFeed;
   final imageLogo = MemoryImage(
       (await rootBundle.load('assets/images/logo.png')).buffer.asUint8List());
 
@@ -282,7 +283,7 @@ Future<Uint8List> makePdf(WidgetRef ref, String type, Feed feed, String currency
                             align: TextAlign.center)),
                     SizedBox(
                         width: 80,
-                        child: paddedText('%/Kg', align: TextAlign.center)),
+                        child: paddedText('%', align: TextAlign.center)),
                   ],
                 ),
                 TableRow(
@@ -300,7 +301,7 @@ Future<Uint8List> makePdf(WidgetRef ref, String type, Feed feed, String currency
                             align: TextAlign.center)),
                     SizedBox(
                         width: 80,
-                        child: paddedText('%/Kg', align: TextAlign.center)),
+                        child: paddedText('%', align: TextAlign.center)),
                   ],
                 ),
                 TableRow(
@@ -318,7 +319,7 @@ Future<Uint8List> makePdf(WidgetRef ref, String type, Feed feed, String currency
                             align: TextAlign.center)),
                     SizedBox(
                         width: 80,
-                        child: paddedText('%/Kg', align: TextAlign.center)),
+                        child: paddedText('%', align: TextAlign.center)),
                   ],
                 ),
                 TableRow(

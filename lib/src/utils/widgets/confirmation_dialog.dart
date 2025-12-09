@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 /// A reusable confirmation dialog for destructive actions
 class ConfirmationDialog extends StatelessWidget {
@@ -29,7 +30,7 @@ class ConfirmationDialog extends StatelessWidget {
       actions: [
         TextButton(
           onPressed: () {
-            Navigator.of(context).pop();
+            context.pop();
             if (onCancel != null) {
               onCancel!();
             }
@@ -38,7 +39,7 @@ class ConfirmationDialog extends StatelessWidget {
         ),
         TextButton(
           onPressed: () {
-            Navigator.of(context).pop();
+            context.pop();
             onConfirm();
           },
           style: isDestructive

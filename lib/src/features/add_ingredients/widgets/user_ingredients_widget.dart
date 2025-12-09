@@ -1,4 +1,3 @@
-import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dart';
 import 'package:feed_estimator/src/features/add_ingredients/provider/user_ingredients_provider.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +34,7 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Header with count
+        // Header with count and actions
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Row(
@@ -47,6 +46,20 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
+              ),
+              const Spacer(),
+              // Export button
+              if (state.userIngredients.isNotEmpty)
+                IconButton(
+                  icon: const Icon(Icons.file_download),
+                  tooltip: 'Export ingredients',
+                  onPressed: () => _showExportDialog(context),
+                ),
+              // Import button
+              IconButton(
+                icon: const Icon(Icons.file_upload),
+                tooltip: 'Import ingredients',
+                onPressed: () => _showImportDialog(context),
               ),
             ],
           ),
@@ -312,5 +325,209 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
         ],
       ),
     );
+  }
+
+  /// Show export format selection dialog
+  void _showExportDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Export Format'),
+        content:
+            const Text('Choose export format for your custom ingredients:'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.pop(context);
+              await _exportToJson();
+            },
+            child: const Text('JSON'),
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.pop(context);
+              await _exportToCsv();
+            },
+            child: const Text('CSV'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Export to JSON file
+  Future<void> _exportToJson() async {
+    final file =
+        await ref.read(userIngredientsProvider.notifier).exportToJsonFile();
+    if (file != null && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Exported to ${file.path}'),
+          duration: const Duration(seconds: 3),
+        ),
+      );
+    } else if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Export failed'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  /// Export to CSV file
+  Future<void> _exportToCsv() async {
+    final file =
+        await ref.read(userIngredientsProvider.notifier).exportToCsvFile();
+    if (file != null && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Exported to ${file.path}'),
+          duration: const Duration(seconds: 3),
+        ),
+      );
+    } else if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Export failed'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  /// Show import format selection dialog
+  void _showImportDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Import Format'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('Choose import format:'),
+            const SizedBox(height: 8),
+            Text(
+              'Note: Place your file in the app documents folder',
+              style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              _showImportFileDialog(context, isJson: true);
+            },
+            child: const Text('JSON'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              _showImportFileDialog(context, isJson: false);
+            },
+            child: const Text('CSV'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Show file name input dialog for import
+  void _showImportFileDialog(BuildContext context, {required bool isJson}) {
+    final controller = TextEditingController();
+    final extension = isJson ? '.json' : '.csv';
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Import from ${isJson ? "JSON" : "CSV"}'),
+        content: TextField(
+          controller: controller,
+          decoration: InputDecoration(
+            labelText: 'File name',
+            hintText: 'custom_ingredients$extension',
+            suffixText: extension,
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.pop(context);
+              var filename = controller.text.trim();
+              if (filename.isEmpty) {
+                filename = 'custom_ingredients';
+              }
+              if (!filename.endsWith(extension)) {
+                filename = filename + extension;
+              }
+              await _importFromFile(filename, isJson: isJson);
+            },
+            child: const Text('Import'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Import from file
+  Future<void> _importFromFile(String filename, {required bool isJson}) async {
+    try {
+      final notifier = ref.read(userIngredientsProvider.notifier);
+      final content = await notifier.readFileContent(filename);
+
+      if (content.isEmpty) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('File not found: $filename'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+        return;
+      }
+
+      if (isJson) {
+        await notifier.importFromJson(content);
+      } else {
+        await notifier.importFromCsv(content);
+      }
+
+      final state = ref.read(userIngredientsProvider);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(state.message ?? 'Import complete'),
+            backgroundColor:
+                state.status == 'success' ? Colors.green : Colors.red,
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Import failed: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 }

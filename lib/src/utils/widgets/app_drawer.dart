@@ -152,7 +152,7 @@ class FeedAppDrawer extends ConsumerWidget {
                               ref
                                   .read(ingredientProvider.notifier)
                                   .setDefaultValues();
-                              context.pushNamed('newIngredient');
+                              const NewIngredientRoute().go(context);
                             },
                           ),
                           const Divider(
@@ -213,8 +213,7 @@ class FeedAppDrawer extends ConsumerWidget {
                                   title: const Text("Update Ingredients"),
                                   onTap: () {
                                     context.pop();
-                                    //     : context.go('/newIngredient');
-                                    context.pushNamed('ingredientStore');
+                                    const IngredientStoreRoute().go(context);
                                   },
                                 ),
                               ],

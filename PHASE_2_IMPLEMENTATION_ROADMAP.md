@@ -1,4 +1,5 @@
 # Phase 2 Implementation Roadmap: User-Driven Modernization
+
 **Created**: December 8, 2025  
 **Based on**: User Feedback Analysis (Google Play Store, 148 reviews)
 
@@ -7,6 +8,7 @@
 ## Strategic Overview
 
 The modernization effort is **dual-focused**:
+
 1. **Code Quality** (Traditional modernization: logger, exceptions, sealed classes, Riverpod enhancements)
 2. **User Value** (Feature expansion: ingredients, pricing, inventory - directly addressing user requests)
 
@@ -17,11 +19,13 @@ This document maps how to deliver both simultaneously in Phase 2 (Week 2-3).
 ## HIGH PRIORITY: User-Blocking Issues
 
 ### Issue #1: Limited Ingredient Database (Tropical Alternatives)
+
 **User Impact**: 66% of positive reviews mention ingredient gaps  
 **Blocking**: Critical for farming operations in tropical regions  
 **Severity**: 🔴 HIGH
 
 #### Technical Requirements
+
 ```
 Database Enhancement:
 ├─ Ingredients table expansion
@@ -39,6 +43,7 @@ Database Enhancement:
 ```
 
 #### Riverpod Providers to Create/Modify
+
 ```dart
 // Get all available ingredients (default + user)
 final allIngredientsProvider = FutureProvider((ref) async { ... });
@@ -57,12 +62,14 @@ final ingredientSubstitutionsProvider = FutureProvider.family((ref, ingredientId
 ```
 
 #### UI Components to Create
+
 - `CustomIngredientDialog` - Create new ingredient
 - `IngredientFilterChip` - Filter by category/region/type
 - `IngredientSearchField` - Search across 180+ ingredients
 - `IngredientDetailSheet` - Show nutritional data, sourcing, substitutes
 
 #### Implementation Steps
+
 - [ ] Week 2 (Mon-Tue): Database schema migration
 - [ ] Week 2 (Tue-Wed): Seed database with tropical ingredients
 - [ ] Week 2 (Wed-Thu): Create Riverpod providers
@@ -72,11 +79,13 @@ final ingredientSubstitutionsProvider = FutureProvider.family((ref, ingredientId
 ---
 
 ### Issue #2: Static Pricing Becomes Outdated (Dynamic Price Management)
+
 **User Impact**: 20% of positive reviews request price editing  
 **Blocking**: App becomes stale as market prices fluctuate weekly  
 **Severity**: 🔴 HIGH
 
 #### Technical Requirements
+
 ```
 Database Enhancement:
 ├─ IngredientPrices table modification
@@ -93,6 +102,7 @@ Database Enhancement:
 ```
 
 #### Riverpod Providers to Create/Modify
+
 ```dart
 // Get current price for ingredient (with user override)
 final ingredientPriceProvider = FutureProvider.family((ref, ingredientId) async { ... });
@@ -111,6 +121,7 @@ final bulkImportPricesProvider = FutureProvider((ref, csvData) async { ... });
 ```
 
 #### UI Components to Create
+
 - `PriceEditDialog` - Edit ingredient price with date tracking
 - `PriceHistoryChart` - Visualize price trends
 - `BulkPriceImportSheet` - Import prices from CSV
@@ -118,6 +129,7 @@ final bulkImportPricesProvider = FutureProvider((ref, csvData) async { ... });
 - `PriceIndicator` - Show override status in lists
 
 #### Implementation Steps
+
 - [ ] Week 2 (Mon-Tue): Database schema changes
 - [ ] Week 2 (Tue-Wed): Create Riverpod providers
 - [ ] Week 2 (Wed-Thu): Implement pricing UI components
@@ -127,11 +139,13 @@ final bulkImportPricesProvider = FutureProvider((ref, csvData) async { ... });
 ---
 
 ### Issue #3: No Inventory/Stock Tracking (Inventory Management)
+
 **User Impact**: 14% of reviews request stock management  
 **Blocking**: Can't track what's available vs what's used  
 **Severity**: 🔴 HIGH
 
 #### Technical Requirements
+
 ```
 Database Enhancement:
 ├─ Inventory table (new)
@@ -150,6 +164,7 @@ Database Enhancement:
 ```
 
 #### Riverpod Providers to Create/Modify
+
 ```dart
 // Get inventory for ingredient
 final inventoryProvider = FutureProvider.family((ref, ingredientId) async { ... });
@@ -171,6 +186,7 @@ final inventoryValuationProvider = FutureProvider((ref) async { ... });
 ```
 
 #### UI Components to Create
+
 - `InventoryCard` - Show stock level, reorder point, valuation
 - `InventoryChart` - Visualize consumption trends
 - `UpdateStockDialog` - Add/remove stock with reason
@@ -178,6 +194,7 @@ final inventoryValuationProvider = FutureProvider((ref) async { ... });
 - `InventoryDashboard` - Overview of all stock
 
 #### Integration with Formulation
+
 ```dart
 // When creating formulation, suggest based on inventory
 final formulationSuggestionsProvider = FutureProvider((ref, constraints) async {
@@ -200,6 +217,7 @@ final formulationConsumptionProvider = FutureProvider((ref, formulationId) async
 ```
 
 #### Implementation Steps
+
 - [ ] Week 2 (Mon-Tue): Database schema design
 - [ ] Week 2 (Tue-Thu): Create Riverpod providers
 - [ ] Week 2 (Thu-Fri): Implement inventory UI (dashboard, dialogs, charts)
@@ -211,10 +229,12 @@ final formulationConsumptionProvider = FutureProvider((ref, formulationId) async
 ## MEDIUM PRIORITY: Enhancement Requests
 
 ### Feature #4: Enhanced Reporting (What-if Analysis, Better Charts)
+
 **User Impact**: 11% of reviews request more reporting features  
 **Severity**: 🟡 MEDIUM
 
 #### Implementation Plan
+
 - [ ] Cost breakdown by ingredient (pie chart)
 - [ ] Nutritional composition visualization
 - [ ] What-if analysis (change one ingredient, see cost/nutrition impact)
@@ -223,6 +243,7 @@ final formulationConsumptionProvider = FutureProvider((ref, formulationId) async
 - [ ] Export options (PDF improvements, Excel)
 
 **Providers**:
+
 - `reportSummaryProvider` - Aggregate formulation data
 - `costBreakdownProvider.family(formulationId)` - Cost analysis
 - `whatIfAnalysisProvider` - Simulate ingredient changes
@@ -235,12 +256,14 @@ final formulationConsumptionProvider = FutureProvider((ref, formulationId) async
 While implementing user features, also execute modernization in these areas:
 
 ### Riverpod Best Practices
+
 - [ ] Implement riverpod_generator for type-safe providers
 - [ ] Use FamilyModifier for parameterized providers
 - [ ] Proper AsyncValue error handling in UI
 - [ ] Provider caching strategies (keepAlive patterns)
 
 ### Type Safety Enhancements
+
 ```dart
 // Create value objects
 class Price {
@@ -272,6 +295,7 @@ class Ingredient {
 ```
 
 ### Validation Framework
+
 - Create `ValidationException` subclasses:
   - `PriceValidationException` - Invalid prices
   - `InventoryValidationException` - Invalid stock changes
@@ -283,6 +307,7 @@ class Ingredient {
 ## Testing Strategy for Phase 2
 
 ### Unit Tests (Riverpod Providers)
+
 ```
 tests/
 ├─ providers/
@@ -297,6 +322,7 @@ tests/
 ```
 
 ### Widget Tests (UI Components)
+
 ```
 tests/
 ├─ widgets/
@@ -307,6 +333,7 @@ tests/
 ```
 
 ### Integration Tests (Full Workflows)
+
 ```
 tests/
 ├─ features/
@@ -321,6 +348,7 @@ tests/
 ## Database Migration Strategy
 
 ### Safe Schema Changes
+
 1. **Week 1**: Create migration files (don't apply yet)
 2. **Week 2 (Mon)**: Test migrations locally with data backup
 3. **Week 2 (Tue)**: Apply migrations in staging environment
@@ -328,6 +356,7 @@ tests/
 5. **Week 3**: Rollout to production with app update
 
 ### Migration Files
+
 ```sql
 -- migration_001_add_ingredient_categories.sql
 ALTER TABLE ingredients ADD COLUMN category TEXT;
@@ -354,6 +383,7 @@ CREATE TABLE inventory (
 ## Rollout & Feature Flags
 
 ### Feature Flags for Gradual Rollout
+
 ```dart
 // In app config
 const featureFlags = {
@@ -365,6 +395,7 @@ const featureFlags = {
 ```
 
 ### Gradual Rollout Plan
+
 - **Week 3 (Beta)**: Internal testing with 5-10 beta testers
 - **Week 3 (Limited Rollout)**: Release to 25% of users
 - **Week 4 (Expanded)**: Release to 75% of users (monitoring metrics)
@@ -375,24 +406,28 @@ const featureFlags = {
 ## Success Criteria for Phase 2
 
 ### Feature Completeness
+
 - [ ] All 3 high-priority user features implemented
 - [ ] All major UI components created and tested
 - [ ] Database migrations successful
 - [ ] No data loss during migration
 
 ### Code Quality
+
 - [ ] All new providers use Riverpod best practices
 - [ ] >80% test coverage for new code
 - [ ] 0 lint warnings in new code
 - [ ] All public APIs have dartdoc comments
 
 ### User Satisfaction Metrics
+
 - [ ] Feature adoption >60% (telemetry)
 - [ ] Crash rate maintained <0.1%
 - [ ] Performance metrics unchanged (load time <2s)
 - [ ] User rating trend upward (post-release)
 
 ### Business Metrics
+
 - [ ] App Store rating: 4.5 → 4.6+ (within month)
 - [ ] Review volume: 148 → 200+ (within 2 months)
 - [ ] Feature usage: Track ingredient editing, price updates, inventory tracking
@@ -430,24 +465,30 @@ Week 5 (Post-Release Monitoring)
 ## Risk Mitigation
 
 ### Database Migration Risks
+
 **Risk**: Schema changes cause data loss  
-**Mitigation**: 
+**Mitigation**:
+
 - Backup current database before migration
 - Test migrations on staging with production-like data
 - Create rollback procedures
 - Phased rollout with feature flags
 
 ### Performance Risks
+
 **Risk**: Inventory queries slow down app  
 **Mitigation**:
+
 - Add database indexes on frequently queried columns
 - Implement provider caching (keepAlive)
 - Lazy load inventory data
 - Profile and optimize slow queries
 
 ### User Adoption Risks
+
 **Risk**: Users don't use new features  
 **Mitigation**:
+
 - In-app onboarding tutorials
 - Feature highlights in release notes
 - Email campaign announcing new features
@@ -458,6 +499,7 @@ Week 5 (Post-Release Monitoring)
 ## Deliverables
 
 By end of Phase 2:
+
 - [ ] Production-ready ingredient database (100+ ingredients)
 - [ ] User price management system with full UI
 - [ ] Inventory tracking module with alerts and trends
@@ -465,4 +507,3 @@ By end of Phase 2:
 - [ ] Updated app version (v1.1.0)
 - [ ] User feedback analysis report
 - [ ] Modernized codebase with Riverpod best practices
-

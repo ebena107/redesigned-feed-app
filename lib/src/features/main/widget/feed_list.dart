@@ -1,4 +1,5 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
+import 'package:feed_estimator/src/core/router/routes.dart';
 import 'package:feed_estimator/src/features/main/model/feed.dart';
 import 'package:feed_estimator/src/features/main/providers/main_async_provider.dart';
 import 'package:feed_estimator/src/features/reports/model/result.dart';
@@ -6,7 +7,6 @@ import 'package:feed_estimator/src/features/reports/providers/result_provider.da
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import 'footer_result_card.dart';
 import 'grid_menu.dart';
@@ -63,8 +63,7 @@ SliverChildDelegate _feedListDelegate(List<Feed> feeds) {
     final feed = feeds[index];
     return GestureDetector(
       onTap: () {
-        context.pushNamed("result",
-            queryParameters: {'id': feed.feedId.toString()});
+        ReportRoute(feed.feedId as int).go(context);
       },
       child: FeedListTile(feed: feed),
     );

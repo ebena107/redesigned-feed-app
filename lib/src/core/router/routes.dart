@@ -7,6 +7,7 @@ import 'package:feed_estimator/src/features/reports/view/report.dart';
 import 'package:feed_estimator/src/features/reports/widget/pdf_export/pdf_preview.dart';
 import 'package:feed_estimator/src/features/store_feeds/view/stored_feeds.dart';
 import 'package:feed_estimator/src/features/store_ingredients/view/stored_ingredient.dart';
+import 'package:feed_estimator/src/features/add_ingredients/view/new_ingredient.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -36,7 +37,7 @@ part 'routes.g.dart';
 @TypedGoRoute<AboutRoute>(path: '/about')
 @TypedGoRoute<FeedStoreRoute>(path: '/feedStore')
 @TypedGoRoute<IngredientStoreRoute>(path: '/ingredientStore')
-
+@TypedGoRoute<NewIngredientRoute>(path: '/newIngredient')
 @immutable
 class HomeRoute extends GoRouteData {
   const HomeRoute();
@@ -78,6 +79,18 @@ class IngredientStoreRoute extends GoRouteData {
 }
 
 @immutable
+class NewIngredientRoute extends GoRouteData {
+  const NewIngredientRoute({this.ingredientId});
+  final String? ingredientId;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    final id = ingredientId ?? state.uri.queryParameters['ingredientId'];
+    return NewIngredient(ingredientId: id);
+  }
+}
+
+@immutable
 class AddFeedRoute extends GoRouteData {
   const AddFeedRoute();
 
@@ -104,7 +117,7 @@ class ReportRoute extends GoRouteData {
 
 @immutable
 class PdfRoute extends GoRouteData {
-  const PdfRoute(this.feedId, { this.type,  this.$extra});
+  const PdfRoute(this.feedId, {this.type, this.$extra});
   final int feedId;
   final String? type;
   final Feed? $extra;

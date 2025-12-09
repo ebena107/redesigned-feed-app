@@ -1,21 +1,21 @@
 import 'dart:convert';
 
 /// name : "Alfalfa, dehydrated, protein < 16% dry matter"
-/// crude_protein : 14.1
-/// crude_fiber : 28.0
-/// crude_fat : 2.1
-/// calcium : 20.1
-/// phosphorus : 2.4
-/// lysine : 5.6
-/// methionine : 1.2
-/// me_growing_pig : 1590
-/// me_adult_pig : 1680
-/// me_poultry : 1070
-/// me_ruminant : 1910
-/// me_rabbit : 1630
-/// de_salmonids : 2160
-/// price_kg : 0.01
-/// available_qty : 0.01
+/// crude_protein : 14.1 (% dry matter)
+/// crude_fiber : 28.0 (% dry matter)
+/// crude_fat : 2.1 (% dry matter)
+/// calcium : 20.1 (g/kg or % - see notes)
+/// phosphorus : 2.4 (g/kg or % - see notes)
+/// lysine : 5.6 (g/kg or % - see notes)
+/// methionine : 1.2 (g/kg or % - see notes)
+/// me_growing_pig : 1590 (kcal/kg - metabolizable energy)
+/// me_adult_pig : 1680 (kcal/kg)
+/// me_poultry : 1070 (kcal/kg)
+/// me_ruminant : 1910 (kcal/kg)
+/// me_rabbit : 1630 (kcal/kg)
+/// de_salmonids : 2160 (kcal/kg - digestible energy for fish)
+/// price_kg : 0.01 (currency units)
+/// available_qty : 0.01 (kg or tonnes)
 /// category_id : 13
 
 Ingredient ingredientFromJson(String str) =>
@@ -82,21 +82,21 @@ class Ingredient {
   }
   num? ingredientId;
   String? name;
-  num? crudeProtein;
-  num? crudeFiber;
-  num? crudeFat;
-  num? calcium;
-  num? phosphorus;
-  num? lysine;
-  num? methionine;
-  num? meGrowingPig;
-  num? meAdultPig;
-  num? mePoultry;
-  num? meRuminant;
-  num? meRabbit;
-  num? deSalmonids;
-  num? priceKg;
-  num? availableQty;
+  num? crudeProtein; // Units: % dry matter (DM)
+  num? crudeFiber; // Units: % dry matter (DM)
+  num? crudeFat; // Units: % dry matter (DM)
+  num? calcium; // Units: g/kg (to be verified in next phase)
+  num? phosphorus; // Units: g/kg (to be verified in next phase)
+  num? lysine; // Units: g/kg (to be verified in next phase)
+  num? methionine; // Units: g/kg (to be verified in next phase)
+  num? meGrowingPig; // Units: kcal/kg (Metabolizable Energy for growing pigs)
+  num? meAdultPig; // Units: kcal/kg (Metabolizable Energy for adult pigs)
+  num? mePoultry; // Units: kcal/kg (Metabolizable Energy for poultry)
+  num? meRuminant; // Units: kcal/kg (Metabolizable Energy for ruminants)
+  num? meRabbit; // Units: kcal/kg (Metabolizable Energy for rabbits)
+  num? deSalmonids; // Units: kcal/kg (Digestible Energy for salmonids/fish)
+  num? priceKg; // Units: currency per kg
+  num? availableQty; // Units: kg or tonnes
   num? categoryId;
   num? favourite;
   num? isCustom;

@@ -1,17 +1,17 @@
 import 'dart:convert';
 
 /// feedId : 1
-/// mEnergy : 1
-/// cProtein : 1.1
-/// cFat : 1.1
-/// cFibre : 1.1
-/// calcium : 1.1
-/// phosphorus : 1.1
-/// lysine : 1.1
-/// methionine : 1.1
-/// costPerUnit : 1.1
-/// totalCost : 1.1
-/// totalQuantity : 1.1
+/// mEnergy : 1 (kcal/kg - Metabolizable or Digestible Energy)
+/// cProtein : 1.1 (% dry matter)
+/// cFat : 1.1 (% dry matter)
+/// cFibre : 1.1 (% dry matter)
+/// calcium : 1.1 (g/kg - to be verified)
+/// phosphorus : 1.1 (g/kg - to be verified)
+/// lysine : 1.1 (g/kg - to be verified)
+/// methionine : 1.1 (g/kg - to be verified)
+/// costPerUnit : 1.1 (currency per kg feed)
+/// totalCost : 1.1 (currency for total feed quantity)
+/// totalQuantity : 1.1 (kg)
 
 Result resultFromJson(String str) => Result.fromJson(json.decode(str));
 String resultToJson(Result data) => json.encode(data.toJson());
@@ -47,17 +47,17 @@ class Result {
     totalQuantity = json['totalQuantity'];
   }
   num? feedId;
-  num? mEnergy;
-  num? cProtein;
-  num? cFat;
-  num? cFibre;
-  num? calcium;
-  num? phosphorus;
-  num? lysine;
-  num? methionine;
-  num? costPerUnit;
-  num? totalCost;
-  num? totalQuantity;
+  num? mEnergy; // Units: kcal/kg (Metabolizable Energy or Digestible Energy)
+  num? cProtein; // Units: % dry matter (weighted average)
+  num? cFat; // Units: % dry matter (weighted average)
+  num? cFibre; // Units: % dry matter (weighted average)
+  num? calcium; // Units: g/kg (weighted average) - VERIFY
+  num? phosphorus; // Units: g/kg (weighted average) - VERIFY
+  num? lysine; // Units: g/kg (weighted average) - VERIFY
+  num? methionine; // Units: g/kg (weighted average) - VERIFY
+  num? costPerUnit; // Units: currency per kg of feed
+  num? totalCost; // Units: currency for complete feed quantity
+  num? totalQuantity; // Units: kg
 
   Result copyWith({
     num? feedId,

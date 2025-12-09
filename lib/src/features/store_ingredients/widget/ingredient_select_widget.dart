@@ -108,7 +108,7 @@ class _IngredientSSelectWidgetState
                                   ),
                         ),
                       );
-                    }).toList(),
+                    }),
                   ];
 
                   return Container(

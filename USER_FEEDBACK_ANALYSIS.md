@@ -1,4 +1,5 @@
 # User Feedback & Expectations Analysis
+
 **Date**: December 8, 2025  
 **Source**: Google Play Store (Feed Estimator)  
 **Overall Rating**: 4.5/5 stars (148 verified reviews)
@@ -8,6 +9,7 @@
 ## Executive Summary
 
 **Key Metrics**:
+
 - ⭐⭐⭐⭐⭐ 5-star: 98 reviews (66%)
 - ⭐⭐⭐⭐ 4-star: 34 reviews (23%)
 - ⭐⭐⭐ 3-star: 7 reviews (5%)
@@ -25,6 +27,7 @@
 ### 🔴 HIGH PRIORITY (Blocking/Frequent Issues)
 
 #### 1. **Limited Ingredient Database - Tropical/Alternative Ingredients**
+
 **User Quote**: *"Several choices of feed ingredients are still not available, especially in tropical areas, there is very little support for other alternative feed ingredients. Such as corn, corn flour, azolla, lemna, wolffia.."* - Alexian Harm (5★)
 
 **Impact**: Core functionality limitation for primary user base  
@@ -32,6 +35,7 @@
 **Root Cause**: Database doesn't reflect regional crop availability
 
 **Modernization Action Items**:
+
 - [ ] Expand ingredient database with tropical alternatives:
   - Azolla (aquatic plant)
   - Lemna (duckweed)
@@ -45,6 +49,7 @@
 - [ ] Add nutritional data sources/citations for validation
 
 #### 2. **User-Controlled Price Updates (Dynamic Pricing)**
+
 **User Quote**: *"the developer should quickly open the window for users to be able update the price list and to add more feed stock to the table for personal use"* - A Google user (5★)
 
 **Impact**: App becomes outdated quickly as feed prices fluctuate  
@@ -52,6 +57,7 @@
 **Current Gap**: Prices are static/hardcoded
 
 **Modernization Action Items**:
+
 - [ ] Implement user price editing per ingredient:
   - Local/saved prices override defaults
   - Date-stamped price history
@@ -67,6 +73,7 @@
   - Automatic inflation calculations
 
 #### 3. **Additional Feed Stock Management**
+
 **User Quote**: *"open the window for users to be able... add more feed stock to the table for personal use"* - A Google user (5★)
 
 **Impact**: Users cannot track their actual inventory  
@@ -74,6 +81,7 @@
 **Current Gap**: Formulation-focused, not inventory-focused
 
 **Modernization Action Items**:
+
 - [ ] Create inventory management module:
   - Current stock levels per ingredient
   - Stock history/consumption tracking
@@ -94,14 +102,17 @@
 ### 🟡 MEDIUM PRIORITY (Enhancement Requests)
 
 #### 4. **Enhanced Feature Set**
+
 **User Quote**: *"make the app even better with more functions"* - Multiple users  
 **Implicit Requests**:
+
 - Price adjustment ease
 - Quantity customization
 - More comprehensive reporting
 - Sharing functionality (mentioned in description)
 
 **Modernization Action Items**:
+
 - [ ] Advanced formulation features:
   - Multiple formulation scenarios comparison
   - "What-if" analysis (change one ingredient, see cost/nutrition impact)
@@ -120,15 +131,18 @@
   - Cloud sync across devices
 
 #### 5. **User Experience Polish**
+
 **Positive Feedback**: *"The UI is very attractive"*, *"user friendly"*, *"makes my work easy"*
 
 **Implied Expectations**:
+
 - Maintain current attractive UI (do not regress)
 - Improve usability of core workflows
 - Faster price/quantity adjustments
 - Better mobile optimization
 
 **Modernization Action Items**:
+
 - [ ] UX improvements:
   - Quick edit modals for ingredients in formulations
   - Swipe-to-delete actions
@@ -150,9 +164,11 @@
 ### 🟢 LOW PRIORITY (Nice-to-Have)
 
 #### 6. **Community & Support Features**
+
 **User Quote**: *"developers encourage users to reach out"*
 
 **Modernization Action Items**:
+
 - [ ] In-app support:
   - FAQ/help guides
   - Tutorial walkthroughs
@@ -165,9 +181,11 @@
   - Peer support forum
 
 #### 7. **Regional Customization**
+
 **User Base**: Primarily Nigeria/Africa region
 
 **Modernization Action Items**:
+
 - [ ] Region-specific defaults:
   - Default currency (NGN, USD, etc.)
   - Local weights/measures
@@ -183,6 +201,7 @@
 ## User Demographics & Context
 
 ### Primary User Profile
+
 - **Role**: Livestock farmers, aquaculture operators, agropreneurs
 - **Geography**: Nigeria/Africa (tropical climate)
 - **Tech Proficiency**: Medium (comfortable with mobile apps, but need simplicity)
@@ -192,6 +211,7 @@
 ### Use Cases Identified
 
 **Use Case 1: Daily Feed Formulation**
+
 - Create new formulations
 - Adjust for available ingredients
 - Calculate cost per unit
@@ -199,18 +219,21 @@
 - **Pain Point**: Limited ingredient options for local alternatives
 
 **Use Case 2: Price Management**
+
 - Update ingredient prices regularly (weekly/monthly)
 - See cost impact on formulations
 - Compare formulation costs over time
 - **Pain Point**: Can't edit prices themselves
 
 **Use Case 3: Inventory Tracking**
+
 - Track what feed is in stock
 - Know consumption rates
 - Avoid stockouts
 - **Pain Point**: No inventory module exists
 
 **Use Case 4: Team Collaboration**
+
 - Share formulations with staff/veterinarian
 - Get feedback/approval
 - Document decisions
@@ -221,6 +244,7 @@
 ## Integration with Modernization Phases
 
 ### Phase 1: Foundation ✅ COMPLETE
+
 - [x] Logger system
 - [x] Exception hierarchy
 - [x] Constants centralization
@@ -228,24 +252,30 @@
 - **User Impact**: Improved stability, faster bug fixes
 
 ### Phase 2: Modernization (Week 2-3) - **ADD USER-DRIVEN FEATURES**
+
 **Current Plan**: Riverpod enhancements, type safety
 **Recommended Additions**:
+
 - [ ] Ingredient database expansion (high-priority issue #1)
 - [ ] Dynamic price editing (high-priority issue #2)
 - [ ] Inventory management foundation (high-priority issue #3)
 - [ ] Enhanced provider caching for large ingredient lists
 
 ### Phase 3: Performance (Week 3-4)
+
 **Current Plan**: Memory, query optimization
 **Recommended Additions**:
+
 - [ ] Pagination for ingredient selection
 - [ ] Lazy loading for ingredient database
 - [ ] Offline formulation creation
 - [ ] Report generation caching
 
 ### Phase 4: Polish (Week 4-5)
+
 **Current Plan**: Docs, accessibility, localization
 **Recommended Additions**:
+
 - [ ] Localization (Yoruba/Igbo/Hausa)
 - [ ] Regional currency/weight customization
 - [ ] Advanced reporting features
@@ -256,12 +286,14 @@
 ## Success Metrics (Post-Modernization)
 
 ### Expected Improvements
+
 - **Rating Improvement**: 4.5 → 4.7+ stars (address limitation issues)
 - **Review Volume**: 148 → 500+ reviews (feature richness drives downloads)
 - **Negative Reviews**: 7 → <3 (resolve high-priority issues)
 - **DAU Growth**: Current unknown → Track post-release
 
 ### Measurement Points
+
 1. **Ingredient Completeness**: 100+ → 200+ ingredients (target)
 2. **Price Update Frequency**: Users changing prices weekly (in-app telemetry)
 3. **Feature Usage**: Inventory tracking adoption rate
@@ -273,8 +305,10 @@
 ## Technical Debt Clearing Related to User Issues
 
 ### Database Schema Enhancement
+
 **Current Issue**: Static ingredient database  
 **Solution**:
+
 - [ ] Add ingredient categories/tags for filtering
 - [ ] Nutritional data versioning
 - [ ] Price history tracking
@@ -282,6 +316,7 @@
 - [ ] Ingredient substitution suggestions
 
 ### New Entities
+
 ```
 - User (accounts for price customization)
 - UserIngredientPrices (overrides default prices)
@@ -291,6 +326,7 @@
 ```
 
 ### Riverpod Providers to Create
+
 ```
 - userIngredientsProvider (custom ingredients)
 - userPricesProvider (price overrides)
@@ -339,4 +375,3 @@ Users are highly satisfied with current app (89% favorable rating), but have cle
 4. **Maintain UI quality** - Current design is appreciated
 
 These user-driven requirements should be integrated into Phase 2 modernization to maximize impact and user satisfaction. The foundation work (Phase 1) positions the app to efficiently implement these features with improved code quality and maintainability.
-
