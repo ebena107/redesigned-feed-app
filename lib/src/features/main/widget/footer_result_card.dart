@@ -24,8 +24,10 @@ class FooterResultCard extends ConsumerWidget {
 
     return Column(
       mainAxisSize: MainAxisSize.min,
+      spacing: 2,
       children: [
         Row(
+          spacing: 4,
           children: [
             Expanded(
               child: _NutrientBadge(
@@ -36,7 +38,6 @@ class FooterResultCard extends ConsumerWidget {
                 color: Colors.orange.shade600,
               ),
             ),
-            const SizedBox(width: 4),
             Expanded(
               child: _NutrientBadge(
                 title: 'Protein',
@@ -48,8 +49,8 @@ class FooterResultCard extends ConsumerWidget {
             ),
           ],
         ),
-        const SizedBox(height: 4),
         Row(
+          spacing: 4,
           children: [
             Expanded(
               child: _NutrientBadge(
@@ -60,7 +61,6 @@ class FooterResultCard extends ConsumerWidget {
                 color: Colors.amber.shade700,
               ),
             ),
-            const SizedBox(width: 4),
             Expanded(
               child: _NutrientBadge(
                 title: 'Fiber',
@@ -96,7 +96,7 @@ class _NutrientBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 2),
+      padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 1.5),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(6),
@@ -105,41 +105,41 @@ class _NutrientBadge extends StatelessWidget {
       constraints: const BoxConstraints(minHeight: 0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, size: 10, color: color),
-          SizedBox(height: value.length > 3 ? 0.5 : 1),
+          Icon(icon, size: 9, color: color),
+          SizedBox(height: value.length > 3 ? 0.2 : 0.3),
           Text(
             title,
             style: const TextStyle(
-              fontSize: 7,
+              fontSize: 6.5,
               fontWeight: FontWeight.w600,
-              height: 1.0,
-              letterSpacing: -0.2,
+              height: 0.9,
+              letterSpacing: -0.3,
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
-          SizedBox(height: value.length > 3 ? 0 : 0.5),
+          SizedBox(height: 0.2),
           RichText(
             text: TextSpan(
               children: [
                 TextSpan(
                   text: value,
                   style: TextStyle(
-                    fontSize: 8,
+                    fontSize: 7.5,
                     fontWeight: FontWeight.w700,
                     color: color,
-                    height: 1.0,
+                    height: 0.9,
                   ),
                 ),
                 TextSpan(
                   text: unit,
                   style: TextStyle(
-                    fontSize: 5,
+                    fontSize: 4.5,
                     fontWeight: FontWeight.w500,
                     color: color.withValues(alpha: 0.7),
-                    height: 1.0,
+                    height: 0.9,
                   ),
                 ),
               ],
