@@ -28,11 +28,10 @@ class AnalyseDataDialog extends ConsumerWidget {
           isDestructiveAction: true,
           child: const Text('Analyse'),
           onPressed: () {
+            context.pop();
             ref.read(feedProvider.notifier).analyse();
             ReportRoute(id as int, type: feedId != null ? "" : "estimate")
                 .go(context);
-
-            context.pop();
           },
         ),
         CupertinoDialogAction(

@@ -22,6 +22,7 @@ class SaveIngredientDialog extends ConsumerWidget {
           isDestructiveAction: true,
           child: const Text('NO'),
           onPressed: () {
+            Navigator.of(context).pop();
             context.go('/');
           },
         ),
@@ -29,6 +30,7 @@ class SaveIngredientDialog extends ConsumerWidget {
           isDefaultAction: true,
           child: const Text('YES'),
           onPressed: () {
+            Navigator.of(context).pop();
             context.go('/newIngredient');
           },
         )
