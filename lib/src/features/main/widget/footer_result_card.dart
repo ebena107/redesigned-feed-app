@@ -96,35 +96,38 @@ class _NutrientBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(4),
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 3),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(6),
         border: Border.all(color: color.withValues(alpha: 0.3), width: 0.5),
       ),
+      constraints: const BoxConstraints(minHeight: 0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Icon(icon, size: 12, color: color),
-          const SizedBox(height: 2),
+          Icon(icon, size: 11, color: color),
+          SizedBox(height: value.length > 3 ? 1 : 2),
           Text(
             title,
             style: const TextStyle(
-              fontSize: 9,
+              fontSize: 8,
               fontWeight: FontWeight.w600,
               height: 1.0,
+              letterSpacing: -0.2,
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
-          const SizedBox(height: 1),
+          SizedBox(height: value.length > 3 ? 0.5 : 1),
           RichText(
             text: TextSpan(
               children: [
                 TextSpan(
                   text: value,
                   style: TextStyle(
-                    fontSize: 10,
+                    fontSize: 9,
                     fontWeight: FontWeight.w700,
                     color: color,
                     height: 1.0,
@@ -133,7 +136,7 @@ class _NutrientBadge extends StatelessWidget {
                 TextSpan(
                   text: unit,
                   style: TextStyle(
-                    fontSize: 7,
+                    fontSize: 6,
                     fontWeight: FontWeight.w500,
                     color: color.withValues(alpha: 0.7),
                     height: 1.0,

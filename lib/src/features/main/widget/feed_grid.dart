@@ -194,10 +194,10 @@ class FeedGridCard extends ConsumerWidget {
                           ),
                     ),
 
-                    const SizedBox(height: 6),
+                    const SizedBox(height: 4),
 
-                    // Footer with nutrients - moved to footer card
-                    Expanded(
+                    // Footer with nutrients - constrained size
+                    Flexible(
                       child: FooterResultCard(feedId: feed.feedId),
                     ),
                   ],

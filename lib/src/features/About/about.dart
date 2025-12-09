@@ -6,73 +6,149 @@ class About extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AboutDialog(
-      // applicationName: 'Ebena Feed Estimator',
-      applicationVersion: 'v1.0.0',
-
-      applicationIcon: const CircleAvatar(
-          child: Image(image: AssetImage('assets/images/logo.png'))),
-      applicationLegalese: '(c) ${DateTime.now().year} All Right Reserved',
-
-      children: [
-        const Card(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 20,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('About'),
+        elevation: 0,
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // App info card
+            Card(
+              elevation: 2,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
               ),
-              Text('Designed By:',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              Image(
-                image: AssetImage('assets/images/ebena.png'),
-                width: 140,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: 40,
+                      child: Image(
+                        image: const AssetImage('assets/images/logo.png'),
+                        width: 60,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'Feed Estimator',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Version 1.0.0',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      '© ${DateTime.now().year} All Rights Reserved',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              Text(
-                'Ebena Agro Ltd | +2348067150455',
-                style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 24),
+            // Designed by section
+            const Text(
+              'Designed By:',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 12),
+            Card(
+              elevation: 1,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
               ),
-              Text(
-                'http://ebena.com.ng',
-                style: TextStyle(fontWeight: FontWeight.bold),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Image(
+                      image: AssetImage('assets/images/ebena.png'),
+                      width: 140,
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'Ebena Agro Ltd',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 4),
+                    const Text(
+                      '+2348067150455',
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    const SizedBox(height: 4),
+                    const Text(
+                      'http://ebena.com.ng',
+                      style: TextStyle(fontSize: 12, color: Colors.blue),
+                    ),
+                  ],
+                ),
               ),
-              SizedBox(
-                height: 20,
-              )
-            ],
-          ),
+            ),
+            const SizedBox(height: 24),
+            // Credit section
+            const Text(
+              'Credits:',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 12),
+            Card(
+              elevation: 1,
+              color: Colors.grey.shade100,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Text(
+                  'The proximate analysis, data and information used for developing this application are sourced majorly from the following sources: 1. INRA-CIRAD-AFZ Feed tables, 2018 (www.feedtables.com); 2. Nutrient Requirements of Swine 11th Rev. Ed., 2012, National Research Council; 3. AmiPig - ileal standardised digestibility of amino acids in feedstuffs for pigs, 2000; 4. Swine Nutrition Guide, 2000; 5. Evapig; 6. NIAS; 7. CVB Feed Table 2016 (www.cvbdiervoeding.nl); and FNB.',
+                  style: const TextStyle(fontSize: 12),
+                  textAlign: TextAlign.justify,
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+            // Disclaimer section
+            const Text(
+              'Disclaimer:',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 12),
+            Card(
+              elevation: 1,
+              color: AppConstants.appCarrotColor.withValues(alpha: 0.1),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Text(
+                  'Feed Estimator is designed, developed and built by twitter.com/ebena107 for Ebena Agro Ltd, Ejigbo, Osun State Nigeria. It is released under MIT licence by Ebena Agro Ltd. By downloading and using this app, you accept that Ebena Agro Ltd and its designers shall not be held liable for any direct or indirect damages arising from the use of Feed Estimator and/or the data generated. It is explicitly stated that any financial or commercial loss or action directed against Feed Estimator by a third party constitutes indirect damage and is not eligible for compensation by Ebena Agro Ltd.',
+                  style: const TextStyle(fontSize: 12),
+                  textAlign: TextAlign.justify,
+                ),
+              ),
+            ),
+          ],
         ),
-        Card(
-          color: Colors.grey,
-          child: Column(
-            children: [
-              const Text('Credit:',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              paddedText(
-                  'The proximate analysis, data and information used for developing this application are sourced majorly from the following sources : 1. INRA-CIRAD-AFZ Feed tables, 2018, (www.feedtables.com); 2. Nutrient Requirements of Swine 11th Rev. Ed., 2012, National Research Council of The National Academies; 3. AmiPig - illeal standardised digestibility of amino acids in feedstuffs for pigs, 2000, AFZ, Ajinomoto Eurolysine, Aventis Animal Nutrition, INRA, ITCF; 4. Swine Nutrition Guide, 2000, http://ianrwww.unl.edu/pubs/swine/ec273.htm); 5. Evapig; 6. NIAS;  7. CVB Feed Table 2016, (www.cvbdiervoeding.nl), FNB',
-                  align: TextAlign.justify),
-            ],
-          ),
-        ),
-        Card(
-          color: AppConstants.appCarrotColor,
-          child: Column(
-            children: [
-              const Text('Disclaimer:',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              paddedText(
-                  'Feed Estimator is designed, developed and built by https://twitter.com/ebena107 for Ebena Agro Ltd, Ejigbo, Osun State Nigeria. It is release on MIT licence by Ebena Agro Ltd. By downloading and using this app, you accept, unconditionally that, Ebena Agro Ltd (or designers of this app), or any of its subsidiaries, or any person associated with it, shall not be held liable by any person, or organization,or nation for any direct or indirect damages arising from any use of Feed Estimator and/or the data generated by Feed Estimator. It is explicitly stated that any financial or commercial loss (for instance: loss of data, loss of customers or of orders, loss of benefit, operating loss, opportunity loss, commercial trouble) or any action directed against Feed Estimator by a third party constitutes an indirect damage and is not eligible for compensation of damage by Ebena Agro Ltd.',
-                  align: TextAlign.justify),
-            ],
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
-
-Widget paddedText(final String text,
-        {final TextAlign align = TextAlign.left}) =>
-    Padding(
-      padding: const EdgeInsets.all(10),
-      child: Text(text, textAlign: align, style: const TextStyle(fontSize: 10)),
-    );

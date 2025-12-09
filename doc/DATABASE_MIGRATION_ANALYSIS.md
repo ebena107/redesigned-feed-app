@@ -42,6 +42,7 @@ Database Version: 4
 ### Version 1: Base Schema (Original)
 
 **Tables Created**:
+
 1. `ingredients` - 20 columns
 2. `ingredient_categories` - Category reference
 3. `animal_types` - Animal type reference
@@ -49,6 +50,7 @@ Database Version: 4
 5. `feed_ingredients` - Ingredient-feed relationships
 
 **Ingredients Table Schema** (v1):
+
 ```sql
 CREATE TABLE ingredients (
   id INTEGER PRIMARY KEY,
@@ -91,13 +93,15 @@ WHERE LOWER(name) LIKE '%rice bran%'
   AND (fiber = 0.0 OR fiber IS NULL)
 ```
 
-**Impact**: 
+**Impact**:
+
 - Fixes incorrect rice bran fiber data
 - No schema changes
 - Data-only update
 - **Non-breaking** ✅
 
 **User Experience**:
+
 - Rice bran nutrient values corrected automatically
 - Feed calculations become more accurate
 - Zero data loss
@@ -117,6 +121,7 @@ WHERE NOT EXISTS (SELECT 1 FROM ingredients WHERE id = new_id)
 ```
 
 **Implementation**:
+
 ```dart
 Batch batch = db.batch();
 for (var ingredientData in jsonData) {
@@ -130,12 +135,14 @@ await batch.commit(noResult: true);
 ```
 
 **Impact**:
+
 - Adds new ingredients to database
 - Skips if ingredients already exist (safe)
 - No schema changes
 - **Non-breaking** ✅
 
 **User Experience**:
+
 - Additional ingredient options become available
 - Existing recipes unchanged
 - More formulation options without removing old ones
@@ -162,6 +169,7 @@ ADD COLUMN notes TEXT;
 ```
 
 **Schema Addition**:
+
 ```sql
 -- New columns (v4)
 is_custom INTEGER DEFAULT 0        -- 0 = default, 1 = user-created
@@ -171,12 +179,14 @@ notes TEXT                         -- User-provided notes
 ```
 
 **Impact**:
+
 - Allows users to add custom ingredients
 - Preserves all v1-v3 data with sensible defaults
 - New columns are NULLABLE/DEFAULT
 - **Non-breaking** ✅
 
 **User Experience**:
+
 - Users can create custom ingredients
 - Existing ingredients remain unchanged
 - Custom ingredients tagged appropriately
@@ -231,6 +241,7 @@ WHERE name = 'Sunflower hulls';
 ```
 
 **Key Points**:
+
 - Applied through normal repository `updateByParam()` method
 - Happens after database is fully initialized
 - No schema changes
@@ -275,7 +286,8 @@ WHERE name = 'Sunflower hulls';
    - User's existing feeds recalculate automatically
    - All calculations still valid
 
-#### Result for User:
+#### Result for User
+
 - ✅ All existing feeds preserved
 - ✅ All recipes intact
 - ✅ Ingredient data enriched (more accurate)
@@ -288,6 +300,7 @@ WHERE name = 'Sunflower hulls';
 ## Data Integrity Guarantees
 
 ### Foreign Key Constraints ✅
+
 ```sql
 FOREIGN KEY(category_id) REFERENCES ingredient_categories(id)
   ON DELETE NO ACTION 
@@ -295,11 +308,13 @@ FOREIGN KEY(category_id) REFERENCES ingredient_categories(id)
 ```
 
 **Protected by**:
+
 - SQLite PRAGMA foreign_keys = ON (line 46 in app_db.dart)
 - Migrations never delete categories
 - Cascade restrictions prevent orphaned data
 
 ### Transaction Safety ✅
+
 ```dart
 // Migrations run in transactions
 // If migration fails, entire transaction rolls back
@@ -307,11 +322,13 @@ FOREIGN KEY(category_id) REFERENCES ingredient_categories(id)
 ```
 
 **Protected by**:
+
 - SQLite default transaction handling
 - Batch operations with atomic commit
 - Error handling with rollback
 
 ### Data Type Safety ✅
+
 - No columns changed types
 - No required columns removed
 - New columns have DEFAULT values
@@ -322,6 +339,7 @@ FOREIGN KEY(category_id) REFERENCES ingredient_categories(id)
 ## Room Integration (If Used)
 
 ### Current State
+
 The app uses **SQLite directly** (via sqflite), not Room.
 
 ```dart
@@ -338,9 +356,11 @@ await openDatabase(
 ```
 
 ### Future Migration to Room (If Desired)
+
 If moving to Room in future:
 
 ✅ **Room can handle existing SQLite schemas**:
+
 ```kotlin
 // Room entities would map to existing tables
 @Entity(tableName = "ingredients")
@@ -357,6 +377,7 @@ data class IngredientEntity(
 ```
 
 ✅ **Room migration would be safe**:
+
 - Existing SQLite database read by Room
 - Room can auto-migrate schema if needed
 - Version bump handled by Room migration system
@@ -367,6 +388,7 @@ data class IngredientEntity(
 ## Migration Safeguards Implemented
 
 ### 1. Sequential Migration Execution ✅
+
 ```dart
 // Migrations run in order, not skipped
 for (int version = oldVersion + 1; version <= newVersion; version++) {
@@ -375,11 +397,13 @@ for (int version = oldVersion + 1; version <= newVersion; version++) {
 ```
 
 **Why It's Safe**:
+
 - v1→v2→v3→v4 always runs in sequence
 - Can't skip version
 - Each migration assumes previous completed
 
 ### 2. Error Handling ✅
+
 ```dart
 catch (e) {
   debugPrint('Migration X→Y: Error: $e');
@@ -389,11 +413,13 @@ catch (e) {
 ```
 
 **Why It's Safe**:
+
 - Errors logged with full context
 - App won't launch if migrations fail
 - User gets clear error message
 
 ### 3. Conflict Resolution ✅
+
 ```dart
 batch.insert(
   tableName,
@@ -403,17 +429,20 @@ batch.insert(
 ```
 
 **Why It's Safe**:
+
 - Duplicate ingredients skipped, not replaced
 - Existing data preserved
 - Prevents accidental overwrites
 
 ### 4. Validation ✅
+
 ```dart
 // All foreign keys enforced
 await db.execute('PRAGMA foreignKeys = ON');
 ```
 
 **Why It's Safe**:
+
 - Orphaned records prevented
 - Data relationships maintained
 - Schema integrity enforced
@@ -467,6 +496,7 @@ testWidgets('V4 custom ingredients work', (tester) {
 ## Deployment Checklist
 
 ### Pre-Deployment ✅
+
 - [x] Database schema v1 intact
 - [x] Migrations 1→2, 2→3, 3→4 implemented
 - [x] Foreign keys enforced
@@ -475,6 +505,7 @@ testWidgets('V4 custom ingredients work', (tester) {
 - [x] Backward compatibility verified
 
 ### Post-Deployment Verification
+
 - [ ] Test upgrade from v1 app with real user data
 - [ ] Monitor error logs for migration failures
 - [ ] Verify app launch time (migrations should be fast)
@@ -483,6 +514,7 @@ testWidgets('V4 custom ingredients work', (tester) {
 - [ ] Verify corrected values present in database
 
 ### User Communication
+
 - [ ] Release notes mention database improvements
 - [ ] No mention of data loss (it's safe!)
 - [ ] Highlight new features (custom ingredients)
@@ -535,4 +567,3 @@ testWidgets('V4 custom ingredients work', (tester) {
 **Status**: 🟢 **DATABASE MIGRATION STRATEGY VERIFIED AS PRODUCTION-READY**
 
 No breaking changes. All existing users can upgrade safely.
-
