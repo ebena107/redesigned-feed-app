@@ -22,6 +22,7 @@
 **File**: `lib/src/features/add_ingredients/widgets/save_ingredient_dialog.dart`
 
 **Problem**:
+
 ```dart
 CupertinoDialogAction(
   onPressed: () {
@@ -40,6 +41,7 @@ CupertinoDialogAction(
 **Severity**: 🔴 **CRITICAL** - Same pattern as About dialog bug
 
 **Fix**:
+
 ```dart
 CupertinoDialogAction(
   onPressed: () {
@@ -62,6 +64,7 @@ CupertinoDialogAction(
 **File**: `lib/src/features/add_update_feed/widget/analyse_data_dialog.dart`
 
 **Problem**:
+
 ```dart
 CupertinoDialogAction(
   onPressed: () {
@@ -74,7 +77,8 @@ CupertinoDialogAction(
 )
 ```
 
-**Risk**: 
+**Risk**:
+
 - Route navigation happens before dialog close
 - Can cause race conditions in GoRouter
 - Potential stack management issues
@@ -82,6 +86,7 @@ CupertinoDialogAction(
 **Severity**: 🟠 **CRITICAL** - Race condition risk
 
 **Fix**:
+
 ```dart
 CupertinoDialogAction(
   onPressed: () {
@@ -115,11 +120,13 @@ CupertinoDialogAction(
 ## 🎯 Dialogs Audit Checklist
 
 ### ✅ Correct Pattern (Safe)
+
 - `confirmation_dialog.dart` - Uses `context.pop()` correctly
 - `grid_menu.dart` - Uses `context.pop()` before navigation
 - Dialog closes before route changes
 
 ### ⚠️ Needs Review
+
 - `save_ingredient_dialog.dart` - Direct `context.go()` in dialog action
 - `analyse_data_dialog.dart` - Navigation order issue (pop after go)
 
@@ -143,6 +150,7 @@ CupertinoDialogAction(
 **File**: `lib/src/features/add_ingredients/widgets/save_ingredient_dialog.dart`
 
 **Current**:
+
 ```dart
 CupertinoDialogAction(
   isDestructiveAction: true,
@@ -161,6 +169,7 @@ CupertinoDialogAction(
 ```
 
 **Fixed**:
+
 ```dart
 CupertinoDialogAction(
   isDestructiveAction: true,
@@ -189,6 +198,7 @@ CupertinoDialogAction(
 **File**: `lib/src/features/add_update_feed/widget/analyse_data_dialog.dart`
 
 **Current**:
+
 ```dart
 CupertinoDialogAction(
   isDestructiveAction: true,
@@ -204,6 +214,7 @@ CupertinoDialogAction(
 ```
 
 **Fixed**:
+
 ```dart
 CupertinoDialogAction(
   isDestructiveAction: true,
@@ -221,6 +232,7 @@ CupertinoDialogAction(
 ```
 
 **Changes**:
+
 - Move `context.pop()` to the beginning
 - Add slight delay before navigation to ensure dialog is fully closed
 - Prevents race condition with GoRouter
@@ -230,6 +242,7 @@ CupertinoDialogAction(
 ## 🛡️ Best Practices for Dialogs
 
 ### ✅ DO:
+
 ```dart
 CupertinoDialogAction(
   onPressed: () {
@@ -244,6 +257,7 @@ CupertinoDialogAction(
 ```
 
 ### ❌ DON'T:
+
 ```dart
 CupertinoDialogAction(
   onPressed: () {
@@ -254,6 +268,7 @@ CupertinoDialogAction(
 ```
 
 ### ✅ PATTERN:
+
 1. **Close Dialog**: `context.pop()` or `Navigator.of(context).pop()`
 2. **Wait for Close**: Ensure dialog is dismissed
 3. **Perform Action**: Navigate or execute logic
@@ -264,22 +279,26 @@ CupertinoDialogAction(
 ## 📋 Migration Steps
 
 ### Step 1: Backup Current Code
+
 ```bash
 git checkout -b fix/dialog-stack-management
 ```
 
 ### Step 2: Apply Fixes
+
 - [ ] Update `save_ingredient_dialog.dart`
 - [ ] Update `analyse_data_dialog.dart`
 - [ ] Test each navigation flow
 
 ### Step 3: Verify
+
 - [ ] Run `flutter analyze` (0 errors)
 - [ ] Test all dialog navigations
 - [ ] Check GoRouter stack integrity
 - [ ] Monitor for assertion errors
 
 ### Step 4: Commit
+
 ```bash
 git commit -m "fix: ensure proper dialog stack management
 
@@ -296,12 +315,14 @@ git commit -m "fix: ensure proper dialog stack management
 ### Test Each Fixed Dialog
 
 #### SaveIngredientDialog
+
 1. Add a new ingredient successfully
 2. Dialog shows "Add another Ingredient?"
 3. Click "NO" → should navigate to home
 4. Verify no stack errors in console
 
 #### AnalyseDataDialog
+
 1. Create or edit a feed
 2. Click "See full Analysis"
 3. Dialog shows "Are you Sure?"
@@ -313,6 +334,7 @@ git commit -m "fix: ensure proper dialog stack management
 ## 📊 Risk Assessment
 
 ### Before Fixes
+
 | Scenario | Risk | Impact |
 |----------|------|--------|
 | SaveIngredient → Navigate | 🔴 High | Possible stack underflow |
@@ -320,6 +342,7 @@ git commit -m "fix: ensure proper dialog stack management
 | Multiple dialogs | 🟠 Medium | Stack confusion |
 
 ### After Fixes
+
 | Scenario | Risk | Impact |
 |----------|------|--------|
 | SaveIngredient → Navigate | 🟢 Low | Clean sequence |
@@ -346,6 +369,7 @@ git commit -m "fix: ensure proper dialog stack management
 ## 📚 Related Documentation
 
 See `doc/BUGFIX_*.md` for:
+
 - Similar GoRouter issues and fixes
 - Best practices for route management
 - Complete testing procedures
@@ -355,11 +379,13 @@ See `doc/BUGFIX_*.md` for:
 ## 🎯 Priority
 
 **Severity**: 🔴 **CRITICAL**  
-**Affected Features**: 
+**Affected Features**:
+
 - Adding new ingredients (flow broken)
 - Analysing feed data (potential crash)
 
-**Timeline**: 
+**Timeline**:
+
 - Should be fixed before next release
 - High risk of user-facing errors
 
@@ -368,6 +394,7 @@ See `doc/BUGFIX_*.md` for:
 ## Summary
 
 Two dialogs have been identified with improper stack management patterns similar to the About page bug. Both need fixes to:
+
 1. Close dialog before navigation
 2. Prevent race conditions with GoRouter
 3. Ensure proper route stack management

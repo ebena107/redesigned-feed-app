@@ -131,9 +131,9 @@ class FeedGridCard extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Image area with menu
+            // Image area with menu (70% of card height)
             Expanded(
-              flex: 3,
+              flex: 7,
               child: Stack(
                 children: [
                   // Feed image
@@ -162,42 +162,42 @@ class FeedGridCard extends ConsumerWidget {
               ),
             ),
 
-            // Title and animal type
+            // Bottom info section (30% of card height) - compact layout
             Expanded(
-              flex: 2,
+              flex: 3,
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+                padding: const EdgeInsets.fromLTRB(12, 6, 12, 6),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
+                  mainAxisSize: MainAxisSize.max,
+                  spacing: 2,
                   children: [
-                    // Feed name
+                    // Feed name - single line
                     Text(
                       feed.feedName.toString(),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.labelLarge?.copyWith(
                             fontWeight: FontWeight.w700,
-                            letterSpacing: 0.5,
+                            fontSize: 12,
+                            letterSpacing: 0.3,
                           ),
                     ),
 
-                    const SizedBox(height: 4),
-
-                    // Animal type
+                    // Animal type - single line
                     Text(
                       '${animalName(id: feed.animalId as int)} Feed',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            fontSize: 10,
                             color: Colors.grey.shade600,
+                            letterSpacing: 0.2,
                           ),
                     ),
 
-                    const SizedBox(height: 4),
-
-                    // Footer with nutrients - constrained size
-                    Flexible(
+                    // Footer with nutrients - expand to fill remaining space
+                    Expanded(
                       child: FooterResultCard(feedId: feed.feedId),
                     ),
                   ],

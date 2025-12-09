@@ -23,11 +23,12 @@ class FooterResultCard extends ConsumerWidget {
     }
 
     return Column(
-      mainAxisSize: MainAxisSize.min,
-      spacing: 2,
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.center,
+      spacing: 1,
       children: [
         Row(
-          spacing: 4,
+          spacing: 3,
           children: [
             Expanded(
               child: _NutrientBadge(
@@ -50,7 +51,7 @@ class FooterResultCard extends ConsumerWidget {
           ],
         ),
         Row(
-          spacing: 4,
+          spacing: 3,
           children: [
             Expanded(
               child: _NutrientBadge(
