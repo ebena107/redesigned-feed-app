@@ -435,27 +435,64 @@ class FeedNotifier extends Notifier<FeedState> {
     return available;
   }
 
-  Future<void> analyse() async {
-    if (state.feedName != "" &&
-        state.animalTypeId != 0 &&
-        state.feedIngredients.isNotEmpty &&
-        state.totalQuantity != 0) {
+  Timer? _analyseDebounceTimer;
+  bool _isAnalysing = false;
+
+  /// Immediate analysis for user-initiated actions (no debounce)
+  Future<void> analyseImmediate() async {
+    if (_isAnalysing) return; // Prevent concurrent analysis
+
+    if (state.feedName.isEmpty ||
+        state.animalTypeId == 0 ||
+        state.feedIngredients.isEmpty ||
+        state.totalQuantity == 0) {
+      return;
+    }
+
+    _isAnalysing = true;
+    try {
+      // Create or update feed object efficiently
       if (_feedId == null) {
         setNewFeed();
       }
-      var feed = state.newFeed;
-      if (feed!.feedId == null) {
-        feed = state.newFeed!.copyWith(feedId: 9999);
+
+      // Ensure feed has proper ID (9999 for new feeds)
+      final Feed feedToAnalyse;
+      if (state.newFeed == null) {
+        feedToAnalyse = Feed(
+          feedId: 9999,
+          feedName: state.feedName,
+          animalId: state.animalTypeId,
+          feedIngredients: state.feedIngredients,
+        );
+        state = state.copyWith(newFeed: feedToAnalyse);
+      } else if (state.newFeed!.feedId == null) {
+        feedToAnalyse = state.newFeed!.copyWith(feedId: 9999);
+        state = state.copyWith(newFeed: feedToAnalyse);
       } else {
-        final ingList = state.feedIngredients;
-        final feed = state.newFeed!.copyWith(feedIngredients: ingList);
-        state = state.copyWith(newFeed: feed);
+        feedToAnalyse = state.newFeed!.copyWith(
+          feedIngredients: state.feedIngredients,
+        );
+        state = state.copyWith(newFeed: feedToAnalyse);
       }
 
+      // Pre-calculate result before navigation
       await ref
           .read(resultProvider.notifier)
-          .estimatedResult(feed: state.newFeed);
-//      ReportRoute(feedId: feed.feedId as int).go(context);
+          .estimatedResult(feed: feedToAnalyse);
+    } finally {
+      _isAnalysing = false;
     }
+  }
+
+  /// Debounced analysis for auto-recalculation scenarios
+  Future<void> analyse() async {
+    // Cancel previous debounce timer if any
+    _analyseDebounceTimer?.cancel();
+
+    // Debounce analysis to prevent rapid redundant calls (300ms window)
+    _analyseDebounceTimer = Timer(const Duration(milliseconds: 300), () async {
+      await analyseImmediate();
+    });
   }
 }

@@ -62,6 +62,8 @@ class ResultNotifier extends Notifier<ResultsState> {
   num _totalQuantity = 0.0;
 
   Map<num, Ingredient> _ingredientCache = const {};
+  final Map<num, Result> _calculationCache = {};
+  bool _cacheInitialized = false;
 
   Feed _feed = Feed();
 
@@ -153,6 +155,12 @@ class ResultNotifier extends Notifier<ResultsState> {
       num? feedId,
       List<FeedIngredients>? ingList,
       num? animal}) async {
+    // Check cache first
+    if (feedId != null && _calculationCache.containsKey(feedId)) {
+      state = state.copyWith(myResult: _calculationCache[feedId]);
+      return;
+    }
+
     resetResult();
 
     bool checked = false;
@@ -195,6 +203,11 @@ class ResultNotifier extends Notifier<ResultsState> {
           costPerUnit: _costPerUnit,
           totalCost: _totalCost,
           totalQuantity: _totalQuantity);
+
+      // Cache the result if we have a feedId
+      if (feedId != null) {
+        _calculationCache[feedId] = _newResult;
+      }
 
       state = state.copyWith(myResult: _newResult);
       _feed = Feed();
@@ -281,7 +294,7 @@ class ResultNotifier extends Notifier<ResultsState> {
   }
 
   Future<void> _loadIngredientCache() async {
-    if (_ingredientCache.isNotEmpty) return;
+    if (_cacheInitialized) return;
     final raw =
         await ref.read(appDatabase).selectAll(IngredientsRepository.tableName);
     final list = raw.map((e) => Ingredient.fromJson(e)).toList();
@@ -289,6 +302,17 @@ class ResultNotifier extends Notifier<ResultsState> {
       for (final ing in list)
         if (ing.ingredientId != null) ing.ingredientId!: ing,
     };
+    _cacheInitialized = true;
+  }
+
+  /// Pre-load ingredient cache at startup for better performance
+  Future<void> preLoadIngredientCache() async {
+    await _loadIngredientCache();
+  }
+
+  /// Clear calculation cache when ingredient data changes
+  void clearCalculationCache() {
+    _calculationCache.clear();
   }
 
   double _energyForAnimal(Ingredient ing, num animalTypeId) {

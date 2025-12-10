@@ -24,23 +24,29 @@ class AnalysisPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isEstimate = type == 'estimate';
 
-    // 1. Safe Feed Retrieval Logic
+    // 1. Optimized Feed Retrieval - use pre-calculated data
     final Feed feed;
     if (isEstimate) {
+      // For new (unsaved) feeds, use pre-calculated data from feedProvider
+      // This data was already prepared by analyseImmediate() before navigation
       feed = ref.watch(feedProvider).newFeed ?? Feed();
     } else {
+      // For existing feeds, fetch from database
       final asyncFeeds = ref.watch(asyncMainProvider);
-      // Handle loading/error or empty states gracefully
       if (!asyncFeeds.hasValue) {
-        return const Scaffold(body: Center(child: CircularProgressIndicator()));
+        return const Scaffold(
+          body: Center(child: CircularProgressIndicator()),
+        );
       }
       feed = asyncFeeds.value!
           .firstWhere((f) => f.feedId == feedId, orElse: () => Feed());
     }
 
-    // 2. View State (Analysis vs Ingredients)
-    final showIngredients = ref.watch(resultProvider).toggle;
+    // 2. Watch result provider for reactive updates (pre-calculated by analyseImmediate)
+    ref.watch(resultProvider).myResult;
 
+    // 3. View State (Analysis vs Ingredients)
+    final showIngredients = ref.watch(resultProvider).toggle;
     return Scaffold(
       drawer: const FeedAppDrawer(),
       backgroundColor: AppConstants.appBackgroundColor,
@@ -137,102 +143,89 @@ class AnalysisPage extends ConsumerWidget {
           // Content with harmonized design
           SliverToBoxAdapter(
             child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 0),
               // decoration: BoxDecoration(
-              //   gradient: LinearGradient(
-              //     begin: Alignment.topCenter,
-              //     end: Alignment.bottomCenter,
-              //     colors: [
-              //       Colors.deepPurple.shade50,
-              //       Colors.white.withValues(alpha: 0.95),
-              //     ],
-              //     stops: const [0.0, 0.15],
+              //   color: Colors.white,
+              //   borderRadius: const BorderRadius.only(
+              //     topLeft: Radius.circular(40),
+              //     topRight: Radius.circular(40),
               //   ),
+              //   boxShadow: [
+              //     BoxShadow(
+              //       color: Colors.black.withValues(alpha: 0.08),
+              //       blurRadius: 20,
+              //       offset: const Offset(0, -5),
+              //       spreadRadius: 1,
+              //     ),
+              //   ],
               // ),
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 0),
-                // decoration: BoxDecoration(
-                //   color: Colors.white,
-                //   borderRadius: const BorderRadius.only(
-                //     topLeft: Radius.circular(40),
-                //     topRight: Radius.circular(40),
-                //   ),
-                //   boxShadow: [
-                //     BoxShadow(
-                //       color: Colors.black.withValues(alpha: 0.08),
-                //       blurRadius: 20,
-                //       offset: const Offset(0, -5),
-                //       spreadRadius: 1,
-                //     ),
-                //   ],
-                // ),
-                child: Column(
-                  children: [
-                    // Feed Image Avatar - stacked elegantly
-                    // Transform.translate(
-                    //   offset: const Offset(0, -60),
-                    //   child: Container(
-                    //     padding: const EdgeInsets.all(6),
-                    //     decoration: BoxDecoration(
-                    //       color: Colors.white,
-                    //       shape: BoxShape.circle,
-                    //       boxShadow: [
-                    //         BoxShadow(
-                    //           color: Colors.deepPurple.withValues(alpha: 0.25),
-                    //           blurRadius: 15,
-                    //           offset: const Offset(0, 8),
-                    //           spreadRadius: 2,
-                    //         ),
-                    //       ],
-                    //     ),
-                    //     child: CircleAvatar(
-                    //       radius: 55,
-                    //       backgroundColor: Colors.deepPurple.shade50,
-                    //       backgroundImage: AssetImage(
-                    //         feedImage(id: feed.animalId?.toInt()),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
+              child: Column(
+                children: [
+                  // Feed Image Avatar - stacked elegantly
+                  // Transform.translate(
+                  //   offset: const Offset(0, -60),
+                  //   child: Container(
+                  //     padding: const EdgeInsets.all(6),
+                  //     decoration: BoxDecoration(
+                  //       color: Colors.white,
+                  //       shape: BoxShape.circle,
+                  //       boxShadow: [
+                  //         BoxShadow(
+                  //           color: Colors.deepPurple.withValues(alpha: 0.25),
+                  //           blurRadius: 15,
+                  //           offset: const Offset(0, 8),
+                  //           spreadRadius: 2,
+                  //         ),
+                  //       ],
+                  //     ),
+                  //     child: CircleAvatar(
+                  //       radius: 55,
+                  //       backgroundColor: Colors.deepPurple.shade50,
+                  //       backgroundImage: AssetImage(
+                  //         feedImage(id: feed.animalId?.toInt()),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
 
-                    // Feed Header Info
-                    _FeedHeader(feed: feed),
+                  // Feed Header Info
+                  _FeedHeader(feed: feed),
 
-                    const SizedBox(height: 24),
+                  const SizedBox(height: 24),
 
-                    // Toggle Content
-                    AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 300),
-                      transitionBuilder: (child, animation) {
-                        return FadeTransition(
-                          opacity: animation,
-                          child: child,
-                        );
-                      },
-                      child: showIngredients
-                          ? ReportIngredientList(
-                              key: const ValueKey('ingredients'),
+                  // Toggle Content
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 300),
+                    transitionBuilder: (child, animation) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      );
+                    },
+                    child: showIngredients
+                        ? ReportIngredientList(
+                            key: const ValueKey('ingredients'),
+                            feed: feed,
+                          )
+                        : Padding(
+                            key: const ValueKey('analysis'),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: ResultCard(
                               feed: feed,
-                            )
-                          : Padding(
-                              key: const ValueKey('analysis'),
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16.0),
-                              child: ResultCard(
-                                feed: feed,
-                                feedId: feedId,
-                                type: type,
-                              ),
+                              feedId: feedId,
+                              type: type,
                             ),
-                    ),
+                          ),
+                  ),
 
-                    const SizedBox(height: 24),
+                  const SizedBox(height: 24),
 
-                    // Return Button (Only if "New Feed" / Magic Number 9999)
-                    if (feedId == 9999) _ReturnButton(feedId: feedId),
+                  // Return Button (Only if "New Feed" / Magic Number 9999)
+                  if (feedId == 9999) _ReturnButton(feedId: feedId),
 
-                    const SizedBox(height: 80), // Bottom padding for nav bar
-                  ],
-                ),
+                  const SizedBox(height: 80), // Bottom padding for nav bar
+                ],
               ),
             ),
           ),

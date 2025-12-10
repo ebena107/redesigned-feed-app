@@ -14,7 +14,7 @@ class AnalyseDataDialog extends ConsumerWidget {
 
   const AnalyseDataDialog({super.key, this.feedId});
 
-  void _handleAnalyse(BuildContext context, WidgetRef ref) {
+  Future<void> _handleAnalyse(BuildContext context, WidgetRef ref) async {
     try {
       final isNewFeed = feedId == null;
       final id = feedId ?? 9999;
@@ -25,10 +25,16 @@ class AnalyseDataDialog extends ConsumerWidget {
         tag: _tag,
       );
 
-      ref.read(feedProvider.notifier).analyse();
+      // Close dialog first for immediate feedback
+      if (context.mounted) {
+        Navigator.of(context).pop();
+      }
 
+      // Use immediate analysis (no debounce) and await completion
+      await ref.read(feedProvider.notifier).analyseImmediate();
+
+      // Navigate only after calculation is complete
       if (!context.mounted) return;
-      Navigator.of(context).pop(); // Close dialog
 
       ReportRoute(
         id as int,
@@ -43,7 +49,6 @@ class AnalyseDataDialog extends ConsumerWidget {
       );
 
       if (context.mounted) {
-        Navigator.of(context).pop();
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Failed to analyse feed. Please try again.'),
