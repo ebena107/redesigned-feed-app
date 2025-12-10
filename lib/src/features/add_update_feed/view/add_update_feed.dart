@@ -1,6 +1,8 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
+import 'package:feed_estimator/src/core/constants/ui_constants.dart';
 import 'package:feed_estimator/src/core/router/navigation_providers.dart';
 import 'package:feed_estimator/src/core/router/routes.dart';
+import 'package:feed_estimator/src/core/utils/logger.dart';
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
 import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provider.dart';
 import 'package:feed_estimator/src/features/add_update_feed/widget/analyse_data_dialog.dart';
@@ -12,11 +14,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:quickalert/quickalert.dart';
 
 import '../widget/estimated_result_widget.dart';
 import '../widget/feed_info.dart';
 import '../widget/feed_ingredients.dart';
+
+const String _tag = 'NewFeedPage';
 
 class NewFeedPage extends ConsumerWidget {
   final int? feedId;
@@ -30,19 +33,13 @@ class NewFeedPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    String title;
-    bool isEdit;
-    int? id;
+    // Determine if this is an edit or new feed operation
+    // feedId of null, 0, or 9999 indicates a new feed
+    final isEdit = feedId != null && feedId != 0 && feedId != 9999;
+    final id = isEdit ? feedId : null;
+    final title = isEdit ? "Update Feed" : "Add/Check Feed";
 
-    isEdit = feedId == null || feedId == 9999 || feedId == 0 ? false : true;
-
-    id = feedId == null || feedId == 9999 || feedId == 0 ? null : feedId;
-
-    title = isEdit ? "Update Feed" : "Add/Check Feed";
-
-    //debugPrint(' newFeed - id: $id and feedId: $feedId  and title: $title');
-    // String title = id == null ? "Add/Check Feed" : "Update Feed";
-    //int? feedId = id != null ? int.parse(id!): null;
+    AppLogger.debug('NewFeedPage - isEdit: $isEdit, id: $id', tag: _tag);
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(
@@ -129,128 +126,266 @@ class NewFeedPage extends ConsumerWidget {
 
 Widget buildBottomBar({int? feedId, required bool isEdit}) {
   return Consumer(builder: (context, ref, child) {
-    // final currentIndex = ref.watch(appNavigationProvider).navIndex;
-
     return BottomNavigationBar(
-        onTap: (int index) {
-          ref.read(appNavigationProvider.notifier).changeIndex(index);
-          _onItemTapped(
-            index,
-            context,
-            ref,
-            feedId,
-            isEdit,
-          );
-        },
-        backgroundColor: AppConstants.appBackgroundColor,
-        currentIndex: 1,
-        elevation: 0,
-        items: [
-          const BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.cart_badge_plus),
-            label: 'Add More Ingredient',
-            backgroundColor: AppConstants.appCarrotColor,
+      onTap: (int index) {
+        ref.read(appNavigationProvider.notifier).changeIndex(index);
+        _onItemTapped(index, context, ref, feedId, isEdit);
+      },
+      backgroundColor: AppConstants.appBackgroundColor,
+      currentIndex: 1,
+      elevation: UIConstants.cardElevation,
+      type: BottomNavigationBarType.fixed,
+      selectedItemColor:
+          isEdit ? AppConstants.appCarrotColor : AppConstants.appBlueColor,
+      iconSize: UIConstants.iconLarge,
+      items: [
+        const BottomNavigationBarItem(
+          icon: Icon(CupertinoIcons.cart_badge_plus),
+          label: 'Add Ingredients',
+          tooltip: 'Add more ingredients to feed',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(
+            isEdit ? Icons.update : CupertinoIcons.floppy_disk,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              isEdit ? Icons.update : CupertinoIcons.floppy_disk,
-              color: isEdit ? AppConstants.appCarrotColor : Colors.blue,
-            ),
-            label: isEdit ? 'Update' : 'Save',
-          ),
-          const BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.forward_end_alt), label: 'Analyse'),
-          //  BottomNavigationBarItem(icon: Icon(CupertinoIcons.home), label: 'Home'),
-        ]);
+          label: isEdit ? 'Update' : 'Save',
+          tooltip: isEdit ? 'Update feed' : 'Save feed',
+        ),
+        const BottomNavigationBarItem(
+          icon: Icon(CupertinoIcons.forward_end_alt),
+          label: 'Analyse',
+          tooltip: 'Analyse feed composition',
+        ),
+      ],
+    );
   });
 }
 
-_onItemTapped(int index, BuildContext context, WidgetRef ref, int? feedId,
-    bool isEdit) async {
-  final name = ref.watch(feedProvider).feedName;
-  String todo = isEdit ? "update" : "save";
-  var mMessage = ref.watch(feedProvider).message;
-  var status = ref.watch(feedProvider).status;
-
-  switch (index) {
-    case 0:
-      isEdit
-          ? ref.read(ingredientProvider.notifier).loadFeedExistingIngredients()
-          : '';
-      isEdit
-          ? FeedIngredientsRoute(feedId!).go(context)
-          : NewFeedIngredientsRoute(feedId).go(context);
-      break;
-    case 1:
-      name == ""
-          ? {
-              status = "info",
-              mMessage = "Feed Name is Compulsory",
-              handleAlert(type: status, context: context, title: mMessage),
-            }
-          : ref.read(asyncMainProvider.notifier).saveUpdateFeed(
-              todo: todo,
-              onSuccess: (response) => handleAlert(
-                  type: response, context: context, title: mMessage));
-      // handleMessage();
-
-      //   messageHandlerWidget(context: context, message: mMessage, type: status);
-      //  status == "success" ? ref.read(routerProvider).go('/') : '';
-      break;
-    case 2:
-      final ing = ref.watch(feedProvider).feedIngredients;
-      name == "" ||
-              (ing.isEmpty ||
-                  ing.any((e) => e.quantity == 0.0) ||
-                  ing.any((e) => e.quantity == null))
-          ? {
-              status = "failure",
-              mMessage = "Enter all feed details : Name and ingredients",
-              // handleMessage()
-              // messageHandlerWidget(
-              //     context: context, message: mMessage, type: status)
-              handleAlert(type: status, context: context, title: mMessage)
-            }
-          : Navigator.of(context)
-              .restorablePush(analyseDialogBuilder, arguments: feedId);
-
-      break;
-  }
-}
-
-handleAlert(
-    {required String type,
-    required BuildContext context,
-    required String title}) {
-  // String title = "";
-  QuickAlertType myType = QuickAlertType.info;
-
-  switch (type) {
-    case 'success':
-      myType = QuickAlertType.success;
-      //title = 'successfully saved';
-      context.pop();
-      break;
-    case 'failure':
-      myType = QuickAlertType.error;
-      //  title = 'failed to save';
-      break;
-    case 'warning':
-      myType = QuickAlertType.warning;
-      //   title = 'checked to save';
-      break;
-  }
-
-  return QuickAlert.show(context: context, type: myType, title: title);
-}
-
-Route<Object?> analyseDialogBuilder(
+Future<void> _onItemTapped(
+  int index,
   BuildContext context,
-  Object? arguments,
-) {
-  int? feedId = arguments != null ? arguments as int : null;
+  WidgetRef ref,
+  int? feedId,
+  bool isEdit,
+) async {
+  final feedState = ref.read(feedProvider);
+  final feedName = feedState.feedName.trim();
+  final ingredients = feedState.feedIngredients;
 
-  return DialogRoute<void>(
+  AppLogger.debug('Bottom nav tapped: index=$index, isEdit=$isEdit', tag: _tag);
+
+  try {
+    switch (index) {
+      case 0: // Add ingredients
+        if (isEdit) {
+          ref.read(ingredientProvider.notifier).loadFeedExistingIngredients();
+          FeedIngredientsRoute(feedId!).go(context);
+        } else {
+          NewFeedIngredientsRoute(feedId).go(context);
+        }
+        break;
+
+      case 1: // Save/Update
+        if (feedName.isEmpty) {
+          _showErrorBottomSheet(
+            context: context,
+            title: 'Feed Name Required',
+            message: 'Please enter a name for your feed before saving.',
+          );
+          AppLogger.warning('Save attempted without feed name', tag: _tag);
+          return;
+        }
+
+        final todo = isEdit ? "update" : "save";
+        await ref.read(asyncMainProvider.notifier).saveUpdateFeed(
+              todo: todo,
+              onSuccess: (response) {
+                if (!context.mounted) return;
+                final message = ref.read(feedProvider).message;
+                final isSuccess = response.toLowerCase() == 'success';
+                if (isSuccess) {
+                  _showSuccessBottomSheet(
+                    context: context,
+                    title: message,
+                    shouldPopPage: true,
+                  );
+                } else {
+                  _showErrorBottomSheet(
+                    context: context,
+                    title: message,
+                  );
+                }
+              },
+            );
+        break;
+
+      case 2: // Analyse
+        // Validate feed data
+        if (feedName.isEmpty) {
+          _showErrorBottomSheet(
+            context: context,
+            title: 'Missing Feed Name',
+            message: 'Please enter a feed name before analysing.',
+          );
+          return;
+        }
+
+        if (ingredients.isEmpty) {
+          _showErrorBottomSheet(
+            context: context,
+            title: 'No Ingredients',
+            message: 'Please add at least one ingredient to analyse.',
+          );
+          return;
+        }
+
+        if (ingredients.any((e) => e.quantity == null || e.quantity == 0.0)) {
+          _showErrorBottomSheet(
+            context: context,
+            title: 'Invalid Quantities',
+            message:
+                'All ingredients must have valid quantities greater than 0.',
+          );
+          return;
+        }
+
+        // Show analyse dialog
+        _showAnalyseDialog(context, feedId);
+        break;
+
+      default:
+        AppLogger.warning('Unknown bottom nav index: $index', tag: _tag);
+    }
+  } catch (e, stackTrace) {
+    AppLogger.error('Error in bottom nav action: $e',
+        tag: _tag, error: e, stackTrace: stackTrace);
+    if (!context.mounted) return;
+    _showErrorBottomSheet(
       context: context,
-      builder: (BuildContext context) => AnalyseDataDialog(feedId: feedId));
+      title: 'An Error Occurred',
+      message: 'Please try again.',
+    );
+  }
+}
+
+/// Show error bottom sheet with Material Design 3 styling
+void _showErrorBottomSheet({
+  required BuildContext context,
+  required String title,
+  String? message,
+}) {
+  showModalBottomSheet(
+    context: context,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+    ),
+    builder: (context) => Padding(
+      padding: const EdgeInsets.all(UIConstants.paddingLarge),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.error_outline,
+            size: 64,
+            color: Colors.orange.shade600,
+          ),
+          const SizedBox(height: UIConstants.paddingMedium),
+          Text(
+            title,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+            textAlign: TextAlign.center,
+          ),
+          if (message != null) ...[
+            const SizedBox(height: UIConstants.paddingSmall),
+            Text(
+              message,
+              style: Theme.of(context).textTheme.bodyMedium,
+              textAlign: TextAlign.center,
+            ),
+          ],
+          const SizedBox(height: UIConstants.paddingLarge),
+          FilledButton(
+            onPressed: () => Navigator.pop(context),
+            style: FilledButton.styleFrom(
+              minimumSize: const Size(double.infinity, 48),
+            ),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+/// Show success bottom sheet with automatic page navigation
+void _showSuccessBottomSheet({
+  required BuildContext context,
+  required String title,
+  String? message,
+  bool shouldPopPage = false,
+}) {
+  showModalBottomSheet(
+    context: context,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+    ),
+    builder: (context) => Padding(
+      padding: const EdgeInsets.all(UIConstants.paddingLarge),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.check_circle_outline,
+            size: 64,
+            color: Colors.green.shade600,
+          ),
+          const SizedBox(height: UIConstants.paddingMedium),
+          Text(
+            title,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+            textAlign: TextAlign.center,
+          ),
+          if (message != null) ...[
+            const SizedBox(height: UIConstants.paddingSmall),
+            Text(
+              message,
+              style: Theme.of(context).textTheme.bodyMedium,
+              textAlign: TextAlign.center,
+            ),
+          ],
+          const SizedBox(height: UIConstants.paddingLarge),
+          FilledButton(
+            onPressed: () {
+              Navigator.pop(context); // Close bottom sheet
+              if (shouldPopPage) {
+                // Navigate back to feed list on success
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  if (context.mounted) {
+                    context.pop();
+                  }
+                });
+              }
+            },
+            style: FilledButton.styleFrom(
+              minimumSize: const Size(double.infinity, 48),
+              backgroundColor: Colors.green.shade600,
+            ),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+/// Show analyse confirmation dialog
+void _showAnalyseDialog(BuildContext context, int? feedId) {
+  showDialog<void>(
+    context: context,
+    builder: (context) => AnalyseDataDialog(feedId: feedId),
+  );
 }

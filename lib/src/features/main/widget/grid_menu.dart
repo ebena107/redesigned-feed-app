@@ -7,13 +7,11 @@ import 'package:feed_estimator/src/features/reports/providers/result_provider.da
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import '../providers/main_async_provider.dart';
 
-///grid menu
-///
-///
+enum _MenuOption { view, update, delete }
+
 class GridMenu extends ConsumerWidget {
   final Feed? feed;
 
@@ -21,142 +19,118 @@ class GridMenu extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return PopupMenuButton<String>(
-      constraints: const BoxConstraints(
-        minWidth: 2.0 * 36.0,
-        maxWidth: 4.0 * 36.0,
-      ),
-      //splashRadius: 50.0,
-      icon: const Icon(
-        Icons.more_vert,
-        // size: 24.0,
-        // color: Colors.white
-      ),
-//iconSize: 48.0,
-      onSelected: (value) {
-        //  print(value);
-      },
+    // If feed is null/invalid, hide menu or disable it
+    if (feed == null || feed?.feedId == null) return const SizedBox.shrink();
 
-      //padding: const EdgeInsets.all(0),
-      itemBuilder: (context) => <PopupMenuItem<String>>[
-        PopupMenuItem(
-          //  padding: const EdgeInsets.all(0),
-          value: "1",
-          child: TextButton.icon(
-            onPressed: () {
-              context.pop();
-              ReportRoute(feed!.feedId as int).go(context);
-            },
-            icon: const Icon(
-              Icons.view_list,
-              color: Colors.deepPurple,
-            ),
-            label: Text("View", style: bodyTextStyle()),
+    return Container(
+      width: 32,
+      height: 32,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        shape: BoxShape.circle,
+        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
+      ),
+      child: PopupMenuButton<_MenuOption>(
+        icon: const Icon(Icons.more_horiz, size: 20, color: Colors.black87),
+        padding: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        onSelected: (option) => _handleMenuSelection(context, ref, option),
+        itemBuilder: (context) => [
+          _buildMenuItem(
+            value: _MenuOption.view,
+            icon: Icons.visibility_outlined,
+            color: Colors.deepPurple,
+            label: "View Report",
           ),
-        ),
-        PopupMenuItem(
-          value: "2",
-          child: TextButton.icon(
-              onPressed: () {
-                ref.read(resultProvider.notifier).resetResult();
-                ref.read(ingredientProvider.notifier).resetSelections();
-                ref.read(feedProvider.notifier).resetProvider();
-
-                ref.read(feedProvider.notifier).setFeed(feed!);
-
-                context.pop();
-                FeedRoute(feedId: feed!.feedId as int).go(context);
-              },
-              icon:
-                  const Icon(Icons.update, color: AppConstants.appCarrotColor),
-              label: Text("Update", style: bodyTextStyle())),
-        ),
-        PopupMenuItem(
-          value: "3",
-          child: TextButton.icon(
-              onPressed: () {
-                context.pop();
-                Navigator.of(context)
-                    .restorablePush(_dialogBuilder, arguments: feed!.feedId);
-              },
-              icon: const Icon(Icons.delete, color: Colors.red),
-              label: Text(
-                "Delete",
-                style: bodyTextStyle(),
-              )),
-        ),
-      ],
-      color: AppConstants.appBackgroundColor.withValues(alpha: .9),
+          _buildMenuItem(
+            value: _MenuOption.update,
+            icon: Icons.edit_outlined,
+            color: AppConstants.appCarrotColor,
+            label: "Update",
+          ),
+          const PopupMenuDivider(),
+          _buildMenuItem(
+            value: _MenuOption.delete,
+            icon: Icons.delete_outline,
+            color: Colors.redAccent,
+            label: "Delete",
+          ),
+        ],
+      ),
     );
+  }
+
+  PopupMenuItem<_MenuOption> _buildMenuItem({
+    required _MenuOption value,
+    required IconData icon,
+    required Color color,
+    required String label,
+  }) {
+    return PopupMenuItem(
+      value: value,
+      child: Row(
+        children: [
+          Icon(icon, color: color, size: 20),
+          const SizedBox(width: 12),
+          Text(label, style: const TextStyle(fontSize: 14)),
+        ],
+      ),
+    );
+  }
+
+  void _handleMenuSelection(
+      BuildContext context, WidgetRef ref, _MenuOption option) {
+    final feedId = feed!.feedId!.toInt(); // Safe due to check at start of build
+
+    switch (option) {
+      case _MenuOption.view:
+        ReportRoute(feedId).go(context);
+        break;
+
+      case _MenuOption.update:
+        // Reset and Load
+        ref.read(resultProvider.notifier).resetResult();
+        ref.read(ingredientProvider.notifier).resetSelections();
+        ref.read(feedProvider.notifier)
+          ..resetProvider()
+          ..setFeed(feed!);
+        FeedRoute(feedId: feedId).go(context);
+        break;
+
+      case _MenuOption.delete:
+        showCupertinoDialog(
+          context: context,
+          builder: (context) => _DeleteConfirmDialog(feed: feed!),
+        );
+        break;
+    }
   }
 }
 
-/// Dialog Builder
-///
-///
-///
-Route<Object?> _dialogBuilder(BuildContext context, Object? arguments) {
-  num? feedId = arguments as num;
-  return DialogRoute<void>(
-    context: context,
-    builder: (BuildContext context) => _DeleteFeed(feedId: feedId),
-  );
-}
-
-/// delete
-///
-///
-///
-///
-class _DeleteFeed extends ConsumerWidget {
-  final num? feedId;
-
-  const _DeleteFeed({
-    this.feedId,
-  });
+class _DeleteConfirmDialog extends ConsumerWidget {
+  final Feed feed;
+  const _DeleteConfirmDialog({required this.feed});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final asyncFeeds = ref.watch(asyncMainProvider);
-
-    return asyncFeeds.when(
-        data: (feeds) {
-          final feed =
-              feeds.firstWhere((f) => f.feedId == feedId, orElse: () => Feed());
-
-          return CupertinoAlertDialog(
-            title: Text(
-              'Delete ${feed.feedName}.',
-            ),
-            content: const Text('Are You Sure?'),
-            actions: [
-              CupertinoDialogAction(
-                isDestructiveAction: true,
-                child: const Text('Delete'),
-                onPressed: () {
-                  ref.read(asyncMainProvider.notifier).deleteFeed(feed.feedId!);
-                  //  ref.read(mainViewProvider.notifier).loadFeeds();
-                  Navigator.pop(context);
-                  //  context.read(DBProviders.feedProvider).deleteFeed(feedId);
-                },
-              ),
-              CupertinoDialogAction(
-                isDefaultAction: true,
-                child: const Text('Cancel'),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              )
-            ],
-          );
-        },
-        error: (er, stack) => Center(
-              child: Text(er.toString()),
-            ),
-        loading: () => const Center(
-              child: CircularProgressIndicator(),
-            ));
-    // final feed =
-    //     data.feeds.firstWhere((f) => f.feedId == feedId, orElse: () => Feed());
+    return CupertinoAlertDialog(
+      title: Text('Delete "${feed.feedName}"?'),
+      content: const Text('This action cannot be undone.'),
+      actions: [
+        CupertinoDialogAction(
+          isDefaultAction: true,
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Cancel'),
+        ),
+        CupertinoDialogAction(
+          isDestructiveAction: true,
+          onPressed: () {
+            ref.read(asyncMainProvider.notifier).deleteFeed(feed.feedId!);
+            Navigator.pop(context);
+          },
+          child: const Text('Delete'),
+        ),
+      ],
+    );
   }
 }
