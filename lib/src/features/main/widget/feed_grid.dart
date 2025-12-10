@@ -139,42 +139,47 @@ class FeedGridCard extends StatelessWidget {
             ),
             // CONTENT SECTION (35% height)
             Expanded(
-              flex: 35,
+              flex: 40,
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(10, 6, 10, 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: UIConstants.paddingSmall,
+                  vertical:
+                      4, // Reduced vertical padding slightly to prevent overflow
+                ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment:
+                      MainAxisAlignment.spaceEvenly, // Better distribution
                   children: [
                     // Feed title and subtitle
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          feed.feedName ?? 'Unknown Feed',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: theme.textTheme.titleSmall?.copyWith(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 12,
-                            letterSpacing: -0.05,
+                    Flexible(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            feed.feedName ?? 'Unknown Feed',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: theme.textTheme.labelLarge?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              height: 1.2, // Tighter line height
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 1),
-                        Text(
-                          '${animalName(id: animalId.toInt())} Feed',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            fontSize: 9,
-                            color: theme.colorScheme.onSurface
-                                .withValues(alpha: 0.6),
-                            letterSpacing: 0.05,
+                          const SizedBox(height: 2),
+                          Text(
+                            '${animalName(id: animalId.toInt())} Feed',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              fontSize: 10,
+                              color: theme.colorScheme.secondary,
+                              height: 1.2,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 2),
                     // Nutrition footer with better spacing

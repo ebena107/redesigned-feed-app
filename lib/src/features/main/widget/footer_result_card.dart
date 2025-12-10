@@ -11,9 +11,6 @@ class FooterResultCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     if (feedId == null || feedId == 0) return const SizedBox.shrink();
 
-    // PERFORMANCE OPTIMIZATION:
-    // Only rebuild this specific card if the Result associated with this feedId changes.
-    // This prevents the "N+1" rebuild problem where one update refreshes the whole grid.
     final myResult = ref.watch(resultProvider.select(
       (state) => state.results.firstWhere(
         (r) => r.feedId == feedId,
@@ -21,105 +18,107 @@ class FooterResultCard extends ConsumerWidget {
       ),
     ));
 
-    // If calculation hasn't run yet, show nothing or placeholder
     if (myResult.mEnergy == null) return const SizedBox.shrink();
 
-    return Wrap(
-      spacing: 3,
-      runSpacing: 2,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        _NutrientChip(
-          label: 'Energy',
-          value: '${myResult.mEnergy?.round() ?? 0}',
-          unit: 'kcal',
-          color: Colors.orange.shade600,
+        Expanded(
+          child: _NutrientChip(
+            label: 'ENG',
+            value: '${myResult.mEnergy?.round() ?? 0}',
+            unit: 'kcal',
+            // OPTIMIZATION: DeepOrange is more readable than standard Orange for text
+            baseColor: Colors.deepOrange,
+          ),
         ),
-        _NutrientChip(
-          label: 'Protein',
-          value: myResult.cProtein?.toStringAsFixed(1) ?? '0',
-          unit: '%',
-          color: Colors.purple.shade600,
+        const SizedBox(width: 4),
+        Expanded(
+          child: _NutrientChip(
+            label: 'PRO',
+            value: myResult.cProtein?.toStringAsFixed(1) ?? '0',
+            unit: '%',
+            // OPTIMIZATION: Indigo implies strength/structure and contrasts well with Orange
+            baseColor: Colors.indigo,
+          ),
         ),
-        _NutrientChip(
-          label: 'Fat',
-          value: myResult.cFat?.toStringAsFixed(1) ?? '0',
-          unit: '%',
-          color: Colors.blue.shade600,
+        const SizedBox(width: 4),
+        Expanded(
+          child: _NutrientChip(
+            label: 'FAT',
+            value: myResult.cFat?.toStringAsFixed(1) ?? '0',
+            unit: '%',
+            // OPTIMIZATION: Teal is visually distinct from Orange (unlike Amber/Yellow)
+            baseColor: Colors.teal,
+          ),
         ),
       ],
     );
   }
 }
 
-/// Modern chip-style nutrient badge with colored background
 class _NutrientChip extends StatelessWidget {
   final String label;
   final String value;
   final String unit;
-  final Color color;
+  final MaterialColor baseColor;
 
   const _NutrientChip({
     required this.label,
     required this.value,
     required this.unit,
-    required this.color,
+    required this.baseColor,
   });
-
-  IconData get _icon {
-    switch (label) {
-      case 'Energy':
-        return Icons.flash_on;
-      case 'Protein':
-        return Icons.egg;
-      case 'Fat':
-        return Icons.water_drop;
-      default:
-        return Icons.circle;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
+    // We use shade800 for text to ensure it passes accessibility contrast ratios
+    final textColor = baseColor.shade800;
+    // We use shade50 for background for a clean, modern "pill" look
+    final bgColor = baseColor.shade50;
+    final borderColor = baseColor.shade100;
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2.5),
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 2),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(6),
-        border: Border.all(
-          color: color.withValues(alpha: 0.3),
-          width: 0.5,
-        ),
+        color: bgColor,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: borderColor, width: 1),
       ),
-      child: Row(
+      child: Column(
         mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            _icon,
-            size: 9,
-            color: color,
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 9, // Slightly larger for readability
+              fontWeight: FontWeight.w900,
+              color: textColor.withValues(alpha: 0.8),
+              letterSpacing: 0.5,
+            ),
           ),
-          const SizedBox(width: 3),
-          // Value and unit
+          const SizedBox(height: 1),
           RichText(
+            textAlign: TextAlign.center,
             text: TextSpan(
               children: [
                 TextSpan(
                   text: value,
                   style: TextStyle(
-                    fontSize: 9,
-                    fontWeight: FontWeight.w700,
-                    color: color,
-                    height: 1.2,
-                    letterSpacing: -0.2,
+                    fontSize: 13, // Bolder, clearer number
+                    fontWeight: FontWeight.w900,
+                    color: textColor,
+                    height: 1.0,
                   ),
                 ),
+                const WidgetSpan(child: SizedBox(width: 1.5)),
                 TextSpan(
                   text: unit,
                   style: TextStyle(
-                    fontSize: 6.5,
-                    fontWeight: FontWeight.w500,
-                    color: color.withValues(alpha: 0.8),
-                    height: 1.2,
+                    fontSize: 8,
+                    fontWeight: FontWeight.bold,
+                    color: textColor,
                   ),
                 ),
               ],
