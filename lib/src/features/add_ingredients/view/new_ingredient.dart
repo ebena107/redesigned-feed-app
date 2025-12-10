@@ -1,7 +1,10 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
+import 'package:feed_estimator/src/core/utils/logger.dart';
 import 'package:feed_estimator/src/features/add_ingredients/widgets/ingredient_form.dart';
 import 'package:feed_estimator/src/utils/widgets/app_drawer.dart';
 import 'package:flutter/material.dart';
+
+const String _tag = 'NewIngredient';
 
 class NewIngredient extends StatelessWidget {
   final String? ingredientId;
@@ -16,6 +19,14 @@ class NewIngredient extends StatelessWidget {
         (ingredientId == null || ingredientId == "null" || ingredientId == "")
             ? null
             : int.tryParse(ingredientId!);
+    
+    // Log screen entry for debugging
+    if (ingId != null) {
+      AppLogger.info('Opening ingredient edit screen for ID: $ingId', tag: _tag);
+    } else {
+      AppLogger.info('Opening new ingredient creation screen', tag: _tag);
+    }
+    
     return SafeArea(
       child: Scaffold(
         drawer: const FeedAppDrawer(),
@@ -44,25 +55,30 @@ class NewIngredient extends StatelessWidget {
                 flexibleSpace: Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                        begin: Alignment.bottomLeft,
-                        end: Alignment.topRight,
-                        tileMode: TileMode.repeated,
-                        stops: const [
-                          0.6,
-                          0.9
-                        ],
-                        colors: [
-                          const Color(0xff87643E),
-                          const Color(0xff87643E).withValues(alpha: .7)
-                        ]),
+                      begin: Alignment.bottomLeft,
+                      end: Alignment.topRight,
+                      tileMode: TileMode.repeated,
+                      stops: const [0.6, 0.9],
+                      colors: [
+                        const Color(0xff87643E),
+                        const Color(0xff87643E).withValues(alpha: 0.7)
+                      ],
+                    ),
                   ),
                   child: FlexibleSpaceBar(
-                      title: Text(ingId != null
-                          ? "Update Ingredient"
-                          : 'Add Ingredient'),
-                      centerTitle: true,
-                      background: const Image(
-                          image: AssetImage('assets/images/back.png'))),
+                    title: Text(
+                      ingId != null ? "Update Ingredient" : 'Add Ingredient',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    centerTitle: true,
+                    background: const Image(
+                      image: AssetImage('assets/images/back.png'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
               ),
               SliverToBoxAdapter(

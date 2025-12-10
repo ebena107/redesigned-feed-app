@@ -1,7 +1,11 @@
+import 'package:feed_estimator/src/core/utils/logger.dart';
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dart';
 import 'package:feed_estimator/src/features/add_ingredients/provider/user_ingredients_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+const String _tag = 'UserIngredientsWidget';
 
 /// Widget to display and manage user-created ingredients
 class UserIngredientsWidget extends ConsumerStatefulWidget {
@@ -304,21 +308,33 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => context.pop(),
             child: const Text('Cancel'),
           ),
           TextButton(
             onPressed: () {
-              ref
-                  .read(userIngredientsProvider.notifier)
-                  .removeCustomIngredient(ingredient.ingredientId!);
-              Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('${ingredient.name} removed'),
-                  duration: const Duration(seconds: 2),
-                ),
-              );
+              try {
+                ref
+                    .read(userIngredientsProvider.notifier)
+                    .removeCustomIngredient(ingredient.ingredientId!);
+                AppLogger.info('Deleted custom ingredient: ${ingredient.name}', tag: _tag);
+                context.pop();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('${ingredient.name} removed'),
+                    duration: const Duration(seconds: 2),
+                  ),
+                );
+              } catch (e, stackTrace) {
+                AppLogger.error('Failed to delete ingredient: $e', tag: _tag, error: e, stackTrace: stackTrace);
+                context.pop();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Failed to remove ingredient'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
             },
             child: const Text('Delete', style: TextStyle(color: Colors.red)),
           ),
@@ -337,19 +353,19 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
             const Text('Choose export format for your custom ingredients:'),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => context.pop(),
             child: const Text('Cancel'),
           ),
           TextButton(
             onPressed: () async {
-              Navigator.pop(context);
+              context.pop();
               await _exportToJson();
             },
             child: const Text('JSON'),
           ),
           TextButton(
             onPressed: () async {
-              Navigator.pop(context);
+              context.pop();
               await _exportToCsv();
             },
             child: const Text('CSV'),
@@ -421,19 +437,19 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => context.pop(),
             child: const Text('Cancel'),
           ),
           TextButton(
             onPressed: () {
-              Navigator.pop(context);
+              context.pop();
               _showImportFileDialog(context, isJson: true);
             },
             child: const Text('JSON'),
           ),
           TextButton(
             onPressed: () {
-              Navigator.pop(context);
+              context.pop();
               _showImportFileDialog(context, isJson: false);
             },
             child: const Text('CSV'),
@@ -450,7 +466,7 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
 
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (dialogContext) => AlertDialog(
         title: Text('Import from ${isJson ? "JSON" : "CSV"}'),
         content: TextField(
           controller: controller,
@@ -462,13 +478,18 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () {
+              controller.dispose();
+              dialogContext.pop();
+            },
             child: const Text('Cancel'),
           ),
           TextButton(
             onPressed: () async {
-              Navigator.pop(context);
               var filename = controller.text.trim();
+              controller.dispose();
+              dialogContext.pop();
+              
               if (filename.isEmpty) {
                 filename = 'custom_ingredients';
               }
