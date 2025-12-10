@@ -10,6 +10,7 @@ import 'package:feed_estimator/src/utils/widgets/app_drawer.dart';
 import 'package:feed_estimator/src/utils/widgets/error_widget.dart';
 import 'package:feed_estimator/src/utils/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MainView extends ConsumerWidget {
@@ -20,15 +21,9 @@ class MainView extends ConsumerWidget {
     final data = ref.watch(asyncMainProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: AppConstants.mainAppColor,
-        foregroundColor: Colors.white,
-      ),
       drawer: const FeedAppDrawer(),
-      body: SafeArea(
-        child: CustomScrollView(
-          slivers: <Widget>[
+      body: CustomScrollView(
+        slivers: <Widget>[
             // Modern SliverAppBar with Material Design 3
             SliverAppBar(
               pinned: true,
@@ -38,6 +33,12 @@ class MainView extends ConsumerWidget {
               elevation: 0,
               backgroundColor: AppConstants.mainAppColor,
               foregroundColor: Colors.white,
+              // Extend app bar color into status bar
+              systemOverlayStyle: const SystemUiOverlayStyle(
+                statusBarColor: AppConstants.mainAppColor,
+                statusBarIconBrightness: Brightness.light,
+                statusBarBrightness: Brightness.dark,
+              ),
               flexibleSpace: FlexibleSpaceBar(
                 title: const Text(
                   'Feed Estimator',
@@ -166,7 +167,6 @@ class MainView extends ConsumerWidget {
             ),
           ],
         ),
-      ),
 
       // Modern FAB with Material Design 3
       floatingActionButton: FloatingActionButton.extended(
