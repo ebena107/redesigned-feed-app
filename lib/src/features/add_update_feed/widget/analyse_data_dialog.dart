@@ -25,6 +25,9 @@ class AnalyseDataDialog extends ConsumerWidget {
         tag: _tag,
       );
 
+      // Save the root context before popping (dialog context will be invalid after pop)
+      final rootContext = Navigator.of(context, rootNavigator: true).context;
+
       // Close dialog first for immediate feedback
       if (context.mounted) {
         Navigator.of(context).pop();
@@ -33,13 +36,13 @@ class AnalyseDataDialog extends ConsumerWidget {
       // Use immediate analysis (no debounce) and await completion
       await ref.read(feedProvider.notifier).analyseImmediate();
 
-      // Navigate only after calculation is complete
-      if (!context.mounted) return;
+      // Navigate using root context (which is still valid)
+      if (!rootContext.mounted) return;
 
       ReportRoute(
         id as int,
         type: isNewFeed ? "estimate" : "",
-      ).go(context);
+      ).go(rootContext);
     } catch (e, stackTrace) {
       AppLogger.error(
         'Error analysing feed: $e',
@@ -48,8 +51,10 @@ class AnalyseDataDialog extends ConsumerWidget {
         stackTrace: stackTrace,
       );
 
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
+      // Try to find a valid context for error display
+      final BuildContext? errorContext = context.mounted ? context : null;
+      if (errorContext != null && errorContext.mounted) {
+        ScaffoldMessenger.of(errorContext).showSnackBar(
           const SnackBar(
             content: Text('Failed to analyse feed. Please try again.'),
             backgroundColor: Colors.redAccent,
