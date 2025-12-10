@@ -161,12 +161,12 @@ Widget customIngredientHeader() {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
+                const Text(
                   'Creating Custom Ingredient',
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
-                    color: const Color(0xff87643E),
+                    color: Color(0xff87643E),
                   ),
                 ),
                 const SizedBox(height: 4),
