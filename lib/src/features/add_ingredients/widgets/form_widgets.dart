@@ -1,4 +1,7 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
+import 'package:feed_estimator/src/core/constants/ui_constants.dart';
+import 'package:feed_estimator/src/core/utils/input_validators.dart';
+import 'package:feed_estimator/src/core/utils/logger.dart';
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient_category.dart';
 import 'package:feed_estimator/src/features/add_ingredients/provider/form_controllers.dart';
 
@@ -13,45 +16,65 @@ import 'package:go_router/go_router.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 
+const String _tag = 'FormWidgets';
+
 Widget nameField(WidgetRef ref, int? ingId, BuildContext context) {
   final myRef = ref.watch(ingredientProvider);
   final data = myRef.name;
   final nameController = ref.watch(nameFieldController(data!.value));
 
   return Card(
-      child: ingId == null
-          ? Focus(
-              onFocusChange: (hasFocus) {
-                if (!hasFocus) {
-                  ref
-                      .read(ingredientProvider.notifier)
-                      .setName(nameController.text);
-                }
-              },
-              child: TextFormField(
-                controller: nameController,
-
-                // initialValue: data.name!.value,
-                decoration: inputDecoration(
-                    hint: 'Ingredient Name',
-                    errorText: data.error,
-                    icon: CupertinoIcons.paw),
-                keyboardType: TextInputType.text,
-                textInputAction: TextInputAction.next,
-                onFieldSubmitted: (value) =>
-                    ref.read(ingredientProvider.notifier).setName(value),
-                //onEditingComplete: () => ref.read(ingredientProvider.notifier).setName(myController!.value.text),
-                onSaved: (value) =>
-                    ref.read(ingredientProvider.notifier).setName(value!),
-
-                onTapOutside: (value) => ref
-                    .read(ingredientProvider.notifier)
-                    .setName(nameController.value.text),
-                onEditingComplete: () => FocusScope.of(context).nextFocus(),
+    child: ingId == null
+        ? Focus(
+            onFocusChange: (hasFocus) {
+              if (!hasFocus) {
+                final trimmed = nameController.text.trim();
+                ref.read(ingredientProvider.notifier).setName(trimmed);
+                AppLogger.debug('Name field updated: $trimmed', tag: _tag);
+              }
+            },
+            child: TextFormField(
+              controller: nameController,
+              decoration: inputDecoration(
+                hint: 'Ingredient Name (e.g., Soybean Meal)',
+                errorText: data.error,
+                icon: CupertinoIcons.tag,
               ),
-            )
-          : SizedBox(
-              height: 30, child: Center(child: Text(data.value as String))));
+              keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.next,
+              inputFormatters: InputValidators.nameFormatters,
+              validator: (value) => InputValidators.validateName(
+                value,
+                fieldName: 'Ingredient name',
+              ),
+              onFieldSubmitted: (value) {
+                final trimmed = value.trim();
+                ref.read(ingredientProvider.notifier).setName(trimmed);
+              },
+              onSaved: (value) {
+                final trimmed = value?.trim() ?? '';
+                ref.read(ingredientProvider.notifier).setName(trimmed);
+              },
+              onTapOutside: (_) {
+                final trimmed = nameController.text.trim();
+                ref.read(ingredientProvider.notifier).setName(trimmed);
+              },
+              onEditingComplete: () => FocusScope.of(context).nextFocus(),
+            ),
+          )
+        : Container(
+            height: UIConstants.fieldHeight,
+            padding: UIConstants.paddingHorizontalNormal,
+            alignment: Alignment.centerLeft,
+            child: Text(
+              data.value as String,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+  );
 }
 
 class NameField extends ConsumerWidget {
@@ -138,32 +161,32 @@ Widget proteinField(WidgetRef ref, context) {
   final myRef = ref.watch(ingredientProvider);
   final data = myRef.crudeProtein;
   final proteinController = ref.watch(proteinFieldController(data!.value));
-  // TextEditingController proteinController =
-  //     TextEditingController(text: data!.value);
+  
   return Card(
     child: Focus(
       onFocusChange: (hasFocus) {
         if (!hasFocus) {
-          ref
-              .read(ingredientProvider.notifier)
-              .setProtein(proteinController.text);
+          ref.read(ingredientProvider.notifier).setProtein(proteinController.text);
         }
       },
       child: TextFormField(
         controller: proteinController,
         decoration: inputDecoration(
-            hint: 'Protein (CP)',
-            errorText: data.error,
-            icon: CupertinoIcons.square_favorites),
-        keyboardType: TextInputType.number,
+          hint: 'Crude Protein (%) e.g., 45.0',
+          errorText: data.error,
+          icon: Icons.science_outlined,
+        ),
+        keyboardType: const TextInputType.numberWithOptions(decimal: true),
         textInputAction: TextInputAction.next,
+        inputFormatters: InputValidators.numericFormatters,
+        validator: (value) => InputValidators.validatePercentage(value),
         onFieldSubmitted: (value) =>
             ref.read(ingredientProvider.notifier).setProtein(value),
         onSaved: (value) =>
             ref.read(ingredientProvider.notifier).setProtein(value),
-        onTapOutside: (value) => ref
+        onTapOutside: (_) => ref
             .read(ingredientProvider.notifier)
-            .setProtein(proteinController.value.text),
+            .setProtein(proteinController.text),
         onEditingComplete: () => FocusScope.of(context).nextFocus(),
       ),
     ),
@@ -185,17 +208,20 @@ Widget fatField(WidgetRef ref) {
       child: TextFormField(
         controller: myController,
         decoration: inputDecoration(
-            hint: 'Fat',
-            errorText: data.error,
-            icon: CupertinoIcons.square_favorites),
-        keyboardType: TextInputType.number,
+          hint: 'Crude Fat (%) e.g., 3.5',
+          errorText: data.error,
+          icon: Icons.water_drop_outlined,
+        ),
+        keyboardType: const TextInputType.numberWithOptions(decimal: true),
         textInputAction: TextInputAction.next,
+        inputFormatters: InputValidators.numericFormatters,
+        validator: (value) => InputValidators.validatePercentage(value),
         onFieldSubmitted: (value) =>
             ref.read(ingredientProvider.notifier).setFat(value),
         onSaved: (value) => ref.read(ingredientProvider.notifier).setFat(value),
-        onTapOutside: (value) => ref
+        onTapOutside: (_) => ref
             .read(ingredientProvider.notifier)
-            .setFat(myController.value.text),
+            .setFat(myController.text),
       ),
     ),
   );
@@ -215,18 +241,21 @@ Widget fibreField(WidgetRef ref) {
       child: TextFormField(
         controller: myController,
         decoration: inputDecoration(
-            hint: 'Fiber',
-            errorText: data.error,
-            icon: CupertinoIcons.square_favorites),
-        keyboardType: TextInputType.number,
+          hint: 'Crude Fiber (%) e.g., 7.0',
+          errorText: data.error,
+          icon: Icons.grass_outlined,
+        ),
+        keyboardType: const TextInputType.numberWithOptions(decimal: true),
         textInputAction: TextInputAction.next,
+        inputFormatters: InputValidators.numericFormatters,
+        validator: (value) => InputValidators.validatePercentage(value),
         onFieldSubmitted: (value) =>
             ref.read(ingredientProvider.notifier).setFiber(value),
         onSaved: (value) =>
             ref.read(ingredientProvider.notifier).setFiber(value),
-        onTapOutside: (value) => ref
+        onTapOutside: (_) => ref
             .read(ingredientProvider.notifier)
-            .setFiber(myController.value.text),
+            .setFiber(myController.text),
       ),
     ),
   );
@@ -246,18 +275,26 @@ Widget energyField(WidgetRef ref) {
       child: TextFormField(
         controller: myController,
         decoration: inputDecoration(
-            hint: 'M.Energy',
-            errorText: data.error,
-            icon: CupertinoIcons.flame),
-        keyboardType: TextInputType.number,
+          hint: 'Metabolizable Energy (MJ/kg) e.g., 13.5',
+          errorText: data.error,
+          icon: CupertinoIcons.flame,
+        ),
+        keyboardType: const TextInputType.numberWithOptions(decimal: true),
         textInputAction: TextInputAction.next,
+        inputFormatters: InputValidators.numericFormatters,
+        validator: (value) => InputValidators.validateNumeric(
+          value,
+          min: 0,
+          max: 30,
+          fieldName: 'Energy',
+        ),
         onFieldSubmitted: (value) =>
             ref.read(ingredientProvider.notifier).setAllEnergy(value),
         onSaved: (value) =>
             ref.read(ingredientProvider.notifier).setAllEnergy(value),
-        onTapOutside: (value) => ref
+        onTapOutside: (_) => ref
             .read(ingredientProvider.notifier)
-            .setAllEnergy(myController.value.text),
+            .setAllEnergy(myController.text),
       ),
     ),
   );
@@ -279,18 +316,26 @@ Widget energyAdultPigField(WidgetRef ref) {
       child: TextFormField(
         controller: myController,
         decoration: inputDecoration(
-            hint: 'Adult Pig (ME)',
-            errorText: data.error,
-            icon: CupertinoIcons.flame),
-        keyboardType: TextInputType.number,
+          hint: 'Adult Pig ME (MJ/kg) e.g., 13.5',
+          errorText: data.error,
+          icon: CupertinoIcons.flame,
+        ),
+        keyboardType: const TextInputType.numberWithOptions(decimal: true),
         textInputAction: TextInputAction.next,
+        inputFormatters: InputValidators.numericFormatters,
+        validator: (value) => InputValidators.validateNumeric(
+          value,
+          min: 0,
+          max: 30,
+          fieldName: 'Energy',
+        ),
         onFieldSubmitted: (value) =>
             ref.read(ingredientProvider.notifier).setEnergyAdultPig(value),
         onSaved: (value) =>
             ref.read(ingredientProvider.notifier).setEnergyAdultPig(value!),
-        onTapOutside: (value) => ref
+        onTapOutside: (_) => ref
             .read(ingredientProvider.notifier)
-            .setEnergyAdultPig(myController.value.text),
+            .setEnergyAdultPig(myController.text),
       ),
     ),
   );
@@ -312,18 +357,26 @@ Widget energyGrowingPigField(WidgetRef ref) {
       child: TextFormField(
         controller: myController,
         decoration: inputDecoration(
-            hint: 'Growing Pig (ME)',
-            errorText: data.error,
-            icon: CupertinoIcons.flame),
-        keyboardType: TextInputType.number,
+          hint: 'Growing Pig ME (MJ/kg) e.g., 14.2',
+          errorText: data.error,
+          icon: CupertinoIcons.flame,
+        ),
+        keyboardType: const TextInputType.numberWithOptions(decimal: true),
         textInputAction: TextInputAction.next,
+        inputFormatters: InputValidators.numericFormatters,
+        validator: (value) => InputValidators.validateNumeric(
+          value,
+          min: 0,
+          max: 30,
+          fieldName: 'Energy',
+        ),
         onFieldSubmitted: (value) =>
             ref.read(ingredientProvider.notifier).setEnergyGrowPig(value),
         onSaved: (value) =>
             ref.read(ingredientProvider.notifier).setEnergyGrowPig(value!),
-        onTapOutside: (value) => ref
+        onTapOutside: (_) => ref
             .read(ingredientProvider.notifier)
-            .setEnergyGrowPig(myController.value.text),
+            .setEnergyGrowPig(myController.text),
       ),
     ),
   );
@@ -345,18 +398,26 @@ Widget energyRabbitField(WidgetRef ref) {
       child: TextFormField(
         controller: myController,
         decoration: inputDecoration(
-            hint: 'Rabbit (ME)',
-            errorText: data.error,
-            icon: CupertinoIcons.flame),
-        keyboardType: TextInputType.number,
+          hint: 'Rabbit ME (MJ/kg) e.g., 11.0',
+          errorText: data.error,
+          icon: CupertinoIcons.flame,
+        ),
+        keyboardType: const TextInputType.numberWithOptions(decimal: true),
         textInputAction: TextInputAction.next,
+        inputFormatters: InputValidators.numericFormatters,
+        validator: (value) => InputValidators.validateNumeric(
+          value,
+          min: 0,
+          max: 30,
+          fieldName: 'Energy',
+        ),
         onFieldSubmitted: (value) =>
             ref.read(ingredientProvider.notifier).setEnergyRabbit(value),
         onSaved: (value) =>
             ref.read(ingredientProvider.notifier).setEnergyRabbit(value!),
-        onTapOutside: (value) => ref
+        onTapOutside: (_) => ref
             .read(ingredientProvider.notifier)
-            .setEnergyRabbit(myController.value.text),
+            .setEnergyRabbit(myController.text),
       ),
     ),
   );
@@ -378,18 +439,26 @@ Widget energyRuminantField(WidgetRef ref) {
       child: TextFormField(
         controller: myController,
         decoration: inputDecoration(
-            hint: 'Ruminants (ME)',
-            errorText: data.error,
-            icon: CupertinoIcons.flame),
-        keyboardType: TextInputType.number,
+          hint: 'Ruminant ME (MJ/kg) e.g., 12.5',
+          errorText: data.error,
+          icon: CupertinoIcons.flame,
+        ),
+        keyboardType: const TextInputType.numberWithOptions(decimal: true),
         textInputAction: TextInputAction.next,
+        inputFormatters: InputValidators.numericFormatters,
+        validator: (value) => InputValidators.validateNumeric(
+          value,
+          min: 0,
+          max: 30,
+          fieldName: 'Energy',
+        ),
         onFieldSubmitted: (value) =>
             ref.read(ingredientProvider.notifier).setEnergyRuminant(value),
         onSaved: (value) =>
             ref.read(ingredientProvider.notifier).setEnergyRuminant(value!),
-        onTapOutside: (value) => ref
+        onTapOutside: (_) => ref
             .read(ingredientProvider.notifier)
-            .setEnergyRuminant(myController.value.text),
+            .setEnergyRuminant(myController.text),
       ),
     ),
   );
@@ -411,18 +480,26 @@ Widget energyPoultryField(WidgetRef ref) {
       child: TextFormField(
         controller: myController,
         decoration: inputDecoration(
-            hint: 'Poultry (ME)',
-            errorText: data.error,
-            icon: CupertinoIcons.flame),
-        keyboardType: TextInputType.number,
+          hint: 'Poultry ME (MJ/kg) e.g., 12.8',
+          errorText: data.error,
+          icon: CupertinoIcons.flame,
+        ),
+        keyboardType: const TextInputType.numberWithOptions(decimal: true),
         textInputAction: TextInputAction.next,
+        inputFormatters: InputValidators.numericFormatters,
+        validator: (value) => InputValidators.validateNumeric(
+          value,
+          min: 0,
+          max: 30,
+          fieldName: 'Energy',
+        ),
         onFieldSubmitted: (value) =>
             ref.read(ingredientProvider.notifier).setEnergyPoultry(value),
         onSaved: (value) =>
             ref.read(ingredientProvider.notifier).setEnergyPoultry(value!),
-        onTapOutside: (value) => ref
+        onTapOutside: (_) => ref
             .read(ingredientProvider.notifier)
-            .setEnergyPoultry(myController.value.text),
+            .setEnergyPoultry(myController.text),
       ),
     ),
   );
@@ -444,18 +521,26 @@ Widget energyFishField(WidgetRef ref) {
       child: TextFormField(
         controller: myController,
         decoration: inputDecoration(
-            hint: 'Salmonids/Fish (DE)',
-            errorText: data.error,
-            icon: CupertinoIcons.flame),
-        keyboardType: TextInputType.number,
+          hint: 'Fish/Salmonids DE (MJ/kg) e.g., 16.5',
+          errorText: data.error,
+          icon: CupertinoIcons.flame,
+        ),
+        keyboardType: const TextInputType.numberWithOptions(decimal: true),
         textInputAction: TextInputAction.next,
+        inputFormatters: InputValidators.numericFormatters,
+        validator: (value) => InputValidators.validateNumeric(
+          value,
+          min: 0,
+          max: 30,
+          fieldName: 'Energy',
+        ),
         onFieldSubmitted: (value) =>
             ref.read(ingredientProvider.notifier).setEnergyFish(value),
         onSaved: (value) =>
             ref.read(ingredientProvider.notifier).setEnergyFish(value!),
-        onTapOutside: (value) => ref
+        onTapOutside: (_) => ref
             .read(ingredientProvider.notifier)
-            .setEnergyFish(myController.value.text),
+            .setEnergyFish(myController.text),
       ),
     ),
   );
@@ -475,18 +560,21 @@ Widget lyzineField(WidgetRef ref) {
       child: TextFormField(
         controller: myController,
         decoration: inputDecoration(
-            hint: 'Lyzine',
-            errorText: data.error,
-            icon: Icons.food_bank_outlined),
-        keyboardType: TextInputType.number,
+          hint: 'Lysine (%) e.g., 2.8',
+          errorText: data.error,
+          icon: Icons.biotech_outlined,
+        ),
+        keyboardType: const TextInputType.numberWithOptions(decimal: true),
         textInputAction: TextInputAction.next,
+        inputFormatters: InputValidators.numericFormatters,
+        validator: (value) => InputValidators.validatePercentage(value),
         onFieldSubmitted: (value) =>
             ref.read(ingredientProvider.notifier).setLyzine(value),
         onSaved: (value) =>
             ref.read(ingredientProvider.notifier).setLyzine(value),
-        onTapOutside: (value) => ref
+        onTapOutside: (_) => ref
             .read(ingredientProvider.notifier)
-            .setLyzine(myController.value.text),
+            .setLyzine(myController.text),
       ),
     ),
   );
@@ -506,18 +594,21 @@ Widget methionineField(WidgetRef ref) {
       child: TextFormField(
         controller: myController,
         decoration: inputDecoration(
-            hint: 'Methionine',
-            errorText: data.error,
-            icon: Icons.food_bank_outlined),
-        keyboardType: TextInputType.number,
+          hint: 'Methionine (%) e.g., 0.65',
+          errorText: data.error,
+          icon: Icons.biotech_outlined,
+        ),
+        keyboardType: const TextInputType.numberWithOptions(decimal: true),
         textInputAction: TextInputAction.next,
+        inputFormatters: InputValidators.numericFormatters,
+        validator: (value) => InputValidators.validatePercentage(value),
         onFieldSubmitted: (value) =>
             ref.read(ingredientProvider.notifier).setMeth(value),
         onSaved: (value) =>
             ref.read(ingredientProvider.notifier).setMeth(value!),
-        onTapOutside: (value) => ref
+        onTapOutside: (_) => ref
             .read(ingredientProvider.notifier)
-            .setMeth(myController.value.text),
+            .setMeth(myController.text),
       ),
     ),
   );
@@ -539,18 +630,21 @@ Widget phosphorusField(WidgetRef ref) {
       child: TextFormField(
         controller: myController,
         decoration: inputDecoration(
-            hint: 'Phosphorus',
-            errorText: data.error,
-            icon: Icons.food_bank_outlined),
-        keyboardType: TextInputType.number,
+          hint: 'Phosphorus (%) e.g., 0.65',
+          errorText: data.error,
+          icon: Icons.science_outlined,
+        ),
+        keyboardType: const TextInputType.numberWithOptions(decimal: true),
         textInputAction: TextInputAction.next,
+        inputFormatters: InputValidators.numericFormatters,
+        validator: (value) => InputValidators.validatePercentage(value),
         onFieldSubmitted: (value) =>
             ref.read(ingredientProvider.notifier).setPhosphorous(value),
         onSaved: (value) =>
             ref.read(ingredientProvider.notifier).setPhosphorous(value!),
-        onTapOutside: (value) => ref
+        onTapOutside: (_) => ref
             .read(ingredientProvider.notifier)
-            .setPhosphorous(myController.value.text),
+            .setPhosphorous(myController.text),
       ),
     ),
   );
@@ -570,18 +664,21 @@ Widget calciumField(WidgetRef ref) {
       child: TextFormField(
         controller: myController,
         decoration: inputDecoration(
-            hint: 'Calcium',
-            errorText: data.error,
-            icon: Icons.food_bank_outlined),
-        keyboardType: TextInputType.number,
+          hint: 'Calcium (%) e.g., 3.8',
+          errorText: data.error,
+          icon: Icons.science_outlined,
+        ),
+        keyboardType: const TextInputType.numberWithOptions(decimal: true),
         textInputAction: TextInputAction.next,
+        inputFormatters: InputValidators.numericFormatters,
+        validator: (value) => InputValidators.validatePercentage(value),
         onFieldSubmitted: (value) =>
             ref.read(ingredientProvider.notifier).setCalcium(value),
         onSaved: (value) =>
             ref.read(ingredientProvider.notifier).setCalcium(value!),
-        onTapOutside: (value) => ref
+        onTapOutside: (_) => ref
             .read(ingredientProvider.notifier)
-            .setCalcium(myController.value.text),
+            .setCalcium(myController.text),
       ),
     ),
   );
@@ -601,18 +698,21 @@ Widget priceField(WidgetRef ref) {
       child: TextFormField(
         controller: myController,
         decoration: inputDecoration(
-            hint: 'Price/Unit',
-            errorText: data.error,
-            icon: CupertinoIcons.money_dollar_circle),
-        keyboardType: TextInputType.number,
+          hint: 'Price per kg (e.g., 150.00)',
+          errorText: data.error,
+          icon: CupertinoIcons.money_dollar_circle,
+        ),
+        keyboardType: const TextInputType.numberWithOptions(decimal: true),
         textInputAction: TextInputAction.next,
+        inputFormatters: InputValidators.numericFormatters,
+        validator: (value) => InputValidators.validatePrice(value),
         onFieldSubmitted: (value) =>
             ref.read(ingredientProvider.notifier).setPrice(value),
         onSaved: (value) =>
             ref.read(ingredientProvider.notifier).setPrice(value!),
-        onTapOutside: (value) => ref
+        onTapOutside: (_) => ref
             .read(ingredientProvider.notifier)
-            .setPrice(myController.value.text),
+            .setPrice(myController.text),
       ),
     ),
   );
@@ -634,18 +734,21 @@ Widget availableQuantityField(WidgetRef ref) {
       child: TextFormField(
         controller: myController,
         decoration: inputDecoration(
-            hint: 'Available Quantity',
-            errorText: data.error,
-            icon: Icons.food_bank_outlined),
-        keyboardType: TextInputType.number,
+          hint: 'Available Quantity (kg) e.g., 1000',
+          errorText: data.error,
+          icon: Icons.inventory_2_outlined,
+        ),
+        keyboardType: const TextInputType.numberWithOptions(decimal: true),
         textInputAction: TextInputAction.next,
+        inputFormatters: InputValidators.numericFormatters,
+        validator: (value) => InputValidators.validateQuantity(value),
         onFieldSubmitted: (value) =>
             ref.read(ingredientProvider.notifier).setAvailableQuantity(value),
         onSaved: (value) =>
             ref.read(ingredientProvider.notifier).setAvailableQuantity(value!),
-        onTapOutside: (value) => ref
+        onTapOutside: (_) => ref
             .read(ingredientProvider.notifier)
-            .setAvailableQuantity(myController.value.text),
+            .setAvailableQuantity(myController.text),
       ),
     ),
   );
@@ -672,7 +775,7 @@ Widget availableQuantityField(WidgetRef ref) {
 //   );
 // }
 
-class SaveButton extends ConsumerWidget {
+class SaveButton extends ConsumerStatefulWidget {
   final GlobalKey<FormState>? myKey;
   final int? ingId;
   const SaveButton({
@@ -682,55 +785,128 @@ class SaveButton extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final data = ref.watch(ingredientProvider);
+  ConsumerState<SaveButton> createState() => _SaveButtonState();
+}
 
-    return SizedBox(
-      width: displayWidth(context),
-      child: ElevatedButton.icon(
-          onPressed: () async {
-            ref.read(ingredientProvider.notifier).validate();
-            //  debugPrint('form === ${myKey!.currentState!.validate().toString()}');
-            if (data.validate && myKey!.currentState!.validate()) {
-              ingId != null
-                  ? ref.read(ingredientProvider.notifier).updateIngredient(
-                      ingId,
-                      onSuccess: () {
-                        context.go('/');
-                        showAlert(context, QuickAlertType.success,
-                            'Ingredient Updated Successfully');
-                      },
-                      onFailure: () => showAlert(
-                          context, QuickAlertType.error, 'Failed to save'))
-                  : {
-                      ref.read(ingredientProvider.notifier).createIngredient(),
-                      await ref
-                          .read(ingredientProvider.notifier)
-                          .saveIngredient(
-                              onSuccess: () {
-                                context.go('/');
-                                showAlert(context, QuickAlertType.success,
-                                    'Ingredient Created Successfully');
-                              },
-                              onFailure: () => showAlert(context,
-                                  QuickAlertType.error, 'Failed to save'))
-                    };
-            } else {
-              messageHandlerWidget(
-                  context: context,
-                  message: "Enter Correct Info",
-                  type: "failure");
+class _SaveButtonState extends ConsumerState<SaveButton> {
+  bool _isSaving = false;
+
+  Future<void> _handleSave() async {
+    if (_isSaving) return;
+
+    try {
+      setState(() => _isSaving = true);
+      
+      ref.read(ingredientProvider.notifier).validate();
+      final data = ref.read(ingredientProvider);
+      
+      if (!data.validate || !(widget.myKey?.currentState?.validate() ?? false)) {
+        AppLogger.warning('Form validation failed', tag: _tag);
+        if (mounted) {
+          messageHandlerWidget(
+            context: context,
+            message: "Please enter valid information",
+            type: "failure",
+          );
+        }
+        return;
+      }
+
+      if (widget.ingId != null) {
+        AppLogger.info('Updating ingredient ID: ${widget.ingId}', tag: _tag);
+        await ref.read(ingredientProvider.notifier).updateIngredient(
+          widget.ingId,
+          onSuccess: () {
+            AppLogger.info('Ingredient updated successfully', tag: _tag);
+            if (mounted) {
+              context.go('/');
+              showAlert(
+                context,
+                QuickAlertType.success,
+                'Ingredient Updated Successfully',
+              );
             }
           },
-          icon: ingId == null
-              ? const Icon(CupertinoIcons.floppy_disk)
-              : const Icon(Icons.update),
-          label: Text(ingId == null ? 'Save' : 'Update'),
-          style: ingId == null
-              ? ElevatedButton.styleFrom(
-                  backgroundColor: AppConstants.appBlueColor)
-              : ElevatedButton.styleFrom(
-                  backgroundColor: AppConstants.appCarrotColor)),
+          onFailure: () {
+            AppLogger.error('Failed to update ingredient', tag: _tag);
+            if (mounted) {
+              showAlert(context, QuickAlertType.error, 'Failed to update ingredient');
+            }
+          },
+        );
+      } else {
+        AppLogger.info('Creating new ingredient', tag: _tag);
+        ref.read(ingredientProvider.notifier).createIngredient();
+        await ref.read(ingredientProvider.notifier).saveIngredient(
+          onSuccess: () {
+            AppLogger.info('Ingredient created successfully', tag: _tag);
+            if (mounted) {
+              context.go('/');
+              showAlert(
+                context,
+                QuickAlertType.success,
+                'Ingredient Created Successfully',
+              );
+            }
+          },
+          onFailure: () {
+            AppLogger.error('Failed to save ingredient', tag: _tag);
+            if (mounted) {
+              showAlert(context, QuickAlertType.error, 'Failed to save ingredient');
+            }
+          },
+        );
+      }
+    } catch (e, stackTrace) {
+      AppLogger.error('Error saving ingredient: $e', tag: _tag, error: e, stackTrace: stackTrace);
+      if (mounted) {
+        showAlert(context, QuickAlertType.error, 'An error occurred. Please try again.');
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isSaving = false);
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: displayWidth(context),
+      height: UIConstants.fieldHeight,
+      child: ElevatedButton.icon(
+        onPressed: _isSaving ? null : _handleSave,
+        icon: _isSaving
+            ? const SizedBox(
+                width: UIConstants.iconMedium,
+                height: UIConstants.iconMedium,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
+              )
+            : Icon(
+                widget.ingId == null
+                    ? CupertinoIcons.floppy_disk
+                    : Icons.update,
+                size: UIConstants.iconMedium,
+              ),
+        label: Text(
+          _isSaving
+              ? (widget.ingId == null ? 'Saving...' : 'Updating...')
+              : (widget.ingId == null ? 'Save Ingredient' : 'Update Ingredient'),
+        ),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: widget.ingId == null
+              ? AppConstants.appBlueColor
+              : AppConstants.appCarrotColor,
+          foregroundColor: Colors.white,
+          elevation: UIConstants.cardElevation,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -765,5 +941,29 @@ showAlert(context, QuickAlertType type, String message) {
     type: type,
     text: message,
     autoCloseDuration: const Duration(seconds: 2),
+  );
+}
+
+/// Standard input decoration for ingredient form fields
+InputDecoration inputDecoration({
+  String? hint,
+  String? errorText,
+  IconData? icon,
+  bool filled = true,
+}) {
+  return InputDecoration(
+    hintText: hint,
+    errorText: errorText,
+    border: UIConstants.inputBorder(),
+    focusedBorder: UIConstants.focusedBorder(),
+    errorBorder: UIConstants.errorBorder,
+    enabledBorder: UIConstants.inputBorder(
+      color: AppConstants.appIconGreyColor.withValues(alpha: 0.5),
+    ),
+    prefixIcon: icon != null ? Icon(icon, size: UIConstants.iconMedium) : null,
+    filled: filled,
+    fillColor: filled ? Colors.white : null,
+    contentPadding: UIConstants.paddingHorizontalNormal
+        .add(const EdgeInsets.symmetric(vertical: UIConstants.paddingMedium)),
   );
 }

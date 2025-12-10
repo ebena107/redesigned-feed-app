@@ -1,8 +1,13 @@
+import 'package:feed_estimator/src/core/constants/ui_constants.dart';
+import 'package:feed_estimator/src/core/utils/input_validators.dart';
+import 'package:feed_estimator/src/core/utils/logger.dart';
 import 'package:feed_estimator/src/features/add_ingredients/provider/form_controllers.dart';
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+const String _tag = 'CustomIngredientFields';
 
 /// Field for ingredient creator name (custom ingredient attribution)
 Widget createdByField(WidgetRef ref) {
@@ -15,27 +20,50 @@ Widget createdByField(WidgetRef ref) {
     child: Focus(
       onFocusChange: (hasFocus) {
         if (!hasFocus) {
-          ref.read(ingredientProvider.notifier).setCreatedBy(controller.text);
+          final trimmed = controller.text.trim();
+          ref.read(ingredientProvider.notifier).setCreatedBy(trimmed);
+          AppLogger.debug('CreatedBy field updated: $trimmed', tag: _tag);
         }
       },
       child: TextFormField(
         controller: controller,
         decoration: InputDecoration(
-          hintText: 'Created By (Your Name)',
+          hintText: 'Created By (Your Name) e.g., John Farmer',
           errorText: data?.error,
-          border: const OutlineInputBorder(),
-          prefixIcon: const Icon(CupertinoIcons.person_fill),
+          border: UIConstants.inputBorder(),
+          focusedBorder: UIConstants.focusedBorder(),
+          errorBorder: UIConstants.errorBorder,
+          enabledBorder: UIConstants.inputBorder(
+            color: Colors.grey.withValues(alpha: 0.5),
+          ),
+          prefixIcon: Icon(
+            CupertinoIcons.person_fill,
+            size: UIConstants.iconMedium,
+          ),
           filled: true,
           fillColor: Colors.grey.shade100,
+          contentPadding: UIConstants.paddingHorizontalNormal
+              .add(const EdgeInsets.symmetric(vertical: UIConstants.paddingMedium)),
         ),
         keyboardType: TextInputType.text,
         textInputAction: TextInputAction.next,
-        onFieldSubmitted: (value) =>
-            ref.read(ingredientProvider.notifier).setCreatedBy(value),
-        onSaved: (value) =>
-            ref.read(ingredientProvider.notifier).setCreatedBy(value),
-        onTapOutside: (value) =>
-            ref.read(ingredientProvider.notifier).setCreatedBy(controller.text),
+        inputFormatters: InputValidators.alphanumericFormatters(maxLength: 50),
+        validator: (value) => InputValidators.validateName(
+          value,
+          fieldName: 'Creator name',
+        ),
+        onFieldSubmitted: (value) {
+          final trimmed = value.trim();
+          ref.read(ingredientProvider.notifier).setCreatedBy(trimmed);
+        },
+        onSaved: (value) {
+          final trimmed = value?.trim() ?? '';
+          ref.read(ingredientProvider.notifier).setCreatedBy(trimmed);
+        },
+        onTapOutside: (_) {
+          final trimmed = controller.text.trim();
+          ref.read(ingredientProvider.notifier).setCreatedBy(trimmed);
+        },
       ),
     ),
   );
@@ -51,7 +79,9 @@ Widget notesField(WidgetRef ref) {
     child: Focus(
       onFocusChange: (hasFocus) {
         if (!hasFocus) {
-          ref.read(ingredientProvider.notifier).setNotes(controller.text);
+          final trimmed = controller.text.trim();
+          ref.read(ingredientProvider.notifier).setNotes(trimmed);
+          AppLogger.debug('Notes field updated: ${trimmed.length} chars', tag: _tag);
         }
       },
       child: TextFormField(
@@ -60,21 +90,36 @@ Widget notesField(WidgetRef ref) {
           hintText:
               'Notes (Optional - e.g., local source, processing method, seasonal)',
           errorText: data?.error,
-          border: const OutlineInputBorder(),
-          prefixIcon: const Icon(CupertinoIcons.pencil),
+          border: UIConstants.inputBorder(),
+          focusedBorder: UIConstants.focusedBorder(),
+          enabledBorder: UIConstants.inputBorder(
+            color: Colors.grey.withValues(alpha: 0.5),
+          ),
+          prefixIcon: Icon(
+            CupertinoIcons.pencil,
+            size: UIConstants.iconMedium,
+          ),
           filled: true,
           fillColor: Colors.grey.shade100,
+          contentPadding: UIConstants.paddingAllNormal,
         ),
         keyboardType: TextInputType.multiline,
         minLines: 2,
         maxLines: 4,
+        maxLength: 200,
         textInputAction: TextInputAction.newline,
-        onFieldSubmitted: (value) =>
-            ref.read(ingredientProvider.notifier).setNotes(value),
-        onSaved: (value) =>
-            ref.read(ingredientProvider.notifier).setNotes(value),
-        onTapOutside: (value) =>
-            ref.read(ingredientProvider.notifier).setNotes(controller.text),
+        onFieldSubmitted: (value) {
+          final trimmed = value.trim();
+          ref.read(ingredientProvider.notifier).setNotes(trimmed);
+        },
+        onSaved: (value) {
+          final trimmed = value?.trim() ?? '';
+          ref.read(ingredientProvider.notifier).setNotes(trimmed);
+        },
+        onTapOutside: (_) {
+          final trimmed = controller.text.trim();
+          ref.read(ingredientProvider.notifier).setNotes(trimmed);
+        },
       ),
     ),
   );
@@ -84,12 +129,17 @@ Widget notesField(WidgetRef ref) {
 Widget customIngredientHeader() {
   return Card(
     color: Colors.blue.shade50,
+    elevation: UIConstants.cardElevation,
     child: Padding(
-      padding: const EdgeInsets.all(12.0),
+      padding: UIConstants.paddingAllMedium,
       child: Row(
         children: [
-          const Icon(CupertinoIcons.star_fill, color: Colors.blue),
-          const SizedBox(width: 8),
+          Icon(
+            CupertinoIcons.star_fill,
+            color: Colors.blue,
+            size: UIConstants.iconLarge,
+          ),
+          const SizedBox(width: UIConstants.paddingSmall),
           Expanded(
             child: Text(
               'Creating Custom Ingredient',
@@ -106,18 +156,4 @@ Widget customIngredientHeader() {
   );
 }
 
-InputDecoration inputDecoration({
-  String? hint,
-  String? errorText,
-  IconData? icon,
-}) {
-  return InputDecoration(
-    hintText: hint,
-    errorText: errorText,
-    border: const OutlineInputBorder(),
-    prefixIcon: icon != null ? Icon(icon) : null,
-    filled: true,
-    fillColor: Colors.white,
-    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-  );
-}
+// Removed - using inputDecoration from form_widgets.dart

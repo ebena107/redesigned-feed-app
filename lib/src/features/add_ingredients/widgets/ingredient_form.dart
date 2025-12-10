@@ -1,3 +1,4 @@
+import 'package:feed_estimator/src/core/constants/ui_constants.dart';
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
 
 import 'package:flutter/material.dart';
@@ -126,15 +127,16 @@ class IngredientForm extends ConsumerWidget {
               ),
             ),
             if (isCustom) ...[
-              const SizedBox(height: 8),
+              const SizedBox(height: UIConstants.paddingSmall),
               createdByField(ref),
-              const SizedBox(height: 8),
+              const SizedBox(height: UIConstants.paddingSmall),
               notesField(ref),
             ],
-            const SizedBox(
-              height: 8,
+            const SizedBox(height: UIConstants.paddingNormal),
+            Padding(
+              padding: UIConstants.paddingHorizontalSmall,
+              child: SaveButton(myKey: _formKey, ingId: ingId),
             ),
-            SaveButton(myKey: _formKey, ingId: ingId)
           ],
         ),
       ),
