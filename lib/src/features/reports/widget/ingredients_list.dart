@@ -1,3 +1,5 @@
+import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dart';
+import 'package:feed_estimator/src/features/add_ingredients/model/ingredient_category.dart';
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
 import 'package:feed_estimator/src/features/main/model/feed.dart';
 import 'package:feed_estimator/src/utils/widgets/get_ingredients_name.dart';
@@ -105,7 +107,7 @@ class ResultIngredientList extends ConsumerWidget {
         final ingredientData =
             ref.watch(ingredientProvider).ingredients.firstWhere(
                   (ing) => ing.ingredientId == ingredient.ingredientId,
-                  orElse: () => throw Exception('Ingredient not found'),
+                  orElse: () => Ingredient(),
                 );
 
         return Card(
@@ -190,7 +192,7 @@ class ResultIngredientList extends ConsumerWidget {
     final categories = ref.watch(ingredientProvider).categoryList;
     final category = categories.firstWhere(
       (cat) => cat.categoryId == categoryId,
-      orElse: () => throw Exception('Category not found'),
+      orElse: () => IngredientCategory(),
     );
 
     final categoryName = category.category?.toLowerCase() ?? '';
