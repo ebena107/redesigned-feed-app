@@ -54,7 +54,11 @@ class AnalysisPage extends ConsumerWidget {
               child: CustomScrollView(
                 slivers: <Widget>[
                   SliverAppBar(
-                    systemOverlayStyle: SystemUiOverlayStyle.light,
+                    systemOverlayStyle: const SystemUiOverlayStyle(
+                      statusBarColor: Colors.deepPurple,
+                      statusBarIconBrightness: Brightness.light,
+                      statusBarBrightness: Brightness.dark,
+                    ),
                     pinned: true,
                     snap: false,
                     floating: true,

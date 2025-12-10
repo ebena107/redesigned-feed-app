@@ -40,85 +40,79 @@ class NewFeedPage extends ConsumerWidget {
     final title = isEdit ? "Update Feed" : "Add/Check Feed";
 
     AppLogger.debug('NewFeedPage - isEdit: $isEdit, id: $id', tag: _tag);
-    return SafeArea(
-      child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(0),
-          child: AppBar(
+    return Scaffold(
+      drawer: const FeedAppDrawer(),
+      backgroundColor: AppConstants.appBackgroundColor,
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            pinned: true,
+            snap: false,
+            floating: true,
+            backgroundColor: isEdit
+                ? AppConstants.appCarrotColor
+                : AppConstants.appBlueColor,
+            expandedHeight: displayHeight(context) * .25,
+            // Extend app bar color into status bar
             systemOverlayStyle: SystemUiOverlayStyle(
-              // systemNavigationBarColor: Colors.blue, // Navigation bar
               statusBarColor: isEdit
                   ? AppConstants.appCarrotColor
-                  : AppConstants.appBlueColor, // Status bar
+                  : AppConstants.appBlueColor,
+              statusBarIconBrightness: Brightness.light,
+              statusBarBrightness: Brightness.dark,
+            ),
+            //  title: feedId == null ? Text("Set New Feed") : Text("Update Feed"),
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomLeft,
+                  end: Alignment.topRight,
+                  tileMode: TileMode.repeated,
+                  stops: const [0.6, 0.9],
+                  colors: isEdit
+                      ? [const Color(0xffff6f00), Colors.deepOrange]
+                      : [Colors.blue, const Color(0xff2962ff)],
+                ),
+              ),
+              child: FlexibleSpaceBar(
+                  centerTitle: true,
+                  title: Text(
+                    title,
+                    // style: titleTextStyle(),
+                  ),
+                  background:
+                      const Image(image: AssetImage('assets/images/back.png'))),
             ),
           ),
-        ),
-        drawer: const FeedAppDrawer(),
-        backgroundColor: AppConstants.appBackgroundColor,
-        body: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              pinned: true,
-              snap: false,
-              floating: true,
-              //  automaticallyImplyLeading: false,
-              backgroundColor: isEdit
-                  ? AppConstants.appCarrotColor
-                  : AppConstants.appBlueColor,
-              expandedHeight: displayHeight(context) * .25,
-              //  title: feedId == null ? Text("Set New Feed") : Text("Update Feed"),
-              flexibleSpace: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.bottomLeft,
-                    end: Alignment.topRight,
-                    tileMode: TileMode.repeated,
-                    stops: const [0.6, 0.9],
-                    colors: isEdit
-                        ? [const Color(0xffff6f00), Colors.deepOrange]
-                        : [Colors.blue, const Color(0xff2962ff)],
-                  ),
-                ),
-                child: FlexibleSpaceBar(
-                    centerTitle: true,
-                    title: Text(
-                      title,
-                      // style: titleTextStyle(),
-                    ),
-                    background: const Image(
-                        image: AssetImage('assets/images/back.png'))),
-              ),
+          SliverToBoxAdapter(
+            child: Container(
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(top: displayHeight(context) * .05),
+              child: FeedInfo(feedId: id),
             ),
-            SliverToBoxAdapter(
-              child: Container(
-                alignment: Alignment.center,
-                margin: EdgeInsets.only(top: displayHeight(context) * .05),
-                child: FeedInfo(feedId: id),
-              ),
+          ),
+          SliverToBoxAdapter(
+            child: Consumer(
+              builder: (context, WidgetRef ref, child) {
+                final data = ref.watch(resultProvider).myResult;
+                return data != null
+                    ? data.mEnergy != null
+                        ? SizedBox(
+                            child: ResultEstimateCard(data: data, feedId: id))
+                        : const SizedBox()
+                    : const SizedBox();
+              },
             ),
-            SliverToBoxAdapter(
-              child: Consumer(
-                builder: (context, WidgetRef ref, child) {
-                  final data = ref.watch(resultProvider).myResult;
-                  return data != null
-                      ? data.mEnergy != null
-                          ? SizedBox(
-                              child: ResultEstimateCard(data: data, feedId: id))
-                          : const SizedBox()
-                      : const SizedBox();
-                },
-              ),
-            ),
-            const SliverFillRemaining(
-              fillOverscroll: true,
-              child: FeedIngredientsField(),
-            ),
-          ],
-        ),
-        bottomNavigationBar: buildBottomBar(
-          isEdit: isEdit,
-          feedId: id,
-        ),
+          ),
+          const SliverFillRemaining(
+            fillOverscroll: true,
+            child: FeedIngredientsField(),
+          ),
+        ],
+      ),
+      bottomNavigationBar: buildBottomBar(
+        isEdit: isEdit,
+        feedId: id,
       ),
     );
   }
