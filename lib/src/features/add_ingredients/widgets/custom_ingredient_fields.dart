@@ -11,32 +11,53 @@ Widget createdByField(WidgetRef ref) {
   final controller =
       ref.watch(createdByFieldController(data?.value?.toString()));
 
-  return Card(
-    child: Focus(
-      onFocusChange: (hasFocus) {
-        if (!hasFocus) {
-          ref.read(ingredientProvider.notifier).setCreatedBy(controller.text);
-        }
-      },
-      child: TextFormField(
-        controller: controller,
-        decoration: InputDecoration(
-          hintText: 'Created By (Your Name)',
-          errorText: data?.error,
-          border: const OutlineInputBorder(),
-          prefixIcon: const Icon(CupertinoIcons.person_fill),
-          filled: true,
-          fillColor: Colors.grey.shade100,
+  return Focus(
+    onFocusChange: (hasFocus) {
+      if (!hasFocus) {
+        ref.read(ingredientProvider.notifier).setCreatedBy(controller.text);
+      }
+    },
+    child: TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        hintText: 'Created By (Your Name)',
+        errorText: data?.error,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(
+            color: Color(0xff87643E),
+            width: 1,
+          ),
         ),
-        keyboardType: TextInputType.text,
-        textInputAction: TextInputAction.next,
-        onFieldSubmitted: (value) =>
-            ref.read(ingredientProvider.notifier).setCreatedBy(value),
-        onSaved: (value) =>
-            ref.read(ingredientProvider.notifier).setCreatedBy(value),
-        onTapOutside: (value) =>
-            ref.read(ingredientProvider.notifier).setCreatedBy(controller.text),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(
+            color: const Color(0xff87643E).withValues(alpha: 0.3),
+            width: 1,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(
+            color: Color(0xff87643E),
+            width: 2,
+          ),
+        ),
+        prefixIcon: const Icon(CupertinoIcons.person_fill),
+        prefixIconColor: const Color(0xff87643E),
+        filled: true,
+        fillColor: Colors.white,
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
       ),
+      keyboardType: TextInputType.text,
+      textInputAction: TextInputAction.next,
+      onFieldSubmitted: (value) =>
+          ref.read(ingredientProvider.notifier).setCreatedBy(value),
+      onSaved: (value) =>
+          ref.read(ingredientProvider.notifier).setCreatedBy(value),
+      onTapOutside: (value) =>
+          ref.read(ingredientProvider.notifier).setCreatedBy(controller.text),
     ),
   );
 }
@@ -47,77 +68,121 @@ Widget notesField(WidgetRef ref) {
   final data = myRef.notes;
   final controller = ref.watch(notesFieldController(data?.value?.toString()));
 
-  return Card(
-    child: Focus(
-      onFocusChange: (hasFocus) {
-        if (!hasFocus) {
-          ref.read(ingredientProvider.notifier).setNotes(controller.text);
-        }
-      },
-      child: TextFormField(
-        controller: controller,
-        decoration: InputDecoration(
-          hintText:
-              'Notes (Optional - e.g., local source, processing method, seasonal)',
-          errorText: data?.error,
-          border: const OutlineInputBorder(),
-          prefixIcon: const Icon(CupertinoIcons.pencil),
-          filled: true,
-          fillColor: Colors.grey.shade100,
+  return Focus(
+    onFocusChange: (hasFocus) {
+      if (!hasFocus) {
+        ref.read(ingredientProvider.notifier).setNotes(controller.text);
+      }
+    },
+    child: TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        hintText:
+            'Notes (Optional - e.g., local source, processing method, seasonal)',
+        errorText: data?.error,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(
+            color: Color(0xff87643E),
+            width: 1,
+          ),
         ),
-        keyboardType: TextInputType.multiline,
-        minLines: 2,
-        maxLines: 4,
-        textInputAction: TextInputAction.newline,
-        onFieldSubmitted: (value) =>
-            ref.read(ingredientProvider.notifier).setNotes(value),
-        onSaved: (value) =>
-            ref.read(ingredientProvider.notifier).setNotes(value),
-        onTapOutside: (value) =>
-            ref.read(ingredientProvider.notifier).setNotes(controller.text),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(
+            color: const Color(0xff87643E).withValues(alpha: 0.3),
+            width: 1,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(
+            color: Color(0xff87643E),
+            width: 2,
+          ),
+        ),
+        prefixIcon: const Icon(CupertinoIcons.pencil),
+        prefixIconColor: const Color(0xff87643E),
+        filled: true,
+        fillColor: Colors.white,
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
       ),
+      keyboardType: TextInputType.multiline,
+      minLines: 2,
+      maxLines: 4,
+      textInputAction: TextInputAction.newline,
+      onFieldSubmitted: (value) =>
+          ref.read(ingredientProvider.notifier).setNotes(value),
+      onSaved: (value) => ref.read(ingredientProvider.notifier).setNotes(value),
+      onTapOutside: (value) =>
+          ref.read(ingredientProvider.notifier).setNotes(controller.text),
     ),
   );
 }
 
-/// Header card indicating custom ingredient creation
+/// Header card indicating custom ingredient creation with Material Design 3 styling
 Widget customIngredientHeader() {
-  return Card(
-    color: Colors.blue.shade50,
+  return Container(
+    decoration: BoxDecoration(
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          const Color(0xff87643E).withValues(alpha: 0.1),
+          const Color(0xff87643E).withValues(alpha: 0.05),
+        ],
+      ),
+      borderRadius: BorderRadius.circular(12),
+      border: Border.all(
+        color: const Color(0xff87643E).withValues(alpha: 0.2),
+        width: 1.5,
+      ),
+    ),
     child: Padding(
-      padding: const EdgeInsets.all(12.0),
+      padding: const EdgeInsets.all(16.0),
       child: Row(
         children: [
-          const Icon(CupertinoIcons.star_fill, color: Colors.blue),
-          const SizedBox(width: 8),
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: const Color(0xff87643E).withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: const Icon(
+              CupertinoIcons.star_fill,
+              color: Color(0xff87643E),
+              size: 20,
+            ),
+          ),
+          const SizedBox(width: 12),
           Expanded(
-            child: Text(
-              'Creating Custom Ingredient',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: Colors.blue.shade900,
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Creating Custom Ingredient',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: const Color(0xff87643E),
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'You can add your own ingredient with custom nutritional values',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                    color: const Color(0xff87643E).withValues(alpha: 0.7),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
       ),
     ),
-  );
-}
-
-InputDecoration inputDecoration({
-  String? hint,
-  String? errorText,
-  IconData? icon,
-}) {
-  return InputDecoration(
-    hintText: hint,
-    errorText: errorText,
-    border: const OutlineInputBorder(),
-    prefixIcon: icon != null ? Icon(icon) : null,
-    filled: true,
-    fillColor: Colors.white,
-    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
   );
 }

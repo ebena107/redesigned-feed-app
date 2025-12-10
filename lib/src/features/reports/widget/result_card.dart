@@ -216,6 +216,7 @@ class _StatItem extends StatelessWidget {
           const SizedBox(height: 4),
           Row(
             crossAxisAlignment: CrossAxisAlignment.baseline,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             textBaseline: TextBaseline.alphabetic,
             children: [
               Text(
@@ -224,6 +225,7 @@ class _StatItem extends StatelessWidget {
                     color: Colors.white,
                     fontSize: 24,
                     fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
               ),
               if (unit != null) ...[
                 const SizedBox(width: 4),

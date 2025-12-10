@@ -43,6 +43,7 @@ class AnalysisPage extends ConsumerWidget {
 
     return Scaffold(
       drawer: const FeedAppDrawer(),
+      backgroundColor: AppConstants.appBackgroundColor,
       body: CustomScrollView(
         slivers: [
           // Custom App Bar with integrated background
@@ -55,59 +56,72 @@ class AnalysisPage extends ConsumerWidget {
             elevation: 0,
             pinned: true,
             expandedHeight: 200,
-            backgroundColor: Colors.transparent,
+            //backgroundColor: Colors.transparent,
+            backgroundColor: Colors.deepPurple,
             iconTheme: const IconThemeData(color: Colors.white),
             centerTitle: true,
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: false,
               collapseMode: CollapseMode.parallax,
-              background: Stack(
-                fit: StackFit.expand,
-                children: [
-                  // Back pattern background
-                  const Image(
-                    image: AssetImage('assets/images/back.png'),
-                    fit: BoxFit.cover,
-                  ),
-                  // Gradient overlay
-                  Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Colors.deepPurple.withValues(alpha: 0.4),
-                          Colors.deepPurple.withValues(alpha: 0.6),
-                          Colors.deepPurple.withValues(alpha: 0.8),
-                        ],
-                        stops: const [0.0, 0.5, 1.0],
-                      ),
-                    ),
-                  ),
-                  // Title positioned at bottom
-                  Positioned(
-                    bottom: 16,
-                    left: 16,
-                    right: 16,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          "Analysis Report",
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall
-                              ?.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700,
-                              ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+              title: Text(
+                feedId == 9999 ? 'Estimated Analysis' : 'Analysis Report',
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 0.5,
+                  color: Colors.white,
+                ),
+                // style: titleTextStyle(),
               ),
+              background:
+                  const Image(image: AssetImage('assets/images/back.png')),
+              // background: Stack(
+              //   fit: StackFit.expand,
+              //   children: [
+              //     // Back pattern background
+              //     const Image(
+              //       image: AssetImage('assets/images/back.png'),
+              //       fit: BoxFit.cover,
+              //     ),
+              //     // Gradient overlay
+              //     Container(
+              //       decoration: BoxDecoration(
+              //         gradient: LinearGradient(
+              //           begin: Alignment.topCenter,
+              //           end: Alignment.bottomCenter,
+              //           colors: [
+              //             Colors.deepPurple.withValues(alpha: 0.9),
+              //             Colors.deepPurple.withValues(alpha: 0.6),
+              //             Colors.deepPurple.withValues(alpha: 0.1),
+              //           ],
+              //           stops: const [0.0, 0.5, 1.0],
+              //         ),
+              //       ),
+              //     ),
+              //     // Title positioned at bottom
+              //     Positioned(
+              //       bottom: 16,
+              //       left: 16,
+              //       right: 16,
+              //       child: Column(
+              //         crossAxisAlignment: CrossAxisAlignment.start,
+              //         mainAxisSize: MainAxisSize.min,
+              //         children: [
+              //           Text(
+              //             "Analysis Report",
+              //             style: Theme.of(context)
+              //                 .textTheme
+              //                 .headlineSmall
+              //                 ?.copyWith(
+              //                   color: Colors.white,
+              //                   fontWeight: FontWeight.w700,
+              //                 ),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //   ],
+              // ),
             ),
             actions: [
               IconButton(
@@ -123,62 +137,62 @@ class AnalysisPage extends ConsumerWidget {
           // Content with harmonized design
           SliverToBoxAdapter(
             child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.deepPurple.shade50,
-                    Colors.white.withValues(alpha: 0.95),
-                  ],
-                  stops: const [0.0, 0.15],
-                ),
-              ),
+              // decoration: BoxDecoration(
+              //   gradient: LinearGradient(
+              //     begin: Alignment.topCenter,
+              //     end: Alignment.bottomCenter,
+              //     colors: [
+              //       Colors.deepPurple.shade50,
+              //       Colors.white.withValues(alpha: 0.95),
+              //     ],
+              //     stops: const [0.0, 0.15],
+              //   ),
+              // ),
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(40),
-                    topRight: Radius.circular(40),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.08),
-                      blurRadius: 20,
-                      offset: const Offset(0, -5),
-                      spreadRadius: 1,
-                    ),
-                  ],
-                ),
+                // decoration: BoxDecoration(
+                //   color: Colors.white,
+                //   borderRadius: const BorderRadius.only(
+                //     topLeft: Radius.circular(40),
+                //     topRight: Radius.circular(40),
+                //   ),
+                //   boxShadow: [
+                //     BoxShadow(
+                //       color: Colors.black.withValues(alpha: 0.08),
+                //       blurRadius: 20,
+                //       offset: const Offset(0, -5),
+                //       spreadRadius: 1,
+                //     ),
+                //   ],
+                // ),
                 child: Column(
                   children: [
                     // Feed Image Avatar - stacked elegantly
-                    Transform.translate(
-                      offset: const Offset(0, -60),
-                      child: Container(
-                        padding: const EdgeInsets.all(6),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.deepPurple.withValues(alpha: 0.25),
-                              blurRadius: 15,
-                              offset: const Offset(0, 8),
-                              spreadRadius: 2,
-                            ),
-                          ],
-                        ),
-                        child: CircleAvatar(
-                          radius: 55,
-                          backgroundColor: Colors.deepPurple.shade50,
-                          backgroundImage: AssetImage(
-                            feedImage(id: feed.animalId?.toInt()),
-                          ),
-                        ),
-                      ),
-                    ),
+                    // Transform.translate(
+                    //   offset: const Offset(0, -60),
+                    //   child: Container(
+                    //     padding: const EdgeInsets.all(6),
+                    //     decoration: BoxDecoration(
+                    //       color: Colors.white,
+                    //       shape: BoxShape.circle,
+                    //       boxShadow: [
+                    //         BoxShadow(
+                    //           color: Colors.deepPurple.withValues(alpha: 0.25),
+                    //           blurRadius: 15,
+                    //           offset: const Offset(0, 8),
+                    //           spreadRadius: 2,
+                    //         ),
+                    //       ],
+                    //     ),
+                    //     child: CircleAvatar(
+                    //       radius: 55,
+                    //       backgroundColor: Colors.deepPurple.shade50,
+                    //       backgroundImage: AssetImage(
+                    //         feedImage(id: feed.animalId?.toInt()),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
 
                     // Feed Header Info
                     _FeedHeader(feed: feed),

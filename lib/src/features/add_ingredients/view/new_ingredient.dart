@@ -1,7 +1,7 @@
-import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:feed_estimator/src/features/add_ingredients/widgets/ingredient_form.dart';
 import 'package:feed_estimator/src/utils/widgets/app_drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class NewIngredient extends StatelessWidget {
   final String? ingredientId;
@@ -16,63 +16,107 @@ class NewIngredient extends StatelessWidget {
         (ingredientId == null || ingredientId == "null" || ingredientId == "")
             ? null
             : int.tryParse(ingredientId!);
-    return SafeArea(
-      child: Scaffold(
-        drawer: const FeedAppDrawer(),
-        body: Container(
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-            tileMode: TileMode.repeated,
-            stops: [0.4, 0.8],
-            colors: [
-              AppConstants.appBackgroundColor,
-              Color(0xff87643E),
-            ],
-          )),
-          child: CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                pinned: true,
-                snap: false,
-                floating: false,
-                expandedHeight: displayHeight(context) * .25,
-                //  leading: IconButton(onPressed: (){}, icon: Icon(Icons.menu, color: AppConstants.appBackgroundColor,)),
-                actions: const [],
-                foregroundColor: AppConstants.appBackgroundColor,
-                flexibleSpace: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.bottomLeft,
-                        end: Alignment.topRight,
-                        tileMode: TileMode.repeated,
-                        stops: const [
-                          0.6,
-                          0.9
-                        ],
-                        colors: [
-                          const Color(0xff87643E),
-                          const Color(0xff87643E).withValues(alpha: .7)
-                        ]),
+
+    return Scaffold(
+      drawer: const FeedAppDrawer(),
+      body: CustomScrollView(
+        slivers: [
+          // Modern SliverAppBar with back.png background
+          SliverAppBar(
+            systemOverlayStyle: const SystemUiOverlayStyle(
+              statusBarColor: Color(0xff87643E),
+              statusBarIconBrightness: Brightness.light,
+              statusBarBrightness: Brightness.dark,
+            ),
+            pinned: true,
+            expandedHeight: 180,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            iconTheme: const IconThemeData(color: Colors.white),
+            flexibleSpace: FlexibleSpaceBar(
+              collapseMode: CollapseMode.parallax,
+              background: Stack(
+                fit: StackFit.expand,
+                children: [
+                  // Back pattern background
+                  const Image(
+                    image: AssetImage('assets/images/back.png'),
+                    fit: BoxFit.cover,
                   ),
-                  child: FlexibleSpaceBar(
-                      title: Text(ingId != null
-                          ? "Update Ingredient"
-                          : 'Add Ingredient'),
-                      centerTitle: true,
-                      background: const Image(
-                          image: AssetImage('assets/images/back.png'))),
+                  // Brown overlay gradient
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          const Color(0xff87643E).withValues(alpha: 0.4),
+                          const Color(0xff87643E).withValues(alpha: 0.7),
+                        ],
+                      ),
+                    ),
+                  ),
+                  // Title positioned at bottom
+                  Positioned(
+                    bottom: 16,
+                    left: 16,
+                    right: 16,
+                    child: Text(
+                      ingId != null ? "Update Ingredient" : "Add Ingredient",
+                      style:
+                          Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                              ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          // Content section with modern styling
+          SliverToBoxAdapter(
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    const Color(0xff87643E).withValues(alpha: 0.1),
+                    Colors.white.withValues(alpha: 0.98),
+                  ],
+                  stops: const [0.0, 0.2],
                 ),
               ),
-              SliverToBoxAdapter(
-                child: IngredientForm(
-                  ingId: ingId,
+              child: Container(
+                margin: const EdgeInsets.only(top: 0),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(40),
+                    topRight: Radius.circular(40),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 20,
+                      offset: Offset(0, -5),
+                      spreadRadius: 1,
+                    ),
+                  ],
                 ),
-              )
-            ],
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 24.0),
+                  child: IngredientForm(
+                    ingId: ingId,
+                  ),
+                ),
+              ),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
