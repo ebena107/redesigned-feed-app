@@ -151,7 +151,9 @@ class ResultCard extends ConsumerWidget {
                 Expanded(
                   child: _StatItem(
                       label: 'Total Cost',
-                      value: '${result.totalCost}',
+                      value: result.totalCost != null 
+                          ? result.totalCost!.toStringAsFixed(2) 
+                          : '0.00',
                       unit: '#'),
                 ),
                 Expanded(

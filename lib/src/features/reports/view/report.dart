@@ -71,9 +71,24 @@ class AnalysisPage extends ConsumerWidget {
                 backgroundColor: Colors.transparent,
                 elevation: 0,
                 pinned: true,
-                title: const Text("Analysis",
-                    style: TextStyle(color: Colors.white)),
+                expandedHeight: 120,
+                iconTheme: const IconThemeData(color: Colors.white),
                 centerTitle: true,
+                flexibleSpace: const FlexibleSpaceBar(
+                  centerTitle: true,
+                  title: Text(
+                    "Analysis",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  background: Image(
+                    image: AssetImage('assets/images/back.png'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
                 actions: [
                   IconButton(
                     icon: const Icon(Icons.picture_as_pdf_outlined,
@@ -86,15 +101,23 @@ class AnalysisPage extends ConsumerWidget {
               ),
 
               // Spacer for the Image Area
-              SliverToBoxAdapter(child: SizedBox(height: size.height * 0.15)),
+              SliverToBoxAdapter(child: SizedBox(height: size.height * 0.10)),
 
               // The White Content Container
               SliverToBoxAdapter(
                 child: Container(
                   constraints: BoxConstraints(minHeight: size.height * 0.7),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.white,
+                        Colors.purple.shade50.withValues(alpha: 0.3),
+                        Colors.purple.shade50.withValues(alpha: 0.5),
+                      ],
+                    ),
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(32),
                       topRight: Radius.circular(32),
                     ),
