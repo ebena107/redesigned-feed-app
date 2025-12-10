@@ -444,6 +444,15 @@ class IngredientNotifier extends Notifier<IngredientState> {
     updateCount();
   }
 
+  void removeSelectedIngredient(FeedIngredients ingredient) {
+    List<FeedIngredients> feedIngredients = state.selectedIngredients;
+    final newList = feedIngredients
+        .where((item) => item.ingredientId != ingredient.ingredientId)
+        .toList();
+    state = state.copyWith(selectedIngredients: newList);
+    updateCount();
+  }
+
   Future<void> removeSelectedById(num? ingredientId) async {
     List<FeedIngredients> feedIngredients = state.selectedIngredients;
 

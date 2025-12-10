@@ -25,7 +25,7 @@ class FooterResultCard extends ConsumerWidget {
       children: [
         Expanded(
           child: _NutrientChip(
-            label: 'ENG',
+            label: 'ENERGY',
             value: '${myResult.mEnergy?.round() ?? 0}',
             unit: 'kcal',
             // OPTIMIZATION: DeepOrange is more readable than standard Orange for text
@@ -35,7 +35,7 @@ class FooterResultCard extends ConsumerWidget {
         const SizedBox(width: 4),
         Expanded(
           child: _NutrientChip(
-            label: 'PRO',
+            label: 'PROTEIN',
             value: myResult.cProtein?.toStringAsFixed(1) ?? '0',
             unit: '%',
             // OPTIMIZATION: Indigo implies strength/structure and contrasts well with Orange

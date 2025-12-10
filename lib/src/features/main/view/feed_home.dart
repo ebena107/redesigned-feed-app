@@ -22,13 +22,14 @@ class MainView extends ConsumerWidget {
 
     return Scaffold(
       drawer: const FeedAppDrawer(),
+      backgroundColor: AppConstants.appBackgroundColor,
       body: CustomScrollView(
         slivers: <Widget>[
           // Modern SliverAppBar with Material Design 3
           SliverAppBar(
             pinned: true,
             snap: false,
-            floating: false,
+            floating: true,
             expandedHeight: UIConstants.fieldHeight * 2.5,
             elevation: 0,
             backgroundColor: AppConstants.mainAppColor,

@@ -13,97 +13,112 @@ class CartIconWithBadge extends ConsumerWidget {
     final data = ref.watch(ingredientProvider);
     final counter = data.count;
 
-    Future<void> cartDialog() async {
-      switch (await showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return counter > 0
-                ? AlertDialog(
-                    backgroundColor:
-                        AppConstants.mainAppColor.withValues(alpha: .9),
-                    title: const Text(
-                      "Selected Ingredients",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: AppConstants.appBackgroundColor),
-                    ),
-                    content: SizedBox(
-                      height: 200,
-                      width: 350,
-                      child: ListView.builder(
-                        itemBuilder: (BuildContext context, int index) {
-                          final items = data.selectedIngredients[index];
+    Future<void> cartBottomSheet() async {
+      if (counter <= 0) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('No ingredients selected yet'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+        return;
+      }
 
-                          // return ListTile(
-                          //   title: Text(
-                          //     "${index + 1} - ${ref.watch(ingredientProvider.notifier).getName(items.ingredientId as int)}",
-                          //     softWrap: true,
-                          //     style: const TextStyle(
-                          //         color: AppConstants.appBackgroundColor),
-                          //   ),
-                          //   trailing: IconButton(
-                          //     icon: const Icon(Icons.delete),
-                          //     onPressed: () {},
-                          //   ),
-                          // );
-                          return Row(
-                            children: [
-                              Text(
-                                "${index + 1} - ",
-                                style: const TextStyle(
-                                    color: AppConstants.appBackgroundColor),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Expanded(
-                                child: Text(
-                                  ref
-                                      .watch(ingredientProvider.notifier)
-                                      .getName(items.ingredientId as int),
-                                  softWrap: true,
-                                  style: const TextStyle(
-                                      color: AppConstants.appBackgroundColor),
-                                ),
-                              ),
-                              // IconButton(
-                              //   icon: const Icon(Icons.delete),
-                              //   onPressed: () {},
-                              //   color: AppConstants.appBackgroundColor,
-                              // ),
-                            ],
-                          );
-                        },
-                        itemCount: counter,
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        builder: (BuildContext context) {
+          return DraggableScrollableSheet(
+            expand: false,
+            initialChildSize: 0.6,
+            maxChildSize: 0.95,
+            minChildSize: 0.4,
+            builder: (context, scrollController) {
+              return Column(
+                children: [
+                  // Handle bar
+                  Padding(
+                    padding: const EdgeInsets.only(top: 12),
+                    child: Container(
+                      width: 40,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[400],
+                        borderRadius: BorderRadius.circular(2),
                       ),
                     ),
-                    /*   actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  IngredientList(),
+                  ),
+                  // Header
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Selected Ingredients ($counter)',
+                          style:
+                              Theme.of(context).textTheme.titleLarge?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.close),
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                      ],
+                    ),
+                  ),
+                  // List
+                  Expanded(
+                    child: ListView.separated(
+                      controller: scrollController,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      itemCount: counter,
+                      separatorBuilder: (_, __) => const Divider(height: 1),
+                      itemBuilder: (context, index) {
+                        final item = data.selectedIngredients[index];
+                        final ingredientName = ref
+                            .watch(ingredientProvider.notifier)
+                            .getName(item.ingredientId as int);
+
+                        return Dismissible(
+                          key: ValueKey(item.ingredientId),
+                          direction: DismissDirection.endToStart,
+                          onDismissed: (_) {
+                            ref
+                                .read(ingredientProvider.notifier)
+                                .removeSelectedIngredient(item);
+                          },
+                          background: Container(
+                            alignment: Alignment.centerRight,
+                            padding: const EdgeInsets.only(right: 16),
+                            color: Colors.red[400],
+                            child:
+                                const Icon(Icons.delete, color: Colors.white),
+                          ),
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              child: Text('${index + 1}'),
                             ),
-                          );
-                        },
-                        child: const Text("Add More"),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) => AddUpdateFeed(),
+                            title: Text(ingredientName),
+                            trailing: Icon(
+                              Icons.drag_handle,
+                              color: Colors.grey[400],
                             ),
-                          );
-                        },
-                        child: const Text("Proceed"),
-                      )
-                    ],*/
-                  )
-                : Container();
-          })) {}
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+      );
     }
 
     return Center(
@@ -115,18 +130,13 @@ class CartIconWithBadge extends ConsumerWidget {
               color: AppConstants.appCarrotColor,
               size: 32,
             ),
-            onPressed: () {
-              counter <= 0
-                  ? const SnackBar(content: Text('No ingredient available'))
-                  : cartDialog();
-            },
+            onPressed: cartBottomSheet,
           ),
           counter != 0
               ? Positioned(
                   right: 7,
                   top: 14,
                   child: Container(
-                    // padding: EdgeInsets.all(1),
                     decoration: BoxDecoration(
                       color: AppConstants.appCarrotColor,
                       borderRadius: BorderRadius.circular(10),
@@ -147,7 +157,7 @@ class CartIconWithBadge extends ConsumerWidget {
                     ),
                   ),
                 )
-              : Positioned(right: 7, top: 18, child: Container())
+              : const SizedBox()
         ],
       ),
     );

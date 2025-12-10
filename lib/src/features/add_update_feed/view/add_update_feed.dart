@@ -78,6 +78,12 @@ class NewFeedPage extends ConsumerWidget {
                   centerTitle: true,
                   title: Text(
                     title,
+                    style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 0.5,
+                      color: Colors.white,
+                    ),
                     // style: titleTextStyle(),
                   ),
                   background:

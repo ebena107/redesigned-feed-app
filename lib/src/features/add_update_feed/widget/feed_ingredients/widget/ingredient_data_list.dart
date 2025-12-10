@@ -19,39 +19,40 @@ class IngredientData extends ConsumerWidget {
     List<Ingredient>? ingredients = data.filteredIngredients;
 
     return ingredients.isNotEmpty
-        ? SizedBox(
-            // child: ListView(
-            //   shrinkWrap: true,
-            //   children: ingredients.map((i) {
-            //     final isSelected = data.selectedIngredients.contains(i);
-            //     return IngredientListTileWidget(
-            //         ingredients: i,
-            //         isSelected: isSelected,
-            //         onSelectedIngredient: selectIngredient);
-            //   }).toList(),
-            // ),
-            child: ListView.separated(
-                separatorBuilder: (context, index) => const Divider(
-                      color: Colors.grey,
-                      thickness: 1,
-                      endIndent: 20,
-                      indent: 20,
-                    ),
-                shrinkWrap: true,
-                itemCount: ingredients.length,
-                itemBuilder: (context, index) {
-                  return ingredients.isNotEmpty
-                      ? IngredientListTileWidget(
-                          ingredient: ingredients[index],
-                          isSelected: data.selectedIngredients.any((element) =>
-                              element.ingredientId ==
-                              ingredients[index].ingredientId),
-                        )
-                      : const SizedBox();
-                }),
+        ? ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+            itemCount: ingredients.length,
+            itemBuilder: (context, index) {
+              return IngredientListTileWidget(
+                ingredient: ingredients[index],
+                isSelected: data.selectedIngredients.any(
+                  (element) =>
+                      element.ingredientId == ingredients[index].ingredientId,
+                ),
+              );
+            },
           )
-        : const Center(
-            child: Text('empty ingredients db'),
+        : Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.search_off,
+                  size: 64,
+                  color: Colors.grey[400],
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'No ingredients match your search',
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color: Colors.grey[600],
+                      ),
+                ),
+              ],
+            ),
           );
   }
 }

@@ -44,106 +44,130 @@ class IngredientList extends ConsumerWidget {
         ),
         child: Column(
           children: [
-            const SizedBox(
-              height: 48,
-            ),
+            // Status bar spacing
+            const SizedBox(height: 48),
+
+            // Header bar with controls
             Container(
-              // alignment: Alignment.bottomLeft,
               color: AppConstants.mainAppColor,
-              height: displayHeight(context) * .1,
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const CartIconWithBadge(),
-                  SizedBox(
-                      // flex: 6,
-                      width: displayWidth(context) * .6,
-                      child: showAppSearch && search
-                          ? const IngredientSearchWidget()
-                          : showSort && sort
-                              ? const IngredientSortingWidget()
-                              : const SizedBox()),
-                  Expanded(
-                    flex: 2,
-                    // width: 40,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          showAppSearch
-                              ? search
-                                  ? IconButton(
-                                      onPressed: () => ref
-                                          .read(ingredientProvider.notifier)
-                                          .clearSearch(),
-                                      icon: const Icon(
-                                        Icons.clear,
-                                        color: Colors.red,
-                                      ))
-                                  : IconButton(
-                                      onPressed: () => ref
-                                          .read(ingredientProvider.notifier)
-                                          .toggleSearch(),
-                                      icon: const Icon(
-                                        CupertinoIcons.search,
-                                        //  size: 16,
-                                        color: AppConstants.appBackgroundColor,
-                                      ),
-                                    )
-                              : const SizedBox(),
-                          showSort
-                              ? sort
-                                  ? IconButton(
-                                      onPressed: () => ref
-                                          .read(ingredientProvider.notifier)
-                                          .clearSort(),
-                                      icon: const Icon(
-                                        Icons.filter_list_off,
-                                        //  size: 16,
-                                        color: AppConstants.appCarrotColor,
-                                      ),
-                                    )
-                                  : IconButton(
-                                      onPressed: () => ref
-                                          .read(ingredientProvider.notifier)
-                                          .toggleSort(),
-                                      icon: const Icon(
-                                        Icons.filter_list,
-                                        //  size: 16,
-                                        color: AppConstants.appBackgroundColor,
-                                      ),
-                                    )
-                              : const SizedBox()
-                        ],
+
+                  // Search or sort widget
+                  if (showAppSearch && search)
+                    const Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        child: IngredientSearchWidget(),
                       ),
+                    )
+                  else if (showSort && sort)
+                    const Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        child: IngredientSortingWidget(),
+                      ),
+                    )
+                  else
+                    const SizedBox(),
+
+                  // Control buttons
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        if (showAppSearch)
+                          IconButton(
+                            icon: Icon(
+                              search ? Icons.clear : Icons.search,
+                              color: search
+                                  ? Colors.red[400]
+                                  : AppConstants.appBackgroundColor,
+                              size: 20,
+                            ),
+                            onPressed: () => search
+                                ? ref
+                                    .read(ingredientProvider.notifier)
+                                    .clearSearch()
+                                : ref
+                                    .read(ingredientProvider.notifier)
+                                    .toggleSearch(),
+                            tooltip:
+                                search ? 'Clear search' : 'Search ingredients',
+                          ),
+                        if (showSort)
+                          IconButton(
+                            icon: Icon(
+                              sort ? Icons.filter_list_off : Icons.filter_list,
+                              color: sort
+                                  ? AppConstants.appCarrotColor
+                                  : AppConstants.appBackgroundColor,
+                              size: 20,
+                            ),
+                            onPressed: () => sort
+                                ? ref
+                                    .read(ingredientProvider.notifier)
+                                    .clearSort()
+                                : ref
+                                    .read(ingredientProvider.notifier)
+                                    .toggleSort(),
+                            tooltip:
+                                sort ? 'Clear filter' : 'Filter ingredients',
+                          ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
+
+            // Content area
             Expanded(
-              child: SingleChildScrollView(
-                child: data.filteredIngredients.isNotEmpty
-                    ? Column(
-                        children: [
-                          SizedBox(
-                            height: displayHeight(context) * .8,
-                            //  child: IngredientDataTable(feedId: feedId),
-                            child: IngredientData(feedId: feedId),
-                          ),
-                        ],
-                      )
-                    : const Center(
-                        child: Text('No Ingredient Available'),
-                      ),
-              ),
+              child: data.filteredIngredients.isNotEmpty
+                  ? SingleChildScrollView(
+                      child: IngredientData(feedId: feedId),
+                    )
+                  : _buildEmptyState(context),
             ),
           ],
         ),
       ),
       bottomNavigationBar: buildBottomBar(feedId: feedId),
+    );
+  }
+
+  Widget _buildEmptyState(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.inbox_outlined,
+            size: 80,
+            color: Colors.grey[400],
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'No Ingredients Available',
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  color: Colors.grey[700],
+                  fontWeight: FontWeight.w600,
+                ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Check your search or filter criteria',
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Colors.grey[500],
+                ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
     );
   }
 }
