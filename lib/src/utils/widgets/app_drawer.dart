@@ -285,7 +285,7 @@ class _DrawerTile extends StatelessWidget {
                 Container(
                   height: 10,
                   width: 10,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: accent,
                     shape: BoxShape.circle,
                   ),

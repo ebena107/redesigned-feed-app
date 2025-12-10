@@ -1,17 +1,19 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
+import 'package:feed_estimator/src/core/constants/ui_constants.dart';
+import 'package:feed_estimator/src/core/utils/input_validators.dart';
+import 'package:feed_estimator/src/core/utils/logger.dart';
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dart';
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
 import 'package:feed_estimator/src/features/add_update_feed/providers/async_feed_provider.dart';
 import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provider.dart';
 import 'package:feed_estimator/src/features/main/model/feed.dart';
-
 import 'package:feed_estimator/src/features/reports/providers/result_provider.dart';
 import 'package:feed_estimator/src/utils/widgets/get_ingredients_name.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+
+const String _tag = 'FeedIngredients';
 
 class FeedIngredientsField extends ConsumerWidget {
   const FeedIngredientsField({
@@ -28,70 +30,67 @@ class FeedIngredientsField extends ConsumerWidget {
 
     return feedIngredients.isNotEmpty
         ? Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             verticalDirection: VerticalDirection.down,
             children: [
               const Divider(
-                thickness: 2,
+                thickness: 1,
                 color: AppConstants.appIconGreyColor,
               ),
-              Expanded(
-                flex: 0,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      width: width * .32,
-                      child: Text(
-                        "Ingredient",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
-                            .copyWith(fontSize: 14),
-                        textAlign: TextAlign.center,
-                      ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: width * .32,
+                    child: Text(
+                      "Ingredient",
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .copyWith(fontSize: 14),
+                      textAlign: TextAlign.center,
                     ),
-                    SizedBox(
-                      width: width * .2,
-                      child: Text(
-                        "Price/Unit",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
-                            .copyWith(fontSize: 14),
-                        textAlign: TextAlign.center,
-                      ),
+                  ),
+                  SizedBox(
+                    width: width * .2,
+                    child: Text(
+                      "Price/Unit",
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .copyWith(fontSize: 14),
+                      textAlign: TextAlign.center,
                     ),
-                    Expanded(
-                      //  width: width * .2,
-                      child: Text(
-                        "Quantity",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
-                            .copyWith(fontSize: 14),
-                        textAlign: TextAlign.center,
-                      ),
+                  ),
+                  Expanded(
+                    //  width: width * .2,
+                    child: Text(
+                      "Quantity",
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .copyWith(fontSize: 14),
+                      textAlign: TextAlign.center,
                     ),
-                    Expanded(
-                      //  width: width * .2,
-                      child: Text(
-                        "T: ${data.totalQuantity} Kg",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
-                            .copyWith(fontSize: 14),
-                        textAlign: TextAlign.center,
-                      ),
+                  ),
+                  Expanded(
+                    //  width: width * .2,
+                    child: Text(
+                      "T: ${data.totalQuantity} Kg",
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .copyWith(fontSize: 14),
+                      textAlign: TextAlign.center,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               const Divider(
-                thickness: 3,
+                thickness: 1,
                 color: AppConstants.appIconGreyColor,
               ),
               Expanded(
@@ -105,67 +104,93 @@ class FeedIngredientsField extends ConsumerWidget {
                         (BuildContext context, int index) {
                           final ingredient = feedIngredients[index];
 
-                          return ListTile(
-                            onTap: () => showUpdateDialog(
-                                context, ingredient.ingredientId),
-                            //  activeColor: Commons.appCarrotColor,
-                            dense: true,
-
-                            title: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                SizedBox(
-                                  width: width * 0.32,
-                                  child: GetIngredientName(
-                                      id: ingredient.ingredientId),
+                          return Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () => _showUpdateDialog(
+                                  context, ref, ingredient.ingredientId),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: AppConstants.spacing8,
+                                  vertical: AppConstants.spacing4,
                                 ),
-                                Expanded(
-                                  // width: width * .2,
-                                  child: Text(
-                                    ingredient.priceUnitKg.toString(),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: width * .3,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(ingredient.quantity == null
-                                          ? ""
-                                          : ingredient.quantity.toString()),
-                                      Text(
-                                        data.totalQuantity > 0
-                                            ? "${ref.watch(feedProvider.notifier).calcPercent(ingredient.quantity).toStringAsFixed(1)}%"
-                                            : "0.0%",
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    // Ingredient name
+                                    SizedBox(
+                                      width: width * 0.32,
+                                      child: GetIngredientName(
+                                        id: ingredient.ingredientId,
+                                      ),
+                                    ),
+                                    // Price
+                                    Expanded(
+                                      child: Text(
+                                        ingredient.priceUnitKg.toString(),
+                                        textAlign: TextAlign.center,
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium,
-                                        textAlign: TextAlign.center,
                                       ),
-                                    ],
-                                  ),
-                                ),
-                                Expanded(
-                                  //   width: width * .12,
-                                  child: IconButton(
-                                    padding: const EdgeInsets.all(0),
-                                    onPressed: () {
-                                      Navigator.of(context).restorablePush(
-                                        deleteDialogBuilder,
-                                        arguments: ingredient.ingredientId,
-                                      );
-                                    },
-                                    icon: const Icon(
-                                      CupertinoIcons.delete,
-                                      size: 16,
-                                      color: Colors.redAccent,
                                     ),
-                                  ),
+                                    // Quantity and percentage
+                                    SizedBox(
+                                      width: width * .3,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            ingredient.quantity?.toString() ??
+                                                '0',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium,
+                                          ),
+                                          Text(
+                                            data.totalQuantity > 0
+                                                ? "${ref.watch(feedProvider.notifier).calcPercent(ingredient.quantity).toStringAsFixed(1)}%"
+                                                : "0.0%",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall
+                                                ?.copyWith(
+                                                  color: AppConstants
+                                                      .appIconGreyColor,
+                                                ),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    // Delete button with better tap target
+                                    SizedBox(
+                                      width: UIConstants.minTapTarget,
+                                      height: UIConstants.minTapTarget,
+                                      child: IconButton(
+                                        padding: EdgeInsets.zero,
+                                        constraints: const BoxConstraints(
+                                          minWidth: UIConstants.minTapTarget,
+                                          minHeight: UIConstants.minTapTarget,
+                                        ),
+                                        onPressed: () => _showDeleteDialog(
+                                            context,
+                                            ref,
+                                            ingredient.ingredientId),
+                                        tooltip: 'Remove ingredient',
+                                        icon: const Icon(
+                                          CupertinoIcons.delete,
+                                          size: UIConstants.iconMedium,
+                                          color: Colors.redAccent,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
                           );
                         },
@@ -184,177 +209,342 @@ class FeedIngredientsField extends ConsumerWidget {
   }
 }
 
-_showSnackBar(context, message) async {
+/// Show error message with proper styling
+void _showErrorSnackBar(BuildContext context, String message) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Text(message),
+      backgroundColor: Colors.redAccent,
+      behavior: SnackBarBehavior.floating,
+      duration: const Duration(seconds: 3),
+      action: SnackBarAction(
+        label: 'Dismiss',
+        textColor: Colors.white,
+        onPressed: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
+      ),
     ),
   );
 }
 
-Route<Object?> deleteDialogBuilder(
+/// Show delete confirmation dialog
+void _showDeleteDialog(
   BuildContext context,
-  Object? arguments,
+  WidgetRef ref,
+  num? ingredientId,
 ) {
-  int? id = arguments as int;
-
-  return DialogRoute<void>(
-      context: context,
-      builder: (BuildContext context) => _DeleteIng(ingredientId: id));
+  showDialog<void>(
+    context: context,
+    builder: (context) => _DeleteIngredientDialog(ingredientId: ingredientId),
+  );
 }
 
-class _DeleteIng extends ConsumerWidget {
+/// Show update dialog for ingredient
+void _showUpdateDialog(
+  BuildContext context,
+  WidgetRef ref,
+  num? ingredientId,
+) {
+  showDialog<void>(
+    context: context,
+    builder: (context) => _UpdateIngredientDialog(ingredientId: ingredientId),
+  );
+}
+
+class _DeleteIngredientDialog extends ConsumerStatefulWidget {
   final num? ingredientId;
-  const _DeleteIng({this.ingredientId});
+  const _DeleteIngredientDialog({this.ingredientId});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final feedId = ref.watch(feedProvider).newFeed!.feedId;
-    final ing = ref.watch(ingredientProvider).ingredients.firstWhere(
-        (f) => f.ingredientId == ingredientId,
-        orElse: () => Ingredient());
+  ConsumerState<_DeleteIngredientDialog> createState() =>
+      _DeleteIngredientDialogState();
+}
+
+class _DeleteIngredientDialogState
+    extends ConsumerState<_DeleteIngredientDialog> {
+  bool _isDeleting = false;
+
+  Future<void> _handleDelete() async {
+    if (_isDeleting) return;
+
+    setState(() => _isDeleting = true);
+
+    try {
+      await ref
+          .read(asyncFeedProvider.notifier)
+          .deleteIngredient(widget.ingredientId);
+      AppLogger.info('Ingredient ${widget.ingredientId} deleted', tag: _tag);
+
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
+    } catch (e, stackTrace) {
+      AppLogger.error('Failed to delete ingredient: $e',
+          tag: _tag, error: e, stackTrace: stackTrace);
+
+      if (mounted) {
+        setState(() => _isDeleting = false);
+        _showErrorSnackBar(
+            context, 'Failed to remove ingredient. Please try again.');
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final ingredient = ref.watch(ingredientProvider).ingredients.firstWhere(
+          (f) => f.ingredientId == widget.ingredientId,
+          orElse: () => Ingredient(),
+        );
+
+    final ingredientName = ingredient.name ?? 'this ingredient';
+
     return CupertinoAlertDialog(
-      title: Text(
-        'Remove ${ing.name}.',
+      title: Text('Remove $ingredientName?'),
+      content: Text(
+        'This will remove $ingredientName from your feed formulation. This action cannot be undone.',
       ),
-      content: const Text('Are You Sure?'),
       actions: [
         CupertinoDialogAction(
-          isDestructiveAction: true,
-          child: const Text('Remove'),
-          onPressed: () {
-            feedId != null
-                ? {
-                    ref
-                        .read(asyncFeedProvider.notifier)
-                        .deleteIngredient(ingredientId)
-                  }
-                : ref
-                    .read(asyncFeedProvider.notifier)
-                    .deleteIngredient(ingredientId);
-            context.pop();
-          },
+          isDefaultAction: true,
+          onPressed: _isDeleting ? null : () => Navigator.of(context).pop(),
+          child: const Text('Cancel'),
         ),
         CupertinoDialogAction(
-          isDefaultAction: true,
-          child: const Text('Cancel'),
-          onPressed: () {
-            context.pop();
-          },
-        )
+          isDestructiveAction: true,
+          onPressed: _isDeleting ? null : _handleDelete,
+          child: _isDeleting
+              ? const SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
+              : const Text('Remove'),
+        ),
       ],
     );
   }
 }
 
-Future<dynamic> showUpdateDialog(
-  BuildContext context,
-  num? ingredientId,
-) {
-  return showDialog(
-    context: context,
-    builder: (_) {
-      return Consumer(
-        builder: (context, ref, child) {
-          final data = ref.watch(feedProvider);
-          final ingredient = data.feedIngredients.firstWhere(
-              (f) => f.ingredientId == ingredientId,
-              orElse: () => FeedIngredients());
-          final feedPriceController =
-              TextEditingController(text: ingredient.priceUnitKg.toString());
-          final feedQuantityController = TextEditingController(
-              text: ingredient.quantity == null
-                  ? ""
-                  : ingredient.quantity.toString());
-          return CupertinoAlertDialog(
-            //  title: Text('Update $GetName(id: ingredientId)'),
-            title: GetIngredientName(id: ingredientId),
-            content: Card(
-              child: SizedBox(
-                //   height: 250,
-                child: Column(
-                  children: [
-                    TextField(
-                      controller: feedPriceController,
-                      textInputAction: TextInputAction.next,
-                      decoration: const InputDecoration(
-                          filled: false, labelText: "Price/UnitKG"),
-                      keyboardType:
-                          const TextInputType.numberWithOptions(decimal: true),
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.allow(
-                            RegExp(r'[0-9]+[,.]{0,1}[0-9]*')),
-                      ],
-                      onSubmitted: (val) {},
-                      onChanged: (String val) {
-                        if (double.tryParse(val) == null) {
-                          _showSnackBar(context,
-                              'Enter price without Currency e.g 10.50');
-                        }
-                      },
-                      style: Theme.of(context).textTheme.bodyMedium,
-                      textAlign: TextAlign.center,
+/// Update ingredient dialog with proper lifecycle management
+class _UpdateIngredientDialog extends ConsumerStatefulWidget {
+  final num? ingredientId;
+  const _UpdateIngredientDialog({this.ingredientId});
+
+  @override
+  ConsumerState<_UpdateIngredientDialog> createState() =>
+      _UpdateIngredientDialogState();
+}
+
+class _UpdateIngredientDialogState
+    extends ConsumerState<_UpdateIngredientDialog> {
+  late TextEditingController _priceController;
+  late TextEditingController _quantityController;
+  final _formKey = GlobalKey<FormState>();
+  bool _isUpdating = false;
+  String? _priceError;
+  String? _quantityError;
+
+  @override
+  void initState() {
+    super.initState();
+    final ingredient = _getIngredient();
+    _priceController = TextEditingController(
+      text: ingredient.priceUnitKg?.toString() ?? '',
+    );
+    _quantityController = TextEditingController(
+      text: ingredient.quantity?.toString() ?? '',
+    );
+  }
+
+  @override
+  void dispose() {
+    _priceController.dispose();
+    _quantityController.dispose();
+    super.dispose();
+  }
+
+  FeedIngredients _getIngredient() {
+    final data = ref.read(feedProvider);
+    return data.feedIngredients.firstWhere(
+      (f) => f.ingredientId == widget.ingredientId,
+      orElse: () => FeedIngredients(),
+    );
+  }
+
+  void _validatePrice(String value) {
+    setState(() {
+      _priceError = InputValidators.validatePrice(value);
+    });
+  }
+
+  void _validateQuantity(String value) {
+    setState(() {
+      _quantityError = InputValidators.validateQuantity(value);
+    });
+  }
+
+  Future<void> _handleUpdate() async {
+    if (_isUpdating) return;
+
+    // Validate inputs
+    _validatePrice(_priceController.text);
+    _validateQuantity(_quantityController.text);
+
+    // Only use Ingredient for name validation, not FeedIngredients
+    final ingredient = ref.read(ingredientProvider).ingredients.firstWhere(
+          (f) => f.ingredientId == widget.ingredientId,
+          orElse: () => Ingredient(),
+        );
+    final name = ingredient.name?.trim() ?? '';
+    if (name.isEmpty) {
+      showDialog<void>(
+        context: context,
+        builder: (context) => CupertinoAlertDialog(
+          title: const Text('Name Required'),
+          content: const Text('Please enter a name for this ingredient.'),
+          actions: [
+            CupertinoDialogAction(
+              isDefaultAction: true,
+              child: const Text('OK'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+
+    if (_priceError != null || _quantityError != null) {
+      AppLogger.warning('Invalid input in update dialog', tag: _tag);
+      return;
+    }
+
+    setState(() => _isUpdating = true);
+
+    try {
+      // Update price and quantity
+      ref.read(feedProvider.notifier).setPrice(
+            widget.ingredientId!,
+            _priceController.text,
+          );
+      ref.read(feedProvider.notifier).setQuantity(
+            widget.ingredientId!,
+            _quantityController.text,
+          );
+
+      // Recalculate results
+      ref.read(resultProvider.notifier).estimatedResult(
+            animal: ref.read(feedProvider).animalTypeId,
+            ingList: ref.read(feedProvider).feedIngredients,
+          );
+
+      AppLogger.info(
+        'Updated ingredient ${widget.ingredientId}: price=${_priceController.text}, qty=${_quantityController.text}',
+        tag: _tag,
+      );
+
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
+    } catch (e, stackTrace) {
+      AppLogger.error(
+        'Failed to update ingredient: $e',
+        tag: _tag,
+        error: e,
+        stackTrace: stackTrace,
+      );
+
+      if (mounted) {
+        setState(() => _isUpdating = false);
+        _showErrorSnackBar(
+          context,
+          'Failed to update ingredient. Please try again.',
+        );
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoAlertDialog(
+      title: GetIngredientName(id: widget.ingredientId),
+      content: Material(
+        color: Colors.transparent,
+        child: SizedBox(
+          width: double.maxFinite,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Price field
+                  TextField(
+                    controller: _priceController,
+                    enabled: !_isUpdating,
+                    textInputAction: TextInputAction.next,
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
+                    inputFormatters: InputValidators.numericFormatters,
+                    decoration: InputDecoration(
+                      labelText: 'Price per Kg',
+                      hintText: '10.50',
+                      errorText: _priceError,
+                      filled: false,
+                      border: const UnderlineInputBorder(),
                     ),
-                    TextField(
-                      controller: feedQuantityController,
-                      keyboardType:
-                          const TextInputType.numberWithOptions(decimal: true),
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.allow(
-                            RegExp(r'[0-9]+[,.]{0,1}[0-9]*')),
-                      ],
-                      decoration: const InputDecoration(
-                          filled: true, labelText: "Quantity"),
-                      textInputAction: TextInputAction.next,
-                      onChanged: (String val) {
-                        if (double.tryParse(val) == null) {
-                          _showSnackBar(
-                              context, 'Enter quantity value e.g 10.50');
-                        }
-                      },
-                      onSubmitted: (val) {},
-                      style: Theme.of(context).textTheme.bodyMedium,
-                      textAlign: TextAlign.center,
+                    onChanged: _validatePrice,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  const SizedBox(height: 8.0),
+                  // Quantity field
+                  TextField(
+                    controller: _quantityController,
+                    enabled: !_isUpdating,
+                    textInputAction: TextInputAction.done,
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
+                    inputFormatters: InputValidators.numericFormatters,
+                    decoration: InputDecoration(
+                      labelText: 'Quantity (Kg)',
+                      hintText: '100',
+                      errorText: _quantityError,
+                      filled: false,
+                      border: const UnderlineInputBorder(),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                  ],
-                ),
+                    onChanged: _validateQuantity,
+                    onSubmitted: (_) => _handleUpdate(),
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ],
               ),
             ),
-
-            actions: [
-              CupertinoDialogAction(
-                isDestructiveAction: false,
-                child: const Text('Update'),
-                onPressed: () {
-                  ref
-                      .read(feedProvider.notifier)
-                      .setPrice(ingredientId!, feedPriceController.text);
-                  ref
-                      .read(feedProvider.notifier)
-                      .setQuantity(ingredientId, feedQuantityController.text);
-
-                  feedQuantityController.clear();
-                  feedPriceController.clear();
-                  ref.read(resultProvider.notifier).estimatedResult(
-                      animal: ref.watch(feedProvider).animalTypeId,
-                      ingList: ref.watch(feedProvider).feedIngredients);
-                  context.pop();
+          ),
+        ),
+      ),
+      actions: [
+        CupertinoDialogAction(
+          isDefaultAction: true,
+          onPressed: _isUpdating
+              ? null
+              : () {
+                  Navigator.of(context).pop();
                 },
-              ),
-              CupertinoDialogAction(
-                isDefaultAction: true,
-                child: const Text('Cancel'),
-                onPressed: () {
-                  context.pop();
-                },
-              )
-            ],
-          );
-        },
-      );
-    },
-  );
+          child: const Text('Cancel'),
+        ),
+        CupertinoDialogAction(
+          isDestructiveAction: false,
+          onPressed: _isUpdating ? null : _handleUpdate,
+          child: _isUpdating
+              ? const SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
+              : const Text('Update'),
+        ),
+      ],
+    );
+  }
 }

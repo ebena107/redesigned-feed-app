@@ -1,4 +1,5 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
+import 'package:feed_estimator/src/core/constants/ui_constants.dart';
 import 'package:feed_estimator/src/features/reports/model/result.dart';
 import 'package:flutter/material.dart';
 
@@ -9,42 +10,72 @@ class ResultEstimateCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isEdit = feedId != null;
+    final cardColor =
+        isEdit ? AppConstants.appCarrotColor : AppConstants.appBlueColor;
+
     return Card(
-      color: feedId != null ? const Color(0xffff6d00) : const Color(0xff2962ff),
-      elevation: 1,
-      margin: const EdgeInsets.all(8),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
+      color: cardColor,
+      elevation: UIConstants.cardElevation,
+      margin: UIConstants.paddingAllSmall,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppConstants.radiusMedium),
+      ),
+      child: Padding(
+        padding: UIConstants.paddingAllMedium,
+        child: Column(
+          children: [
+            // Title
+            Text(
+              'Estimated Nutritional Content',
+              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    color: AppConstants.appBackgroundColor,
+                    fontWeight: FontWeight.w600,
+                  ),
+            ),
+            const SizedBox(height: UIConstants.paddingSmall),
+            // Content rows
+            Row(
               children: [
-                EstimatedContentCard(
-                  value: data.mEnergy,
-                  title: 'Energy: ',
-                  //   unit: ' kcal',
+                Expanded(
+                  child: Column(
+                    children: [
+                      EstimatedContentCard(
+                        value: data.mEnergy,
+                        title: 'Energy',
+                        unit: 'kcal',
+                      ),
+                      const SizedBox(height: UIConstants.paddingTiny),
+                      EstimatedContentCard(
+                        value: data.cProtein,
+                        title: 'Crude Protein',
+                        unit: '%',
+                      ),
+                    ],
+                  ),
                 ),
-                EstimatedContentCard(
-                  value: data.cProtein,
-                  title: 'cProtein: ',
-                )
+                const SizedBox(width: UIConstants.paddingSmall),
+                Expanded(
+                  child: Column(
+                    children: [
+                      EstimatedContentCard(
+                        value: data.cFibre,
+                        title: 'Crude Fibre',
+                        unit: '%',
+                      ),
+                      const SizedBox(height: UIConstants.paddingTiny),
+                      EstimatedContentCard(
+                        value: data.cFat,
+                        title: 'Crude Fat',
+                        unit: '%',
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
-          ),
-          Expanded(
-            child: Column(
-              children: [
-                EstimatedContentCard(
-                  value: data.cFibre,
-                  title: 'crude Fibre: ',
-                ),
-                EstimatedContentCard(
-                  value: data.cFat,
-                  title: 'crude Fat: ',
-                )
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -54,6 +85,7 @@ class EstimatedContentCard extends StatelessWidget {
   final String? title;
   final num? value;
   final String? unit;
+
   const EstimatedContentCard({
     super.key,
     required this.title,
@@ -63,46 +95,66 @@ class EstimatedContentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Colors.transparent,
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: Text(
-                  title!,
+    final displayValue = value?.toStringAsFixed(2) ?? '--';
+    final displayTitle = title ?? 'Unknown';
+    final displayUnit = unit ?? '';
+
+    return Container(
+      padding: UIConstants.paddingSmallVertical.add(
+        UIConstants.paddingSmallHorizontal,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: UIConstants.overlayLight),
+        borderRadius: BorderRadius.circular(AppConstants.radiusSmall),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // Label
+          Flexible(
+            flex: 2,
+            child: Text(
+              displayTitle,
+              style: const TextStyle(
+                fontSize: 12,
+                color: AppConstants.appBackgroundColor,
+                fontWeight: FontWeight.w500,
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          const SizedBox(width: UIConstants.paddingTiny),
+          // Value with unit
+          Flexible(
+            flex: 3,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
+              children: [
+                Text(
+                  displayValue,
                   style: const TextStyle(
-                    fontSize: 14,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
                     color: AppConstants.appBackgroundColor,
                   ),
                 ),
-              ),
-              Expanded(
-                  child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
+                if (displayUnit.isNotEmpty) ...[
+                  const SizedBox(width: 2),
                   Text(
-                    value!.toStringAsFixed(2),
-                    style: const TextStyle(
-                      fontSize: 16,
-                      // fontWeight: FontWeight.bold,
-                      color: AppConstants.appBackgroundColor,
-                    ),
-                  ),
-                  Text(
-                    unit ?? "",
+                    displayUnit,
                     style: const TextStyle(
                       fontSize: 10,
                       color: AppConstants.appBackgroundColor,
                     ),
                   ),
                 ],
-              ))
-            ],
+              ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

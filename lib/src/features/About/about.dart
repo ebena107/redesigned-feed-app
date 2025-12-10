@@ -27,10 +27,10 @@ class About extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CircleAvatar(
+                    const CircleAvatar(
                       radius: 40,
                       child: Image(
-                        image: const AssetImage('assets/images/logo.png'),
+                        image: AssetImage('assets/images/logo.png'),
                         width: 60,
                       ),
                     ),
@@ -74,27 +74,27 @@ class About extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
+              child: const Padding(
+                padding: EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Image(
+                    Image(
                       image: AssetImage('assets/images/ebena.png'),
                       width: 140,
                     ),
-                    const SizedBox(height: 16),
-                    const Text(
+                    SizedBox(height: 16),
+                    Text(
                       'Ebena Agro Ltd',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    const SizedBox(height: 4),
-                    const Text(
+                    SizedBox(height: 4),
+                    Text(
                       '+2348067150455',
                       style: TextStyle(fontSize: 12),
                     ),
-                    const SizedBox(height: 4),
-                    const Text(
+                    SizedBox(height: 4),
+                    Text(
                       'http://ebena.com.ng',
                       style: TextStyle(fontSize: 12, color: Colors.blue),
                     ),
@@ -115,11 +115,11 @@ class About extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(12),
+              child: const Padding(
+                padding: EdgeInsets.all(12),
                 child: Text(
                   'The proximate analysis, data and information used for developing this application are sourced majorly from the following sources: 1. INRA-CIRAD-AFZ Feed tables, 2018 (www.feedtables.com); 2. Nutrient Requirements of Swine 11th Rev. Ed., 2012, National Research Council; 3. AmiPig - ileal standardised digestibility of amino acids in feedstuffs for pigs, 2000; 4. Swine Nutrition Guide, 2000; 5. Evapig; 6. NIAS; 7. CVB Feed Table 2016 (www.cvbdiervoeding.nl); and FNB.',
-                  style: const TextStyle(fontSize: 12),
+                  style: TextStyle(fontSize: 12),
                   textAlign: TextAlign.justify,
                 ),
               ),
@@ -137,11 +137,11 @@ class About extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(12),
+              child: const Padding(
+                padding: EdgeInsets.all(12),
                 child: Text(
                   'Feed Estimator is designed, developed and built by twitter.com/ebena107 for Ebena Agro Ltd, Ejigbo, Osun State Nigeria. It is released under MIT licence by Ebena Agro Ltd. By downloading and using this app, you accept that Ebena Agro Ltd and its designers shall not be held liable for any direct or indirect damages arising from the use of Feed Estimator and/or the data generated. It is explicitly stated that any financial or commercial loss or action directed against Feed Estimator by a third party constitutes indirect damage and is not eligible for compensation by Ebena Agro Ltd.',
-                  style: const TextStyle(fontSize: 12),
+                  style: TextStyle(fontSize: 12),
                   textAlign: TextAlign.justify,
                 ),
               ),

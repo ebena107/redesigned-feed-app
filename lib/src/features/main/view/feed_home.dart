@@ -1,17 +1,15 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
+import 'package:feed_estimator/src/core/constants/ui_constants.dart';
 import 'package:feed_estimator/src/core/router/routes.dart';
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
 import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provider.dart';
 import 'package:feed_estimator/src/features/main/providers/main_async_provider.dart';
 import 'package:feed_estimator/src/features/main/widget/feed_grid.dart';
-
 import 'package:feed_estimator/src/features/reports/providers/result_provider.dart';
-
 import 'package:feed_estimator/src/utils/widgets/app_drawer.dart';
 import 'package:feed_estimator/src/utils/widgets/error_widget.dart';
 import 'package:feed_estimator/src/utils/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MainView extends ConsumerWidget {
@@ -20,18 +18,12 @@ class MainView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final data = ref.watch(asyncMainProvider);
-    debugPrint('feedList main- ${data.error}');
 
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(0),
-        child: AppBar(
-          systemOverlayStyle: const SystemUiOverlayStyle(
-            statusBarColor: AppConstants.mainAppColor,
-            statusBarBrightness: Brightness.light,
-            statusBarIconBrightness: Brightness.light,
-          ),
-        ),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: AppConstants.mainAppColor,
+        foregroundColor: Colors.white,
       ),
       drawer: const FeedAppDrawer(),
       body: SafeArea(
@@ -42,7 +34,7 @@ class MainView extends ConsumerWidget {
               pinned: true,
               snap: false,
               floating: false,
-              expandedHeight: 180.0,
+              expandedHeight: UIConstants.fieldHeight * 2.5,
               elevation: 0,
               backgroundColor: AppConstants.mainAppColor,
               foregroundColor: Colors.white,
@@ -50,14 +42,14 @@ class MainView extends ConsumerWidget {
                 title: const Text(
                   'Feed Estimator',
                   style: TextStyle(
-                    fontSize: 24,
+                    fontSize: 22,
                     fontWeight: FontWeight.w700,
                     letterSpacing: 0.5,
                     color: Colors.white,
                   ),
                 ),
-                centerTitle: true,
-                expandedTitleScale: 1.5,
+                centerTitle: false,
+                expandedTitleScale: 1.3,
                 collapseMode: CollapseMode.parallax,
                 background: Container(
                   decoration: BoxDecoration(
@@ -76,7 +68,7 @@ class MainView extends ConsumerWidget {
                     alignment: Alignment.center,
                     children: [
                       Opacity(
-                        opacity: 0.15,
+                        opacity: 0.1,
                         child: Image.asset(
                           'assets/images/back.png',
                           fit: BoxFit.cover,
@@ -84,7 +76,7 @@ class MainView extends ConsumerWidget {
                       ),
                       const Icon(
                         Icons.agriculture,
-                        size: 40,
+                        size: 50,
                         color: Colors.white,
                       ),
                     ],
@@ -95,7 +87,7 @@ class MainView extends ConsumerWidget {
 
             // Spacing between app bar and content
             const SliverToBoxAdapter(
-              child: SizedBox(height: 16),
+              child: SizedBox(height: UIConstants.paddingMedium),
             ),
 
             // Main content area
@@ -170,7 +162,7 @@ class MainView extends ConsumerWidget {
 
             // Bottom padding
             const SliverToBoxAdapter(
-              child: SizedBox(height: 80),
+              child: SizedBox(height: UIConstants.paddingLarge * 2),
             ),
           ],
         ),

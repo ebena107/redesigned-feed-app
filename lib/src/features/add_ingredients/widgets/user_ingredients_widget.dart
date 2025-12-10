@@ -512,7 +512,7 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(state.message ?? 'Import complete'),
+            content: Text(state.message),
             backgroundColor:
                 state.status == 'success' ? Colors.green : Colors.red,
             duration: const Duration(seconds: 3),

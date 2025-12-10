@@ -3,9 +3,15 @@
 /// Maintains consistent spacing, sizing, and layout values throughout the app.
 /// This promotes a cohesive visual design and makes theme adjustments easier.
 abstract class AppDimensions {
+  // Form & Interaction
+  static const double fieldHeight = 48.0;
+  static const double fieldWidth = 280.0;
+  static const double minTapTarget = 44.0;
+
   // Padding & Margins
   static const double paddingExtraSmall = 4.0;
   static const double paddingSmall = 8.0;
+  static const double paddingRegular = 12.0;
   static const double paddingMedium = 16.0;
   static const double paddingLarge = 24.0;
   static const double paddingExtraLarge = 32.0;
@@ -13,6 +19,7 @@ abstract class AppDimensions {
 
   // Common spacing alias
   static const double spacingSmall = paddingSmall;
+  static const double spacingRegular = paddingRegular;
   static const double spacingMedium = paddingMedium;
   static const double spacingLarge = paddingLarge;
 
@@ -25,6 +32,7 @@ abstract class AppDimensions {
 
   // Icon Sizes
   static const double iconSizeSmall = 16.0;
+  static const double iconSizeMediumCompact = 20.0;
   static const double iconSizeMedium = 24.0;
   static const double iconSizeLarge = 32.0;
   static const double iconSizeXL = 48.0;

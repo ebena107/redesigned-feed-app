@@ -8,7 +8,7 @@ import 'package:feed_estimator/src/features/reports/providers/result_provider.da
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'footer_result_card.dart';
+import 'content_card.dart';
 import 'grid_menu.dart';
 
 class FeedList extends ConsumerWidget {

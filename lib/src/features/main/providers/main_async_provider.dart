@@ -11,8 +11,11 @@ import '../repository/feed_repository.dart';
 
 part 'main_async_provider.g.dart';
 
+/// Async provider for loading and managing feeds from repository
+/// Handles loading, deletion, and updates with automatic state management
 @riverpod
 class AsyncMain extends _$AsyncMain {
+  /// Load all feeds with their associated ingredients
   Future<List<Feed>> loadFeed() async {
     final List<Feed> newFeedList = [];
     state = const AsyncValue.loading();
@@ -20,9 +23,7 @@ class AsyncMain extends _$AsyncMain {
       final ingList = await ref.read(feedIngredientRepository).getAll();
       final feedList = await ref.read(feedRepository).getAll();
 
-      //debugPrint('feedList - ${feedList.length.toString()}');
-      //debugPrint('ingList - ${ingList.length.toString()}');
-
+      // Merge ingredients into feeds
       if (feedList.isNotEmpty) {
         for (var feed in feedList) {
           final feedIng =
@@ -32,54 +33,50 @@ class AsyncMain extends _$AsyncMain {
         }
       }
 
+      // Update result provider with loaded feeds
       ref.read(resultProvider.notifier).setFeed(newFeedList);
       return newFeedList;
     });
     return newFeedList;
   }
 
+  /// Delete a single feed by ID
   Future<void> deleteFeed(num? feedId) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       await ref.read(feedIngredientRepository).deleteByFeedId(feedId as int);
       await ref.read(feedRepository).delete(feedId);
+      // Reload feeds after deletion
       return loadFeed();
     });
   }
 
+  /// Delete ingredient from a specific feed
   Future<void> deleteFeedIngredient(num? feedId, num? ingredientId) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       await ref.read(feedIngredientRepository).deleteByIngredientId(
           feedId: feedId as num, ingredientId: ingredientId as num);
-
+      // Reload feeds after deletion
       return loadFeed();
     });
   }
 
-//required VoidCallback Function() onSuccess, required VoidCallback Function() onFailure
-  Future<void> saveUpdateFeed(
-      {required String todo, required ValueChanged<String> onSuccess}) async {
-     String? response;
+  /// Save or update a feed and reload the list
+  Future<void> saveUpdateFeed({
+    required String todo,
+    required ValueChanged<String> onSuccess,
+  }) async {
+    String? response;
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       response =
           await ref.read(feedProvider.notifier).saveUpdateFeed(todo: todo);
-
       onSuccess(response!);
-      // if (response == 'success') {
-      //   const HomeRoute().location;
-      // }
       return loadFeed();
     });
 
-    // debugPrint(state.value!.first.feedIngredients.toString());
-
-    if (state.hasError == false && response == 'success') {
-      //  debugPrint('saving complete');
-      //  await ref.read(asyncMainProvider.notifier).loadFeed();
-      // await ref.read(resultProvider.notifier).setFeed();
-
+    if (!state.hasError && response == 'success') {
       const HomeRoute().location;
     }
   }
