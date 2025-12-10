@@ -342,8 +342,19 @@ class IngredientNotifier extends Notifier<IngredientState> {
   sortIngredientByCat(num? categoryId) {
     state = state.copyWith(sortByCategory: categoryId);
     if (state.sort) {
-      final list =
-          state.ingredients.where((e) => e.categoryId! == categoryId).toList();
+      List<Ingredient> list;
+
+      // Special case: -1 means favorites filter
+      if (categoryId == -1) {
+        list = state.ingredients.where((e) => e.favourite == 1).toList();
+      } else if (categoryId != null) {
+        list = state.ingredients
+            .where((e) => e.categoryId! == categoryId)
+            .toList();
+      } else {
+        list = state.ingredients;
+      }
+
       state = state.copyWith(filteredIngredients: list);
     } else {
       state = state.copyWith(filteredIngredients: state.ingredients);

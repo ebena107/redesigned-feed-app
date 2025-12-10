@@ -1,4 +1,5 @@
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dart';
+import 'package:feed_estimator/src/features/add_ingredients/model/ingredient_category.dart';
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -56,15 +57,7 @@ class IngredientListTileWidget extends ConsumerWidget {
                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
                 ),
               ),
-              subtitle: ingredient!.categoryId != null
-                  ? Text(
-                      'Category ID: ${ingredient!.categoryId}',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey[600],
-                      ),
-                    )
-                  : null,
+              subtitle: _buildSubtitle(context, ref, ingredient!),
               trailing: ingredient!.favourite == 1
                   ? Icon(
                       Icons.favorite,
@@ -77,5 +70,38 @@ class IngredientListTileWidget extends ConsumerWidget {
             ),
           )
         : const SizedBox();
+  }
+
+  Widget _buildSubtitle(
+      BuildContext context, WidgetRef ref, Ingredient ingredient) {
+    if (ingredient.categoryId == null) return const SizedBox();
+
+    final data = ref.watch(ingredientProvider);
+    final category = data.categoryList.firstWhere(
+      (cat) => cat.categoryId == ingredient.categoryId,
+      orElse: () => IngredientCategory(),
+    );
+
+    return Row(
+      children: [
+        Icon(
+          Icons.category,
+          size: 14,
+          color: Colors.grey[500],
+        ),
+        const SizedBox(width: 4),
+        Expanded(
+          child: Text(
+            category.category ?? 'Unknown',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.grey[600],
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
