@@ -386,6 +386,9 @@ void _showSuccessBottomSheet({
 void _showAnalyseDialog(BuildContext context, int? feedId) {
   showDialog<void>(
     context: context,
-    builder: (context) => AnalyseDataDialog(feedId: feedId),
+    builder: (dialogContext) => AnalyseDataDialog(
+      parentContext: context, // Pass parent context for navigation
+      feedId: feedId,
+    ),
   );
 }

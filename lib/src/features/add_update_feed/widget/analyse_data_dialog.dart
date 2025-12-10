@@ -11,8 +11,13 @@ const String _tag = 'AnalyseDataDialog';
 
 class AnalyseDataDialog extends ConsumerWidget {
   final num? feedId;
+  final BuildContext parentContext;
 
-  const AnalyseDataDialog({super.key, this.feedId});
+  const AnalyseDataDialog({
+    super.key,
+    required this.parentContext,
+    this.feedId,
+  });
 
   Future<void> _handleAnalyse(BuildContext context, WidgetRef ref) async {
     try {
@@ -25,10 +30,7 @@ class AnalyseDataDialog extends ConsumerWidget {
         tag: _tag,
       );
 
-      // Save the root context before popping (dialog context will be invalid after pop)
-      final rootContext = Navigator.of(context, rootNavigator: true).context;
-
-      // Close dialog first for immediate feedback
+      // Close dialog immediately for responsiveness
       if (context.mounted) {
         Navigator.of(context).pop();
       }
@@ -36,13 +38,13 @@ class AnalyseDataDialog extends ConsumerWidget {
       // Use immediate analysis (no debounce) and await completion
       await ref.read(feedProvider.notifier).analyseImmediate();
 
-      // Navigate using root context (which is still valid)
-      if (!rootContext.mounted) return;
+      // Navigate using parent context (which has GoRouter access)
+      if (!parentContext.mounted) return;
 
       ReportRoute(
         id as int,
         type: isNewFeed ? "estimate" : "",
-      ).go(rootContext);
+      ).go(parentContext);
     } catch (e, stackTrace) {
       AppLogger.error(
         'Error analysing feed: $e',
@@ -51,13 +53,16 @@ class AnalyseDataDialog extends ConsumerWidget {
         stackTrace: stackTrace,
       );
 
-      // Try to find a valid context for error display
-      final BuildContext? errorContext = context.mounted ? context : null;
-      if (errorContext != null && errorContext.mounted) {
-        ScaffoldMessenger.of(errorContext).showSnackBar(
+      if (context.mounted) {
+        // Close dialog on error
+        Navigator.of(context).pop();
+
+        // Show error message
+        ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Failed to analyse feed. Please try again.'),
             backgroundColor: Colors.redAccent,
+            duration: Duration(seconds: 3),
           ),
         );
       }
