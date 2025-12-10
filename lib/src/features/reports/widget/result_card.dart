@@ -1,0 +1,246 @@
+import 'package:feed_estimator/src/features/main/model/feed.dart';
+import 'package:feed_estimator/src/features/reports/model/result.dart';
+import 'package:feed_estimator/src/features/reports/providers/result_provider.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+class ResultCard extends ConsumerWidget {
+  final Feed feed;
+  final num? feedId;
+  final String? type;
+
+  const ResultCard({
+    super.key,
+    required this.feed,
+    this.feedId,
+    this.type,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final provider = ref.watch(resultProvider);
+
+    // Logic to find result based on type
+    final Result? result;
+    if (type == 'estimate') {
+      result = provider.myResult;
+    } else {
+      result = provider.results.firstWhere(
+        (r) => r.feedId == (feedId ?? feed.feedId),
+        orElse: () => Result(),
+      );
+    }
+
+    // While calculating or if empty
+    if (result == null || result.mEnergy == null) {
+      return const SizedBox(
+        height: 200,
+        child: Center(child: CircularProgressIndicator.adaptive()),
+      );
+    }
+
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Colors.deepPurple, Color(0xFF5E35B1)],
+        ),
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 12,
+            offset: Offset(0, 6),
+            spreadRadius: 2,
+          )
+        ],
+      ),
+      child: Column(
+        children: [
+          // Row 1: Key Metrics
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Expanded(
+                child: _StatItem(
+                  label: feed.animalId == 5
+                      ? 'Digestive Energy'
+                      : 'Metabolic Energy',
+                  value: result.mEnergy?.toStringAsFixed(0) ?? '0',
+                  unit: 'Kcal',
+                  isLarge: true,
+                ),
+              ),
+              _VerticalDivider(),
+              Expanded(
+                child: _StatItem(
+                  label: 'Crude Protein',
+                  value: result.cProtein?.toStringAsFixed(2) ?? '0',
+                  unit: '%',
+                  isLarge: true,
+                ),
+              ),
+            ],
+          ),
+          const Divider(color: Colors.white24, height: 36, thickness: 1.5),
+
+          // Row 2: Secondary Metrics
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: _StatItem(
+                    label: 'Crude Fiber',
+                    value: '${result.cFibre?.toStringAsFixed(2)}'),
+              ),
+              Expanded(
+                child: _StatItem(
+                    label: 'Crude Fat',
+                    value: '${result.cFat?.toStringAsFixed(2)}'),
+              ),
+              Expanded(
+                child: _StatItem(
+                    label: 'Calcium',
+                    value: '${result.calcium?.toStringAsFixed(2)}'),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+
+          // Row 3: Micros
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: _StatItem(
+                    label: 'Phosphorus',
+                    value: '${result.phosphorus?.toStringAsFixed(2)}'),
+              ),
+              Expanded(
+                child: _StatItem(
+                    label: 'Lysine',
+                    value: '${result.lysine?.toStringAsFixed(2)}'),
+              ),
+              Expanded(
+                child: _StatItem(
+                    label: 'Methionine',
+                    value: '${result.methionine?.toStringAsFixed(2)}'),
+              ),
+            ],
+          ),
+          const Divider(color: Colors.white24, height: 36, thickness: 1.5),
+
+          // Row 4: Financials
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: _StatItem(
+                      label: 'Total Qty',
+                      value: '${result.totalQuantity}',
+                      unit: 'kg'),
+                ),
+                Expanded(
+                  child: _StatItem(
+                      label: 'Total Cost',
+                      value: '${result.totalCost}',
+                      unit: '#'),
+                ),
+                Expanded(
+                  child: _StatItem(
+                      label: 'Cost/Unit',
+                      value: '${result.costPerUnit?.toStringAsFixed(2)}'),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _VerticalDivider extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 50,
+      width: 1.5,
+      margin: const EdgeInsets.symmetric(horizontal: 8),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Colors.white.withValues(alpha: 0.0),
+            Colors.white.withValues(alpha: 0.5),
+            Colors.white.withValues(alpha: 0.0),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Reusable Widget replacing Upper/Lower/Energy Cards
+class _StatItem extends StatelessWidget {
+  final String label;
+  final String value;
+  final String? unit;
+  final bool isLarge;
+
+  const _StatItem({
+    required this.label,
+    required this.value,
+    this.unit,
+    this.isLarge = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        if (isLarge) ...[
+          Text(label,
+              style: const TextStyle(color: Colors.white70, fontSize: 12)),
+          const SizedBox(height: 4),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
+            children: [
+              Text(
+                value,
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold),
+              ),
+              if (unit != null) ...[
+                const SizedBox(width: 4),
+                Text(unit!,
+                    style:
+                        const TextStyle(color: Colors.white70, fontSize: 12)),
+              ]
+            ],
+          )
+        ] else ...[
+          Text(
+            value,
+            style: const TextStyle(
+                color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          Text(label,
+              style: const TextStyle(color: Colors.white60, fontSize: 11)),
+        ]
+      ],
+    );
+  }
+}
