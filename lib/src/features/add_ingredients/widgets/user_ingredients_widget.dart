@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dart';
 import 'package:feed_estimator/src/features/add_ingredients/provider/user_ingredients_provider.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -369,14 +372,14 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
           TextButton(
             onPressed: () async {
               Navigator.pop(context);
-              await _exportToJson();
+              await _exportToJson(context);
             },
             child: const Text('JSON'),
           ),
           TextButton(
             onPressed: () async {
               Navigator.pop(context);
-              await _exportToCsv();
+              await _exportToCsv(context);
             },
             child: const Text('CSV'),
           ),
@@ -386,44 +389,124 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
   }
 
   /// Export to JSON file
-  Future<void> _exportToJson() async {
-    final file =
-        await ref.read(userIngredientsProvider.notifier).exportToJsonFile();
-    if (file != null && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Exported to ${file.path}'),
-          duration: const Duration(seconds: 3),
+  Future<void> _exportToJson(BuildContext context) async {
+    // Show loading dialog
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(
+        child: Card(
+          child: Padding(
+            padding: EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(height: 16),
+                Text('Exporting data...'),
+              ],
+            ),
+          ),
         ),
-      );
-    } else if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Export failed'),
-          backgroundColor: Colors.red,
-        ),
-      );
+      ),
+    );
+
+    try {
+      final file =
+          await ref.read(userIngredientsProvider.notifier).exportToJsonFile();
+
+      // Close loading dialog
+      if (mounted) Navigator.pop(context);
+
+      if (file != null && mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Exported to ${file.path}'),
+            duration: const Duration(seconds: 3),
+            backgroundColor: Colors.green,
+          ),
+        );
+      } else if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Export failed'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } catch (e) {
+      // Close loading dialog
+      if (mounted) Navigator.pop(context);
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Export failed: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
   /// Export to CSV file
-  Future<void> _exportToCsv() async {
-    final file =
-        await ref.read(userIngredientsProvider.notifier).exportToCsvFile();
-    if (file != null && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Exported to ${file.path}'),
-          duration: const Duration(seconds: 3),
+  Future<void> _exportToCsv(BuildContext context) async {
+    // Show loading dialog
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(
+        child: Card(
+          child: Padding(
+            padding: EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(height: 16),
+                Text('Exporting data...'),
+              ],
+            ),
+          ),
         ),
-      );
-    } else if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Export failed'),
-          backgroundColor: Colors.red,
-        ),
-      );
+      ),
+    );
+
+    try {
+      final file =
+          await ref.read(userIngredientsProvider.notifier).exportToCsvFile();
+
+      // Close loading dialog
+      if (mounted) Navigator.pop(context);
+
+      if (file != null && mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Exported to ${file.path}'),
+            duration: const Duration(seconds: 3),
+            backgroundColor: Colors.green,
+          ),
+        );
+      } else if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Export failed'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } catch (e) {
+      // Close loading dialog
+      if (mounted) Navigator.pop(context);
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Export failed: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
@@ -432,60 +515,8 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Import Format'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text('Choose import format:'),
-            const SizedBox(height: 8),
-            Text(
-              'Note: Place your file in the app documents folder',
-              style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              _showImportFileDialog(context, isJson: true);
-            },
-            child: const Text('JSON'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              _showImportFileDialog(context, isJson: false);
-            },
-            child: const Text('CSV'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  /// Show file name input dialog for import
-  void _showImportFileDialog(BuildContext context, {required bool isJson}) {
-    final controller = TextEditingController();
-    final extension = isJson ? '.json' : '.csv';
-
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Import from ${isJson ? "JSON" : "CSV"}'),
-        content: TextField(
-          controller: controller,
-          decoration: InputDecoration(
-            labelText: 'File name',
-            hintText: 'custom_ingredients$extension',
-            suffixText: extension,
-          ),
-        ),
+        title: const Text('Import Custom Ingredients'),
+        content: const Text('Choose the file format to import:'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -494,45 +525,68 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
           TextButton(
             onPressed: () async {
               Navigator.pop(context);
-              var filename = controller.text.trim();
-              if (filename.isEmpty) {
-                filename = 'custom_ingredients';
-              }
-              if (!filename.endsWith(extension)) {
-                filename = filename + extension;
-              }
-              await _importFromFile(filename, isJson: isJson);
+              await _importWithFilePicker(context, isJson: true);
             },
-            child: const Text('Import'),
+            child: const Text('JSON'),
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.pop(context);
+              await _importWithFilePicker(context, isJson: false);
+            },
+            child: const Text('CSV'),
           ),
         ],
       ),
     );
   }
 
-  /// Import from file
-  Future<void> _importFromFile(String filename, {required bool isJson}) async {
+  /// Import using file picker
+  Future<void> _importWithFilePicker(BuildContext context,
+      {required bool isJson}) async {
     try {
-      final notifier = ref.read(userIngredientsProvider.notifier);
-      final content = await notifier.readFileContent(filename);
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: [isJson ? 'json' : 'csv'],
+      );
 
-      if (content.isEmpty) {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('File not found: $filename'),
-              backgroundColor: Colors.red,
+      if (result == null) return;
+
+      // Show loading dialog
+      if (mounted) {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => const Center(
+            child: Card(
+              child: Padding(
+                padding: EdgeInsets.all(24),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CircularProgressIndicator(),
+                    SizedBox(height: 16),
+                    Text('Importing data...'),
+                  ],
+                ),
+              ),
             ),
-          );
-        }
-        return;
+          ),
+        );
       }
+
+      final file = File(result.files.single.path!);
+      final content = await file.readAsString();
+      final notifier = ref.read(userIngredientsProvider.notifier);
 
       if (isJson) {
         await notifier.importFromJson(content);
       } else {
         await notifier.importFromCsv(content);
       }
+
+      // Close loading dialog
+      if (mounted) Navigator.pop(context);
 
       final state = ref.read(userIngredientsProvider);
       if (mounted) {
@@ -546,6 +600,11 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
         );
       }
     } catch (e) {
+      // Close loading dialog if open
+      if (mounted) {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      }
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

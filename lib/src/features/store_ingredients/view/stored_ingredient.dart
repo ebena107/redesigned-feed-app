@@ -23,7 +23,7 @@ class StoredIngredients extends ConsumerWidget {
       drawer: const FeedAppDrawer(),
       body: CustomScrollView(
         slivers: [
-          // Modern SliverAppBar with back.png background
+          // Modern SliverAppBar with cleaner design
           SliverAppBar(
             systemOverlayStyle: const SystemUiOverlayStyle(
               statusBarColor: Color(0xff87643E),
@@ -31,45 +31,30 @@ class StoredIngredients extends ConsumerWidget {
               statusBarBrightness: Brightness.dark,
             ),
             pinned: true,
-            expandedHeight: 180,
-            backgroundColor: Colors.transparent,
+            expandedHeight: 140,
+            backgroundColor: const Color(0xff87643E),
             elevation: 0,
             iconTheme: const IconThemeData(color: Colors.white),
             flexibleSpace: FlexibleSpaceBar(
               collapseMode: CollapseMode.parallax,
-              background: Stack(
-                fit: StackFit.expand,
-                children: [
-                  const Image(
-                    image: AssetImage('assets/images/back.png'),
-                    fit: BoxFit.cover,
+              title: const Text(
+                'Ingredient Library',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              background: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Color(0xff87643E),
+                      Color(0xff6B4F31),
+                    ],
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          const Color(0xff87643E).withValues(alpha: 0.4),
-                          const Color(0xff87643E).withValues(alpha: 0.7),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 16,
-                    left: 16,
-                    right: 16,
-                    child: Text(
-                      'Stored Ingredients',
-                      style:
-                          Theme.of(context).textTheme.headlineSmall?.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700,
-                              ),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
           ),
@@ -77,80 +62,103 @@ class StoredIngredients extends ConsumerWidget {
           // Content section
           SliverToBoxAdapter(
             child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    const Color(0xff87643E).withValues(alpha: 0.1),
-                    Colors.white.withValues(alpha: 0.98),
-                  ],
-                  stops: const [0.0, 0.2],
-                ),
-              ),
-              child: Container(
-                margin: const EdgeInsets.only(top: 0),
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(40),
-                    topRight: Radius.circular(40),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 20,
-                      offset: Offset(0, -5),
-                      spreadRadius: 1,
+              color: Colors.grey[50],
+              child: Column(
+                children: [
+                  // Search and filter section
+                  Container(
+                    margin: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.05),
+                          blurRadius: 10,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0,
-                    vertical: 24.0,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Manage Ingredients',
+                          style:
+                              Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: const Color(0xff87643E),
+                                  ),
+                        ),
+                        const SizedBox(height: 12),
+                        const IngredientSSelectWidget(),
+                      ],
+                    ),
                   ),
-                  child: Column(
-                    children: [
-                      // Ingredient Selection Widget
-                      const IngredientSSelectWidget(),
-                      const SizedBox(height: 24),
 
-                      // Form and Actions (shown only if ingredient selected)
-                      if (hasIngredient) ...[
-                        const StoredIngredientForm(),
-                        const SizedBox(height: 20),
-                        const _ActionButtonsRow(),
-                      ] else ...[
-                        Container(
-                          padding: const EdgeInsets.all(32),
-                          alignment: Alignment.center,
-                          child: Column(
-                            children: [
-                              Icon(
-                                CupertinoIcons.archivebox,
-                                size: 64,
-                                color: const Color(0xff87643E)
-                                    .withValues(alpha: 0.3),
-                              ),
-                              const SizedBox(height: 16),
-                              Text(
-                                'Select an ingredient to manage',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge
-                                    ?.copyWith(
+                  // Form and Actions (shown only if ingredient selected)
+                  if (hasIngredient) ...[
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 16),
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.05),
+                            blurRadius: 10,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: const StoredIngredientForm(),
+                    ),
+                    const SizedBox(height: 16),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: _ActionButtonsRow(),
+                    ),
+                    const SizedBox(height: 24),
+                  ] else ...[
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 16),
+                      padding: const EdgeInsets.all(48),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.05),
+                            blurRadius: 10,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          Icon(
+                            CupertinoIcons.archivebox,
+                            size: 64,
+                            color:
+                                const Color(0xff87643E).withValues(alpha: 0.3),
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            'Select an ingredient to manage',
+                            style:
+                                Theme.of(context).textTheme.bodyLarge?.copyWith(
                                       color: const Color(0xff87643E)
                                           .withValues(alpha: 0.6),
                                     ),
-                              ),
-                            ],
                           ),
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                  ],
+                ],
               ),
             ),
           ),
@@ -158,44 +166,49 @@ class StoredIngredients extends ConsumerWidget {
           // Divider
           SliverToBoxAdapter(
             child: Container(
-              height: 1,
-              color: const Color(0xff87643E).withValues(alpha: 0.2),
-              margin: const EdgeInsets.symmetric(vertical: 16),
+              height: 8,
+              color: Colors.grey[50],
             ),
           ),
 
           // User Ingredients List Section
           SliverFillRemaining(
             hasScrollBody: true,
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 8.0),
-                  child: Row(
-                    children: [
-                      const Icon(
-                        Icons.library_books,
-                        color: Color(0xff87643E),
-                        size: 20,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        'Custom Ingredients Library',
-                        style:
-                            Theme.of(context).textTheme.titleMedium?.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                  color: const Color(0xff87643E),
-                                ),
-                      ),
-                    ],
+            child: Container(
+              color: Colors.grey[50],
+              child: Column(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.science,
+                          color: Color(0xff87643E),
+                          size: 20,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          'Custom Ingredients Library',
+                          style:
+                              Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: const Color(0xff87643E),
+                                  ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(height: 8),
-                const Expanded(
-                  child: UserIngredientsWidget(),
-                ),
-              ],
+                  const Expanded(
+                    child: UserIngredientsWidget(),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
