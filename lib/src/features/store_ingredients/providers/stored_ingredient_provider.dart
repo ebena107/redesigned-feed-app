@@ -26,6 +26,8 @@ sealed class StoreIngredientState {
     String? message,
     num? selectedCategoryId,
     List<Ingredient>? filteredIngredients,
+    bool? showFavoritesOnly,
+    bool? showCustomOnly,
   }) {
     return _StoreIngredientState(
       ingredients: ingredients ?? this.ingredients,
@@ -39,6 +41,8 @@ sealed class StoreIngredientState {
       message: message ?? this.message,
       selectedCategoryId: selectedCategoryId ?? this.selectedCategoryId,
       filteredIngredients: filteredIngredients ?? this.filteredIngredients,
+      showFavoritesOnly: showFavoritesOnly ?? this.showFavoritesOnly,
+      showCustomOnly: showCustomOnly ?? this.showCustomOnly,
     );
   }
 
@@ -53,6 +57,8 @@ sealed class StoreIngredientState {
   String get message;
   num? get selectedCategoryId;
   List<Ingredient> get filteredIngredients;
+  bool get showFavoritesOnly;
+  bool get showCustomOnly;
 }
 
 class _StoreIngredientState extends StoreIngredientState {
@@ -68,6 +74,8 @@ class _StoreIngredientState extends StoreIngredientState {
     this.message = "",
     this.selectedCategoryId,
     this.filteredIngredients = const [],
+    this.showFavoritesOnly = false,
+    this.showCustomOnly = false,
   });
 
   @override
@@ -92,6 +100,10 @@ class _StoreIngredientState extends StoreIngredientState {
   final num? selectedCategoryId;
   @override
   final List<Ingredient> filteredIngredients;
+  @override
+  final bool showFavoritesOnly;
+  @override
+  final bool showCustomOnly;
 }
 
 class StoreIngredientNotifier extends Notifier<StoreIngredientState> {
@@ -204,5 +216,40 @@ class StoreIngredientNotifier extends Notifier<StoreIngredientState> {
       //   },
       // );
     }
+  }
+
+  void toggleFavoritesFilter() {
+    final newValue = !state.showFavoritesOnly;
+    state = state.copyWith(showFavoritesOnly: newValue);
+    _applyFilters();
+  }
+
+  void toggleCustomFilter() {
+    final newValue = !state.showCustomOnly;
+    state = state.copyWith(showCustomOnly: newValue);
+    _applyFilters();
+  }
+
+  void _applyFilters() {
+    var filtered = state.ingredients;
+
+    // Apply category filter
+    if (state.selectedCategoryId != null) {
+      filtered = filtered
+          .where((ing) => ing.categoryId == state.selectedCategoryId)
+          .toList();
+    }
+
+    // Apply favorites filter
+    if (state.showFavoritesOnly) {
+      filtered = filtered.where((ing) => ing.favourite == 1).toList();
+    }
+
+    // Apply custom filter
+    if (state.showCustomOnly) {
+      filtered = filtered.where((ing) => ing.isCustom == 1).toList();
+    }
+
+    state = state.copyWith(filteredIngredients: filtered);
   }
 }

@@ -92,6 +92,11 @@ final routerProvider = Provider<GoRouter>(
             path: 'ingredientStore',
             builder: (context, state) => const StoredIngredients(),
           ),
+            GoRoute(
+            name: "settings",
+            path: 'settings',
+            builder: (context, state) => const SettingsScreen(),
+          ),
         ],
       ),
     ];

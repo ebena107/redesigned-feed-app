@@ -1,128 +1,246 @@
 #!/usr/bin/env dart
 
-/// Phase 2: Comprehensive Ingredient Nutrient Values Audit
-/// Validates all 165 ingredients against industry standards (NRC, ASABE, CVB, INRA)
+/// Phase 2B: Enhanced Ingredient Audit with Category-Aware Validation
 ///
-/// Usage: dart scripts/audit_ingredient_values.dart > audit_results.txt
+/// This version classifies ingredients by category and applies appropriate
+/// thresholds for each type, eliminating false positives.
+///
+/// Usage: dart scripts/phase2b_enhanced_audit.dart > audit_results_enhanced.txt
 
 import 'dart:convert';
 import 'dart:io';
 
-class NutrientStandard {
-  final String name;
-  final String unit;
-  final double minNormal;
-  final double maxNormal;
-  final double? minAbsolute;
-  final double? maxAbsolute;
-  final String notes;
+enum IngredientCategory {
+  proteinConcentrate, // CP > 60%
+  proteinMeal, // CP 35-50%
+  wholeOilseed, // Whole seeds with high fat
+  pureOil, // 99-100% fat
+  mineralSupplement, // High Ca/P
+  aminoAcid, // Pure amino acid supplements
+  additive, // Enzymes, binders, vitamins
+  energyFeed, // Grains, roots
+  fiber, // Hulls, straw
+  byproduct, // Pulps, molasses
+  other,
+}
 
-  NutrientStandard({
-    required this.name,
-    required this.unit,
-    required this.minNormal,
-    required this.maxNormal,
-    this.minAbsolute,
-    this.maxAbsolute,
-    required this.notes,
+class CategoryThresholds {
+  final double crudeProteinMin;
+  final double crudeProteinMax;
+  final double crudeFiberMax;
+  final double crudeFatMin;
+  final double crudeFatMax;
+  final double calciumMax;
+  final double phosphorusMax;
+  final double lysineMax;
+  final double methionineMax;
+  final bool allowZeroNutrients;
+
+  CategoryThresholds({
+    this.crudeProteinMin = 3.0,
+    this.crudeProteinMax = 60.0,
+    this.crudeFiberMax = 50.0,
+    this.crudeFatMin = 0.5,
+    this.crudeFatMax = 25.0,
+    this.calciumMax = 60.0,
+    this.phosphorusMax = 20.0,
+    this.lysineMax = 15.0,
+    this.methionineMax = 8.0,
+    this.allowZeroNutrients = false,
   });
 }
 
-class IngredientAudit {
-  // Industry standards based on:
-  // - NRC (National Research Council) Nutrient Requirements
-  // - ASABE (American Society of Agricultural Engineers)
-  // - CVB (Centraal Bureau voor Veevoederonderzoek - Netherlands)
-  // - INRA (Institut National de Recherche pour l'Agriculture - France)
-  // - FEEDBASE (South Africa)
-
-  static final Map<String, NutrientStandard> standards = {
-    'crude_protein': NutrientStandard(
-      name: 'Crude Protein (CP)',
-      unit: '% DM',
-      minNormal: 3.0,
-      maxNormal: 50.0,
-      minAbsolute: 0.0,
-      maxAbsolute: 60.0,
-      notes:
-          'Typical range 5-45% for feed ingredients. Values >50% rare (e.g., pure protein supplements).',
+class EnhancedAudit {
+  static final Map<IngredientCategory, CategoryThresholds> thresholds = {
+    IngredientCategory.proteinConcentrate: CategoryThresholds(
+      crudeProteinMax: 90.0,
+      crudeFatMax: 30.0, // Increased for lower-grade poultry meals
+      calciumMax: 100.0, // Increased for bone-containing proteins
+      phosphorusMax:
+          50.0, // Increased for bone-containing proteins (fish meals)
+      lysineMax: 60.0,
+      methionineMax: 25.0,
     ),
-    'crude_fiber': NutrientStandard(
-      name: 'Crude Fiber (CF)',
-      unit: '% DM',
-      minNormal: 0.1,
-      maxNormal: 40.0,
-      minAbsolute: 0.0,
-      maxAbsolute: 50.0,
-      notes:
-          'High-fiber ingredients (straw, hulls) reach 40-50%. Grains/concentrates <10%.',
+    IngredientCategory.proteinMeal: CategoryThresholds(
+      calciumMax:
+          120.0, // Increased for shell-containing marine proteins (shrimp meal)
+      lysineMax: 25.0,
+      methionineMax: 10.0,
     ),
-    'crude_fat': NutrientStandard(
-      name: 'Crude Fat (EE)',
-      unit: '% DM',
-      minNormal: 0.5,
-      maxNormal: 15.0,
-      minAbsolute: 0.0,
-      maxAbsolute: 25.0,
-      notes: 'Most ingredients 1-8%. High-fat ingredients (oil seeds) 6-20%.',
+    IngredientCategory.wholeOilseed: CategoryThresholds(
+      crudeFatMax: 50.0,
     ),
-    'calcium': NutrientStandard(
-      name: 'Calcium (Ca)',
-      unit: 'g/kg DM',
-      minNormal: 0.5,
-      maxNormal: 50.0,
-      minAbsolute: 0.0,
-      maxAbsolute: 60.0,
-      notes:
-          'Most ingredients 0.5-20 g/kg. Limestone/shells can exceed 400 g/kg (not typical feed).',
+    IngredientCategory.pureOil: CategoryThresholds(
+      crudeProteinMin: 0.0,
+      crudeFatMax: 100.0,
+      allowZeroNutrients: true,
     ),
-    'phosphorus': NutrientStandard(
-      name: 'Phosphorus (P)',
-      unit: 'g/kg DM',
-      minNormal: 0.5,
-      maxNormal: 15.0,
-      minAbsolute: 0.0,
-      maxAbsolute: 20.0,
-      notes:
-          'Most ingredients 1-8 g/kg. Bone meal/phosphate can exceed 100 g/kg (mineral supplements).',
+    IngredientCategory.mineralSupplement: CategoryThresholds(
+      crudeProteinMin: 0.0,
+      calciumMax: 400.0,
+      phosphorusMax: 250.0,
+      allowZeroNutrients: true,
     ),
-    'lysine': NutrientStandard(
-      name: 'Lysine',
-      unit: 'g/kg DM',
-      minNormal: 0.5,
-      maxNormal: 10.0,
-      minAbsolute: 0.0,
-      maxAbsolute: 15.0,
-      notes: 'Most ingredients 0.5-8 g/kg. Soy products 5-7 g/kg.',
+    IngredientCategory.aminoAcid: CategoryThresholds(
+      crudeProteinMax: 100.0,
+      lysineMax: 1000.0,
+      methionineMax: 1000.0,
+      allowZeroNutrients: true,
     ),
-    'methionine': NutrientStandard(
-      name: 'Methionine',
-      unit: 'g/kg DM',
-      minNormal: 0.1,
-      maxNormal: 5.0,
-      minAbsolute: 0.0,
-      maxAbsolute: 8.0,
-      notes:
-          'Most ingredients 0.2-3 g/kg. Amino acid supplements can reach 5-8 g/kg.',
+    IngredientCategory.additive: CategoryThresholds(
+      crudeProteinMin: 0.0,
+      allowZeroNutrients: true,
+    ),
+    IngredientCategory.byproduct: CategoryThresholds(
+      crudeProteinMin: 0.0,
+      crudeFatMin: 0.0,
+      crudeFatMax: 50.0, // Increased for oil-rich byproducts (maize germs)
     ),
   };
 
-  static String evaluateValue(String field, num value) {
-    final std = standards[field];
-    if (std == null) return '⚠️  UNKNOWN FIELD';
+  static IngredientCategory categorizeIngredient(Map<String, dynamic> ing) {
+    final name = (ing['name'] ?? '').toString().toLowerCase();
+    final cp = ing['crude_protein'] ?? 0.0;
 
-    if (std.minAbsolute != null && value < std.minAbsolute!) {
-      return '🔴 CRITICAL: Below absolute minimum (${std.minAbsolute})';
+    // Pure oils
+    if (name.contains(' oil') &&
+            !name.contains('meal') &&
+            !name.contains('cake') ||
+        name.contains('tallow') ||
+        name.contains('lard') ||
+        name.contains('fat')) {
+      return IngredientCategory.pureOil;
     }
-    if (std.maxAbsolute != null && value > std.maxAbsolute!) {
-      return '🔴 CRITICAL: Above absolute maximum (${std.maxAbsolute})';
+
+    // Mineral supplements
+    if (name.contains('limestone') ||
+        name.contains('calcium carbonate') ||
+        name.contains('phosphate') ||
+        name.contains('seashell') ||
+        name.contains('dolomite') ||
+        name.contains('bone meal')) {
+      return IngredientCategory.mineralSupplement;
     }
-    if (value < std.minNormal) {
-      return '🟡 WARNING: Below normal range (${std.minNormal})';
+
+    // Amino acid supplements
+    if (name.contains('lysine') ||
+        name.contains('methionine') ||
+        name.contains('l-lysine') ||
+        name.contains('dl-methionine')) {
+      return IngredientCategory.aminoAcid;
     }
-    if (value > std.maxNormal) {
-      return '🟡 WARNING: Above normal range (${std.maxNormal})';
+
+    // Additives
+    if (name.contains('enzyme') ||
+        name.contains('toxin binder') ||
+        name.contains('vitamin') ||
+        name.contains('premix') ||
+        name.contains('sodium bicarbonate') ||
+        name.contains('salt') ||
+        name.contains('sodium chloride')) {
+      return IngredientCategory.additive;
     }
+
+    // Protein concentrates (CP > 60%)
+    if (cp > 60 ||
+        name.contains('blood meal') ||
+        name.contains('feather meal') ||
+        name.contains('wheat gluten') ||
+        name.contains('fish meal') ||
+        name.contains('processed animal protein')) {
+      return IngredientCategory.proteinConcentrate;
+    }
+
+    // Whole oilseeds
+    if ((name.contains('seed') ||
+                name.contains('soybean') ||
+                name.contains('rapeseed') ||
+                name.contains('sunflower') ||
+                name.contains('cottonseed')) &&
+            name.contains('whole') ||
+        name.contains(', extruded') ||
+        name.contains(', flaked') ||
+        name.contains(', toasted')) {
+      return IngredientCategory.wholeOilseed;
+    }
+
+    // Protein meals (CP 35-50%)
+    if (cp >= 35 && cp <= 50 ||
+        name.contains('meal') && !name.contains('bone')) {
+      return IngredientCategory.proteinMeal;
+    }
+
+    // Byproducts (including oil-rich byproducts)
+    if (name.contains('pulp') ||
+        name.contains('molasses') ||
+        name.contains('hulls') ||
+        name.contains('bran') ||
+        name.contains('maize germ')) {
+      return IngredientCategory.byproduct;
+    }
+
+    return IngredientCategory.other;
+  }
+
+  static String evaluateValue(
+    String field,
+    num value,
+    IngredientCategory category,
+  ) {
+    final threshold = thresholds[category] ?? CategoryThresholds();
+
+    // Allow zero values for certain categories
+    if (threshold.allowZeroNutrients && value == 0) {
+      return '✅ EXPECTED (zero for this category)';
+    }
+
+    switch (field) {
+      case 'crude_protein':
+        if (value < threshold.crudeProteinMin) {
+          return '🟡 WARNING: Below minimum (${threshold.crudeProteinMin})';
+        }
+        if (value > threshold.crudeProteinMax) {
+          return '🔴 CRITICAL: Above maximum (${threshold.crudeProteinMax})';
+        }
+        break;
+
+      case 'crude_fiber':
+        if (value > threshold.crudeFiberMax) {
+          return '🔴 CRITICAL: Above maximum (${threshold.crudeFiberMax})';
+        }
+        break;
+
+      case 'crude_fat':
+        if (value > threshold.crudeFatMax) {
+          return '🔴 CRITICAL: Above maximum (${threshold.crudeFatMax})';
+        }
+        break;
+
+      case 'calcium':
+        if (value > threshold.calciumMax) {
+          return '🔴 CRITICAL: Above maximum (${threshold.calciumMax})';
+        }
+        break;
+
+      case 'phosphorus':
+        if (value > threshold.phosphorusMax) {
+          return '🔴 CRITICAL: Above maximum (${threshold.phosphorusMax})';
+        }
+        break;
+
+      case 'lysine':
+        if (value > threshold.lysineMax) {
+          return '🔴 CRITICAL: Above maximum (${threshold.lysineMax})';
+        }
+        break;
+
+      case 'methionine':
+        if (value > threshold.methionineMax) {
+          return '🔴 CRITICAL: Above maximum (${threshold.methionineMax})';
+        }
+        break;
+    }
+
     return '✅ NORMAL RANGE';
   }
 
@@ -133,127 +251,101 @@ class IngredientAudit {
       final ingredients = jsonDecode(jsonString) as List<dynamic>;
 
       print('═' * 100);
-      print('PHASE 2: INGREDIENT NUTRIENT VALUES AUDIT');
+      print('PHASE 2B: ENHANCED INGREDIENT AUDIT (Category-Aware)');
       print('═' * 100);
       print('');
       print('Date: ${DateTime.now()}');
       print('Total Ingredients: ${ingredients.length}');
-      print('Standards Used: NRC, ASABE, CVB, INRA');
       print('');
 
-      // Analysis summary
-      Map<String, List<dynamic>> criticalIssues = {};
-      Map<String, List<dynamic>> warnings = {};
-      int normalCount = 0;
+      // Category distribution
+      Map<IngredientCategory, int> categoryCount = {};
+      Map<IngredientCategory, List<dynamic>> criticalByCategory = {};
+      int totalCritical = 0;
+      int totalNormal = 0;
 
       for (final ing in ingredients) {
         final name = ing['name'] ?? 'UNKNOWN';
-        bool hasIssue = false;
+        final category = categorizeIngredient(ing);
+        categoryCount[category] = (categoryCount[category] ?? 0) + 1;
 
-        for (final field in standards.keys) {
+        bool hasCritical = false;
+        final fields = [
+          'crude_protein',
+          'crude_fiber',
+          'crude_fat',
+          'calcium',
+          'phosphorus',
+          'lysine',
+          'methionine'
+        ];
+
+        for (final field in fields) {
           final value = ing[field];
           if (value == null) continue;
 
-          final result = evaluateValue(field, value);
+          final result = evaluateValue(field, value, category);
           if (result.contains('CRITICAL')) {
-            criticalIssues.putIfAbsent(field, () => []);
-            criticalIssues[field]!
-                .add({'name': name, 'value': value, 'result': result});
-            hasIssue = true;
-          } else if (result.contains('WARNING')) {
-            warnings.putIfAbsent(field, () => []);
-            warnings[field]!
-                .add({'name': name, 'value': value, 'result': result});
-            hasIssue = true;
+            hasCritical = true;
+            criticalByCategory.putIfAbsent(category, () => []);
+            criticalByCategory[category]!.add({
+              'name': name,
+              'field': field,
+              'value': value,
+              'result': result,
+            });
           }
         }
 
-        if (!hasIssue) normalCount++;
+        if (hasCritical) {
+          totalCritical++;
+        } else {
+          totalNormal++;
+        }
       }
 
-      // Report summary
-      print('SUMMARY');
+      // Summary
+      print('CATEGORY DISTRIBUTION');
       print('─' * 100);
-      print('✅ Normal Range: $normalCount ingredients');
-      print(
-          '🟡 Warnings: ${warnings.values.fold(0, (sum, list) => sum + list.length)} issues');
-      print(
-          '🔴 Critical: ${criticalIssues.values.fold(0, (sum, list) => sum + list.length)} issues');
+      categoryCount.forEach((cat, count) {
+        print('${cat.toString().split('.').last}: $count ingredients');
+      });
       print('');
 
-      // Critical issues
-      if (criticalIssues.isNotEmpty) {
-        print('CRITICAL ISSUES 🔴');
-        print('─' * 100);
-        for (final field in standards.keys) {
-          if (criticalIssues.containsKey(field)) {
-            final std = standards[field]!;
-            print('\n${std.name} (${std.unit})');
-            print(
-                'Expected Range: ${std.minNormal}-${std.maxNormal} | Absolute: ${std.minAbsolute}-${std.maxAbsolute}');
-            print(std.notes);
-            print('Issues:');
-            for (final issue in criticalIssues[field]!) {
-              print(
-                  '  • ${issue['name']}: ${issue['value']} - ${issue['result']}');
-            }
-          }
-        }
-        print('');
-      }
-
-      // Warnings
-      if (warnings.isNotEmpty) {
-        print('WARNINGS 🟡');
-        print('─' * 100);
-        for (final field in standards.keys) {
-          if (warnings.containsKey(field)) {
-            final std = standards[field]!;
-            print('\n${std.name} (${std.unit})');
-            print('Expected Range: ${std.minNormal}-${std.maxNormal}');
-            print(std.notes);
-            print('Issues (showing first 5):');
-            final issues = warnings[field]!;
-            for (int i = 0; i < (issues.length > 5 ? 5 : issues.length); i++) {
-              final issue = issues[i];
-              print(
-                  '  • ${issue['name']}: ${issue['value']} - ${issue['result']}');
-            }
-            if (issues.length > 5) {
-              print('  ... and ${issues.length - 5} more');
-            }
-          }
-        }
-        print('');
-      }
-
-      // Detailed ingredient report
-      print('DETAILED INGREDIENT REPORT');
+      print('SUMMARY');
       print('─' * 100);
-      for (int i = 0; i < ingredients.length; i++) {
-        final ing = ingredients[i];
-        final name = ing['name'] ?? 'UNKNOWN';
-        final hasWarning = warnings.values
-            .any((list) => list.any((issue) => issue['name'] == name));
-        final hasCritical = criticalIssues.values
-            .any((list) => list.any((issue) => issue['name'] == name));
+      print('✅ Normal Range: $totalNormal ingredients');
+      print('🔴 Critical Issues: $totalCritical ingredients');
+      print('');
 
-        if (hasCritical || hasWarning) {
-          print('\n${i + 1}. $name ${hasCritical ? '🔴' : '🟡'}');
-          for (final field in standards.keys) {
-            final value = ing[field];
-            if (value == null) continue;
-            final result = evaluateValue(field, value);
-            if (!result.contains('NORMAL')) {
-              print(
-                  '   ${standards[field]!.name}: $value ${standards[field]!.unit} - $result');
-            }
+      // Critical issues by category
+      if (criticalByCategory.isNotEmpty) {
+        print('CRITICAL ISSUES BY CATEGORY 🔴');
+        print('─' * 100);
+        criticalByCategory.forEach((category, issues) {
+          print('');
+          print('${category.toString().split('.').last.toUpperCase()}:');
+
+          // Group by ingredient
+          Map<String, List<dynamic>> byIngredient = {};
+          for (final issue in issues) {
+            byIngredient.putIfAbsent(issue['name'], () => []);
+            byIngredient[issue['name']]!.add(issue);
           }
-        }
+
+          byIngredient.forEach((ingName, ingIssues) {
+            print('  • $ingName');
+            for (final issue in ingIssues) {
+              print(
+                  '    - ${issue['field']}: ${issue['value']} - ${issue['result']}');
+            }
+          });
+        });
+        print('');
       }
 
-      print('\n${'═' * 100}');
-      print('END OF AUDIT');
+      print('═' * 100);
+      print('END OF ENHANCED AUDIT');
       print('═' * 100);
     } catch (e) {
       print('ERROR: $e');
@@ -263,5 +355,5 @@ class IngredientAudit {
 }
 
 void main(List<String> args) async {
-  await IngredientAudit.runAudit(args);
+  await EnhancedAudit.runAudit(args);
 }

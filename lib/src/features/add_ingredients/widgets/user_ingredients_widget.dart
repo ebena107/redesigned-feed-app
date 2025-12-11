@@ -37,29 +37,55 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
         // Header with count and actions
         Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(Icons.star, color: Colors.blue),
-              const SizedBox(width: 8),
-              Text(
-                'Your Custom Ingredients (${state.userIngredients.length})',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
+              Row(
+                children: [
+                  const Icon(Icons.science, color: Colors.blue, size: 20),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'Your Custom Ingredients (${state.userIngredients.length})',
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
                     ),
+                  ),
+                ],
               ),
-              const Spacer(),
-              // Export button
-              if (state.userIngredients.isNotEmpty)
-                IconButton(
-                  icon: const Icon(Icons.file_download),
-                  tooltip: 'Export ingredients',
-                  onPressed: () => _showExportDialog(context),
-                ),
-              // Import button
-              IconButton(
-                icon: const Icon(Icons.file_upload),
-                tooltip: 'Import ingredients',
-                onPressed: () => _showImportDialog(context),
+              const SizedBox(height: 12),
+              // Import/Export action buttons
+              Row(
+                children: [
+                  // Export button
+                  if (state.userIngredients.isNotEmpty)
+                    Expanded(
+                      child: OutlinedButton.icon(
+                        icon: const Icon(Icons.download, size: 18),
+                        label: const Text('Export'),
+                        onPressed: () => _showExportDialog(context),
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: Colors.green,
+                          side: const BorderSide(color: Colors.green),
+                        ),
+                      ),
+                    ),
+                  if (state.userIngredients.isNotEmpty)
+                    const SizedBox(width: 8),
+                  // Import button
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      icon: const Icon(Icons.upload, size: 18),
+                      label: const Text('Import'),
+                      onPressed: () => _showImportDialog(context),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.blue,
+                        side: const BorderSide(color: Colors.blue),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -103,17 +129,17 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
 
         // List of user ingredients
         if (state.isLoading)
-          const Center(
-            child: Padding(
-              padding: EdgeInsets.all(16.0),
+          const Expanded(
+            child: Center(
               child: CircularProgressIndicator(),
             ),
           )
         else if (state.filteredIngredients.isEmpty)
-          Padding(
-            padding: const EdgeInsets.all(16.0),
+          Expanded(
             child: Center(
               child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(Icons.inbox, size: 48, color: Colors.grey.shade300),
                   const SizedBox(height: 8),

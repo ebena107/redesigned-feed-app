@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:in_app_review/in_app_review.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class FeedAppDrawer extends ConsumerWidget {
@@ -15,7 +14,6 @@ class FeedAppDrawer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final InAppReview inAppReview = InAppReview.instance;
     final String location = GoRouterState.of(context).uri.toString();
     const background = Color(0xFFF5F8F6);
     final borderColor = AppConstants.mainAppColor.withValues(alpha: 0.08);
@@ -62,7 +60,7 @@ class FeedAppDrawer extends ConsumerWidget {
                     _DrawerTile(
                       icon: Icons.add_circle_outline,
                       title: 'Add New Feed',
-                      subtitle: 'Easily create a new feed plan',
+                      subtitle: 'Create a new feed formulation',
                       selected: location.startsWith('/newFeed'),
                       onTap: () {
                         context.pop();
@@ -70,6 +68,19 @@ class FeedAppDrawer extends ConsumerWidget {
                         ref.read(ingredientProvider.notifier).resetSelections();
                         ref.read(feedProvider.notifier).resetProvider();
                         const AddFeedRoute().go(context);
+                      },
+                    ),
+                    const SizedBox(height: 14),
+                    const _SectionLabel(text: 'INGREDIENTS'),
+                    const SizedBox(height: 6),
+                    _DrawerTile(
+                      icon: Icons.inventory_2_outlined,
+                      title: 'Ingredient Library',
+                      subtitle: 'Browse and manage all ingredients',
+                      selected: location.startsWith('/ingredientStore'),
+                      onTap: () {
+                        context.pop();
+                        const IngredientStoreRoute().go(context);
                       },
                     ),
                     const SizedBox(height: 8),
@@ -87,50 +98,16 @@ class FeedAppDrawer extends ConsumerWidget {
                       },
                     ),
                     const SizedBox(height: 14),
-                    const _SectionLabel(text: 'TOOLS'),
+                    const _SectionLabel(text: 'SETTINGS'),
                     const SizedBox(height: 6),
                     _DrawerTile(
-                      icon: Icons.store_mall_directory_outlined,
-                      title: 'Store Manager',
-                      subtitle: 'Manage stored feeds and ingredients',
-                      selected: location.startsWith('/feedStore') ||
-                          location.startsWith('/ingredientStore'),
+                      icon: Icons.settings_outlined,
+                      title: 'Settings',
+                      subtitle: 'Privacy, data, and app preferences',
+                      selected: location.startsWith('/settings'),
                       onTap: () {
                         context.pop();
-                        const IngredientStoreRoute().go(context);
-                      },
-                    ),
-                    const SizedBox(height: 8),
-                    _DrawerTile(
-                      icon: Icons.inventory_2_outlined,
-                      title: 'Update Ingredients',
-                      subtitle: 'Edit or refresh your ingredient list',
-                      selected: location.startsWith('/ingredientStore'),
-                      onTap: () {
-                        context.pop();
-                        const IngredientStoreRoute().go(context);
-                      },
-                    ),
-                    const SizedBox(height: 14),
-                    const _SectionLabel(text: 'SUPPORT'),
-                    const SizedBox(height: 6),
-                    _DrawerTile(
-                      icon: Icons.star_rate_outlined,
-                      title: 'Rate the App',
-                      subtitle: 'Share your feedback with us',
-                      onTap: () async {
-                        context.pop();
-                        await inAppReview.openStoreListing();
-                      },
-                    ),
-                    const SizedBox(height: 8),
-                    _DrawerTile(
-                      icon: Icons.info_outline,
-                      title: 'About Feed Estimator',
-                      subtitle: 'Version info and credits',
-                      onTap: () {
-                        context.pop();
-                        const AboutRoute().go(context);
+                        const SettingsRoute().go(context);
                       },
                     ),
                     const SizedBox(height: 18),

@@ -8,6 +8,7 @@ import 'package:feed_estimator/src/features/reports/widget/pdf_export/pdf_previe
 import 'package:feed_estimator/src/features/store_feeds/view/stored_feeds.dart';
 import 'package:feed_estimator/src/features/store_ingredients/view/stored_ingredient.dart';
 import 'package:feed_estimator/src/features/add_ingredients/view/new_ingredient.dart';
+import 'package:feed_estimator/src/features/settings/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -38,6 +39,7 @@ part 'routes.g.dart';
 @TypedGoRoute<FeedStoreRoute>(path: '/feedStore')
 @TypedGoRoute<IngredientStoreRoute>(path: '/ingredientStore')
 @TypedGoRoute<NewIngredientRoute>(path: '/newIngredient')
+@TypedGoRoute<SettingsRoute>(path: '/settings')
 @immutable
 class HomeRoute extends GoRouteData {
   const HomeRoute();
@@ -197,5 +199,15 @@ class EditFeedRoute extends GoRouteData {
     return NewFeedPage(
       feedId: feedId,
     );
+  }
+}
+
+@immutable
+class SettingsRoute extends GoRouteData {
+  const SettingsRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const SettingsScreen();
   }
 }

@@ -12,6 +12,7 @@ List<RouteBase> get $appRoutes => [
       $feedStoreRoute,
       $ingredientStoreRoute,
       $newIngredientRoute,
+      $settingsRoute,
     ];
 
 RouteBase get $homeRoute => GoRouteData.$route(
@@ -73,6 +74,11 @@ RouteBase get $ingredientStoreRoute => GoRouteData.$route(
 RouteBase get $newIngredientRoute => GoRouteData.$route(
       path: '/newIngredient',
       factory: $NewIngredientRouteExtension._fromState,
+    );
+
+RouteBase get $settingsRoute => GoRouteData.$route(
+      path: '/settings',
+      factory: $SettingsRouteExtension._fromState,
     );
 
 extension $HomeRouteExtension on HomeRoute {
@@ -303,6 +309,23 @@ extension $NewIngredientRouteExtension on NewIngredientRoute {
         queryParams: {
           if (ingredientId != null) 'ingredientId': ingredientId,
         },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $SettingsRouteExtension on SettingsRoute {
+  static SettingsRoute _fromState(GoRouterState state) => const SettingsRoute();
+
+  String get location => GoRouteData.$location(
+        '/settings',
       );
 
   void go(BuildContext context) => context.go(location);

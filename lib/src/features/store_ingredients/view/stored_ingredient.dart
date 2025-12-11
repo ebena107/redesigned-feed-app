@@ -165,27 +165,37 @@ class StoredIngredients extends ConsumerWidget {
           ),
 
           // User Ingredients List Section
-          SliverToBoxAdapter(
-            child: SizedBox(
-              height: 600,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Text(
-                      'Custom Ingredients Library',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: const Color(0xff87643E),
-                          ),
-                    ),
+          SliverFillRemaining(
+            hasScrollBody: true,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 8.0),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.library_books,
+                        color: Color(0xff87643E),
+                        size: 20,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        'Custom Ingredients Library',
+                        style:
+                            Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  color: const Color(0xff87643E),
+                                ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 12),
-                  const Expanded(
-                    child: UserIngredientsWidget(),
-                  ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 8),
+                const Expanded(
+                  child: UserIngredientsWidget(),
+                ),
+              ],
             ),
           ),
         ],
@@ -422,7 +432,7 @@ class _StoredIngredientTextField extends StatelessWidget {
   }
 }
 
-/// Action buttons row for Save, Delete, Update
+/// Action buttons row for Save and Delete
 class _ActionButtonsRow extends ConsumerWidget {
   const _ActionButtonsRow();
 
@@ -432,11 +442,15 @@ class _ActionButtonsRow extends ConsumerWidget {
 
     return Row(
       children: [
-        // Save Button
+        // Save Changes Button (consolidated Save + Update)
         Expanded(
-          child: ElevatedButton.icon(
-            onPressed: () {
-              ref.read(asyncStoredIngredientsProvider.notifier).saveIngredient(
+          flex: 3,
+          child: FilledButton.icon(
+            onPressed: () async {
+              // Save or update based on whether ingredient exists
+              await ref
+                  .read(asyncStoredIngredientsProvider.notifier)
+                  .saveIngredient(
                 onSuccess: () {
                   QuickAlert.show(
                     context: context,
@@ -446,57 +460,40 @@ class _ActionButtonsRow extends ConsumerWidget {
                   );
                 },
               );
+
+              // Also update the current ingredient
+              ref.read(storeIngredientProvider.notifier).update();
             },
-            icon: const Icon(CupertinoIcons.floppy_disk),
-            label: const Text('Save'),
-            style: ElevatedButton.styleFrom(
+            icon: const Icon(Icons.save),
+            label: const Text('Save Changes'),
+            style: FilledButton.styleFrom(
               backgroundColor: const Color(0xff87643E),
-              padding: const EdgeInsets.symmetric(vertical: 12),
+              padding: const EdgeInsets.symmetric(vertical: 14),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
             ),
           ),
         ),
         const SizedBox(width: 12),
         // Delete Button
-        Expanded(
-          child: OutlinedButton.icon(
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context) => _DeleteIngredientDialog(
-                  ingredient: ingredient!,
-                ),
-              );
-            },
-            icon: const Icon(CupertinoIcons.delete),
-            label: const Text('Delete'),
-            style: OutlinedButton.styleFrom(
-              foregroundColor: Colors.red,
-              side: const BorderSide(color: Colors.red),
-              padding: const EdgeInsets.symmetric(vertical: 12),
-            ),
+        IconButton.filled(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) => _DeleteIngredientDialog(
+                ingredient: ingredient!,
+              ),
+            );
+          },
+          icon: const Icon(Icons.delete_outline),
+          style: IconButton.styleFrom(
+            backgroundColor: Colors.red,
+            foregroundColor: Colors.white,
+            padding: const EdgeInsets.all(14),
+            minimumSize: const Size(56, 56),
           ),
-        ),
-        const SizedBox(width: 12),
-        // Update Button
-        Expanded(
-          child: OutlinedButton.icon(
-            onPressed: () {
-              ref.read(storeIngredientProvider.notifier).update();
-              QuickAlert.show(
-                context: context,
-                type: QuickAlertType.success,
-                text: 'Ingredient updated successfully!',
-                autoCloseDuration: const Duration(seconds: 2),
-              );
-            },
-            icon: const Icon(Icons.update),
-            label: const Text('Update'),
-            style: OutlinedButton.styleFrom(
-              foregroundColor: const Color(0xff87643E),
-              side: const BorderSide(color: Color(0xff87643E)),
-              padding: const EdgeInsets.symmetric(vertical: 12),
-            ),
-          ),
+          tooltip: 'Delete ingredient',
         ),
       ],
     );

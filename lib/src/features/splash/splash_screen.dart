@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:feed_estimator/src/core/database/app_db.dart';
-import 'package:feed_estimator/src/feed_app.dart';
+import 'package:feed_estimator/src/features/privacy/app_with_privacy_check.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -63,10 +63,12 @@ class _SplashScreenState extends State<SplashScreen>
       await Future.delayed(const Duration(milliseconds: 300));
 
       if (mounted) {
-        // Navigate to FeedApp
+        // Navigate to FeedApp with privacy consent check
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (_) => const ProviderScope(child: FeedApp()),
+            builder: (_) => const ProviderScope(
+              child: AppWithPrivacyCheck(),
+            ),
           ),
         );
       }
