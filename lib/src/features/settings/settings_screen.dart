@@ -360,8 +360,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               OutlinedButton.icon(
                 onPressed: () async {
                   try {
-                    await Share.shareXFiles(
-                      [XFile(file.path)],
+                    await Share.shareFiles(
+                      [file.path],
                       text: 'Feed Estimator Backup',
                     );
                   } catch (e) {
@@ -513,30 +513,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
   Future<void> _deleteAllData() async {
     try {
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => const Center(
-          child: Card(
-            child: Padding(
-              padding: EdgeInsets.all(24),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  CircularProgressIndicator(),
-                  SizedBox(height: 16),
-                  Text('Deleting data...'),
-                ],
-              ),
-            ),
-          ),
-        ),
-      );
+      LoadingDialog.show(context, message: 'Deleting data...');
 
       await _dataService.deleteAllUserData();
 
       if (mounted) {
-        Navigator.of(context).pop(); // Close loading
+        LoadingDialog.hide(context); // Close loading with rootNavigator
 
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -545,14 +527,16 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           ),
         );
 
+        // Reload statistics
         await _loadData();
       }
     } catch (e) {
       if (mounted) {
-        Navigator.of(context).pop(); // Close loading
+        LoadingDialog.hide(context); // Close loading with rootNavigator
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Delete failed: $e'),
+            content: Text('Failed to delete data: $e'),
             backgroundColor: Colors.red,
           ),
         );
