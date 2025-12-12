@@ -198,7 +198,7 @@ class StoreIngredientNotifier extends Notifier<StoreIngredientState> {
             state.selectedIngredient!.ingredientId as num);
       } catch (e) {
         if (kDebugMode) {
-          print(e);
+          print('Error saving ingredient: $e');
         }
       }
     }
