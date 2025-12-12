@@ -8,6 +8,8 @@ import 'package:in_app_review/in_app_review.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:file_picker/file_picker.dart';
 
+// ignore_for_file: use_build_context_synchronously
+
 /// Comprehensive settings screen with privacy, about, and app management
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
