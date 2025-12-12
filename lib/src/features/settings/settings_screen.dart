@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:share_plus/share_plus.dart';
 
 // ignore_for_file: use_build_context_synchronously
 
@@ -341,31 +342,69 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text('Export Successful'),
+            title: Row(
+              children: [
+                Icon(Icons.check_circle, color: Colors.green[600], size: 28),
+                const SizedBox(width: 12),
+                const Text('Export Successful'),
+              ],
+            ),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Your data has been exported to:'),
-                const SizedBox(height: 8),
-                SelectableText(
-                  file.path,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontFamily: 'monospace',
-                  ),
+                const Text(
+                  'Your backup has been created successfully!',
+                  style: TextStyle(fontWeight: FontWeight.w500),
                 ),
                 const SizedBox(height: 16),
-                const Text(
-                  'You can share this file or keep it as a backup.',
-                  style: TextStyle(fontSize: 12),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[100],
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.grey[300]!),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.folder, color: Colors.grey[600], size: 20),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: SelectableText(
+                          file.path,
+                          style: const TextStyle(
+                            fontSize: 11,
+                            fontFamily: 'monospace',
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
             actions: [
-              TextButton(
+              OutlinedButton.icon(
+                onPressed: () async {
+                  try {
+                    await Share.shareXFiles(
+                      [XFile(file.path)],
+                      text: 'Feed Estimator Backup',
+                    );
+                  } catch (e) {
+                    if (mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Share failed: $e')),
+                      );
+                    }
+                  }
+                },
+                icon: const Icon(Icons.share),
+                label: const Text('Share'),
+              ),
+              FilledButton(
                 onPressed: () => Navigator.of(context).pop(),
-                child: const Text('OK'),
+                child: const Text('Done'),
               ),
             ],
           ),
