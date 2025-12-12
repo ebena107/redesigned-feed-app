@@ -9,6 +9,7 @@ import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provi
 import 'package:feed_estimator/src/features/main/model/feed.dart';
 import 'package:feed_estimator/src/features/reports/providers/result_provider.dart';
 import 'package:feed_estimator/src/utils/widgets/get_ingredients_name.dart';
+import 'package:feed_estimator/src/utils/widgets/modern_dialogs.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -298,25 +299,35 @@ class _DeleteIngredientDialogState
 
     final ingredientName = ingredient.name ?? 'this ingredient';
 
-    return CupertinoAlertDialog(
-      title: Text('Remove $ingredientName?'),
+    return AlertDialog(
+      title: Row(
+        children: [
+          Icon(Icons.warning, color: Colors.orange[600], size: 28),
+          const SizedBox(width: 12),
+          Text('Remove $ingredientName?'),
+        ],
+      ),
       content: Text(
         'This will remove $ingredientName from your feed formulation. This action cannot be undone.',
       ),
       actions: [
-        CupertinoDialogAction(
-          isDefaultAction: true,
+        OutlinedButton(
           onPressed: _isDeleting ? null : () => Navigator.of(context).pop(),
           child: const Text('Cancel'),
         ),
-        CupertinoDialogAction(
-          isDestructiveAction: true,
+        FilledButton(
+          style: FilledButton.styleFrom(
+            backgroundColor: Colors.red[600],
+          ),
           onPressed: _isDeleting ? null : _handleDelete,
           child: _isDeleting
               ? const SizedBox(
                   width: 16,
                   height: 16,
-                  child: CircularProgressIndicator(strokeWidth: 2),
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Colors.white,
+                  ),
                 )
               : const Text('Remove'),
         ),
@@ -397,19 +408,10 @@ class _UpdateIngredientDialogState
         );
     final name = ingredient.name?.trim() ?? '';
     if (name.isEmpty) {
-      showDialog<void>(
-        context: context,
-        builder: (context) => CupertinoAlertDialog(
-          title: const Text('Name Required'),
-          content: const Text('Please enter a name for this ingredient.'),
-          actions: [
-            CupertinoDialogAction(
-              isDefaultAction: true,
-              child: const Text('OK'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ],
-        ),
+      await ErrorDialog.show(
+        context,
+        title: 'Name Required',
+        message: 'Please enter a name for this ingredient.',
       );
       return;
     }
@@ -466,7 +468,7 @@ class _UpdateIngredientDialogState
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoAlertDialog(
+    return AlertDialog(
       title: GetIngredientName(id: widget.ingredientId),
       content: Material(
         color: Colors.transparent,
@@ -524,8 +526,7 @@ class _UpdateIngredientDialogState
         ),
       ),
       actions: [
-        CupertinoDialogAction(
-          isDefaultAction: true,
+        OutlinedButton(
           onPressed: _isUpdating
               ? null
               : () {
@@ -533,14 +534,16 @@ class _UpdateIngredientDialogState
                 },
           child: const Text('Cancel'),
         ),
-        CupertinoDialogAction(
-          isDestructiveAction: false,
+        FilledButton(
           onPressed: _isUpdating ? null : _handleUpdate,
           child: _isUpdating
               ? const SizedBox(
                   width: 16,
                   height: 16,
-                  child: CircularProgressIndicator(strokeWidth: 2),
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Colors.white,
+                  ),
                 )
               : const Text('Update'),
         ),
