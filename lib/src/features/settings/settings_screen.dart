@@ -331,8 +331,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       if (mounted) {
         Navigator.of(context).pop(); // Close loading dialog
 
-        // Small delay to ensure dialog is fully closed
-        await Future.delayed(const Duration(milliseconds: 100));
+        // Longer delay to ensure dialog is fully closed
+        await Future.delayed(const Duration(milliseconds: 500));
       }
 
       // THEN show success dialog
@@ -375,8 +375,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       if (mounted) {
         Navigator.of(context).pop(); // Close loading
 
-        // Small delay
-        await Future.delayed(const Duration(milliseconds: 100));
+        // Longer delay
+        await Future.delayed(const Duration(milliseconds: 500));
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Export failed: $e')),
