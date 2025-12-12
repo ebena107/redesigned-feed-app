@@ -329,7 +329,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
       // CRITICAL: Close loading dialog FIRST
       if (mounted) {
-        Navigator.of(context).pop(); // Close loading dialog
+        Navigator.of(context, rootNavigator: true)
+            .pop(); // Close loading dialog
 
         // Longer delay to ensure dialog is fully closed
         await Future.delayed(const Duration(milliseconds: 500));
@@ -373,7 +374,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     } catch (e) {
       // Close loading dialog on error
       if (mounted) {
-        Navigator.of(context).pop(); // Close loading
+        Navigator.of(context, rootNavigator: true).pop(); // Close loading
 
         // Longer delay
         await Future.delayed(const Duration(milliseconds: 500));
