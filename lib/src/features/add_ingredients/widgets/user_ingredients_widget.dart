@@ -42,7 +42,7 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
       children: [
         // Header with count and actions
         Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -60,7 +60,7 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 8),
               // Import/Export action buttons
               Row(
                 children: [
@@ -74,6 +74,7 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
                         style: OutlinedButton.styleFrom(
                           foregroundColor: Colors.green,
                           side: const BorderSide(color: Colors.green),
+                          padding: const EdgeInsets.symmetric(vertical: 8),
                         ),
                       ),
                     ),
@@ -88,6 +89,7 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
                       style: OutlinedButton.styleFrom(
                         foregroundColor: Colors.blue,
                         side: const BorderSide(color: Colors.blue),
+                        padding: const EdgeInsets.symmetric(vertical: 8),
                       ),
                     ),
                   ),
@@ -402,33 +404,43 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
       if (mounted) {
         LoadingDialog.hide(context);
 
-        if (file != null) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('✓ Exported to ${file.path}'),
-              duration: const Duration(seconds: 3),
-              backgroundColor: Colors.green,
-            ),
-          );
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('✗ Export failed'),
-              backgroundColor: Colors.red,
-            ),
-          );
+        // Small delay to ensure dialog is fully closed before showing SnackBar
+        await Future.delayed(const Duration(milliseconds: 300));
+
+        if (mounted) {
+          if (file != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('✓ Exported to ${file.path}'),
+                duration: const Duration(seconds: 3),
+                backgroundColor: Colors.green,
+              ),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('✗ Export failed'),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
         }
       }
     } catch (e) {
       if (mounted) {
         LoadingDialog.hide(context);
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('✗ Export failed: $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
+        // Small delay to ensure dialog is fully closed
+        await Future.delayed(const Duration(milliseconds: 300));
+
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('✗ Export failed: $e'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
       }
     }
   }
@@ -444,33 +456,43 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
       if (mounted) {
         LoadingDialog.hide(context);
 
-        if (file != null) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('✓ Exported to ${file.path}'),
-              duration: const Duration(seconds: 3),
-              backgroundColor: Colors.green,
-            ),
-          );
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('✗ Export failed'),
-              backgroundColor: Colors.red,
-            ),
-          );
+        // Small delay to ensure dialog is fully closed before showing SnackBar
+        await Future.delayed(const Duration(milliseconds: 300));
+
+        if (mounted) {
+          if (file != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('✓ Exported to ${file.path}'),
+                duration: const Duration(seconds: 3),
+                backgroundColor: Colors.green,
+              ),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('✗ Export failed'),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
         }
       }
     } catch (e) {
       if (mounted) {
         LoadingDialog.hide(context);
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('✗ Export failed: $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
+        // Small delay to ensure dialog is fully closed
+        await Future.delayed(const Duration(milliseconds: 300));
+
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('✗ Export failed: $e'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
       }
     }
   }
