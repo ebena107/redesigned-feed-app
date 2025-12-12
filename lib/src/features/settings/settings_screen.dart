@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:share_plus/share_plus.dart';
 
 // ignore_for_file: use_build_context_synchronously
 
@@ -357,21 +358,23 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             ),
             actions: [
               OutlinedButton.icon(
-                onPressed: () {
-                  // Copy path to clipboard for now
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('File saved to: ${file.path}'),
-                      duration: const Duration(seconds: 5),
-                      action: SnackBarAction(
-                        label: 'OK',
-                        onPressed: () {},
-                      ),
-                    ),
-                  );
+                onPressed: () async {
+                  try {
+                    // Close dialog first
+                    Navigator.of(context).pop();
+
+                    // Share the file
+                    await Share.shareXFiles(
+                      [XFile(file.path)],
+                      subject: 'Feed Estimator Backup',
+                      text: 'Feed Estimator data backup file',
+                    );
+                  } catch (e) {
+                    // Error handled silently or can show a toast
+                  }
                 },
-                icon: const Icon(Icons.folder_open),
-                label: const Text('Show Path'),
+                icon: const Icon(Icons.share),
+                label: const Text('Share'),
               ),
               FilledButton(
                 onPressed: () => Navigator.of(context).pop(),
