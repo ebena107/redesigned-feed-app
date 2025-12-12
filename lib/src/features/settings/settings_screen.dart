@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:feed_estimator/src/core/services/data_management_service.dart';
 import 'package:feed_estimator/src/features/privacy/privacy_consent.dart';
+import 'package:feed_estimator/src/utils/widgets/modern_dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_review/in_app_review.dart';
@@ -277,54 +278,26 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     }
   }
 
-  void _showRevokeConsentDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Revoke Consent'),
-        content: const Text(
-          'Are you sure you want to revoke your consent? '
+  void _showRevokeConsentDialog() async {
+    final confirmed = await ConfirmDialog.show(
+      context,
+      title: 'Revoke Consent',
+      message: 'Are you sure you want to revoke your consent? '
           'This will not delete your data, but you acknowledge that '
           'you no longer consent to data collection.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              ref.read(privacyConsentProvider.notifier).revokeConsent();
-              Navigator.of(context).pop();
-            },
-            child: const Text('Revoke'),
-          ),
-        ],
-      ),
+      confirmText: 'Revoke',
+      cancelText: 'Cancel',
+      isDestructive: true,
     );
+
+    if (confirmed && mounted) {
+      ref.read(privacyConsentProvider.notifier).revokeConsent();
+    }
   }
 
   Future<void> _exportData() async {
     try {
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => const Center(
-          child: Card(
-            child: Padding(
-              padding: EdgeInsets.all(24),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  CircularProgressIndicator(),
-                  SizedBox(height: 16),
-                  Text('Exporting data...'),
-                ],
-              ),
-            ),
-          ),
-        ),
-      );
+      LoadingDialog.show(context, message: 'Exporting data...');
 
       final file = await _dataService.exportDataToFile();
 
@@ -481,11 +454,17 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     }
   }
 
-  void _showDeleteDataDialog() {
-    showDialog(
+  void _showDeleteDataDialog() async {
+    final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete All Data'),
+        title: Row(
+          children: [
+            Icon(Icons.warning, color: Colors.orange[600], size: 28),
+            const SizedBox(width: 12),
+            const Text('Delete All Data'),
+          ],
+        ),
         content: const Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -512,24 +491,24 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           ],
         ),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
+          OutlinedButton(
+            onPressed: () => Navigator.of(context).pop(false),
             child: const Text('Cancel'),
           ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
+          FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: Colors.red[600],
             ),
-            onPressed: () async {
-              Navigator.of(context).pop();
-              await _deleteAllData();
-            },
+            onPressed: () => Navigator.of(context).pop(true),
             child: const Text('Delete All'),
           ),
         ],
       ),
     );
+
+    if (confirmed == true && mounted) {
+      await _deleteAllData();
+    }
   }
 
   Future<void> _deleteAllData() async {

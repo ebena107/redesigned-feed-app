@@ -98,23 +98,35 @@ class FeedAppDrawer extends ConsumerWidget {
                       },
                     ),
                     const SizedBox(height: 14),
-                    const _SectionLabel(text: 'SETTINGS'),
-                    const SizedBox(height: 6),
-                    _DrawerTile(
-                      icon: Icons.settings_outlined,
-                      title: 'Settings',
-                      subtitle: 'Privacy, data, and app preferences',
-                      selected: location.startsWith('/settings'),
-                      onTap: () {
-                        context.pop();
-                        const SettingsRoute().go(context);
-                      },
-                    ),
-                    const SizedBox(height: 18),
-                    _VersionTile(borderColor: borderColor),
-                    const SizedBox(height: 12),
+                    // const _SectionLabel(text: 'SETTINGS'),
+                    // const SizedBox(height: 6),
+                    // _DrawerTile(
+                    //   icon: Icons.settings_outlined,
+                    //   title: 'Settings',
+                    //   subtitle: 'Privacy, data, and app preferences',
+                    //   selected: location.startsWith('/settings'),
+                    //   onTap: () {
+                    //     context.pop();
+                    //     const SettingsRoute().go(context);
+                    //   },
+                    // ),
+                    // const SizedBox(height: 18),
+                    // _VersionTile(borderColor: borderColor),
+                    // const SizedBox(height: 12),
                   ],
                 ),
+              ),
+              const _SectionLabel(text: 'SETTINGS'),
+              const SizedBox(height: 6),
+              _DrawerTile(
+                icon: Icons.settings_outlined,
+                title: 'Settings',
+                subtitle: 'Privacy, data, and app preferences',
+                selected: location.startsWith('/settings'),
+                onTap: () {
+                  context.pop();
+                  const SettingsRoute().go(context);
+                },
               ),
             ],
           ),
