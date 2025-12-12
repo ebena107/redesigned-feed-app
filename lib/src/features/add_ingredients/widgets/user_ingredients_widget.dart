@@ -38,6 +38,7 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
     final state = ref.watch(userIngredientsProvider);
 
     return Column(
+      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Header with count and actions
