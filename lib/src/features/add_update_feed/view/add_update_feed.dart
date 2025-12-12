@@ -187,7 +187,7 @@ Future<void> _onItemTapped(
 
       case 1: // Save/Update
         if (feedName.isEmpty) {
-          _showErrorBottomSheet(
+          _showErrorSnackBar(
             context: context,
             title: 'Feed Name Required',
             message: 'Please enter a name for your feed before saving.',
@@ -204,13 +204,13 @@ Future<void> _onItemTapped(
                 final message = ref.read(feedProvider).message;
                 final isSuccess = response.toLowerCase() == 'success';
                 if (isSuccess) {
-                  _showSuccessBottomSheet(
+                  _showSuccessSnackBar(
                     context: context,
                     title: message,
                     shouldPopPage: true,
                   );
                 } else {
-                  _showErrorBottomSheet(
+                  _showErrorSnackBar(
                     context: context,
                     title: message,
                   );
@@ -222,7 +222,7 @@ Future<void> _onItemTapped(
       case 2: // Analyse
         // Validate feed data
         if (feedName.isEmpty) {
-          _showErrorBottomSheet(
+          _showErrorSnackBar(
             context: context,
             title: 'Missing Feed Name',
             message: 'Please enter a feed name before analysing.',
@@ -231,7 +231,7 @@ Future<void> _onItemTapped(
         }
 
         if (ingredients.isEmpty) {
-          _showErrorBottomSheet(
+          _showErrorSnackBar(
             context: context,
             title: 'No Ingredients',
             message: 'Please add at least one ingredient to analyse.',
@@ -240,7 +240,7 @@ Future<void> _onItemTapped(
         }
 
         if (ingredients.any((e) => e.quantity == null || e.quantity == 0.0)) {
-          _showErrorBottomSheet(
+          _showErrorSnackBar(
             context: context,
             title: 'Invalid Quantities',
             message:
@@ -260,7 +260,7 @@ Future<void> _onItemTapped(
     AppLogger.error('Error in bottom nav action: $e',
         tag: _tag, error: e, stackTrace: stackTrace);
     if (!context.mounted) return;
-    _showErrorBottomSheet(
+    _showErrorSnackBar(
       context: context,
       title: 'An Error Occurred',
       message: 'Please try again.',
@@ -268,118 +268,75 @@ Future<void> _onItemTapped(
   }
 }
 
-/// Show error bottom sheet with Material Design 3 styling
-void _showErrorBottomSheet({
+/// Show error SnackBar with Material Design 3 styling
+void _showErrorSnackBar({
   required BuildContext context,
   required String title,
   String? message,
 }) {
-  showModalBottomSheet(
-    context: context,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-    ),
-    builder: (context) => Padding(
-      padding: const EdgeInsets.all(UIConstants.paddingLarge),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
+  final fullMessage = message != null ? '$title: $message' : title;
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Row(
         children: [
-          Icon(
-            Icons.error_outline,
-            size: 64,
-            color: Colors.orange.shade600,
-          ),
-          const SizedBox(height: UIConstants.paddingMedium),
-          Text(
-            title,
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-            textAlign: TextAlign.center,
-          ),
-          if (message != null) ...[
-            const SizedBox(height: UIConstants.paddingSmall),
-            Text(
-              message,
-              style: Theme.of(context).textTheme.bodyMedium,
-              textAlign: TextAlign.center,
+          const Icon(Icons.error_outline, color: Colors.white),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              fullMessage,
+              style: const TextStyle(color: Colors.white),
             ),
-          ],
-          const SizedBox(height: UIConstants.paddingLarge),
-          FilledButton(
-            onPressed: () => Navigator.pop(context),
-            style: FilledButton.styleFrom(
-              minimumSize: const Size(double.infinity, 48),
-            ),
-            child: const Text('OK'),
           ),
         ],
+      ),
+      backgroundColor: Colors.red[600],
+      duration: const Duration(seconds: 4),
+      behavior: SnackBarBehavior.floating,
+      action: SnackBarAction(
+        label: 'OK',
+        textColor: Colors.white,
+        onPressed: () {},
       ),
     ),
   );
 }
 
-/// Show success bottom sheet with automatic page navigation
-void _showSuccessBottomSheet({
+/// Show success SnackBar with automatic page navigation
+void _showSuccessSnackBar({
   required BuildContext context,
   required String title,
   String? message,
   bool shouldPopPage = false,
 }) {
-  showModalBottomSheet(
-    context: context,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-    ),
-    builder: (context) => Padding(
-      padding: const EdgeInsets.all(UIConstants.paddingLarge),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
+  final fullMessage = message != null ? '$title: $message' : title;
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Row(
         children: [
-          Icon(
-            Icons.check_circle_outline,
-            size: 64,
-            color: Colors.green.shade600,
-          ),
-          const SizedBox(height: UIConstants.paddingMedium),
-          Text(
-            title,
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-            textAlign: TextAlign.center,
-          ),
-          if (message != null) ...[
-            const SizedBox(height: UIConstants.paddingSmall),
-            Text(
-              message,
-              style: Theme.of(context).textTheme.bodyMedium,
-              textAlign: TextAlign.center,
+          const Icon(Icons.check_circle_outline, color: Colors.white),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              fullMessage,
+              style: const TextStyle(color: Colors.white),
             ),
-          ],
-          const SizedBox(height: UIConstants.paddingLarge),
-          FilledButton(
-            onPressed: () {
-              Navigator.pop(context); // Close bottom sheet
-              if (shouldPopPage) {
-                // Navigate back to feed list on success
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  if (context.mounted) {
-                    context.pop();
-                  }
-                });
-              }
-            },
-            style: FilledButton.styleFrom(
-              minimumSize: const Size(double.infinity, 48),
-              backgroundColor: Colors.green.shade600,
-            ),
-            child: const Text('OK'),
           ),
         ],
       ),
+      backgroundColor: Colors.green[600],
+      duration: const Duration(seconds: 3),
+      behavior: SnackBarBehavior.floating,
     ),
   );
+
+  if (shouldPopPage) {
+    // Navigate back to feed list on success after a short delay
+    Future.delayed(const Duration(milliseconds: 500), () {
+      if (context.mounted) {
+        context.pop();
+      }
+    });
+  }
 }
 
 /// Show analyse confirmation dialog
