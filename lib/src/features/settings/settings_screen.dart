@@ -325,9 +325,16 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
       final file = await _dataService.exportDataToFile();
 
+      // CRITICAL: Close loading dialog FIRST
       if (mounted) {
-        Navigator.of(context).pop(); // Close loading
+        Navigator.of(context).pop(); // Close loading dialog
 
+        // Small delay to ensure dialog is fully closed
+        await Future.delayed(const Duration(milliseconds: 100));
+      }
+
+      // THEN show success dialog
+      if (mounted) {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
@@ -362,8 +369,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         );
       }
     } catch (e) {
+      // Close loading dialog on error
       if (mounted) {
         Navigator.of(context).pop(); // Close loading
+
+        // Small delay
+        await Future.delayed(const Duration(milliseconds: 100));
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Export failed: $e')),
         );

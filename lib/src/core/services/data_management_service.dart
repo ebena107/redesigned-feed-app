@@ -286,28 +286,44 @@ class DataManagementService {
   Future<Map<String, int>> getDataStatistics() async {
     try {
       final database = await _db.database;
+      debugPrint('=== Getting Data Statistics ===');
 
+      // Query feeds count
       final feedsResult =
           await database.rawQuery('SELECT COUNT(*) as count FROM feeds');
       final feedsCount = feedsResult.first['count'] as int? ?? 0;
+      debugPrint('Feeds count: $feedsCount');
 
+      // Query custom ingredients count
       final customIngredientsResult = await database.rawQuery(
         'SELECT COUNT(*) as count FROM ingredients WHERE is_custom = 1',
       );
       final customIngredientsCount =
           customIngredientsResult.first['count'] as int? ?? 0;
+      debugPrint('Custom ingredients count: $customIngredientsCount');
 
-      final resultsResult =
-          await database.rawQuery('SELECT COUNT(*) as count FROM results');
-      final resultsCount = resultsResult.first['count'] as int? ?? 0;
+      // Query results count (wrapped in try-catch as table might not exist)
+      int resultsCount = 0;
+      try {
+        final resultsResult =
+            await database.rawQuery('SELECT COUNT(*) as count FROM results');
+        resultsCount = resultsResult.first['count'] as int? ?? 0;
+        debugPrint('Results count: $resultsCount');
+      } catch (e) {
+        debugPrint('Results table query failed (table might not exist): $e');
+      }
 
-      return {
+      final stats = {
         'feeds': feedsCount,
         'custom_ingredients': customIngredientsCount,
         'results': resultsCount,
       };
-    } catch (e) {
-      debugPrint('Error getting data statistics: $e');
+
+      debugPrint('Final statistics: $stats');
+      return stats;
+    } catch (e, stackTrace) {
+      debugPrint('ERROR getting data statistics: $e');
+      debugPrint('Stack trace: $stackTrace');
       return {
         'feeds': 0,
         'custom_ingredients': 0,
