@@ -180,10 +180,13 @@ class _DrawerHeader extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 4),
-                FutureBuilder<String>(
-                  future: getVersionNumber(),
+                FutureBuilder<PackageInfo>(
+                  future: PackageInfo.fromPlatform(),
                   builder: (context, snapshot) {
-                    final value = snapshot.data ?? '...';
+                    final packageInfo = snapshot.data;
+                    final value = packageInfo != null
+                        ? '${packageInfo.version}+${packageInfo.buildNumber}'
+                        : '...';
                     return Text(
                       'Version $value',
                       style: textTheme.bodySmall?.copyWith(
@@ -311,75 +314,4 @@ class _SectionLabel extends StatelessWidget {
       ),
     );
   }
-}
-
-class _VersionTile extends StatelessWidget {
-  const _VersionTile({required this.borderColor});
-
-  final Color borderColor;
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: borderColor),
-      ),
-      child: Row(
-        children: [
-          Container(
-            height: 32,
-            width: 32,
-            decoration: BoxDecoration(
-              color: AppConstants.appCarrotColor.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: const Icon(Icons.verified_outlined,
-                color: AppConstants.appCarrotColor, size: 18),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: FutureBuilder<String>(
-              future: getVersionNumber(),
-              builder: (context, snapshot) {
-                final value = snapshot.data ?? '...';
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Version',
-                      style: textTheme.bodySmall?.copyWith(
-                        color: Colors.grey.shade700,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      value,
-                      style: textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: const Color(0xFF123524),
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-Future<String> getVersionNumber() async {
-  final packageInfo = await PackageInfo.fromPlatform();
-  final version = packageInfo.version;
-  final buildNumber = packageInfo.buildNumber;
-  final appDetail = '$version+$buildNumber';
-
-  return appDetail;
 }

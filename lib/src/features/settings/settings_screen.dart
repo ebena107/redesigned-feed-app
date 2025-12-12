@@ -8,7 +8,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:share_plus/share_plus.dart';
 
 // ignore_for_file: use_build_context_synchronously
 
@@ -358,22 +357,21 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             ),
             actions: [
               OutlinedButton.icon(
-                onPressed: () async {
-                  try {
-                    await Share.shareFiles(
-                      [file.path],
-                      text: 'Feed Estimator Backup',
-                    );
-                  } catch (e) {
-                    if (mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Share failed: $e')),
-                      );
-                    }
-                  }
+                onPressed: () {
+                  // Copy path to clipboard for now
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('File saved to: ${file.path}'),
+                      duration: const Duration(seconds: 5),
+                      action: SnackBarAction(
+                        label: 'OK',
+                        onPressed: () {},
+                      ),
+                    ),
+                  );
                 },
-                icon: const Icon(Icons.share),
-                label: const Text('Share'),
+                icon: const Icon(Icons.folder_open),
+                label: const Text('Show Path'),
               ),
               FilledButton(
                 onPressed: () => Navigator.of(context).pop(),
@@ -455,7 +453,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   }
 
   void _showDeleteDataDialog() async {
-    final confirmed = await showDialog<bool>(
+    // First confirmation - warning dialog
+    final firstConfirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
         title: Row(
@@ -497,16 +496,72 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           ),
           FilledButton(
             style: FilledButton.styleFrom(
-              backgroundColor: Colors.red[600],
+              backgroundColor: Colors.orange[600],
             ),
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Delete All'),
+            child: const Text('Continue'),
           ),
         ],
       ),
     );
 
-    if (confirmed == true && mounted) {
+    // If first confirmation is cancelled, return
+    if (firstConfirmed != true || !mounted) return;
+
+    // Second confirmation - final warning
+    final secondConfirmed = await showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        title: Row(
+          children: [
+            Icon(Icons.error, color: Colors.red[600], size: 28),
+            const SizedBox(width: 12),
+            const Text('Final Warning'),
+          ],
+        ),
+        content: const Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'This is your last chance!',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+            SizedBox(height: 12),
+            Text(
+              'All your data will be permanently deleted and cannot be recovered.',
+            ),
+            SizedBox(height: 16),
+            Text(
+              'Are you absolutely sure you want to proceed?',
+              style: TextStyle(
+                color: Colors.red,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          OutlinedButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: Colors.red[600],
+            ),
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('Yes, Delete Everything'),
+          ),
+        ],
+      ),
+    );
+
+    if (secondConfirmed == true && mounted) {
       await _deleteAllData();
     }
   }
