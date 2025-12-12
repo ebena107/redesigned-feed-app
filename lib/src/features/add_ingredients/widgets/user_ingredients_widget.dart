@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dart';
 import 'package:feed_estimator/src/features/add_ingredients/provider/user_ingredients_provider.dart';
+import 'package:feed_estimator/src/utils/widgets/modern_dialogs.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -392,58 +393,39 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
 
   /// Export to JSON file
   Future<void> _exportToJson(BuildContext context) async {
-    // Show loading dialog
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => const Center(
-        child: Card(
-          child: Padding(
-            padding: EdgeInsets.all(24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CircularProgressIndicator(),
-                SizedBox(height: 16),
-                Text('Exporting data...'),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-
     try {
+      LoadingDialog.show(context, message: 'Exporting to JSON...');
+
       final file =
           await ref.read(userIngredientsProvider.notifier).exportToJsonFile();
 
-      // Close loading dialog
-      if (mounted) Navigator.pop(context);
+      if (mounted) {
+        LoadingDialog.hide(context);
 
-      if (file != null && mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Exported to ${file.path}'),
-            duration: const Duration(seconds: 3),
-            backgroundColor: Colors.green,
-          ),
-        );
-      } else if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Export failed'),
-            backgroundColor: Colors.red,
-          ),
-        );
+        if (file != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('✓ Exported to ${file.path}'),
+              duration: const Duration(seconds: 3),
+              backgroundColor: Colors.green,
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('✗ Export failed'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
       }
     } catch (e) {
-      // Close loading dialog
-      if (mounted) Navigator.pop(context);
-
       if (mounted) {
+        LoadingDialog.hide(context);
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Export failed: $e'),
+            content: Text('✗ Export failed: $e'),
             backgroundColor: Colors.red,
           ),
         );
@@ -453,58 +435,39 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
 
   /// Export to CSV file
   Future<void> _exportToCsv(BuildContext context) async {
-    // Show loading dialog
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => const Center(
-        child: Card(
-          child: Padding(
-            padding: EdgeInsets.all(24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CircularProgressIndicator(),
-                SizedBox(height: 16),
-                Text('Exporting data...'),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-
     try {
+      LoadingDialog.show(context, message: 'Exporting to CSV...');
+
       final file =
           await ref.read(userIngredientsProvider.notifier).exportToCsvFile();
 
-      // Close loading dialog
-      if (mounted) Navigator.pop(context);
+      if (mounted) {
+        LoadingDialog.hide(context);
 
-      if (file != null && mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Exported to ${file.path}'),
-            duration: const Duration(seconds: 3),
-            backgroundColor: Colors.green,
-          ),
-        );
-      } else if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Export failed'),
-            backgroundColor: Colors.red,
-          ),
-        );
+        if (file != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('✓ Exported to ${file.path}'),
+              duration: const Duration(seconds: 3),
+              backgroundColor: Colors.green,
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('✗ Export failed'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
       }
     } catch (e) {
-      // Close loading dialog
-      if (mounted) Navigator.pop(context);
-
       if (mounted) {
+        LoadingDialog.hide(context);
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Export failed: $e'),
+            content: Text('✗ Export failed: $e'),
             backgroundColor: Colors.red,
           ),
         );
