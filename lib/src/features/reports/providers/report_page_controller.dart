@@ -10,7 +10,8 @@ class ReportPageController extends _$ReportPageController {
   @override
   FutureOr<void> build() async {
     fetchResult();
-//
+    return null;
+    //
   }
 
   Future<void> fetchResult() async {
@@ -19,6 +20,7 @@ class ReportPageController extends _$ReportPageController {
 
     state = const AsyncLoading().copyWithPrevious(state);
     state = await AsyncValue.guard(
-        () => results.estimatedResult(feed: feeds.newFeed));
+      () => results.estimatedResult(feed: feeds.newFeed),
+    );
   }
 }

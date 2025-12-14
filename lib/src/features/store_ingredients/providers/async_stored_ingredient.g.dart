@@ -7,11 +7,11 @@ part of 'async_stored_ingredient.dart';
 // **************************************************************************
 
 String _$quantityControllerHash() =>
-    r'8639398acc10d4babc11821129be873c9ef0aa47';
+    r'0bf3bdfb2466cfd8119b5be6b84b0c0d7be0e1f1';
 
 /// See also [quantityController].
 @ProviderFor(quantityController)
-final quantityControllerProvider = AutoDisposeProvider<Object?>.internal(
+final quantityControllerProvider = AutoDisposeProvider<String>.internal(
   quantityController,
   name: r'quantityControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -21,13 +21,16 @@ final quantityControllerProvider = AutoDisposeProvider<Object?>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef QuantityControllerRef = AutoDisposeProviderRef<Object?>;
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef QuantityControllerRef = AutoDisposeProviderRef<String>;
 String _$storedIngredientFormKeyHash() =>
-    r'6a864924176a97ddb4cd1511f99f8ec7a83ced71';
+    r'074f662434c31bddf73489ab618fc98d0959a074';
 
 /// See also [storedIngredientFormKey].
 @ProviderFor(storedIngredientFormKey)
-final storedIngredientFormKeyProvider = AutoDisposeProvider<Object?>.internal(
+final storedIngredientFormKeyProvider =
+    AutoDisposeProvider<GlobalKey<FormState>>.internal(
   storedIngredientFormKey,
   name: r'storedIngredientFormKeyProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -37,9 +40,12 @@ final storedIngredientFormKeyProvider = AutoDisposeProvider<Object?>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef StoredIngredientFormKeyRef = AutoDisposeProviderRef<Object?>;
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef StoredIngredientFormKeyRef
+    = AutoDisposeProviderRef<GlobalKey<FormState>>;
 String _$asyncStoredIngredientsHash() =>
-    r'43858c0364e85b6b2e4d3bda326bca501ec57298';
+    r'b6ee4ec46cb938e2b4161ffbe65ed27bd37970c3';
 
 /// See also [AsyncStoredIngredients].
 @ProviderFor(AsyncStoredIngredients)
@@ -56,4 +62,4 @@ final asyncStoredIngredientsProvider = AutoDisposeAsyncNotifierProvider<
 
 typedef _$AsyncStoredIngredients = AutoDisposeAsyncNotifier<List<Ingredient>>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

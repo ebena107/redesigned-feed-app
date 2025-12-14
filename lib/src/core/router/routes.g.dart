@@ -8,11 +8,6 @@ part of 'routes.dart';
 
 List<RouteBase> get $appRoutes => [
       $homeRoute,
-      $aboutRoute,
-      $feedStoreRoute,
-      $ingredientStoreRoute,
-      $newIngredientRoute,
-      $settingsRoute,
     ];
 
 RouteBase get $homeRoute => GoRouteData.$route(
@@ -56,31 +51,6 @@ RouteBase get $homeRoute => GoRouteData.$route(
       ],
     );
 
-RouteBase get $aboutRoute => GoRouteData.$route(
-      path: '/about',
-      factory: $AboutRouteExtension._fromState,
-    );
-
-RouteBase get $feedStoreRoute => GoRouteData.$route(
-      path: '/feedStore',
-      factory: $FeedStoreRouteExtension._fromState,
-    );
-
-RouteBase get $ingredientStoreRoute => GoRouteData.$route(
-      path: '/ingredientStore',
-      factory: $IngredientStoreRouteExtension._fromState,
-    );
-
-RouteBase get $newIngredientRoute => GoRouteData.$route(
-      path: '/newIngredient',
-      factory: $NewIngredientRouteExtension._fromState,
-    );
-
-RouteBase get $settingsRoute => GoRouteData.$route(
-      path: '/settings',
-      factory: $SettingsRouteExtension._fromState,
-    );
-
 extension $HomeRouteExtension on HomeRoute {
   static HomeRoute _fromState(GoRouterState state) => const HomeRoute();
 
@@ -118,7 +88,7 @@ extension $AddFeedRouteExtension on AddFeedRoute {
 extension $NewFeedIngredientsRouteExtension on NewFeedIngredientsRoute {
   static NewFeedIngredientsRoute _fromState(GoRouterState state) =>
       NewFeedIngredientsRoute(
-        _$convertMapValue('feed-id', state.uri.queryParameters, int.parse),
+        _$convertMapValue('feed-id', state.uri.queryParameters, int.tryParse),
       );
 
   String get location => GoRouteData.$location(
@@ -140,7 +110,7 @@ extension $NewFeedIngredientsRouteExtension on NewFeedIngredientsRoute {
 
 extension $ReportRouteExtension on ReportRoute {
   static ReportRoute _fromState(GoRouterState state) => ReportRoute(
-        int.parse(state.pathParameters['feedId']!),
+        int.parse(state.pathParameters['feedId']!)!,
         type: state.uri.queryParameters['type'],
       );
 
@@ -163,7 +133,7 @@ extension $ReportRouteExtension on ReportRoute {
 
 extension $PdfRouteExtension on PdfRoute {
   static PdfRoute _fromState(GoRouterState state) => PdfRoute(
-        int.parse(state.pathParameters['feedId']!),
+        int.parse(state.pathParameters['feedId']!)!,
         type: state.uri.queryParameters['type'],
         $extra: state.extra as Feed?,
       );
@@ -189,7 +159,7 @@ extension $PdfRouteExtension on PdfRoute {
 
 extension $FeedRouteExtension on FeedRoute {
   static FeedRoute _fromState(GoRouterState state) => FeedRoute(
-        feedId: int.parse(state.pathParameters['feedId']!),
+        feedId: int.parse(state.pathParameters['feedId']!)!,
       );
 
   String get location => GoRouteData.$location(
@@ -208,7 +178,7 @@ extension $FeedRouteExtension on FeedRoute {
 
 extension $EditFeedRouteExtension on EditFeedRoute {
   static EditFeedRoute _fromState(GoRouterState state) => EditFeedRoute(
-        int.parse(state.pathParameters['feedId']!),
+        int.parse(state.pathParameters['feedId']!)!,
       );
 
   String get location => GoRouteData.$location(
@@ -228,7 +198,7 @@ extension $EditFeedRouteExtension on EditFeedRoute {
 extension $FeedIngredientsRouteExtension on FeedIngredientsRoute {
   static FeedIngredientsRoute _fromState(GoRouterState state) =>
       FeedIngredientsRoute(
-        int.parse(state.pathParameters['feedId']!),
+        int.parse(state.pathParameters['feedId']!)!,
       );
 
   String get location => GoRouteData.$location(
@@ -245,103 +215,10 @@ extension $FeedIngredientsRouteExtension on FeedIngredientsRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $AboutRouteExtension on AboutRoute {
-  static AboutRoute _fromState(GoRouterState state) => const AboutRoute();
-
-  String get location => GoRouteData.$location(
-        '/about',
-      );
-
-  void go(BuildContext context) => context.go(location);
-
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
-
-  void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location);
-
-  void replace(BuildContext context) => context.replace(location);
-}
-
-extension $FeedStoreRouteExtension on FeedStoreRoute {
-  static FeedStoreRoute _fromState(GoRouterState state) =>
-      const FeedStoreRoute();
-
-  String get location => GoRouteData.$location(
-        '/feedStore',
-      );
-
-  void go(BuildContext context) => context.go(location);
-
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
-
-  void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location);
-
-  void replace(BuildContext context) => context.replace(location);
-}
-
-extension $IngredientStoreRouteExtension on IngredientStoreRoute {
-  static IngredientStoreRoute _fromState(GoRouterState state) =>
-      const IngredientStoreRoute();
-
-  String get location => GoRouteData.$location(
-        '/ingredientStore',
-      );
-
-  void go(BuildContext context) => context.go(location);
-
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
-
-  void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location);
-
-  void replace(BuildContext context) => context.replace(location);
-}
-
-extension $NewIngredientRouteExtension on NewIngredientRoute {
-  static NewIngredientRoute _fromState(GoRouterState state) =>
-      NewIngredientRoute(
-        ingredientId: state.uri.queryParameters['ingredientId'],
-      );
-
-  String get location => GoRouteData.$location(
-        '/newIngredient',
-        queryParams: {
-          if (ingredientId != null) 'ingredientId': ingredientId,
-        },
-      );
-
-  void go(BuildContext context) => context.go(location);
-
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
-
-  void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location);
-
-  void replace(BuildContext context) => context.replace(location);
-}
-
-extension $SettingsRouteExtension on SettingsRoute {
-  static SettingsRoute _fromState(GoRouterState state) => const SettingsRoute();
-
-  String get location => GoRouteData.$location(
-        '/settings',
-      );
-
-  void go(BuildContext context) => context.go(location);
-
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
-
-  void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location);
-
-  void replace(BuildContext context) => context.replace(location);
-}
-
 T? _$convertMapValue<T>(
   String key,
   Map<String, String> map,
-  T Function(String) converter,
+  T? Function(String) converter,
 ) {
   final value = map[key];
   return value == null ? null : converter(value);

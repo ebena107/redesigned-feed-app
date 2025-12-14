@@ -434,7 +434,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       await _dataService.importDataFromFile(file);
 
       if (mounted) {
-        Navigator.of(context).pop(); // Close loading
+        Navigator.of(context, rootNavigator: true).pop(); // Close loading
+
+        // Delay to ensure dialog is fully closed before reloading
+        await Future.delayed(const Duration(milliseconds: 500));
 
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -447,7 +450,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       }
     } catch (e) {
       if (mounted) {
-        Navigator.of(context).pop(); // Close loading
+        Navigator.of(context, rootNavigator: true).pop(); // Close loading
+
+        // Delay to ensure dialog is fully closed
+        await Future.delayed(const Duration(milliseconds: 500));
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Import failed: $e')),
         );

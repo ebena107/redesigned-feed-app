@@ -7,7 +7,7 @@ part of 'report_page_controller.dart';
 // **************************************************************************
 
 String _$reportPageControllerHash() =>
-    r'c6628b2ee8214715369612090cff380ad9bb82ac';
+    r'5caf0d70d2729f21916d61e5231c77a3a3a10dec';
 
 /// See also [ReportPageController].
 @ProviderFor(ReportPageController)
@@ -24,4 +24,4 @@ final reportPageControllerProvider =
 
 typedef _$ReportPageController = AutoDisposeAsyncNotifier<void>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

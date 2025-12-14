@@ -7,7 +7,7 @@ part of 'save_update_feed_controller.dart';
 // **************************************************************************
 
 String _$saveUpdateFeedControllerHash() =>
-    r'27397d5e27364a132aa2d654c861c7e9e42c3d07';
+    r'23c1937bd30e0be74a666dd0a2138ee81268be50';
 
 /// See also [SaveUpdateFeedController].
 @ProviderFor(SaveUpdateFeedController)
@@ -24,4 +24,4 @@ final saveUpdateFeedControllerProvider =
 
 typedef _$SaveUpdateFeedController = AutoDisposeAsyncNotifier<void>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

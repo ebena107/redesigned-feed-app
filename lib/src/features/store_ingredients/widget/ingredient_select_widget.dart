@@ -1,348 +1,532 @@
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dart';
-import 'package:feed_estimator/src/features/add_ingredients/model/ingredient_category.dart';
-import 'package:feed_estimator/src/features/add_ingredients/repository/ingredient_category_repository.dart';
-import 'package:feed_estimator/src/features/store_ingredients/providers/async_stored_ingredient.dart';
 import 'package:feed_estimator/src/features/store_ingredients/providers/stored_ingredient_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class IngredientSSelectWidget extends ConsumerStatefulWidget {
-  const IngredientSSelectWidget({
-    super.key,
-  });
+class IngredientSelectorTile extends ConsumerWidget {
+  const IngredientSelectorTile({super.key});
 
   @override
-  ConsumerState<IngredientSSelectWidget> createState() =>
-      _IngredientSSelectWidgetState();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(storeIngredientProvider);
+    final selectedName = state.selectedIngredient?.name ?? 'Tap to select';
+    final isSelected = state.selectedIngredient != null;
+
+    return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(
+          color: isSelected
+              ? const Color(0xff87643E).withValues(alpha: 0.3)
+              : Colors.grey.shade200,
+          width: isSelected ? 2 : 1,
+        ),
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: () => _showSelectionSheet(context, ref),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: isSelected
+                      ? const Color(0xff87643E)
+                      : const Color(0xff87643E).withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(
+                  isSelected
+                      ? Icons.check_circle_rounded
+                      : Icons.search_rounded,
+                  color: isSelected ? Colors.white : const Color(0xff87643E),
+                  size: 24,
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      isSelected ? 'SELECTED INGREDIENT' : 'SELECT INGREDIENT',
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey.shade600,
+                            letterSpacing: 1.1,
+                          ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      selectedName,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w700,
+                            color: isSelected
+                                ? Colors.black87
+                                : Colors.grey.shade500,
+                          ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+              Icon(
+                Icons.arrow_forward_ios_rounded,
+                color: Colors.grey.shade400,
+                size: 18,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showSelectionSheet(BuildContext context, WidgetRef ref) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => const _IngredientSearchSheet(),
+    );
+  }
 }
 
-class _IngredientSSelectWidgetState
-    extends ConsumerState<IngredientSSelectWidget> {
-  late TextEditingController _searchController;
+class _IngredientSearchSheet extends ConsumerStatefulWidget {
+  const _IngredientSearchSheet();
 
   @override
-  void initState() {
-    super.initState();
-    _searchController = TextEditingController();
-  }
+  ConsumerState<_IngredientSearchSheet> createState() =>
+      _IngredientSearchSheetState();
+}
+
+class _IngredientSearchSheetState
+    extends ConsumerState<_IngredientSearchSheet> {
+  final TextEditingController _searchCtrl = TextEditingController();
+  final FocusNode _searchFocus = FocusNode();
 
   @override
   void dispose() {
-    _searchController.dispose();
+    _searchCtrl.dispose();
+    _searchFocus.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final ref = this.ref;
-    final data = ref.watch(asyncStoredIngredientsProvider);
-    final provider = ref.watch(storeIngredientProvider);
-    final categories = ref.watch(ingredientsCategoryProvider);
+    final ingredientsAsync = ref.watch(ingredientsListProvider);
+    final notifier = ref.read(storeIngredientProvider.notifier);
+    final state = ref.watch(storeIngredientProvider);
 
-    return data.when(
-        data: (ingredients) {
-          final filtered = provider.filteredIngredients.isNotEmpty ||
-                  provider.selectedCategoryId != null
-              ? provider.filteredIngredients
-              : ingredients;
-
-          // Further filter by search term if present
-          final searchResults = _searchController.text.isNotEmpty
-              ? filtered
-                  .where((ing) => ing.name!
-                      .toLowerCase()
-                      .contains(_searchController.text.toLowerCase()))
-                  .toList()
-              : filtered;
-
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).scaffoldBackgroundColor,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      child: DraggableScrollableSheet(
+        initialChildSize: 0.9,
+        minChildSize: 0.5,
+        maxChildSize: 0.95,
+        expand: false,
+        builder: (context, scrollController) {
           return Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Search field
-              TextField(
-                controller: _searchController,
-                decoration: InputDecoration(
-                  hintText: 'Search ingredients by name...',
-                  prefixIcon: const Icon(Icons.search),
-                  suffixIcon: _searchController.text.isNotEmpty
-                      ? IconButton(
-                          icon: const Icon(Icons.clear),
-                          onPressed: () {
-                            _searchController.clear();
-                            setState(() {});
-                          },
-                        )
-                      : null,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  filled: true,
-                  fillColor: Colors.white,
+              // Drag handle
+              Container(
+                margin: const EdgeInsets.only(top: 12, bottom: 8),
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade300,
+                  borderRadius: BorderRadius.circular(2),
                 ),
-                onChanged: (_) => setState(() {}),
               ),
-              const SizedBox(height: 12),
+
+              // Header section
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Select Ingredient',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall
+                              ?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.close_rounded),
+                          onPressed: () => Navigator.pop(context),
+                          tooltip: 'Close',
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+
+                    // Search field
+                    TextField(
+                      controller: _searchCtrl,
+                      focusNode: _searchFocus,
+                      decoration: InputDecoration(
+                        hintText: 'Search by name...',
+                        prefixIcon: const Icon(Icons.search_rounded),
+                        suffixIcon: _searchCtrl.text.isNotEmpty
+                            ? IconButton(
+                                icon: const Icon(Icons.clear_rounded),
+                                onPressed: () {
+                                  _searchCtrl.clear();
+                                  notifier.setSearchQuery('');
+                                },
+                              )
+                            : null,
+                        filled: true,
+                        fillColor: Colors.grey.shade100,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(14),
+                          borderSide: BorderSide.none,
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 14,
+                        ),
+                      ),
+                      onChanged: (val) {
+                        notifier.setSearchQuery(val);
+                        setState(() {}); // Rebuild to show/hide clear button
+                      },
+                    ),
+                  ],
+                ),
+              ),
 
               // Filter chips
-              Wrap(
-                spacing: 8,
-                runSpacing: 4,
-                children: [
-                  FilterChip(
-                    label: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.star, size: 16, color: Colors.orange),
-                        SizedBox(width: 4),
-                        Text('Favorites'),
-                      ],
-                    ),
-                    selected: provider.showFavoritesOnly,
-                    onSelected: (value) {
-                      ref
-                          .read(storeIngredientProvider.notifier)
-                          .toggleFavoritesFilter();
-                    },
-                    selectedColor: Colors.orange.withValues(alpha: 0.2),
-                    checkmarkColor: Colors.orange,
-                  ),
-                  FilterChip(
-                    label: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.add_circle, size: 16),
-                        SizedBox(width: 4),
-                        Text('Custom Only'),
-                      ],
-                    ),
-                    selected: provider.showCustomOnly,
-                    onSelected: (value) {
-                      ref
-                          .read(storeIngredientProvider.notifier)
-                          .toggleCustomFilter();
-                    },
-                    selectedColor:
-                        const Color(0xff87643E).withValues(alpha: 0.2),
-                    checkmarkColor: const Color(0xff87643E),
-                  ),
-                  if (searchResults.length != filtered.length)
-                    Chip(
-                      label:
-                          Text('${searchResults.length} of ${filtered.length}'),
-                      backgroundColor: Colors.blue.withValues(alpha: 0.1),
-                      labelStyle: const TextStyle(fontSize: 12),
-                    ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              // Category filter
-              categories.when(
-                data: (cats) {
-                  final List<DropdownMenuItem<num?>> categoryItems = [
-                    const DropdownMenuItem<num?>(
-                      value: null,
-                      child: Text(
-                        "All Categories",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                        ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  children: [
+                    FilterChip(
+                      label: const Text('Favorites'),
+                      selected: state.showFavoritesOnly,
+                      onSelected: (_) => notifier.toggleFavorites(),
+                      avatar: Icon(
+                        state.showFavoritesOnly
+                            ? Icons.star_rounded
+                            : Icons.star_outline_rounded,
+                        size: 18,
+                      ),
+                      showCheckmark: false,
+                      backgroundColor: Colors.grey.shade100,
+                      selectedColor: Colors.amber.shade100,
+                      side: BorderSide(
+                        color: state.showFavoritesOnly
+                            ? Colors.amber
+                            : Colors.transparent,
                       ),
                     ),
-                    ...cats.map((IngredientCategory cat) {
-                      return DropdownMenuItem<num?>(
-                        value: cat.categoryId,
-                        child: Text(
-                          cat.category ?? '',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
+                    const SizedBox(width: 8),
+                    FilterChip(
+                      label: const Text('Custom'),
+                      selected: state.showCustomOnly,
+                      onSelected: (_) => notifier.toggleCustom(),
+                      avatar: Icon(
+                        state.showCustomOnly
+                            ? Icons.science_rounded
+                            : Icons.science_outlined,
+                        size: 18,
+                      ),
+                      showCheckmark: false,
+                      backgroundColor: Colors.grey.shade100,
+                      selectedColor:
+                          const Color(0xff87643E).withValues(alpha: 0.15),
+                      side: BorderSide(
+                        color: state.showCustomOnly
+                            ? const Color(0xff87643E)
+                            : Colors.transparent,
+                      ),
+                    ),
+                    if (state.showFavoritesOnly ||
+                        state.showCustomOnly ||
+                        state.searchQuery.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: TextButton.icon(
+                          onPressed: () {
+                            notifier.clearFilters();
+                            _searchCtrl.clear();
+                            setState(() {});
+                          },
+                          icon: const Icon(Icons.clear_all_rounded, size: 18),
+                          label: const Text('Clear'),
+                          style: TextButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 8),
                           ),
                         ),
-                      );
-                    }),
-                  ];
+                      ),
+                  ],
+                ),
+              ),
 
-                  return Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    decoration: BoxDecoration(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(10.0)),
-                      border: Border.all(
-                        width: 1.5,
-                        color: const Color(0xff87643E).withValues(alpha: 0.3),
-                      ),
-                      color: Colors.white,
-                    ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<num?>(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10.0)),
-                        isDense: true,
-                        isExpanded: true,
-                        icon: const Icon(
-                          Icons.filter_alt,
-                          color: Color(0xff87643E),
-                        ),
-                        hint: const Text(
-                          "Filter by Category",
-                          style: TextStyle(
-                            color: Color(0xff87643E),
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        value: provider.selectedCategoryId,
-                        dropdownColor: const Color(0xff87643E),
-                        selectedItemBuilder: (BuildContext context) {
-                          return categoryItems.map((item) {
-                            return Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                item.value == null
-                                    ? "All Categories"
-                                    : cats
-                                            .firstWhere((c) =>
-                                                c.categoryId == item.value)
-                                            .category ??
-                                        '',
-                                style: const TextStyle(
-                                  color: Color(0xff87643E),
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            );
-                          }).toList();
-                        },
-                        items: categoryItems,
-                        onChanged: (id) => ref
-                            .read(storeIngredientProvider.notifier)
-                            .setCategory(id),
-                      ),
-                    ),
-                  );
-                },
-                loading: () => const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.0),
-                  child: LinearProgressIndicator(),
-                ),
-                error: (e, _) => Text(
-                  "Failed to load categories",
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium
-                      ?.copyWith(color: Colors.redAccent),
-                ),
-              ),
               const SizedBox(height: 8),
-              // Ingredients dropdown with search results count
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                  border: Border.all(
-                    width: 1.5,
-                    color: const Color(0xff87643E).withValues(alpha: 0.3),
+              Divider(height: 1, color: Colors.grey.shade200),
+
+              // Ingredients list
+              Expanded(
+                child: ingredientsAsync.when(
+                  data: (allIngredients) {
+                    final filtered = notifier.filterList(allIngredients);
+
+                    if (filtered.isEmpty) {
+                      return _EmptyState(
+                        hasFilters: state.showFavoritesOnly ||
+                            state.showCustomOnly ||
+                            state.searchQuery.isNotEmpty,
+                        onClearFilters: () {
+                          notifier.clearFilters();
+                          _searchCtrl.clear();
+                          setState(() {});
+                        },
+                      );
+                    }
+
+                    return ListView.separated(
+                      controller: scrollController,
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      itemCount: filtered.length,
+                      separatorBuilder: (_, __) => Divider(
+                        height: 1,
+                        indent: 72,
+                        color: Colors.grey.shade200,
+                      ),
+                      itemBuilder: (context, index) {
+                        final ing = filtered[index];
+                        final isSelected =
+                            state.selectedIngredient?.ingredientId ==
+                                ing.ingredientId;
+
+                        return _IngredientListTile(
+                          ingredient: ing,
+                          isSelected: isSelected,
+                          onTap: () {
+                            notifier.selectIngredient(ing);
+                            Navigator.pop(context);
+                          },
+                        );
+                      },
+                    );
+                  },
+                  loading: () => const Center(
+                    child: CircularProgressIndicator.adaptive(),
                   ),
-                  color: Colors.white,
-                ),
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton<num>(
-                    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                    isDense: true,
-                    isExpanded: true,
-                    icon: const Icon(
-                      Icons.arrow_drop_down_circle,
-                      color: Color(0xff87643E),
-                    ),
-                    hint: Text(
-                      "Select Ingredient (${searchResults.length} found)",
-                      style: const TextStyle(
-                        color: Color(0xff87643E),
-                        fontWeight: FontWeight.w500,
+                  error: (err, stack) => Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(24),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.error_outline_rounded,
+                              size: 48, color: Colors.red.shade300),
+                          const SizedBox(height: 16),
+                          Text(
+                            'Failed to load ingredients',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            err.toString(),
+                            style: TextStyle(color: Colors.grey.shade600),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 24),
+                          FilledButton.icon(
+                            onPressed: () =>
+                                ref.invalidate(ingredientsListProvider),
+                            icon: const Icon(Icons.refresh_rounded),
+                            label: const Text('Retry'),
+                          ),
+                        ],
                       ),
                     ),
-                    elevation: 8,
-                    value: provider.selectedIngredient?.ingredientId,
-                    dropdownColor: const Color(0xff87643E),
-                    menuMaxHeight: 400,
-                    selectedItemBuilder: (BuildContext context) {
-                      return searchResults.map((ing) {
-                        final isFavourite = ing.favourite == 1;
-                        final isCustom = ing.isCustom == 1;
-                        return Align(
-                          alignment: Alignment.centerLeft,
-                          child: Row(
-                            children: [
-                              if (isFavourite)
-                                const Padding(
-                                  padding: EdgeInsets.only(right: 6.0),
-                                  child: Icon(Icons.star,
-                                      color: Colors.orange, size: 16),
-                                ),
-                              if (isCustom)
-                                const Padding(
-                                  padding: EdgeInsets.only(right: 6.0),
-                                  child: Icon(Icons.science,
-                                      color: Colors.blue, size: 14),
-                                ),
-                              Expanded(
-                                child: Text(
-                                  ing.name.toString(),
-                                  style: const TextStyle(
-                                    color: Color(0xff87643E),
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      }).toList();
-                    },
-                    items: searchResults.map((Ingredient ing) {
-                      final isFavourite = ing.favourite == 1;
-                      final isCustom = ing.isCustom == 1;
-                      return DropdownMenuItem<num>(
-                        value: ing.ingredientId,
-                        child: Row(
-                          children: [
-                            if (isFavourite)
-                              const Padding(
-                                padding: EdgeInsets.only(right: 8.0),
-                                child: Icon(Icons.star,
-                                    color: Colors.orange, size: 18),
-                              ),
-                            if (isCustom)
-                              const Padding(
-                                padding: EdgeInsets.only(right: 8.0),
-                                child: Icon(Icons.science,
-                                    color: Colors.lightBlueAccent, size: 16),
-                              ),
-                            Expanded(
-                              child: Text(
-                                ing.name.toString(),
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    }).toList(),
-                    onChanged: (id) => ref
-                        .read(storeIngredientProvider.notifier)
-                        .setIngredient(id),
                   ),
                 ),
               ),
             ],
           );
         },
-        error: (e, stack) => Text(e.toString()),
-        loading: () => const CircularProgressIndicator());
+      ),
+    );
+  }
+}
+
+class _IngredientListTile extends StatelessWidget {
+  final Ingredient ingredient;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  const _IngredientListTile({
+    required this.ingredient,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+      leading: CircleAvatar(
+        radius: 24,
+        backgroundColor: isSelected
+            ? const Color(0xff87643E)
+            : const Color(0xff87643E).withValues(alpha: 0.1),
+        child: Text(
+          ingredient.name?.isNotEmpty == true
+              ? ingredient.name![0].toUpperCase()
+              : '?',
+          style: TextStyle(
+            color: isSelected ? Colors.white : const Color(0xff87643E),
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
+        ),
+      ),
+      title: Row(
+        children: [
+          Expanded(
+            child: Text(
+              ingredient.name ?? 'Unknown',
+              style: TextStyle(
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
+                fontSize: 16,
+              ),
+            ),
+          ),
+          if (ingredient.favourite == 1)
+            Icon(
+              Icons.star_rounded,
+              color: Colors.amber.shade600,
+              size: 18,
+            ),
+          if (ingredient.isCustom == 1) ...[
+            const SizedBox(width: 4),
+            Icon(
+              Icons.science_rounded,
+              color: const Color(0xff87643E),
+              size: 18,
+            ),
+          ],
+        ],
+      ),
+      subtitle: Padding(
+        padding: const EdgeInsets.only(top: 4),
+        child: Row(
+          children: [
+            Icon(Icons.inventory_2_outlined,
+                size: 14, color: Colors.grey.shade600),
+            const SizedBox(width: 4),
+            Text(
+              '${ingredient.availableQty?.toStringAsFixed(1) ?? '0'} kg available',
+              style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
+            ),
+            if (ingredient.priceKg != null) ...[
+              const SizedBox(width: 12),
+              Icon(Icons.attach_money_rounded,
+                  size: 14, color: Colors.grey.shade600),
+              Text(
+                '${ingredient.priceKg?.toStringAsFixed(2)}/kg',
+                style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
+              ),
+            ],
+          ],
+        ),
+      ),
+      trailing: isSelected
+          ? const Icon(Icons.check_circle_rounded, color: Color(0xff87643E))
+          : Icon(Icons.arrow_forward_ios_rounded,
+              size: 16, color: Colors.grey.shade400),
+      onTap: onTap,
+    );
+  }
+}
+
+class _EmptyState extends StatelessWidget {
+  final bool hasFilters;
+  final VoidCallback onClearFilters;
+
+  const _EmptyState({
+    required this.hasFilters,
+    required this.onClearFilters,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              hasFilters
+                  ? Icons.filter_alt_off_rounded
+                  : Icons.inventory_2_outlined,
+              size: 64,
+              color: Colors.grey.shade300,
+            ),
+            const SizedBox(height: 24),
+            Text(
+              hasFilters
+                  ? 'No ingredients match your filters'
+                  : 'No ingredients found',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey.shade700,
+                  ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 12),
+            Text(
+              hasFilters
+                  ? 'Try adjusting your search or filters'
+                  : 'Add ingredients to get started',
+              style: TextStyle(
+                color: Colors.grey.shade600,
+                fontSize: 15,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            if (hasFilters) ...[
+              const SizedBox(height: 24),
+              FilledButton.icon(
+                onPressed: onClearFilters,
+                icon: const Icon(Icons.clear_all_rounded),
+                label: const Text('Clear Filters'),
+                style: FilledButton.styleFrom(
+                  backgroundColor: const Color(0xff87643E),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
   }
 }

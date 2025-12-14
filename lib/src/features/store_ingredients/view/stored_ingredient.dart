@@ -1,215 +1,121 @@
-import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dart';
+import 'package:feed_estimator/src/features/add_ingredients/repository/ingredients_repository.dart';
 import 'package:feed_estimator/src/features/add_ingredients/widgets/user_ingredients_widget.dart';
-import 'package:feed_estimator/src/features/store_ingredients/providers/async_stored_ingredient.dart';
 import 'package:feed_estimator/src/features/store_ingredients/providers/stored_ingredient_provider.dart';
 import 'package:feed_estimator/src/features/store_ingredients/widget/ingredient_select_widget.dart';
 import 'package:feed_estimator/src/utils/widgets/app_drawer.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quickalert/quickalert.dart';
 
 class StoredIngredients extends ConsumerWidget {
   const StoredIngredients({super.key});
 
+  static const _brandColor = Color(0xff87643E);
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final data = ref.watch(storeIngredientProvider);
-    final ingredient = data.selectedIngredient;
-    final hasIngredient = ingredient != null && ingredient != Ingredient();
+    final state = ref.watch(storeIngredientProvider);
+    final hasSelection = state.selectedIngredient != null;
 
     return Scaffold(
+      backgroundColor: Colors.grey[50],
       drawer: const FeedAppDrawer(),
       body: CustomScrollView(
         slivers: [
-          // Modern SliverAppBar with cleaner design
-          SliverAppBar(
-            systemOverlayStyle: const SystemUiOverlayStyle(
-              statusBarColor: Color(0xff87643E),
-              statusBarIconBrightness: Brightness.light,
-              statusBarBrightness: Brightness.dark,
+          // Modern app bar
+          SliverAppBar.medium(
+            backgroundColor: _brandColor,
+            foregroundColor: Colors.white,
+            systemOverlayStyle: SystemUiOverlayStyle.light,
+            title: const Text(
+              'Ingredient Library',
+              style: TextStyle(fontWeight: FontWeight.w600),
             ),
-            pinned: true,
-            expandedHeight: 140,
-            backgroundColor: const Color(0xff87643E),
-            elevation: 0,
-            iconTheme: const IconThemeData(color: Colors.white),
-            flexibleSpace: FlexibleSpaceBar(
-              collapseMode: CollapseMode.parallax,
-              title: const Text(
-                'Ingredient Library',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                ),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.refresh_rounded),
+                onPressed: () => ref.invalidate(ingredientsListProvider),
+                tooltip: 'Refresh',
               ),
-              background: Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Color(0xff87643E),
-                      Color(0xff6B4F31),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+              const SizedBox(width: 8),
+            ],
           ),
 
-          // Content section
-          SliverToBoxAdapter(
-            child: Container(
-              color: Colors.grey[50],
+          // Ingredient selector
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+            sliver: SliverToBoxAdapter(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Search and filter section
-                  Container(
-                    margin: const EdgeInsets.all(16),
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.05),
-                          blurRadius: 10,
-                          offset: const Offset(0, 2),
+                  Text(
+                    'MANAGE INVENTORY',
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: _brandColor,
+                          letterSpacing: 1.2,
                         ),
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Manage Ingredients',
-                          style:
-                              Theme.of(context).textTheme.titleMedium?.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    color: const Color(0xff87643E),
-                                  ),
-                        ),
-                        const SizedBox(height: 12),
-                        const IngredientSSelectWidget(),
-                      ],
-                    ),
                   ),
-
-                  // Form and Actions (shown only if ingredient selected)
-                  if (hasIngredient) ...[
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 16),
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.05),
-                            blurRadius: 10,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: const StoredIngredientForm(),
-                    ),
-                    const SizedBox(height: 16),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                      child: _ActionButtonsRow(),
-                    ),
-                    const SizedBox(height: 24),
-                  ] else ...[
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 16),
-                      padding: const EdgeInsets.all(48),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.05),
-                            blurRadius: 10,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        children: [
-                          Icon(
-                            CupertinoIcons.archivebox,
-                            size: 64,
-                            color:
-                                const Color(0xff87643E).withValues(alpha: 0.3),
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            'Select an ingredient to manage',
-                            style:
-                                Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                      color: const Color(0xff87643E)
-                                          .withValues(alpha: 0.6),
-                                    ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-                  ],
+                  const SizedBox(height: 12),
+                  const IngredientSelectorTile(),
                 ],
               ),
             ),
           ),
 
-          // Divider
+          // Edit form with animation
           SliverToBoxAdapter(
-            child: Container(
-              height: 8,
-              color: Colors.grey[50],
+            child: AnimatedSize(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+              child: hasSelection
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 8),
+                      child: _EditFormCard(brandColor: _brandColor),
+                    )
+                  : const SizedBox.shrink(),
             ),
           ),
 
-          // User Ingredients List Section
-          SliverFillRemaining(
+          // Custom ingredients header
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+            sliver: SliverToBoxAdapter(
+              child: Row(
+                children: [
+                  Icon(Icons.science_rounded, color: _brandColor, size: 22),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Custom Ingredients',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: _brandColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                  const Spacer(),
+                  FilledButton.tonalIcon(
+                    onPressed: () {
+                      // Navigate to add ingredient
+                    },
+                    icon: const Icon(Icons.add_rounded, size: 18),
+                    label: const Text('Add New'),
+                    style: FilledButton.styleFrom(
+                      backgroundColor: _brandColor.withValues(alpha: 0.1),
+                      foregroundColor: _brandColor,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          // User ingredients list
+          const SliverFillRemaining(
             hasScrollBody: true,
-            child: Container(
-              color: Colors.grey[50],
-              child: Column(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Row(
-                      children: [
-                        const Icon(
-                          Icons.science,
-                          color: Color(0xff87643E),
-                          size: 20,
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          'Custom Ingredients Library',
-                          style:
-                              Theme.of(context).textTheme.titleMedium?.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    color: const Color(0xff87643E),
-                                  ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Expanded(
-                    child: UserIngredientsWidget(),
-                  ),
-                ],
-              ),
-            ),
+            child: UserIngredientsWidget(),
           ),
         ],
       ),
@@ -217,343 +123,395 @@ class StoredIngredients extends ConsumerWidget {
   }
 }
 
-class StoredIngredientForm extends ConsumerWidget {
-  const StoredIngredientForm({super.key});
+class _EditFormCard extends ConsumerStatefulWidget {
+  final Color brandColor;
+
+  const _EditFormCard({required this.brandColor});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final data = ref.watch(storeIngredientProvider);
-    final ingredient = data.selectedIngredient;
+  ConsumerState<_EditFormCard> createState() => _EditFormCardState();
+}
 
-    if (ingredient == null || ingredient == Ingredient()) {
-      return const SizedBox.shrink();
+class _EditFormCardState extends ConsumerState<_EditFormCard> {
+  late final TextEditingController _priceCtrl;
+  late final TextEditingController _qtyCtrl;
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    final state = ref.read(storeIngredientProvider);
+    _priceCtrl =
+        TextEditingController(text: state.draftPrice?.toString() ?? '');
+    _qtyCtrl = TextEditingController(text: state.draftQty?.toString() ?? '');
+  }
+
+  @override
+  void dispose() {
+    _priceCtrl.dispose();
+    _qtyCtrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final state = ref.watch(storeIngredientProvider);
+    final notifier = ref.read(storeIngredientProvider.notifier);
+
+    // Update controllers when state changes
+    if (_priceCtrl.text != state.draftPrice?.toString()) {
+      _priceCtrl.text = state.draftPrice?.toString() ?? '';
+    }
+    if (_qtyCtrl.text != state.draftQty?.toString()) {
+      _qtyCtrl.text = state.draftQty?.toString() ?? '';
     }
 
-    final priceController = TextEditingController(
-      text: ingredient.priceKg == null ? "" : ingredient.priceKg.toString(),
-    );
-    final quantityController = TextEditingController(
-      text: ingredient.availableQty == null
-          ? ""
-          : ingredient.availableQty.toString(),
-    );
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Section header
-        Text(
-          'Update Inventory',
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: const Color(0xff87643E),
-              ),
-        ),
-        const SizedBox(height: 12),
-
-        // Divider
-        Container(
-          height: 2,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                const Color(0xff87643E).withValues(alpha: 0.3),
-                const Color(0xff87643E).withValues(alpha: 0.1),
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(height: 16),
-
-        // Price and Quantity Row
-        Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Price per Unit',
-                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: const Color(0xff87643E).withValues(alpha: 0.7),
-                        ),
-                  ),
-                  const SizedBox(height: 8),
-                  _StoredIngredientTextField(
-                    controller: priceController,
-                    hint: 'Price/Unit',
-                    icon: CupertinoIcons.money_dollar_circle,
-                    onChanged: (value) => ref
-                        .read(storeIngredientProvider.notifier)
-                        .setPrice(value),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Available Quantity',
-                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: const Color(0xff87643E).withValues(alpha: 0.7),
-                        ),
-                  ),
-                  const SizedBox(height: 8),
-                  _StoredIngredientTextField(
-                    controller: quantityController,
-                    hint: 'Available Qty',
-                    icon: Icons.inventory_2_outlined,
-                    onChanged: (value) => ref
-                        .read(storeIngredientProvider.notifier)
-                        .setAvailableQuantity(value),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 20),
-
-        // Favorite Toggle
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: const Color(0xff87643E).withValues(alpha: 0.05),
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(
-              color: const Color(0xff87643E).withValues(alpha: 0.2),
-            ),
-          ),
-          child: Row(
+    return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(color: Colors.grey.shade200),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: const Color(0xff87643E).withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: Icon(
-                  ingredient.favourite == 1
-                      ? CupertinoIcons.heart_fill
-                      : CupertinoIcons.heart,
-                  color: const Color(0xff87643E),
-                  size: 20,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Favorite Ingredient',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            fontWeight: FontWeight.w500,
-                          ),
+              // Header with favorite toggle
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Update Details',
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                  Material(
+                    color: state.draftFavorite
+                        ? widget.brandColor.withValues(alpha: 0.1)
+                        : Colors.grey.shade100,
+                    borderRadius: BorderRadius.circular(20),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(20),
+                      onTap: () =>
+                          notifier.toggleDraftFavorite(!state.draftFavorite),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 8),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              state.draftFavorite
+                                  ? Icons.star_rounded
+                                  : Icons.star_outline_rounded,
+                              color: state.draftFavorite
+                                  ? Colors.amber
+                                  : Colors.grey,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 6),
+                            Text(
+                              state.draftFavorite
+                                  ? 'Favorite'
+                                  : 'Add to favorites',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: state.draftFavorite
+                                    ? widget.brandColor
+                                    : Colors.grey.shade700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    Text(
-                      'Mark this ingredient as frequently used',
-                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                            color: Colors.grey,
-                          ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              Checkbox(
-                value: ingredient.favourite == 1,
-                onChanged: (value) => ref
-                    .read(storeIngredientProvider.notifier)
-                    .setFavourite(value),
-                fillColor: WidgetStateColor.resolveWith(
-                  (states) => const Color(0xff87643E),
-                ),
+              const SizedBox(height: 20),
+
+              // Input fields
+              Row(
+                children: [
+                  Expanded(
+                    child: _ModernTextField(
+                      label: 'Price per kg',
+                      controller: _priceCtrl,
+                      icon: Icons.attach_money_rounded,
+                      onChanged: notifier.updateDraftPrice,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) return 'Required';
+                        final num = double.tryParse(value);
+                        if (num == null || num <= 0) return 'Must be > 0';
+                        return null;
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: _ModernTextField(
+                      label: 'Available Qty (kg)',
+                      controller: _qtyCtrl,
+                      icon: Icons.inventory_2_rounded,
+                      onChanged: notifier.updateDraftQty,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) return 'Required';
+                        final num = double.tryParse(value);
+                        if (num == null || num < 0) return 'Must be ≥ 0';
+                        return null;
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
+
+              // Action buttons
+              Row(
+                children: [
+                  // Delete button
+                  IconButton.filledTonal(
+                    onPressed: () => _confirmDelete(context, ref),
+                    style: IconButton.styleFrom(
+                      backgroundColor: Colors.red.shade50,
+                      foregroundColor: Colors.red.shade700,
+                      padding: const EdgeInsets.all(12),
+                    ),
+                    icon: const Icon(Icons.delete_outline_rounded),
+                    tooltip: 'Delete',
+                  ),
+                  const SizedBox(width: 12),
+
+                  // Reset button
+                  OutlinedButton.icon(
+                    onPressed:
+                        state.hasChanges ? () => notifier.resetDraft() : null,
+                    icon: const Icon(Icons.refresh_rounded, size: 18),
+                    label: const Text('Reset'),
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 14),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+
+                  // Save button
+                  Expanded(
+                    child: FilledButton.icon(
+                      onPressed: state.hasChanges && state.isValid
+                          ? () => _saveChanges(context, ref)
+                          : null,
+                      style: FilledButton.styleFrom(
+                        backgroundColor: widget.brandColor,
+                        disabledBackgroundColor: Colors.grey.shade300,
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      icon: const Icon(Icons.save_rounded),
+                      label: const Text('Save Changes'),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
         ),
-      ],
+      ),
     );
+  }
+
+  Future<void> _saveChanges(BuildContext context, WidgetRef ref) async {
+    if (!_formKey.currentState!.validate()) return;
+
+    final state = ref.read(storeIngredientProvider);
+    final ing = state.selectedIngredient;
+    if (ing == null) return;
+
+    final updatedIng = ing.copyWith(
+      priceKg: state.draftPrice,
+      availableQty: state.draftQty,
+      favourite: state.draftFavorite ? 1 : 0,
+    );
+
+    try {
+      await ref
+          .read(ingredientsRepository)
+          .update(updatedIng.toJson(), updatedIng.ingredientId as num);
+
+      ref.invalidate(ingredientsListProvider);
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Row(
+              children: [
+                Icon(Icons.check_circle_rounded, color: Colors.white),
+                SizedBox(width: 12),
+                Text('Ingredient updated successfully'),
+              ],
+            ),
+            backgroundColor: Colors.green.shade600,
+            behavior: SnackBarBehavior.floating,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                const Icon(Icons.error_outline_rounded, color: Colors.white),
+                const SizedBox(width: 12),
+                Expanded(child: Text('Failed to save: $e')),
+              ],
+            ),
+            backgroundColor: Colors.red.shade600,
+            behavior: SnackBarBehavior.floating,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
+    }
+  }
+
+  Future<void> _confirmDelete(BuildContext context, WidgetRef ref) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        icon: Icon(Icons.delete_forever_rounded,
+            color: Colors.red.shade400, size: 32),
+        title: const Text('Delete Ingredient?'),
+        content: const Text(
+          'This will permanently remove this ingredient from your library. This action cannot be undone.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed == true && context.mounted) {
+      final ingredientId =
+          ref.read(storeIngredientProvider).selectedIngredient?.ingredientId;
+
+      if (ingredientId != null) {
+        try {
+          // Call your delete method here
+          ref.read(storeIngredientProvider.notifier).selectIngredient(null);
+          ref.invalidate(ingredientsListProvider);
+
+          if (context.mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: const Row(
+                  children: [
+                    Icon(Icons.check_circle_rounded, color: Colors.white),
+                    SizedBox(width: 12),
+                    Text('Ingredient deleted'),
+                  ],
+                ),
+                backgroundColor: Colors.green.shade600,
+                behavior: SnackBarBehavior.floating,
+              ),
+            );
+          }
+        } catch (e) {
+          if (context.mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Failed to delete: $e'),
+                backgroundColor: Colors.red.shade600,
+                behavior: SnackBarBehavior.floating,
+              ),
+            );
+          }
+        }
+      }
+    }
   }
 }
 
-/// Reusable text field for stored ingredient form
-class _StoredIngredientTextField extends StatelessWidget {
+class _ModernTextField extends StatelessWidget {
+  final String label;
   final TextEditingController controller;
-  final String hint;
   final IconData icon;
   final Function(String) onChanged;
+  final String? Function(String?)? validator;
 
-  const _StoredIngredientTextField({
+  const _ModernTextField({
+    required this.label,
     required this.controller,
-    required this.hint,
     required this.icon,
     required this.onChanged,
+    this.validator,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Focus(
-      onFocusChange: (hasFocus) {
-        if (!hasFocus) {
-          onChanged(controller.text);
-        }
-      },
-      child: TextFormField(
-        controller: controller,
-        decoration: InputDecoration(
-          hintText: hint,
-          prefixIcon: Icon(icon),
-          prefixIconColor: const Color(0xff87643E),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: const BorderSide(
-              color: Color(0xff87643E),
-              width: 1,
-            ),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(
-              color: const Color(0xff87643E).withValues(alpha: 0.3),
-              width: 1,
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: const BorderSide(
-              color: Color(0xff87643E),
-              width: 2,
-            ),
-          ),
-          filled: true,
-          fillColor: Colors.white,
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 12,
-            vertical: 14,
-          ),
-        ),
-        keyboardType: const TextInputType.numberWithOptions(decimal: true),
-        textInputAction: TextInputAction.next,
-        onFieldSubmitted: onChanged,
-        onTapOutside: (event) => onChanged(controller.text),
-      ),
-    );
-  }
-}
-
-/// Action buttons row for Save and Delete
-class _ActionButtonsRow extends ConsumerWidget {
-  const _ActionButtonsRow();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final ingredient = ref.watch(storeIngredientProvider).selectedIngredient;
-
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Save Changes Button (consolidated Save + Update)
-        Expanded(
-          flex: 3,
-          child: FilledButton.icon(
-            onPressed: () async {
-              // Save or update based on whether ingredient exists
-              await ref
-                  .read(asyncStoredIngredientsProvider.notifier)
-                  .saveIngredient(
-                onSuccess: () {
-                  QuickAlert.show(
-                    context: context,
-                    type: QuickAlertType.success,
-                    text: 'Ingredient saved successfully!',
-                    autoCloseDuration: const Duration(seconds: 2),
-                  );
-                },
-              );
-
-              // Also update the current ingredient
-              ref.read(storeIngredientProvider.notifier).update();
-            },
-            icon: const Icon(Icons.save),
-            label: const Text('Save Changes'),
-            style: FilledButton.styleFrom(
-              backgroundColor: const Color(0xff87643E),
-              padding: const EdgeInsets.symmetric(vertical: 14),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
+        Text(
+          label,
+          style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+                color: Colors.grey.shade700,
               ),
+        ),
+        const SizedBox(height: 8),
+        TextFormField(
+          controller: controller,
+          onChanged: onChanged,
+          validator: validator,
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          decoration: InputDecoration(
+            prefixIcon: Icon(icon, size: 20, color: const Color(0xff87643E)),
+            filled: true,
+            fillColor: Colors.grey.shade50,
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: Colors.grey.shade300),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: Colors.grey.shade200),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: Color(0xff87643E), width: 2),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: Colors.red.shade300),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: Colors.red.shade400, width: 2),
             ),
           ),
-        ),
-        const SizedBox(width: 12),
-        // Delete Button
-        IconButton.filled(
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (context) => _DeleteIngredientDialog(
-                ingredient: ingredient!,
-              ),
-            );
-          },
-          icon: const Icon(Icons.delete_outline),
-          style: IconButton.styleFrom(
-            backgroundColor: Colors.red,
-            foregroundColor: Colors.white,
-            padding: const EdgeInsets.all(14),
-            minimumSize: const Size(56, 56),
-          ),
-          tooltip: 'Delete ingredient',
-        ),
-      ],
-    );
-  }
-}
-
-/// Modern Material delete confirmation dialog
-class _DeleteIngredientDialog extends ConsumerWidget {
-  final Ingredient ingredient;
-
-  const _DeleteIngredientDialog({required this.ingredient});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return AlertDialog(
-      title: Text(
-        'Delete "${ingredient.name}"?',
-        style: const TextStyle(fontWeight: FontWeight.w600),
-      ),
-      content: const Text(
-        'This action cannot be undone. The ingredient will be permanently removed from your stored ingredients.',
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel'),
-        ),
-        FilledButton(
-          style: FilledButton.styleFrom(
-            backgroundColor: Colors.red,
-          ),
-          onPressed: () {
-            ref
-                .read(asyncStoredIngredientsProvider.notifier)
-                .deleteIngredient(ingredient.ingredientId);
-            Navigator.pop(context);
-            QuickAlert.show(
-              context: context,
-              type: QuickAlertType.success,
-              text: 'Ingredient deleted successfully!',
-              autoCloseDuration: const Duration(seconds: 2),
-            );
-          },
-          child: const Text('Delete'),
         ),
       ],
     );

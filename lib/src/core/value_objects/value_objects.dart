@@ -1,5 +1,5 @@
 /// Core value objects for type-safe domain modeling
-library value_objects;
+library;
 
 export 'price.dart';
 export 'weight.dart';

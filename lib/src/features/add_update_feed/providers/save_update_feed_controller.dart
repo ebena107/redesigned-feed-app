@@ -12,18 +12,20 @@ class SaveUpdateFeedController extends _$SaveUpdateFeedController {
 
   @override
   FutureOr<void> build() async {
+    return null;
+
     // key = Object();
     // ref.onDispose(() => key = null);
   }
 
-  Future<void> saveUpdateFeed(
-      {required String todo, required ValueChanged<String> onSuccess}) async {
+  Future<void> saveUpdateFeed({
+    required String todo,
+    required ValueChanged<String> onSuccess,
+  }) async {
     final provider = ref.read(feedProvider.notifier);
     state = const AsyncLoading();
 
-    state = await AsyncValue.guard(() => provider.saveUpdateFeed(
-          todo: todo,
-        ));
+    state = await AsyncValue.guard(() => provider.saveUpdateFeed(todo: todo));
     //
     // if (key == this.key) {
     //   state = newState;

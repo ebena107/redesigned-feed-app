@@ -10,7 +10,9 @@ part 'async_feed_provider.g.dart';
 @riverpod
 class AsyncFeed extends _$AsyncFeed {
   @override
-  FutureOr<void> build() async {}
+  FutureOr<void> build() async {
+    return null;
+  }
 
   Future<void> saveUpdateFeed({required String todo}) async {
     final provider = ref.read(feedProvider.notifier);
@@ -26,23 +28,22 @@ class AsyncFeed extends _$AsyncFeed {
     }
   }
 
-  Future<void> deleteIngredient(
-    num? ingredientId,
-  ) async {
+  Future<void> deleteIngredient(num? ingredientId) async {
     state = const AsyncLoading();
-    state = await AsyncValue.guard(
-      () async {
-        ref.read(feedProvider.notifier).removeIng(ingredientId);
-        return;
-      },
-    );
+    state = await AsyncValue.guard(() async {
+      ref.read(feedProvider.notifier).removeIng(ingredientId);
+      return;
+    });
 
     if (state.hasError == false) {
       //  debugPrint('finished delete');
       // await ref.read(asyncMainProvider.notifier).loadFeed();
-      await ref.read(resultProvider.notifier).estimatedResult(
-          animal: ref.watch(feedProvider).animalTypeId,
-          ingList: ref.watch(feedProvider).feedIngredients);
+      await ref
+          .read(resultProvider.notifier)
+          .estimatedResult(
+            animal: ref.watch(feedProvider).animalTypeId,
+            ingList: ref.watch(feedProvider).feedIngredients,
+          );
       return;
     }
   }

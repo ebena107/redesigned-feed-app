@@ -110,10 +110,7 @@ class ReportRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return AnalysisPage(
-      feedId: feedId,
-      type: type,
-    );
+    return AnalysisPage(feedId: feedId, type: type);
   }
 }
 
@@ -142,9 +139,7 @@ class NewFeedIngredientsRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return IngredientList(
-      feedId: feedId,
-    );
+    return IngredientList(feedId: feedId);
   }
 }
 
@@ -155,9 +150,7 @@ class FeedRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return NewFeedPage(
-      feedId: feedId,
-    );
+    return NewFeedPage(feedId: feedId);
   }
 }
 
@@ -168,9 +161,7 @@ class FeedIngredientsRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return IngredientList(
-      feedId: feedId,
-    );
+    return IngredientList(feedId: feedId);
   }
 }
 
@@ -182,10 +173,7 @@ class ViewFeedReportRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return AnalysisPage(
-      feedId: feedId,
-      type: type,
-    );
+    return AnalysisPage(feedId: feedId, type: type);
   }
 }
 
@@ -196,9 +184,7 @@ class EditFeedRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return NewFeedPage(
-      feedId: feedId,
-    );
+    return NewFeedPage(feedId: feedId);
   }
 }
 
