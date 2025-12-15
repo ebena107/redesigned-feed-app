@@ -35,11 +35,6 @@ part 'routes.g.dart';
     ),
   ],
 )
-@TypedGoRoute<AboutRoute>(path: '/about')
-@TypedGoRoute<FeedStoreRoute>(path: '/feedStore')
-@TypedGoRoute<IngredientStoreRoute>(path: '/ingredientStore')
-@TypedGoRoute<NewIngredientRoute>(path: '/newIngredient')
-@TypedGoRoute<SettingsRoute>(path: '/settings')
 @immutable
 class HomeRoute extends GoRouteData {
   const HomeRoute();
@@ -50,6 +45,7 @@ class HomeRoute extends GoRouteData {
   }
 }
 
+@TypedGoRoute<AboutRoute>(path: '/about')
 @immutable
 class AboutRoute extends GoRouteData {
   const AboutRoute();
@@ -60,6 +56,7 @@ class AboutRoute extends GoRouteData {
   }
 }
 
+@TypedGoRoute<FeedStoreRoute>(path: '/feedStore')
 @immutable
 class FeedStoreRoute extends GoRouteData {
   const FeedStoreRoute();
@@ -70,6 +67,7 @@ class FeedStoreRoute extends GoRouteData {
   }
 }
 
+@TypedGoRoute<IngredientStoreRoute>(path: '/ingredientStore')
 @immutable
 class IngredientStoreRoute extends GoRouteData {
   const IngredientStoreRoute();
@@ -80,6 +78,7 @@ class IngredientStoreRoute extends GoRouteData {
   }
 }
 
+@TypedGoRoute<NewIngredientRoute>(path: '/newIngredient')
 @immutable
 class NewIngredientRoute extends GoRouteData {
   const NewIngredientRoute({this.ingredientId});
@@ -188,6 +187,7 @@ class EditFeedRoute extends GoRouteData {
   }
 }
 
+@TypedGoRoute<SettingsRoute>(path: '/settings')
 @immutable
 class SettingsRoute extends GoRouteData {
   const SettingsRoute();

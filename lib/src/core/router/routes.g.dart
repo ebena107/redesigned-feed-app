@@ -8,6 +8,11 @@ part of 'routes.dart';
 
 List<RouteBase> get $appRoutes => [
       $homeRoute,
+      $aboutRoute,
+      $feedStoreRoute,
+      $ingredientStoreRoute,
+      $newIngredientRoute,
+      $settingsRoute,
     ];
 
 RouteBase get $homeRoute => GoRouteData.$route(
@@ -222,4 +227,122 @@ T? _$convertMapValue<T>(
 ) {
   final value = map[key];
   return value == null ? null : converter(value);
+}
+
+RouteBase get $aboutRoute => GoRouteData.$route(
+      path: '/about',
+      factory: $AboutRouteExtension._fromState,
+    );
+
+extension $AboutRouteExtension on AboutRoute {
+  static AboutRoute _fromState(GoRouterState state) => const AboutRoute();
+
+  String get location => GoRouteData.$location(
+        '/about',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $feedStoreRoute => GoRouteData.$route(
+      path: '/feedStore',
+      factory: $FeedStoreRouteExtension._fromState,
+    );
+
+extension $FeedStoreRouteExtension on FeedStoreRoute {
+  static FeedStoreRoute _fromState(GoRouterState state) =>
+      const FeedStoreRoute();
+
+  String get location => GoRouteData.$location(
+        '/feedStore',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $ingredientStoreRoute => GoRouteData.$route(
+      path: '/ingredientStore',
+      factory: $IngredientStoreRouteExtension._fromState,
+    );
+
+extension $IngredientStoreRouteExtension on IngredientStoreRoute {
+  static IngredientStoreRoute _fromState(GoRouterState state) =>
+      const IngredientStoreRoute();
+
+  String get location => GoRouteData.$location(
+        '/ingredientStore',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $newIngredientRoute => GoRouteData.$route(
+      path: '/newIngredient',
+      factory: $NewIngredientRouteExtension._fromState,
+    );
+
+extension $NewIngredientRouteExtension on NewIngredientRoute {
+  static NewIngredientRoute _fromState(GoRouterState state) =>
+      NewIngredientRoute(
+        ingredientId: state.uri.queryParameters['ingredient-id'],
+      );
+
+  String get location => GoRouteData.$location(
+        '/newIngredient',
+        queryParams: {
+          if (ingredientId != null) 'ingredient-id': ingredientId,
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $settingsRoute => GoRouteData.$route(
+      path: '/settings',
+      factory: $SettingsRouteExtension._fromState,
+    );
+
+extension $SettingsRouteExtension on SettingsRoute {
+  static SettingsRoute _fromState(GoRouterState state) => const SettingsRoute();
+
+  String get location => GoRouteData.$location(
+        '/settings',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
