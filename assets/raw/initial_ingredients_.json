@@ -662,7 +662,6 @@
     "category": "Minerals",
     "category_id": 8
   },
-
   {
     "id": 16,
     "name": "Canola meal, solvent extracted, oil < 5%",
@@ -1306,7 +1305,6 @@
     "category": "Minerals",
     "category_id": 8
   },
-  
   {
     "id": 31,
     "name": "DL-Methionine (99%)",
@@ -1962,7 +1960,7 @@
     "category": "Protein meals",
     "category_id": 4
   },
-   {
+  {
     "id": 46,
     "name": "Groundnut (peanut) shell",
     "crude_protein": 6.5,
@@ -2531,7 +2529,6 @@
     "category": "Dairy products",
     "category_id": 6
   },
-  
   {
     "id": 61,
     "name": "Milk powder, whole",
@@ -3272,7 +3269,7 @@
     "name": "Poultry by-product meal, 60-70% protein",
     "crude_protein": 63.0,
     "crude_fiber": 0.9,
-    "crude_fat": 22.0,
+    "crude_fat": 20.0,
     "ash": 12.0,
     "moisture": 8.0,
     "calcium": 22.0,
@@ -3737,7 +3734,6 @@
     "category_id": 8,
     "notes": "Buffer, electrolyte balance"
   },
-  
   {
     "id": 91,
     "name": "Sorghum",
@@ -4666,7 +4662,7 @@
     "crude_fiber": 15.0,
     "crude_fat": 3.5,
     "ash": 18.0,
-    "moisture": 90.0,
+    "moisture": 10.0,
     "calcium": 10.0,
     "total_phosphorus": 2.5,
     "available_phosphorus": 0.8,
@@ -4705,7 +4701,7 @@
     "crude_fiber": 12.0,
     "crude_fat": 5.0,
     "ash": 16.0,
-    "moisture": 92.0,
+    "moisture": 10.0,
     "calcium": 8.5,
     "total_phosphorus": 3.5,
     "available_phosphorus": 1.0,
@@ -4744,7 +4740,7 @@
     "crude_fiber": 8.0,
     "crude_fat": 6.5,
     "ash": 14.0,
-    "moisture": 93.0,
+    "moisture": 8.0,
     "calcium": 6.5,
     "total_phosphorus": 4.5,
     "available_phosphorus": 1.4,
@@ -4920,5 +4916,1772 @@
     "category": "Leaf meals",
     "category_id": 13,
     "notes": "Very high fiber, limit to 5%"
+  },
+  {
+    "id": 121,
+    "name": "Corn Silage (Maize Silage)",
+    "crude_protein": 8.5,
+    "crude_fiber": 22.0,
+    "crude_fat": 3.2,
+    "ash": 4.5,
+    "moisture": 65.0,
+    "starch": 28.0,
+    "calcium": 2.6,
+    "total_phosphorus": 2.2,
+    "available_phosphorus": 1.5,
+    "phytate_phosphorus": 0.7,
+    "amino_acids_total": {
+      "lysine": 2.5,
+      "methionine": 1.5,
+      "cystine": 1.6,
+      "threonine": 3.0,
+      "tryptophan": 0.6,
+      "arginine": 3.5,
+      "isoleucine": 3.0,
+      "leucine": 9.0,
+      "valine": 4.0,
+      "histidine": 2.2,
+      "phenylalanine": 4.0
+    },
+    "amino_acids_sid": {
+      "lysine": 2.0,
+      "methionine": 1.4,
+      "cystine": 1.4,
+      "threonine": 2.5,
+      "tryptophan": 0.5,
+      "arginine": 3.2,
+      "isoleucine": 2.7,
+      "leucine": 8.5,
+      "valine": 3.7,
+      "histidine": 2.0,
+      "phenylalanine": 3.7
+    },
+    "energy": {
+      "de_pig": 1180,
+      "me_pig": 1135,
+      "ne_pig": 855,
+      "me_poultry": 1050,
+      "me_ruminant": 2600,
+      "me_rabbit": 1020,
+      "de_salmonids": 520
+    },
+    "price_kg": 0.06,
+    "available_qty": 50000,
+    "bulk_density": 750,
+    "max_inclusion": {
+      "pig_grower": 0,
+      "pig_finisher": 0,
+      "poultry": 0,
+      "ruminant": 500,
+      "notes": "Ruminant feed only, use as-fed basis"
+    },
+    "category": "Silages & forages",
+    "category_id": 13,
+    "notes": "High moisture (65%), fermented feed for ruminants"
+  },
+  {
+    "id": 122,
+    "name": "Corn Flour (Maize Flour)",
+    "crude_protein": 7.5,
+    "crude_fiber": 2.5,
+    "crude_fat": 3.8,
+    "ash": 1.2,
+    "moisture": 12.0,
+    "starch": 72.0,
+    "calcium": 0.2,
+    "total_phosphorus": 2.8,
+    "available_phosphorus": 0.8,
+    "phytate_phosphorus": 2.0,
+    "amino_acids_total": {
+      "lysine": 2.6,
+      "methionine": 1.8,
+      "cystine": 2.0,
+      "threonine": 2.8,
+      "tryptophan": 0.6,
+      "arginine": 4.0,
+      "isoleucine": 3.0,
+      "leucine": 10.0,
+      "valine": 4.0,
+      "histidine": 2.3,
+      "phenylalanine": 4.0
+    },
+    "amino_acids_sid": {
+      "lysine": 2.1,
+      "methionine": 1.7,
+      "cystine": 1.8,
+      "threonine": 2.4,
+      "tryptophan": 0.5,
+      "arginine": 3.7,
+      "isoleucine": 2.8,
+      "leucine": 9.5,
+      "valine": 3.7,
+      "histidine": 2.1,
+      "phenylalanine": 3.7
+    },
+    "energy": {
+      "de_pig": 3550,
+      "me_pig": 3415,
+      "ne_pig": 2595,
+      "me_poultry": 3400,
+      "me_ruminant": 3000,
+      "me_rabbit": 3300,
+      "de_salmonids": 2700
+    },
+    "price_kg": 0.28,
+    "available_qty": 8000,
+    "bulk_density": 650,
+    "max_inclusion": {
+      "pig_grower": 400,
+      "pig_finisher": 500,
+      "poultry": 300,
+      "ruminant": 300,
+      "notes": "No toxicity concerns, limit by economics"
+    },
+    "category": "Cereal grains",
+    "category_id": 1
+  },
+  {
+    "id": 123,
+    "name": "Coconut Meal (Copra meal)",
+    "crude_protein": 21.0,
+    "crude_fiber": 12.0,
+    "crude_fat": 8.0,
+    "ash": 6.5,
+    "moisture": 10.0,
+    "calcium": 2.0,
+    "total_phosphorus": 6.0,
+    "available_phosphorus": 1.8,
+    "phytate_phosphorus": 4.2,
+    "amino_acids_total": {
+      "lysine": 6.5,
+      "methionine": 5.5,
+      "cystine": 3.5,
+      "threonine": 7.0,
+      "tryptophan": 2.5,
+      "arginine": 30.0,
+      "isoleucine": 7.5,
+      "leucine": 13.5,
+      "valine": 11.0,
+      "histidine": 5.0,
+      "phenylalanine": 9.0
+    },
+    "amino_acids_sid": {
+      "lysine": 5.0,
+      "methionine": 5.2,
+      "cystine": 3.2,
+      "threonine": 6.2,
+      "tryptophan": 2.2,
+      "arginine": 28.5,
+      "isoleucine": 6.8,
+      "leucine": 12.5,
+      "valine": 10.0,
+      "histidine": 4.6,
+      "phenylalanine": 8.3
+    },
+    "energy": {
+      "de_pig": 2850,
+      "me_pig": 2740,
+      "ne_pig": 1790,
+      "me_poultry": 1800,
+      "me_ruminant": 2500,
+      "me_rabbit": 2100,
+      "de_salmonids": 2400
+    },
+    "price_kg": 0.24,
+    "available_qty": 6000,
+    "bulk_density": 520,
+    "max_inclusion": {
+      "pig_grower": 100,
+      "pig_finisher": 150,
+      "poultry": 150,
+      "ruminant": 250,
+      "notes": "High fiber limits inclusion, deficient in lysine"
+    },
+    "category": "Protein meals",
+    "category_id": 4
+  },
+  {
+    "id": 124,
+    "name": "Black Gram (Urad dal)",
+    "crude_protein": 24.0,
+    "crude_fiber": 4.5,
+    "crude_fat": 1.5,
+    "ash": 3.2,
+    "moisture": 10.0,
+    "starch": 48.0,
+    "calcium": 1.5,
+    "total_phosphorus": 3.8,
+    "available_phosphorus": 1.3,
+    "phytate_phosphorus": 2.5,
+    "amino_acids_total": {
+      "lysine": 17.0,
+      "methionine": 2.5,
+      "cystine": 3.0,
+      "threonine": 8.5,
+      "tryptophan": 2.5,
+      "arginine": 16.0,
+      "isoleucine": 10.5,
+      "leucine": 18.0,
+      "valine": 12.0,
+      "histidine": 6.5,
+      "phenylalanine": 12.0
+    },
+    "amino_acids_sid": {
+      "lysine": 15.5,
+      "methionine": 2.3,
+      "cystine": 2.7,
+      "threonine": 7.7,
+      "tryptophan": 2.2,
+      "arginine": 15.0,
+      "isoleucine": 9.8,
+      "leucine": 16.8,
+      "valine": 11.2,
+      "histidine": 6.0,
+      "phenylalanine": 11.2
+    },
+    "energy": {
+      "de_pig": 3430,
+      "me_pig": 3300,
+      "ne_pig": 2250,
+      "me_poultry": 2850,
+      "me_ruminant": 2750,
+      "me_rabbit": 2950,
+      "de_salmonids": 2320
+    },
+    "anti_nutritional_factors": {
+      "trypsin_inhibitor_units_mg": 3.5,
+      "tannins_percent": 0.4
+    },
+    "price_kg": 0.40,
+    "available_qty": 3500,
+    "bulk_density": 820,
+    "max_inclusion": {
+      "pig_grower": 150,
+      "pig_finisher": 200,
+      "poultry": 100,
+      "ruminant": 200,
+      "notes": "Heat treatment improves digestibility"
+    },
+    "category": "Legume seeds",
+    "category_id": 3
+  },
+  {
+    "id": 125,
+    "name": "Pigeon Pea (Arhar dal)",
+    "crude_protein": 22.0,
+    "crude_fiber": 6.0,
+    "crude_fat": 1.7,
+    "ash": 3.8,
+    "moisture": 11.0,
+    "starch": 42.0,
+    "calcium": 1.3,
+    "total_phosphorus": 3.0,
+    "available_phosphorus": 1.0,
+    "phytate_phosphorus": 2.0,
+    "amino_acids_total": {
+      "lysine": 15.0,
+      "methionine": 3.0,
+      "cystine": 2.8,
+      "threonine": 7.8,
+      "tryptophan": 2.5,
+      "arginine": 14.5,
+      "isoleucine": 9.5,
+      "leucine": 16.5,
+      "valine": 11.0,
+      "histidine": 6.0,
+      "phenylalanine": 11.5
+    },
+    "amino_acids_sid": {
+      "lysine": 13.5,
+      "methionine": 2.8,
+      "cystine": 2.5,
+      "threonine": 7.0,
+      "tryptophan": 2.2,
+      "arginine": 13.5,
+      "isoleucine": 8.8,
+      "leucine": 15.5,
+      "valine": 10.2,
+      "histidine": 5.5,
+      "phenylalanine": 10.8
+    },
+    "energy": {
+      "de_pig": 3150,
+      "me_pig": 3030,
+      "ne_pig": 2050,
+      "me_poultry": 2650,
+      "me_ruminant": 2500,
+      "me_rabbit": 2650,
+      "de_salmonids": 2100
+    },
+    "anti_nutritional_factors": {
+      "trypsin_inhibitor_units_mg": 2.8,
+      "tannins_percent": 0.3
+    },
+    "price_kg": 0.35,
+    "available_qty": 5000,
+    "bulk_density": 770,
+    "max_inclusion": {
+      "pig_grower": 150,
+      "pig_finisher": 200,
+      "poultry": 150,
+      "ruminant": 250,
+      "notes": "Can replace some soybean meal"
+    },
+    "category": "Legume seeds",
+    "category_id": 3
+  },
+  {
+    "id": 126,
+    "name": "Finger Millet (Ragi)",
+    "crude_protein": 7.3,
+    "crude_fiber": 3.6,
+    "crude_fat": 1.3,
+    "ash": 2.5,
+    "moisture": 12.0,
+    "starch": 65.0,
+    "calcium": 3.4,
+    "total_phosphorus": 2.8,
+    "available_phosphorus": 0.8,
+    "phytate_phosphorus": 2.0,
+    "amino_acids_total": {
+      "lysine": 2.4,
+      "methionine": 2.1,
+      "cystine": 1.8,
+      "threonine": 3.0,
+      "tryptophan": 1.2,
+      "arginine": 4.2,
+      "isoleucine": 3.5,
+      "leucine": 8.5,
+      "valine": 4.8,
+      "histidine": 2.0,
+      "phenylalanine": 4.5
+    },
+    "amino_acids_sid": {
+      "lysine": 1.9,
+      "methionine": 1.9,
+      "cystine": 1.6,
+      "threonine": 2.6,
+      "tryptophan": 1.0,
+      "arginine": 3.9,
+      "isoleucine": 3.2,
+      "leucine": 8.0,
+      "valine": 4.5,
+      "histidine": 1.8,
+      "phenylalanine": 4.2
+    },
+    "energy": {
+      "de_pig": 3320,
+      "me_pig": 3190,
+      "ne_pig": 2340,
+      "me_poultry": 2850,
+      "me_ruminant": 2800,
+      "me_rabbit": 3000,
+      "de_salmonids": 2150
+    },
+    "price_kg": 0.30,
+    "available_qty": 4000,
+    "bulk_density": 780,
+    "max_inclusion": {
+      "pig_grower": 200,
+      "pig_finisher": 250,
+      "poultry": 200,
+      "ruminant": 300,
+      "notes": "High calcium content, good for layers"
+    },
+    "category": "Cereal grains",
+    "category_id": 1
+  },
+  {
+    "id": 127,
+    "name": "Green Gram (Mung bean)",
+    "crude_protein": 24.0,
+    "crude_fiber": 4.0,
+    "crude_fat": 1.2,
+    "ash": 3.2,
+    "moisture": 10.0,
+    "starch": 50.0,
+    "calcium": 1.2,
+    "total_phosphorus": 3.5,
+    "available_phosphorus": 1.2,
+    "phytate_phosphorus": 2.3,
+    "amino_acids_total": {
+      "lysine": 16.0,
+      "methionine": 2.4,
+      "cystine": 2.8,
+      "threonine": 8.0,
+      "tryptophan": 2.5,
+      "arginine": 15.0,
+      "isoleucine": 10.0,
+      "leucine": 17.5,
+      "valine": 11.5,
+      "histidine": 6.2,
+      "phenylalanine": 11.8
+    },
+    "amino_acids_sid": {
+      "lysine": 14.5,
+      "methionine": 2.2,
+      "cystine": 2.5,
+      "threonine": 7.3,
+      "tryptophan": 2.2,
+      "arginine": 14.0,
+      "isoleucine": 9.3,
+      "leucine": 16.3,
+      "valine": 10.8,
+      "histidine": 5.8,
+      "phenylalanine": 11.0
+    },
+    "energy": {
+      "de_pig": 3430,
+      "me_pig": 3300,
+      "ne_pig": 2250,
+      "me_poultry": 2900,
+      "me_ruminant": 2800,
+      "me_rabbit": 3000,
+      "de_salmonids": 2350
+    },
+    "anti_nutritional_factors": {
+      "trypsin_inhibitor_units_mg": 2.5
+    },
+    "price_kg": 0.45,
+    "available_qty": 3000,
+    "bulk_density": 800,
+    "max_inclusion": {
+      "pig_grower": 150,
+      "pig_finisher": 200,
+      "poultry": 100,
+      "ruminant": 200,
+      "notes": "Good protein source, easily digestible"
+    },
+    "category": "Legume seeds",
+    "category_id": 3
+  },
+  {
+    "id": 128,
+    "name": "Sorghum grain, whole",
+    "crude_protein": 10.0,
+    "crude_fiber": 2.4,
+    "crude_fat": 3.2,
+    "ash": 1.6,
+    "moisture": 12.5,
+    "starch": 70.0,
+    "calcium": 0.3,
+    "total_phosphorus": 3.0,
+    "available_phosphorus": 0.9,
+    "phytate_phosphorus": 2.1,
+    "amino_acids_total": {
+      "lysine": 2.2,
+      "methionine": 1.6,
+      "cystine": 1.8,
+      "threonine": 3.2,
+      "tryptophan": 1.0,
+      "arginine": 3.8,
+      "isoleucine": 4.0,
+      "leucine": 13.0,
+      "valine": 5.0,
+      "histidine": 2.2,
+      "phenylalanine": 5.2
+    },
+    "amino_acids_sid": {
+      "lysine": 1.7,
+      "methionine": 1.5,
+      "cystine": 1.6,
+      "threonine": 2.7,
+      "tryptophan": 0.8,
+      "arginine": 3.4,
+      "isoleucine": 3.5,
+      "leucine": 11.5,
+      "valine": 4.5,
+      "histidine": 2.0,
+      "phenylalanine": 4.7
+    },
+    "energy": {
+      "de_pig": 3460,
+      "me_pig": 3330,
+      "ne_pig": 2445,
+      "me_poultry": 3250,
+      "me_ruminant": 2790,
+      "me_rabbit": 3090,
+      "de_salmonids": 2020
+    },
+    "anti_nutritional_factors": {
+      "tannins_percent": 0.5
+    },
+    "price_kg": 0.23,
+    "available_qty": 10000,
+    "bulk_density": 750,
+    "max_inclusion": {
+      "pig_grower": 300,
+      "pig_finisher": 400,
+      "poultry": 500,
+      "ruminant": 600,
+      "notes": "Low-tannin varieties preferred; high-tannin limit to 20-30%"
+    },
+    "category": "Cereal grains",
+    "category_id": 1
+  },
+  {
+    "id": 129,
+    "name": "Millet, proso (whole)",
+    "crude_protein": 12.9,
+    "crude_fiber": 6.7,
+    "crude_fat": 5.1,
+    "ash": 2.8,
+    "moisture": 12.0,
+    "starch": 62.0,
+    "calcium": 0.4,
+    "total_phosphorus": 2.7,
+    "available_phosphorus": 0.8,
+    "phytate_phosphorus": 1.9,
+    "amino_acids_total": {
+      "lysine": 2.9,
+      "methionine": 4.5,
+      "cystine": 2.0,
+      "threonine": 3.5,
+      "tryptophan": 1.5,
+      "arginine": 4.5,
+      "isoleucine": 4.5,
+      "leucine": 13.0,
+      "valine": 5.8,
+      "histidine": 2.3,
+      "phenylalanine": 6.0
+    },
+    "amino_acids_sid": {
+      "lysine": 2.3,
+      "methionine": 4.2,
+      "cystine": 1.8,
+      "threonine": 3.0,
+      "tryptophan": 1.3,
+      "arginine": 4.2,
+      "isoleucine": 4.2,
+      "leucine": 12.2,
+      "valine": 5.5,
+      "histidine": 2.1,
+      "phenylalanine": 5.7
+    },
+    "energy": {
+      "de_pig": 3260,
+      "me_pig": 3135,
+      "ne_pig": 2290,
+      "me_poultry": 3310,
+      "me_ruminant": 3110,
+      "me_rabbit": 2880,
+      "de_salmonids": 2270
+    },
+    "price_kg": 0.28,
+    "available_qty": 4500,
+    "bulk_density": 760,
+    "max_inclusion": {
+      "pig_grower": 200,
+      "pig_finisher": 250,
+      "poultry": 300,
+      "ruminant": 300,
+      "notes": "Good methionine content"
+    },
+    "category": "Cereal grains",
+    "category_id": 1
+  },
+  {
+    "id": 130,
+    "name": "Millet, foxtail (Setaria)",
+    "crude_protein": 11.5,
+    "crude_fiber": 2.5,
+    "crude_fat": 3.8,
+    "ash": 2.6,
+    "moisture": 12.0,
+    "starch": 62.0,
+    "calcium": 0.3,
+    "total_phosphorus": 3.2,
+    "available_phosphorus": 0.9,
+    "phytate_phosphorus": 2.3,
+    "amino_acids_total": {
+      "lysine": 3.2,
+      "methionine": 2.2,
+      "cystine": 2.0,
+      "threonine": 3.5,
+      "tryptophan": 1.4,
+      "arginine": 4.8,
+      "isoleucine": 4.0,
+      "leucine": 11.5,
+      "valine": 5.5,
+      "histidine": 2.2,
+      "phenylalanine": 5.5
+    },
+    "amino_acids_sid": {
+      "lysine": 2.6,
+      "methionine": 2.0,
+      "cystine": 1.8,
+      "threonine": 3.0,
+      "tryptophan": 1.2,
+      "arginine": 4.5,
+      "isoleucine": 3.7,
+      "leucine": 10.8,
+      "valine": 5.2,
+      "histidine": 2.0,
+      "phenylalanine": 5.2
+    },
+    "energy": {
+      "de_pig": 3320,
+      "me_pig": 3190,
+      "ne_pig": 2340,
+      "me_poultry": 2850,
+      "me_ruminant": 2650,
+      "me_rabbit": 2950,
+      "de_salmonids": 2250
+    },
+    "price_kg": 0.27,
+    "available_qty": 4000,
+    "bulk_density": 770,
+    "max_inclusion": {
+      "pig_grower": 200,
+      "pig_finisher": 250,
+      "poultry": 250,
+      "ruminant": 300,
+      "notes": "No toxicity concerns"
+    },
+    "category": "Cereal grains",
+    "category_id": 1
+  },
+  {
+    "id": 131,
+    "name": "Rice hulls",
+    "crude_protein": 3.4,
+    "crude_fiber": 38.8,
+    "crude_fat": 1.5,
+    "ash": 18.5,
+    "moisture": 10.0,
+    "calcium": 1.3,
+    "total_phosphorus": 1.5,
+    "available_phosphorus": 0.5,
+    "amino_acids_total": {
+      "lysine": 0.7,
+      "methionine": 1.0,
+      "threonine": 0.8,
+      "tryptophan": 0.2
+    },
+    "amino_acids_sid": {
+      "lysine": 0.4,
+      "methionine": 0.8,
+      "threonine": 0.6,
+      "tryptophan": 0.15
+    },
+    "energy": {
+      "de_pig": 1090,
+      "me_pig": 1050,
+      "ne_pig": 550,
+      "me_poultry": 490,
+      "me_ruminant": 840,
+      "me_rabbit": 750,
+      "de_salmonids": 1630
+    },
+    "price_kg": 0.05,
+    "available_qty": 15000,
+    "bulk_density": 110,
+    "max_inclusion": {
+      "pig_grower": 20,
+      "pig_finisher": 30,
+      "poultry": 30,
+      "ruminant": 100,
+      "notes": "Very high silica, mainly used as fiber source/bedding"
+    },
+    "category": "Cereal by-products",
+    "category_id": 2
+  },
+  {
+    "id": 132,
+    "name": "Palm kernel meal, oil 5-20%",
+    "crude_protein": 15.6,
+    "crude_fiber": 19.0,
+    "crude_fat": 7.6,
+    "ash": 4.5,
+    "moisture": 10.0,
+    "calcium": 2.8,
+    "total_phosphorus": 5.5,
+    "available_phosphorus": 1.7,
+    "phytate_phosphorus": 3.8,
+    "amino_acids_total": {
+      "lysine": 4.6,
+      "methionine": 2.8,
+      "cystine": 2.3,
+      "threonine": 5.2,
+      "tryptophan": 1.7,
+      "arginine": 13.5,
+      "isoleucine": 5.2,
+      "leucine": 9.5,
+      "valine": 7.8,
+      "histidine": 3.3,
+      "phenylalanine": 6.8
+    },
+    "amino_acids_sid": {
+      "lysine": 3.5,
+      "methionine": 2.5,
+      "cystine": 2.0,
+      "threonine": 4.3,
+      "tryptophan": 1.4,
+      "arginine": 12.0,
+      "isoleucine": 4.6,
+      "leucine": 8.5,
+      "valine": 6.8,
+      "histidine": 2.9,
+      "phenylalanine": 6.1
+    },
+    "energy": {
+      "de_pig": 2680,
+      "me_pig": 2575,
+      "ne_pig": 1630,
+      "me_poultry": 1260,
+      "me_ruminant": 2360,
+      "me_rabbit": 1920,
+      "de_salmonids": 2490
+    },
+    "price_kg": 0.20,
+    "available_qty": 8000,
+    "bulk_density": 560,
+    "max_inclusion": {
+      "pig_grower": 100,
+      "pig_finisher": 150,
+      "poultry": 120,
+      "ruminant": 250,
+      "notes": "High fiber limits inclusion in monogastrics"
+    },
+    "category": "Protein meals",
+    "category_id": 4
+  },
+  {
+    "id": 133,
+    "name": "Rapeseed meal, oil 5-20%",
+    "crude_protein": 31.0,
+    "crude_fiber": 11.6,
+    "crude_fat": 11.8,
+    "ash": 7.0,
+    "moisture": 12.0,
+    "calcium": 7.5,
+    "total_phosphorus": 10.9,
+    "available_phosphorus": 3.3,
+    "phytate_phosphorus": 7.6,
+    "amino_acids_total": {
+      "lysine": 16.9,
+      "methionine": 6.3,
+      "cystine": 8.8,
+      "threonine": 15.0,
+      "tryptophan": 4.5,
+      "arginine": 21.0,
+      "isoleucine": 13.5,
+      "leucine": 24.5,
+      "valine": 17.5,
+      "histidine": 9.5,
+      "phenylalanine": 14.5
+    },
+    "amino_acids_sid": {
+      "lysine": 15.2,
+      "methionine": 6.0,
+      "cystine": 8.0,
+      "threonine": 13.5,
+      "tryptophan": 4.2,
+      "arginine": 19.5,
+      "isoleucine": 12.2,
+      "leucine": 22.8,
+      "valine": 16.2,
+      "histidine": 8.8,
+      "phenylalanine": 13.5
+    },
+    "energy": {
+      "de_pig": 3260,
+      "me_pig": 3135,
+      "ne_pig": 2100,
+      "me_poultry": 2110,
+      "me_ruminant": 2980,
+      "me_rabbit": 2850,
+      "de_salmonids": 2900
+    },
+    "anti_nutritional_factors": {
+      "glucosinolates_micromol_g": 15.0
+    },
+    "price_kg": 0.33,
+    "available_qty": 7000,
+    "bulk_density": 620,
+    "max_inclusion": {
+      "pig_grower": 100,
+      "pig_finisher": 150,
+      "poultry": 100,
+      "ruminant": 200,
+      "notes": "Limit due to glucosinolates (max 2-3 mmol/kg diet)"
+    },
+    "category": "Protein meals",
+    "category_id": 4
+  },
+  {
+    "id": 134,
+    "name": "Sweet potato root, dried",
+    "crude_protein": 5.5,
+    "crude_fiber": 6.0,
+    "crude_fat": 0.8,
+    "ash": 4.0,
+    "moisture": 10.0,
+    "starch": 68.0,
+    "calcium": 2.0,
+    "total_phosphorus": 2.0,
+    "available_phosphorus": 0.6,
+    "amino_acids_total": {
+      "lysine": 3.0,
+      "methionine": 1.0,
+      "threonine": 2.5,
+      "tryptophan": 0.8
+    },
+    "amino_acids_sid": {
+      "lysine": 2.4,
+      "methionine": 0.9,
+      "threonine": 2.1,
+      "tryptophan": 0.7
+    },
+    "energy": {
+      "de_pig": 3340,
+      "me_pig": 3210,
+      "ne_pig": 2420,
+      "me_poultry": 3050,
+      "me_ruminant": 2550,
+      "me_rabbit": 3000,
+      "de_salmonids": 1720
+    },
+    "price_kg": 0.18,
+    "available_qty": 6000,
+    "bulk_density": 580,
+    "max_inclusion": {
+      "pig_grower": 300,
+      "pig_finisher": 400,
+      "poultry": 200,
+      "ruminant": 300,
+      "notes": "Good energy source, low protein"
+    },
+    "category": "Root and tuber products",
+    "category_id": 11
+  },
+  {
+    "id": 135,
+    "name": "Grape pulp, dried",
+    "crude_protein": 12.1,
+    "crude_fiber": 18.7,
+    "crude_fat": 4.6,
+    "ash": 7.5,
+    "moisture": 10.0,
+    "calcium": 10.4,
+    "total_phosphorus": 2.7,
+    "available_phosphorus": 0.8,
+    "amino_acids_total": {
+      "lysine": 4.9,
+      "methionine": 1.3,
+      "threonine": 4.2,
+      "tryptophan": 1.1
+    },
+    "amino_acids_sid": {
+      "lysine": 3.5,
+      "methionine": 1.1,
+      "threonine": 3.6,
+      "tryptophan": 0.9
+    },
+    "energy": {
+      "de_pig": 1930,
+      "me_pig": 1855,
+      "ne_pig": 1140,
+      "me_poultry": 1160,
+      "me_ruminant": 1290,
+      "me_rabbit": 1690,
+      "de_salmonids": 2160
+    },
+    "anti_nutritional_factors": {
+      "tannins_percent": 3.0
+    },
+    "price_kg": 0.14,
+    "available_qty": 4000,
+    "bulk_density": 410,
+    "max_inclusion": {
+      "pig_grower": 50,
+      "pig_finisher": 80,
+      "poultry": 50,
+      "ruminant": 150,
+      "notes": "High tannins, limit inclusion"
+    },
+    "category": "Fruit by-products",
+    "category_id": 12
+  },
+  {
+    "id": 136,
+    "name": "Locust bean pod meal (Parkia)",
+    "crude_protein": 5.5,
+    "crude_fiber": 12.0,
+    "crude_fat": 1.5,
+    "ash": 4.5,
+    "moisture": 10.0,
+    "calcium": 2.0,
+    "total_phosphorus": 1.5,
+    "available_phosphorus": 0.5,
+    "amino_acids_total": {
+      "lysine": 3.0,
+      "methionine": 1.0,
+      "threonine": 2.5,
+      "tryptophan": 0.8
+    },
+    "amino_acids_sid": {
+      "lysine": 2.2,
+      "methionine": 0.9,
+      "threonine": 2.1,
+      "tryptophan": 0.6
+    },
+    "energy": {
+      "de_pig": 2540,
+      "me_pig": 2440,
+      "ne_pig": 1620,
+      "me_poultry": 2100,
+      "me_ruminant": 1900,
+      "me_rabbit": 2100,
+      "de_salmonids": 1600
+    },
+    "price_kg": 0.11,
+    "available_qty": 5000,
+    "bulk_density": 420,
+    "max_inclusion": {
+      "pig_grower": 100,
+      "pig_finisher": 150,
+      "poultry": 80,
+      "ruminant": 200,
+      "notes": "Sweet taste improves palatability"
+    },
+    "category": "Fruit by-products",
+    "category_id": 12
+  },
+  {
+    "id": 137,
+    "name": "Sheanut oil meal (Shea cake)",
+    "crude_protein": 12.5,
+    "crude_fiber": 9.6,
+    "crude_fat": 10.8,
+    "ash": 4.5,
+    "moisture": 10.0,
+    "calcium": 2.3,
+    "total_phosphorus": 1.9,
+    "available_phosphorus": 0.6,
+    "amino_acids_total": {
+      "lysine": 4.9,
+      "methionine": 2.6,
+      "threonine": 4.5,
+      "tryptophan": 1.5
+    },
+    "amino_acids_sid": {
+      "lysine": 3.8,
+      "methionine": 2.4,
+      "threonine": 3.9,
+      "tryptophan": 1.3
+    },
+    "energy": {
+      "de_pig": 2810,
+      "me_pig": 2700,
+      "ne_pig": 1850,
+      "me_poultry": 1660,
+      "me_ruminant": 2670,
+      "me_rabbit": 2480,
+      "de_salmonids": 2510
+    },
+    "price_kg": 0.16,
+    "available_qty": 4000,
+    "bulk_density": 560,
+    "max_inclusion": {
+      "pig_grower": 100,
+      "pig_finisher": 150,
+      "poultry": 100,
+      "ruminant": 200,
+      "notes": "Good fat source, moderate protein"
+    },
+    "category": "Protein meals",
+    "category_id": 4
+  },
+  {
+    "id": 138,
+    "name": "Okra seed meal (Abelmoschus)",
+    "crude_protein": 20.0,
+    "crude_fiber": 14.0,
+    "crude_fat": 15.5,
+    "ash": 5.5,
+    "moisture": 10.0,
+    "calcium": 3.5,
+    "total_phosphorus": 5.0,
+    "available_phosphorus": 1.5,
+    "amino_acids_total": {
+      "lysine": 8.0,
+      "methionine": 3.0,
+      "threonine": 7.0,
+      "tryptophan": 2.5
+    },
+    "amino_acids_sid": {
+      "lysine": 6.5,
+      "methionine": 2.8,
+      "threonine": 6.2,
+      "tryptophan": 2.2
+    },
+    "energy": {
+      "de_pig": 3340,
+      "me_pig": 3210,
+      "ne_pig": 2280,
+      "me_poultry": 2800,
+      "me_ruminant": 2400,
+      "me_rabbit": 2700,
+      "de_salmonids": 2100
+    },
+    "price_kg": 0.19,
+    "available_qty": 3000,
+    "bulk_density": 520,
+    "max_inclusion": {
+      "pig_grower": 80,
+      "pig_finisher": 120,
+      "poultry": 80,
+      "ruminant": 150,
+      "notes": "High fat content, limit to avoid soft fat"
+    },
+    "category": "Protein meals",
+    "category_id": 4
+  },
+  {
+    "id": 139,
+    "name": "Cassava peel, dried",
+    "crude_protein": 3.2,
+    "crude_fiber": 15.4,
+    "crude_fat": 0.1,
+    "ash": 6.5,
+    "moisture": 12.0,
+    "calcium": 5.0,
+    "total_phosphorus": 0.8,
+    "available_phosphorus": 0.2,
+    "amino_acids_total": {
+      "lysine": 1.2,
+      "methionine": 0.3,
+      "threonine": 1.0,
+      "tryptophan": 0.2
+    },
+    "amino_acids_sid": {
+      "lysine": 0.8,
+      "methionine": 0.25,
+      "threonine": 0.8,
+      "tryptophan": 0.15
+    },
+    "energy": {
+      "de_pig": 900,
+      "me_pig": 865,
+      "ne_pig": 475,
+      "me_poultry": 820,
+      "me_ruminant": 820,
+      "me_rabbit": 820,
+      "de_salmonids": 820
+    },
+    "anti_nutritional_factors": {
+      "cyanogenic_glycosides_ppm": 150.0
+    },
+    "price_kg": 0.05,
+    "available_qty": 10000,
+    "bulk_density": 380,
+    "max_inclusion": {
+      "pig_grower": 50,
+      "pig_finisher": 100,
+      "poultry": 50,
+      "ruminant": 150,
+      "notes": "MUST be properly dried/processed to reduce HCN; max 50 ppm HCN in diet"
+    },
+    "category": "Root and tuber products",
+    "category_id": 11
+  },
+  {
+    "id": 140,
+    "name": "Mustard bran",
+    "crude_protein": 16.3,
+    "crude_fiber": 18.8,
+    "crude_fat": 13.9,
+    "ash": 8.0,
+    "moisture": 10.0,
+    "calcium": 8.4,
+    "total_phosphorus": 3.7,
+    "available_phosphorus": 1.1,
+    "amino_acids_total": {
+      "lysine": 8.5,
+      "methionine": 2.0,
+      "threonine": 6.5,
+      "tryptophan": 2.0
+    },
+    "amino_acids_sid": {
+      "lysine": 6.8,
+      "methionine": 1.8,
+      "threonine": 5.6,
+      "tryptophan": 1.7
+    },
+    "energy": {
+      "de_pig": 2450,
+      "me_pig": 2355,
+      "ne_pig": 1540,
+      "me_poultry": 1440,
+      "me_ruminant": 2270,
+      "me_rabbit": 1990,
+      "de_salmonids": 2590
+    },
+    "anti_nutritional_factors": {
+      "glucosinolates_micromol_g": 25.0
+    },
+    "price_kg": 0.14,
+    "available_qty": 4000,
+    "bulk_density": 450,
+    "max_inclusion": {
+      "pig_grower": 50,
+      "pig_finisher": 80,
+      "poultry": 50,
+      "ruminant": 100,
+      "notes": "HIGH glucosinolates - limit to 5-8%; can cause thyroid issues"
+    },
+    "category": "Forages & roughages",
+    "category_id": 13
+  },
+  {
+    "id": 141,
+    "name": "Winged bean pod, dried (Psophocarpus)",
+    "crude_protein": 24.0,
+    "crude_fiber": 12.5,
+    "crude_fat": 4.0,
+    "ash": 7.5,
+    "moisture": 10.0,
+    "calcium": 9.0,
+    "total_phosphorus": 5.0,
+    "available_phosphorus": 1.5,
+    "amino_acids_total": {
+      "lysine": 16.0,
+      "methionine": 4.0,
+      "threonine": 10.0,
+      "tryptophan": 3.2
+    },
+    "amino_acids_sid": {
+      "lysine": 14.2,
+      "methionine": 3.7,
+      "threonine": 9.0,
+      "tryptophan": 2.9
+    },
+    "energy": {
+      "de_pig": 2580,
+      "me_pig": 2480,
+      "ne_pig": 1640,
+      "me_poultry": 2100,
+      "me_ruminant": 1900,
+      "me_rabbit": 2100,
+      "de_salmonids": 1600
+    },
+    "anti_nutritional_factors": {
+      "trypsin_inhibitor_units_mg": 3.2
+    },
+    "price_kg": 0.14,
+    "available_qty": 2500,
+    "bulk_density": 460,
+    "max_inclusion": {
+      "pig_grower": 100,
+      "pig_finisher": 150,
+      "poultry": 80,
+      "ruminant": 150,
+      "notes": "Good protein source, heat treatment recommended"
+    },
+    "category": "Legume seeds",
+    "category_id": 3
+  },
+  {
+    "id": 142,
+    "name": "Wheat feed flour",
+    "crude_protein": 13.3,
+    "crude_fiber": 1.0,
+    "crude_fat": 2.4,
+    "ash": 1.8,
+    "moisture": 12.0,
+    "starch": 65.0,
+    "calcium": 0.7,
+    "total_phosphorus": 3.8,
+    "available_phosphorus": 1.1,
+    "phytate_phosphorus": 2.7,
+    "amino_acids_total": {
+      "lysine": 5.0,
+      "methionine": 2.0,
+      "threonine": 4.2,
+      "tryptophan": 1.8
+    },
+    "amino_acids_sid": {
+      "lysine": 4.1,
+      "methionine": 1.8,
+      "threonine": 3.6,
+      "tryptophan": 1.6
+    },
+    "energy": {
+      "de_pig": 3690,
+      "me_pig": 3545,
+      "ne_pig": 2620,
+      "me_poultry": 2960,
+      "me_ruminant": 2790,
+      "me_rabbit": 3160,
+      "de_salmonids": 2120
+    },
+    "price_kg": 0.22,
+    "available_qty": 7000,
+    "bulk_density": 480,
+    "max_inclusion": {
+      "pig_grower": 200,
+      "pig_finisher": 300,
+      "poultry": 200,
+      "ruminant": 250,
+      "notes": "Good energy source, low fiber flour fraction"
+    },
+    "category": "Cereal by-products",
+    "category_id": 2
+  },
+  {
+    "id": 143,
+    "name": "Soybean molasses",
+    "crude_protein": 4.4,
+    "crude_fiber": 0.0,
+    "crude_fat": 0.4,
+    "ash": 9.5,
+    "moisture": 25.0,
+    "calcium": 1.8,
+    "total_phosphorus": 3.3,
+    "available_phosphorus": 2.0,
+    "amino_acids_total": {
+      "lysine": 2.8,
+      "methionine": 0.6,
+      "threonine": 2.0,
+      "tryptophan": 0.5
+    },
+    "amino_acids_sid": {
+      "lysine": 2.3,
+      "methionine": 0.5,
+      "threonine": 1.7,
+      "tryptophan": 0.4
+    },
+    "energy": {
+      "de_pig": 1630,
+      "me_pig": 1565,
+      "ne_pig": 1020,
+      "me_poultry": 1340,
+      "me_ruminant": 1120,
+      "me_rabbit": 1590,
+      "de_salmonids": 890
+    },
+    "price_kg": 0.12,
+    "available_qty": 5000,
+    "bulk_density": 1350,
+    "max_inclusion": {
+      "pig_grower": 30,
+      "pig_finisher": 50,
+      "poultry": 30,
+      "ruminant": 50,
+      "notes": "Liquid, improves palatability, high in oligosaccharides"
+    },
+    "category": "Protein meals",
+    "category_id": 4
+  },
+  {
+    "id": 144,
+    "name": "Urea (Non-protein nitrogen, 46% N)",
+    "crude_protein": 287.5,
+    "crude_fiber": 0.0,
+    "crude_fat": 0.0,
+    "ash": 0.0,
+    "moisture": 0.5,
+    "calcium": 0,
+    "total_phosphorus": 0,
+    "available_phosphorus": 0,
+    "energy": {
+      "de_pig": 0,
+      "me_pig": 0,
+      "ne_pig": 0,
+      "me_poultry": 0,
+      "me_ruminant": 810,
+      "me_rabbit": 0,
+      "de_salmonids": 0
+    },
+    "price_kg": 0.45,
+    "available_qty": 3000,
+    "bulk_density": 760,
+    "max_inclusion": {
+      "pig_grower": 0,
+      "pig_finisher": 0,
+      "poultry": 0,
+      "ruminant": 30,
+      "notes": "RUMINANTS ONLY! NEVER use in monogastric diets - TOXIC. Max 1-3% of diet or 30 g/kg. Slow adaptation required."
+    },
+    "category": "Minerals",
+    "category_id": 8,
+    "notes": "Nitrogen equivalent: 46% N × 6.25 = 287.5% CP equivalent. RUMINANTS ONLY!",
+    "warning": "DANGEROUS - Ruminants only. Can cause ammonia toxicity. Slow introduction required."
+  },
+  {
+    "id": 145,
+    "name": "Monodicalcium phosphate",
+    "crude_protein": 0.0,
+    "crude_fiber": 0.0,
+    "crude_fat": 0.0,
+    "ash": 100.0,
+    "moisture": 1.0,
+    "calcium": 173.0,
+    "total_phosphorus": 222.0,
+    "available_phosphorus": 222.0,
+    "energy": {
+      "de_pig": 0,
+      "me_pig": 0,
+      "ne_pig": 0,
+      "me_poultry": 0,
+      "me_ruminant": 0,
+      "me_rabbit": 0,
+      "de_salmonids": 0
+    },
+    "price_kg": 0.72,
+    "available_qty": 8000,
+    "bulk_density": 920,
+    "max_inclusion": {
+      "pig_grower": 20,
+      "pig_finisher": 15,
+      "poultry": 20,
+      "ruminant": 15,
+      "notes": "Balanced Ca:P source, 17.3% Ca, 22.2% P"
+    },
+    "category": "Minerals",
+    "category_id": 8
+  },
+  {
+    "id": 146,
+    "name": "Processed animal protein, pig (porcine meal)",
+    "crude_protein": 52.4,
+    "crude_fiber": 1.6,
+    "crude_fat": 13.6,
+    "ash": 22.0,
+    "moisture": 8.0,
+    "calcium": 86.7,
+    "total_phosphorus": 42.0,
+    "available_phosphorus": 37.0,
+    "amino_acids_total": {
+      "lysine": 26.5,
+      "methionine": 6.7,
+      "cystine": 4.5,
+      "threonine": 18.5,
+      "tryptophan": 3.8,
+      "arginine": 33.0,
+      "isoleucine": 17.5,
+      "leucine": 32.0,
+      "valine": 21.0,
+      "histidine": 10.5,
+      "phenylalanine": 19.0
+    },
+    "amino_acids_sid": {
+      "lysine": 24.0,
+      "methionine": 6.4,
+      "cystine": 4.2,
+      "threonine": 17.2,
+      "tryptophan": 3.5,
+      "arginine": 31.5,
+      "isoleucine": 16.5,
+      "leucine": 30.5,
+      "valine": 19.8,
+      "histidine": 10.0,
+      "phenylalanine": 18.0
+    },
+    "energy": {
+      "de_pig": 2860,
+      "me_pig": 2750,
+      "ne_pig": 1685,
+      "me_poultry": 2910,
+      "me_ruminant": 2610,
+      "me_rabbit": 2870,
+      "de_salmonids": 3730
+    },
+    "price_kg": 0.65,
+    "available_qty": 3500,
+    "bulk_density": 580,
+    "max_inclusion": {
+      "pig_grower": 0,
+      "pig_finisher": 0,
+      "poultry": 50,
+      "ruminant": 50,
+      "notes": "CANNOT feed to pigs (same species). OK for poultry/aquaculture. Check local regulations."
+    },
+    "category": "Animal proteins",
+    "category_id": 5,
+    "regulatory_note": "Subject to strict regulations - check local laws on processed animal proteins"
+  },
+  {
+    "id": 147,
+    "name": "Processed animal protein, poultry, 45-60% protein",
+    "crude_protein": 52.9,
+    "crude_fiber": 1.2,
+    "crude_fat": 28.3,
+    "ash": 13.0,
+    "moisture": 7.0,
+    "calcium": 19.2,
+    "total_phosphorus": 9.6,
+    "available_phosphorus": 8.5,
+    "amino_acids_total": {
+      "lysine": 24.2,
+      "methionine": 7.5,
+      "cystine": 5.0,
+      "threonine": 17.0,
+      "tryptophan": 3.5,
+      "arginine": 32.0,
+      "isoleucine": 18.0,
+      "leucine": 34.0,
+      "valine": 22.0,
+      "histidine": 9.5,
+      "phenylalanine": 18.5
+    },
+    "amino_acids_sid": {
+      "lysine": 22.5,
+      "methionine": 7.2,
+      "cystine": 4.7,
+      "threonine": 16.0,
+      "tryptophan": 3.3,
+      "arginine": 30.5,
+      "isoleucine": 17.0,
+      "leucine": 32.5,
+      "valine": 21.0,
+      "histidine": 9.0,
+      "phenylalanine": 17.5
+    },
+    "energy": {
+      "de_pig": 3920,
+      "me_pig": 3770,
+      "ne_pig": 2850,
+      "me_poultry": 4350,
+      "me_ruminant": 3940,
+      "me_rabbit": 4520,
+      "de_salmonids": 4980
+    },
+    "price_kg": 0.72,
+    "available_qty": 3000,
+    "bulk_density": 590,
+    "max_inclusion": {
+      "pig_grower": 50,
+      "pig_finisher": 80,
+      "poultry": 0,
+      "ruminant": 50,
+      "notes": "CANNOT feed to poultry (same species). OK for pigs/aquaculture. Check regulations."
+    },
+    "category": "Animal proteins",
+    "category_id": 5,
+    "regulatory_note": "Subject to strict regulations - check local laws on processed animal proteins"
+  },
+  {
+    "id": 148,
+    "name": "Processed animal protein, poultry, 60-70% protein",
+    "crude_protein": 63.2,
+    "crude_fiber": 0.9,
+    "crude_fat": 19.5,
+    "ash": 12.0,
+    "moisture": 8.0,
+    "calcium": 21.7,
+    "total_phosphorus": 11.6,
+    "available_phosphorus": 10.5,
+    "amino_acids_total": {
+      "lysine": 30.6,
+      "methionine": 11.0,
+      "cystine": 6.5,
+      "threonine": 21.0,
+      "tryptophan": 4.5,
+      "arginine": 41.0,
+      "isoleucine": 22.0,
+      "leucine": 42.0,
+      "valine": 27.0,
+      "histidine": 11.5,
+      "phenylalanine": 23.0
+    },
+    "amino_acids_sid": {
+      "lysine": 28.5,
+      "methionine": 10.5,
+      "cystine": 6.0,
+      "threonine": 19.5,
+      "tryptophan": 4.2,
+      "arginine": 39.0,
+      "isoleucine": 20.8,
+      "leucine": 40.0,
+      "valine": 25.5,
+      "histidine": 11.0,
+      "phenylalanine": 22.0
+    },
+    "energy": {
+      "de_pig": 4060,
+      "me_pig": 3900,
+      "ne_pig": 2910,
+      "me_poultry": 4060,
+      "me_ruminant": 3860,
+      "me_rabbit": 4530,
+      "de_salmonids": 4870
+    },
+    "price_kg": 0.82,
+    "available_qty": 2500,
+    "bulk_density": 600,
+    "max_inclusion": {
+      "pig_grower": 80,
+      "pig_finisher": 100,
+      "poultry": 0,
+      "ruminant": 80,
+      "notes": "CANNOT feed to poultry (same species). Higher protein grade. Check regulations."
+    },
+    "category": "Animal proteins",
+    "category_id": 5,
+    "regulatory_note": "Subject to strict regulations - check local laws on processed animal proteins"
+  },
+  {
+    "id": 149,
+    "name": "Processed animal protein, poultry, >70% protein",
+    "crude_protein": 76.9,
+    "crude_fiber": 1.2,
+    "crude_fat": 9.9,
+    "ash": 9.0,
+    "moisture": 8.0,
+    "calcium": 14.4,
+    "total_phosphorus": 5.9,
+    "available_phosphorus": 5.3,
+    "amino_acids_total": {
+      "lysine": 39.3,
+      "methionine": 9.4,
+      "cystine": 7.0,
+      "threonine": 27.0,
+      "tryptophan": 5.8,
+      "arginine": 52.0,
+      "isoleucine": 28.0,
+      "leucine": 54.0,
+      "valine": 34.0,
+      "histidine": 14.5,
+      "phenylalanine": 29.0
+    },
+    "amino_acids_sid": {
+      "lysine": 37.0,
+      "methionine": 9.0,
+      "cystine": 6.5,
+      "threonine": 25.5,
+      "tryptophan": 5.5,
+      "arginine": 49.5,
+      "isoleucine": 26.5,
+      "leucine": 51.5,
+      "valine": 32.5,
+      "histidine": 14.0,
+      "phenylalanine": 27.5
+    },
+    "energy": {
+      "de_pig": 4440,
+      "me_pig": 4270,
+      "ne_pig": 2850,
+      "me_poultry": 3720,
+      "me_ruminant": 3750,
+      "me_rabbit": 4920,
+      "de_salmonids": 4750
+    },
+    "price_kg": 0.95,
+    "available_qty": 2000,
+    "bulk_density": 610,
+    "max_inclusion": {
+      "pig_grower": 100,
+      "pig_finisher": 120,
+      "poultry": 0,
+      "ruminant": 100,
+      "notes": "CANNOT feed to poultry (same species). Premium protein grade. Check regulations."
+    },
+    "category": "Animal proteins",
+    "category_id": 5,
+    "regulatory_note": "Subject to strict regulations - check local laws on processed animal proteins"
+  },
+  {
+    "id": 150,
+    "name": "Concentrate, Hendrix Layer 5%",
+    "crude_protein": 35.0,
+    "crude_fiber": 4.0,
+    "crude_fat": 4.0,
+    "ash": 12.0,
+    "moisture": 12.0,
+    "calcium": 32.0,
+    "total_phosphorus": 42.0,
+    "available_phosphorus": 38.0,
+    "amino_acids_total": {
+      "lysine": 49.0,
+      "methionine": 35.0,
+      "cystine": 12.0,
+      "threonine": 28.0,
+      "tryptophan": 8.5,
+      "arginine": 35.0,
+      "isoleucine": 25.0,
+      "leucine": 45.0,
+      "valine": 30.0,
+      "histidine": 15.0,
+      "phenylalanine": 28.0
+    },
+    "amino_acids_sid": {
+      "lysine": 47.0,
+      "methionine": 34.0,
+      "cystine": 11.5,
+      "threonine": 27.0,
+      "tryptophan": 8.2,
+      "arginine": 33.5,
+      "isoleucine": 24.0,
+      "leucine": 43.5,
+      "valine": 29.0,
+      "histidine": 14.5,
+      "phenylalanine": 27.0
+    },
+    "trace_minerals": {
+      "zinc_mg_kg": 16000,
+      "manganese_mg_kg": 20000,
+      "copper_mg_kg": 2000,
+      "iron_mg_kg": 10000,
+      "selenium_mg_kg": 60,
+      "iodine_mg_kg": 200
+    },
+    "vitamins": {
+      "vitamin_a_iu_kg": 2400000,
+      "vitamin_d3_iu_kg": 700000,
+      "vitamin_e_iu_kg": 10000,
+      "vitamin_k_mg_kg": 600,
+      "thiamin_mg_kg": 400,
+      "riboflavin_mg_kg": 1600,
+      "niacin_mg_kg": 8000,
+      "pantothenic_acid_mg_kg": 3000,
+      "pyridoxine_mg_kg": 800,
+      "biotin_mg_kg": 40,
+      "folic_acid_mg_kg": 300,
+      "vitamin_b12_mg_kg": 4,
+      "choline_mg_kg": 100000
+    },
+    "energy": {
+      "de_pig": 2600,
+      "me_pig": 2500,
+      "ne_pig": 1625,
+      "me_poultry": 2500,
+      "me_ruminant": 2500,
+      "me_rabbit": 2500,
+      "de_salmonids": 2500
+    },
+    "price_kg": 10.00,
+    "available_qty": 500,
+    "bulk_density": 750,
+    "max_inclusion": {
+      "pig_grower": 0,
+      "pig_finisher": 0,
+      "poultry": 50,
+      "ruminant": 0,
+      "notes": "Use at 50 kg/ton (5%) for laying hens. Complete vitamin/mineral/amino acid package."
+    },
+    "category": "Premixes",
+    "category_id": 9
+  },
+  {
+    "id": 151,
+    "name": "Concentrate, GreenMix Layer WAN 2.5%",
+    "crude_protein": 23.2,
+    "crude_fiber": 4.0,
+    "crude_fat": 4.0,
+    "ash": 15.0,
+    "moisture": 12.0,
+    "calcium": 32.0,
+    "total_phosphorus": 42.0,
+    "available_phosphorus": 38.0,
+    "amino_acids_total": {
+      "lysine": 49.0,
+      "methionine": 35.0,
+      "threonine": 28.0,
+      "tryptophan": 8.5
+    },
+    "amino_acids_sid": {
+      "lysine": 47.0,
+      "methionine": 34.0,
+      "threonine": 27.0,
+      "tryptophan": 8.2
+    },
+    "trace_minerals": {
+      "zinc_mg_kg": 32000,
+      "manganese_mg_kg": 40000,
+      "copper_mg_kg": 4000,
+      "iron_mg_kg": 20000,
+      "selenium_mg_kg": 120,
+      "iodine_mg_kg": 400
+    },
+    "vitamins": {
+      "vitamin_a_iu_kg": 4800000,
+      "vitamin_d3_iu_kg": 1400000,
+      "vitamin_e_iu_kg": 20000,
+      "vitamin_k_mg_kg": 1200,
+      "choline_mg_kg": 200000
+    },
+    "energy": {
+      "de_pig": 2500,
+      "me_pig": 2400,
+      "ne_pig": 1560,
+      "me_poultry": 2500,
+      "me_ruminant": 2500,
+      "me_rabbit": 2500,
+      "de_salmonids": 2500
+    },
+    "price_kg": 10.00,
+    "available_qty": 500,
+    "bulk_density": 780,
+    "max_inclusion": {
+      "pig_grower": 0,
+      "pig_finisher": 0,
+      "poultry": 25,
+      "ruminant": 0,
+      "notes": "Use at 25 kg/ton (2.5%) for laying hens. Complete package for West Africa."
+    },
+    "category": "Premixes",
+    "category_id": 9
+  },
+  {
+    "id": 152,
+    "name": "Concentrate, Terratiga Layer 5%",
+    "crude_protein": 30.0,
+    "crude_fiber": 2.96,
+    "crude_fat": 7.68,
+    "ash": 14.0,
+    "moisture": 11.0,
+    "calcium": 42.8,
+    "total_phosphorus": 18.7,
+    "available_phosphorus": 17.0,
+    "amino_acids_total": {
+      "lysine": 16.5,
+      "methionine": 29.0,
+      "threonine": 15.0,
+      "tryptophan": 5.0
+    },
+    "amino_acids_sid": {
+      "lysine": 16.0,
+      "methionine": 28.5,
+      "threonine": 14.5,
+      "tryptophan": 4.8
+    },
+    "trace_minerals": {
+      "zinc_mg_kg": 16000,
+      "manganese_mg_kg": 20000,
+      "copper_mg_kg": 2000,
+      "iron_mg_kg": 10000,
+      "selenium_mg_kg": 60,
+      "iodine_mg_kg": 200
+    },
+    "vitamins": {
+      "vitamin_a_iu_kg": 2400000,
+      "vitamin_d3_iu_kg": 700000,
+      "vitamin_e_iu_kg": 10000,
+      "vitamin_k_mg_kg": 600,
+      "choline_mg_kg": 100000
+    },
+    "energy": {
+      "de_pig": 1990,
+      "me_pig": 1910,
+      "ne_pig": 1245,
+      "me_poultry": 1910,
+      "me_ruminant": 1910,
+      "me_rabbit": 1910,
+      "de_salmonids": 1910
+    },
+    "price_kg": 8.40,
+    "available_qty": 500,
+    "bulk_density": 720,
+    "max_inclusion": {
+      "pig_grower": 0,
+      "pig_finisher": 0,
+      "poultry": 50,
+      "ruminant": 0,
+      "notes": "Use at 50 kg/ton (5%) for laying hens. Higher fat content."
+    },
+    "category": "Premixes",
+    "category_id": 9
   }
 ]

@@ -1,7 +1,7 @@
 # 📑 Master Documentation Index
 
 **Location**: `/doc` folder  
-**Last Updated**: December 9, 2025  
+**Last Updated**: December 15, 2025  
 **Status**: ✅ **COMPLETE & ORGANIZED**
 
 ---
@@ -9,24 +9,28 @@
 ## 🎯 Quick Navigation
 
 ### 🔴 URGENT - Start Here
+
 - **For immediate action**: `DIALOG_STACK_AUDIT.md`
   - 2 critical dialog issues found and fixed
   - Risk assessment and migration steps
   - Testing procedures included
 
 ### 🟡 Critical - Read Next
+
 - **For bug overview**: `BUGFIX_QUICK_REFERENCE.md` (2-3 min)
   - Problems and solutions at a glance
   - Before/after code snippets
   - Quick test checklist
 
 ### 🟢 Important - Full Details
+
 - **For technical details**: `BUGFIX_TECHNICAL_COMPARISON.md` (10-15 min)
   - Deep dive into each fix
   - Visual comparisons
   - Performance analysis
 
 ### 📋 Documentation - Complete
+
 - **For testing**: `BUGFIX_TESTING_GUIDE.md` (15-20 min)
   - 5 detailed test scenarios
   - Performance monitoring
@@ -86,6 +90,42 @@
 
 ---
 
+### Data Quality & Migration Documentation (4 files)
+
+1. **industry_validation_report.md** ✅ VALIDATED
+   - Industry standards validation
+   - NRC 2012/2016 compliance
+   - CVB 2021, INRA-AFZ 2018
+   - AMINODat 5.0 verification
+   - 100% pass rate (10/10 ingredients)
+   - Production-ready certification
+   - 📄 Length: 15-20 min read
+
+2. **DATASET_MIGRATION_IMPLEMENTATION_PLAN.md** 📋 PLAN
+   - Complete migration strategy
+   - Data model updates
+   - Business logic changes
+   - UI/UX enhancements
+   - Testing & validation plan
+   - 📄 Length: 25-30 min read
+
+3. **DATASET_MIGRATION_ANALYSIS.md** 📊 ANALYSIS
+   - Dataset comparison (165 vs 152 ingredients)
+   - Missing ingredients mapping
+   - Consolidation recommendations
+   - Priority categorization
+   - 📄 Length: 15-20 min read
+
+4. **MISSING_INGREDIENTS_NUTRIENTS.md** 🔬 RESEARCH
+   - Comprehensive nutritional data
+   - 20 missing ingredients researched
+   - Industry-standard values
+   - Full amino acid profiles
+   - Energy values for 7 species
+   - 📄 Length: 30-40 min read
+
+---
+
 ### Audit & Report Documentation (5 files)
 
 1. **DIALOG_STACK_AUDIT.md** ⚠️ CRITICAL
@@ -127,6 +167,7 @@
 ## 🎓 Learning Paths
 
 ### Path 1: Quick Overview (10 minutes)
+
 1. `BUGFIX_QUICK_REFERENCE.md` (2-3 min)
 2. `DIALOG_STACK_AUDIT.md` - Just read "Issues Identified" (2-3 min)
 3. `BUGFIX_STATUS.md` (2-3 min)
@@ -136,6 +177,7 @@
 ---
 
 ### Path 2: Full Understanding (45 minutes)
+
 1. `BUGFIX_QUICK_REFERENCE.md` (2-3 min)
 2. `BUGFIX_SUMMARY.md` (5-7 min)
 3. `BUGFIX_TECHNICAL_COMPARISON.md` (10-15 min)
@@ -146,6 +188,7 @@
 ---
 
 ### Path 3: Complete Knowledge (90 minutes)
+
 1. `BUGFIX_QUICK_REFERENCE.md` (2-3 min)
 2. `BUGFIX_SUMMARY.md` (5-7 min)
 3. `BUGFIX_TECHNICAL_COMPARISON.md` (10-15 min)
@@ -159,6 +202,7 @@
 ---
 
 ### Path 4: For Management (20 minutes)
+
 1. `BUGFIX_STATUS.md` (2-3 min)
 2. `BUGFIX_IMPLEMENTATION_REPORT.md` - Executive Summary section (5 min)
 3. `SESSION_COMPLETE_REPORT.md` - Final Status (3-5 min)
@@ -169,6 +213,7 @@
 ---
 
 ### Path 5: For QA/Testing (30 minutes)
+
 1. `BUGFIX_TESTING_GUIDE.md` (15-20 min)
 2. `DIALOG_STACK_AUDIT.md` - Testing Plan section (5-7 min)
 3. `BUGFIX_IMPLEMENTATION_REPORT.md` - Verification Checklist (5 min)
@@ -178,6 +223,7 @@
 ---
 
 ### Path 6: For Developers (50 minutes)
+
 1. `BUGFIX_QUICK_REFERENCE.md` (2-3 min)
 2. `BUGFIX_TECHNICAL_COMPARISON.md` (10-15 min)
 3. `DIALOG_STACK_AUDIT.md` (15-20 min)
@@ -191,21 +237,25 @@
 ## 📊 Issues & Fixes Summary
 
 ### Issue #1: GoRouter Stack Underflow ✅
+
 - **File**: About page
 - **Status**: FIXED (commit 6279407)
 - **Docs**: BUGFIX_SUMMARY.md, BUGFIX_TECHNICAL_COMPARISON.md
 
 ### Issue #2: Feed Grid Overflow ✅
+
 - **File**: feed_grid.dart, footer_result_card.dart
 - **Status**: FIXED (commit 6279407)
 - **Docs**: BUGFIX_SUMMARY.md, BUGFIX_TECHNICAL_COMPARISON.md
 
 ### Issue #3: SaveIngredient Dialog Stack ✅
+
 - **File**: save_ingredient_dialog.dart
 - **Status**: FIXED (commit aaf8cdb)
 - **Docs**: DIALOG_STACK_AUDIT.md
 
 ### Issue #4: AnalyseData Dialog Race Condition ✅
+
 - **File**: analyse_data_dialog.dart
 - **Status**: FIXED (commit aaf8cdb)
 - **Docs**: DIALOG_STACK_AUDIT.md
