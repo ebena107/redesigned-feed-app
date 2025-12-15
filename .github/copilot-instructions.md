@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-Flutter livestock feed formulation app for analyzing nutrients in animal feed. Primary users: livestock farmers across Nigeria (largest), India, United States, Kenya, and globally (Europe, Asia, Africa). Current version: 0.1.1+10, actively modernized through phased improvements (see `doc/MODERNIZATION_PLAN.md`).
+Flutter livestock feed formulation app for analyzing nutrients in animal feed. Primary users: livestock farmers across Nigeria (largest), India, United States, Kenya, and globally (Europe, Asia, Africa). Current version: 1.0.0+11, actively modernized through phased improvements (see [doc/MODERNIZATION_PLAN.md](../doc/MODERNIZATION_PLAN.md)).
 
 ## Architecture Essentials
 
@@ -51,15 +51,31 @@ class FeedNotifier extends Notifier<FeedState> {
 
 ### Development Commands
 ```powershell
-# Code generation (run after provider/model changes)
+# Code generation (REQUIRED after changes to files with 'part' directives)
+# Only affects: @riverpod providers, @TypedGoRoute routes, NOT model classes
 dart run build_runner build --delete-conflicting-outputs
 
-# Run app (via MCP tools preferred, or terminal)
-flutter run -d windows  # or android/ios
+# Run app (prefer MCP tools: mcp_dart_sdk_mcp__launch_app when available)
+flutter run -d windows  # or android/ios/macos
+
+# Hot reload/restart (prefer MCP: mcp_dart_sdk_mcp__hot_reload)
+# Press 'r' in terminal for hot reload
+# Press 'R' in terminal for hot restart
 
 # Build APK
 flutter build apk --release
+
+# Run tests (see test/ directory structure)
+flutter test                    # All tests
+flutter test test/unit/         # Unit tests only
+flutter test --coverage         # With coverage report
 ```
+
+**Code Generation Patterns**:
+- Files with `part '*.g.dart'` directives require `build_runner` after changes
+- Async providers using `@riverpod` annotation (see [lib/src/features/main/providers/main_async_provider.dart](../lib/src/features/main/providers/main_async_provider.dart))
+- Type-safe routes using `@TypedGoRoute` (see [lib/src/core/router/routes.dart](../lib/src/core/router/routes.dart))
+- Model classes with `fromJson`/`toJson` do NOT use code generation (manual implementation)
 
 ### Database Migrations
 **Location**: `lib/src/core/database/app_db.dart`  
@@ -321,24 +337,49 @@ padding: UIConstants.paddingHorizontalNormal,
 ## Common Patterns
 
 ### Repository Pattern
-All repos extend `core/repositories/Repository`:
+All repos extend `core/repositories/Repository` (see [lib/src/core/repositories/repository.dart](../lib/src/core/repositories/repository.dart)):
 ```dart
 class FeedRepository implements Repository {
   static const tableName = 'feeds';
   static const colId = 'feed_id';
+  final Database db;
   
   @override
-  Future<int> create(placeData) async {
+  Future<int> create(Map<String, dynamic> data) async {
     try {
-      final result = await db.insert(...);
-      AppLogger.info('Created feed', tag: 'FeedRepository');
+      final result = await db.insert(tableName, data);
+      AppLogger.info('Created feed with ID: $result', tag: 'FeedRepository');
       return result;
     } catch (e, stackTrace) {
-      AppLogger.error('Error: $e', tag: 'FeedRepository', error: e, stackTrace: stackTrace);
-      throw RepositoryException(operation: 'create', message: '...', originalError: e);
+      AppLogger.error(
+        'Failed to create feed',
+        tag: 'FeedRepository',
+        error: e,
+        stackTrace: stackTrace,
+      );
+      throw RepositoryException(
+        operation: 'create',
+        message: 'Failed to create feed in database',
+        originalError: e,
+        stackTrace: stackTrace,
+      );
     }
   }
 }
+```
+
+**Repository Providers**:
+```dart
+// Standard pattern for repository providers
+final feedRepository = Provider<FeedRepository>((ref) {
+  final db = ref.watch(appDatabase).database;
+  return FeedRepository(db);
+});
+```
+
+See reference implementations:
+- [lib/src/features/main/repository/feed_repository.dart](../lib/src/features/main/repository/feed_repository.dart)
+- [lib/src/features/add_ingredients/repository/ingredients_repository.dart](../lib/src/features/add_ingredients/repository/ingredients_repository.dart)
 ```
 
 ### UI Patterns
@@ -437,14 +478,66 @@ class _MyFormFieldState extends ConsumerState<MyFormField> {
 - Always check `mounted` before navigation after async operations
 - Use `showDialog<void>()` instead of `Navigator.restorablePush()`
 
-## Testing
-Prefer unit tests for repositories/providers, widget tests for UI. Run with:
-```powershell
-flutter test
+## Testing Strategy
+
+**Test Structure** (see [test/README.md](../test/README.md)):
 ```
+test/
+├── unit/                        # Unit tests (validators, models, utils)
+├── integration/                 # Integration tests (end-to-end workflows)
+└── phase_1_4_simple_test.dart   # Legacy provider tests
+```
+
+**Running Tests**:
+```powershell
+flutter test                     # All tests
+flutter test test/unit/          # Unit tests only
+flutter test test/integration/   # Integration tests only
+flutter test --coverage          # With coverage report
+```
+
+**Testing Patterns**:
+- **Unit tests**: Validators, models, value objects, utility functions
+- **Widget tests**: UI components, dialogs, screens (when needed)
+- **Integration tests**: End-to-end workflows (create feed → add ingredients → analyze)
+- Always test edge cases: null values, empty lists, boundary conditions
+- Use `setUp()` for test data initialization
+- Mock database/repository dependencies in unit tests
+
+**Test Coverage Focus**:
+- Input validators ([test/unit/input_validators_test.dart](../test/unit/input_validators_test.dart))
+- Value objects ([test/unit/price_value_object_test.dart](../test/unit/price_value_object_test.dart))
+- Model serialization/deserialization
+- Repository CRUD operations
+- Business logic calculations
 
 ## Platform Notes
 - **Windows dev primary** (PowerShell commands in instructions)
 - **Android target** (Google Play Store deployment)
 - **Multi-platform DB** (sqflite_common_ffi for desktop, sqflite for mobile)
-- Edge-to-edge UI with transparent system bars
+- **Edge-to-edge UI** with transparent system bars (see [lib/src/feed_app.dart](../lib/src/feed_app.dart))
+
+## MCP Tools Integration
+
+When MCP tools are available, **prefer using them over terminal commands**:
+
+**Dart/Flutter Development**:
+- `mcp_dart_sdk_mcp__launch_app` - Start Flutter app (replaces `flutter run`)
+- `mcp_dart_sdk_mcp__hot_reload` - Hot reload changes (replaces manual 'r' press)
+- `mcp_dart_sdk_mcp__hot_restart` - Hot restart app (replaces manual 'R' press)
+- `mcp_dart_sdk_mcp__connect_dart_tooling_daemon` - Connect to DTD for debugging
+- `mcp_dart_sdk_mcp__get_runtime_errors` - Fetch current runtime errors
+- `mcp_dart_sdk_mcp__pub_dev_search` - Search for packages on pub.dev
+- `mcp_dart_sdk_mcp__resolve_workspace_symbol` - Find symbols in workspace
+
+**Git Operations** (GitKraken MCP):
+- `mcp_gitkraken_git_add_or_commit` - Stage/commit changes
+- `mcp_gitkraken_git_push` - Push to remote
+- `mcp_gitkraken_git_stash` - Stash working changes
+- `mcp_gitkraken_git_blame` - See file history
+
+**GitHub PR Management**:
+- `github-pull-request_activePullRequest` - Get current PR details
+- `github-pull-request_copilot-coding-agent` - Delegate tasks to coding agent
+
+Fallback to terminal commands when MCP tools are unavailable or for complex operations.
