@@ -74,6 +74,47 @@ class ResultEstimateCard extends StatelessWidget {
                 ),
               ],
             ),
+            const SizedBox(height: UIConstants.paddingSmall),
+            // v5 enhanced quick fields
+            Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    children: [
+                      EstimatedContentCard(
+                        value: data.ash,
+                        title: 'Ash',
+                        unit: '%',
+                      ),
+                      const SizedBox(height: UIConstants.paddingTiny),
+                      EstimatedContentCard(
+                        value: data.moisture,
+                        title: 'Moisture',
+                        unit: '%',
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: UIConstants.paddingSmall),
+                Expanded(
+                  child: Column(
+                    children: [
+                      EstimatedContentCard(
+                        value: data.totalPhosphorus,
+                        title: 'Total P',
+                        unit: 'g/Kg',
+                      ),
+                      const SizedBox(height: UIConstants.paddingTiny),
+                      EstimatedContentCard(
+                        value: data.availablePhosphorus,
+                        title: 'Avail. P',
+                        unit: 'g/Kg',
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),

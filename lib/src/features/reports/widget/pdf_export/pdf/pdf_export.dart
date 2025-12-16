@@ -1,7 +1,6 @@
 import 'dart:typed_data';
-
+import 'dart:convert';
 import 'package:feed_estimator/src/core/constants/common.dart';
-
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
 
 import 'package:feed_estimator/src/features/main/model/feed.dart';
@@ -421,6 +420,38 @@ Future<Uint8List> makePdf(
                             style: TextStyle(font: font))),
                   ],
                 ),
+              ],
+            ),
+            SizedBox(height: 16),
+            // Enhanced v5 metrics
+            Table(
+              border: TableBorder.all(color: PdfColors.black),
+              children: [
+                TableRow(children: [
+                  paddedText('Ash'),
+                  paddedText(result?.ash != null ? result!.ash!.toStringAsFixed(1) : '--', align: TextAlign.center),
+                  paddedText('%', align: TextAlign.center),
+                ]),
+                TableRow(children: [
+                  paddedText('Moisture'),
+                  paddedText(result?.moisture != null ? result!.moisture!.toStringAsFixed(1) : '--', align: TextAlign.center),
+                  paddedText('%', align: TextAlign.center),
+                ]),
+                TableRow(children: [
+                  paddedText('Total Phosphorus'),
+                  paddedText(result?.totalPhosphorus != null ? result!.totalPhosphorus!.toStringAsFixed(2) : '--', align: TextAlign.center),
+                  paddedText('g/Kg', align: TextAlign.center),
+                ]),
+                TableRow(children: [
+                  paddedText('Available Phosphorus'),
+                  paddedText(result?.availablePhosphorus != null ? result!.availablePhosphorus!.toStringAsFixed(2) : '--', align: TextAlign.center),
+                  paddedText('g/Kg', align: TextAlign.center),
+                ]),
+                TableRow(children: [
+                  paddedText('Phytate Phosphorus'),
+                  paddedText(result?.phytatePhosphorus != null ? result!.phytatePhosphorus!.toStringAsFixed(2) : '--', align: TextAlign.center),
+                  paddedText('g/Kg', align: TextAlign.center),
+                ]),
               ],
             ),
             SizedBox(height: 10),
