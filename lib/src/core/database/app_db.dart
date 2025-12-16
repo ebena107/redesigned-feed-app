@@ -26,7 +26,7 @@ class AppDatabase {
   static final AppDatabase _instance = AppDatabase._();
 
   // Current database version - increment when adding migrations
-  static const int _currentVersion = 4;
+  static const int _currentVersion = 6;
 
   factory AppDatabase() => _instance;
 
@@ -116,6 +116,12 @@ class AppDatabase {
       case 4:
         await _migrationV3ToV4(db);
         break;
+      case 5:
+        await _migrationV4ToV5(db);
+        break;
+      case 6:
+        await _migrationV5ToV6(db);
+        break;
       // Add future migrations here
       default:
         debugPrint('No migration defined for version $version');
@@ -200,6 +206,58 @@ class AppDatabase {
     }
 
     debugPrint('Migration 3→4: Complete');
+  }
+
+  /// Migration from v4 to v5: Add enhanced nutrient columns
+  Future<void> _migrationV4ToV5(Database db) async {
+    debugPrint('Migration 4→5: Adding enhanced nutrient columns');
+
+    // Helper to add a column if it does not already exist
+    Future<void> addColumn(String name, String type) async {
+      try {
+        await db.execute(
+            'ALTER TABLE ${IngredientsRepository.tableName} ADD COLUMN $name $type');
+      } catch (e) {
+        debugPrint('Migration 4→5: Column $name may already exist: $e');
+      }
+    }
+
+    await addColumn('ash', 'REAL');
+    await addColumn('moisture', 'REAL');
+    await addColumn('starch', 'REAL');
+    await addColumn('bulk_density', 'REAL');
+    await addColumn('total_phosphorus', 'REAL');
+    await addColumn('available_phosphorus', 'REAL');
+    await addColumn('phytate_phosphorus', 'REAL');
+    await addColumn('me_finishing_pig', 'INTEGER');
+    await addColumn('amino_acids_total', 'TEXT');
+    await addColumn('amino_acids_sid', 'TEXT');
+    await addColumn('energy', 'TEXT');
+    await addColumn('anti_nutritional_factors', 'TEXT');
+    await addColumn('max_inclusion_pct', 'REAL');
+    await addColumn('warning', 'TEXT');
+    await addColumn('regulatory_note', 'TEXT');
+
+    debugPrint('Migration 4→5: Complete');
+  }
+
+  /// Migration from v5 to v6: Add energy column
+  Future<void> _migrationV5ToV6(Database db) async {
+    debugPrint('Migration 5→6: Adding energy column');
+
+    // Helper to add a column if it does not already exist
+    Future<void> addColumn(String name, String type) async {
+      try {
+        await db.execute(
+            'ALTER TABLE ${IngredientsRepository.tableName} ADD COLUMN $name $type');
+      } catch (e) {
+        debugPrint('Migration 5→6: Column $name may already exist: $e');
+      }
+    }
+
+    await addColumn('energy', 'TEXT');
+
+    debugPrint('Migration 5→6: Complete');
   }
 
   /// this should be run when the database is being created

@@ -1,11 +1,11 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:feed_estimator/src/core/constants/ui_constants.dart';
-import 'package:feed_estimator/src/core/router/routes.dart';
 import 'package:feed_estimator/src/features/main/model/feed.dart';
 import 'package:feed_estimator/src/features/main/providers/main_async_provider.dart';
 import 'package:feed_estimator/src/features/main/widget/tile_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import 'footer_result_card.dart';
 import 'grid_menu.dart';
@@ -72,7 +72,7 @@ class FeedGridCard extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap:
-            feedId != 0 ? () => ReportRoute(feedId.toInt()).go(context) : null,
+            feedId != 0 ? () => context.go('/report/${feedId.toInt()}') : null,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [

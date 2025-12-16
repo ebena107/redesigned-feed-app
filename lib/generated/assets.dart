@@ -11,8 +11,10 @@ class Assets {
   static const String imagesPigFeed = 'assets/images/pig_feed.png';
   static const String imagesRabbitFeed = 'assets/images/rabbit_feed.png';
   static const String imagesRuminantFeed = 'assets/images/ruminant_feed.png';
-  static const String rawInitialAnimalTypes = 'assets/raw/initial_animal_types.json';
-  static const String rawInitialCategories = 'assets/raw/initial_categories.json';
-  static const String rawInitialIngredients = 'assets/raw/initial_ingredients.json';
-
+  static const String rawInitialAnimalTypes =
+      'assets/raw/initial_animal_types.json';
+  static const String rawInitialCategories =
+      'assets/raw/initial_categories.json';
+  static const String rawInitialIngredients =
+      'assets/raw/initial_ingredients_.json';
 }

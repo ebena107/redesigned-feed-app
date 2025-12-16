@@ -1,4 +1,3 @@
-import 'package:feed_estimator/src/core/router/routes.dart';
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -39,8 +38,6 @@ class SaveUpdateFeedController extends _$SaveUpdateFeedController {
       onSuccess('Success');
       // ref.read(asyncMainProvider.notifier).loadFeed();
       // ref.read(resultProvider.notifier).setFeed();
-
-      const HomeRoute().location;
     }
   }
 }

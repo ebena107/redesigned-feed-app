@@ -1,5 +1,4 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
-import 'package:feed_estimator/src/core/router/routes.dart';
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
 import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provider.dart';
 import 'package:feed_estimator/src/features/main/model/feed.dart';
@@ -7,6 +6,7 @@ import 'package:feed_estimator/src/features/reports/providers/result_provider.da
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../providers/main_async_provider.dart';
 
@@ -84,7 +84,7 @@ class GridMenu extends ConsumerWidget {
 
     switch (option) {
       case _MenuOption.view:
-        ReportRoute(feedId).go(context);
+        context.go('/report/$feedId');
         break;
 
       case _MenuOption.update:
@@ -94,7 +94,7 @@ class GridMenu extends ConsumerWidget {
         ref.read(feedProvider.notifier)
           ..resetProvider()
           ..setFeed(feed!);
-        FeedRoute(feedId: feedId).go(context);
+        context.go('/feed/$feedId');
         break;
 
       case _MenuOption.delete:

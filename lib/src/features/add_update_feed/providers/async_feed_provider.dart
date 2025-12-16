@@ -1,4 +1,3 @@
-import 'package:feed_estimator/src/core/router/routes.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../main/providers/main_async_provider.dart';
@@ -23,8 +22,6 @@ class AsyncFeed extends _$AsyncFeed {
       //  debugPrint('saving complete');
       await ref.read(asyncMainProvider.notifier).loadFeed();
       // await ref.read(resultProvider.notifier).setFeed();
-
-      const HomeRoute().location;
     }
   }
 
@@ -38,9 +35,7 @@ class AsyncFeed extends _$AsyncFeed {
     if (state.hasError == false) {
       //  debugPrint('finished delete');
       // await ref.read(asyncMainProvider.notifier).loadFeed();
-      await ref
-          .read(resultProvider.notifier)
-          .estimatedResult(
+      await ref.read(resultProvider.notifier).estimatedResult(
             animal: ref.watch(feedProvider).animalTypeId,
             ingList: ref.watch(feedProvider).feedIngredients,
           );

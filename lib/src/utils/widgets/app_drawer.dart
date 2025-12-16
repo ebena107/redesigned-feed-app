@@ -1,5 +1,4 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
-import 'package:feed_estimator/src/core/router/routes.dart';
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
 import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provider.dart';
 import 'package:feed_estimator/src/features/reports/providers/result_provider.dart';
@@ -67,7 +66,8 @@ class FeedAppDrawer extends ConsumerWidget {
                         ref.read(resultProvider.notifier).resetResult();
                         ref.read(ingredientProvider.notifier).resetSelections();
                         ref.read(feedProvider.notifier).resetProvider();
-                        const AddFeedRoute().go(context);
+                        //  const AddFeedRoute().go(context);
+                        context.go('/newFeed');
                       },
                     ),
                     const SizedBox(height: 14),
@@ -80,7 +80,7 @@ class FeedAppDrawer extends ConsumerWidget {
                       selected: location.startsWith('/ingredientStore'),
                       onTap: () {
                         context.pop();
-                        const IngredientStoreRoute().go(context);
+                        context.go('/ingredientStore');
                       },
                     ),
                     const SizedBox(height: 8),
@@ -94,7 +94,7 @@ class FeedAppDrawer extends ConsumerWidget {
                         ref
                             .read(ingredientProvider.notifier)
                             .setDefaultValues();
-                        const NewIngredientRoute().go(context);
+                        context.go('/newIngredient');
                       },
                     ),
                     const SizedBox(height: 14),
@@ -125,7 +125,7 @@ class FeedAppDrawer extends ConsumerWidget {
                 selected: location.startsWith('/settings'),
                 onTap: () {
                   context.pop();
-                  const SettingsRoute().go(context);
+                  context.go('/settings');
                 },
               ),
             ],

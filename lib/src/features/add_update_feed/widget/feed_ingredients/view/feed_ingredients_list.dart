@@ -1,12 +1,12 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:feed_estimator/src/core/router/navigation_providers.dart';
-import 'package:feed_estimator/src/core/router/routes.dart';
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
 import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provider.dart';
 import 'package:feed_estimator/src/features/add_update_feed/widget/feed_ingredients/widget/ingredient_sort_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../cart/cart_widget.dart';
 import '../widget/ingredient_data_list.dart';
@@ -212,9 +212,7 @@ Future<void> _onItemTapped(
 
       ref.read(feedProvider.notifier).addSelectedIngredients(ingList);
       ref.read(ingredientProvider.notifier).resetSelections();
-      feedId != null
-          ? FeedRoute(feedId: feedId).go(context)
-          : const AddFeedRoute().go(context);
+      feedId != null ? context.go('/feed/$feedId') : context.go('/newFeed');
 
       break;
   }

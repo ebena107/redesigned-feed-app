@@ -1,6 +1,5 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
 
-import 'package:feed_estimator/src/core/router/routes.dart';
 import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provider.dart';
 import 'package:feed_estimator/src/features/main/model/feed.dart';
 import 'package:feed_estimator/src/features/main/providers/main_async_provider.dart';
@@ -13,6 +12,7 @@ import 'package:feed_estimator/src/utils/widgets/app_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class AnalysisPage extends ConsumerWidget {
   final int? feedId;
@@ -133,9 +133,10 @@ class AnalysisPage extends ConsumerWidget {
               IconButton(
                 icon: const Icon(Icons.picture_as_pdf_outlined,
                     color: Colors.white),
-                onPressed: () =>
-                    PdfRoute(feedId ?? 0, type: type ?? '', $extra: feed)
-                        .go(context),
+                onPressed: () => context.push(
+                  '/report/${feedId ?? 0}/pdf${type != null && type!.isNotEmpty ? '?type=$type' : ''}',
+                  extra: feed,
+                ),
               ),
             ],
           ),
@@ -308,7 +309,7 @@ class _ReturnButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
       ),
-      onPressed: () => FeedRoute(feedId: feedId!).go(context),
+      onPressed: () => context.go('/feed/$feedId'),
       icon: const Icon(Icons.edit),
       label: const Text("Return to Edit"),
     );

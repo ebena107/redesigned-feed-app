@@ -44,6 +44,22 @@ class IngredientsRepository implements Repository {
   static const colCreatedBy = 'created_by';
   static const colCreatedDate = 'created_date';
   static const colNotes = 'notes';
+  // v5 enhanced nutrient fields
+  static const colAsh = 'ash';
+  static const colMoisture = 'moisture';
+  static const colStarch = 'starch';
+  static const colBulkDensity = 'bulk_density';
+  static const colTotalPhosphorus = 'total_phosphorus';
+  static const colAvailablePhosphorus = 'available_phosphorus';
+  static const colPhytatePhosphorus = 'phytate_phosphorus';
+  static const colMeFinishingPig = 'me_finishing_pig';
+  static const colAminoAcidsTotal = 'amino_acids_total';
+  static const colAminoAcidsSid = 'amino_acids_sid';
+  static const colAntiNutritionalFactors = 'anti_nutritional_factors';
+  static const colMaxInclusionPct = 'max_inclusion_pct';
+  static const colWarning = 'warning';
+  static const colRegulatoryNote = 'regulatory_note';
+  static const colEnergy = 'energy';
 
   static const tableCreateQuery = 'CREATE TABLE $tableName ('
       '$colId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, '
@@ -65,6 +81,21 @@ class IngredientsRepository implements Repository {
       '$colAvailableQty REAL, '
       '$colCategoryId INTEGER, '
       '$colFavourite INTEGER, '
+      '$colAsh REAL, '
+      '$colMoisture REAL, '
+      '$colStarch REAL, '
+      '$colBulkDensity REAL, '
+      '$colTotalPhosphorus REAL, '
+      '$colAvailablePhosphorus REAL, '
+      '$colPhytatePhosphorus REAL, '
+      '$colMeFinishingPig INTEGER, '
+      '$colAminoAcidsTotal TEXT, '
+      '$colAminoAcidsSid TEXT, '
+      '$colEnergy TEXT, '
+      '$colAntiNutritionalFactors TEXT, '
+      '$colMaxInclusionPct REAL, '
+      '$colWarning TEXT, '
+      '$colRegulatoryNote TEXT, '
       '$colIsCustom INTEGER DEFAULT 0, '
       '$colCreatedBy TEXT, '
       '$colCreatedDate INTEGER, '
@@ -77,7 +108,7 @@ class IngredientsRepository implements Repository {
       'UPDATE $tableName SET $colPriceKg = ?, $colAvailableQty = ?, $colFavourite = ? WHERE $colId = ?';
 
   static const columns =
-      '$colId, $colName, $colCrudeProtein, $colCrudeFiber, $colCrudeFat, $colCalcium, $colPhosphorus, $colLysine, $colMethionine, $colMeGrowingPig, $colMeAdultPig, $colMePoultry, $colMeRuminant, $colMeRabbit, $colDeSalmonids, $colPriceKg, $colAvailableQty, $colCategoryId, $colFavourite, $colTimestamp';
+      '$colId, $colName, $colCrudeProtein, $colCrudeFiber, $colCrudeFat, $colCalcium, $colPhosphorus, $colLysine, $colMethionine, $colMeGrowingPig, $colMeAdultPig, $colMePoultry, $colMeRuminant, $colMeRabbit, $colDeSalmonids, $colPriceKg, $colAvailableQty, $colCategoryId, $colFavourite, $colAsh, $colMoisture, $colStarch, $colBulkDensity, $colTotalPhosphorus, $colAvailablePhosphorus, $colPhytatePhosphorus, $colMeFinishingPig, $colAminoAcidsTotal, $colAminoAcidsSid, $colAntiNutritionalFactors, $colMaxInclusionPct, $colWarning, $colRegulatoryNote, $colTimestamp';
 
   Future<void> updateStoredIngredient(
       Map<String, Object?> placeData, num id) async {

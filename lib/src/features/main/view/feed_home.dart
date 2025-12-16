@@ -1,6 +1,5 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:feed_estimator/src/core/constants/ui_constants.dart';
-import 'package:feed_estimator/src/core/router/routes.dart';
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
 import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provider.dart';
 import 'package:feed_estimator/src/features/main/providers/main_async_provider.dart';
@@ -12,6 +11,7 @@ import 'package:feed_estimator/src/utils/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class MainView extends ConsumerWidget {
   const MainView({super.key});
@@ -128,7 +128,7 @@ class MainView extends ConsumerWidget {
                                 .read(ingredientProvider.notifier)
                                 .resetSelections();
                             ref.read(feedProvider.notifier).resetProvider();
-                            const AddFeedRoute().go(context);
+                            context.go('/newFeed');
                           },
                           icon: const Icon(Icons.add),
                           label: const Text('Create Feed'),
@@ -168,7 +168,7 @@ class MainView extends ConsumerWidget {
           ref.read(resultProvider.notifier).resetResult();
           ref.read(ingredientProvider.notifier).resetSelections();
           ref.read(feedProvider.notifier).resetProvider();
-          const AddFeedRoute().go(context);
+          context.go('/newFeed');
         },
         icon: const Icon(Icons.add),
         label: const Text('Add Feed'),

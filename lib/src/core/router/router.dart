@@ -11,7 +11,7 @@ GoRouter router(ref) {
 
   final router = GoRouter(
     navigatorKey: routerKey,
-    initialLocation: const HomeRoute().location,
+    initialLocation: '/',
     routes: $appRoutes,
     debugLogDiagnostics: true,
   );

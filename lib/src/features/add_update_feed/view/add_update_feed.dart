@@ -1,7 +1,6 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:feed_estimator/src/core/constants/ui_constants.dart';
 import 'package:feed_estimator/src/core/router/navigation_providers.dart';
-import 'package:feed_estimator/src/core/router/routes.dart';
 import 'package:feed_estimator/src/core/utils/logger.dart';
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
 import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provider.dart';
@@ -179,9 +178,10 @@ Future<void> _onItemTapped(
       case 0: // Add ingredients
         if (isEdit) {
           ref.read(ingredientProvider.notifier).loadFeedExistingIngredients();
-          FeedIngredientsRoute(feedId!).go(context);
+          context.go('/feed/$feedId/feedIngredient');
         } else {
-          NewFeedIngredientsRoute(feedId).go(context);
+          context.go(
+              '/newFeed/ingredientList${feedId != null ? '?feed-id=$feedId' : ''}');
         }
         break;
 

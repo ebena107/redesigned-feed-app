@@ -5,6 +5,7 @@ import 'package:feed_estimator/src/features/add_ingredients/repository/ingredien
 import 'package:feed_estimator/src/features/main/model/feed.dart';
 import 'package:feed_estimator/src/features/main/providers/main_provider.dart';
 import 'package:feed_estimator/src/features/reports/model/result.dart';
+import 'package:feed_estimator/src/features/reports/providers/enhanced_calculation_engine.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -242,47 +243,26 @@ class ResultNotifier extends Notifier<ResultsState> {
     _totalQuantity = _calcTotalQuantity(ingList);
     if (_totalQuantity <= 0) return;
 
-    double totalEnergy = 0;
-    double totalProtein = 0;
-    double totalFat = 0;
-    double totalFiber = 0;
-    double totalCalcium = 0;
-    double totalPhosphorus = 0;
-    double totalLysine = 0;
-    double totalMethionine = 0;
-    double totalCost = 0;
-
     final animalTypeId = _feed.animalId ?? 1;
 
-    for (final ing in ingList) {
-      final qty = (ing.quantity ?? 0).toDouble();
-      if (qty <= 0) continue;
+    // Use enhanced v5 calculation engine
+    final enhanced = EnhancedCalculationEngine.calculateEnhancedResult(
+      feedIngredients: ingList,
+      ingredientCache: _ingredientCache,
+      animalTypeId: animalTypeId,
+    );
 
-      final data = _ingredientCache[ing.ingredientId];
-      if (data == null) continue;
-
-      final energy = _energyForAnimal(data, animalTypeId);
-      totalEnergy += energy * qty;
-      totalProtein += (data.crudeProtein ?? 0) * qty;
-      totalFat += (data.crudeFat ?? 0) * qty;
-      totalFiber += (data.crudeFiber ?? 0) * qty;
-      totalCalcium += (data.calcium ?? 0) * qty;
-      totalPhosphorus += (data.phosphorus ?? 0) * qty;
-      totalLysine += (data.lysine ?? 0) * qty;
-      totalMethionine += (data.methionine ?? 0) * qty;
-      totalCost += (ing.priceUnitKg ?? 0) * qty;
-    }
-
-    _mEnergy = totalEnergy / _totalQuantity;
-    _cProtein = totalProtein / _totalQuantity;
-    _cFat = totalFat / _totalQuantity;
-    _cFibre = totalFiber / _totalQuantity;
-    _calcium = totalCalcium / _totalQuantity;
-    _phosphorus = totalPhosphorus / _totalQuantity;
-    _lyzine = totalLysine / _totalQuantity;
-    _methionine = totalMethionine / _totalQuantity;
-    _costPerUnit = totalCost / _totalQuantity;
-    _totalCost = totalCost;
+    // Mirror legacy fields for UI compatibility
+    _mEnergy = enhanced.mEnergy ?? 0;
+    _cProtein = enhanced.cProtein ?? 0;
+    _cFat = enhanced.cFat ?? 0;
+    _cFibre = enhanced.cFibre ?? 0;
+    _calcium = enhanced.calcium ?? 0;
+    _phosphorus = enhanced.phosphorus ?? 0;
+    _lyzine = enhanced.lysine ?? 0;
+    _methionine = enhanced.methionine ?? 0;
+    _costPerUnit = enhanced.costPerUnit ?? 0;
+    _totalCost = enhanced.totalCost ?? 0;
   }
 
   double _calcTotalQuantity(List<FeedIngredients> ingList) {
