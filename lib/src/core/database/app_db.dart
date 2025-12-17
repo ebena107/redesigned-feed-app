@@ -26,7 +26,7 @@ class AppDatabase {
   static final AppDatabase _instance = AppDatabase._();
 
   // Current database version - increment when adding migrations
-  static const int _currentVersion = 6;
+  static const int _currentVersion = 7;
 
   factory AppDatabase() => _instance;
 
@@ -121,6 +121,9 @@ class AppDatabase {
         break;
       case 6:
         await _migrationV5ToV6(db);
+        break;
+      case 7:
+        await _migrationV6ToV7(db);
         break;
       // Add future migrations here
       default:
@@ -258,6 +261,40 @@ class AppDatabase {
     await addColumn('energy', 'TEXT');
 
     debugPrint('Migration 5→6: Complete');
+  }
+
+  /// Migration from v6 to v7: Populate energy field from JSON
+  Future<void> _migrationV6ToV7(Database db) async {
+    debugPrint(
+        'Migration 6→7: Populating energy field for existing ingredients');
+
+    try {
+      // Load ingredient data from JSON
+      final ingredients = await loadIngredientJson();
+
+      // Update each ingredient with energy data
+      Batch batch = db.batch();
+      for (var ingredient in ingredients) {
+        if (ingredient.energy != null) {
+          final energyJson = jsonEncode(ingredient.energy!.toJson());
+          batch.update(
+            IngredientsRepository.tableName,
+            {'energy': energyJson},
+            where: '${IngredientsRepository.colId} = ?',
+            whereArgs: [ingredient.ingredientId],
+          );
+        }
+      }
+
+      await batch.commit(noResult: true);
+      debugPrint(
+          'Migration 6→7: Updated ${ingredients.length} ingredients with energy data');
+    } catch (e) {
+      debugPrint('Migration 6→7: Error updating energy field: $e');
+      rethrow;
+    }
+
+    debugPrint('Migration 6→7: Complete');
   }
 
   /// this should be run when the database is being created

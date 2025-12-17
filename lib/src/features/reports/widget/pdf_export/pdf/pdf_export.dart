@@ -1,5 +1,5 @@
-import 'dart:typed_data';
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
 
@@ -255,7 +255,7 @@ Future<Uint8List> makePdf(
                     SizedBox(
                         width: 120,
                         child: paddedText(
-                            result!.mEnergy != null
+                            result != null && result.mEnergy != null
                                 ? result.mEnergy!.toStringAsFixed(2)
                                 : "0",
                             align: TextAlign.center)),
@@ -276,7 +276,7 @@ Future<Uint8List> makePdf(
                     SizedBox(
                         width: 120,
                         child: paddedText(
-                            result.cProtein != null
+                            result != null && result.cProtein != null
                                 ? result.cProtein!.toStringAsFixed(2)
                                 : "0",
                             align: TextAlign.center)),
@@ -296,7 +296,10 @@ Future<Uint8List> makePdf(
                         child: paddedText('Crude Fiber')),
                     SizedBox(
                         width: 120,
-                        child: paddedText(result.cFibre!.toStringAsFixed(2),
+                        child: paddedText(
+                            result != null && result.cFibre != null
+                                ? result.cFibre!.toStringAsFixed(2)
+                                : "0",
                             align: TextAlign.center)),
                     SizedBox(
                         width: 80,
@@ -314,7 +317,10 @@ Future<Uint8List> makePdf(
                         child: paddedText('Crude Fat')),
                     SizedBox(
                         width: 120,
-                        child: paddedText(result.cFat!.toStringAsFixed(2),
+                        child: paddedText(
+                            result != null && result.cFat != null
+                                ? result.cFat!.toStringAsFixed(2)
+                                : "0",
                             align: TextAlign.center)),
                     SizedBox(
                         width: 80,
@@ -332,7 +338,10 @@ Future<Uint8List> makePdf(
                         child: paddedText('Calcium')),
                     SizedBox(
                         width: 120,
-                        child: paddedText(result.calcium!.toStringAsFixed(2),
+                        child: paddedText(
+                            result != null && result.calcium != null
+                                ? result.calcium!.toStringAsFixed(2)
+                                : "0",
                             align: TextAlign.center)),
                     SizedBox(
                         width: 80,
@@ -350,7 +359,10 @@ Future<Uint8List> makePdf(
                         child: paddedText('Phosphorus')),
                     SizedBox(
                         width: 120,
-                        child: paddedText(result.phosphorus!.toStringAsFixed(2),
+                        child: paddedText(
+                            result != null && result.phosphorus != null
+                                ? result.phosphorus!.toStringAsFixed(2)
+                                : "0",
                             align: TextAlign.center)),
                     SizedBox(
                         width: 80,
@@ -368,7 +380,10 @@ Future<Uint8List> makePdf(
                         child: paddedText('Lyzine')),
                     SizedBox(
                         width: 120,
-                        child: paddedText(result.lysine!.toStringAsFixed(2),
+                        child: paddedText(
+                            result != null && result.lysine != null
+                                ? result.lysine!.toStringAsFixed(2)
+                                : "0",
                             align: TextAlign.center)),
                     SizedBox(
                         width: 80,
@@ -386,7 +401,10 @@ Future<Uint8List> makePdf(
                         child: paddedText('Methionine')),
                     SizedBox(
                       width: 120,
-                      child: paddedText(result.methionine!.toStringAsFixed(2),
+                      child: paddedText(
+                          result != null && result.methionine != null
+                              ? result.methionine!.toStringAsFixed(2)
+                              : "0",
                           align: TextAlign.center),
                     ),
                     SizedBox(
@@ -398,7 +416,10 @@ Future<Uint8List> makePdf(
                   children: [
                     SizedBox(),
                     paddedText('COST /unit KG', align: TextAlign.right),
-                    paddedText(result.costPerUnit!.toStringAsFixed(2),
+                    paddedText(
+                        result != null && result.costPerUnit != null
+                            ? result.costPerUnit!.toStringAsFixed(2)
+                            : "0",
                         align: TextAlign.center),
                     SizedBox(
                         width: 80,
@@ -410,7 +431,10 @@ Future<Uint8List> makePdf(
                   children: [
                     SizedBox(),
                     paddedText('TOTAL Cost', align: TextAlign.right),
-                    paddedText(result.totalCost!.toStringAsFixed(2),
+                    paddedText(
+                        result != null && result.totalCost != null
+                            ? result.totalCost!.toStringAsFixed(2)
+                            : "0",
                         align: TextAlign.center),
                     SizedBox(
                         width: 80,
@@ -424,37 +448,208 @@ Future<Uint8List> makePdf(
             ),
             SizedBox(height: 16),
             // Enhanced v5 metrics
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(8),
+                color: PdfColors.grey300,
+                child: Text('PROXIMATE ANALYSIS & PHOSPHORUS',
+                    style: Theme.of(context)
+                        .header4
+                        .copyWith(fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center),
+              ),
+            ),
             Table(
               border: TableBorder.all(color: PdfColors.black),
               children: [
                 TableRow(children: [
                   paddedText('Ash'),
-                  paddedText(result?.ash != null ? result!.ash!.toStringAsFixed(1) : '--', align: TextAlign.center),
+                  paddedText(
+                      result != null && result.ash != null
+                          ? result.ash!.toStringAsFixed(1)
+                          : '--',
+                      align: TextAlign.center),
                   paddedText('%', align: TextAlign.center),
                 ]),
                 TableRow(children: [
                   paddedText('Moisture'),
-                  paddedText(result?.moisture != null ? result!.moisture!.toStringAsFixed(1) : '--', align: TextAlign.center),
+                  paddedText(
+                      result != null && result.moisture != null
+                          ? result.moisture!.toStringAsFixed(1)
+                          : '--',
+                      align: TextAlign.center),
                   paddedText('%', align: TextAlign.center),
                 ]),
                 TableRow(children: [
                   paddedText('Total Phosphorus'),
-                  paddedText(result?.totalPhosphorus != null ? result!.totalPhosphorus!.toStringAsFixed(2) : '--', align: TextAlign.center),
+                  paddedText(
+                      result != null && result.totalPhosphorus != null
+                          ? result.totalPhosphorus!.toStringAsFixed(2)
+                          : '--',
+                      align: TextAlign.center),
                   paddedText('g/Kg', align: TextAlign.center),
                 ]),
                 TableRow(children: [
                   paddedText('Available Phosphorus'),
-                  paddedText(result?.availablePhosphorus != null ? result!.availablePhosphorus!.toStringAsFixed(2) : '--', align: TextAlign.center),
+                  paddedText(
+                      result != null && result.availablePhosphorus != null
+                          ? result.availablePhosphorus!.toStringAsFixed(2)
+                          : '--',
+                      align: TextAlign.center),
                   paddedText('g/Kg', align: TextAlign.center),
                 ]),
                 TableRow(children: [
                   paddedText('Phytate Phosphorus'),
-                  paddedText(result?.phytatePhosphorus != null ? result!.phytatePhosphorus!.toStringAsFixed(2) : '--', align: TextAlign.center),
+                  paddedText(
+                      result != null && result.phytatePhosphorus != null
+                          ? result.phytatePhosphorus!.toStringAsFixed(2)
+                          : '--',
+                      align: TextAlign.center),
                   paddedText('g/Kg', align: TextAlign.center),
                 ]),
               ],
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 16),
+            // Amino Acids Section
+            if (result != null &&
+                result.aminoAcidsTotalJson != null &&
+                result.aminoAcidsTotalJson!.isNotEmpty) ...[
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(8),
+                  color: PdfColors.grey300,
+                  child: Text('AMINO ACID PROFILE',
+                      style: Theme.of(context)
+                          .header4
+                          .copyWith(fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center),
+                ),
+              ),
+              () {
+                try {
+                  final aminoTotal = jsonDecode(result.aminoAcidsTotalJson!);
+                  final aminoSid = result.aminoAcidsSidJson != null &&
+                          result.aminoAcidsSidJson!.isNotEmpty
+                      ? jsonDecode(result.aminoAcidsSidJson!)
+                      : <String, dynamic>{};
+
+                  return Table(
+                    border: TableBorder.all(color: PdfColors.black),
+                    columnWidths: {
+                      0: const FlexColumnWidth(2),
+                      1: const FlexColumnWidth(1.5),
+                      2: const FlexColumnWidth(1.5),
+                      3: const FlexColumnWidth(1),
+                    },
+                    children: [
+                      // Header row
+                      TableRow(
+                        decoration: BoxDecoration(color: PdfColors.grey200),
+                        children: [
+                          paddedText('Amino Acid', align: TextAlign.left),
+                          paddedText('Total (g/Kg)', align: TextAlign.center),
+                          paddedText('SID (g/Kg)', align: TextAlign.center),
+                          paddedText('Unit', align: TextAlign.center),
+                        ],
+                      ),
+                      // Data rows
+                      ...aminoTotal.entries.map((entry) {
+                        final name = entry.key.toString();
+                        final totalValue = entry.value is num
+                            ? (entry.value as num).toStringAsFixed(1)
+                            : '--';
+                        final sidValue = aminoSid[name] is num
+                            ? (aminoSid[name] as num).toStringAsFixed(1)
+                            : '--';
+
+                        return TableRow(children: [
+                          paddedText(name[0].toUpperCase() + name.substring(1)),
+                          paddedText(totalValue, align: TextAlign.center),
+                          paddedText(sidValue, align: TextAlign.center),
+                          paddedText('g/Kg', align: TextAlign.center),
+                        ]);
+                      }).toList(),
+                    ],
+                  );
+                } catch (e) {
+                  return SizedBox();
+                }
+              }(),
+              SizedBox(height: 16),
+            ],
+            // Warnings Section
+            if (result != null &&
+                result.warningsJson != null &&
+                result.warningsJson!.isNotEmpty) ...[
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(8),
+                  color: PdfColors.orange100,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('⚠ ',
+                          style: Theme.of(context)
+                              .header3
+                              .copyWith(color: PdfColors.orange)),
+                      Text('WARNINGS & RECOMMENDATIONS',
+                          style: Theme.of(context)
+                              .header4
+                              .copyWith(fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ),
+              ),
+              () {
+                try {
+                  final warnings = jsonDecode(result.warningsJson!);
+                  if (warnings is List && warnings.isNotEmpty) {
+                    return Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: PdfColors.orange),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: warnings
+                            .map((w) => Padding(
+                                  padding: const EdgeInsets.only(bottom: 6),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text('• ',
+                                          style: Theme.of(context)
+                                              .defaultTextStyle
+                                              .copyWith(fontSize: 11)),
+                                      Expanded(
+                                        child: Text(w.toString(),
+                                            style: Theme.of(context)
+                                                .defaultTextStyle
+                                                .copyWith(fontSize: 10)),
+                                      ),
+                                    ],
+                                  ),
+                                ))
+                            .toList(),
+                      ),
+                    );
+                  }
+                  return SizedBox();
+                } catch (e) {
+                  return SizedBox();
+                }
+              }(),
+              SizedBox(height: 16),
+            ],
+            // Footer
             paddedText(
                 'Thank you for using Ebena Feed Estimator by Ebena Agro Ltd | http://ebena.com.ng, (c) ${DateTime.now().year}',
                 align: TextAlign.center),

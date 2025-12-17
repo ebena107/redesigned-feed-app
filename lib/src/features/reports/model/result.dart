@@ -161,4 +161,79 @@ class Result {
     map['warningsJson'] = warningsJson;
     return map;
   }
+
+  // ===== FORMATTED DISPLAY METHODS =====
+  // These methods return properly formatted strings with correct units
+  // Energy: kcal/kg | All others: % (with g/kg → % conversion where needed)
+
+  /// Get formatted energy value (kcal/kg)
+  String get formattedEnergy {
+    if (mEnergy == null) return '--';
+    return '${mEnergy!.toStringAsFixed(0)} kcal/kg';
+  }
+
+  /// Get formatted crude protein (%)
+  String get formattedCrudeProtein {
+    if (cProtein == null) return '--';
+    return '${cProtein!.toStringAsFixed(1)}%';
+  }
+
+  /// Get formatted crude fiber (%)
+  String get formattedCrudeFiber {
+    if (cFibre == null) return '--';
+    return '${cFibre!.toStringAsFixed(1)}%';
+  }
+
+  /// Get formatted crude fat (%)
+  String get formattedCrudeFat {
+    if (cFat == null) return '--';
+    return '${cFat!.toStringAsFixed(1)}%';
+  }
+
+  /// Get formatted ash (%)
+  String get formattedAsh {
+    if (ash == null) return '--';
+    return '${ash!.toStringAsFixed(1)}%';
+  }
+
+  /// Get formatted moisture (%)
+  String get formattedMoisture {
+    if (moisture == null) return '--';
+    return '${moisture!.toStringAsFixed(1)}%';
+  }
+
+  /// Get formatted total phosphorus (% - converted from g/kg)
+  String get formattedTotalPhosphorus {
+    if (totalPhosphorus == null) return '--';
+    final percentage = totalPhosphorus! / 10; // Convert g/kg to %
+    return '${percentage.toStringAsFixed(2)}%';
+  }
+
+  /// Get formatted available phosphorus (% - converted from g/kg)
+  String get formattedAvailablePhosphorus {
+    if (availablePhosphorus == null) return '--';
+    final percentage = availablePhosphorus! / 10; // Convert g/kg to %
+    return '${percentage.toStringAsFixed(2)}%';
+  }
+
+  /// Get formatted calcium (% - converted from g/kg)
+  String get formattedCalcium {
+    if (calcium == null) return '--';
+    final percentage = calcium! / 10; // Convert g/kg to %
+    return '${percentage.toStringAsFixed(2)}%';
+  }
+
+  /// Get formatted lysine (% - converted from g/kg)
+  String get formattedLysine {
+    if (lysine == null) return '--';
+    final percentage = lysine! / 10; // Convert g/kg to %
+    return '${percentage.toStringAsFixed(2)}%';
+  }
+
+  /// Get formatted methionine (% - converted from g/kg)
+  String get formattedMethionine {
+    if (methionine == null) return '--';
+    final percentage = methionine! / 10; // Convert g/kg to %
+    return '${percentage.toStringAsFixed(2)}%';
+  }
 }

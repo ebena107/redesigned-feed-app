@@ -108,7 +108,7 @@ class IngredientsRepository implements Repository {
       'UPDATE $tableName SET $colPriceKg = ?, $colAvailableQty = ?, $colFavourite = ? WHERE $colId = ?';
 
   static const columns =
-      '$colId, $colName, $colCrudeProtein, $colCrudeFiber, $colCrudeFat, $colCalcium, $colPhosphorus, $colLysine, $colMethionine, $colMeGrowingPig, $colMeAdultPig, $colMePoultry, $colMeRuminant, $colMeRabbit, $colDeSalmonids, $colPriceKg, $colAvailableQty, $colCategoryId, $colFavourite, $colAsh, $colMoisture, $colStarch, $colBulkDensity, $colTotalPhosphorus, $colAvailablePhosphorus, $colPhytatePhosphorus, $colMeFinishingPig, $colAminoAcidsTotal, $colAminoAcidsSid, $colAntiNutritionalFactors, $colMaxInclusionPct, $colWarning, $colRegulatoryNote, $colTimestamp';
+      '$colId, $colName, $colCrudeProtein, $colCrudeFiber, $colCrudeFat, $colCalcium, $colPhosphorus, $colLysine, $colMethionine, $colMeGrowingPig, $colMeAdultPig, $colMePoultry, $colMeRuminant, $colMeRabbit, $colDeSalmonids, $colPriceKg, $colAvailableQty, $colCategoryId, $colFavourite, $colAsh, $colMoisture, $colStarch, $colBulkDensity, $colTotalPhosphorus, $colAvailablePhosphorus, $colPhytatePhosphorus, $colMeFinishingPig, $colAminoAcidsTotal, $colAminoAcidsSid, $colEnergy, $colAntiNutritionalFactors, $colMaxInclusionPct, $colWarning, $colRegulatoryNote, $colTimestamp';
 
   Future<void> updateStoredIngredient(
       Map<String, Object?> placeData, num id) async {
