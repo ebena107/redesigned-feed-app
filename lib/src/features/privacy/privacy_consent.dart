@@ -201,6 +201,7 @@ class PrivacyConsentDialog extends ConsumerWidget {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Privacy policy URL not configured'),
+            behavior: SnackBarBehavior.floating,
           ),
         );
       }
@@ -270,7 +271,10 @@ class PrivacySettingsScreen extends ConsumerWidget {
             onTap: () {
               // TODO: Implement data export
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Export feature coming soon')),
+                const SnackBar(
+                  content: Text('Export feature coming soon'),
+                  behavior: SnackBarBehavior.floating,
+                ),
               );
             },
           ),
@@ -313,7 +317,10 @@ class PrivacySettingsScreen extends ConsumerWidget {
     } else {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Privacy policy URL not configured')),
+          const SnackBar(
+            content: Text('Privacy policy URL not configured'),
+            behavior: SnackBarBehavior.floating,
+          ),
         );
       }
     }
@@ -370,7 +377,9 @@ class PrivacySettingsScreen extends ConsumerWidget {
               Navigator.of(context).pop();
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                    content: Text('Data deletion feature coming soon')),
+                  content: Text('Data deletion feature coming soon'),
+                  behavior: SnackBarBehavior.floating,
+                ),
               );
             },
             child: const Text('Delete'),

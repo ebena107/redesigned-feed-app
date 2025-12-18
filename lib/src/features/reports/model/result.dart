@@ -38,6 +38,7 @@ class Result {
     this.phytatePhosphorus,
     this.aminoAcidsTotalJson,
     this.aminoAcidsSidJson,
+    this.energyJson,
     this.warningsJson,
   });
 
@@ -62,6 +63,7 @@ class Result {
     phytatePhosphorus = json['phytatePhosphorus'];
     aminoAcidsTotalJson = json['aminoAcidsTotalJson'];
     aminoAcidsSidJson = json['aminoAcidsSidJson'];
+    energyJson = json['energyJson'];
     warningsJson = json['warningsJson'];
   }
 
@@ -89,6 +91,7 @@ class Result {
   // JSON strings for complex structures (decode when needed)
   String? aminoAcidsTotalJson; // Map<String, num> of all 10 amino acids (total)
   String? aminoAcidsSidJson; // Map<String, num> of all 10 amino acids (SID)
+  String? energyJson; // Map<String, num> of energy values for all animal types
   String?
       warningsJson; // List<String> of calculation warnings and inclusions issues
 
@@ -112,6 +115,7 @@ class Result {
     num? phytatePhosphorus,
     String? aminoAcidsTotalJson,
     String? aminoAcidsSidJson,
+    String? energyJson,
     String? warningsJson,
   }) =>
       Result(
@@ -134,6 +138,7 @@ class Result {
         phytatePhosphorus: phytatePhosphorus ?? this.phytatePhosphorus,
         aminoAcidsTotalJson: aminoAcidsTotalJson ?? this.aminoAcidsTotalJson,
         aminoAcidsSidJson: aminoAcidsSidJson ?? this.aminoAcidsSidJson,
+        energyJson: energyJson ?? this.energyJson,
         warningsJson: warningsJson ?? this.warningsJson,
       );
   Map<String, dynamic> toJson() {
@@ -158,6 +163,7 @@ class Result {
     map['phytatePhosphorus'] = phytatePhosphorus;
     map['aminoAcidsTotalJson'] = aminoAcidsTotalJson;
     map['aminoAcidsSidJson'] = aminoAcidsSidJson;
+    map['energyJson'] = energyJson;
     map['warningsJson'] = warningsJson;
     return map;
   }

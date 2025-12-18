@@ -19,6 +19,7 @@ class CartIconWithBadge extends ConsumerWidget {
           const SnackBar(
             content: Text('No ingredients selected yet'),
             duration: Duration(seconds: 2),
+            behavior: SnackBarBehavior.floating,
           ),
         );
         return;

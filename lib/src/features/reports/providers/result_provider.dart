@@ -109,6 +109,7 @@ class ResultNotifier extends Notifier<ResultsState> {
                 phytatePhosphorus: state.myResult!.phytatePhosphorus,
                 aminoAcidsTotalJson: state.myResult!.aminoAcidsTotalJson,
                 aminoAcidsSidJson: state.myResult!.aminoAcidsSidJson,
+                energyJson: state.myResult!.energyJson,
                 warningsJson: state.myResult!.warningsJson,
               );
             }

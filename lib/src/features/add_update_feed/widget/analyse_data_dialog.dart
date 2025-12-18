@@ -62,6 +62,7 @@ class AnalyseDataDialog extends ConsumerWidget {
             content: Text('Failed to analyse feed. Please try again.'),
             backgroundColor: Colors.redAccent,
             duration: Duration(seconds: 3),
+            behavior: SnackBarBehavior.floating,
           ),
         );
       }

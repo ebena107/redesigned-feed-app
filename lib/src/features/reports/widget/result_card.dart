@@ -208,29 +208,29 @@ class ResultCard extends ConsumerWidget {
           const Divider(color: Colors.white24, height: 36, thickness: 1.5),
 
           // Amino acids quick view (totals)
-          if (aminoTotal.isNotEmpty) ...[
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text('Amino Acids (g/Kg)',
-                  style: const TextStyle(color: Colors.white70, fontSize: 12)),
-            ),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 12,
-              runSpacing: 8,
-              children: aminoTotal.entries.take(10).map((e) {
-                final k = e.key.toString();
-                final v = (e.value is num)
-                    ? (e.value as num).toStringAsFixed(1)
-                    : e.value.toString();
-                final sid = (aminoSid[k] is num)
-                    ? (aminoSid[k] as num).toStringAsFixed(1)
-                    : null;
-                return _AminoChip(label: k, value: v, sid: sid);
-              }).toList(),
-            ),
-            const SizedBox(height: 16),
-          ],
+          // if (aminoTotal.isNotEmpty) ...[
+          //   Align(
+          //     alignment: Alignment.centerLeft,
+          //     child: Text('Amino Acids (g/Kg)',
+          //         style: const TextStyle(color: Colors.white70, fontSize: 12)),
+          //   ),
+          //   const SizedBox(height: 8),
+          //   Wrap(
+          //     spacing: 12,
+          //     runSpacing: 8,
+          //     children: aminoTotal.entries.take(10).map((e) {
+          //       final k = e.key.toString();
+          //       final v = (e.value is num)
+          //           ? (e.value as num).toStringAsFixed(1)
+          //           : e.value.toString();
+          //       final sid = (aminoSid[k] is num)
+          //           ? (aminoSid[k] as num).toStringAsFixed(1)
+          //           : null;
+          //       return _AminoChip(label: k, value: v, sid: sid);
+          //     }).toList(),
+          //   ),
+          //   const SizedBox(height: 16),
+          // ],
 
           // Warnings
           if (warnings.isNotEmpty) ...[

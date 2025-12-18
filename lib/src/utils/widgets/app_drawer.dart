@@ -58,7 +58,7 @@ class FeedAppDrawer extends ConsumerWidget {
                     const SizedBox(height: 8),
                     _DrawerTile(
                       icon: Icons.add_circle_outline,
-                      title: 'Add New Feed',
+                      title: 'Create Feed',
                       subtitle: 'Create a new feed formulation',
                       selected: location.startsWith('/newFeed'),
                       onTap: () {

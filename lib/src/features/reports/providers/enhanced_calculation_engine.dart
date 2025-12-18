@@ -1,8 +1,7 @@
 import 'dart:convert';
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dart';
 import 'package:feed_estimator/src/features/main/model/feed.dart';
-import 'package:feed_estimator/src/features/reports/model/inclusion_limit_validator.dart';
-import 'package:feed_estimator/src/features/reports/model/inclusion_validation.dart';
+import 'package:feed_estimator/src/features/add_update_feed/services/inclusion_validator.dart';
 import 'package:feed_estimator/src/features/reports/model/result.dart';
 
 /// Enhanced calculation engine supporting v5 harmonized ingredients
@@ -48,11 +47,11 @@ class EnhancedCalculationEngine {
       totalQuantity,
     );
 
-    // Validate inclusion limits
-    final inclusionValidation = InclusionLimitValidator.validateFormulation(
+    // Validate inclusion limits and anti-nutritional factors
+    final inclusionValidation = InclusionValidator.validate(
       feedIngredients: feedIngredients,
       ingredientCache: ingredientCache,
-      totalQuantity: totalQuantity,
+      animalTypeId: animalTypeId,
     );
 
     // Collect all warnings
@@ -83,6 +82,7 @@ class EnhancedCalculationEngine {
       phytatePhosphorus: enhancedCalcs['phytatePhosphorus'] as num?,
       aminoAcidsTotalJson: enhancedCalcs['aminoAcidsTotalJson'] as String?,
       aminoAcidsSidJson: enhancedCalcs['aminoAcidsSidJson'] as String?,
+      energyJson: enhancedCalcs['energyJson'] as String?,
       warningsJson: jsonEncode(warnings),
     );
   }
@@ -184,6 +184,13 @@ class EnhancedCalculationEngine {
       );
     }
 
+    // Calculate comprehensive energy data for all animal types
+    final energyMap = _calculateComprehensiveEnergy(
+      feedIngredients,
+      ingredientCache,
+      totalQuantity,
+    );
+
     return {
       'ash': totalAsh / totalQuantity,
       'moisture': totalMoisture / totalQuantity,
@@ -196,6 +203,7 @@ class EnhancedCalculationEngine {
       'aminoAcidsSidJson': jsonEncode(
         _normalizeAminoAcidMap(aminoAcidsSidTotals, totalQuantity),
       ),
+      'energyJson': energyMap.isNotEmpty ? jsonEncode(energyMap) : null,
     };
   }
 
@@ -223,57 +231,144 @@ class EnhancedCalculationEngine {
     }
   }
 
-  /// Accumulate amino acid values from ingredient
+  /// Accumulate amino acid values from ingredient with SID prioritization
+  ///
+  /// Industry-standard approach per NRC 2012:
+  /// - PRIORITY 1: Use SID (Standardized Ileal Digestible) values if available
+  /// - PRIORITY 2: Apply 0.85 digestibility factor to total amino acids
+  /// - PRIORITY 3: Apply 0.85 digestibility factor to legacy fields
+  ///
+  /// Always tracks total amino acids separately for reference.
   static void _accumulateAminoAcids(
     Ingredient data,
     double qty,
     Map<String, double> aminoAcidsTotals,
     Map<String, double> aminoAcidsSidTotals,
   ) {
-    // Try to use v5 model objects first
-    if (data.aminoAcidsTotal != null) {
-      final profile = data.aminoAcidsTotal!;
-      _addAminoAcidValue(aminoAcidsTotals, 'lysine', profile.lysine, qty);
-      _addAminoAcidValue(
-          aminoAcidsTotals, 'methionine', profile.methionine, qty);
-      _addAminoAcidValue(aminoAcidsTotals, 'cystine', profile.cystine, qty);
-      _addAminoAcidValue(aminoAcidsTotals, 'threonine', profile.threonine, qty);
-      _addAminoAcidValue(
-          aminoAcidsTotals, 'tryptophan', profile.tryptophan, qty);
-      _addAminoAcidValue(
-          aminoAcidsTotals, 'phenylalanine', profile.phenylalanine, qty);
-      _addAminoAcidValue(aminoAcidsTotals, 'leucine', profile.leucine, qty);
-      _addAminoAcidValue(
-          aminoAcidsTotals, 'isoleucine', profile.isoleucine, qty);
-      _addAminoAcidValue(aminoAcidsTotals, 'valine', profile.valine, qty);
-      _addAminoAcidValue(aminoAcidsTotals, 'arginine', profile.arginine, qty);
-      _addAminoAcidValue(aminoAcidsTotals, 'histidine', profile.histidine, qty);
-    }
+    // NRC 2012 average digestibility coefficient for plant proteins
+    const digestibilityFactor = 0.85;
 
+    // PRIORITY 1: Use SID values (industry standard for digestibility)
     if (data.aminoAcidsSid != null) {
-      final profile = data.aminoAcidsSid!;
-      _addAminoAcidValue(aminoAcidsSidTotals, 'lysine', profile.lysine, qty);
+      final sid = data.aminoAcidsSid!;
+      _addAminoAcidValue(aminoAcidsSidTotals, 'lysine', sid.lysine, qty);
       _addAminoAcidValue(
-          aminoAcidsSidTotals, 'methionine', profile.methionine, qty);
-      _addAminoAcidValue(aminoAcidsSidTotals, 'cystine', profile.cystine, qty);
+          aminoAcidsSidTotals, 'methionine', sid.methionine, qty);
+      _addAminoAcidValue(aminoAcidsSidTotals, 'cystine', sid.cystine, qty);
+      _addAminoAcidValue(aminoAcidsSidTotals, 'threonine', sid.threonine, qty);
       _addAminoAcidValue(
-          aminoAcidsSidTotals, 'threonine', profile.threonine, qty);
+          aminoAcidsSidTotals, 'tryptophan', sid.tryptophan, qty);
+      _addAminoAcidValue(aminoAcidsSidTotals, 'arginine', sid.arginine, qty);
       _addAminoAcidValue(
-          aminoAcidsSidTotals, 'tryptophan', profile.tryptophan, qty);
+          aminoAcidsSidTotals, 'isoleucine', sid.isoleucine, qty);
+      _addAminoAcidValue(aminoAcidsSidTotals, 'leucine', sid.leucine, qty);
+      _addAminoAcidValue(aminoAcidsSidTotals, 'valine', sid.valine, qty);
+      _addAminoAcidValue(aminoAcidsSidTotals, 'histidine', sid.histidine, qty);
       _addAminoAcidValue(
-          aminoAcidsSidTotals, 'phenylalanine', profile.phenylalanine, qty);
-      _addAminoAcidValue(aminoAcidsSidTotals, 'leucine', profile.leucine, qty);
+          aminoAcidsSidTotals, 'phenylalanine', sid.phenylalanine, qty);
+    }
+    // PRIORITY 2: Fallback to total amino acids with digestibility factor
+    else if (data.aminoAcidsTotal != null) {
+      final total = data.aminoAcidsTotal!;
       _addAminoAcidValue(
-          aminoAcidsSidTotals, 'isoleucine', profile.isoleucine, qty);
-      _addAminoAcidValue(aminoAcidsSidTotals, 'valine', profile.valine, qty);
+          aminoAcidsSidTotals,
+          'lysine',
+          total.lysine != null ? total.lysine! * digestibilityFactor : null,
+          qty);
       _addAminoAcidValue(
-          aminoAcidsSidTotals, 'arginine', profile.arginine, qty);
+          aminoAcidsSidTotals,
+          'methionine',
+          total.methionine != null
+              ? total.methionine! * digestibilityFactor
+              : null,
+          qty);
       _addAminoAcidValue(
-          aminoAcidsSidTotals, 'histidine', profile.histidine, qty);
+          aminoAcidsSidTotals,
+          'cystine',
+          total.cystine != null ? total.cystine! * digestibilityFactor : null,
+          qty);
+      _addAminoAcidValue(
+          aminoAcidsSidTotals,
+          'threonine',
+          total.threonine != null
+              ? total.threonine! * digestibilityFactor
+              : null,
+          qty);
+      _addAminoAcidValue(
+          aminoAcidsSidTotals,
+          'tryptophan',
+          total.tryptophan != null
+              ? total.tryptophan! * digestibilityFactor
+              : null,
+          qty);
+      _addAminoAcidValue(
+          aminoAcidsSidTotals,
+          'arginine',
+          total.arginine != null ? total.arginine! * digestibilityFactor : null,
+          qty);
+      _addAminoAcidValue(
+          aminoAcidsSidTotals,
+          'isoleucine',
+          total.isoleucine != null
+              ? total.isoleucine! * digestibilityFactor
+              : null,
+          qty);
+      _addAminoAcidValue(
+          aminoAcidsSidTotals,
+          'leucine',
+          total.leucine != null ? total.leucine! * digestibilityFactor : null,
+          qty);
+      _addAminoAcidValue(
+          aminoAcidsSidTotals,
+          'valine',
+          total.valine != null ? total.valine! * digestibilityFactor : null,
+          qty);
+      _addAminoAcidValue(
+          aminoAcidsSidTotals,
+          'histidine',
+          total.histidine != null
+              ? total.histidine! * digestibilityFactor
+              : null,
+          qty);
+      _addAminoAcidValue(
+          aminoAcidsSidTotals,
+          'phenylalanine',
+          total.phenylalanine != null
+              ? total.phenylalanine! * digestibilityFactor
+              : null,
+          qty);
+    }
+    // PRIORITY 3: Legacy fallback for old data
+    else {
+      _addAminoAcidValue(aminoAcidsSidTotals, 'lysine',
+          data.lysine != null ? data.lysine! * digestibilityFactor : null, qty);
+      _addAminoAcidValue(
+          aminoAcidsSidTotals,
+          'methionine',
+          data.methionine != null
+              ? data.methionine! * digestibilityFactor
+              : null,
+          qty);
     }
 
+    // Always track total amino acids for reference
+    if (data.aminoAcidsTotal != null) {
+      final total = data.aminoAcidsTotal!;
+      _addAminoAcidValue(aminoAcidsTotals, 'lysine', total.lysine, qty);
+      _addAminoAcidValue(aminoAcidsTotals, 'methionine', total.methionine, qty);
+      _addAminoAcidValue(aminoAcidsTotals, 'cystine', total.cystine, qty);
+      _addAminoAcidValue(aminoAcidsTotals, 'threonine', total.threonine, qty);
+      _addAminoAcidValue(aminoAcidsTotals, 'tryptophan', total.tryptophan, qty);
+      _addAminoAcidValue(aminoAcidsTotals, 'arginine', total.arginine, qty);
+      _addAminoAcidValue(aminoAcidsTotals, 'isoleucine', total.isoleucine, qty);
+      _addAminoAcidValue(aminoAcidsTotals, 'leucine', total.leucine, qty);
+      _addAminoAcidValue(aminoAcidsTotals, 'valine', total.valine, qty);
+      _addAminoAcidValue(aminoAcidsTotals, 'histidine', total.histidine, qty);
+      _addAminoAcidValue(
+          aminoAcidsTotals, 'phenylalanine', total.phenylalanine, qty);
+    }
     // Fallback: Use legacy fields if model objects not available
-    if (data.aminoAcidsTotal == null) {
+    else if (data.lysine != null || data.methionine != null) {
       if (data.lysine != null) {
         aminoAcidsTotals['lysine'] =
             (aminoAcidsTotals['lysine'] ?? 0) + data.lysine! * qty;
@@ -319,18 +414,14 @@ class EnhancedCalculationEngine {
   ) {
     final warnings = <String>[];
 
-    // Inclusion limit violations
-    for (final violation in inclusionValidation.violations) {
-      warnings.add(
-        '🚫 VIOLATION: ${violation.description}',
-      );
+    // Inclusion limit errors (critical violations)
+    for (final error in inclusionValidation.errors) {
+      warnings.add('🚫 VIOLATION: $error');
     }
 
-    // Inclusion limit warnings
+    // Inclusion limit warnings (approaching limits, ANF warnings)
     for (final warning in inclusionValidation.warnings) {
-      warnings.add(
-        '⚠️ ${warning.description}',
-      );
+      warnings.add('⚠️ $warning');
     }
 
     // Ingredient-specific warnings
@@ -361,15 +452,132 @@ class EnhancedCalculationEngine {
     return total;
   }
 
+  /// Get energy value for specific animal type with NE prioritization for pigs
+  ///
+  /// Animal Type IDs:
+  /// - 1 = Pig (uses NE - Net Energy per NRC 2012)
+  /// - 2 = Poultry (uses ME - Metabolizable Energy)
+  /// - 3 = Rabbit (uses ME)
+  /// - 4 = Ruminant (uses ME)
+  /// - 5 = Salmonids (uses DE - Digestible Energy)
+  ///
+  /// For pigs, NE is prioritized per NRC 2012 standards with conversion formulas:
+  /// - ME to NE: NE = 0.87*ME - 442 (kcal/kg)
+  /// - DE to NE: NE = 0.75*DE - 600 (kcal/kg)
   static double _getEnergyForAnimal(Ingredient ing, num animalTypeId) {
-    if (animalTypeId == 1) return (ing.meGrowingPig ?? 0).toDouble();
-    if (animalTypeId == 2) return (ing.mePoultry ?? 0).toDouble();
-    if (animalTypeId == 3) return (ing.meRabbit ?? 0).toDouble();
-    if (animalTypeId == 4) return (ing.meRuminant ?? 0).toDouble();
-    if (animalTypeId == 5) return (ing.deSalmonids ?? 0).toDouble();
+    // PIGS: Prioritize NE > ME > DE (NRC 2012 standard)
+    if (animalTypeId == 1) {
+      // Priority 1: Use NE directly if available
+      if (ing.energy?.nePig != null) {
+        return ing.energy!.nePig!.toDouble();
+      }
+
+      // Priority 2: Convert ME to NE using NRC 2012 equation
+      if (ing.energy?.mePig != null) {
+        final me = ing.energy!.mePig!.toDouble();
+        // NRC 2012: NE = 0.87*ME - 442
+        return (0.87 * me - 442).clamp(0, double.infinity);
+      }
+
+      // Priority 3: Legacy ME field with conversion
+      if (ing.meGrowingPig != null) {
+        final me = ing.meGrowingPig!.toDouble();
+        // NRC 2012: NE = 0.87*ME - 442
+        return (0.87 * me - 442).clamp(0, double.infinity);
+      }
+
+      // Priority 4: Convert DE to NE (approximate)
+      if (ing.energy?.dePig != null) {
+        final de = ing.energy!.dePig!.toDouble();
+        // Approximate: NE = 0.75*DE - 600
+        return (0.75 * de - 600).clamp(0, double.infinity);
+      }
+
+      return 0;
+    }
+
+    // POULTRY: Use ME (industry standard)
+    if (animalTypeId == 2) {
+      return (ing.energy?.mePoultry ?? ing.mePoultry ?? 0).toDouble();
+    }
+
+    // RABBITS: Use ME
+    if (animalTypeId == 3) {
+      return (ing.energy?.meRabbit ?? ing.meRabbit ?? 0).toDouble();
+    }
+
+    // RUMINANTS: Use ME
+    if (animalTypeId == 4) {
+      return (ing.energy?.meRuminant ?? ing.meRuminant ?? 0).toDouble();
+    }
+
+    // SALMONIDS: Use DE
+    if (animalTypeId == 5) {
+      return (ing.energy?.deSalmonids ?? ing.deSalmonids ?? 0).toDouble();
+    }
+
     return 0;
   }
 
   /// Round double to 1 decimal place
   static double roundToDouble(double value) => (value * 10).round() / 10;
+
+  /// Calculate comprehensive energy data for all animal types
+  static Map<String, num> _calculateComprehensiveEnergy(
+    List<FeedIngredients> feedIngredients,
+    Map<num, Ingredient> ingredientCache,
+    double totalQuantity,
+  ) {
+    double totalDePig = 0;
+    double totalMePig = 0;
+    double totalNePig = 0;
+    double totalMePoultry = 0;
+    double totalMeRuminant = 0;
+    double totalMeRabbit = 0;
+    double totalDeSalmonids = 0;
+
+    for (final ing in feedIngredients) {
+      final qty = (ing.quantity ?? 0).toDouble();
+      if (qty <= 0) continue;
+
+      final data = ingredientCache[ing.ingredientId];
+      if (data == null) continue;
+
+      // Get energy from v5 energy object or legacy fields
+      if (data.energy != null) {
+        totalDePig += (data.energy!.dePig ?? 0) * qty;
+        totalMePig += (data.energy!.mePig ?? 0) * qty;
+        totalNePig += (data.energy!.nePig ?? 0) * qty;
+        totalMePoultry += (data.energy!.mePoultry ?? 0) * qty;
+        totalMeRuminant += (data.energy!.meRuminant ?? 0) * qty;
+        totalMeRabbit += (data.energy!.meRabbit ?? 0) * qty;
+        totalDeSalmonids += (data.energy!.deSalmonids ?? 0) * qty;
+      } else {
+        // Fallback to legacy fields
+        totalMePig += (data.meGrowingPig ?? 0) * qty;
+        totalMePoultry += (data.mePoultry ?? 0) * qty;
+        totalMeRuminant += (data.meRuminant ?? 0) * qty;
+        totalMeRabbit += (data.meRabbit ?? 0) * qty;
+        totalDeSalmonids += (data.deSalmonids ?? 0) * qty;
+      }
+    }
+
+    final result = <String, num>{};
+
+    if (totalDePig > 0) result['de_pig'] = totalDePig / totalQuantity;
+    if (totalMePig > 0) result['me_pig'] = totalMePig / totalQuantity;
+    if (totalNePig > 0) result['ne_pig'] = totalNePig / totalQuantity;
+    if (totalMePoultry > 0) {
+      result['me_poultry'] = totalMePoultry / totalQuantity;
+    }
+    if (totalMeRuminant > 0) {
+      result['me_ruminant'] = totalMeRuminant / totalQuantity;
+    }
+    if (totalMeRabbit > 0) result['me_rabbit'] = totalMeRabbit / totalQuantity;
+    if (totalDeSalmonids > 0) {
+      result['de_salmonids'] = totalDeSalmonids / totalQuantity;
+    }
+
+    return result;
+  }
 }

@@ -189,8 +189,9 @@ void main() {
           animalTypeId: 1, // Growing pig
         );
 
-        // Corn meGrowingPig = 3340
-        expect(result.mEnergy, closeTo(3340, 50));
+        // Corn meGrowingPig = 3340 → NE = 0.87*3340 - 442 = 2463.8
+        // Now using NE (Net Energy) per NRC 2012 standards
+        expect(result.mEnergy, closeTo(2464, 50));
       });
 
       test('selects poultry energy for animal type 2', () {
@@ -466,7 +467,8 @@ void main() {
         // Should still calculate v4 values
         expect(result.cProtein, 15.0);
         expect(result.lysine, 6.0);
-        expect(result.mEnergy, closeTo(3200, 50));
+        // ME 3200 → NE = 0.87*3200 - 442 = 2342
+        expect(result.mEnergy, closeTo(2342, 50));
       });
     });
 

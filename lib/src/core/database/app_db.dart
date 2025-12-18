@@ -26,7 +26,7 @@ class AppDatabase {
   static final AppDatabase _instance = AppDatabase._();
 
   // Current database version - increment when adding migrations
-  static const int _currentVersion = 7;
+  static const int _currentVersion = 8;
 
   factory AppDatabase() => _instance;
 
@@ -124,6 +124,9 @@ class AppDatabase {
         break;
       case 7:
         await _migrationV6ToV7(db);
+        break;
+      case 8:
+        await _migrationV7ToV8(db);
         break;
       // Add future migrations here
       default:
@@ -295,6 +298,38 @@ class AppDatabase {
     }
 
     debugPrint('Migration 6→7: Complete');
+  }
+
+  /// Migration from v7 to v8: Add performance indexes
+  Future<void> _migrationV7ToV8(Database db) async {
+    debugPrint('Migration 7→8: Adding performance indexes');
+
+    try {
+      // Add index on category_id for faster category filtering
+      await db.execute('''
+        CREATE INDEX IF NOT EXISTS idx_ingredients_category_id
+        ON ${IngredientsRepository.tableName}(${IngredientsRepository.colCategoryId})
+      ''');
+
+      // Add index on is_custom for filtering custom vs standard ingredients
+      await db.execute('''
+        CREATE INDEX IF NOT EXISTS idx_ingredients_is_custom
+        ON ${IngredientsRepository.tableName}(${IngredientsRepository.colIsCustom})
+      ''');
+
+      // Add index on name for search functionality
+      await db.execute('''
+        CREATE INDEX IF NOT EXISTS idx_ingredients_name
+        ON ${IngredientsRepository.tableName}(${IngredientsRepository.colName})
+      ''');
+
+      debugPrint('Migration 7→8: Added 3 performance indexes');
+    } catch (e) {
+      debugPrint('Migration 7→8: Error creating indexes: $e');
+      rethrow;
+    }
+
+    debugPrint('Migration 7→8: Complete');
   }
 
   /// this should be run when the database is being created

@@ -4,6 +4,11 @@ import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provi
 import 'package:feed_estimator/src/features/main/model/feed.dart';
 import 'package:feed_estimator/src/features/main/providers/main_async_provider.dart';
 import 'package:feed_estimator/src/features/reports/providers/result_provider.dart';
+import 'package:feed_estimator/src/features/reports/model/result.dart';
+import 'package:feed_estimator/src/features/reports/widget/amino_acid_profile_card.dart';
+import 'package:feed_estimator/src/features/reports/widget/phosphorus_breakdown_card.dart';
+import 'package:feed_estimator/src/features/reports/widget/energy_values_card.dart';
+import 'package:feed_estimator/src/features/reports/widget/formulation_warnings_card.dart';
 import 'package:feed_estimator/src/features/reports/widget/ingredients_list.dart';
 import 'package:feed_estimator/src/features/reports/widget/report_bottom_bar.dart';
 import 'package:feed_estimator/src/features/reports/widget/result_card.dart'; // Extracted ResultCard
@@ -208,15 +213,25 @@ class AnalysisPage extends ConsumerWidget {
                             key: const ValueKey('ingredients'),
                             feed: feed,
                           )
-                        : Padding(
+                        : Column(
                             key: const ValueKey('analysis'),
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: ResultCard(
-                              feed: feed,
-                              feedId: feedId,
-                              type: type,
-                            ),
+                            children: [
+                              // Main result card
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0),
+                                child: ResultCard(
+                                  feed: feed,
+                                  feedId: feedId,
+                                  type: type,
+                                ),
+                              ),
+
+                              // Enhanced nutrient cards
+                              const SizedBox(height: 16),
+                              _buildEnhancedNutrientCards(
+                                  ref, feedId, type, feed),
+                            ],
                           ),
                   ),
 
@@ -233,6 +248,50 @@ class AnalysisPage extends ConsumerWidget {
         ],
       ),
       bottomNavigationBar: const ReportBottomBar(),
+    );
+  }
+
+  /// Build enhanced nutrient display cards
+  Widget _buildEnhancedNutrientCards(
+      WidgetRef ref, num? feedId, String? type, Feed feed) {
+    final provider = ref.watch(resultProvider);
+
+    // Get result based on type
+    final result = type == 'estimate'
+        ? provider.myResult
+        : provider.results.firstWhere(
+            (r) => r.feedId == feedId,
+            orElse: () => Result(),
+          );
+
+    if (result == null) return const SizedBox.shrink();
+
+    return Column(
+      children: [
+        // Amino Acid Profile Card
+        AminoAcidProfileCard(
+          aminoAcidsSidJson: result.aminoAcidsSidJson,
+          aminoAcidsTotalJson: result.aminoAcidsTotalJson,
+        ),
+
+        // Phosphorus Breakdown Card
+        PhosphorusBreakdownCard(
+          totalPhosphorus: result.totalPhosphorus,
+          availablePhosphorus: result.availablePhosphorus,
+          phytatePhosphorus: result.phytatePhosphorus,
+        ),
+
+        // Energy Values Card
+        EnergyValuesCard(
+          energyJson: result.energyJson,
+          animalTypeId: feed.animalId as int? ?? 1,
+        ),
+
+        // Formulation Warnings Card
+        FormulationWarningsCard(
+          warningsJson: result.warningsJson,
+        ),
+      ],
     );
   }
 }
