@@ -463,49 +463,47 @@ Future<Uint8List> makePdf(
             ),
             Table(
               border: TableBorder.all(color: PdfColors.black),
+              columnWidths: {
+                0: const FlexColumnWidth(2),
+                1: const FlexColumnWidth(1.5),
+                2: const FlexColumnWidth(1),
+              },
               children: [
                 TableRow(children: [
+                  paddedText('Nutrient'),
+                  paddedText('Value', align: TextAlign.center),
+                  paddedText('Unit', align: TextAlign.center),
+                ]),
+                TableRow(children: [
                   paddedText('Ash'),
-                  paddedText(
-                      result != null && result.ash != null
-                          ? result.ash!.toStringAsFixed(1)
-                          : '--',
+                  paddedText(result?.ash?.toStringAsFixed(1) ?? '--',
                       align: TextAlign.center),
                   paddedText('%', align: TextAlign.center),
                 ]),
                 TableRow(children: [
                   paddedText('Moisture'),
-                  paddedText(
-                      result != null && result.moisture != null
-                          ? result.moisture!.toStringAsFixed(1)
-                          : '--',
+                  paddedText(result?.moisture?.toStringAsFixed(1) ?? '--',
                       align: TextAlign.center),
                   paddedText('%', align: TextAlign.center),
                 ]),
                 TableRow(children: [
                   paddedText('Total Phosphorus'),
                   paddedText(
-                      result != null && result.totalPhosphorus != null
-                          ? result.totalPhosphorus!.toStringAsFixed(2)
-                          : '--',
+                      result?.totalPhosphorus?.toStringAsFixed(2) ?? '--',
                       align: TextAlign.center),
                   paddedText('g/Kg', align: TextAlign.center),
                 ]),
                 TableRow(children: [
                   paddedText('Available Phosphorus'),
                   paddedText(
-                      result != null && result.availablePhosphorus != null
-                          ? result.availablePhosphorus!.toStringAsFixed(2)
-                          : '--',
+                      result?.availablePhosphorus?.toStringAsFixed(2) ?? '--',
                       align: TextAlign.center),
                   paddedText('g/Kg', align: TextAlign.center),
                 ]),
                 TableRow(children: [
                   paddedText('Phytate Phosphorus'),
                   paddedText(
-                      result != null && result.phytatePhosphorus != null
-                          ? result.phytatePhosphorus!.toStringAsFixed(2)
-                          : '--',
+                      result?.phytatePhosphorus?.toStringAsFixed(2) ?? '--',
                       align: TextAlign.center),
                   paddedText('g/Kg', align: TextAlign.center),
                 ]),
