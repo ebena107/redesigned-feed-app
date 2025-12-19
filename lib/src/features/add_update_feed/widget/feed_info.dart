@@ -1,6 +1,5 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:feed_estimator/src/core/constants/ui_constants.dart';
-import 'package:feed_estimator/src/core/router/routes.dart';
 import 'package:feed_estimator/src/core/utils/input_validators.dart';
 import 'package:feed_estimator/src/core/utils/logger.dart';
 import 'package:feed_estimator/src/core/utils/widget_builders.dart';
@@ -11,6 +10,7 @@ import 'package:feed_estimator/src/features/reports/providers/result_provider.da
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 const String _tag = 'FeedInfo';
 
@@ -241,9 +241,10 @@ class AddIngredientButton extends ConsumerWidget {
   void _navigateToIngredients(BuildContext context, WidgetRef ref) {
     if (feedId != null) {
       ref.read(ingredientProvider.notifier).loadFeedExistingIngredients();
-      FeedIngredientsRoute(feedId!).go(context);
+      context.go('/feed/$feedId/feedIngredient');
     } else {
-      NewFeedIngredientsRoute(feedId).go(context);
+      context.go(
+          '/newFeed/ingredientList${feedId != null ? '?feed-id=$feedId' : ''}');
     }
     AppLogger.debug('Navigating to ingredients, feedId: $feedId', tag: _tag);
   }

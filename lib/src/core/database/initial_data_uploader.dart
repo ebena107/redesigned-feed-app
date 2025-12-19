@@ -4,7 +4,7 @@ import 'package:feed_estimator/src/features/add_ingredients/model/ingredient_cat
 import 'package:flutter/services.dart';
 
 Future<String> _loadIngredientDataAssets() async {
-  return await rootBundle.loadString('assets/raw/initial_ingredients.json');
+  return await rootBundle.loadString('assets/raw/initial_ingredients_.json');
 }
 
 Future<String> _loadAnimalTypesAssets() async {

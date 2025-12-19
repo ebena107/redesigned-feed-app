@@ -1,6 +1,6 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:feed_estimator/src/core/constants/ui_constants.dart';
-import 'package:feed_estimator/src/core/router/routes.dart';
+import 'package:go_router/go_router.dart';
 import 'package:feed_estimator/src/core/utils/logger.dart';
 import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provider.dart';
 import 'package:flutter/cupertino.dart';
@@ -41,10 +41,9 @@ class AnalyseDataDialog extends ConsumerWidget {
       // Navigate using parent context (which has GoRouter access)
       if (!parentContext.mounted) return;
 
-      ReportRoute(
-        id as int,
-        type: isNewFeed ? "estimate" : "",
-      ).go(parentContext);
+      parentContext.go(
+        '/report/${id as int}${isNewFeed ? '?type=estimate' : ''}',
+      );
     } catch (e, stackTrace) {
       AppLogger.error(
         'Error analysing feed: $e',
@@ -63,6 +62,7 @@ class AnalyseDataDialog extends ConsumerWidget {
             content: Text('Failed to analyse feed. Please try again.'),
             backgroundColor: Colors.redAccent,
             duration: Duration(seconds: 3),
+            behavior: SnackBarBehavior.floating,
           ),
         );
       }

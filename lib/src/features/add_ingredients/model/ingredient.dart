@@ -1,5 +1,9 @@
 import 'dart:convert';
 
+import 'amino_acids_profile.dart';
+import 'energy_values.dart';
+import 'anti_nutritional_factors.dart';
+
 /// name : "Alfalfa, dehydrated, protein < 16% dry matter"
 /// crude_protein : 14.1 (% dry matter)
 /// crude_fiber : 28.0 (% dry matter)
@@ -53,48 +57,138 @@ class Ingredient {
     this.createdBy,
     this.createdDate,
     this.notes,
+    // v5 fields
+    this.ash,
+    this.moisture,
+    this.starch,
+    this.bulkDensity,
+    this.totalPhosphorus,
+    this.availablePhosphorus,
+    this.phytatePhosphorus,
+    this.meFinishingPig,
+    this.aminoAcidsTotal,
+    this.aminoAcidsSid,
+    this.energy,
+    this.antiNutritionalFactors,
+    this.maxInclusionPct,
+    this.warning,
+    this.regulatoryNote,
   });
 
-  Ingredient.fromJson(dynamic json) {
-    ingredientId = json['ingredient_id'];
-    name = json['name'];
-    crudeProtein = json['crude_protein'];
-    crudeFiber = json['crude_fiber'];
-    crudeFat = json['crude_fat'];
-    calcium = json['calcium'];
-    phosphorus = json['phosphorus'];
-    lysine = json['lysine'];
-    methionine = json['methionine'];
-    meGrowingPig = json['me_growing_pig'];
-    meAdultPig = json['me_adult_pig'];
-    mePoultry = json['me_poultry'];
-    meRuminant = json['me_ruminant'];
-    meRabbit = json['me_rabbit'];
-    deSalmonids = json['de_salmonids'];
-    priceKg = json['price_kg'];
-    availableQty = json['available_qty'];
-    categoryId = json['category_id'];
-    favourite = json['favourite'];
-    isCustom = json['is_custom'];
-    createdBy = json['created_by'];
-    createdDate = json['created_date'];
-    notes = json['notes'];
+  factory Ingredient.fromJson(dynamic json) {
+    // Parse energy field - can be Map (from JSON file) or String (from database)
+    EnergyValues? parsedEnergy;
+    if (json['energy'] != null) {
+      parsedEnergy = EnergyValues.fromJson(json['energy'] is String
+          ? jsonDecode(json['energy'])
+          : json['energy']);
+    }
+
+    // Parse aminoAcidsTotal - can be Map (from JSON file) or String (from database)
+    AminoAcidsProfile? parsedAminoAcidsTotal;
+    if (json['amino_acids_total'] != null) {
+      parsedAminoAcidsTotal = AminoAcidsProfile.fromJson(
+          json['amino_acids_total'] is String
+              ? jsonDecode(json['amino_acids_total'])
+              : json['amino_acids_total']);
+    }
+
+    // Parse aminoAcidsSid - can be Map (from JSON file) or String (from database)
+    AminoAcidsProfile? parsedAminoAcidsSid;
+    if (json['amino_acids_sid'] != null) {
+      parsedAminoAcidsSid = AminoAcidsProfile.fromJson(
+          json['amino_acids_sid'] is String
+              ? jsonDecode(json['amino_acids_sid'])
+              : json['amino_acids_sid']);
+    }
+
+    // Parse antiNutritionalFactors - can be Map (from JSON file) or String (from database)
+    AntiNutritionalFactors? parsedAntiNutritionalFactors;
+    if (json['anti_nutritional_factors'] != null) {
+      parsedAntiNutritionalFactors = AntiNutritionalFactors.fromJson(
+          json['anti_nutritional_factors'] is String
+              ? jsonDecode(json['anti_nutritional_factors'])
+              : json['anti_nutritional_factors']);
+    }
+
+    // Extract legacy fields from v5 fields if not present in JSON
+    // This handles the case where JSON has amino_acids_total.lysine but not top-level lysine
+    final lysineValue = json['lysine'] ?? (parsedAminoAcidsTotal?.lysine);
+    final methionineValue =
+        json['methionine'] ?? (parsedAminoAcidsTotal?.methionine);
+    final phosphorusValue = json['phosphorus'] ?? json['total_phosphorus'];
+
+    // CRITICAL FIX: Extract legacy energy fields from v5 energy object
+    // The JSON file uses the new "energy" object structure, but the calculation
+    // engine still relies on legacy fields (meGrowingPig, mePoultry, etc.)
+    final meGrowingPigValue = json['me_growing_pig'] ?? parsedEnergy?.mePig;
+    final meAdultPigValue = json['me_adult_pig'] ?? parsedEnergy?.mePig;
+    final mePoultryValue = json['me_poultry'] ?? parsedEnergy?.mePoultry;
+    final meRuminantValue = json['me_ruminant'] ?? parsedEnergy?.meRuminant;
+    final meRabbitValue = json['me_rabbit'] ?? parsedEnergy?.meRabbit;
+    final deSalmonidsValue = json['de_salmonids'] ?? parsedEnergy?.deSalmonids;
+
+    final ingredient = Ingredient(
+      // CRITICAL FIX: Handle both 'id' (from JSON file) and 'ingredient_id' (from database)
+      ingredientId: json['ingredient_id'] ?? json['id'],
+      name: json['name'],
+      crudeProtein: json['crude_protein'],
+      crudeFiber: json['crude_fiber'],
+      crudeFat: json['crude_fat'],
+      calcium: json['calcium'],
+      phosphorus: phosphorusValue,
+      lysine: lysineValue,
+      methionine: methionineValue,
+      meGrowingPig: meGrowingPigValue,
+      meAdultPig: meAdultPigValue,
+      mePoultry: mePoultryValue,
+      meRuminant: meRuminantValue,
+      meRabbit: meRabbitValue,
+      deSalmonids: deSalmonidsValue,
+      priceKg: json['price_kg'],
+      availableQty: json['available_qty'],
+      categoryId: json['category_id'],
+      favourite: json['favourite'],
+      isCustom: json['is_custom'],
+      createdBy: json['created_by'],
+      createdDate: json['created_date'],
+      notes: json['notes'],
+      ash: json['ash'],
+      moisture: json['moisture'],
+      starch: json['starch'],
+      bulkDensity: json['bulk_density'],
+      totalPhosphorus: json['total_phosphorus'],
+      availablePhosphorus: json['available_phosphorus'],
+      phytatePhosphorus: json['phytate_phosphorus'],
+      meFinishingPig: json['me_finishing_pig'],
+      aminoAcidsTotal: parsedAminoAcidsTotal,
+      aminoAcidsSid: parsedAminoAcidsSid,
+      energy: parsedEnergy,
+      antiNutritionalFactors: parsedAntiNutritionalFactors,
+      maxInclusionPct: json['max_inclusion_pct'],
+      warning: json['warning'],
+      regulatoryNote: json['regulatory_note'],
+    );
+
+    return ingredient;
   }
+
+  // ===== LEGACY FIELDS (v4) =====
   num? ingredientId;
   String? name;
   num? crudeProtein; // Units: % dry matter (DM)
   num? crudeFiber; // Units: % dry matter (DM)
   num? crudeFat; // Units: % dry matter (DM)
-  num? calcium; // Units: g/kg (to be verified in next phase)
-  num? phosphorus; // Units: g/kg (to be verified in next phase)
-  num? lysine; // Units: g/kg (to be verified in next phase)
-  num? methionine; // Units: g/kg (to be verified in next phase)
-  num? meGrowingPig; // Units: kcal/kg (Metabolizable Energy for growing pigs)
-  num? meAdultPig; // Units: kcal/kg (Metabolizable Energy for adult pigs)
-  num? mePoultry; // Units: kcal/kg (Metabolizable Energy for poultry)
-  num? meRuminant; // Units: kcal/kg (Metabolizable Energy for ruminants)
-  num? meRabbit; // Units: kcal/kg (Metabolizable Energy for rabbits)
-  num? deSalmonids; // Units: kcal/kg (Digestible Energy for salmonids/fish)
+  num? calcium; // Units: g/kg
+  num? phosphorus; // Units: g/kg (LEGACY: total - use totalPhosphorus for v5)
+  num? lysine; // Units: g/kg (LEGACY: total - use aminoAcidsTotal for v5)
+  num? methionine; // Units: g/kg (LEGACY: total - use aminoAcidsTotal for v5)
+  num? meGrowingPig; // Units: kcal/kg
+  num? meAdultPig; // Units: kcal/kg
+  num? mePoultry; // Units: kcal/kg
+  num? meRuminant; // Units: kcal/kg
+  num? meRabbit; // Units: kcal/kg
+  num? deSalmonids; // Units: kcal/kg
   num? priceKg; // Units: currency per kg
   num? availableQty; // Units: kg or tonnes
   num? categoryId;
@@ -103,6 +197,28 @@ class Ingredient {
   String? createdBy;
   num? createdDate;
   String? notes;
+
+  // ===== NEW v5 FIELDS =====
+  num? ash; // Units: % dry matter
+  num? moisture; // Units: %
+  num? starch; // Units: % dry matter
+  num? bulkDensity; // Units: kg/m³ (for practical formulation)
+  num? totalPhosphorus; // Units: g/kg (total)
+  num? availablePhosphorus; // Units: g/kg (available for animal)
+  num? phytatePhosphorus; // Units: g/kg (bound form)
+  num? meFinishingPig; // Units: kcal/kg (new energy value)
+
+  // Complex nested structures
+  AminoAcidsProfile? aminoAcidsTotal; // Total amino acids (11 amino acids)
+  AminoAcidsProfile?
+      aminoAcidsSid; // SID amino acids (standardized ileal digestibility)
+  EnergyValues? energy; // Energy values for all animal species
+  AntiNutritionalFactors? antiNutritionalFactors; // Anti-nutritional factors
+
+  // Safety and regulatory fields
+  num? maxInclusionPct; // Maximum % of total formulation (0 = unlimited)
+  String? warning; // Safety warning (e.g., "High gossypol - limit to 15%")
+  String? regulatoryNote; // Regulatory restrictions
 
   Ingredient copyWith({
     num? ingredientId,
@@ -128,6 +244,22 @@ class Ingredient {
     String? createdBy,
     num? createdDate,
     String? notes,
+    // v5 fields
+    num? ash,
+    num? moisture,
+    num? starch,
+    num? bulkDensity,
+    num? totalPhosphorus,
+    num? availablePhosphorus,
+    num? phytatePhosphorus,
+    num? meFinishingPig,
+    AminoAcidsProfile? aminoAcidsTotal,
+    AminoAcidsProfile? aminoAcidsSid,
+    EnergyValues? energy,
+    AntiNutritionalFactors? antiNutritionalFactors,
+    num? maxInclusionPct,
+    String? warning,
+    String? regulatoryNote,
   }) =>
       Ingredient(
         ingredientId: ingredientId ?? this.ingredientId,
@@ -153,6 +285,23 @@ class Ingredient {
         createdBy: createdBy ?? this.createdBy,
         createdDate: createdDate ?? this.createdDate,
         notes: notes ?? this.notes,
+        // v5 fields
+        ash: ash ?? this.ash,
+        moisture: moisture ?? this.moisture,
+        starch: starch ?? this.starch,
+        bulkDensity: bulkDensity ?? this.bulkDensity,
+        totalPhosphorus: totalPhosphorus ?? this.totalPhosphorus,
+        availablePhosphorus: availablePhosphorus ?? this.availablePhosphorus,
+        phytatePhosphorus: phytatePhosphorus ?? this.phytatePhosphorus,
+        meFinishingPig: meFinishingPig ?? this.meFinishingPig,
+        aminoAcidsTotal: aminoAcidsTotal ?? this.aminoAcidsTotal,
+        aminoAcidsSid: aminoAcidsSid ?? this.aminoAcidsSid,
+        energy: energy ?? this.energy,
+        antiNutritionalFactors:
+            antiNutritionalFactors ?? this.antiNutritionalFactors,
+        maxInclusionPct: maxInclusionPct ?? this.maxInclusionPct,
+        warning: warning ?? this.warning,
+        regulatoryNote: regulatoryNote ?? this.regulatoryNote,
       );
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -179,6 +328,26 @@ class Ingredient {
     map['created_by'] = createdBy;
     map['created_date'] = createdDate;
     map['notes'] = notes;
+    // v5 fields
+    map['ash'] = ash;
+    map['moisture'] = moisture;
+    map['starch'] = starch;
+    map['bulk_density'] = bulkDensity;
+    map['total_phosphorus'] = totalPhosphorus;
+    map['available_phosphorus'] = availablePhosphorus;
+    map['phytate_phosphorus'] = phytatePhosphorus;
+    map['me_finishing_pig'] = meFinishingPig;
+    map['amino_acids_total'] =
+        aminoAcidsTotal != null ? jsonEncode(aminoAcidsTotal!.toJson()) : null;
+    map['amino_acids_sid'] =
+        aminoAcidsSid != null ? jsonEncode(aminoAcidsSid!.toJson()) : null;
+    map['energy'] = energy != null ? jsonEncode(energy!.toJson()) : null;
+    map['anti_nutritional_factors'] = antiNutritionalFactors != null
+        ? jsonEncode(antiNutritionalFactors!.toJson())
+        : null;
+    map['max_inclusion_pct'] = maxInclusionPct;
+    map['warning'] = warning;
+    map['regulatory_note'] = regulatoryNote;
     return map;
   }
 }

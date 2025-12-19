@@ -132,101 +132,107 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Widget _buildLoadingWidget() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        // App Logo/Icon
-        ScaleTransition(
-          scale: Tween<double>(begin: 0.8, end: 1.0).animate(
-            CurvedAnimation(
-                parent: _animationController, curve: Curves.easeInOut),
-          ),
-          child: Container(
-            width: 80,
-            height: 80,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: AppConstants.mainAppColor.withValues(alpha: 0.1),
-            ),
-            // child: const Icon(
-            //   Icons.agriculture,
-            //   size: 40,
-            //   color: AppConstants.mainAppColor,
-            // ),
-            child: Image.asset(
-              'assets/images/logo.png',
-              width: 80,
-              height: 80,
-            ),
-          ),
-        ),
-        const SizedBox(height: 32),
-
-        // App Title
-        Text(
-          'Feed Estimator',
-          style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                color: AppConstants.mainAppColor,
-                fontWeight: FontWeight.bold,
+    return Center(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(vertical: 32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // App Logo/Icon
+            ScaleTransition(
+              scale: Tween<double>(begin: 0.8, end: 1.0).animate(
+                CurvedAnimation(
+                    parent: _animationController, curve: Curves.easeInOut),
               ),
-        ),
-        const SizedBox(height: 48),
-
-        // Status Message
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
-          child: Text(
-            _statusMessage,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Colors.grey[700],
+              child: Container(
+                width: 80,
+                height: 80,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: AppConstants.mainAppColor.withValues(alpha: 0.1),
                 ),
-          ),
-        ),
-        const SizedBox(height: 24),
+                // child: const Icon(
+                //   Icons.agriculture,
+                //   size: 40,
+                //   color: AppConstants.mainAppColor,
+                // ),
+                child: Image.asset(
+                  'assets/images/logo.png',
+                  width: 80,
+                  height: 80,
+                ),
+              ),
+            ),
+            const SizedBox(height: 32),
 
-        // Progress Bar
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 48),
-          child: Column(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: LinearProgressIndicator(
-                  value: _progress,
-                  minHeight: 8,
-                  backgroundColor: Colors.grey[300],
-                  valueColor: const AlwaysStoppedAnimation<Color>(
-                    AppConstants.mainAppColor,
+            // App Title
+            Text(
+              'Feed Estimator',
+              style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                    color: AppConstants.mainAppColor,
+                    fontWeight: FontWeight.bold,
                   ),
-                ),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                '${(_progress * 100).toStringAsFixed(0)}%',
-                style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      color: Colors.grey[600],
+            ),
+            const SizedBox(height: 48),
+
+            // Status Message
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: Text(
+                _statusMessage,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: Colors.grey[700],
                     ),
               ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 48),
+            ),
+            const SizedBox(height: 24),
 
-        // Feature hints
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
-          child: Column(
-            children: [
-              _featureHint('Agriculture-standard nutrients'),
-              const SizedBox(height: 8),
-              _featureHint('Industry-validated ingredients'),
-              const SizedBox(height: 8),
-              _featureHint('Precise feed calculations'),
-            ],
-          ),
+            // Progress Bar
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 48),
+              child: Column(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: LinearProgressIndicator(
+                      value: _progress,
+                      minHeight: 8,
+                      backgroundColor: Colors.grey[300],
+                      valueColor: const AlwaysStoppedAnimation<Color>(
+                        AppConstants.mainAppColor,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    '${(_progress * 100).toStringAsFixed(0)}%',
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                          color: Colors.grey[600],
+                        ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 48),
+
+            // Feature hints
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: Column(
+                children: [
+                  _featureHint('Agriculture-standard nutrients'),
+                  const SizedBox(height: 8),
+                  _featureHint('Industry-validated ingredients'),
+                  const SizedBox(height: 8),
+                  _featureHint('Precise feed calculations'),
+                ],
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 

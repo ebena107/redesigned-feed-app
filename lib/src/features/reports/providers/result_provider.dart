@@ -5,8 +5,10 @@ import 'package:feed_estimator/src/features/add_ingredients/repository/ingredien
 import 'package:feed_estimator/src/features/main/model/feed.dart';
 import 'package:feed_estimator/src/features/main/providers/main_provider.dart';
 import 'package:feed_estimator/src/features/reports/model/result.dart';
+import 'package:feed_estimator/src/features/reports/providers/enhanced_calculation_engine.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/foundation.dart';
 
 final resultProvider =
     NotifierProvider<ResultNotifier, ResultsState>(ResultNotifier.new);
@@ -49,16 +51,6 @@ class ResultNotifier extends Notifier<ResultsState> {
     return const _ResultsState();
   }
 
-  num _mEnergy = 0;
-  num _cProtein = 0.0;
-  num _cFat = 0.0;
-  num _cFibre = 0.0;
-  num _calcium = 0.0;
-  num _phosphorus = 0.0;
-  num _lyzine = 0.0;
-  num _methionine = 0.0;
-  num _costPerUnit = 0.0;
-  num _totalCost = 0.0;
   num _totalQuantity = 0.0;
 
   Map<num, Ingredient> _ingredientCache = const {};
@@ -93,19 +85,34 @@ class ResultNotifier extends Notifier<ResultsState> {
 
             await calculateResult();
 
-            _newResult = Result(
+            // Use the enhanced result from state.myResult (set by calculateResult)
+            // and add the feedId to it
+            if (state.myResult != null) {
+              _newResult = Result(
                 feedId: feed.feedId,
-                mEnergy: _mEnergy,
-                cProtein: _cProtein,
-                cFat: _cFat,
-                cFibre: _cFibre,
-                calcium: _calcium,
-                phosphorus: _phosphorus,
-                lysine: _lyzine,
-                methionine: _methionine,
-                costPerUnit: _costPerUnit,
-                totalCost: _totalCost,
-                totalQuantity: _totalQuantity);
+                mEnergy: state.myResult!.mEnergy,
+                cProtein: state.myResult!.cProtein,
+                cFat: state.myResult!.cFat,
+                cFibre: state.myResult!.cFibre,
+                calcium: state.myResult!.calcium,
+                phosphorus: state.myResult!.phosphorus,
+                lysine: state.myResult!.lysine,
+                methionine: state.myResult!.methionine,
+                costPerUnit: state.myResult!.costPerUnit,
+                totalCost: state.myResult!.totalCost,
+                totalQuantity: state.myResult!.totalQuantity,
+                // Include all v5 enhanced fields
+                ash: state.myResult!.ash,
+                moisture: state.myResult!.moisture,
+                totalPhosphorus: state.myResult!.totalPhosphorus,
+                availablePhosphorus: state.myResult!.availablePhosphorus,
+                phytatePhosphorus: state.myResult!.phytatePhosphorus,
+                aminoAcidsTotalJson: state.myResult!.aminoAcidsTotalJson,
+                aminoAcidsSidJson: state.myResult!.aminoAcidsSidJson,
+                energyJson: state.myResult!.energyJson,
+                warningsJson: state.myResult!.warningsJson,
+              );
+            }
           }
         }
 
@@ -155,13 +162,22 @@ class ResultNotifier extends Notifier<ResultsState> {
       num? feedId,
       List<FeedIngredients>? ingList,
       num? animal}) async {
+    // TEMPORARILY DISABLED: Cache was returning old results without v5 data
     // Check cache first
-    if (feedId != null && _calculationCache.containsKey(feedId)) {
-      state = state.copyWith(myResult: _calculationCache[feedId]);
-      return;
-    }
+    // if (feedId != null && _calculationCache.containsKey(feedId)) {
+    //   state = state.copyWith(myResult: _calculationCache[feedId]);
+    //   return;
+    // }
 
     resetResult();
+
+    debugPrint('[ResultProvider] estimatedResult called:');
+    debugPrint('[ResultProvider]   feedId=$feedId, animal=$animal');
+    debugPrint('[ResultProvider]   ingList length=${ingList?.length ?? 0}');
+    if (ingList != null && ingList.isNotEmpty) {
+      debugPrint(
+          '[ResultProvider]   First ingredient: id=${ingList.first.ingredientId}, qty=${ingList.first.quantity}');
+    }
 
     bool checked = false;
 
@@ -186,30 +202,21 @@ class ResultNotifier extends Notifier<ResultsState> {
       state = state.copyWith(myResult: _newResult);
     }
 
+    debugPrint('[ResultProvider] checked=$checked');
+
     if (checked) {
+      debugPrint('[ResultProvider] Starting calculateResult...');
       // debugPrint('result estimate: - resultProvider - : feedIng length: ${ingList.length}');
       await calculateResult();
 
-      _newResult = Result(
-          feedId: _feed.feedId,
-          mEnergy: _mEnergy,
-          cProtein: _cProtein,
-          cFat: _cFat,
-          cFibre: _cFibre,
-          calcium: _calcium,
-          phosphorus: _phosphorus,
-          lysine: _lyzine,
-          methionine: _methionine,
-          costPerUnit: _costPerUnit,
-          totalCost: _totalCost,
-          totalQuantity: _totalQuantity);
+      // calculateResult() already updates state.myResult with the enhanced result
+      // No need to create a new Result object here - it would overwrite the enhanced data!
 
       // Cache the result if we have a feedId
-      if (feedId != null) {
-        _calculationCache[feedId] = _newResult;
+      if (feedId != null && state.myResult != null) {
+        _calculationCache[feedId] = state.myResult!;
       }
 
-      state = state.copyWith(myResult: _newResult);
       _feed = Feed();
     } else {
       _newResult = Result();
@@ -220,16 +227,6 @@ class ResultNotifier extends Notifier<ResultsState> {
   void resetResult() {
     _newResult = Result();
     _feed = Feed();
-    _mEnergy = 0;
-    _cProtein = 0.0;
-    _cFat = 0.0;
-    _cFibre = 0.0;
-    _calcium = 0.0;
-    _phosphorus = 0.0;
-    _lyzine = 0.0;
-    _methionine = 0.0;
-    _costPerUnit = 0.0;
-    _totalCost = 0.0;
     _totalQuantity = 0.0;
     state = state.copyWith(myResult: _newResult);
   }
@@ -242,47 +239,18 @@ class ResultNotifier extends Notifier<ResultsState> {
     _totalQuantity = _calcTotalQuantity(ingList);
     if (_totalQuantity <= 0) return;
 
-    double totalEnergy = 0;
-    double totalProtein = 0;
-    double totalFat = 0;
-    double totalFiber = 0;
-    double totalCalcium = 0;
-    double totalPhosphorus = 0;
-    double totalLysine = 0;
-    double totalMethionine = 0;
-    double totalCost = 0;
-
     final animalTypeId = _feed.animalId ?? 1;
 
-    for (final ing in ingList) {
-      final qty = (ing.quantity ?? 0).toDouble();
-      if (qty <= 0) continue;
+    // Use enhanced v5 calculation engine
+    final enhanced = EnhancedCalculationEngine.calculateEnhancedResult(
+      feedIngredients: ingList,
+      ingredientCache: _ingredientCache,
+      animalTypeId: animalTypeId,
+    );
 
-      final data = _ingredientCache[ing.ingredientId];
-      if (data == null) continue;
-
-      final energy = _energyForAnimal(data, animalTypeId);
-      totalEnergy += energy * qty;
-      totalProtein += (data.crudeProtein ?? 0) * qty;
-      totalFat += (data.crudeFat ?? 0) * qty;
-      totalFiber += (data.crudeFiber ?? 0) * qty;
-      totalCalcium += (data.calcium ?? 0) * qty;
-      totalPhosphorus += (data.phosphorus ?? 0) * qty;
-      totalLysine += (data.lysine ?? 0) * qty;
-      totalMethionine += (data.methionine ?? 0) * qty;
-      totalCost += (ing.priceUnitKg ?? 0) * qty;
-    }
-
-    _mEnergy = totalEnergy / _totalQuantity;
-    _cProtein = totalProtein / _totalQuantity;
-    _cFat = totalFat / _totalQuantity;
-    _cFibre = totalFiber / _totalQuantity;
-    _calcium = totalCalcium / _totalQuantity;
-    _phosphorus = totalPhosphorus / _totalQuantity;
-    _lyzine = totalLysine / _totalQuantity;
-    _methionine = totalMethionine / _totalQuantity;
-    _costPerUnit = totalCost / _totalQuantity;
-    _totalCost = totalCost;
+    // CRITICAL FIX: Update state with the complete enhanced result
+    // This ensures all v5 fields (ash, moisture, amino acids, warnings, etc.) are available
+    state = state.copyWith(myResult: enhanced);
   }
 
   double _calcTotalQuantity(List<FeedIngredients> ingList) {

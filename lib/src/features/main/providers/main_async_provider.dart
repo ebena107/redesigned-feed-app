@@ -75,10 +75,7 @@ class AsyncMain extends _$AsyncMain {
       onSuccess(response!);
       return loadFeed();
     });
-
-    if (!state.hasError && response == 'success') {
-      const HomeRoute().location;
-    }
+    // Navigation is handled by the caller (onSuccess callback)
   }
 
   @override

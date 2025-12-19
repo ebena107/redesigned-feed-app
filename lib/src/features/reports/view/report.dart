@@ -1,10 +1,14 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
 
-import 'package:feed_estimator/src/core/router/routes.dart';
 import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provider.dart';
 import 'package:feed_estimator/src/features/main/model/feed.dart';
 import 'package:feed_estimator/src/features/main/providers/main_async_provider.dart';
 import 'package:feed_estimator/src/features/reports/providers/result_provider.dart';
+import 'package:feed_estimator/src/features/reports/model/result.dart';
+import 'package:feed_estimator/src/features/reports/widget/amino_acid_profile_card.dart';
+import 'package:feed_estimator/src/features/reports/widget/phosphorus_breakdown_card.dart';
+import 'package:feed_estimator/src/features/reports/widget/energy_values_card.dart';
+import 'package:feed_estimator/src/features/reports/widget/formulation_warnings_card.dart';
 import 'package:feed_estimator/src/features/reports/widget/ingredients_list.dart';
 import 'package:feed_estimator/src/features/reports/widget/report_bottom_bar.dart';
 import 'package:feed_estimator/src/features/reports/widget/result_card.dart'; // Extracted ResultCard
@@ -13,6 +17,7 @@ import 'package:feed_estimator/src/utils/widgets/app_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class AnalysisPage extends ConsumerWidget {
   final int? feedId;
@@ -133,9 +138,10 @@ class AnalysisPage extends ConsumerWidget {
               IconButton(
                 icon: const Icon(Icons.picture_as_pdf_outlined,
                     color: Colors.white),
-                onPressed: () =>
-                    PdfRoute(feedId ?? 0, type: type ?? '', $extra: feed)
-                        .go(context),
+                onPressed: () => context.push(
+                  '/report/${feedId ?? 0}/pdf${type != null && type!.isNotEmpty ? '?type=$type' : ''}',
+                  extra: feed,
+                ),
               ),
             ],
           ),
@@ -207,15 +213,25 @@ class AnalysisPage extends ConsumerWidget {
                             key: const ValueKey('ingredients'),
                             feed: feed,
                           )
-                        : Padding(
+                        : Column(
                             key: const ValueKey('analysis'),
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: ResultCard(
-                              feed: feed,
-                              feedId: feedId,
-                              type: type,
-                            ),
+                            children: [
+                              // Main result card
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0),
+                                child: ResultCard(
+                                  feed: feed,
+                                  feedId: feedId,
+                                  type: type,
+                                ),
+                              ),
+
+                              // Enhanced nutrient cards
+                              const SizedBox(height: 16),
+                              _buildEnhancedNutrientCards(
+                                  ref, feedId, type, feed),
+                            ],
                           ),
                   ),
 
@@ -232,6 +248,50 @@ class AnalysisPage extends ConsumerWidget {
         ],
       ),
       bottomNavigationBar: const ReportBottomBar(),
+    );
+  }
+
+  /// Build enhanced nutrient display cards
+  Widget _buildEnhancedNutrientCards(
+      WidgetRef ref, num? feedId, String? type, Feed feed) {
+    final provider = ref.watch(resultProvider);
+
+    // Get result based on type
+    final result = type == 'estimate'
+        ? provider.myResult
+        : provider.results.firstWhere(
+            (r) => r.feedId == feedId,
+            orElse: () => Result(),
+          );
+
+    if (result == null) return const SizedBox.shrink();
+
+    return Column(
+      children: [
+        // Amino Acid Profile Card
+        AminoAcidProfileCard(
+          aminoAcidsSidJson: result.aminoAcidsSidJson,
+          aminoAcidsTotalJson: result.aminoAcidsTotalJson,
+        ),
+
+        // Phosphorus Breakdown Card
+        PhosphorusBreakdownCard(
+          totalPhosphorus: result.totalPhosphorus,
+          availablePhosphorus: result.availablePhosphorus,
+          phytatePhosphorus: result.phytatePhosphorus,
+        ),
+
+        // Energy Values Card
+        EnergyValuesCard(
+          energyJson: result.energyJson,
+          animalTypeId: feed.animalId as int? ?? 1,
+        ),
+
+        // Formulation Warnings Card
+        FormulationWarningsCard(
+          warningsJson: result.warningsJson,
+        ),
+      ],
     );
   }
 }
@@ -308,7 +368,7 @@ class _ReturnButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
       ),
-      onPressed: () => FeedRoute(feedId: feedId!).go(context),
+      onPressed: () => context.go('/feed/$feedId'),
       icon: const Icon(Icons.edit),
       label: const Text("Return to Edit"),
     );

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:feed_estimator/src/features/main/model/feed.dart';
 import 'package:feed_estimator/src/features/reports/model/result.dart';
 import 'package:feed_estimator/src/features/reports/providers/result_provider.dart';
@@ -38,6 +39,25 @@ class ResultCard extends ConsumerWidget {
         child: Center(child: CircularProgressIndicator.adaptive()),
       );
     }
+
+    // Decode enhanced fields
+    Map<String, dynamic> aminoTotal = {};
+    Map<String, dynamic> aminoSid = {};
+    List warnings = [];
+    try {
+      if (result.aminoAcidsTotalJson != null &&
+          result.aminoAcidsTotalJson!.isNotEmpty) {
+        aminoTotal = jsonDecode(result.aminoAcidsTotalJson!);
+      }
+      if (result.aminoAcidsSidJson != null &&
+          result.aminoAcidsSidJson!.isNotEmpty) {
+        aminoSid = jsonDecode(result.aminoAcidsSidJson!);
+      }
+      if (result.warningsJson != null && result.warningsJson!.isNotEmpty) {
+        final parsed = jsonDecode(result.warningsJson!);
+        if (parsed is List) warnings = parsed;
+      }
+    } catch (_) {}
 
     return Container(
       padding: const EdgeInsets.all(24),
@@ -130,9 +150,115 @@ class ResultCard extends ConsumerWidget {
               ),
             ],
           ),
+          const SizedBox(height: 20),
+
+          // Row 4: Enhanced v5 fields
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: _StatItem(
+                    label: 'Ash',
+                    value: result.ash != null
+                        ? result.ash!.toStringAsFixed(1)
+                        : '--',
+                    unit: '%'),
+              ),
+              Expanded(
+                child: _StatItem(
+                    label: 'Moisture',
+                    value: result.moisture != null
+                        ? result.moisture!.toStringAsFixed(1)
+                        : '--',
+                    unit: '%'),
+              ),
+              Expanded(
+                child: _StatItem(
+                    label: 'Avail. P',
+                    value: result.availablePhosphorus != null
+                        ? result.availablePhosphorus!.toStringAsFixed(2)
+                        : '--',
+                    unit: 'g/Kg'),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: _StatItem(
+                    label: 'Total P',
+                    value: result.totalPhosphorus != null
+                        ? result.totalPhosphorus!.toStringAsFixed(2)
+                        : '--',
+                    unit: 'g/Kg'),
+              ),
+              Expanded(
+                child: _StatItem(
+                    label: 'Phytate P',
+                    value: result.phytatePhosphorus != null
+                        ? result.phytatePhosphorus!.toStringAsFixed(2)
+                        : '--',
+                    unit: 'g/Kg'),
+              ),
+              const Expanded(child: SizedBox()),
+            ],
+          ),
           const Divider(color: Colors.white24, height: 36, thickness: 1.5),
 
-          // Row 4: Financials
+          // Amino acids quick view (totals)
+          // if (aminoTotal.isNotEmpty) ...[
+          //   Align(
+          //     alignment: Alignment.centerLeft,
+          //     child: Text('Amino Acids (g/Kg)',
+          //         style: const TextStyle(color: Colors.white70, fontSize: 12)),
+          //   ),
+          //   const SizedBox(height: 8),
+          //   Wrap(
+          //     spacing: 12,
+          //     runSpacing: 8,
+          //     children: aminoTotal.entries.take(10).map((e) {
+          //       final k = e.key.toString();
+          //       final v = (e.value is num)
+          //           ? (e.value as num).toStringAsFixed(1)
+          //           : e.value.toString();
+          //       final sid = (aminoSid[k] is num)
+          //           ? (aminoSid[k] as num).toStringAsFixed(1)
+          //           : null;
+          //       return _AminoChip(label: k, value: v, sid: sid);
+          //     }).toList(),
+          //   ),
+          //   const SizedBox(height: 16),
+          // ],
+
+          // Warnings
+          if (warnings.isNotEmpty) ...[
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text('Warnings',
+                  style: const TextStyle(
+                      color: Colors.orangeAccent,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold)),
+            ),
+            const SizedBox(height: 8),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: warnings
+                  .take(5)
+                  .map((w) => Padding(
+                        padding: const EdgeInsets.only(bottom: 4),
+                        child: Text(w.toString(),
+                            style: const TextStyle(
+                                color: Colors.white70, fontSize: 12)),
+                      ))
+                  .toList(),
+            ),
+            const SizedBox(height: 16),
+          ],
+
+          // Row 5: Financials
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
@@ -164,6 +290,43 @@ class ResultCard extends ConsumerWidget {
               ],
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class _AminoChip extends StatelessWidget {
+  final String label;
+  final String value;
+  final String? sid;
+  const _AminoChip({required this.label, required this.value, this.sid});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.white24, width: 0.5),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(label,
+              style: const TextStyle(color: Colors.white70, fontSize: 11)),
+          const SizedBox(width: 6),
+          Text(value,
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold)),
+          if (sid != null) ...[
+            const SizedBox(width: 6),
+            Text('(SID $sid)',
+                style: const TextStyle(color: Colors.white60, fontSize: 10)),
+          ],
         ],
       ),
     );

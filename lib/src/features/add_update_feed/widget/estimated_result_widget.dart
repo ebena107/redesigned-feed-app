@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:feed_estimator/src/core/constants/ui_constants.dart';
 import 'package:feed_estimator/src/features/reports/model/result.dart';
@@ -43,7 +45,7 @@ class ResultEstimateCard extends StatelessWidget {
                       EstimatedContentCard(
                         value: data.mEnergy,
                         title: 'Energy',
-                        unit: 'kcal',
+                        unit: 'kcal/kg', // More specific unit
                       ),
                       const SizedBox(height: UIConstants.paddingTiny),
                       EstimatedContentCard(
@@ -74,6 +76,111 @@ class ResultEstimateCard extends StatelessWidget {
                 ),
               ],
             ),
+            const SizedBox(height: UIConstants.paddingSmall),
+            // v5 enhanced quick fields
+            Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    children: [
+                      EstimatedContentCard(
+                        value: data.ash,
+                        title: 'Ash',
+                        unit: '%',
+                      ),
+                      const SizedBox(height: UIConstants.paddingTiny),
+                      EstimatedContentCard(
+                        value: data.moisture,
+                        title: 'Moisture',
+                        unit: '%',
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: UIConstants.paddingSmall),
+                Expanded(
+                  child: Column(
+                    children: [
+                      EstimatedContentCard(
+                        value: data.totalPhosphorus != null
+                            ? data.totalPhosphorus! / 10 // Convert g/kg to %
+                            : null,
+                        title: 'Total P',
+                        unit: '%', // Changed from 'g/Kg' to '%'
+                      ),
+                      const SizedBox(height: UIConstants.paddingTiny),
+                      EstimatedContentCard(
+                        value: data.availablePhosphorus != null
+                            ? data.availablePhosphorus! /
+                                10 // Convert g/kg to %
+                            : null,
+                        title: 'Avail. P',
+                        unit: '%', // Changed from 'g/Kg' to '%'
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+
+            // Warnings section - show inclusion limit violations
+            if (data.warningsJson != null && data.warningsJson!.isNotEmpty) ...[
+              const SizedBox(height: UIConstants.paddingMedium),
+              const Divider(color: Colors.white70, thickness: 1),
+              const SizedBox(height: UIConstants.paddingSmall),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  children: [
+                    const Icon(Icons.warning_amber_rounded,
+                        color: Colors.orangeAccent, size: 18),
+                    const SizedBox(width: 6),
+                    Text(
+                      'Warnings',
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                            color: Colors.orangeAccent,
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: UIConstants.paddingSmall),
+              ...() {
+                try {
+                  final parsed = jsonDecode(data.warningsJson!);
+                  if (parsed is List) {
+                    return parsed
+                        .take(5)
+                        .map((w) => Padding(
+                              padding: const EdgeInsets.only(bottom: 4),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text('• ',
+                                      style: TextStyle(
+                                          color:
+                                              AppConstants.appBackgroundColor,
+                                          fontSize: 14)),
+                                  Expanded(
+                                    child: Text(
+                                      w.toString(),
+                                      style: const TextStyle(
+                                        color: AppConstants.appBackgroundColor,
+                                        fontSize: 12,
+                                        height: 1.3,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ))
+                        .toList();
+                  }
+                } catch (_) {}
+                return <Widget>[];
+              }(),
+            ],
           ],
         ),
       ),

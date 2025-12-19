@@ -26,7 +26,7 @@ class AppDatabase {
   static final AppDatabase _instance = AppDatabase._();
 
   // Current database version - increment when adding migrations
-  static const int _currentVersion = 4;
+  static const int _currentVersion = 8;
 
   factory AppDatabase() => _instance;
 
@@ -116,6 +116,18 @@ class AppDatabase {
       case 4:
         await _migrationV3ToV4(db);
         break;
+      case 5:
+        await _migrationV4ToV5(db);
+        break;
+      case 6:
+        await _migrationV5ToV6(db);
+        break;
+      case 7:
+        await _migrationV6ToV7(db);
+        break;
+      case 8:
+        await _migrationV7ToV8(db);
+        break;
       // Add future migrations here
       default:
         debugPrint('No migration defined for version $version');
@@ -200,6 +212,124 @@ class AppDatabase {
     }
 
     debugPrint('Migration 3→4: Complete');
+  }
+
+  /// Migration from v4 to v5: Add enhanced nutrient columns
+  Future<void> _migrationV4ToV5(Database db) async {
+    debugPrint('Migration 4→5: Adding enhanced nutrient columns');
+
+    // Helper to add a column if it does not already exist
+    Future<void> addColumn(String name, String type) async {
+      try {
+        await db.execute(
+            'ALTER TABLE ${IngredientsRepository.tableName} ADD COLUMN $name $type');
+      } catch (e) {
+        debugPrint('Migration 4→5: Column $name may already exist: $e');
+      }
+    }
+
+    await addColumn('ash', 'REAL');
+    await addColumn('moisture', 'REAL');
+    await addColumn('starch', 'REAL');
+    await addColumn('bulk_density', 'REAL');
+    await addColumn('total_phosphorus', 'REAL');
+    await addColumn('available_phosphorus', 'REAL');
+    await addColumn('phytate_phosphorus', 'REAL');
+    await addColumn('me_finishing_pig', 'INTEGER');
+    await addColumn('amino_acids_total', 'TEXT');
+    await addColumn('amino_acids_sid', 'TEXT');
+    await addColumn('energy', 'TEXT');
+    await addColumn('anti_nutritional_factors', 'TEXT');
+    await addColumn('max_inclusion_pct', 'REAL');
+    await addColumn('warning', 'TEXT');
+    await addColumn('regulatory_note', 'TEXT');
+
+    debugPrint('Migration 4→5: Complete');
+  }
+
+  /// Migration from v5 to v6: Add energy column
+  Future<void> _migrationV5ToV6(Database db) async {
+    debugPrint('Migration 5→6: Adding energy column');
+
+    // Helper to add a column if it does not already exist
+    Future<void> addColumn(String name, String type) async {
+      try {
+        await db.execute(
+            'ALTER TABLE ${IngredientsRepository.tableName} ADD COLUMN $name $type');
+      } catch (e) {
+        debugPrint('Migration 5→6: Column $name may already exist: $e');
+      }
+    }
+
+    await addColumn('energy', 'TEXT');
+
+    debugPrint('Migration 5→6: Complete');
+  }
+
+  /// Migration from v6 to v7: Populate energy field from JSON
+  Future<void> _migrationV6ToV7(Database db) async {
+    debugPrint(
+        'Migration 6→7: Populating energy field for existing ingredients');
+
+    try {
+      // Load ingredient data from JSON
+      final ingredients = await loadIngredientJson();
+
+      // Update each ingredient with energy data
+      Batch batch = db.batch();
+      for (var ingredient in ingredients) {
+        if (ingredient.energy != null) {
+          final energyJson = jsonEncode(ingredient.energy!.toJson());
+          batch.update(
+            IngredientsRepository.tableName,
+            {'energy': energyJson},
+            where: '${IngredientsRepository.colId} = ?',
+            whereArgs: [ingredient.ingredientId],
+          );
+        }
+      }
+
+      await batch.commit(noResult: true);
+      debugPrint(
+          'Migration 6→7: Updated ${ingredients.length} ingredients with energy data');
+    } catch (e) {
+      debugPrint('Migration 6→7: Error updating energy field: $e');
+      rethrow;
+    }
+
+    debugPrint('Migration 6→7: Complete');
+  }
+
+  /// Migration from v7 to v8: Add performance indexes
+  Future<void> _migrationV7ToV8(Database db) async {
+    debugPrint('Migration 7→8: Adding performance indexes');
+
+    try {
+      // Add index on category_id for faster category filtering
+      await db.execute('''
+        CREATE INDEX IF NOT EXISTS idx_ingredients_category_id
+        ON ${IngredientsRepository.tableName}(${IngredientsRepository.colCategoryId})
+      ''');
+
+      // Add index on is_custom for filtering custom vs standard ingredients
+      await db.execute('''
+        CREATE INDEX IF NOT EXISTS idx_ingredients_is_custom
+        ON ${IngredientsRepository.tableName}(${IngredientsRepository.colIsCustom})
+      ''');
+
+      // Add index on name for search functionality
+      await db.execute('''
+        CREATE INDEX IF NOT EXISTS idx_ingredients_name
+        ON ${IngredientsRepository.tableName}(${IngredientsRepository.colName})
+      ''');
+
+      debugPrint('Migration 7→8: Added 3 performance indexes');
+    } catch (e) {
+      debugPrint('Migration 7→8: Error creating indexes: $e');
+      rethrow;
+    }
+
+    debugPrint('Migration 7→8: Complete');
   }
 
   /// this should be run when the database is being created

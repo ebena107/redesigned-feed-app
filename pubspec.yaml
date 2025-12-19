@@ -90,6 +90,7 @@ dev_dependencies:
   # CODE GENERATION
   # ============================================
   build_runner: ^2.4.13          # Build system for code generation
+  build_verify: any
   riverpod_generator: ^2.6.2     # Generates Riverpod providers
   json_serializable: ^6.8.0      # Generates JSON serialization
   go_router_builder: ^2.9.0      # Generates type-safe routes

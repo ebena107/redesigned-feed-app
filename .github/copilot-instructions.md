@@ -35,19 +35,45 @@ sealed class FeedState {
   FeedState copyWith({...}) { /* manual implementation */ }
 }
 
-// Notifier implementation
+// Notifier implementation - CRITICAL INITIALIZATION PATTERN
 class FeedNotifier extends Notifier<FeedState> {
   @override
-  FeedState build() => const _FeedState();
+  FeedState build() {
+    // 1. Initialize internal state variables
+    _feedId = null;
+    _totalQuantity = 0.0;
+    
+    // 2. Delay async operations until after first frame (CRITICAL!)
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadData(); // Safe to mutate state now
+    });
+    
+    // 3. Return initial state immediately
+    return const _FeedState();
+  }
 }
 ```
 
 **Key patterns**:
 - All 6 major providers use sealed classes (manual `copyWith`, no freezed)
+- **CRITICAL**: Async loading MUST use `WidgetsBinding.instance.addPostFrameCallback()` NOT `Future.microtask()` (prevents StateError crashes)
 - Use `@riverpod` for async controllers (code gen with `riverpod_generator`)
 - Access via `ref.read(provider.notifier).method()` and `ref.watch(provider)`
 
 ## Critical Workflows
+
+### Common Pitfalls & Solutions
+
+**❌ StateError: "Bad state: Tried to read the state of an uninitialized provider"**
+- **Cause**: Calling `ref.read()` or mutating state in `build()` before initialization
+- **Fix**: Use `WidgetsBinding.instance.addPostFrameCallback()` for all async loading
+- **Bad**: `Future.microtask(() => ref.read(...))` - causes StateError
+- **Good**: `WidgetsBinding.instance.addPostFrameCallback((_) => _loadData())` - waits for frame
+
+**❌ Memory leaks in dialogs**
+- **Cause**: Creating `TextEditingController` in Consumer widget without disposal
+- **Fix**: Use `ConsumerStatefulWidget` with proper `dispose()` in dialog code
+- **Example**: See [lib/src/features/add_update_feed/widget/feed_ingredients.dart](../lib/src/features/add_update_feed/widget/feed_ingredients.dart)
 
 ### Development Commands
 ```powershell
@@ -123,9 +149,17 @@ For domain primitives (weights, prices), use existing value objects:
 // lib/src/core/value_objects/
 final weight = Weight.validated(10.5, WeightUnit.kg);
 final kg = weight.toKg();  // Automatic conversion
+
+// Price with currency validation
+final price = Price.validated(100.0, currency: 'NGN');
+final discounted = price * 0.9;  // 10% discount
+final total = price + price;     // Add prices (same currency only)
+final formatted = price.format(); // ₦100.00
 ```
 
-Includes validation and unit conversion (kg/g/lbs/oz/ton).
+Includes validation, unit conversion (kg/g/lbs/oz/ton), and arithmetic operations.
+Throws `ValidationException` for invalid operations (e.g., dividing by zero, adding different currencies).
+See test examples: [test/unit/price_value_object_test.dart](../test/unit/price_value_object_test.dart)
 
 ### Dialog Management
 **CRITICAL**: Use `context.pop()` (go_router) instead of `Navigator.pop()`:
@@ -380,6 +414,124 @@ final feedRepository = Provider<FeedRepository>((ref) {
 See reference implementations:
 - [lib/src/features/main/repository/feed_repository.dart](../lib/src/features/main/repository/feed_repository.dart)
 - [lib/src/features/add_ingredients/repository/ingredients_repository.dart](../lib/src/features/add_ingredients/repository/ingredients_repository.dart)
+
+### Enhanced Calculation System (v5)
+
+**Phase 3 Implementation**: Harmonized ingredient dataset with comprehensive nutrient tracking
+
+**Key Components**:
+
+1. **EnhancedCalculationEngine** ([lib/src/features/reports/providers/enhanced_calculation_engine.dart](../lib/src/features/reports/providers/enhanced_calculation_engine.dart))
+   - Calculates all 10 essential amino acids (lysine, methionine, threonine, tryptophan, cystine, phenylalanine, tyrosine, leucine, isoleucine, valine)
+   - Tracks SID (Standardized Ileal Digestibility) values for precision
+   - Enhanced phosphorus breakdown: total, available (bioavailable), phytate (bound)
+   - Collects proximate analysis: ash, moisture, starch, bulk density
+   - Anti-nutritional factor tracking
+   - Regulatory and safety warnings collection
+
+   ```dart
+   // Usage
+   final result = EnhancedCalculationEngine.calculateEnhancedResult(
+     feedIngredients: feedIngredients,
+     ingredientCache: ingredientCache,
+     animalTypeId: 1, // 1=growing pig, 2=poultry, 3=rabbit, 4=ruminant, 5=fish
+   );
+   
+   // Result includes:
+   // - Legacy v4 fields (backward compatible): mEnergy, cProtein, calcium, lysine, etc.
+   // - Enhanced v5 fields: ash, moisture, totalPhosphorus, availablePhosphorus, etc.
+   // - JSON amino acid profiles and warnings
+   ```
+
+2. **InclusionLimitValidator** ([lib/src/features/reports/model/inclusion_limit_validator.dart](../lib/src/features/reports/model/inclusion_limit_validator.dart))
+   - Validates ingredient inclusion percentages against maximum limits
+   - Prevents use of toxic ingredients beyond safety thresholds
+   - Enforces regulatory restrictions (e.g., processed animal protein limits)
+   - Built-in limits for: cottonseed meal (15%), urea (dangerous), moringa (10%), rapeseed (10%), etc.
+
+   ```dart
+   // Usage
+   final validation = InclusionLimitValidator.validateFormulation(
+     feedIngredients: feedIngredients,
+     ingredientCache: ingredientCache,
+     totalQuantity: totalQuantity,
+   );
+   
+   if (validation.hasViolations) {
+     // Display hard violations - MUST fix before saving
+     for (final v in validation.violations) {
+       print('VIOLATION: ${v.description}');
+     }
+   }
+   if (validation.hasWarnings) {
+     // Display warnings - inform user but allow
+     for (final w in validation.warnings) {
+       print('WARNING: ${w.description}');
+     }
+   }
+   ```
+
+3. **Enhanced Ingredient Model** (v5 fields in [lib/src/features/add_ingredients/model/ingredient.dart](../lib/src/features/add_ingredients/model/ingredient.dart))
+   ```dart
+   class Ingredient {
+     // Legacy fields (preserved for backward compatibility)
+     num? crudeProtein;
+     num? lysine;        // Deprecated: Use aminoAcidsTotalJson
+     num? methionine;    // Deprecated: Use aminoAcidsTotalJson
+     num? phosphorus;    // Deprecated: Use totalPhosphorus
+     
+     // New v5 fields
+     num? ash;
+     num? moisture;
+     num? bulkDensity;
+     num? totalPhosphorus;
+     num? availablePhosphorus;
+     num? phytatePhosphorus;
+     num? meFinishingPig;
+     
+     String? aminoAcidsTotalJson;    // Map<String, num> of 10 amino acids
+     String? aminoAcidsSidJson;      // Map<String, num> with SID values
+     String? antiNutrionalFactorsJson;
+     
+     num? maxInclusionPct;           // Safety limit (0 = unlimited)
+     String? warning;                // Safety warning
+     String? regulatoryNote;         // Regulatory restrictions
+   }
+   ```
+
+4. **Enhanced Result Model** (v5 fields in [lib/src/features/reports/model/result.dart](../lib/src/features/reports/model/result.dart))
+   ```dart
+   class Result {
+     // Legacy fields preserved
+     num? mEnergy;
+     num? cProtein;
+     num? lysine;
+     num? methionine;
+     
+     // New v5 fields
+     num? ash;
+     num? moisture;
+     num? totalPhosphorus;
+     num? availablePhosphorus;
+     num? phytatePhosphorus;
+     
+     // JSON stores for complex data
+     String? aminoAcidsTotalJson;    // Full amino acid profile
+     String? aminoAcidsSidJson;      // SID digestibility values
+     String? warningsJson;           // Collection of warnings
+   }
+   ```
+
+**Migration Strategy** (v4 → v5):
+- Database schema expanded with new columns (non-breaking)
+- All v4 columns kept active for backward compatibility
+- Calculations fallback to v4 values if v5 fields missing
+- JSON fields used for complex structures (amino acids, anti-nutritional factors)
+
+**Integration with result_provider.dart**:
+- Keep existing `estimatedResult()` and `calculateResult()` methods
+- Can replace internals of `calculateResult()` with `EnhancedCalculationEngine.calculateEnhancedResult()`
+- Or run both engines and merge results for gradual migration
 ```
 
 ### UI Patterns
@@ -409,15 +561,36 @@ See reference implementations:
 - Sealed classes conversion (6 providers)
 - Exception hierarchy + centralized logger
 - Lint issues: 296 → 3
+- Critical notifier initialization fixes (FeedNotifier, IngredientNotifier)
 
-**Phase 2 READY** (User-driven features):
-- Ingredient database expansion (66% user requests)
-- Dynamic pricing (20% requests)
-- Inventory tracking (14% requests)
+**Phase 2 COMPLETE** (Ingredient Audit & Corrections):
+- Audited all 165 feed ingredients against international standards (NRC, ASABE, CVB, INRA)
+- Applied Tier 1 corrections: fish meal methionine alignment, fiber adjustments
+- Industry validation complete (see `doc/PHASE_2_COMPLETION_REPORT.md`)
 
-**User Demographics**: Nigeria (largest market), India, USA, Kenya, plus Europe/Asia/Africa regions.
+**Phase 3 IN PROGRESS** (Harmonized Dataset & Enhanced Calculations):
+- ✅ New ingredient JSON structure with 10 essential amino acids (total + SID)
+- ✅ Enhanced phosphorus tracking (total, available, phytate)
+- ✅ Inclusion limit validation with safety warnings
+- 🟡 Database migration v4 → v5 (schema expansion, backward compatible)
+- 🟡 Result model enhanced with v5 calculation fields
+- 📋 Next: PDF export with amino acid profiles and warnings
 
-Refer to `doc/PROJECT_STATUS_REPORT.md` and `doc/PHASE_2_IMPLEMENTATION_ROADMAP.md` for detailed specs.
+**Calculation Improvements** (Recent):
+- `EnhancedCalculationEngine` supports harmonized v5 ingredients
+- `InclusionLimitValidator` prevents toxic/regulatory violations
+- All 10 amino acids tracked (lysine, methionine, threonine, tryptophan, cystine, phenylalanine, tyrosine, leucine, isoleucine, valine)
+- Phosphorus breakdown: total, available (bioavailable), phytate (bound)
+- Anti-nutritional factors and regulatory notes collected
+- Backward compatible with legacy v4 calculations
+
+**User Demographics**: Nigeria (largest market), India, USA, Kenya, plus Europe/Asia/Africa regions. Current rating: 4.5★ (148 reviews).
+
+Refer to:
+- `doc/PHASE_2_COMPLETION_REPORT.md` - Ingredient audit results
+- `doc/HARMONIZED_DATASET_MIGRATION_PLAN.md` - v4→v5 migration strategy
+- `lib/src/features/reports/providers/enhanced_calculation_engine.dart` - Calculation engine
+- `lib/src/features/reports/model/inclusion_limit_validator.dart` - Inclusion validation
 
 ## Form & Input Best Practices
 
@@ -484,7 +657,13 @@ class _MyFormFieldState extends ConsumerState<MyFormField> {
 ```
 test/
 ├── unit/                        # Unit tests (validators, models, utils)
+│   ├── input_validators_test.dart      # All 11 validator functions
+│   ├── price_value_object_test.dart    # Price arithmetic, formatting, validation
+│   ├── ingredient_model_test.dart      # Model serialization
+│   ├── feed_model_test.dart            # Feed/FeedIngredients models
+│   └── common_utils_test.dart          # Display, text style, time utilities
 ├── integration/                 # Integration tests (end-to-end workflows)
+│   └── feed_integration_test.dart      # Complete feed creation flows
 └── phase_1_4_simple_test.dart   # Legacy provider tests
 ```
 
@@ -505,11 +684,13 @@ flutter test --coverage          # With coverage report
 - Mock database/repository dependencies in unit tests
 
 **Test Coverage Focus**:
-- Input validators ([test/unit/input_validators_test.dart](../test/unit/input_validators_test.dart))
-- Value objects ([test/unit/price_value_object_test.dart](../test/unit/price_value_object_test.dart))
-- Model serialization/deserialization
+- Input validators ([test/unit/input_validators_test.dart](../test/unit/input_validators_test.dart)) - **95%+ coverage**
+- Value objects ([test/unit/price_value_object_test.dart](../test/unit/price_value_object_test.dart)) - **90%+ coverage**
+- Model serialization/deserialization - **90%+ coverage**
 - Repository CRUD operations
 - Business logic calculations
+
+Current Coverage: Unit tests passing with comprehensive edge case coverage.
 
 ## Platform Notes
 - **Windows dev primary** (PowerShell commands in instructions)

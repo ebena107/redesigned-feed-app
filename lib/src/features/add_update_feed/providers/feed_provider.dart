@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:feed_estimator/src/core/database/app_db.dart';
-import 'package:feed_estimator/src/core/router/routes.dart';
 
 import 'package:feed_estimator/src/features/add_update_feed/repository/animal_type_repository.dart';
 
@@ -229,7 +228,6 @@ class FeedNotifier extends Notifier<FeedState> {
     resetProvider();
     // ref.read(asyncMainProvider.notifier).loadFeed();
     state = state.copyWith(status: 'success');
-    const HomeRoute().location;
   }
 
   Future<void> updateFeed() async {
@@ -272,7 +270,6 @@ class FeedNotifier extends Notifier<FeedState> {
     resetProvider();
     //   ref.read(asyncMainProvider.notifier).loadFeed();
     state = state.copyWith(status: 'success');
-    const HomeRoute().location;
   }
 
   /// add all selected ingredients
