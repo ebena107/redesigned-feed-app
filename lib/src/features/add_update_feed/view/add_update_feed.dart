@@ -291,7 +291,7 @@ void _showErrorSnackBar({
       ),
       backgroundColor: Colors.red[600],
       duration: const Duration(seconds: 4),
-      behavior: SnackBarBehavior.floating,
+      behavior: SnackBarBehavior.fixed,
       action: SnackBarAction(
         label: 'OK',
         textColor: Colors.white,
@@ -325,7 +325,7 @@ void _showSuccessSnackBar({
       ),
       backgroundColor: Colors.green[600],
       duration: const Duration(seconds: 3),
-      behavior: SnackBarBehavior.floating,
+      behavior: SnackBarBehavior.fixed,
     ),
   );
 

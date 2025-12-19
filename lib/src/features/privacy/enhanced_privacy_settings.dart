@@ -41,7 +41,7 @@ class _EnhancedPrivacySettingsScreenState
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Error loading statistics: $e'),
-            behavior: SnackBarBehavior.floating,
+            behavior: SnackBarBehavior.fixed,
           ),
         );
       }
@@ -225,7 +225,7 @@ class _EnhancedPrivacySettingsScreenState
           content: Text(
               'Privacy policy URL: $url\nPlease update with your actual URL'),
           duration: Duration(seconds: 3),
-          behavior: SnackBarBehavior.floating,
+          behavior: SnackBarBehavior.fixed,
         ),
       );
     }
@@ -327,7 +327,7 @@ class _EnhancedPrivacySettingsScreenState
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Export failed: $e'),
-            behavior: SnackBarBehavior.floating,
+            behavior: SnackBarBehavior.fixed,
           ),
         );
       }
@@ -340,7 +340,7 @@ class _EnhancedPrivacySettingsScreenState
         const SnackBar(
           content: Text('Import feature: Please select a backup file'),
           duration: Duration(seconds: 2),
-          behavior: SnackBarBehavior.floating,
+          behavior: SnackBarBehavior.fixed,
         ),
       );
     }
@@ -433,7 +433,7 @@ class _EnhancedPrivacySettingsScreenState
           const SnackBar(
             content: Text('All data deleted successfully'),
             backgroundColor: Colors.green,
-            behavior: SnackBarBehavior.floating,
+            behavior: SnackBarBehavior.fixed,
           ),
         );
 
@@ -447,7 +447,7 @@ class _EnhancedPrivacySettingsScreenState
           SnackBar(
             content: Text('Delete failed: $e'),
             backgroundColor: Colors.red,
-            behavior: SnackBarBehavior.floating,
+            behavior: SnackBarBehavior.fixed,
           ),
         );
       }

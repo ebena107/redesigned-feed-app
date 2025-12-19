@@ -17,6 +17,6 @@ Future<ScaffoldFeatureController<SnackBar, SnackBarClosedReason>>
             : type == "success"
                 ? Theme.of(context).colorScheme.primary
                 : const Color(0xffffbb33),
-        behavior: SnackBarBehavior.floating),
+        behavior: SnackBarBehavior.fixed),
   );
 }

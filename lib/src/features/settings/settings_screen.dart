@@ -9,6 +9,7 @@ import 'package:in_app_review/in_app_review.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:feed_estimator/src/features/main/providers/main_async_provider.dart';
 
 // ignore_for_file: use_build_context_synchronously, deprecated_member_use
 
@@ -54,7 +55,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Error loading data: $e'),
-            behavior: SnackBarBehavior.floating,
+            behavior: SnackBarBehavior.fixed,
           ),
         );
       }
@@ -276,7 +277,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           content: Text(
               'Privacy policy URL: https://yourdomain.com/privacy-policy\nPlease update with your actual URL'),
           duration: Duration(seconds: 3),
-          behavior: SnackBarBehavior.floating,
+          behavior: SnackBarBehavior.fixed,
         ),
       );
     }
@@ -399,7 +400,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Export failed: $e'),
-            behavior: SnackBarBehavior.floating,
+            behavior: SnackBarBehavior.fixed,
           ),
         );
       }
@@ -450,9 +451,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           const SnackBar(
             content: Text('Data imported successfully'),
             backgroundColor: Colors.green,
-            behavior: SnackBarBehavior.floating,
+            behavior: SnackBarBehavior.fixed,
           ),
         );
+
+        // Invalidate all providers to refresh the app
+        ref.invalidate(asyncMainProvider);
 
         await _loadData();
       }
@@ -466,7 +470,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Import failed: $e'),
-            behavior: SnackBarBehavior.floating,
+            behavior: SnackBarBehavior.fixed,
           ),
         );
       }
@@ -600,7 +604,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           const SnackBar(
             content: Text('All data deleted successfully'),
             backgroundColor: Colors.green,
-            behavior: SnackBarBehavior.floating,
+            behavior: SnackBarBehavior.fixed,
           ),
         );
 
@@ -615,7 +619,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           SnackBar(
             content: Text('Failed to delete data: $e'),
             backgroundColor: Colors.red,
-            behavior: SnackBarBehavior.floating,
+            behavior: SnackBarBehavior.fixed,
           ),
         );
       }
@@ -634,7 +638,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Could not open store: $e'),
-            behavior: SnackBarBehavior.floating,
+            behavior: SnackBarBehavior.fixed,
           ),
         );
       }

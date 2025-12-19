@@ -216,7 +216,7 @@ void _showErrorSnackBar(BuildContext context, String message) {
     SnackBar(
       content: Text(message),
       backgroundColor: Colors.redAccent,
-      behavior: SnackBarBehavior.floating,
+      behavior: SnackBarBehavior.fixed,
       duration: const Duration(seconds: 3),
       action: SnackBarAction(
         label: 'Dismiss',

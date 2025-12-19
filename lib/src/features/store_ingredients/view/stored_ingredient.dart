@@ -358,7 +358,7 @@ class _EditFormCardState extends ConsumerState<_EditFormCard> {
               ],
             ),
             backgroundColor: Colors.green.shade600,
-            behavior: SnackBarBehavior.floating,
+            behavior: SnackBarBehavior.fixed,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             duration: const Duration(seconds: 2),
@@ -377,7 +377,7 @@ class _EditFormCardState extends ConsumerState<_EditFormCard> {
               ],
             ),
             backgroundColor: Colors.red.shade600,
-            behavior: SnackBarBehavior.floating,
+            behavior: SnackBarBehavior.fixed,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             duration: const Duration(seconds: 3),
@@ -432,7 +432,7 @@ class _EditFormCardState extends ConsumerState<_EditFormCard> {
                   ],
                 ),
                 backgroundColor: Colors.green.shade600,
-                behavior: SnackBarBehavior.floating,
+                behavior: SnackBarBehavior.fixed,
               ),
             );
           }
@@ -442,7 +442,7 @@ class _EditFormCardState extends ConsumerState<_EditFormCard> {
               SnackBar(
                 content: Text('Failed to delete: $e'),
                 backgroundColor: Colors.red.shade600,
-                behavior: SnackBarBehavior.floating,
+                behavior: SnackBarBehavior.fixed,
               ),
             );
           }
