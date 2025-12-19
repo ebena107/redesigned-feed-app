@@ -87,19 +87,29 @@ class Ingredient {
     // Parse aminoAcidsTotal - can be Map (from JSON file) or String (from database)
     AminoAcidsProfile? parsedAminoAcidsTotal;
     if (json['amino_acids_total'] != null) {
-      parsedAminoAcidsTotal = AminoAcidsProfile.fromJson(
-          json['amino_acids_total'] is String
-              ? jsonDecode(json['amino_acids_total'])
-              : json['amino_acids_total']);
+      try {
+        parsedAminoAcidsTotal = AminoAcidsProfile.fromJson(
+            json['amino_acids_total'] is String
+                ? jsonDecode(json['amino_acids_total'])
+                : json['amino_acids_total']);
+      } catch (e) {
+        // Handle malformed JSON gracefully - return null
+        parsedAminoAcidsTotal = null;
+      }
     }
 
     // Parse aminoAcidsSid - can be Map (from JSON file) or String (from database)
     AminoAcidsProfile? parsedAminoAcidsSid;
     if (json['amino_acids_sid'] != null) {
-      parsedAminoAcidsSid = AminoAcidsProfile.fromJson(
-          json['amino_acids_sid'] is String
-              ? jsonDecode(json['amino_acids_sid'])
-              : json['amino_acids_sid']);
+      try {
+        parsedAminoAcidsSid = AminoAcidsProfile.fromJson(
+            json['amino_acids_sid'] is String
+                ? jsonDecode(json['amino_acids_sid'])
+                : json['amino_acids_sid']);
+      } catch (e) {
+        // Handle malformed JSON gracefully - return null
+        parsedAminoAcidsSid = null;
+      }
     }
 
     // Parse antiNutritionalFactors - can be Map (from JSON file) or String (from database)
