@@ -41,18 +41,8 @@ class ResultCard extends ConsumerWidget {
     }
 
     // Decode enhanced fields
-    Map<String, dynamic> aminoTotal = {};
-    Map<String, dynamic> aminoSid = {};
     List warnings = [];
     try {
-      if (result.aminoAcidsTotalJson != null &&
-          result.aminoAcidsTotalJson!.isNotEmpty) {
-        aminoTotal = jsonDecode(result.aminoAcidsTotalJson!);
-      }
-      if (result.aminoAcidsSidJson != null &&
-          result.aminoAcidsSidJson!.isNotEmpty) {
-        aminoSid = jsonDecode(result.aminoAcidsSidJson!);
-      }
       if (result.warningsJson != null && result.warningsJson!.isNotEmpty) {
         final parsed = jsonDecode(result.warningsJson!);
         if (parsed is List) warnings = parsed;
@@ -207,31 +197,6 @@ class ResultCard extends ConsumerWidget {
           ),
           const Divider(color: Colors.white24, height: 36, thickness: 1.5),
 
-          // Amino acids quick view (totals)
-          // if (aminoTotal.isNotEmpty) ...[
-          //   Align(
-          //     alignment: Alignment.centerLeft,
-          //     child: Text('Amino Acids (g/Kg)',
-          //         style: const TextStyle(color: Colors.white70, fontSize: 12)),
-          //   ),
-          //   const SizedBox(height: 8),
-          //   Wrap(
-          //     spacing: 12,
-          //     runSpacing: 8,
-          //     children: aminoTotal.entries.take(10).map((e) {
-          //       final k = e.key.toString();
-          //       final v = (e.value is num)
-          //           ? (e.value as num).toStringAsFixed(1)
-          //           : e.value.toString();
-          //       final sid = (aminoSid[k] is num)
-          //           ? (aminoSid[k] as num).toStringAsFixed(1)
-          //           : null;
-          //       return _AminoChip(label: k, value: v, sid: sid);
-          //     }).toList(),
-          //   ),
-          //   const SizedBox(height: 16),
-          // ],
-
           // Warnings
           if (warnings.isNotEmpty) ...[
             Align(
@@ -290,43 +255,6 @@ class ResultCard extends ConsumerWidget {
               ],
             ),
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class _AminoChip extends StatelessWidget {
-  final String label;
-  final String value;
-  final String? sid;
-  const _AminoChip({required this.label, required this.value, this.sid});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.white24, width: 0.5),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(label,
-              style: const TextStyle(color: Colors.white70, fontSize: 11)),
-          const SizedBox(width: 6),
-          Text(value,
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold)),
-          if (sid != null) ...[
-            const SizedBox(width: 6),
-            Text('(SID $sid)',
-                style: const TextStyle(color: Colors.white60, fontSize: 10)),
-          ],
         ],
       ),
     );

@@ -43,22 +43,6 @@ Future<Uint8List> makePdf(
     }
   }
 
-  num calculateTotalQuantity() {
-    final total = feed.feedIngredients!
-        .fold(0, (num sum, ingredient) => sum + (ingredient.quantity as num));
-    return total;
-  }
-
-  num calculatePercent(num? ingQty) {
-    final total = calculateTotalQuantity();
-
-    if (ingQty == 0) {
-      return 0;
-    } else {
-      return 100 * (ingQty! / total);
-    }
-  }
-
   // final locale = ref.watch(deviceLocaleProvider).value;
   //final format = NumberFormat.simpleCurrency(locale: locale.toString());
   //final currency = format.currencySymbol;

@@ -283,15 +283,6 @@ class ResultNotifier extends Notifier<ResultsState> {
     _calculationCache.clear();
   }
 
-  double _energyForAnimal(Ingredient ing, num animalTypeId) {
-    if (animalTypeId == 1) return (ing.meGrowingPig ?? 0).toDouble();
-    if (animalTypeId == 2) return (ing.mePoultry ?? 0).toDouble();
-    if (animalTypeId == 3) return (ing.meRabbit ?? 0).toDouble();
-    if (animalTypeId == 4) return (ing.meRuminant ?? 0).toDouble();
-    if (animalTypeId == 5) return (ing.deSalmonids ?? 0).toDouble();
-    return 0;
-  }
-
   void toggle(bool bool) {
     state = state.copyWith(toggle: bool);
   }

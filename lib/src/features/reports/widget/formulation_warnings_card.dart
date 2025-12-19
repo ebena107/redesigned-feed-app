@@ -72,7 +72,7 @@ class _FormulationWarningsCardState extends State<FormulationWarningsCard> {
                         Text(
                           '${warnings.length} issue${warnings.length > 1 ? 's' : ''} found',
                           style: TextStyle(
-                            color: Colors.white.withOpacity(0.9),
+                            color: Colors.white.withValues(alpha: 0.9),
                             fontSize: 12,
                           ),
                         ),
