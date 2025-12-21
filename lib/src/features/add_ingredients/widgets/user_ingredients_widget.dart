@@ -420,12 +420,11 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
 
         if (mounted) {
           if (file != null) {
-            // Show share dialog
-            await SharePlus.shareXFiles(
+            // Show share dialog using share_plus package
+            // ignore: deprecated_member_use
+            await Share.shareXFiles(
               [XFile(file.path)],
               subject: 'Custom Ingredients Export',
-              text:
-                  'Exported ${ref.read(userIngredientsProvider).userIngredients.length} custom ingredients',
             );
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -472,12 +471,11 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
 
         if (mounted) {
           if (file != null) {
-            // Show share dialog
-            await SharePlus.shareXFiles(
+            // Show share dialog using share_plus package
+            // ignore: deprecated_member_use
+            await Share.shareXFiles(
               [XFile(file.path)],
               subject: 'Custom Ingredients Export',
-              text:
-                  'Exported ${ref.read(userIngredientsProvider).userIngredients.length} custom ingredients',
             );
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
