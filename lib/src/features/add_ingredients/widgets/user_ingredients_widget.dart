@@ -533,6 +533,9 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
   /// Import using file picker
   Future<void> _importWithFilePicker(BuildContext context,
       {required bool isJson}) async {
+    // Capture ScaffoldMessenger before async operations to avoid context issues
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+
     try {
       final result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
@@ -582,7 +585,7 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
 
       final state = ref.read(userIngredientsProvider);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
+        scaffoldMessenger.showSnackBar(
           SnackBar(
             content: Text(state.message),
             backgroundColor:
@@ -601,7 +604,7 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
       await Future.delayed(const Duration(milliseconds: 300));
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
+        scaffoldMessenger.showSnackBar(
           SnackBar(
             content: Text('Import failed: $e'),
             backgroundColor: Colors.red,
