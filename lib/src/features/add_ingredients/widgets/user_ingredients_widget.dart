@@ -542,9 +542,6 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
   /// Import using file picker
   Future<void> _importWithFilePicker(BuildContext context,
       {required bool isJson}) async {
-    // Capture ScaffoldMessenger before async operations to avoid context issues
-    final scaffoldMessenger = ScaffoldMessenger.of(context);
-
     try {
       final result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
@@ -589,35 +586,54 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
       // Close loading dialog
       if (mounted) Navigator.pop(context);
 
-      // Add delay to ensure dialog is fully closed before showing SnackBar
-      await Future.delayed(const Duration(milliseconds: 300));
-
+      // Show result dialog instead of SnackBar to avoid context issues
       final state = ref.read(userIngredientsProvider);
       if (mounted) {
-        scaffoldMessenger.showSnackBar(
-          SnackBar(
+        showDialog(
+          context: context,
+          builder: (dialogContext) => AlertDialog(
+            icon: Icon(
+              state.status == 'success' ? Icons.check_circle : Icons.error,
+              color: state.status == 'success' ? Colors.green : Colors.red,
+              size: 48,
+            ),
+            title: Text(state.status == 'success'
+                ? 'Import Successful'
+                : 'Import Failed'),
             content: Text(state.message),
-            backgroundColor:
-                state.status == 'success' ? Colors.green : Colors.red,
-            duration: const Duration(seconds: 3),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(dialogContext),
+                child: const Text('OK'),
+              ),
+            ],
           ),
         );
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      // Log the error
+      debugPrint('Import error: $e');
+      debugPrint('Stack trace: $stackTrace');
+
       // Close loading dialog if open
       if (mounted) {
         Navigator.of(context).popUntil((route) => route.isFirst);
       }
 
-      // Add delay before showing error SnackBar
-      await Future.delayed(const Duration(milliseconds: 300));
-
+      // Show error dialog
       if (mounted) {
-        scaffoldMessenger.showSnackBar(
-          SnackBar(
-            content: Text('Import failed: $e'),
-            backgroundColor: Colors.red,
-            duration: const Duration(seconds: 3),
+        showDialog(
+          context: context,
+          builder: (dialogContext) => AlertDialog(
+            icon: const Icon(Icons.error, color: Colors.red, size: 48),
+            title: const Text('Import Failed'),
+            content: Text('Error: $e'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(dialogContext),
+                child: const Text('OK'),
+              ),
+            ],
           ),
         );
       }
