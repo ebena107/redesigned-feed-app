@@ -269,10 +269,11 @@ class PrivacySettingsScreen extends ConsumerWidget {
             subtitle: const Text('Export your data as CSV'),
             leading: const Icon(Icons.download),
             onTap: () {
-              // TODO: Implement data export
+              // Data export is implemented in Settings > Import/Export
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text('Export feature coming soon'),
+                  content: Text(
+                      'Please use Settings > Import/Export for data export'),
                   behavior: SnackBarBehavior.fixed,
                 ),
               );
@@ -373,11 +374,12 @@ class PrivacySettingsScreen extends ConsumerWidget {
               foregroundColor: Colors.white,
             ),
             onPressed: () {
-              // TODO: Implement data deletion
+              // Data deletion is implemented in Settings > Delete All Data
               Navigator.of(context).pop();
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text('Data deletion feature coming soon'),
+                  content: Text(
+                      'Please use Settings > Delete All Data for data deletion'),
                   behavior: SnackBarBehavior.fixed,
                 ),
               );

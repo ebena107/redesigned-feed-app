@@ -421,7 +421,7 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
         if (mounted) {
           if (file != null) {
             // Show share dialog
-            await Share.shareXFiles(
+            await SharePlus.shareXFiles(
               [XFile(file.path)],
               subject: 'Custom Ingredients Export',
               text:
@@ -473,7 +473,7 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
         if (mounted) {
           if (file != null) {
             // Show share dialog
-            await Share.shareXFiles(
+            await SharePlus.shareXFiles(
               [XFile(file.path)],
               subject: 'Custom Ingredients Export',
               text:
