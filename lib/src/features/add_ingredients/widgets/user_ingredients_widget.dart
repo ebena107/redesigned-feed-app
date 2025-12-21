@@ -331,28 +331,37 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
     WidgetRef ref,
     Ingredient ingredient,
   ) {
+    // Capture ScaffoldMessenger before opening dialog
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (dialogContext) => AlertDialog(
         title: const Text('Delete Custom Ingredient?'),
         content: Text(
           'Remove "${ingredient.name}" from your custom ingredients?',
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.pop(dialogContext),
             child: const Text('Cancel'),
           ),
           TextButton(
-            onPressed: () {
-              ref
+            onPressed: () async {
+              Navigator.pop(dialogContext);
+
+              await ref
                   .read(userIngredientsProvider.notifier)
                   .removeCustomIngredient(ingredient.ingredientId!);
-              Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
+
+              // Small delay to ensure dialog is closed
+              await Future.delayed(const Duration(milliseconds: 200));
+
+              scaffoldMessenger.showSnackBar(
                 SnackBar(
                   content: Text('${ingredient.name} removed'),
                   duration: const Duration(seconds: 2),
+                  backgroundColor: Colors.green,
                 ),
               );
             },
