@@ -2,6 +2,7 @@ import 'package:feed_estimator/src/core/database/app_db.dart';
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dart';
 import 'package:feed_estimator/src/core/repositories/repository.dart';
 import 'package:feed_estimator/src/features/add_ingredients/repository/ingredient_category_repository.dart';
+import 'package:feed_estimator/src/features/price_management/repository/price_history_repository.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -10,13 +11,15 @@ final ingredientsRepositoryProvider =
 
 final ingredientsRepository = Provider((ref) {
   final db = ref.watch(appDatabase);
-  return IngredientsRepository(db);
+  final priceHistoryRepo = ref.watch(priceHistoryRepository);
+  return IngredientsRepository(db, priceHistoryRepo);
 });
 
 class IngredientsRepository implements Repository {
-  IngredientsRepository(this.db);
+  IngredientsRepository(this.db, this.priceHistoryRepo);
 
   final AppDatabase db;
+  final PriceHistoryRepository priceHistoryRepo;
 
   static const tableName = 'ingredients';
 
@@ -142,6 +145,28 @@ class IngredientsRepository implements Repository {
 
   @override
   Future<int> update(Map<String, Object?> placeData, num id) async {
+    // PRICE SYNCHRONIZATION: If price_kg is being updated, also record in price history
+    if (placeData.containsKey(colPriceKg)) {
+      final newPrice = placeData[colPriceKg] as num?;
+      if (newPrice != null && newPrice > 0) {
+        try {
+          // Record price history
+          await priceHistoryRepo.recordPrice(
+            ingredientId: id.toInt(),
+            price: newPrice.toDouble(),
+            currency: 'NGN',
+            effectiveDate: DateTime.now(),
+            source: 'user',
+            notes: 'Updated via ingredient edit',
+          );
+        } catch (e) {
+          // Log error but don't fail the update
+          print('Warning: Failed to record price history: $e');
+        }
+      }
+    }
+
+    // Continue with normal update
     return db.update(tableName, colId, id, placeData);
   }
 }

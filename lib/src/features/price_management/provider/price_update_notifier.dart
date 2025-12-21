@@ -1,8 +1,10 @@
 import 'package:feed_estimator/src/core/exceptions/app_exceptions.dart';
 import 'package:feed_estimator/src/core/utils/logger.dart';
+import 'package:feed_estimator/src/core/database/app_db.dart';
 import 'package:feed_estimator/src/features/price_management/model/price_history.dart';
 import 'package:feed_estimator/src/features/price_management/provider/price_history_provider.dart';
 import 'package:feed_estimator/src/features/price_management/repository/price_history_repository.dart';
+import 'package:feed_estimator/src/features/add_ingredients/repository/ingredients_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 const String _tag = 'PriceUpdateNotifier';
@@ -90,7 +92,7 @@ class PriceUpdateNotifier extends Notifier<PriceUpdateState> {
         );
       }
 
-      // Record the price
+      // Record the price in price history
       final recordId = await _repository.recordPrice(
         ingredientId: ingredientId,
         price: price,
@@ -99,6 +101,31 @@ class PriceUpdateNotifier extends Notifier<PriceUpdateState> {
         source: source,
         notes: notes,
       );
+
+      // PRICE SYNCHRONIZATION: Also update the ingredient's price_kg field
+      // Note: We don't await this to avoid circular dependency issues
+      // The ingredients_repository will try to create price history, but we catch that error
+      try {
+        // Use a flag or check to prevent infinite loop
+        // We update directly without triggering price history creation again
+        final db = ref.read(appDatabase);
+        await db.update(
+          IngredientsRepository.tableName,
+          IngredientsRepository.colId,
+          ingredientId,
+          {IngredientsRepository.colPriceKg: price},
+        );
+        AppLogger.info(
+          'Synced price to ingredient $ingredientId: $price',
+          tag: _tag,
+        );
+      } catch (e) {
+        // Log but don't fail - price history is still recorded
+        AppLogger.warning(
+          'Failed to sync price to ingredient: $e',
+          tag: _tag,
+        );
+      }
 
       // Create success state with recorded data
       final priceHistory = PriceHistory(
