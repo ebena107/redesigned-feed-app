@@ -6,6 +6,7 @@ import 'package:feed_estimator/src/utils/widgets/modern_dialogs.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:share_plus/share_plus.dart';
 
 // ignore_for_file: use_build_context_synchronously
 
@@ -405,17 +406,17 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
       if (mounted) {
         LoadingDialog.hide(context);
 
-        // Small delay to ensure dialog is fully closed before showing SnackBar
+        // Small delay to ensure dialog is fully closed
         await Future.delayed(const Duration(milliseconds: 300));
 
         if (mounted) {
           if (file != null) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('✓ Exported to ${file.path}'),
-                duration: const Duration(seconds: 3),
-                backgroundColor: Colors.green,
-              ),
+            // Show share dialog
+            await Share.shareXFiles(
+              [XFile(file.path)],
+              subject: 'Custom Ingredients Export',
+              text:
+                  'Exported ${ref.read(userIngredientsProvider).userIngredients.length} custom ingredients',
             );
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -457,17 +458,17 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
       if (mounted) {
         LoadingDialog.hide(context);
 
-        // Small delay to ensure dialog is fully closed before showing SnackBar
+        // Small delay to ensure dialog is fully closed
         await Future.delayed(const Duration(milliseconds: 300));
 
         if (mounted) {
           if (file != null) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('✓ Exported to ${file.path}'),
-                duration: const Duration(seconds: 3),
-                backgroundColor: Colors.green,
-              ),
+            // Show share dialog
+            await Share.shareXFiles(
+              [XFile(file.path)],
+              subject: 'Custom Ingredients Export',
+              text:
+                  'Exported ${ref.read(userIngredientsProvider).userIngredients.length} custom ingredients',
             );
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
