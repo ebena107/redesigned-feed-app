@@ -41,27 +41,3 @@ class SaveUpdateFeedController extends _$SaveUpdateFeedController {
     }
   }
 }
-
-// class SaveUpdateFeedController extends AutoDisposeAsyncNotifier<void> {
-//   @override
-//   Future<void> build() {
-//     // TODO: implement build
-//     throw UnimplementedError();
-//   }
-//
-//   Future<void> saveUpdateFeed({required String todo}) async {
-//     final provider = ref.read(feedProvider.notifier);
-//     state = const AsyncLoading();
-//     state = await AsyncValue.guard(() => provider.saveUpdateFeed(todo));
-//
-//     if (state.hasError == false) {
-//       ref.read(routerProvider).pop();
-//     }
-//   }
-//
-//   Future<void> updateFeed() async {}
-// }
-//
-// final saveUpdateFeedControllerProvider =
-// AutoDisposeAsyncNotifierProvider<SaveUpdateFeedController, void>(
-//     SaveUpdateFeedController.new);
