@@ -84,8 +84,12 @@ android {
 //            signingConfig signingConfigs.debug
 //        }
         release {
-            minifyEnabled false
-            shrinkResources false
+            // Enable code shrinking, obfuscation, and optimization
+            minifyEnabled true
+            // Enable resource shrinking
+            shrinkResources true
+            // ProGuard rules
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
             signingConfig signingConfigs.release
             ndk {
