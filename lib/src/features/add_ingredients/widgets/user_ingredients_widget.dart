@@ -550,28 +550,29 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
 
       if (result == null) return;
 
+      // Check if widget is still mounted after file picker
+      if (!mounted) return;
+
       // Show loading dialog
-      if (mounted) {
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (context) => const Center(
-            child: Card(
-              child: Padding(
-                padding: EdgeInsets.all(24),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    CircularProgressIndicator(),
-                    SizedBox(height: 16),
-                    Text('Importing data...'),
-                  ],
-                ),
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(
+          child: Card(
+            child: Padding(
+              padding: EdgeInsets.all(24),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(height: 16),
+                  Text('Importing data...'),
+                ],
               ),
             ),
           ),
-        );
-      }
+        ),
+      );
 
       final file = File(result.files.single.path!);
       final content = await file.readAsString();
@@ -584,59 +585,63 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
       }
 
       // Close loading dialog
-      if (mounted) Navigator.pop(context);
+      if (mounted && context.mounted) {
+        Navigator.pop(context);
+      }
+
+      // Check if widget and context are still valid before showing result dialog
+      if (!mounted || !context.mounted) return;
 
       // Show result dialog instead of SnackBar to avoid context issues
       final state = ref.read(userIngredientsProvider);
-      if (mounted) {
-        showDialog(
-          context: context,
-          builder: (dialogContext) => AlertDialog(
-            icon: Icon(
-              state.status == 'success' ? Icons.check_circle : Icons.error,
-              color: state.status == 'success' ? Colors.green : Colors.red,
-              size: 48,
-            ),
-            title: Text(state.status == 'success'
-                ? 'Import Successful'
-                : 'Import Failed'),
-            content: Text(state.message),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(dialogContext),
-                child: const Text('OK'),
-              ),
-            ],
+      showDialog(
+        context: context,
+        builder: (dialogContext) => AlertDialog(
+          icon: Icon(
+            state.status == 'success' ? Icons.check_circle : Icons.error,
+            color: state.status == 'success' ? Colors.green : Colors.red,
+            size: 48,
           ),
-        );
-      }
+          title: Text(state.status == 'success'
+              ? 'Import Successful'
+              : 'Import Failed'),
+          content: Text(state.message),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
     } catch (e, stackTrace) {
       // Log the error
       debugPrint('Import error: $e');
       debugPrint('Stack trace: $stackTrace');
 
-      // Close loading dialog if open
-      if (mounted) {
+      // Close loading dialog if open and context is valid
+      if (mounted && context.mounted) {
         Navigator.of(context).popUntil((route) => route.isFirst);
       }
 
+      // Check if widget and context are still valid before showing error dialog
+      if (!mounted || !context.mounted) return;
+
       // Show error dialog
-      if (mounted) {
-        showDialog(
-          context: context,
-          builder: (dialogContext) => AlertDialog(
-            icon: const Icon(Icons.error, color: Colors.red, size: 48),
-            title: const Text('Import Failed'),
-            content: Text('Error: $e'),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(dialogContext),
-                child: const Text('OK'),
-              ),
-            ],
-          ),
-        );
-      }
+      showDialog(
+        context: context,
+        builder: (dialogContext) => AlertDialog(
+          icon: const Icon(Icons.error, color: Colors.red, size: 48),
+          title: const Text('Import Failed'),
+          content: Text('Error: $e'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
     }
   }
 }
