@@ -79,14 +79,16 @@ class PriceHistoryRepository implements Repository {
         query: colIngredientId,
         param: ingredientId,
       );
+      // Convert to mutable list before sorting (QueryResultSet is read-only)
+      final mutableList = List<Map<String, Object?>>.from(raw);
       // Sort by effective date descending (most recent first)
-      raw.sort((a, b) =>
+      mutableList.sort((a, b) =>
           (b[colEffectiveDate] as int).compareTo(a[colEffectiveDate] as int));
       AppLogger.debug(
-        'Retrieved ${raw.length} price history records for ingredient $ingredientId',
+        'Retrieved ${mutableList.length} price history records for ingredient $ingredientId',
         tag: _tag,
       );
-      return raw.map((item) => PriceHistory.fromJson(item)).toList();
+      return mutableList.map((item) => PriceHistory.fromJson(item)).toList();
     } catch (e, stackTrace) {
       AppLogger.error(
         'Error getting price history for ingredient $ingredientId: $e',
