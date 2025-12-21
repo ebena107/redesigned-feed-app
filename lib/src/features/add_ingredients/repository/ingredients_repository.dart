@@ -1,4 +1,5 @@
 import 'package:feed_estimator/src/core/database/app_db.dart';
+import 'package:feed_estimator/src/core/utils/logger.dart';
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dart';
 import 'package:feed_estimator/src/core/repositories/repository.dart';
 import 'package:feed_estimator/src/features/add_ingredients/repository/ingredient_category_repository.dart';
@@ -161,7 +162,10 @@ class IngredientsRepository implements Repository {
           );
         } catch (e) {
           // Log error but don't fail the update
-          print('Warning: Failed to record price history: $e');
+          AppLogger.warning(
+            'Failed to record price history: $e',
+            tag: 'IngredientsRepository',
+          );
         }
       }
     }
