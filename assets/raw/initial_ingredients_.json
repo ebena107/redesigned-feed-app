@@ -775,6 +775,8 @@
     "anti_nutritional_factors": {
       "glucosinolates_micromol_g": 10.0
     },
+    "max_inclusion_pct": 20,
+    "warning": "Limit to 20% for pigs due to glucosinolates and fiber content. Higher levels may reduce palatability and performance.",
     "price_kg": 0.38,
     "available_qty": 6000,
     "bulk_density": 600,
@@ -856,6 +858,8 @@
     "anti_nutritional_factors": {
       "cyanogenic_glycosides_ppm": 50.0
     },
+    "max_inclusion_pct": 40,
+    "warning": "Contains cyanogenic glycosides. Ensure proper processing (sun-drying/fermentation) to reduce toxicity. Limit to 40% for pigs.",
     "price_kg": 0.15,
     "available_qty": 10000,
     "bulk_density": 650,
