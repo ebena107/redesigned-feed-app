@@ -551,28 +551,35 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
       if (result == null) return;
 
       // Check if widget is still mounted after file picker
-      if (!mounted) return;
+      if (!mounted) {
+        debugPrint('Widget unmounted after file picker, aborting import');
+        return;
+      }
 
-      // Show loading dialog
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => const Center(
-          child: Card(
-            child: Padding(
-              padding: EdgeInsets.all(24),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  CircularProgressIndicator(),
-                  SizedBox(height: 16),
-                  Text('Importing data...'),
-                ],
+      // Show loading dialog - wrap in try-catch to handle context issues
+      try {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => const Center(
+            child: Card(
+              child: Padding(
+                padding: EdgeInsets.all(24),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CircularProgressIndicator(),
+                    SizedBox(height: 16),
+                    Text('Importing data...'),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-      );
+        );
+      } catch (e) {
+        debugPrint('Could not show loading dialog: $e');
+      }
 
       final file = File(result.files.single.path!);
       final content = await file.readAsString();
@@ -585,63 +592,89 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
       }
 
       // Close loading dialog
-      if (mounted && context.mounted) {
-        Navigator.pop(context);
+      try {
+        if (mounted && context.mounted) {
+          Navigator.pop(context);
+        }
+      } catch (e) {
+        debugPrint('Could not close loading dialog: $e');
       }
 
       // Check if widget and context are still valid before showing result dialog
-      if (!mounted || !context.mounted) return;
+      if (!mounted) {
+        debugPrint('Widget unmounted after import, skipping result dialog');
+        return;
+      }
 
-      // Show result dialog instead of SnackBar to avoid context issues
-      final state = ref.read(userIngredientsProvider);
-      showDialog(
-        context: context,
-        builder: (dialogContext) => AlertDialog(
-          icon: Icon(
-            state.status == 'success' ? Icons.check_circle : Icons.error,
-            color: state.status == 'success' ? Colors.green : Colors.red,
-            size: 48,
-          ),
-          title: Text(state.status == 'success'
-              ? 'Import Successful'
-              : 'Import Failed'),
-          content: Text(state.message),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(dialogContext),
-              child: const Text('OK'),
+      // Show result dialog - wrap in try-catch to handle context issues
+      try {
+        final state = ref.read(userIngredientsProvider);
+        showDialog(
+          context: context,
+          builder: (dialogContext) => AlertDialog(
+            icon: Icon(
+              state.status == 'success' ? Icons.check_circle : Icons.error,
+              color: state.status == 'success' ? Colors.green : Colors.red,
+              size: 48,
             ),
-          ],
-        ),
-      );
+            title: Text(state.status == 'success'
+                ? 'Import Successful'
+                : 'Import Failed'),
+            content: Text(state.message),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(dialogContext),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      } catch (e) {
+        debugPrint('Could not show result dialog: $e');
+        // Fallback: just log the result
+        final state = ref.read(userIngredientsProvider);
+        debugPrint('Import ${state.status}: ${state.message}');
+      }
     } catch (e, stackTrace) {
       // Log the error
       debugPrint('Import error: $e');
       debugPrint('Stack trace: $stackTrace');
 
       // Close loading dialog if open and context is valid
-      if (mounted && context.mounted) {
-        Navigator.of(context).popUntil((route) => route.isFirst);
+      try {
+        if (mounted && context.mounted) {
+          Navigator.of(context).popUntil((route) => route.isFirst);
+        }
+      } catch (e) {
+        debugPrint('Could not close dialogs: $e');
       }
 
-      // Check if widget and context are still valid before showing error dialog
-      if (!mounted || !context.mounted) return;
+      // Check if widget is still mounted before showing error dialog
+      if (!mounted) {
+        debugPrint('Widget unmounted, skipping error dialog');
+        return;
+      }
 
-      // Show error dialog
-      showDialog(
-        context: context,
-        builder: (dialogContext) => AlertDialog(
-          icon: const Icon(Icons.error, color: Colors.red, size: 48),
-          title: const Text('Import Failed'),
-          content: Text('Error: $e'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(dialogContext),
-              child: const Text('OK'),
-            ),
-          ],
-        ),
-      );
+      // Show error dialog - wrap in try-catch to handle context issues
+      try {
+        showDialog(
+          context: context,
+          builder: (dialogContext) => AlertDialog(
+            icon: const Icon(Icons.error, color: Colors.red, size: 48),
+            title: const Text('Import Failed'),
+            content: Text('Error: $e'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(dialogContext),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      } catch (dialogError) {
+        debugPrint('Could not show error dialog: $dialogError');
+        debugPrint('Original error was: $e');
+      }
     }
   }
 }
