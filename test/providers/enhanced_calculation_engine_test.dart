@@ -168,7 +168,7 @@ void main() {
           ingredientId: 1,
           name: 'Cottonseed meal',
           crudeProtein: 41.0,
-          // Cottonseed has 15% max inclusion (hardcoded)
+          maxInclusionPct: 15.0, // 15% max due to gossypol
         );
 
         final corn = Ingredient(
@@ -198,7 +198,7 @@ void main() {
           ingredientId: 1,
           name: 'Cottonseed meal',
           crudeProtein: 41.0,
-          // Cottonseed has 15% max inclusion
+          maxInclusionPct: 15.0, // 15% max due to gossypol
         );
 
         final corn = Ingredient(

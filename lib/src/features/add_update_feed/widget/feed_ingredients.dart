@@ -31,7 +31,7 @@ class FeedIngredientsField extends ConsumerWidget {
 
     return feedIngredients.isNotEmpty
         ? Column(
-            mainAxisSize: MainAxisSize.max,
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             verticalDirection: VerticalDirection.down,
@@ -307,7 +307,13 @@ class _DeleteIngredientDialogState
         children: [
           Icon(Icons.warning, color: Colors.orange[600], size: 28),
           const SizedBox(width: 12),
-          Text('Remove $ingredientName?'),
+          Expanded(
+            child: Text(
+              'Remove $ingredientName?',
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+            ),
+          ),
         ],
       ),
       content: Text(

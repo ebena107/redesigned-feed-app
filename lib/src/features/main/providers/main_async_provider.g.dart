@@ -6,7 +6,7 @@ part of 'main_async_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$asyncMainHash() => r'34070321dd21e57f7f1ba594f425ef09d72e41a0';
+String _$asyncMainHash() => r'93bf6076b77fd667b8d7eeddf4398ded669751cc';
 
 /// Async provider for loading and managing feeds from repository
 /// Handles loading, deletion, and updates with automatic state management

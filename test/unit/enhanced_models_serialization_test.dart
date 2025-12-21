@@ -84,7 +84,8 @@ void main() {
         final json = ingredient.toJson();
 
         expect(json['amino_acids_total'], isNotNull);
-        final decoded = json['amino_acids_total'] as Map;
+        // JSON is encoded as string in toJson(), must decode first
+        final decoded = jsonDecode(json['amino_acids_total'] as String) as Map;
         expect(decoded['lysine'], 6.5);
         expect(decoded['methionine'], 2.0);
       });

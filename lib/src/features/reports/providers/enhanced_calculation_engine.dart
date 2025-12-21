@@ -26,6 +26,7 @@ class EnhancedCalculationEngine {
     required List<FeedIngredients> feedIngredients,
     required Map<num, Ingredient> ingredientCache,
     required num animalTypeId,
+    Map<num, double>? currentPrices,
   }) {
     final totalQuantity = _calcTotalQuantity(feedIngredients);
     if (totalQuantity <= 0 || feedIngredients.isEmpty) {
@@ -38,6 +39,7 @@ class EnhancedCalculationEngine {
       ingredientCache,
       totalQuantity,
       animalTypeId,
+      currentPrices,
     );
 
     // Calculate enhanced (v5) values
@@ -93,6 +95,7 @@ class EnhancedCalculationEngine {
     Map<num, Ingredient> ingredientCache,
     double totalQuantity,
     num animalTypeId,
+    Map<num, double>? currentPrices,
   ) {
     double totalEnergy = 0;
     double totalProtein = 0;
@@ -120,7 +123,11 @@ class EnhancedCalculationEngine {
       totalPhosphorus += (data.phosphorus ?? 0) * qty;
       totalLysine += (data.lysine ?? 0) * qty;
       totalMethionine += (data.methionine ?? 0) * qty;
-      totalCost += (ing.priceUnitKg ?? 0) * qty;
+      // Use latest recorded price when available; fallback to feedIngredient price
+      final overridePrice =
+          currentPrices != null ? currentPrices[ing.ingredientId ?? -1] : null;
+      final pricePerKg = overridePrice ?? (ing.priceUnitKg ?? 0).toDouble();
+      totalCost += pricePerKg * qty;
     }
 
     return {

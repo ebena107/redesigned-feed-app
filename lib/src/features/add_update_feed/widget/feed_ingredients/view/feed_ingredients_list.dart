@@ -125,12 +125,10 @@ class IngredientList extends ConsumerWidget {
               ),
             ),
 
-            // Content area
+            // Content area - Using ListView directly for better performance
             Expanded(
               child: data.filteredIngredients.isNotEmpty
-                  ? SingleChildScrollView(
-                      child: IngredientData(feedId: feedId),
-                    )
+                  ? IngredientData(feedId: feedId)
                   : _buildEmptyState(context),
             ),
           ],

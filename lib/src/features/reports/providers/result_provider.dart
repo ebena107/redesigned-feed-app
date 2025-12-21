@@ -6,6 +6,7 @@ import 'package:feed_estimator/src/features/main/model/feed.dart';
 import 'package:feed_estimator/src/features/main/providers/main_provider.dart';
 import 'package:feed_estimator/src/features/reports/model/result.dart';
 import 'package:feed_estimator/src/features/reports/providers/enhanced_calculation_engine.dart';
+import 'package:feed_estimator/src/features/price_management/repository/price_history_repository.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/foundation.dart';
@@ -241,11 +242,29 @@ class ResultNotifier extends Notifier<ResultsState> {
 
     final animalTypeId = _feed.animalId ?? 1;
 
+    // Resolve current prices for each ingredient from price history
+    final currentPrices = <num, double>{};
+    // Fetch latest prices sequentially to avoid overwhelming the DB
+    try {
+      final repository = ref.read(priceHistoryRepository);
+      for (final ing in ingList) {
+        final id = ing.ingredientId;
+        if (id == null) continue;
+        final latest = await repository.getLatestPrice(id.toInt());
+        if (latest != null) {
+          currentPrices[id] = latest.price;
+        }
+      }
+    } catch (_) {
+      // If price history repo fails, we silently fallback to existing prices
+    }
+
     // Use enhanced v5 calculation engine
     final enhanced = EnhancedCalculationEngine.calculateEnhancedResult(
       feedIngredients: ingList,
       ingredientCache: _ingredientCache,
       animalTypeId: animalTypeId,
+      currentPrices: currentPrices.isNotEmpty ? currentPrices : null,
     );
 
     // CRITICAL FIX: Update state with the complete enhanced result

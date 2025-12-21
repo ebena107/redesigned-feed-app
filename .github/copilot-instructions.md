@@ -2,7 +2,13 @@
 
 ## Project Overview
 
-Flutter livestock feed formulation app for analyzing nutrients in animal feed. Primary users: livestock farmers across Nigeria (largest), India, United States, Kenya, and globally (Europe, Asia, Africa). Current version: 1.0.0+11, actively modernized through phased improvements (see [doc/MODERNIZATION_PLAN.md](../doc/MODERNIZATION_PLAN.md)).
+Flutter livestock feed formulation app for analyzing nutrients in animal feed. Primary users: livestock farmers across Nigeria (largest), India, United States, Kenya, and globally (Europe, Asia, Africa). Current version: 1.0.0+11, actively modernized through phased improvements (Phases 1-3 complete, see [doc/MODERNIZATION_PLAN.md](../doc/MODERNIZATION_PLAN.md)).
+
+## Recent Modernization Notes
+- **DatabaseTimeout utility**: Centralized 30s timeout wrappers live in `lib/src/core/database/database_timeout.dart`. When adding new DB operations, use the helper instead of `Future.timeout` inline. Full integration into `AppDatabase` is pending; do not duplicate timeout logic in repositories.
+- **PaginationHelper**: For long lists, prefer `PaginationHelper` (pageSize=50, preloadThreshold=10) from `lib/src/core/utils/pagination_helper.dart`. Avoid loading entire collections at once.
+- **List virtualization**: Ingredient lists now use `ListView.builder` with `itemExtent` (~48) and no nested `SingleChildScrollView`. Maintain this pattern to keep 60fps scroll.
+- **Instructions source**: Keep this file in sync when adding cross-cutting patterns so new contributors see updated guidance.
 
 ## Architecture Essentials
 
@@ -24,7 +30,7 @@ lib/src/
 ```
 
 ### State Management Pattern
-**Riverpod 2.5.1 with Notifier (NOT StateNotifier)**:
+**Riverpod 2.6.1 with Notifier (NOT StateNotifier)**:
 ```dart
 // Provider pattern
 final feedProvider = NotifierProvider<FeedNotifier, FeedState>(FeedNotifier.new);
@@ -105,7 +111,7 @@ flutter test --coverage         # With coverage report
 
 ### Database Migrations
 **Location**: `lib/src/core/database/app_db.dart`  
-**Current version**: 4 (see `_currentVersion`)
+**Current version**: 8 (see `_currentVersion`)
 
 When modifying schema:
 1. Increment `_currentVersion` constant
@@ -568,17 +574,17 @@ See reference implementations:
 - Applied Tier 1 corrections: fish meal methionine alignment, fiber adjustments
 - Industry validation complete (see `doc/PHASE_2_COMPLETION_REPORT.md`)
 
-**Phase 3 IN PROGRESS** (Harmonized Dataset & Enhanced Calculations):
+**Phase 3 COMPLETE** (Harmonized Dataset & Enhanced Calculations):
 - ✅ New ingredient JSON structure with 10 essential amino acids (total + SID)
 - ✅ Enhanced phosphorus tracking (total, available, phytate)
-- ✅ Inclusion limit validation with safety warnings
-- 🟡 Database migration v4 → v5 (schema expansion, backward compatible)
-- 🟡 Result model enhanced with v5 calculation fields
-- 📋 Next: PDF export with amino acid profiles and warnings
+- ✅ Inclusion limit validation with safety warnings (`InclusionValidator`)
+- ✅ Database migration v4 → v8 (schema expansion, backward compatible)
+- ✅ Result model enhanced with v5 calculation fields
+- ✅ Enhanced calculation engine with comprehensive nutrient tracking
 
-**Calculation Improvements** (Recent):
-- `EnhancedCalculationEngine` supports harmonized v5 ingredients
-- `InclusionLimitValidator` prevents toxic/regulatory violations
+**Calculation Improvements** (Phase 3 Complete):
+- `EnhancedCalculationEngine` ([lib/src/features/reports/providers/enhanced_calculation_engine.dart](../lib/src/features/reports/providers/enhanced_calculation_engine.dart)) supports harmonized v5 ingredients
+- `InclusionValidator` ([lib/src/features/add_update_feed/services/inclusion_validator.dart](../lib/src/features/add_update_feed/services/inclusion_validator.dart)) prevents toxic/regulatory violations
 - All 10 amino acids tracked (lysine, methionine, threonine, tryptophan, cystine, phenylalanine, tyrosine, leucine, isoleucine, valine)
 - Phosphorus breakdown: total, available (bioavailable), phytate (bound)
 - Anti-nutritional factors and regulatory notes collected
@@ -588,9 +594,34 @@ See reference implementations:
 
 Refer to:
 - `doc/PHASE_2_COMPLETION_REPORT.md` - Ingredient audit results
+- `doc/PHASE_3_IMPLEMENTATION_SUMMARY.md` - Phase 3 complete implementation details
 - `doc/HARMONIZED_DATASET_MIGRATION_PLAN.md` - v4→v5 migration strategy
 - `lib/src/features/reports/providers/enhanced_calculation_engine.dart` - Calculation engine
-- `lib/src/features/reports/model/inclusion_limit_validator.dart` - Inclusion validation
+- `lib/src/features/add_update_feed/services/inclusion_validator.dart` - Inclusion validation
+- `lib/src/features/reports/model/inclusion_validation.dart` - Validation data models
+
+### Next Steps (Phase 4 Roadmap)
+
+**Focus Areas** (see `doc/MODERNIZATION_PLAN.md` for full details):
+
+1. **Performance Optimization**:
+   - Memory optimization (lazy loading, pagination for large ingredient lists)
+   - Database query optimization and indexing
+   - Widget rebuild optimization
+
+2. **User-Requested Features** (from 148 Play Store reviews):
+   - Ingredient database expansion (80+ tropical/alternative ingredients)
+   - Dynamic price management (user-editable prices, history tracking)
+   - Inventory management module (stock tracking, alerts)
+   - Enhanced reporting (cost breakdown, batch reports, what-if analysis)
+
+3. **Polish & Compliance**:
+   - Complete localization (multi-language support)
+   - Accessibility improvements (WCAG AA compliance)
+   - Documentation completion (dartdoc coverage)
+   - Dependency security review
+
+**Success Metrics**: 0 errors/warnings, 80%+ test coverage, <2s startup time, 4.7+ rating
 
 ## Form & Input Best Practices
 
@@ -690,7 +721,7 @@ flutter test --coverage          # With coverage report
 - Repository CRUD operations
 - Business logic calculations
 
-Current Coverage: Unit tests passing with comprehensive edge case coverage.
+Current Coverage: Unit tests passing with comprehensive edge case coverage. Target: 80%+ overall coverage (see `doc/MODERNIZATION_PLAN.md` Phase 3-4 goals).
 
 ## Platform Notes
 - **Windows dev primary** (PowerShell commands in instructions)
@@ -699,6 +730,8 @@ Current Coverage: Unit tests passing with comprehensive edge case coverage.
 - **Edge-to-edge UI** with transparent system bars (see [lib/src/feed_app.dart](../lib/src/feed_app.dart))
 
 ## MCP Tools Integration
+
+**Note**: MCP (Model Context Protocol) tools provide enhanced IDE integration when available in your development environment. Use them when present for better workflow automation.
 
 When MCP tools are available, **prefer using them over terminal commands**:
 

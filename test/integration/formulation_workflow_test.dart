@@ -158,7 +158,7 @@ void main() {
         crudeFiber: 12.0,
         aminoAcidsSid: AminoAcidsProfile(lysine: 18.0),
         energy: EnergyValues(nePig: 1950),
-        // Cottonseed has 15% max inclusion (hardcoded in validator)
+        maxInclusionPct: 15.0, // 15% max due to gossypol toxicity
       );
 
       final corn = Ingredient(
@@ -194,6 +194,7 @@ void main() {
         crudeProtein: 38.0,
         aminoAcidsSid: AminoAcidsProfile(lysine: 20.0),
         energy: EnergyValues(nePig: 2000),
+        maxInclusionPct: 10.0, // 10% max for high glucosinolate varieties
         antiNutritionalFactors: AntiNutritionalFactors(
           glucosinolatesMicromolG: 35, // High (>30 μmol/g)
         ),
