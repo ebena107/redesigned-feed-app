@@ -120,11 +120,14 @@ class FeedIngredientsField extends ConsumerWidget {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    // Ingredient name
+                                    // Ingredient name - horizontally scrollable
                                     SizedBox(
                                       width: width * 0.32,
-                                      child: GetIngredientName(
-                                        id: ingredient.ingredientId,
+                                      child: SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                        child: GetIngredientName(
+                                          id: ingredient.ingredientId,
+                                        ),
                                       ),
                                     ),
                                     // Price

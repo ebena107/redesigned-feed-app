@@ -19,6 +19,7 @@ class GetIngredientName extends ConsumerWidget {
       e.name.toString(),
       maxLines: 3,
       softWrap: true,
+      overflow: TextOverflow.ellipsis,
       style: color != null
           ? Theme.of(context).textTheme.bodyMedium!.copyWith(color: color)
           : Theme.of(context)
