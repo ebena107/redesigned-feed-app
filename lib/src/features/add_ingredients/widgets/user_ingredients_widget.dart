@@ -577,6 +577,9 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
       // Close loading dialog
       if (mounted) Navigator.pop(context);
 
+      // Add delay to ensure dialog is fully closed before showing SnackBar
+      await Future.delayed(const Duration(milliseconds: 300));
+
       final state = ref.read(userIngredientsProvider);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -594,11 +597,15 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
         Navigator.of(context).popUntil((route) => route.isFirst);
       }
 
+      // Add delay before showing error SnackBar
+      await Future.delayed(const Duration(milliseconds: 300));
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Import failed: $e'),
             backgroundColor: Colors.red,
+            duration: const Duration(seconds: 3),
           ),
         );
       }
