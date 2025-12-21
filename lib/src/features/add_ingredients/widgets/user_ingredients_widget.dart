@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dart';
 import 'package:feed_estimator/src/features/add_ingredients/provider/user_ingredients_provider.dart';
+import 'package:feed_estimator/src/features/price_management/provider/price_history_provider.dart';
+import 'package:feed_estimator/src/features/price_management/widget/price_trend_chart.dart';
 import 'package:feed_estimator/src/utils/widgets/modern_dialogs.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +23,7 @@ class UserIngredientsWidget extends ConsumerStatefulWidget {
 
 class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
   late TextEditingController _searchController;
+  final Set<int> _expandedCards = {}; // Track which cards are expanded
 
   @override
   void initState() {
@@ -184,117 +187,228 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
     WidgetRef ref,
     Ingredient ingredient,
   ) {
+    final ingredientId = ingredient.ingredientId?.toInt();
+    final isExpanded =
+        ingredientId != null && _expandedCards.contains(ingredientId);
+
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Name and creator
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        ingredient.name ?? 'Unknown',
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleSmall
-                            ?.copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      if (ingredient.createdBy != null)
-                        Text(
-                          'by ${ingredient.createdBy}',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey.shade600,
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-                // Delete button
-                IconButton(
-                  icon: const Icon(Icons.delete_outline, color: Colors.red),
-                  onPressed: () {
-                    _showDeleteConfirmation(context, ref, ingredient);
-                  },
-                ),
-              ],
-            ),
-            const Divider(),
-
-            // Nutritional summary grid
-            GridView.count(
-              crossAxisCount: 3,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              childAspectRatio: 1.5,
-              children: [
-                _nutrientTile(
-                  'Protein',
-                  '${ingredient.crudeProtein ?? 0}%',
-                ),
-                _nutrientTile(
-                  'Fat',
-                  '${ingredient.crudeFat ?? 0}%',
-                ),
-                _nutrientTile(
-                  'Fiber',
-                  '${ingredient.crudeFiber ?? 0}%',
-                ),
-                _nutrientTile(
-                  'Ca',
-                  '${ingredient.calcium ?? 0}%',
-                ),
-                _nutrientTile(
-                  'P',
-                  '${ingredient.phosphorus ?? 0}%',
-                ),
-                _nutrientTile(
-                  'Price',
-                  '\$${ingredient.priceKg ?? 0}',
-                ),
-              ],
-            ),
-
-            if (ingredient.notes != null && ingredient.notes!.isNotEmpty) ...[
-              const SizedBox(height: 8),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.blue.shade50,
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                // Name and creator
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'Notes:',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.blue.shade900,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            ingredient.name ?? 'Unknown',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                          ),
+                          if (ingredient.createdBy != null)
+                            Text(
+                              'by ${ingredient.createdBy}',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey.shade600,
+                              ),
+                            ),
+                        ],
                       ),
                     ),
-                    Text(
-                      ingredient.notes!,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.blue.shade700,
-                      ),
+                    // Delete button
+                    IconButton(
+                      icon: const Icon(Icons.delete_outline, color: Colors.red),
+                      onPressed: () {
+                        _showDeleteConfirmation(context, ref, ingredient);
+                      },
+                    ),
+                  ],
+                ),
+                const Divider(),
+
+                // Nutritional summary grid
+                GridView.count(
+                  crossAxisCount: 3,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  childAspectRatio: 1.5,
+                  children: [
+                    _nutrientTile(
+                      'Protein',
+                      '${ingredient.crudeProtein ?? 0}%',
+                    ),
+                    _nutrientTile(
+                      'Fat',
+                      '${ingredient.crudeFat ?? 0}%',
+                    ),
+                    _nutrientTile(
+                      'Fiber',
+                      '${ingredient.crudeFiber ?? 0}%',
+                    ),
+                    _nutrientTile(
+                      'Ca',
+                      '${ingredient.calcium ?? 0}%',
+                    ),
+                    _nutrientTile(
+                      'P',
+                      '${ingredient.phosphorus ?? 0}%',
+                    ),
+                    _nutrientTile(
+                      'Price',
+                      '\$${ingredient.priceKg ?? 0}',
+                    ),
+                  ],
+                ),
+
+                if (ingredient.notes != null &&
+                    ingredient.notes!.isNotEmpty) ...[
+                  const SizedBox(height: 8),
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.blue.shade50,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Notes:',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.blue.shade900,
+                          ),
+                        ),
+                        Text(
+                          ingredient.notes!,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.blue.shade700,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ),
+
+          // Price History Expandable Section
+          if (ingredientId != null) ...[
+            const Divider(height: 1),
+            InkWell(
+              onTap: () {
+                setState(() {
+                  if (isExpanded) {
+                    _expandedCards.remove(ingredientId);
+                  } else {
+                    _expandedCards.add(ingredientId);
+                  }
+                });
+              },
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.show_chart,
+                          size: 16,
+                          color: Colors.blue.shade700,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          'Price History',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.blue.shade700,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Icon(
+                      isExpanded ? Icons.expand_less : Icons.expand_more,
+                      color: Colors.grey.shade600,
                     ),
                   ],
                 ),
               ),
-            ],
+            ),
           ],
-        ),
+
+          // Expanded Price History Chart
+          if (isExpanded)
+            Consumer(
+              builder: (context, ref, child) {
+                final priceHistoryAsync =
+                    ref.watch(priceHistoryProvider(ingredientId));
+
+                return priceHistoryAsync.when(
+                  data: (priceHistory) {
+                    if (priceHistory.isEmpty) {
+                      return Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Center(
+                          child: Text(
+                            'No price history available',
+                            style: TextStyle(
+                              color: Colors.grey.shade600,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+
+                    return Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: PriceTrendChart(
+                        priceHistory: priceHistory,
+                        currency: 'NGN',
+                      ),
+                    );
+                  },
+                  loading: () => const Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                  error: (error, stack) => Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Center(
+                      child: Text(
+                        'Error loading price history',
+                        style: TextStyle(
+                          color: Colors.red.shade600,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+        ],
       ),
     );
   }
