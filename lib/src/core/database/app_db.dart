@@ -28,7 +28,7 @@ class AppDatabase {
   static final AppDatabase _instance = AppDatabase._();
 
   // Current database version - increment when adding migrations
-  static const int _currentVersion = 9;
+  static const int _currentVersion = 10;
 
   factory AppDatabase() => _instance;
 
@@ -132,6 +132,9 @@ class AppDatabase {
         break;
       case 9:
         await _migrationV8ToV9(db);
+        break;
+      case 10:
+        await _migrationV9ToV10(db);
         break;
       // Add future migrations here
       default:
@@ -373,6 +376,25 @@ class AppDatabase {
     }
 
     debugPrint('Migration 8→9: Complete');
+  }
+
+  /// Migration from v9 to v10: Add production_stage column to feeds table
+  Future<void> _migrationV9ToV10(Database db) async {
+    debugPrint('Migration 9→10: Adding production_stage column to feeds table');
+
+    try {
+      await db.execute('''
+        ALTER TABLE ${FeedRepository.tableName}
+        ADD COLUMN ${FeedRepository.colProductionStage} TEXT
+      ''');
+
+      debugPrint('Migration 9→10: production_stage column added successfully');
+    } catch (e) {
+      debugPrint('Migration 9→10: Error adding production_stage column: $e');
+      rethrow;
+    }
+
+    debugPrint('Migration 9→10: Complete');
   }
 
   /// this should be run when the database is being created

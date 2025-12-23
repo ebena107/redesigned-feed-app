@@ -26,12 +26,14 @@ class FeedRepository implements Repository {
   static const colId = 'feed_id';
   static const colFeedName = 'feed_name';
   static const colAnimalTypeId = 'animal_id';
+  static const colProductionStage = 'production_stage';
   static const colTimestampModified = 'timestamp_modified';
 
   static const tableCreateQuery = 'CREATE TABLE $tableName ('
       '$colId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, '
       '$colFeedName TEXT NOT NULL UNIQUE, '
       '$colAnimalTypeId INTEGER NOT NULL, '
+      '$colProductionStage TEXT, '
       '''$colTimestampModified INTEGER DEFAULT (cast(strftime('%s','now') as INT)), '''
       'FOREIGN KEY($colAnimalTypeId) REFERENCES ${AnimalTypeRepository.tableName}(${AnimalTypeRepository.colId}) ON DELETE NO ACTION ON UPDATE NO ACTION'
       ')';
@@ -40,10 +42,11 @@ class FeedRepository implements Repository {
       '$columns ) VALUES (';
 
   static const columns =
-      '$colId, $colFeedName, $colAnimalTypeId, $colTimestampModified';
+      '$colId, $colFeedName, $colAnimalTypeId, $colProductionStage, $colTimestampModified';
   static const columnsCreate = [
     colFeedName,
     colAnimalTypeId,
+    colProductionStage,
     colTimestampModified
   ];
 

@@ -40,6 +40,10 @@ class Result {
     this.aminoAcidsSidJson,
     this.energyJson,
     this.warningsJson,
+    // Context fields for report display
+    this.feedName,
+    this.animalTypeName,
+    this.productionStage,
   });
 
   Result.fromJson(dynamic json) {
@@ -65,6 +69,10 @@ class Result {
     aminoAcidsSidJson = json['aminoAcidsSidJson'];
     energyJson = json['energyJson'];
     warningsJson = json['warningsJson'];
+    // Context fields
+    feedName = json['feedName'];
+    animalTypeName = json['animalTypeName'];
+    productionStage = json['productionStage'];
   }
 
   // ===== LEGACY FIELDS (v4) =====
@@ -95,6 +103,11 @@ class Result {
   String?
       warningsJson; // List<String> of calculation warnings and inclusions issues
 
+  // ===== CONTEXT FIELDS (for report display) =====
+  String? feedName; // Name of the feed being analyzed
+  String? animalTypeName; // Animal type (e.g., "Pig", "Poultry")
+  String? productionStage; // Production stage (e.g., "Grower", "Starter")
+
   Result copyWith({
     num? feedId,
     num? mEnergy,
@@ -117,6 +130,9 @@ class Result {
     String? aminoAcidsSidJson,
     String? energyJson,
     String? warningsJson,
+    String? feedName,
+    String? animalTypeName,
+    String? productionStage,
   }) =>
       Result(
         feedId: feedId ?? this.feedId,
@@ -140,7 +156,11 @@ class Result {
         aminoAcidsSidJson: aminoAcidsSidJson ?? this.aminoAcidsSidJson,
         energyJson: energyJson ?? this.energyJson,
         warningsJson: warningsJson ?? this.warningsJson,
+        feedName: feedName ?? this.feedName,
+        animalTypeName: animalTypeName ?? this.animalTypeName,
+        productionStage: productionStage ?? this.productionStage,
       );
+
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['feedId'] = feedId;
@@ -165,6 +185,10 @@ class Result {
     map['aminoAcidsSidJson'] = aminoAcidsSidJson;
     map['energyJson'] = energyJson;
     map['warningsJson'] = warningsJson;
+    // Context fields
+    map['feedName'] = feedName;
+    map['animalTypeName'] = animalTypeName;
+    map['productionStage'] = productionStage;
     return map;
   }
 

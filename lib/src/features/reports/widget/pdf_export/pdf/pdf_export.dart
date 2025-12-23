@@ -86,6 +86,16 @@ Future<Uint8List> makePdf(
                       Text(
                           "animal Type : ${animalName(id: feed.animalId as int)}",
                           style: Theme.of(context).header4),
+                      // Production Stage
+                      if (feed.productionStage != null &&
+                          feed.productionStage!.isNotEmpty) ...[
+                        SizedBox(height: 10),
+                        Text("Production Stage: ${feed.productionStage}",
+                            style: Theme.of(context).header4.copyWith(
+                                  color: PdfColors.green700,
+                                  fontWeight: FontWeight.bold,
+                                )),
+                      ],
                       SizedBox(height: 10),
                       Text(
                           "Last Modified : ${secondToDate(feed.timestampModified as int)}",

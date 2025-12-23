@@ -1,4 +1,5 @@
 import 'package:feed_estimator/src/core/database/app_db.dart';
+import 'package:feed_estimator/src/core/constants/animal_categories.dart';
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dart';
 
 import 'package:feed_estimator/src/features/add_ingredients/repository/ingredients_repository.dart';
@@ -267,9 +268,17 @@ class ResultNotifier extends Notifier<ResultsState> {
       currentPrices: currentPrices.isNotEmpty ? currentPrices : null,
     );
 
+    // Add context fields for report display (feedName, animalTypeName, productionStage)
+    final animalTypeName = AnimalCategoryMapper.getAnimalTypeName(animalTypeId);
+    final enhancedWithContext = enhanced.copyWith(
+      feedName: _feed.feedName,
+      animalTypeName: animalTypeName,
+      productionStage: _feed.productionStage,
+    );
+
     // CRITICAL FIX: Update state with the complete enhanced result
     // This ensures all v5 fields (ash, moisture, amino acids, warnings, etc.) are available
-    state = state.copyWith(myResult: enhanced);
+    state = state.copyWith(myResult: enhancedWithContext);
   }
 
   double _calcTotalQuantity(List<FeedIngredients> ingList) {

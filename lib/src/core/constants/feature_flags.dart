@@ -72,10 +72,12 @@ class FeatureFlags {
   /// - Feed form includes stage dropdown (nursery, starter, grower, etc.)
   /// - Inclusion limits use stage-specific values from `max_inclusion_json`
   /// - Results show stage-appropriate recommendations
+  /// - Production stage is persisted to database and included in reports
   ///
   /// When `false`:
   /// - Generic limits used (pig, poultry, etc.)
-  static const bool enableProductionStageSelector = false; // Enable in P4
+  static const bool enableProductionStageSelector =
+      true; // ✅ ENABLED - Phase 4.5
 
   /// Enable enhanced calculation engine with v5 features
   ///
