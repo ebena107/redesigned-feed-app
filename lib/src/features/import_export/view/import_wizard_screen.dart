@@ -544,48 +544,54 @@ class _ConflictResolutionStep extends ConsumerWidget {
     MergeStrategy currentStrategy,
   ) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        RadioListTile<MergeStrategy>(
-          title: const Text('Skip'),
-          subtitle: const Text('Keep existing, discard imported'),
-          value: MergeStrategy.skip,
-          groupValue: currentStrategy,
-          onChanged: (value) {
-            if (value != null) {
-              ref
-                  .read(importWizardProvider.notifier)
-                  .setConflictDecision(conflict, value);
-            }
+        SegmentedButton<MergeStrategy>(
+          segments: const [
+            ButtonSegment(
+              value: MergeStrategy.skip,
+              label: Text('Skip'),
+              tooltip: 'Keep existing, discard imported',
+            ),
+            ButtonSegment(
+              value: MergeStrategy.replace,
+              label: Text('Replace'),
+              tooltip: 'Replace existing with imported data',
+            ),
+            ButtonSegment(
+              value: MergeStrategy.merge,
+              label: Text('Merge'),
+              tooltip: 'Combine best values from both',
+            ),
+          ],
+          selected: {currentStrategy},
+          onSelectionChanged: (selection) {
+            final value = selection.first;
+            ref
+                .read(importWizardProvider.notifier)
+                .setConflictDecision(conflict, value);
           },
         ),
-        RadioListTile<MergeStrategy>(
-          title: const Text('Replace'),
-          subtitle: const Text('Replace existing with imported data'),
-          value: MergeStrategy.replace,
-          groupValue: currentStrategy,
-          onChanged: (value) {
-            if (value != null) {
-              ref
-                  .read(importWizardProvider.notifier)
-                  .setConflictDecision(conflict, value);
-            }
-          },
-        ),
-        RadioListTile<MergeStrategy>(
-          title: const Text('Merge'),
-          subtitle: const Text('Combine best values from both'),
-          value: MergeStrategy.merge,
-          groupValue: currentStrategy,
-          onChanged: (value) {
-            if (value != null) {
-              ref
-                  .read(importWizardProvider.notifier)
-                  .setConflictDecision(conflict, value);
-            }
-          },
+        const SizedBox(height: 8),
+        Text(
+          _strategyDescription(currentStrategy),
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Colors.grey[700],
+              ),
         ),
       ],
     );
+  }
+
+  String _strategyDescription(MergeStrategy strategy) {
+    switch (strategy) {
+      case MergeStrategy.skip:
+        return 'Keep the existing ingredient and ignore the imported entry.';
+      case MergeStrategy.replace:
+        return 'Overwrite the existing ingredient with the imported values.';
+      case MergeStrategy.merge:
+        return 'Combine the best fields from both existing and imported rows.';
+    }
   }
 
   Widget _buildActionButtons(BuildContext context, WidgetRef ref) {
