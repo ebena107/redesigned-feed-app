@@ -261,11 +261,6 @@ void main() {
           crudeProtein: 64.0, // 6% difference
         );
 
-        final similarity = ConflictDetector.calculateSimilarity(
-          imported.name ?? '',
-          existing.name ?? '',
-        );
-
         // For this test, we'll manually check the protein diff
         expect((imported.crudeProtein ?? 0) - (existing.crudeProtein ?? 0),
             greaterThan(5));

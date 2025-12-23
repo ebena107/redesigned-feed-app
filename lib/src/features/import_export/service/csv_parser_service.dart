@@ -180,7 +180,7 @@ class CsvParserService {
 
   /// Validate required fields are present
   /// For basic import: name, crude_protein required
-  /// Returns: List<ValidationError> (empty if valid)
+  /// Returns: List\<ValidationError\> (empty if valid)
   static List<ValidationError> validateHeaders(List<String> headers) {
     final errors = <ValidationError>[];
 
@@ -202,7 +202,7 @@ class CsvParserService {
   }
 
   /// Parse and validate data rows
-  /// Returns: List<CSVRow> with parsed values
+  /// Returns: List\<CSVRow\> with parsed values
   /// Rows with critical errors are marked as invalid
   static List<CSVRow> parseDataRows(
     List<String> headers,

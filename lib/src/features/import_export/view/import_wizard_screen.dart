@@ -50,7 +50,7 @@ class ImportWizardScreen extends ConsumerWidget {
     final currentIndex = steps.indexOf(currentStep);
 
     return Container(
-      padding: UIConstants.paddingNormal,
+      padding: EdgeInsets.all(UIConstants.paddingNormal),
       decoration: BoxDecoration(
         color: Colors.grey[100],
         border: Border(
@@ -100,7 +100,7 @@ class ImportWizardScreen extends ConsumerWidget {
             color: isCompleted
                 ? AppConstants.mainAppColor
                 : isActive
-                    ? AppConstants.mainAppColor.withOpacity(0.2)
+                    ? AppConstants.mainAppColor.withValues(alpha: 0.2)
                     : Colors.grey[300],
           ),
           child: Center(
@@ -171,7 +171,7 @@ class ImportWizardScreen extends ConsumerWidget {
   Widget _buildErrorView(String error, BuildContext context, WidgetRef ref) {
     return Center(
       child: Padding(
-        padding: UIConstants.paddingLarge,
+        padding: EdgeInsets.all(UIConstants.paddingLarge),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -221,7 +221,7 @@ class ImportWizardScreen extends ConsumerWidget {
     // Import complete
     return Center(
       child: Padding(
-        padding: UIConstants.paddingLarge,
+        padding: EdgeInsets.all(UIConstants.paddingLarge),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -261,7 +261,7 @@ class _FileSelectionStep extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Center(
       child: Padding(
-        padding: UIConstants.paddingLarge,
+        padding: EdgeInsets.all(UIConstants.paddingLarge),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -326,10 +326,10 @@ class _DataPreviewStep extends ConsumerWidget {
     return Column(
       children: [
         Padding(
-          padding: UIConstants.paddingNormal,
+          padding: EdgeInsets.all(UIConstants.paddingNormal),
           child: Card(
             child: Padding(
-              padding: UIConstants.paddingNormal,
+              padding: EdgeInsets.all(UIConstants.paddingNormal),
               child: Row(
                 children: [
                   Icon(Icons.info_outline, color: AppConstants.mainAppColor),
@@ -356,7 +356,7 @@ class _DataPreviewStep extends ConsumerWidget {
         ),
         Expanded(
           child: ListView.builder(
-            padding: UIConstants.paddingNormal,
+            padding: EdgeInsets.all(UIConstants.paddingNormal),
             itemCount: ingredients.length,
             itemBuilder: (context, index) {
               final ing = ingredients[index];
@@ -364,7 +364,8 @@ class _DataPreviewStep extends ConsumerWidget {
                 margin: const EdgeInsets.only(bottom: 8),
                 child: ListTile(
                   leading: CircleAvatar(
-                    backgroundColor: AppConstants.mainAppColor.withOpacity(0.2),
+                    backgroundColor:
+                        AppConstants.mainAppColor.withValues(alpha: 0.2),
                     child: Text(
                       '${index + 1}',
                       style: const TextStyle(
@@ -384,10 +385,10 @@ class _DataPreviewStep extends ConsumerWidget {
           ),
         ),
         Container(
-          padding: UIConstants.paddingNormal,
+          padding: EdgeInsets.all(UIConstants.paddingNormal),
           decoration: BoxDecoration(
             color: Colors.white,
-            boxShadow: [UIConstants.lightShadow],
+            boxShadow: UIConstants.lightShadow,
           ),
           child: Row(
             children: [
@@ -465,11 +466,11 @@ class _ConflictResolutionStep extends ConsumerWidget {
     return Column(
       children: [
         Padding(
-          padding: UIConstants.paddingNormal,
+          padding: EdgeInsets.all(UIConstants.paddingNormal),
           child: Card(
             color: Colors.orange[50],
             child: Padding(
-              padding: UIConstants.paddingNormal,
+              padding: EdgeInsets.all(UIConstants.paddingNormal),
               child: Row(
                 children: [
                   Icon(Icons.warning_amber, color: Colors.orange[700]),
@@ -488,7 +489,7 @@ class _ConflictResolutionStep extends ConsumerWidget {
         ),
         Expanded(
           child: ListView.builder(
-            padding: UIConstants.paddingNormal,
+            padding: EdgeInsets.all(UIConstants.paddingNormal),
             itemCount: conflicts.length,
             itemBuilder: (context, index) {
               final conflict = conflicts[index];
@@ -498,7 +499,7 @@ class _ConflictResolutionStep extends ConsumerWidget {
               return Card(
                 margin: const EdgeInsets.only(bottom: 12),
                 child: Padding(
-                  padding: UIConstants.paddingNormal,
+                  padding: EdgeInsets.all(UIConstants.paddingNormal),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -512,8 +513,8 @@ class _ConflictResolutionStep extends ConsumerWidget {
                           ),
                           Chip(
                             label: Text(conflict.similarityText),
-                            backgroundColor:
-                                AppConstants.mainAppColor.withOpacity(0.2),
+                            backgroundColor: AppConstants.mainAppColor
+                                .withValues(alpha: 0.2),
                           ),
                         ],
                       ),
@@ -589,10 +590,10 @@ class _ConflictResolutionStep extends ConsumerWidget {
 
   Widget _buildActionButtons(BuildContext context, WidgetRef ref) {
     return Container(
-      padding: UIConstants.paddingNormal,
+      padding: EdgeInsets.all(UIConstants.paddingNormal),
       decoration: BoxDecoration(
         color: Colors.white,
-        boxShadow: [UIConstants.lightShadow],
+        boxShadow: UIConstants.lightShadow,
       ),
       child: Row(
         children: [

@@ -46,7 +46,7 @@ class ConflictDetector {
   }
 
   /// Find potential duplicates
-  /// Returns: List<ConflictPair> (imported ↔ existing)
+  /// Returns: List\<ConflictPair\> (imported ↔ existing)
   static List<ConflictPair> findDuplicates({
     required List<Ingredient> importedList,
     required List<Ingredient> existingList,

@@ -123,7 +123,7 @@ class ImportWizardNotifier extends Notifier<ImportWizardState> {
       }
 
       AppLogger.info(
-        'Parsed CSV: ${ingredients.length} ingredients from ${filePath}',
+        'Parsed CSV: ${ingredients.length} ingredients from $filePath',
         tag: _tag,
       );
 
