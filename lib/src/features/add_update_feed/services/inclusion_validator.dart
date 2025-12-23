@@ -1,5 +1,6 @@
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dart';
 import 'package:feed_estimator/src/features/main/model/feed.dart';
+import 'package:feed_estimator/src/core/constants/animal_categories.dart';
 
 /// Validates ingredient inclusion rates against safety limits
 ///
@@ -110,21 +111,45 @@ class InclusionValidator {
 
   /// Get max inclusion for specific animal type
   ///
-  /// Currently uses simple maxInclusionPct field.
-  /// Future enhancement: Parse complex max_inclusion JSON structure
-  /// with animal-specific limits (e.g., {"pig_grower": 15, "pig_finisher": 20})
+  /// Checks per-animal category limits in maxInclusionJson using
+  /// AnimalCategoryMapper to determine category preference list.
+  /// Falls back to maxInclusionPct and hardcoded rules.
   static double? _getMaxInclusionForAnimal(
     Ingredient ingredient,
     num animalTypeId,
   ) {
-    // Simple percentage value
+    // 1) Prefer JSON-based per-animal/category limits when available
+    final map = ingredient.maxInclusionJson;
+    if (map != null && map.isNotEmpty) {
+      // Get preference list from AnimalCategoryMapper
+      final preference =
+          AnimalCategoryMapper.getCategoryPreferencesForAnimalType(
+              animalTypeId);
+
+      // Try preferred keys first
+      for (final key in preference) {
+        final val = map[key];
+        if (val is num) return val.toDouble();
+      }
+      // Common fallbacks
+      for (final key in const ['default', 'all', 'any']) {
+        final val = map[key];
+        if (val is num) return val.toDouble();
+      }
+      // Last resort: pick the most conservative (minimum positive) limit
+      final numericValues = map.values.whereType<num>().toList()
+        ..removeWhere((e) => e <= 0);
+      if (numericValues.isNotEmpty) {
+        numericValues.sort();
+        return numericValues.first.toDouble();
+      }
+    }
+
+    // 2) Fallback to simple percentage value
     if (ingredient.maxInclusionPct != null) {
       return ingredient.maxInclusionPct!.toDouble();
     }
 
-    // TODO: Parse complex max_inclusion JSON from ingredient data
-    // This requires adding a new field to Ingredient model for
-    // animal-specific inclusion limits
     return null;
   }
 }

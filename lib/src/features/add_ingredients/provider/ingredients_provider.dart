@@ -1,4 +1,6 @@
 import 'package:feed_estimator/src/core/models/validation_model.dart';
+import 'package:feed_estimator/src/core/services/data_import_service.dart';
+import 'package:feed_estimator/src/core/utils/logger.dart';
 
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dart';
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient_category.dart';
@@ -289,10 +291,33 @@ class IngredientNotifier extends Notifier<IngredientState> {
   }
 
   loadIngredients() async {
-    final ingList = await ref.watch(ingredientsRepository).getAll();
+    try {
+      // Check if ingredients need to be imported
+      final importService = ref.read(dataImportService);
+      final imported = await importService.importIngredients();
 
-    state = state.copyWith(ingredients: ingList);
-    await searchIngredients("");
+      if (imported > 0) {
+        AppLogger.info(
+          'Imported $imported ingredients on first launch',
+          tag: 'IngredientNotifier',
+        );
+      }
+
+      // Load ingredients from database
+      final ingList = await ref.watch(ingredientsRepository).getAll();
+
+      state = state.copyWith(ingredients: ingList);
+      await searchIngredients("");
+    } catch (e, stackTrace) {
+      AppLogger.error(
+        'Failed to load ingredients',
+        tag: 'IngredientNotifier',
+        error: e,
+        stackTrace: stackTrace,
+      );
+      // Set empty list on error to prevent app crash
+      state = state.copyWith(ingredients: []);
+    }
   }
 
   Future<void> loadCategories() async {

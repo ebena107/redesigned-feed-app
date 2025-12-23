@@ -2,6 +2,7 @@ import 'package:feed_estimator/src/features/About/about.dart';
 import 'package:feed_estimator/src/features/add_ingredients/view/new_ingredient.dart';
 import 'package:feed_estimator/src/features/add_update_feed/view/add_update_feed.dart';
 import 'package:feed_estimator/src/features/add_update_feed/widget/feed_ingredients/view/feed_ingredients_list.dart';
+import 'package:feed_estimator/src/features/import_export/view/import_wizard_screen.dart';
 import 'package:feed_estimator/src/features/main/model/feed.dart';
 import 'package:feed_estimator/src/features/main/view/feed_home.dart';
 import 'package:feed_estimator/src/features/reports/view/report.dart';
@@ -52,12 +53,17 @@ part 'routes.g.dart';
       path: '/newIngredient',
     ),
 
-    // 4. SETTINGS
+    // 4. IMPORT WIZARD
+    TypedGoRoute<ImportWizardRoute>(
+      path: '/importWizard',
+    ),
+
+    // 5. SETTINGS
     TypedGoRoute<SettingsRoute>(
       path: '/settings',
     ),
 
-    // 5. ABOUT
+    // 6. ABOUT
     TypedGoRoute<AboutRoute>(
       path: '/about',
     ),
@@ -110,6 +116,14 @@ class NewIngredientRoute extends GoRouteData {
     final id = ingredientId ?? state.uri.queryParameters['ingredientId'];
     return NewIngredient(ingredientId: id);
   }
+}
+
+@immutable
+class ImportWizardRoute extends GoRouteData {
+  const ImportWizardRoute();
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const ImportWizardScreen();
 }
 
 @immutable

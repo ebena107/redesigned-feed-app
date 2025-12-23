@@ -61,6 +61,10 @@ RouteBase get $homeRoute => GoRouteData.$route(
           factory: $NewIngredientRouteExtension._fromState,
         ),
         GoRouteData.$route(
+          path: '/importWizard',
+          factory: $ImportWizardRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
           path: '/settings',
           factory: $SettingsRouteExtension._fromState,
         ),
@@ -282,6 +286,24 @@ extension $NewIngredientRouteExtension on NewIngredientRoute {
         queryParams: {
           if (ingredientId != null) 'ingredient-id': ingredientId,
         },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $ImportWizardRouteExtension on ImportWizardRoute {
+  static ImportWizardRoute _fromState(GoRouterState state) =>
+      const ImportWizardRoute();
+
+  String get location => GoRouteData.$location(
+        '/importWizard',
       );
 
   void go(BuildContext context) => context.go(location);

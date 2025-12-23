@@ -1,5 +1,7 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:feed_estimator/src/core/constants/ui_constants.dart';
+import 'package:feed_estimator/src/core/constants/feature_flags.dart';
+import 'package:feed_estimator/src/core/constants/animal_categories.dart';
 import 'package:feed_estimator/src/core/utils/input_validators.dart';
 import 'package:feed_estimator/src/core/utils/logger.dart';
 import 'package:feed_estimator/src/core/utils/widget_builders.dart';
@@ -33,6 +35,13 @@ class FeedInfo extends StatelessWidget {
           width: UIConstants.fieldWidth,
           child: AnimalTypeField(feedId: feedId),
         ),
+        if (FeatureFlags.enableProductionStageSelector) ...[
+          const SizedBox(height: UIConstants.paddingMedium),
+          SizedBox(
+            width: UIConstants.fieldWidth,
+            child: ProductionStageField(feedId: feedId),
+          ),
+        ],
         const SizedBox(height: UIConstants.paddingMedium),
         SizedBox(
           width: UIConstants.fieldWidth,
@@ -223,6 +232,116 @@ class AnimalTypeField extends ConsumerWidget {
                   );
               AppLogger.debug('Animal type changed to: $id', tag: _tag);
             }
+          },
+        ),
+      ),
+    );
+  }
+}
+
+///Production Stage Field (Pig Grower, Broiler Starter, etc.)
+///
+///Allows granular animal category selection for precise inclusion limits
+class ProductionStageField extends ConsumerWidget {
+  final int? feedId;
+  const ProductionStageField({
+    super.key,
+    this.feedId,
+  });
+
+  @override
+  Widget build(BuildContext context, ref) {
+    final feedState = ref.watch(feedProvider);
+    final animalTypeId = feedState.animalTypeId;
+    final isEdit = feedId != null;
+
+    // Get available stages for selected animal type
+    // Only show if animal type is selected (non-zero)
+    final availableStages = animalTypeId != 0
+        ? AnimalCategoryMapper.getCategoryPreferencesForAnimalType(animalTypeId)
+        : <String>[];
+
+    if (availableStages.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    if (isEdit) {
+      // Show read-only display for edit mode
+      final currentStage = feedState.productionStage;
+      if (currentStage == null || currentStage.isEmpty) {
+        return const SizedBox.shrink();
+      }
+
+      // Format stage for display (e.g., "pig_grower" → "Pig Grower")
+      final displayStage = currentStage
+          .split('_')
+          .map((word) => word[0].toUpperCase() + word.substring(1))
+          .join(' ');
+
+      return WidgetBuilders.buildReadOnlyField(
+        value: displayStage,
+        borderColor: AppConstants.appCarrotColor,
+        icon: const Icon(
+          Icons.category,
+          color: AppConstants.appIconGreyColor,
+          size: UIConstants.iconMedium,
+        ),
+      );
+    }
+
+    // Editable dropdown for new feed
+    return Container(
+      padding: UIConstants.paddingHorizontalMedium,
+      height: UIConstants.fieldHeight,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
+        border: Border.all(
+          color: AppConstants.appBlueColor,
+          width: UIConstants.borderWidthThick,
+        ),
+      ),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          value: feedState.productionStage,
+          isExpanded: true,
+          isDense: false,
+          hint: const Text('Select Production Stage (Optional)'),
+          icon: const Icon(
+            Icons.arrow_drop_down_circle,
+            color: AppConstants.appBlueColor,
+            size: UIConstants.iconLarge,
+          ),
+          borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
+          dropdownColor: AppConstants.appBackgroundColor,
+          elevation: UIConstants.cardElevation.toInt(),
+          items: [
+            const DropdownMenuItem<String>(
+              value: null,
+              child: Text(
+                'None (General)',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+            ),
+            ...availableStages.map((stage) {
+              // Format stage for display (e.g., "pig_grower" → "Pig Grower")
+              final displayStage = stage
+                  .split('_')
+                  .map((word) => word[0].toUpperCase() + word.substring(1))
+                  .join(' ');
+
+              return DropdownMenuItem<String>(
+                value: stage,
+                child: Text(
+                  displayStage,
+                  textAlign: TextAlign.center,
+                ),
+              );
+            }),
+          ],
+          onChanged: (stage) {
+            ref.read(feedProvider.notifier).setProductionStage(stage);
+            AppLogger.debug('Production stage changed to: $stage', tag: _tag);
           },
         ),
       ),

@@ -36,6 +36,10 @@ class Ingredient {
   Ingredient({
     this.ingredientId,
     this.name,
+    this.standardizedName,
+    this.standardReference,
+    this.isStandardsBased,
+    this.separationNotes,
     this.crudeProtein,
     this.crudeFiber,
     this.crudeFat,
@@ -71,11 +75,27 @@ class Ingredient {
     this.energy,
     this.antiNutritionalFactors,
     this.maxInclusionPct,
+    this.maxInclusionJson,
     this.warning,
     this.regulatoryNote,
   });
 
   factory Ingredient.fromJson(dynamic json) {
+    // Helper to safely parse numeric values that may arrive as String/num
+    num? asNum(dynamic v) {
+      if (v == null) return null;
+      if (v is num) return v;
+      if (v is String) {
+        final s = v.trim();
+        if (s.isEmpty) return null;
+        final d = double.tryParse(s);
+        if (d != null) return d;
+        final i = int.tryParse(s);
+        if (i != null) return i;
+      }
+      return null;
+    }
+
     // Parse energy field - can be Map (from JSON file) or String (from database)
     EnergyValues? parsedEnergy;
     if (json['energy'] != null) {
@@ -123,29 +143,66 @@ class Ingredient {
 
     // Extract legacy fields from v5 fields if not present in JSON
     // This handles the case where JSON has amino_acids_total.lysine but not top-level lysine
-    final lysineValue = json['lysine'] ?? (parsedAminoAcidsTotal?.lysine);
+    final lysineValue =
+        asNum(json['lysine']) ?? (parsedAminoAcidsTotal?.lysine);
     final methionineValue =
-        json['methionine'] ?? (parsedAminoAcidsTotal?.methionine);
-    final phosphorusValue = json['phosphorus'] ?? json['total_phosphorus'];
+        asNum(json['methionine']) ?? (parsedAminoAcidsTotal?.methionine);
+    final phosphorusValue =
+        asNum(json['phosphorus']) ?? asNum(json['total_phosphorus']);
 
     // CRITICAL FIX: Extract legacy energy fields from v5 energy object
     // The JSON file uses the new "energy" object structure, but the calculation
     // engine still relies on legacy fields (meGrowingPig, mePoultry, etc.)
-    final meGrowingPigValue = json['me_growing_pig'] ?? parsedEnergy?.mePig;
-    final meAdultPigValue = json['me_adult_pig'] ?? parsedEnergy?.mePig;
-    final mePoultryValue = json['me_poultry'] ?? parsedEnergy?.mePoultry;
-    final meRuminantValue = json['me_ruminant'] ?? parsedEnergy?.meRuminant;
-    final meRabbitValue = json['me_rabbit'] ?? parsedEnergy?.meRabbit;
-    final deSalmonidsValue = json['de_salmonids'] ?? parsedEnergy?.deSalmonids;
+    final meGrowingPigValue =
+        asNum(json['me_growing_pig']) ?? parsedEnergy?.mePig;
+    final meAdultPigValue = asNum(json['me_adult_pig']) ?? parsedEnergy?.mePig;
+    final mePoultryValue = asNum(json['me_poultry']) ?? parsedEnergy?.mePoultry;
+    final meRuminantValue =
+        asNum(json['me_ruminant']) ?? parsedEnergy?.meRuminant;
+    final meRabbitValue = asNum(json['me_rabbit']) ?? parsedEnergy?.meRabbit;
+    final deSalmonidsValue =
+        asNum(json['de_salmonids']) ?? parsedEnergy?.deSalmonids;
+
+    // Parse standards fields
+    final String? parsedStandardizedName = json['standardized_name'];
+    final String? parsedStandardReference = json['standard_reference'];
+    num? parsedIsStandardsBased;
+    final isStd = json['is_standards_based'];
+    if (isStd is bool) {
+      parsedIsStandardsBased = isStd ? 1 : 0;
+    } else {
+      parsedIsStandardsBased = asNum(isStd);
+    }
+    final String? parsedSeparationNotes = json['separation_notes'];
+
+    // Parse max_inclusion_json which may be a JSON string or map
+    Map<String, dynamic>? parsedMaxInclusionJson;
+    if (json['max_inclusion_json'] != null) {
+      try {
+        if (json['max_inclusion_json'] is String) {
+          parsedMaxInclusionJson =
+              jsonDecode(json['max_inclusion_json']) as Map<String, dynamic>;
+        } else if (json['max_inclusion_json'] is Map) {
+          parsedMaxInclusionJson =
+              Map<String, dynamic>.from(json['max_inclusion_json']);
+        }
+      } catch (_) {
+        parsedMaxInclusionJson = null;
+      }
+    }
 
     final ingredient = Ingredient(
       // CRITICAL FIX: Handle both 'id' (from JSON file) and 'ingredient_id' (from database)
-      ingredientId: json['ingredient_id'] ?? json['id'],
+      ingredientId: asNum(json['ingredient_id'] ?? json['id']),
       name: json['name'],
-      crudeProtein: json['crude_protein'],
-      crudeFiber: json['crude_fiber'],
-      crudeFat: json['crude_fat'],
-      calcium: json['calcium'],
+      standardizedName: parsedStandardizedName,
+      standardReference: parsedStandardReference,
+      isStandardsBased: parsedIsStandardsBased,
+      separationNotes: parsedSeparationNotes,
+      crudeProtein: asNum(json['crude_protein']),
+      crudeFiber: asNum(json['crude_fiber']),
+      crudeFat: asNum(json['crude_fat']),
+      calcium: asNum(json['calcium']),
       phosphorus: phosphorusValue,
       lysine: lysineValue,
       methionine: methionineValue,
@@ -155,27 +212,28 @@ class Ingredient {
       meRuminant: meRuminantValue,
       meRabbit: meRabbitValue,
       deSalmonids: deSalmonidsValue,
-      priceKg: json['price_kg'],
-      availableQty: json['available_qty'],
-      categoryId: json['category_id'],
-      favourite: json['favourite'],
-      isCustom: json['is_custom'],
+      priceKg: asNum(json['price_kg']),
+      availableQty: asNum(json['available_qty']),
+      categoryId: asNum(json['category_id']),
+      favourite: asNum(json['favourite']),
+      isCustom: asNum(json['is_custom']),
       createdBy: json['created_by'],
-      createdDate: json['created_date'],
+      createdDate: asNum(json['created_date']),
       notes: json['notes'],
-      ash: json['ash'],
-      moisture: json['moisture'],
-      starch: json['starch'],
-      bulkDensity: json['bulk_density'],
-      totalPhosphorus: json['total_phosphorus'],
-      availablePhosphorus: json['available_phosphorus'],
-      phytatePhosphorus: json['phytate_phosphorus'],
-      meFinishingPig: json['me_finishing_pig'],
+      ash: asNum(json['ash']),
+      moisture: asNum(json['moisture']),
+      starch: asNum(json['starch']),
+      bulkDensity: asNum(json['bulk_density']),
+      totalPhosphorus: asNum(json['total_phosphorus']),
+      availablePhosphorus: asNum(json['available_phosphorus']),
+      phytatePhosphorus: asNum(json['phytate_phosphorus']),
+      meFinishingPig: asNum(json['me_finishing_pig']),
       aminoAcidsTotal: parsedAminoAcidsTotal,
       aminoAcidsSid: parsedAminoAcidsSid,
       energy: parsedEnergy,
       antiNutritionalFactors: parsedAntiNutritionalFactors,
-      maxInclusionPct: json['max_inclusion_pct'],
+      maxInclusionPct: asNum(json['max_inclusion_pct']),
+      maxInclusionJson: parsedMaxInclusionJson,
       warning: json['warning'],
       regulatoryNote: json['regulatory_note'],
     );
@@ -186,6 +244,11 @@ class Ingredient {
   // ===== LEGACY FIELDS (v4) =====
   num? ingredientId;
   String? name;
+  // v9 standardized dataset fields
+  String? standardizedName;
+  String? standardReference;
+  num? isStandardsBased; // 0/1 flag stored as INTEGER in DB
+  String? separationNotes;
   num? crudeProtein; // Units: % dry matter (DM)
   num? crudeFiber; // Units: % dry matter (DM)
   num? crudeFat; // Units: % dry matter (DM)
@@ -227,12 +290,17 @@ class Ingredient {
 
   // Safety and regulatory fields
   num? maxInclusionPct; // Maximum % of total formulation (0 = unlimited)
+  Map<String, dynamic>? maxInclusionJson; // Detailed per-category limits
   String? warning; // Safety warning (e.g., "High gossypol - limit to 15%")
   String? regulatoryNote; // Regulatory restrictions
 
   Ingredient copyWith({
     num? ingredientId,
     String? name,
+    String? standardizedName,
+    String? standardReference,
+    num? isStandardsBased,
+    String? separationNotes,
     num? crudeProtein,
     num? crudeFiber,
     num? crudeFat,
@@ -268,12 +336,17 @@ class Ingredient {
     EnergyValues? energy,
     AntiNutritionalFactors? antiNutritionalFactors,
     num? maxInclusionPct,
+    Map<String, dynamic>? maxInclusionJson,
     String? warning,
     String? regulatoryNote,
   }) =>
       Ingredient(
         ingredientId: ingredientId ?? this.ingredientId,
         name: name ?? this.name,
+        standardizedName: standardizedName ?? this.standardizedName,
+        standardReference: standardReference ?? this.standardReference,
+        isStandardsBased: isStandardsBased ?? this.isStandardsBased,
+        separationNotes: separationNotes ?? this.separationNotes,
         crudeProtein: crudeProtein ?? this.crudeProtein,
         crudeFiber: crudeFiber ?? this.crudeFiber,
         crudeFat: crudeFat ?? this.crudeFat,
@@ -310,6 +383,7 @@ class Ingredient {
         antiNutritionalFactors:
             antiNutritionalFactors ?? this.antiNutritionalFactors,
         maxInclusionPct: maxInclusionPct ?? this.maxInclusionPct,
+        maxInclusionJson: maxInclusionJson ?? this.maxInclusionJson,
         warning: warning ?? this.warning,
         regulatoryNote: regulatoryNote ?? this.regulatoryNote,
       );
@@ -317,6 +391,10 @@ class Ingredient {
     final map = <String, dynamic>{};
     map['ingredient_id'] = ingredientId;
     map['name'] = name;
+    map['standardized_name'] = standardizedName;
+    map['standard_reference'] = standardReference;
+    map['is_standards_based'] = isStandardsBased;
+    map['separation_notes'] = separationNotes;
     map['crude_protein'] = crudeProtein;
     map['crude_fiber'] = crudeFiber;
     map['crude_fat'] = crudeFat;
@@ -356,6 +434,8 @@ class Ingredient {
         ? jsonEncode(antiNutritionalFactors!.toJson())
         : null;
     map['max_inclusion_pct'] = maxInclusionPct;
+    map['max_inclusion_json'] =
+        maxInclusionJson != null ? jsonEncode(maxInclusionJson) : null;
     map['warning'] = warning;
     map['regulatory_note'] = regulatoryNote;
     return map;

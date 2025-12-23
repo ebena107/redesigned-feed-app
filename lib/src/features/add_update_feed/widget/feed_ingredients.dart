@@ -1,5 +1,6 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:feed_estimator/src/core/constants/ui_constants.dart';
+import 'package:feed_estimator/src/core/constants/feature_flags.dart';
 import 'package:feed_estimator/src/core/utils/input_validators.dart';
 import 'package:feed_estimator/src/core/utils/logger.dart';
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dart';
@@ -104,6 +105,14 @@ class FeedIngredientsField extends ConsumerWidget {
                       delegate: SliverChildBuilderDelegate(
                         (BuildContext context, int index) {
                           final ingredient = feedIngredients[index];
+                          final allIngredients =
+                              ref.read(ingredientProvider).ingredients;
+                          final ingData = allIngredients.firstWhere(
+                            (f) => f.ingredientId == ingredient.ingredientId,
+                            orElse: () => Ingredient(),
+                          );
+                          final isStandardsBased =
+                              (ingData.isStandardsBased ?? 0) == 1;
 
                           return Material(
                             color: Colors.transparent,
@@ -123,11 +132,33 @@ class FeedIngredientsField extends ConsumerWidget {
                                     // Ingredient name - horizontally scrollable
                                     SizedBox(
                                       width: width * 0.32,
-                                      child: SingleChildScrollView(
-                                        scrollDirection: Axis.horizontal,
-                                        child: GetIngredientName(
-                                          id: ingredient.ingredientId,
-                                        ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Expanded(
+                                            child: SingleChildScrollView(
+                                              scrollDirection: Axis.horizontal,
+                                              child: GetIngredientName(
+                                                id: ingredient.ingredientId,
+                                                showDetails: true,
+                                              ),
+                                            ),
+                                          ),
+                                          if (FeatureFlags
+                                                  .showStandardsIndicators &&
+                                              isStandardsBased)
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 6),
+                                              child: Icon(
+                                                Icons.verified,
+                                                size: 14,
+                                                color: Colors.green[600],
+                                                semanticLabel:
+                                                    'Standards-based ingredient',
+                                              ),
+                                            ),
+                                        ],
                                       ),
                                     ),
                                     // Price
@@ -478,7 +509,10 @@ class _UpdateIngredientDialogState
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: GetIngredientName(id: widget.ingredientId),
+      title: GetIngredientName(
+        id: widget.ingredientId,
+        showDetails: true,
+      ),
       content: Material(
         color: Colors.transparent,
         child: SizedBox(

@@ -1,5 +1,6 @@
 import 'package:feed_estimator/src/features/add_ingredients/repository/ingredients_repository.dart';
 import 'package:feed_estimator/src/features/add_ingredients/widgets/user_ingredients_widget.dart';
+import 'package:feed_estimator/src/features/price_management/view/price_history_view.dart';
 import 'package:feed_estimator/src/features/store_ingredients/providers/stored_ingredient_provider.dart';
 import 'package:feed_estimator/src/features/store_ingredients/widget/ingredient_select_widget.dart';
 import 'package:feed_estimator/src/utils/widgets/app_drawer.dart';
@@ -287,6 +288,19 @@ class _EditFormCardState extends ConsumerState<_EditFormCard> {
                   ),
                   const SizedBox(width: 12),
 
+                  // Price history button
+                  IconButton.filledTonal(
+                    onPressed: () => _viewPriceHistory(context),
+                    style: IconButton.styleFrom(
+                      backgroundColor: Colors.blue.shade50,
+                      foregroundColor: Colors.blue.shade700,
+                      padding: const EdgeInsets.all(12),
+                    ),
+                    icon: const Icon(Icons.trending_up_rounded),
+                    tooltip: 'Price History',
+                  ),
+                  const SizedBox(width: 12),
+
                   // Reset button
                   OutlinedButton.icon(
                     onPressed:
@@ -385,6 +399,21 @@ class _EditFormCardState extends ConsumerState<_EditFormCard> {
         );
       }
     }
+  }
+
+  void _viewPriceHistory(BuildContext context) {
+    final ingredient = ref.read(storeIngredientProvider).selectedIngredient;
+    if (ingredient == null || ingredient.ingredientId == null) return;
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PriceHistoryView(
+          ingredientId: ingredient.ingredientId!.toInt(),
+          ingredientName: ingredient.name,
+        ),
+      ),
+    );
   }
 
   Future<void> _confirmDelete(BuildContext context, WidgetRef ref) async {

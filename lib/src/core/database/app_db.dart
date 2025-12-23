@@ -28,7 +28,7 @@ class AppDatabase {
   static final AppDatabase _instance = AppDatabase._();
 
   // Current database version - increment when adding migrations
-  static const int _currentVersion = 8;
+  static const int _currentVersion = 9;
 
   factory AppDatabase() => _instance;
 
@@ -129,6 +129,9 @@ class AppDatabase {
         break;
       case 8:
         await _migrationV7ToV8(db);
+        break;
+      case 9:
+        await _migrationV8ToV9(db);
         break;
       // Add future migrations here
       default:
@@ -332,6 +335,44 @@ class AppDatabase {
     }
 
     debugPrint('Migration 7→8: Complete');
+  }
+
+  /// Migration from v8 to v9: Add standardized dataset support columns
+  Future<void> _migrationV8ToV9(Database db) async {
+    debugPrint('Migration 8→9: Adding standardized dataset support columns');
+
+    Future<void> addColumn(String name, String type,
+        {String? defaultValue}) async {
+      try {
+        final ddl =
+            'ALTER TABLE ${IngredientsRepository.tableName} ADD COLUMN ';
+        final stmt = defaultValue == null
+            ? '$ddl$name $type'
+            : '$ddl$name $type DEFAULT $defaultValue';
+        await db.execute(stmt);
+      } catch (e) {
+        debugPrint('Migration 8→9: Column $name may already exist: $e');
+      }
+    }
+
+    // New columns for standards and limits
+    await addColumn('standardized_name', 'TEXT');
+    await addColumn('standard_reference', 'TEXT');
+    await addColumn('is_standards_based', 'INTEGER', defaultValue: '0');
+    await addColumn('separation_notes', 'TEXT');
+    await addColumn('max_inclusion_json', 'TEXT');
+
+    // Optional index to speed up searches by standardized name
+    try {
+      await db.execute('''
+        CREATE INDEX IF NOT EXISTS idx_ingredients_standardized_name
+        ON ${IngredientsRepository.tableName}(standardized_name)
+      ''');
+    } catch (e) {
+      debugPrint('Migration 8→9: Error creating index: $e');
+    }
+
+    debugPrint('Migration 8→9: Complete');
   }
 
   /// this should be run when the database is being created

@@ -15,6 +15,7 @@ class Feed {
   num? animalId;
   List<FeedIngredients>? feedIngredients;
   num? timestampModified;
+  String? productionStage; // Phase 4: pig_grower, broiler_starter, etc.
 
   Feed({
     this.feedId,
@@ -22,6 +23,7 @@ class Feed {
     this.animalId,
     this.feedIngredients,
     this.timestampModified,
+    this.productionStage,
   });
 
   Feed.fromJson(dynamic json) {
@@ -35,6 +37,7 @@ class Feed {
       });
     }
     timestampModified = json['timestamp_modified'];
+    productionStage = json['production_stage'];
   }
 
   Feed copyWith({
@@ -43,6 +46,7 @@ class Feed {
     num? animalId,
     List<FeedIngredients>? feedIngredients,
     num? timestampModified,
+    String? productionStage,
   }) =>
       Feed(
         feedId: feedId ?? this.feedId,
@@ -50,6 +54,7 @@ class Feed {
         animalId: animalId ?? this.animalId,
         feedIngredients: feedIngredients ?? this.feedIngredients,
         timestampModified: timestampModified ?? this.timestampModified,
+        productionStage: productionStage ?? this.productionStage,
       );
 
   Map<String, dynamic> toJson() {
@@ -61,6 +66,9 @@ class Feed {
       map['feedIngredients'] = feedIngredients?.map((v) => v.toJson()).toList();
     }
     map['timestamp_modified'] = timestampModified;
+    if (productionStage != null) {
+      map['production_stage'] = productionStage;
+    }
     return map;
   }
 }

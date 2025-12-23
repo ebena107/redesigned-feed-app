@@ -64,10 +64,20 @@ class IngredientsRepository implements Repository {
   static const colWarning = 'warning';
   static const colRegulatoryNote = 'regulatory_note';
   static const colEnergy = 'energy';
+  // v9 standardized dataset fields
+  static const colStandardizedName = 'standardized_name';
+  static const colStandardReference = 'standard_reference';
+  static const colIsStandardsBased = 'is_standards_based';
+  static const colSeparationNotes = 'separation_notes';
+  static const colMaxInclusionJson = 'max_inclusion_json';
 
   static const tableCreateQuery = 'CREATE TABLE $tableName ('
       '$colId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, '
       '$colName TEXT, '
+      '$colStandardizedName TEXT, '
+      '$colStandardReference TEXT, '
+      '$colIsStandardsBased INTEGER DEFAULT 0, '
+      '$colSeparationNotes TEXT, '
       '$colCrudeProtein REAL, '
       '$colCrudeFiber REAL, '
       '$colCrudeFat REAL, '
@@ -98,6 +108,7 @@ class IngredientsRepository implements Repository {
       '$colEnergy TEXT, '
       '$colAntiNutritionalFactors TEXT, '
       '$colMaxInclusionPct REAL, '
+      '$colMaxInclusionJson TEXT, '
       '$colWarning TEXT, '
       '$colRegulatoryNote TEXT, '
       '$colIsCustom INTEGER DEFAULT 0, '
@@ -112,7 +123,7 @@ class IngredientsRepository implements Repository {
       'UPDATE $tableName SET $colPriceKg = ?, $colAvailableQty = ?, $colFavourite = ? WHERE $colId = ?';
 
   static const columns =
-      '$colId, $colName, $colCrudeProtein, $colCrudeFiber, $colCrudeFat, $colCalcium, $colPhosphorus, $colLysine, $colMethionine, $colMeGrowingPig, $colMeAdultPig, $colMePoultry, $colMeRuminant, $colMeRabbit, $colDeSalmonids, $colPriceKg, $colAvailableQty, $colCategoryId, $colFavourite, $colAsh, $colMoisture, $colStarch, $colBulkDensity, $colTotalPhosphorus, $colAvailablePhosphorus, $colPhytatePhosphorus, $colMeFinishingPig, $colAminoAcidsTotal, $colAminoAcidsSid, $colEnergy, $colAntiNutritionalFactors, $colMaxInclusionPct, $colWarning, $colRegulatoryNote, $colTimestamp';
+      '$colId, $colName, $colStandardizedName, $colStandardReference, $colIsStandardsBased, $colSeparationNotes, $colCrudeProtein, $colCrudeFiber, $colCrudeFat, $colCalcium, $colPhosphorus, $colLysine, $colMethionine, $colMeGrowingPig, $colMeAdultPig, $colMePoultry, $colMeRuminant, $colMeRabbit, $colDeSalmonids, $colPriceKg, $colAvailableQty, $colCategoryId, $colFavourite, $colAsh, $colMoisture, $colStarch, $colBulkDensity, $colTotalPhosphorus, $colAvailablePhosphorus, $colPhytatePhosphorus, $colMeFinishingPig, $colAminoAcidsTotal, $colAminoAcidsSid, $colEnergy, $colAntiNutritionalFactors, $colMaxInclusionPct, $colMaxInclusionJson, $colWarning, $colRegulatoryNote, $colTimestamp';
 
   Future<void> updateStoredIngredient(
       Map<String, Object?> placeData, num id) async {

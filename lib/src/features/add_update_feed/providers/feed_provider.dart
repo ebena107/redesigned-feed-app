@@ -28,6 +28,7 @@ sealed class FeedState {
     this.newFeed,
     this.message = "",
     this.status = "",
+    this.productionStage,
   });
 
   final String feedName;
@@ -38,6 +39,7 @@ sealed class FeedState {
   final Feed? newFeed;
   final String message;
   final String status;
+  final String? productionStage;
 
   FeedState copyWith({
     String? feedName,
@@ -48,6 +50,7 @@ sealed class FeedState {
     Feed? newFeed,
     String? message,
     String? status,
+    String? productionStage,
   }) =>
       _FeedState(
         feedName: feedName ?? this.feedName,
@@ -58,6 +61,7 @@ sealed class FeedState {
         newFeed: newFeed ?? this.newFeed,
         message: message ?? this.message,
         status: status ?? this.status,
+        productionStage: productionStage ?? this.productionStage,
       );
 }
 
@@ -71,6 +75,7 @@ class _FeedState extends FeedState {
     super.newFeed,
     super.message = "",
     super.status = "",
+    super.productionStage,
   });
 }
 
@@ -213,6 +218,7 @@ class FeedNotifier extends Notifier<FeedState> {
       feedName: feed!.feedName,
       animalId: feed.animalId,
       timestampModified: feed.timestampModified,
+      productionStage: state.productionStage,
     );
 
     _feedId = await ref.watch(feedRepository).create(feed.toJson());
@@ -237,6 +243,7 @@ class FeedNotifier extends Notifier<FeedState> {
       feedName: feed.feedName,
       animalId: feed.animalId,
       timestampModified: feed.timestampModified,
+      productionStage: state.productionStage,
     );
 
     //debugPrint(feed.toJson().toString());
@@ -337,6 +344,10 @@ class FeedNotifier extends Notifier<FeedState> {
     state = state.copyWith(animalTypeId: id);
 
     //  if (_totalQuantity != 0) {}
+  }
+
+  void setProductionStage(String? stage) {
+    state = state.copyWith(productionStage: stage);
   }
 
   bool available(FeedIngredients i) {
