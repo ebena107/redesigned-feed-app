@@ -6,7 +6,7 @@ part of 'current_price_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$currentPriceHash() => r'aa27405a1a32635ed0dd39a59db7aef49f39b548';
+String _$currentPriceHash() => r'7960328da923a22528908f98e3c8b1873912ddfa';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -41,6 +41,8 @@ class _SystemHash {
 /// - Cost calculations based on most recent price
 /// - Price trend awareness (compares with history)
 ///
+/// Cached for 5 minutes to reduce database queries
+///
 /// Copied from [currentPrice].
 @ProviderFor(currentPrice)
 const currentPriceProvider = CurrentPriceFamily();
@@ -57,6 +59,8 @@ const currentPriceProvider = CurrentPriceFamily();
 /// - Cost calculations based on most recent price
 /// - Price trend awareness (compares with history)
 ///
+/// Cached for 5 minutes to reduce database queries
+///
 /// Copied from [currentPrice].
 class CurrentPriceFamily extends Family<AsyncValue<double>> {
   /// Get the current (latest) price for an ingredient
@@ -70,6 +74,8 @@ class CurrentPriceFamily extends Family<AsyncValue<double>> {
   /// - Displaying current price in ingredient selection
   /// - Cost calculations based on most recent price
   /// - Price trend awareness (compares with history)
+  ///
+  /// Cached for 5 minutes to reduce database queries
   ///
   /// Copied from [currentPrice].
   const CurrentPriceFamily();
@@ -85,6 +91,8 @@ class CurrentPriceFamily extends Family<AsyncValue<double>> {
   /// - Displaying current price in ingredient selection
   /// - Cost calculations based on most recent price
   /// - Price trend awareness (compares with history)
+  ///
+  /// Cached for 5 minutes to reduce database queries
   ///
   /// Copied from [currentPrice].
   CurrentPriceProvider call({
@@ -131,8 +139,10 @@ class CurrentPriceFamily extends Family<AsyncValue<double>> {
 /// - Cost calculations based on most recent price
 /// - Price trend awareness (compares with history)
 ///
+/// Cached for 5 minutes to reduce database queries
+///
 /// Copied from [currentPrice].
-class CurrentPriceProvider extends AutoDisposeFutureProvider<double> {
+class CurrentPriceProvider extends FutureProvider<double> {
   /// Get the current (latest) price for an ingredient
   ///
   /// Priority:
@@ -144,6 +154,8 @@ class CurrentPriceProvider extends AutoDisposeFutureProvider<double> {
   /// - Displaying current price in ingredient selection
   /// - Cost calculations based on most recent price
   /// - Price trend awareness (compares with history)
+  ///
+  /// Cached for 5 minutes to reduce database queries
   ///
   /// Copied from [currentPrice].
   CurrentPriceProvider({
@@ -196,7 +208,7 @@ class CurrentPriceProvider extends AutoDisposeFutureProvider<double> {
   }
 
   @override
-  AutoDisposeFutureProviderElement<double> createElement() {
+  FutureProviderElement<double> createElement() {
     return _CurrentPriceProviderElement(this);
   }
 
@@ -216,13 +228,13 @@ class CurrentPriceProvider extends AutoDisposeFutureProvider<double> {
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-mixin CurrentPriceRef on AutoDisposeFutureProviderRef<double> {
+mixin CurrentPriceRef on FutureProviderRef<double> {
   /// The parameter `ingredientId` of this provider.
   int get ingredientId;
 }
 
-class _CurrentPriceProviderElement
-    extends AutoDisposeFutureProviderElement<double> with CurrentPriceRef {
+class _CurrentPriceProviderElement extends FutureProviderElement<double>
+    with CurrentPriceRef {
   _CurrentPriceProviderElement(super.provider);
 
   @override

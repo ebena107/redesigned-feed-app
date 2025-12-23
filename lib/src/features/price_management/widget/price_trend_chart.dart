@@ -19,16 +19,19 @@ class PriceTrendChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (priceHistory.isEmpty) {
-      return Container(
-        height: 200,
-        decoration: UIConstants.cardDecoration(),
-        alignment: Alignment.center,
-        padding: const EdgeInsets.all(16.0),
-        child: Text(
-          'No price data available',
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Colors.grey,
-              ),
+      return Semantics(
+        label: 'Price trend chart is empty. No price data is available.',
+        child: Container(
+          height: 200,
+          decoration: UIConstants.cardDecoration(),
+          alignment: Alignment.center,
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            'No price data available',
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Colors.grey,
+                ),
+          ),
         ),
       );
     }
@@ -83,17 +86,21 @@ class PriceTrendChart extends StatelessWidget {
           ),
           const SizedBox(height: UIConstants.paddingNormal),
 
-          // Chart
-          SizedBox(
-            height: chartHeight,
-            width: chartWidth,
-            child: CustomPaint(
-              painter: _PriceTrendPainter(
-                priceHistory: sortedHistory,
-                minPrice: minPrice,
-                maxPrice: maxPrice,
-                priceRange: priceRange,
-                padding: padding,
+          // Chart with accessibility
+          Semantics(
+            label:
+                'Price trend chart showing ${sortedHistory.length} data points from ${DateFormat('MMM dd').format(sortedHistory.first.effectiveDate)} to ${DateFormat('MMM dd').format(sortedHistory.last.effectiveDate)}. Price ranges from ${minPrice.toStringAsFixed(2)} to ${maxPrice.toStringAsFixed(2)} $currency.',
+            child: SizedBox(
+              height: chartHeight,
+              width: chartWidth,
+              child: CustomPaint(
+                painter: _PriceTrendPainter(
+                  priceHistory: sortedHistory,
+                  minPrice: minPrice,
+                  maxPrice: maxPrice,
+                  priceRange: priceRange,
+                  padding: padding,
+                ),
               ),
             ),
           ),

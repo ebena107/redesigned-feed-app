@@ -6,7 +6,7 @@ part of 'price_history_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$priceHistoryHash() => r'a2d118f32248cd48b27e2f5e263d1f45c726487b';
+String _$priceHistoryHash() => r'32dcbc88469a7c8f404472ada666400c80b0f7d3';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -34,7 +34,7 @@ class _SystemHash {
 /// Automatically manages:
 /// - Async loading state
 /// - Error handling
-/// - Caching with invalidation support
+/// - Caching with 5-minute invalidation
 /// - Dependency on priceHistoryRepository
 ///
 /// Usage:
@@ -52,7 +52,7 @@ const priceHistoryProvider = PriceHistoryFamily();
 /// Automatically manages:
 /// - Async loading state
 /// - Error handling
-/// - Caching with invalidation support
+/// - Caching with 5-minute invalidation
 /// - Dependency on priceHistoryRepository
 ///
 /// Usage:
@@ -68,7 +68,7 @@ class PriceHistoryFamily extends Family<AsyncValue<List<PriceHistory>>> {
   /// Automatically manages:
   /// - Async loading state
   /// - Error handling
-  /// - Caching with invalidation support
+  /// - Caching with 5-minute invalidation
   /// - Dependency on priceHistoryRepository
   ///
   /// Usage:
@@ -85,7 +85,7 @@ class PriceHistoryFamily extends Family<AsyncValue<List<PriceHistory>>> {
   /// Automatically manages:
   /// - Async loading state
   /// - Error handling
-  /// - Caching with invalidation support
+  /// - Caching with 5-minute invalidation
   /// - Dependency on priceHistoryRepository
   ///
   /// Usage:
@@ -132,7 +132,7 @@ class PriceHistoryFamily extends Family<AsyncValue<List<PriceHistory>>> {
 /// Automatically manages:
 /// - Async loading state
 /// - Error handling
-/// - Caching with invalidation support
+/// - Caching with 5-minute invalidation
 /// - Dependency on priceHistoryRepository
 ///
 /// Usage:
@@ -142,14 +142,13 @@ class PriceHistoryFamily extends Family<AsyncValue<List<PriceHistory>>> {
 /// ```
 ///
 /// Copied from [priceHistory].
-class PriceHistoryProvider
-    extends AutoDisposeFutureProvider<List<PriceHistory>> {
+class PriceHistoryProvider extends FutureProvider<List<PriceHistory>> {
   /// Async provider for fetching price history for a specific ingredient
   ///
   /// Automatically manages:
   /// - Async loading state
   /// - Error handling
-  /// - Caching with invalidation support
+  /// - Caching with 5-minute invalidation
   /// - Dependency on priceHistoryRepository
   ///
   /// Usage:
@@ -209,7 +208,7 @@ class PriceHistoryProvider
   }
 
   @override
-  AutoDisposeFutureProviderElement<List<PriceHistory>> createElement() {
+  FutureProviderElement<List<PriceHistory>> createElement() {
     return _PriceHistoryProviderElement(this);
   }
 
@@ -229,14 +228,13 @@ class PriceHistoryProvider
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-mixin PriceHistoryRef on AutoDisposeFutureProviderRef<List<PriceHistory>> {
+mixin PriceHistoryRef on FutureProviderRef<List<PriceHistory>> {
   /// The parameter `ingredientId` of this provider.
   int get ingredientId;
 }
 
 class _PriceHistoryProviderElement
-    extends AutoDisposeFutureProviderElement<List<PriceHistory>>
-    with PriceHistoryRef {
+    extends FutureProviderElement<List<PriceHistory>> with PriceHistoryRef {
   _PriceHistoryProviderElement(super.provider);
 
   @override

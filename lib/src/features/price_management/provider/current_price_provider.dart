@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:feed_estimator/src/core/utils/logger.dart';
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
 import 'package:feed_estimator/src/features/price_management/repository/price_history_repository.dart';
@@ -19,11 +20,15 @@ const String _tag = 'CurrentPriceProvider';
 /// - Displaying current price in ingredient selection
 /// - Cost calculations based on most recent price
 /// - Price trend awareness (compares with history)
-@riverpod
+///
+/// Cached for 5 minutes to reduce database queries
+@Riverpod(keepAlive: true)
 Future<double> currentPrice(
   Ref ref, {
   required int ingredientId,
 }) async {
+  // Cache for 5 minutes to reduce database queries
+  ref.cacheFor(const Duration(minutes: 5));
   try {
     final repository = ref.watch(priceHistoryRepository);
 
@@ -125,5 +130,14 @@ class PriceChange {
     } else {
       return 'Decreased ${(changePercent.abs()).toStringAsFixed(1)}%';
     }
+  }
+}
+
+/// Extension to add cacheFor helper
+extension CacheForExtension on Ref {
+  void cacheFor(Duration duration) {
+    final link = keepAlive();
+    final timer = Timer(duration, link.close);
+    onDispose(timer.cancel);
   }
 }

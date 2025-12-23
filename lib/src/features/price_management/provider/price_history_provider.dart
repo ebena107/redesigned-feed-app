@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:feed_estimator/src/features/price_management/model/price_history.dart';
 import 'package:feed_estimator/src/features/price_management/repository/price_history_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,7 +11,7 @@ part 'price_history_provider.g.dart';
 /// Automatically manages:
 /// - Async loading state
 /// - Error handling
-/// - Caching with invalidation support
+/// - Caching with 5-minute invalidation
 /// - Dependency on priceHistoryRepository
 ///
 /// Usage:
@@ -18,11 +19,23 @@ part 'price_history_provider.g.dart';
 /// final history = ref.watch(priceHistoryProvider(ingredientId));
 /// // AsyncValue<List<PriceHistory>>
 /// ```
-@riverpod
+@Riverpod(keepAlive: true)
 Future<List<PriceHistory>> priceHistory(
   Ref ref,
   int ingredientId,
 ) async {
+  // Cache for 5 minutes to reduce database queries
+  ref.cacheFor(const Duration(minutes: 5));
+
   final repository = ref.watch(priceHistoryRepository);
   return repository.getHistoryForIngredient(ingredientId);
+}
+
+/// Extension to add cacheFor helper
+extension CacheForExtension on Ref {
+  void cacheFor(Duration duration) {
+    final link = keepAlive();
+    final timer = Timer(duration, link.close);
+    onDispose(timer.cancel);
+  }
 }
