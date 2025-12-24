@@ -32,9 +32,9 @@ class FeedIngredientsField extends ConsumerWidget {
 
     return feedIngredients.isNotEmpty
         ? Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             verticalDirection: VerticalDirection.down,
             children: [
               const Divider(
