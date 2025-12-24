@@ -4,9 +4,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // 1. The Async Data Source (Single Source of Truth)
+// OPTIMIZATION: Added keepAlive to cache results in memory
+// This avoids redundant database queries when navigating away and back
 final ingredientsListProvider = FutureProvider<List<Ingredient>>((ref) async {
-  return ref.watch(ingredientsRepository).getAll();
-});
+  final repo = ref.watch(ingredientsRepository);
+  final ingredients = await repo.getAll();
+  // Keep this provider alive in memory for 5 minutes to reduce DB hits
+  ref.keepAlive();
+  return ingredients;
+}).cache(const Duration(minutes: 5));
 
 // 2. The View Model / Logic
 final storeIngredientProvider =
