@@ -78,6 +78,7 @@ class Ingredient {
     this.maxInclusionJson,
     this.warning,
     this.regulatoryNote,
+    this.region,
   });
 
   factory Ingredient.fromJson(dynamic json) {
@@ -236,6 +237,7 @@ class Ingredient {
       maxInclusionJson: parsedMaxInclusionJson,
       warning: json['warning'],
       regulatoryNote: json['regulatory_note'],
+      region: json['region'],
     );
 
     return ingredient;
@@ -293,6 +295,7 @@ class Ingredient {
   Map<String, dynamic>? maxInclusionJson; // Detailed per-category limits
   String? warning; // Safety warning (e.g., "High gossypol - limit to 15%")
   String? regulatoryNote; // Regulatory restrictions
+  String? region; // Regional tag (e.g., 'Africa', 'Asia', 'Global')
 
   Ingredient copyWith({
     num? ingredientId,
@@ -339,6 +342,7 @@ class Ingredient {
     Map<String, dynamic>? maxInclusionJson,
     String? warning,
     String? regulatoryNote,
+    String? region,
   }) =>
       Ingredient(
         ingredientId: ingredientId ?? this.ingredientId,
@@ -386,6 +390,7 @@ class Ingredient {
         maxInclusionJson: maxInclusionJson ?? this.maxInclusionJson,
         warning: warning ?? this.warning,
         regulatoryNote: regulatoryNote ?? this.regulatoryNote,
+        region: region ?? this.region,
       );
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -438,6 +443,7 @@ class Ingredient {
         maxInclusionJson != null ? jsonEncode(maxInclusionJson) : null;
     map['warning'] = warning;
     map['regulatory_note'] = regulatoryNote;
+    map['region'] = region;
     return map;
   }
 }

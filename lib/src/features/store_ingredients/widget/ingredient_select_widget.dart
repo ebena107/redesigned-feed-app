@@ -256,9 +256,24 @@ class _IngredientSearchSheetState
                             : Colors.transparent,
                       ),
                     ),
+                    const SizedBox(width: 8),
+                    if (state.regionFilter != null)
+                      FilterChip(
+                        label: Text('Region: ${state.regionFilter}'),
+                        selected: true,
+                        onSelected: (_) => notifier.setRegionFilter('All'),
+                        avatar: const Icon(Icons.public_rounded, size: 18),
+                        showCheckmark: false,
+                        backgroundColor:
+                            const Color(0xff87643E).withValues(alpha: 0.15),
+                        side: const BorderSide(
+                          color: Color(0xff87643E),
+                        ),
+                      ),
                     if (state.showFavoritesOnly ||
                         state.showCustomOnly ||
-                        state.searchQuery.isNotEmpty)
+                        state.searchQuery.isNotEmpty ||
+                        state.regionFilter != null)
                       Padding(
                         padding: const EdgeInsets.only(left: 8),
                         child: TextButton.icon(
@@ -292,7 +307,8 @@ class _IngredientSearchSheetState
                       return _EmptyState(
                         hasFilters: state.showFavoritesOnly ||
                             state.showCustomOnly ||
-                            state.searchQuery.isNotEmpty,
+                            state.searchQuery.isNotEmpty ||
+                            state.regionFilter != null,
                         onClearFilters: () {
                           notifier.clearFilters();
                           _searchCtrl.clear();
@@ -409,28 +425,54 @@ class _IngredientListTile extends StatelessWidget {
       title: Row(
         children: [
           Expanded(
-            child: Text(
-              ingredient.name ?? 'Unknown',
-              style: TextStyle(
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
-                fontSize: 16,
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        ingredient.name ?? 'Unknown',
+                        style: TextStyle(
+                          fontWeight:
+                              isSelected ? FontWeight.bold : FontWeight.w600,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    if (ingredient.favourite == 1)
+                      Icon(
+                        Icons.star_rounded,
+                        color: Colors.amber.shade600,
+                        size: 18,
+                      ),
+                    if (ingredient.isCustom == 1) ...[
+                      const SizedBox(width: 4),
+                      Icon(
+                        Icons.science_rounded,
+                        color: const Color(0xff87643E),
+                        size: 18,
+                      ),
+                    ],
+                  ],
+                ),
+                // Region badge
+                if (ingredient.region != null && ingredient.region!.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: Wrap(
+                      spacing: 4,
+                      children: ingredient.region!
+                          .split(',')
+                          .map((r) => r.trim())
+                          .where((r) => r.isNotEmpty)
+                          .map((region) => _buildRegionBadge(region))
+                          .toList(),
+                    ),
+                  ),
+              ],
             ),
           ),
-          if (ingredient.favourite == 1)
-            Icon(
-              Icons.star_rounded,
-              color: Colors.amber.shade600,
-              size: 18,
-            ),
-          if (ingredient.isCustom == 1) ...[
-            const SizedBox(width: 4),
-            Icon(
-              Icons.science_rounded,
-              color: const Color(0xff87643E),
-              size: 18,
-            ),
-          ],
         ],
       ),
       subtitle: Padding(
@@ -461,6 +503,37 @@ class _IngredientListTile extends StatelessWidget {
           : Icon(Icons.arrow_forward_ios_rounded,
               size: 16, color: Colors.grey.shade400),
       onTap: onTap,
+    );
+  }
+
+  /// Build a styled region badge
+  Widget _buildRegionBadge(String region) {
+    final regionColors = {
+      'Africa': Color(0xffD4A574),
+      'Asia': Color(0xff9CCC65),
+      'Europe': Color(0xff64B5F6),
+      'Americas': Color(0xffEF9A9A),
+      'Oceania': Color(0xff81C784),
+      'Global': Color(0xff90CAF9),
+    };
+
+    final bgColor = regionColors[region] ?? Color(0xffBDBDBD);
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      decoration: BoxDecoration(
+        color: bgColor.withValues(alpha: 0.2),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: bgColor, width: 0.5),
+      ),
+      child: Text(
+        region,
+        style: TextStyle(
+          fontSize: 11,
+          fontWeight: FontWeight.w500,
+          color: bgColor,
+        ),
+      ),
     );
   }
 }

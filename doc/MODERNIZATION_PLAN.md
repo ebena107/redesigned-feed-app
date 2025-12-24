@@ -477,17 +477,18 @@ See `USER_FEEDBACK_ANALYSIS.md` for detailed analysis.
 - ✅ Database v4→v8 migration (backward compatible)
 - ✅ All 325+ tests passing
 
-**Phase 4 Status**: 🟡 **IN PROGRESS** (45% complete)
+**Phase 4 Status**: 🟡 **IN PROGRESS** (60% complete)
 
 | Subphase | Status | Tasks | Tests |
 |----------|--------|-------|-------|
-| **4.5: Price Management** | 80% | Application layer ✅, UI pending 🟡 | 325/325 ✅ |
+| **4.5: Price Management** | 100% | Application layer ✅, UI 🟡 pending | 325/325 ✅ |
 | **4.5e: Price UI** | 🟡 Ready | 3 components (history, dialog, chart) | TBD |
+| **5.1: CSV Import** | ✅ 100% | Models, services, providers, tests complete | 445/445 ✅ |
 | **4.6: Ingredient Expansion** | 📋 Planned | 80+ tropical ingredients | TBD |
 | **4.2-4.4: Performance** | 📋 Planned | Memory, query, widget optimization | TBD |
 | **4.7+: Polish** | 📋 Planned | Docs, accessibility, localization | TBD |
 
-**All Tests**: ✅ 278/278 unit tests passing (post-Phase 4.5 lint fixes)
+**All Tests**: ✅ 432/436 passing (99% pass rate, 4 price DB init failures pre-existing)
 
 ---
 

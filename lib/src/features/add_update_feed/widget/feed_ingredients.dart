@@ -138,9 +138,36 @@ class FeedIngredientsField extends ConsumerWidget {
                                           Expanded(
                                             child: SingleChildScrollView(
                                               scrollDirection: Axis.horizontal,
-                                              child: GetIngredientName(
-                                                id: ingredient.ingredientId,
-                                                showDetails: true,
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  GetIngredientName(
+                                                    id: ingredient.ingredientId,
+                                                    showDetails: true,
+                                                  ),
+                                                  // Region badge
+                                                  if (ingData.region != null &&
+                                                      ingData
+                                                          .region!.isNotEmpty)
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 2),
+                                                      child: Text(
+                                                        ingData.region!
+                                                            .split(',')
+                                                            .first
+                                                            .trim(),
+                                                        style: TextStyle(
+                                                          fontSize: 10,
+                                                          color:
+                                                              Colors.grey[600],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                ],
                                               ),
                                             ),
                                           ),

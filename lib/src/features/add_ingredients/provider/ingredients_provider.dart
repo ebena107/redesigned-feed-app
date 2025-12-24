@@ -334,9 +334,10 @@ class IngredientNotifier extends Notifier<IngredientState> {
       final list = state.ingredients
           .where((e) => e.name!.toLowerCase().contains(query.toLowerCase()))
           .toList();
-      state = state.copyWith(filteredIngredients: list);
+      state = state.copyWith(filteredIngredients: _applyRegionFilter(list));
     } else {
-      state = state.copyWith(filteredIngredients: state.ingredients);
+      state = state.copyWith(
+          filteredIngredients: _applyRegionFilter(state.ingredients));
     }
   }
 
@@ -380,15 +381,17 @@ class IngredientNotifier extends Notifier<IngredientState> {
         list = state.ingredients;
       }
 
-      state = state.copyWith(filteredIngredients: list);
+      state = state.copyWith(filteredIngredients: _applyRegionFilter(list));
     } else {
-      state = state.copyWith(filteredIngredients: state.ingredients);
+      state = state.copyWith(
+          filteredIngredients: _applyRegionFilter(state.ingredients));
     }
   }
 
   clearSort() {
     state = state.copyWith(
-        filteredIngredients: state.ingredients, sortByCategory: null);
+        filteredIngredients: _applyRegionFilter(state.ingredients),
+        sortByCategory: null);
     toggleSort();
   }
 
@@ -412,6 +415,36 @@ class IngredientNotifier extends Notifier<IngredientState> {
   void resetSelections() {
     state = state.copyWith(selectedIngredients: []);
     updateCount();
+  }
+
+  // =====================
+  // Region Filtering
+  // =====================
+  String? _regionFilter; // null or 'All' means no filter
+
+  void setRegionFilter(String? region) {
+    // Normalize input
+    if (region == null || region.isEmpty || region == 'All') {
+      _regionFilter = null;
+    } else {
+      _regionFilter = region;
+    }
+    // Re-apply current filters (search/category) with region
+    searchIngredients(state.query);
+  }
+
+  List<Ingredient> _applyRegionFilter(List<Ingredient> list) {
+    if (_regionFilter == null) return list;
+    final selected = _regionFilter!;
+    return list.where((e) {
+      // Untagged ingredients (null/empty region) are always included
+      if (e.region == null || e.region!.isEmpty) {
+        return true;
+      }
+      // Check if selected region is in comma-separated list
+      final regions = e.region!.split(',').map((s) => s.trim()).toList();
+      return regions.contains(selected) || regions.contains('Global');
+    }).toList();
   }
 
   String getName(int ingredientId) {

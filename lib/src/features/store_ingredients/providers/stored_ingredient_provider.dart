@@ -1,5 +1,6 @@
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dart';
 import 'package:feed_estimator/src/features/add_ingredients/repository/ingredients_repository.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // 1. The Async Data Source (Single Source of Truth)
@@ -19,6 +20,7 @@ class StoreIngredientState {
   final bool showFavoritesOnly;
   final bool showCustomOnly;
   final String searchQuery;
+  final String? regionFilter; // New: region filter (null = All)
 
   // Form State (Draft changes)
   final num? draftPrice;
@@ -31,6 +33,7 @@ class StoreIngredientState {
     this.showFavoritesOnly = false,
     this.showCustomOnly = false,
     this.searchQuery = '',
+    this.regionFilter,
     this.draftPrice,
     this.draftQty,
     this.draftFavorite = false,
@@ -42,6 +45,7 @@ class StoreIngredientState {
     bool? showFavoritesOnly,
     bool? showCustomOnly,
     String? searchQuery,
+    String? regionFilter,
     num? draftPrice,
     num? draftQty,
     bool? draftFavorite,
@@ -55,6 +59,7 @@ class StoreIngredientState {
       showFavoritesOnly: showFavoritesOnly ?? this.showFavoritesOnly,
       showCustomOnly: showCustomOnly ?? this.showCustomOnly,
       searchQuery: searchQuery ?? this.searchQuery,
+      regionFilter: regionFilter ?? this.regionFilter,
       draftPrice: draftPrice ?? this.draftPrice,
       draftQty: draftQty ?? this.draftQty,
       draftFavorite: draftFavorite ?? this.draftFavorite,
@@ -148,6 +153,7 @@ class StoreIngredientNotifier extends Notifier<StoreIngredientState> {
       selectedCategoryId: null,
       showFavoritesOnly: false,
       showCustomOnly: false,
+      regionFilter: null,
     );
   }
 
@@ -156,6 +162,11 @@ class StoreIngredientNotifier extends Notifier<StoreIngredientState> {
   /// Sets the search query filter
   void setSearchQuery(String query) {
     state = state.copyWith(searchQuery: query.trim());
+  }
+
+  /// Sets the region filter
+  void setRegionFilter(String? region) {
+    state = state.copyWith(regionFilter: region == 'All' ? null : region);
   }
 
   /// Sets the category filter
@@ -171,6 +182,32 @@ class StoreIngredientNotifier extends Notifier<StoreIngredientState> {
   /// Toggles the custom ingredients filter
   void toggleCustom() {
     state = state.copyWith(showCustomOnly: !state.showCustomOnly);
+  }
+
+  /// Applies region filter to an ingredient based on current state
+  bool _matchesRegion(Ingredient ing) {
+    // No filter or 'All' selected - include all ingredients
+    if (state.regionFilter == null || state.regionFilter == 'All') {
+      return true;
+    }
+
+    // Treat null/empty region as 'Global' (always included)
+    if (ing.region == null || ing.region!.isEmpty) {
+      return true; // Untagged ingredients are always shown
+    }
+
+    // Check if selected region is in comma-separated list
+    final regions = ing.region!.split(',').map((r) => r.trim()).toList();
+    final matched =
+        regions.contains(state.regionFilter) || regions.contains('Global');
+
+    // Debug logging
+    if (!matched) {
+      debugPrint(
+          'Region filter: ing="${ing.name}" region="${ing.region}" filter="${state.regionFilter}" regions=$regions matched=$matched');
+    }
+
+    return matched;
   }
 
   /// Filters a list of ingredients based on current state
@@ -191,7 +228,14 @@ class StoreIngredientNotifier extends Notifier<StoreIngredientState> {
       // Custom ingredients filter
       final matchesCustom = !state.showCustomOnly || ing.isCustom == 1;
 
-      return matchesSearch && matchesCategory && matchesFav && matchesCustom;
+      // Region filter
+      final matchesRegion = _matchesRegion(ing);
+
+      return matchesSearch &&
+          matchesCategory &&
+          matchesFav &&
+          matchesCustom &&
+          matchesRegion;
     }).toList();
   }
 }

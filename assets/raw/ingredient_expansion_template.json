@@ -1,0 +1,254 @@
+{
+  "version": "5.0",
+  "schema": "harmonized_ingredient_v5",
+  "created_date": "2025-12-24",
+  "description": "Template for tropical/alternative feed ingredients expansion - Phase 4.6",
+  "validation_notes": "All values must comply with Phase 2 NutritionalDataValidator rules",
+  
+  "template": {
+    "id": null,
+    "name": "[REQUIRED] Ingredient Common Name",
+    "standardized_name": "[OPTIONAL] Standardized reference name if from NRC/CVB/INRA",
+    "standard_reference": "[OPTIONAL] e.g., 'NRC 2012', 'CVB 2021', 'ILRI Regional Data'",
+    "is_standards_based": "[REQUIRED] 1 = validated from standards, 0 = regional estimates",
+    "separation_notes": "[OPTIONAL] Notes on why similar ingredients were kept separate",
+    
+    "proximate_analysis": {
+      "crude_protein": "[REQUIRED] % dry matter (0-100)",
+      "crude_fiber": "[REQUIRED] % dry matter (0-100)",
+      "crude_fat": "[REQUIRED] % dry matter (0-100)",
+      "ash": "[REQUIRED] % dry matter (typically 2-15%)",
+      "moisture": "[REQUIRED] % (typically 8-15% for dried ingredients)",
+      "starch": "[OPTIONAL] % dry matter",
+      "bulk_density": "[OPTIONAL] kg/m³ (for practical formulation)"
+    },
+    
+    "minerals": {
+      "calcium": "[REQUIRED] g/kg (0-200)",
+      "total_phosphorus": "[REQUIRED] g/kg (0-50)",
+      "available_phosphorus": "[REQUIRED] g/kg (bioavailable fraction, ~40% of total if unknown)",
+      "phytate_phosphorus": "[OPTIONAL] g/kg (bound fraction, ~30% of total if unknown)"
+    },
+    
+    "energy": {
+      "me_pig": "[REQUIRED for pigs] kcal/kg metabolizable energy",
+      "ne_pig": "[PREFERRED for pigs] kcal/kg net energy (NRC 2012 standard)",
+      "de_pig": "[OPTIONAL] kcal/kg digestible energy",
+      "me_finishing_pig": "[OPTIONAL] kcal/kg if different from growing pig",
+      "me_poultry": "[REQUIRED for poultry] kcal/kg",
+      "me_ruminant": "[REQUIRED for ruminants] kcal/kg",
+      "me_rabbit": "[REQUIRED for rabbits] kcal/kg",
+      "de_salmonids": "[REQUIRED for fish] kcal/kg digestible energy"
+    },
+    
+    "amino_acids_total": {
+      "lysine": "[REQUIRED] g/kg total",
+      "methionine": "[REQUIRED] g/kg total",
+      "cystine": "[REQUIRED] g/kg total",
+      "threonine": "[REQUIRED] g/kg total",
+      "tryptophan": "[REQUIRED] g/kg total",
+      "arginine": "[OPTIONAL] g/kg total",
+      "isoleucine": "[OPTIONAL] g/kg total",
+      "leucine": "[OPTIONAL] g/kg total",
+      "valine": "[OPTIONAL] g/kg total",
+      "histidine": "[OPTIONAL] g/kg total",
+      "phenylalanine": "[OPTIONAL] g/kg total"
+    },
+    
+    "amino_acids_sid": {
+      "_note": "Standardized Ileal Digestible values - typically ~85% of total for plant proteins",
+      "lysine": "[PREFERRED] g/kg SID",
+      "methionine": "[PREFERRED] g/kg SID",
+      "cystine": "[PREFERRED] g/kg SID",
+      "threonine": "[PREFERRED] g/kg SID",
+      "tryptophan": "[PREFERRED] g/kg SID",
+      "arginine": "[OPTIONAL] g/kg SID",
+      "isoleucine": "[OPTIONAL] g/kg SID",
+      "leucine": "[OPTIONAL] g/kg SID",
+      "valine": "[OPTIONAL] g/kg SID",
+      "histidine": "[OPTIONAL] g/kg SID",
+      "phenylalanine": "[OPTIONAL] g/kg SID"
+    },
+    
+    "anti_nutritional_factors": {
+      "_note": "CRITICAL for tropical ingredients - many have high ANF content",
+      "tannins_ppm": "[OPTIONAL] Polyphenols - if >5000 ppm, require warning",
+      "phytic_acid_ppm": "[OPTIONAL] Phosphorus binder - typical: 5000-20000 ppm",
+      "trypsin_inhibitor_tu_g": "[OPTIONAL] Protease inhibitor - if >40 TU/g, require heat treatment",
+      "glucosinolates_micromol_g": "[OPTIONAL] Goitrogens (rapeseed/canola) - if >30 μmol/g, limit to 10%",
+      "saponins_ppm": "[OPTIONAL] Bitter compounds - affects palatability",
+      "oxalates_ppm": "[OPTIONAL] Calcium binder - high in some leafy greens",
+      "cyanogenic_glycosides_ppm": "[CRITICAL for cassava] Cyanide precursor - must be processed if >50 ppm"
+    },
+    
+    "safety_and_regulatory": {
+      "max_inclusion_pct": "[LEGACY] Simple maximum % (0 = unlimited)",
+      "max_inclusion_json": {
+        "_note": "Detailed per-animal-category limits - replaces simple max_inclusion_pct",
+        "pig_grower": "[OPTIONAL] Max % for growing pigs (20-50 kg)",
+        "pig_finisher": "[OPTIONAL] Max % for finishing pigs (50-110 kg)",
+        "pig_sow": "[OPTIONAL] Max % for breeding sows",
+        "poultry_broiler": "[OPTIONAL] Max % for meat chickens",
+        "poultry_layer": "[OPTIONAL] Max % for laying hens",
+        "ruminant": "[OPTIONAL] Max % for cattle/sheep/goats",
+        "rabbit": "[OPTIONAL] Max % for rabbits",
+        "fish": "[OPTIONAL] Max % for aquaculture",
+        "default": "[FALLBACK] Max % if animal type not specified"
+      },
+      "warning": "[OPTIONAL] Safety warning - e.g., 'High cyanide - must be processed', 'Limit to 10% due to gossypol'",
+      "regulatory_note": "[OPTIONAL] Legal restrictions - e.g., 'EU: Max 15% in pig diets (Reg. EC 1831/2003)'"
+    },
+    
+    "metadata": {
+      "category_id": "[REQUIRED] 1-15 (see ingredient_categories table)",
+      "price_kg": "[OPTIONAL] Default price in NGN per kg",
+      "available_qty": "[OPTIONAL] Default available quantity",
+      "favourite": "[OPTIONAL] 0 or 1",
+      "is_custom": "[REQUIRED] 0 = built-in, 1 = user-added",
+      "created_by": "[OPTIONAL] Source attribution",
+      "created_date": "[OPTIONAL] Unix timestamp",
+      "notes": "[OPTIONAL] Processing recommendations, regional availability, sourcing tips",
+      "region": "[NEW FIELD] Africa | Asia | Europe | Americas | Oceania | Global"
+    }
+  },
+  
+  "example_azolla": {
+    "id": null,
+    "name": "Azolla (Azolla pinnata)",
+    "standardized_name": "Azolla pinnata, fresh",
+    "standard_reference": "ILRI Tropical Feed Database 2018",
+    "is_standards_based": 0,
+    "separation_notes": "Aquatic fern used fresh or dried - highly requested by Nigerian users",
+    
+    "proximate_analysis": {
+      "crude_protein": 25.0,
+      "crude_fiber": 12.5,
+      "crude_fat": 3.5,
+      "ash": 18.0,
+      "moisture": 12.0,
+      "starch": null,
+      "bulk_density": 250
+    },
+    
+    "minerals": {
+      "calcium": 12.0,
+      "total_phosphorus": 4.5,
+      "available_phosphorus": 1.8,
+      "phytate_phosphorus": 1.4
+    },
+    
+    "energy": {
+      "me_pig": 2400,
+      "ne_pig": 1650,
+      "de_pig": 2800,
+      "me_finishing_pig": null,
+      "me_poultry": 2200,
+      "me_ruminant": 2100,
+      "me_rabbit": 1950,
+      "de_salmonids": 2600
+    },
+    
+    "amino_acids_total": {
+      "lysine": 14.5,
+      "methionine": 3.8,
+      "cystine": 2.5,
+      "threonine": 10.2,
+      "tryptophan": 2.8,
+      "arginine": 13.5,
+      "isoleucine": 9.5,
+      "leucine": 15.0,
+      "valine": 11.0,
+      "histidine": 5.2,
+      "phenylalanine": 10.5
+    },
+    
+    "amino_acids_sid": {
+      "lysine": 12.3,
+      "methionine": 3.2,
+      "cystine": 2.1,
+      "threonine": 8.7,
+      "tryptophan": 2.4,
+      "arginine": 11.5,
+      "isoleucine": 8.1,
+      "leucine": 12.8,
+      "valine": 9.4,
+      "histidine": 4.4,
+      "phenylalanine": 8.9
+    },
+    
+    "anti_nutritional_factors": {
+      "tannins_ppm": null,
+      "phytic_acid_ppm": 8500,
+      "trypsin_inhibitor_tu_g": null,
+      "glucosinolates_micromol_g": null,
+      "saponins_ppm": null,
+      "oxalates_ppm": 1200,
+      "cyanogenic_glycosides_ppm": null
+    },
+    
+    "safety_and_regulatory": {
+      "max_inclusion_pct": 20,
+      "max_inclusion_json": {
+        "pig_grower": 15.0,
+        "pig_finisher": 20.0,
+        "pig_sow": 10.0,
+        "poultry_broiler": 10.0,
+        "poultry_layer": 15.0,
+        "ruminant": 30.0,
+        "rabbit": 25.0,
+        "fish": 20.0,
+        "default": 15.0
+      },
+      "warning": "High moisture content when fresh - dry before long-term storage",
+      "regulatory_note": null
+    },
+    
+    "metadata": {
+      "category_id": 13,
+      "price_kg": 15.0,
+      "available_qty": null,
+      "favourite": 0,
+      "is_custom": 0,
+      "created_by": "Phase 4.6 Expansion",
+      "created_date": 1735027200,
+      "notes": "Aquatic fern cultivated in ponds. Fast-growing (doubles biomass every 2-3 days). Rich in protein and minerals. Popular in Nigeria, India, and Southeast Asia for fish and poultry feed. Can be fed fresh or dried. Processing: harvest, wash, drain, sun-dry or feed fresh within 24 hours.",
+      "region": "Africa, Asia"
+    }
+  },
+  
+  "validation_checklist": [
+    "✅ All REQUIRED fields populated",
+    "✅ No negative values",
+    "✅ Proximate analysis (CP + CF + fat + ash + moisture) ≤ 110% (allow 10% margin for measurement error)",
+    "✅ Energy values realistic for ingredient type (plant: 1500-3500 kcal/kg, animal: 3000-4500 kcal/kg)",
+    "✅ Calcium:Phosphorus ratio between 1:1 and 6:1 (avoid severe imbalances)",
+    "✅ If tannins >5000 ppm → warning present",
+    "✅ If cyanogenic glycosides >50 ppm → warning + processing notes present",
+    "✅ If trypsin inhibitor >40 TU/g → heat treatment note present",
+    "✅ Amino acid SID values ~80-90% of total values (digestibility)",
+    "✅ Regional tag present and accurate",
+    "✅ Data source documented in standard_reference or notes",
+    "✅ Max inclusion limits set if ingredient has known toxicity/ANF issues"
+  ],
+  
+  "sources": {
+    "tier_1_standards": [
+      "NRC 2012 - Nutrient Requirements of Swine (11th ed.)",
+      "NRC 1994 - Nutrient Requirements of Poultry (9th ed.)",
+      "CVB 2021 - Dutch Feed Tables",
+      "INRA 2018 - French Feed Tables",
+      "ASABE 2005 - ASAE D384.2"
+    ],
+    "tier_2_regional": [
+      "ILRI - International Livestock Research Institute (Africa)",
+      "IITA - International Institute of Tropical Agriculture",
+      "Feedipedia - Animal Feed Resources Information System",
+      "FAO - Food and Agriculture Organization tropical feed data"
+    ],
+    "tier_3_literature": [
+      "Journal of Animal Science",
+      "Tropical Animal Health and Production",
+      "Animal Feed Science and Technology"
+    ]
+  }
+}

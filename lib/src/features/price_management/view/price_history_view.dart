@@ -4,6 +4,7 @@ import 'package:feed_estimator/src/core/utils/widget_builders.dart';
 import 'package:feed_estimator/src/features/price_management/model/price_history.dart';
 import 'package:feed_estimator/src/features/price_management/provider/current_price_provider.dart';
 import 'package:feed_estimator/src/features/price_management/provider/price_history_provider.dart';
+import 'package:feed_estimator/src/features/price_management/widget/price_bulk_import_dialog.dart';
 import 'package:feed_estimator/src/features/price_management/repository/price_history_repository.dart';
 import 'package:feed_estimator/src/features/price_management/widget/price_edit_dialog.dart';
 import 'package:flutter/material.dart';
@@ -61,11 +62,22 @@ class _PriceHistoryViewState extends ConsumerState<PriceHistoryView> {
                         'Price History',
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
-                      FilledButton.icon(
-                        onPressed: () => _showAddPriceDialog(context),
-                        label: const Text('Add Price'),
-                        icon:
-                            const Icon(Icons.add, size: UIConstants.iconSmall),
+                      Row(
+                        children: [
+                          OutlinedButton.icon(
+                            onPressed: () => _showImportDialog(context),
+                            icon: const Icon(Icons.file_upload,
+                                size: UIConstants.iconSmall),
+                            label: const Text('Import CSV'),
+                          ),
+                          const SizedBox(width: UIConstants.paddingSmall),
+                          FilledButton.icon(
+                            onPressed: () => _showAddPriceDialog(context),
+                            label: const Text('Add Price'),
+                            icon: const Icon(Icons.add,
+                                size: UIConstants.iconSmall),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -100,28 +112,105 @@ class _PriceHistoryViewState extends ConsumerState<PriceHistoryView> {
                     ),
                   );
                 }
-
                 return Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: priceHistory.length,
-                    itemBuilder: (context, index) {
-                      final price = priceHistory[index];
-                      return _buildPriceHistoryCard(
-                        price,
-                        priceHistory.length > 1 && index > 0
-                            ? priceHistory[index - 1]
-                            : null,
-                      );
-                    },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildStatsCard(priceHistory),
+                      const SizedBox(height: UIConstants.paddingNormal),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: priceHistory.length,
+                        itemBuilder: (context, index) {
+                          final price = priceHistory[index];
+                          return _buildPriceHistoryCard(
+                            price,
+                            priceHistory.length > 1 && index > 0
+                                ? priceHistory[index - 1]
+                                : null,
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 );
               },
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  /// Build quick stats card (min, max, averages)
+  Widget _buildStatsCard(List<PriceHistory> history) {
+    final now = DateTime.now();
+    final prices = history.map((e) => e.price).toList();
+    final minPrice = prices.reduce((a, b) => a < b ? a : b);
+    final maxPrice = prices.reduce((a, b) => a > b ? a : b);
+    final overallAvg =
+        prices.isEmpty ? 0 : prices.reduce((a, b) => a + b) / prices.length;
+
+    double avgInDays(int days) {
+      final cutoff = now.subtract(Duration(days: days));
+      final window =
+          history.where((p) => p.effectiveDate.isAfter(cutoff)).toList();
+      if (window.isEmpty) return 0;
+      final sum = window.fold<double>(0, (prev, curr) => prev + curr.price);
+      return sum / window.length;
+    }
+
+    final avg30 = avgInDays(30);
+    final avg90 = avgInDays(90);
+    final avg365 = avgInDays(365);
+
+    return Container(
+      width: double.infinity,
+      decoration: UIConstants.cardDecoration(),
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Price Analytics',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          const SizedBox(height: UIConstants.paddingSmall),
+          Wrap(
+            spacing: UIConstants.paddingNormal,
+            runSpacing: UIConstants.paddingSmall,
+            children: [
+              _buildStatChip('Min', minPrice),
+              _buildStatChip('Max', maxPrice),
+              _buildStatChip('Avg (all)', overallAvg.toDouble()),
+              _buildStatChip('Avg 30d', avg30),
+              _buildStatChip('Avg 90d', avg90),
+              _buildStatChip('Avg 365d', avg365),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStatChip(String label, double value) {
+    return Chip(
+      label: Text('$label: ${value.toStringAsFixed(2)} NGN'),
+      backgroundColor: Colors.grey[100],
+      side: BorderSide(color: Colors.grey[300] ?? Colors.grey),
+    );
+  }
+
+  void _showImportDialog(BuildContext context) {
+    showDialog<void>(
+      context: context,
+      builder: (_) => PriceBulkImportDialog(
+        ingredientId: widget.ingredientId,
+        onImported: () {
+          ref.invalidate(priceHistoryProvider(widget.ingredientId));
+        },
       ),
     );
   }

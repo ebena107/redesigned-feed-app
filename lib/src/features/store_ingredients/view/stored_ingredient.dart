@@ -1,3 +1,4 @@
+import 'package:feed_estimator/src/core/router/routes.dart';
 import 'package:feed_estimator/src/features/add_ingredients/repository/ingredients_repository.dart';
 import 'package:feed_estimator/src/features/add_ingredients/widgets/user_ingredients_widget.dart';
 import 'package:feed_estimator/src/features/price_management/view/price_history_view.dart';
@@ -7,6 +8,7 @@ import 'package:feed_estimator/src/utils/widgets/app_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class StoredIngredients extends ConsumerWidget {
   const StoredIngredients({super.key});
@@ -64,6 +66,14 @@ class StoredIngredients extends ConsumerWidget {
             ),
           ),
 
+          // Region filter
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+            sliver: SliverToBoxAdapter(
+              child: _RegionFilterBar(),
+            ),
+          ),
+
           // Edit form with animation
           SliverToBoxAdapter(
             child: AnimatedSize(
@@ -97,7 +107,9 @@ class StoredIngredients extends ConsumerWidget {
                   const Spacer(),
                   FilledButton.tonalIcon(
                     onPressed: () {
-                      // Navigate to add ingredient
+                      // Use direct path navigation for reliability
+                      // Typed route remains available, but path-based go avoids any gen issues
+                      context.go('/newIngredient');
                     },
                     icon: const Icon(Icons.add_rounded, size: 18),
                     label: const Text('Add New'),
@@ -119,6 +131,55 @@ class StoredIngredients extends ConsumerWidget {
             child: UserIngredientsWidget(),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _RegionFilterBar extends ConsumerStatefulWidget {
+  const _RegionFilterBar();
+
+  @override
+  ConsumerState<_RegionFilterBar> createState() => _RegionFilterBarState();
+}
+
+class _RegionFilterBarState extends ConsumerState<_RegionFilterBar> {
+  static const _regions = [
+    'All',
+    'Africa',
+    'Asia',
+    'Europe',
+    'Americas',
+    'Oceania',
+    'Global'
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    final state = ref.watch(storeIngredientProvider);
+    final selected = state.regionFilter ?? 'All';
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: _regions.map((r) {
+          final isSelected =
+              selected == r || (r == 'All' && state.regionFilter == null);
+          return Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: ChoiceChip(
+              label: Text(r),
+              selected: isSelected,
+              onSelected: (_) {
+                ref.read(storeIngredientProvider.notifier).setRegionFilter(r);
+              },
+              selectedColor: const Color(0xff87643E).withValues(alpha: 0.2),
+              labelStyle: TextStyle(
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+              ),
+            ),
+          );
+        }).toList(),
       ),
     );
   }

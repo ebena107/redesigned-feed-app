@@ -28,7 +28,7 @@ class AppDatabase {
   static final AppDatabase _instance = AppDatabase._();
 
   // Current database version - increment when adding migrations
-  static const int _currentVersion = 10;
+  static const int _currentVersion = 12;
 
   factory AppDatabase() => _instance;
 
@@ -135,6 +135,12 @@ class AppDatabase {
         break;
       case 10:
         await _migrationV9ToV10(db);
+        break;
+      case 11:
+        await _migrationV10ToV11(db);
+        break;
+      case 12:
+        await _migrationV11ToV12(db);
         break;
       // Add future migrations here
       default:
@@ -397,6 +403,74 @@ class AppDatabase {
     debugPrint('Migration 9→10: Complete');
   }
 
+  /// Migration from v10 to v11: Create price_history table
+  Future<void> _migrationV10ToV11(Database db) async {
+    debugPrint('Migration 10→11: Creating price_history table');
+
+    try {
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS price_history (
+          id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+          ingredient_id INTEGER NOT NULL,
+          price REAL NOT NULL,
+          currency TEXT NOT NULL DEFAULT 'NGN',
+          effective_date INTEGER NOT NULL,
+          source TEXT DEFAULT 'user',
+          notes TEXT,
+          created_at INTEGER NOT NULL,
+          FOREIGN KEY(ingredient_id) REFERENCES ${IngredientsRepository.tableName}(${IngredientsRepository.colId})
+            ON DELETE CASCADE ON UPDATE NO ACTION
+        )
+      ''');
+
+      // Add index for faster lookups
+      await db.execute('''
+        CREATE INDEX IF NOT EXISTS idx_price_history_ingredient_id
+        ON price_history(ingredient_id)
+      ''');
+
+      await db.execute('''
+        CREATE INDEX IF NOT EXISTS idx_price_history_effective_date
+        ON price_history(effective_date)
+      ''');
+
+      debugPrint('Migration 10→11: price_history table created successfully');
+    } catch (e) {
+      debugPrint('Migration 10→11: Error creating price_history table: $e');
+      rethrow;
+    }
+
+    debugPrint('Migration 10→11: Complete');
+  }
+
+  /// Migration from v11 to v12: Add regional tagging support
+  /// Adds "region" column to ingredients table to support geographic categorization
+  /// Regions: Africa, Asia, Europe, Americas, Oceania, Global (multi-region support via comma-separated values)
+  Future<void> _migrationV11ToV12(Database db) async {
+    debugPrint('Migration 11→12: Adding region column to ingredients table');
+
+    try {
+      // Add region column with default value 'Global'
+      await db.execute('''
+        ALTER TABLE ${IngredientsRepository.tableName}
+        ADD COLUMN ${IngredientsRepository.colRegion} TEXT DEFAULT 'Global'
+      ''');
+
+      // Create index for fast region-based queries
+      await db.execute('''
+        CREATE INDEX IF NOT EXISTS idx_ingredients_region
+        ON ${IngredientsRepository.tableName}(${IngredientsRepository.colRegion})
+      ''');
+
+      debugPrint('Migration 11→12: region column added successfully');
+    } catch (e) {
+      debugPrint('Migration 11→12: Error adding region column: $e');
+      rethrow;
+    }
+
+    debugPrint('Migration 11→12: Complete');
+  }
+
   /// this should be run when the database is being created
   /// and populate the tables with initial data
   Future<void> _createAll(Database db) async {
@@ -405,6 +479,22 @@ class AppDatabase {
     await db.execute(AnimalTypeRepository.tableCreateQuery);
     await db.execute(FeedRepository.tableCreateQuery);
     await db.execute(FeedIngredientRepository.tableCreateQuery);
+
+    // Create price_history table
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS price_history (
+        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        ingredient_id INTEGER NOT NULL,
+        price REAL NOT NULL,
+        currency TEXT NOT NULL DEFAULT 'NGN',
+        effective_date INTEGER NOT NULL,
+        source TEXT DEFAULT 'user',
+        notes TEXT,
+        created_at INTEGER NOT NULL,
+        FOREIGN KEY(ingredient_id) REFERENCES ${IngredientsRepository.tableName}(${IngredientsRepository.colId})
+          ON DELETE CASCADE ON UPDATE NO ACTION
+      )
+    ''');
 
     await _populateTables(db);
   }

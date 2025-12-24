@@ -258,94 +258,108 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Widget _buildErrorWidget() {
-    return Padding(
-      padding: const EdgeInsets.all(32),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // Error Icon
-          Container(
-            width: 80,
-            height: 80,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.red.withValues(alpha: 0.1),
-            ),
-            child: const Icon(
-              Icons.error_outline,
-              size: 40,
-              color: Colors.red,
-            ),
-          ),
-          const SizedBox(height: 24),
-
-          // Error Title
-          Text(
-            'Initialization Error',
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  color: Colors.red,
-                  fontWeight: FontWeight.bold,
-                ),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 16),
-
-          // Error Message
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.red.withValues(alpha: 0.05),
-              border: Border.all(color: Colors.red.withValues(alpha: 0.2)),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: SingleChildScrollView(
-              child: Text(
-                _errorMessage,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Colors.red[700],
-                      fontFamily: 'monospace',
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(32),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxWidth: 420,
+                minWidth: 280,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Error Icon
+                  Container(
+                    width: 80,
+                    height: 80,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.red.withValues(alpha: 0.1),
                     ),
+                    child: const Icon(
+                      Icons.error_outline,
+                      size: 40,
+                      color: Colors.red,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+
+                  // Error Title
+                  Text(
+                    'Initialization Error',
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold,
+                        ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Error Message
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.red.withValues(alpha: 0.05),
+                      border:
+                          Border.all(color: Colors.red.withValues(alpha: 0.2)),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: SingleChildScrollView(
+                      child: Text(
+                        _errorMessage,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: Colors.red[700],
+                              fontFamily: 'monospace',
+                            ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 32),
+
+                  // Error Description
+                  Text(
+                    'Failed to initialize the application. This may be due to database issues or corrupted data.',
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Colors.grey[700],
+                        ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 32),
+
+                  // Retry Button
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: _retryInitialization,
+                      icon: const Icon(Icons.refresh),
+                      label: const Text('Retry'),
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        backgroundColor: AppConstants.mainAppColor,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Exit Button
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton.icon(
+                      onPressed: () => exit(0),
+                      icon: const Icon(Icons.close),
+                      label: const Text('Exit'),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
-          const SizedBox(height: 32),
-
-          // Error Description
-          Text(
-            'Failed to initialize the application. This may be due to database issues or corrupted data.',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Colors.grey[700],
-                ),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 32),
-
-          // Retry Button
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton.icon(
-              onPressed: _retryInitialization,
-              icon: const Icon(Icons.refresh),
-              label: const Text('Retry'),
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                backgroundColor: AppConstants.mainAppColor,
-              ),
-            ),
-          ),
-          const SizedBox(height: 12),
-
-          // Exit Button
-          SizedBox(
-            width: double.infinity,
-            child: OutlinedButton.icon(
-              onPressed: () => exit(0),
-              icon: const Icon(Icons.close),
-              label: const Text('Exit'),
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

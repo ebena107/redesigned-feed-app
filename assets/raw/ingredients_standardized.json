@@ -89,7 +89,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Rich in carotenes, good for pigmentation"
+    "notes": "Rich in carotenes, good for pigmentation",
+    "region": "Europe, Americas"
   },
   {
     "ingredient_id": 2,
@@ -167,7 +168,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Pectin content may cause wet droppings"
+    "notes": "Pectin content may cause wet droppings",
+    "region": "Global"
   },
   {
     "ingredient_id": 3,
@@ -245,7 +247,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Check for raisin/chocolate content; sodium may vary 0.5-2%"
+    "notes": "Check for raisin/chocolate content; sodium may vary 0.5-2%",
+    "region": "Global"
   },
   {
     "ingredient_id": 4,
@@ -326,7 +329,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Good energy source but low protein; use with amino acid supplementation"
+    "notes": "Good energy source but low protein; use with amino acid supplementation",
+    "region": "Africa, Asia"
   },
   {
     "ingredient_id": 5,
@@ -420,7 +424,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Consider enzyme supplementation for monogastrics; good for ruminants"
+    "notes": "Consider enzyme supplementation for monogastrics; good for ruminants",
+    "region": "Europe, Americas"
   },
   {
     "ingredient_id": 6,
@@ -514,7 +519,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Good protein source; monitor fat quality for pig carcasses"
+    "notes": "Good protein source; monitor fat quality for pig carcasses",
+    "region": "Europe, Americas"
   },
   {
     "ingredient_id": 7,
@@ -592,7 +598,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Good energy for ruminants; excellent pelleting aid"
+    "notes": "Good energy for ruminants; excellent pelleting aid",
+    "region": "Global"
   },
   {
     "ingredient_id": 8,
@@ -670,7 +677,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Very palatable; variable composition"
+    "notes": "Very palatable; variable composition",
+    "region": "Global"
   },
   {
     "ingredient_id": 9,
@@ -762,7 +770,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Sustainable protein; chitin may limit digestibility at high inclusion"
+    "notes": "Sustainable protein; chitin may limit digestibility at high inclusion",
+    "region": "Global"
   },
   {
     "ingredient_id": 10,
@@ -854,7 +863,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Energy-rich variant; use antioxidant protection"
+    "notes": "Energy-rich variant; use antioxidant protection",
+    "region": "Global"
   },
   {
     "ingredient_id": 11,
@@ -946,7 +956,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Use with isoleucine supplementation; excellent lysine source"
+    "notes": "Use with isoleucine supplementation; excellent lysine source",
+    "region": "Global"
   },
   {
     "ingredient_id": 12,
@@ -1038,7 +1049,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Use dicalcium phosphate for monogastrics; steam sterilization required"
+    "notes": "Use dicalcium phosphate for monogastrics; steam sterilization required",
+    "region": "Global"
   },
   {
     "ingredient_id": 13,
@@ -1133,7 +1145,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Excellent rumen bypass protein; good for dairy cows"
+    "notes": "Excellent rumen bypass protein; good for dairy cows",
+    "region": "Global"
   },
   {
     "ingredient_id": 14,
@@ -1225,7 +1238,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Excellent palatability enhancer; good source of B-vitamins and minerals"
+    "notes": "Excellent palatability enhancer; good source of B-vitamins and minerals",
+    "region": "Global"
   },
   {
     "ingredient_id": 15,
@@ -1317,7 +1331,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Use coarse grind for layers, fine for pigs; 38% Ca"
+    "notes": "Use coarse grind for layers, fine for pigs; 38% Ca",
+    "region": "Global"
   },
   {
     "ingredient_id": 16,
@@ -1394,7 +1409,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Good amino acid profile; heat treatment improves digestibility"
+    "notes": "Good amino acid profile; heat treatment improves digestibility",
+    "region": "Global"
   },
   {
     "ingredient_id": 17,
@@ -1474,7 +1490,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "By-product of starch extraction; good energy but requires protein supplementation"
+    "notes": "By-product of starch extraction; good energy but requires protein supplementation",
+    "region": "Africa, Asia"
   },
   {
     "ingredient_id": 18,
@@ -1537,7 +1554,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Excellent energy source; detoxification critical; use with methionine supplement"
+    "notes": "Excellent energy source; detoxification critical; use with methionine supplement",
+    "region": "Africa, Asia"
   },
   {
     "ingredient_id": 19,
@@ -1630,7 +1648,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Protein-rich but requires detoxification; excellent for ruminants when processed"
+    "notes": "Protein-rich but requires detoxification; excellent for ruminants when processed",
+    "region": "Africa, Asia"
   },
   {
     "ingredient_id": 20,
@@ -1725,7 +1744,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Good protein source; requires heating; supplement methionine"
+    "notes": "Good protein source; requires heating; supplement methionine",
+    "region": "Global"
   },
   {
     "ingredient_id": 21,
@@ -1806,7 +1826,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Good for ruminants; pellet binding agent; reduces urine pH in pigs"
+    "notes": "Good for ruminants; pellet binding agent; reduces urine pH in pigs",
+    "region": "Global"
   },
   {
     "ingredient_id": 22,
@@ -1886,7 +1907,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Ruminant feed only; theobromine limits usage"
+    "notes": "Ruminant feed only; theobromine limits usage",
+    "region": "Global"
   },
   {
     "ingredient_id": 23,
@@ -1966,7 +1988,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Limited use due to theobromine; better as fertilizer than feed"
+    "notes": "Limited use due to theobromine; better as fertilizer than feed",
+    "region": "Global"
   },
   {
     "ingredient_id": 24,
@@ -2058,7 +2081,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Rich in EPA/DHA and vitamins; use with antioxidant protection"
+    "notes": "Rich in EPA/DHA and vitamins; use with antioxidant protection",
+    "region": "Global"
   },
   {
     "ingredient_id": 25,
@@ -2153,7 +2177,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Excellent protein after cooking; lectins destroyed by heat; supplement methionine"
+    "notes": "Excellent protein after cooking; lectins destroyed by heat; supplement methionine",
+    "region": "Global"
   },
   {
     "ingredient_id": 26,
@@ -2245,7 +2270,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Used as bulk fiber; very low nutritional value; good for rumen fill"
+    "notes": "Used as bulk fiber; very low nutritional value; good for rumen fill",
+    "region": "Global"
   },
   {
     "ingredient_id": 27,
@@ -2339,7 +2365,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Must use gossypol-free varieties for layers; iron sulfate can bind gossypol"
+    "notes": "Must use gossypol-free varieties for layers; iron sulfate can bind gossypol",
+    "region": "Global"
   },
   {
     "ingredient_id": 28,
@@ -2419,7 +2446,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Pressing/extrusion reduces gossypol; better for ruminants; iron binding needed"
+    "notes": "Pressing/extrusion reduces gossypol; better for ruminants; iron binding needed",
+    "region": "Global"
   },
   {
     "ingredient_id": 29,
@@ -2514,7 +2542,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Better than common beans; good drought tolerance; supplement methionine"
+    "notes": "Better than common beans; good drought tolerance; supplement methionine",
+    "region": "Africa, Asia"
   },
   {
     "ingredient_id": 30,
@@ -2606,7 +2635,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Standard phosphorus source; 18% P, 23% Ca; use with limestone for layers"
+    "notes": "Standard phosphorus source; 18% P, 23% Ca; use with limestone for layers",
+    "region": "Global"
   },
   {
     "ingredient_id": 31,
@@ -2678,7 +2708,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "First limiting amino acid in corn-soy diets; 99% pure methionine"
+    "notes": "First limiting amino acid in corn-soy diets; 99% pure methionine",
+    "region": "Global"
   },
   {
     "ingredient_id": 32,
@@ -2770,7 +2801,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Provides both Ca and Mg; 21.9% Ca, 11.5% Mg; use with caution"
+    "notes": "Provides both Ca and Mg; 21.9% Ca, 11.5% Mg; use with caution",
+    "region": "Global"
   },
   {
     "ingredient_id": 33,
@@ -2862,7 +2894,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Releases phytate phosphorus (500-1000 FTU/g); reduces P excretion; Releases phytate phosphorus, typically 500-1000 FTU/g"
+    "notes": "Releases phytate phosphorus (500-1000 FTU/g); reduces P excretion; Releases phytate phosphorus, typically 500-1000 FTU/g",
+    "region": "Global"
   },
   {
     "ingredient_id": 34,
@@ -2957,7 +2990,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Colored varieties higher in ANFs; white flowered (ID35) safer; heat treat"
+    "notes": "Colored varieties higher in ANFs; white flowered (ID35) safer; heat treat",
+    "region": "Global"
   },
   {
     "ingredient_id": 35,
@@ -3052,7 +3086,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Safer for layers than colored varieties; good protein source; heat treat"
+    "notes": "Safer for layers than colored varieties; good protein source; heat treat",
+    "region": "Global"
   },
   {
     "ingredient_id": 36,
@@ -3147,7 +3182,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Excellent cystine source; poor lysine; modern processing improves digestibility; High in cystine, poor lysine digestibility"
+    "notes": "Excellent cystine source; poor lysine; modern processing improves digestibility; High in cystine, poor lysine digestibility",
+    "region": "Global"
   },
   {
     "ingredient_id": 37,
@@ -3242,7 +3278,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Premium protein; excellent AA profile; use antioxidant protection"
+    "notes": "Premium protein; excellent AA profile; use antioxidant protection",
+    "region": "Global"
   },
   {
     "ingredient_id": 38,
@@ -3337,7 +3374,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Higher protein content; better amino acid balance; excellent for fish"
+    "notes": "Higher protein content; better amino acid balance; excellent for fish",
+    "region": "Global"
   },
   {
     "ingredient_id": 39,
@@ -3431,7 +3469,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Lowest ash content; best digestibility; ideal for high-value fish and shrimp"
+    "notes": "Lowest ash content; best digestibility; ideal for high-value fish and shrimp",
+    "region": "Global"
   },
   {
     "ingredient_id": 40,
@@ -3526,7 +3565,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Rich in omega-3 (EPA/DHA); use antioxidant protection; premium energy source; Rich in omega-3 fatty acids (EPA, DHA)"
+    "notes": "Rich in omega-3 (EPA/DHA); use antioxidant protection; premium energy source; Rich in omega-3 fatty acids (EPA, DHA)",
+    "region": "Global"
   },
   {
     "ingredient_id": 41,
@@ -3621,7 +3661,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Rich in omega-3 fatty acids (EPA, DHA). Excellent for aquaculture (salmonids). Improves feed conversion and immune function. High cost limits use. Requires antioxidant stabilization."
+    "notes": "Rich in omega-3 fatty acids (EPA, DHA). Excellent for aquaculture (salmonids). Improves feed conversion and immune function. High cost limits use. Requires antioxidant stabilization.",
+    "region": "Global"
   },
   {
     "ingredient_id": 42,
@@ -3716,7 +3757,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "High moisture root crop mainly for ruminants. Energy primarily from sugars. Requires washing to remove soil. Gradual introduction essential. Best used fresh or ensiled."
+    "notes": "High moisture root crop mainly for ruminants. Energy primarily from sugars. Requires washing to remove soil. Gradual introduction essential. Best used fresh or ensiled.",
+    "region": "Global"
   },
   {
     "ingredient_id": 43,
@@ -3811,7 +3853,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Byproduct of wine production. High fiber and tannins limit use. Contains polyphenols with antioxidant properties. Best used in ruminant diets. Gradual introduction required. Monitor for ochratoxin A from grapes."
+    "notes": "Byproduct of wine production. High fiber and tannins limit use. Contains polyphenols with antioxidant properties. Best used in ruminant diets. Gradual introduction required. Monitor for ochratoxin A from grapes.",
+    "region": "Global"
   },
   {
     "ingredient_id": 44,
@@ -3906,7 +3949,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Very high fiber content limits use. Oil can be extracted for higher value. Best used as roughage for ruminants. Requires grinding for monogastrics. Contains proanthocyanidins with antioxidant properties but high tannin binding capacity."
+    "notes": "Very high fiber content limits use. Oil can be extracted for higher value. Best used as roughage for ruminants. Requires grinding for monogastrics. Contains proanthocyanidins with antioxidant properties but high tannin binding capacity.",
+    "region": "Global"
   },
   {
     "ingredient_id": 45,
@@ -4001,7 +4045,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "High-energy milk replacer; use for young animals only; excellent palatability"
+    "notes": "High-energy milk replacer; use for young animals only; excellent palatability",
+    "region": "Global"
   },
   {
     "ingredient_id": 46,
@@ -4096,7 +4141,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Drought-tolerant alternative to maize; lower energy; good for semi-arid regions"
+    "notes": "Drought-tolerant alternative to maize; lower energy; good for semi-arid regions",
+    "region": "Global"
   },
   {
     "ingredient_id": 47,
@@ -4177,7 +4223,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Excellent palatability; reduces dust; good energy; limit for gut health; Liquid, improves palatability"
+    "notes": "Excellent palatability; reduces dust; good energy; limit for gut health; Liquid, improves palatability",
+    "region": "Global"
   },
   {
     "ingredient_id": 48,
@@ -4258,7 +4305,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "More common than beet molasses; cheaper but lower quality; palatability enhancer"
+    "notes": "More common than beet molasses; cheaper but lower quality; palatability enhancer",
+    "region": "Global"
   },
   {
     "ingredient_id": 49,
@@ -4350,7 +4398,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "22.4% P, 16.7% Ca; highly available; standard P source"
+    "notes": "22.4% P, 16.7% Ca; highly available; standard P source",
+    "region": "Global"
   },
   {
     "ingredient_id": 50,
@@ -4446,7 +4495,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Superfood potential but regulatory issues; excellent vitamins A, C; source verification critical; Very rich in vitamins A, C, calcium; limit 5-10%"
+    "notes": "Superfood potential but regulatory issues; excellent vitamins A, C; source verification critical; Very rich in vitamins A, C, calcium; limit 5-10%",
+    "region": "Africa, Asia"
   },
   {
     "ingredient_id": 51,
@@ -4528,7 +4578,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Controversial; detoxification critical; limited research; use with extreme caution; Limit to 5% due to bitter compounds"
+    "notes": "Controversial; detoxification critical; limited research; use with extreme caution; Limit to 5% due to bitter compounds",
+    "region": "Global"
   },
   {
     "ingredient_id": 52,
@@ -4610,7 +4661,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Good energy from starch; palatable; check for toxic additives; quality control essential"
+    "notes": "Good energy from starch; palatable; check for toxic additives; quality control essential",
+    "region": "Global"
   },
   {
     "ingredient_id": 53,
@@ -4705,7 +4757,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Used as fiber source; very low energy; good for gut motility; dust control needed"
+    "notes": "Used as fiber source; very low energy; good for gut motility; dust control needed",
+    "region": "Global"
   },
   {
     "ingredient_id": 54,
@@ -4800,7 +4853,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Good for sow lactation; beta-glucans benefit gut health with enzyme; less mycotoxin than corn"
+    "notes": "Good for sow lactation; beta-glucans benefit gut health with enzyme; less mycotoxin than corn",
+    "region": "Europe, Americas"
   },
   {
     "ingredient_id": 55,
@@ -4895,7 +4949,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Low digestibility; better for ruminants; limit for monogastrics; cheap fiber source; Oil palm fruit by-product. Very high fiber severely limits use in poultry and pigs. Better suited for ruminants (good bypass protein). Energy from remaining oil. Lysine is extremely deficient. High fiber good for ruminant rumen function but limits intake."
+    "notes": "Low digestibility; better for ruminants; limit for monogastrics; cheap fiber source; Oil palm fruit by-product. Very high fiber severely limits use in poultry and pigs. Better suited for ruminants (good bypass protein). Energy from remaining oil. Lysine is extremely deficient. High fiber good for ruminant rumen function but limits intake.",
+    "region": "Oceania, Global"
   },
   {
     "ingredient_id": 56,
@@ -4990,7 +5045,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Saturated fat causes hard carcass fat; good for hot climates; sustainable sourcing important"
+    "notes": "Saturated fat causes hard carcass fat; good for hot climates; sustainable sourcing important",
+    "region": "Global"
   },
   {
     "ingredient_id": 57,
@@ -5085,7 +5141,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Good alternative to soybean meal; heat treatment critical; supplement methionine"
+    "notes": "Good alternative to soybean meal; heat treatment critical; supplement methionine",
+    "region": "Americas, Global"
   },
   {
     "ingredient_id": 58,
@@ -5166,7 +5223,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Improved digestibility over raw peas; better amino acid availability; good for piglets; Better digestibility than raw peas"
+    "notes": "Improved digestibility over raw peas; better amino acid availability; good for piglets; Better digestibility than raw peas",
+    "region": "Global"
   },
   {
     "ingredient_id": 59,
@@ -5248,7 +5306,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Drought-tolerant; moderate protein; heat treatment critical; good for tropics"
+    "notes": "Drought-tolerant; moderate protein; heat treatment critical; good for tropics",
+    "region": "Africa, Asia"
   },
   {
     "ingredient_id": 60,
@@ -5330,7 +5389,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "By-product of starch industry; pectin content; good for gut health; solanine monitoring needed"
+    "notes": "By-product of starch industry; pectin content; good for gut health; solanine monitoring needed",
+    "region": "Global"
   },
   {
     "ingredient_id": 61,
@@ -5412,7 +5472,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Good energy source; better protein than cereal grains; must verify solanine levels"
+    "notes": "Good energy source; better protein than cereal grains; must verify solanine levels",
+    "region": "Global"
   },
   {
     "ingredient_id": 62,
@@ -5504,7 +5565,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Good energy; palatable; but legally cannot feed back to poultry in EU; US varies by state"
+    "notes": "Good energy; palatable; but legally cannot feed back to poultry in EU; US varies by state",
+    "region": "Global"
   },
   {
     "ingredient_id": 63,
@@ -5596,7 +5658,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Excellent protein but species ban limits use; use for pigs/fish; high digestibility"
+    "notes": "Excellent protein but species ban limits use; use for pigs/fish; high digestibility",
+    "region": "Global"
   },
   {
     "ingredient_id": 64,
@@ -5690,7 +5753,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Lower energy than soybean; good methionine; glucosinolates limit poultry use"
+    "notes": "Lower energy than soybean; good methionine; glucosinolates limit poultry use",
+    "region": "Europe, Americas"
   },
   {
     "ingredient_id": 65,
@@ -5786,7 +5850,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Good energy source; better for poultry than pigs; monitor erucic acid; sustainable sourcing"
+    "notes": "Good energy source; better for poultry than pigs; monitor erucic acid; sustainable sourcing",
+    "region": "Europe, Americas"
   },
   {
     "ingredient_id": 66,
@@ -5881,7 +5946,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "High phytate reduces mineral availability; use phytase; dust explosion risk; rancidity potential"
+    "notes": "High phytate reduces mineral availability; use phytase; dust explosion risk; rancidity potential",
+    "region": "Asia"
   },
   {
     "ingredient_id": 67,
@@ -5963,7 +6029,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Good energy; phytate reduces mineral availability; arsenic concern; use phytase"
+    "notes": "Good energy; phytate reduces mineral availability; arsenic concern; use phytase",
+    "region": "Global"
   },
   {
     "ingredient_id": 68,
@@ -6045,7 +6112,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Higher energy than brown rice; less fiber; better for pigs; arsenic still a concern"
+    "notes": "Higher energy than brown rice; less fiber; better for pigs; arsenic still a concern",
+    "region": "Global"
   },
   {
     "ingredient_id": 69,
@@ -6127,7 +6195,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Better for ruminants than monogastrics; enzyme supplementation critical for poultry; ergot testing needed"
+    "notes": "Better for ruminants than monogastrics; enzyme supplementation critical for poultry; ergot testing needed",
+    "region": "Europe, Americas"
   },
   {
     "ingredient_id": 70,
@@ -6222,7 +6291,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Essential electrolyte; 39.3% Na, 60.7% Cl; iodized salt recommended; uniform mixing critical"
+    "notes": "Essential electrolyte; 39.3% Na, 60.7% Cl; iodized salt recommended; uniform mixing critical",
+    "region": "Global"
   },
   {
     "ingredient_id": 71,
@@ -6317,7 +6387,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "38% Ca; cheaper than limestone; marine source concerns; use coarse for layers; test purity"
+    "notes": "38% Ca; cheaper than limestone; marine source concerns; use coarse for layers; test purity",
+    "region": "Global"
   },
   {
     "ingredient_id": 72,
@@ -6413,7 +6484,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Excellent methionine source; high Ca limits use; supplement phosphorus; good for layers (Ca benefit)"
+    "notes": "Excellent methionine source; high Ca limits use; supplement phosphorus; good for layers (Ca benefit)",
+    "region": "Global"
   },
   {
     "ingredient_id": 73,
@@ -6496,7 +6568,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Chitin limits use for monogastrics; excellent for fish; high calcium problematic; marine sustainability; High chitin content limits digestibility"
+    "notes": "Chitin limits use for monogastrics; excellent for fish; high calcium problematic; marine sustainability; High chitin content limits digestibility",
+    "region": "Global"
   },
   {
     "ingredient_id": 74,
@@ -6591,7 +6664,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Buffer for heat stress; rumen alkalizer; urine alkalinizer; 27.4% Na; use for DCAD management; Buffer, electrolyte balance"
+    "notes": "Buffer for heat stress; rumen alkalizer; urine alkalinizer; 27.4% Na; use for DCAD management; Buffer, electrolyte balance",
+    "region": "Global"
   },
   {
     "ingredient_id": 75,
@@ -6685,7 +6759,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Drought-tolerant corn alternative; low-tannin varieties good for all species; tannins reduce protein digestibility"
+    "notes": "Drought-tolerant corn alternative; low-tannin varieties good for all species; tannins reduce protein digestibility",
+    "region": "Americas, Global"
   },
   {
     "ingredient_id": 76,
@@ -6767,7 +6842,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Excellent ruminant fiber; very low value for poultry; extremely low density; dust explosion risk"
+    "notes": "Excellent ruminant fiber; very low value for poultry; extremely low density; dust explosion risk",
+    "region": "Americas, Global"
   },
   {
     "ingredient_id": 77,
@@ -6848,7 +6924,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Gold standard protein; excellent amino acid profile; heat processing essential; phytase improves P availability; Improved digestibility over solvent-extracted; better protein quality; higher cost but worth it; Better digestibility than non-extruded"
+    "notes": "Gold standard protein; excellent amino acid profile; heat processing essential; phytase improves P availability; Improved digestibility over solvent-extracted; better protein quality; higher cost but worth it; Better digestibility than non-extruded",
+    "region": "Americas, Global"
   },
   {
     "ingredient_id": 78,
@@ -6944,7 +7021,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Polyunsaturation problematic for pig carcass; good for poultry; sustainable sourcing issues; use antioxidant"
+    "notes": "Polyunsaturation problematic for pig carcass; good for poultry; sustainable sourcing issues; use antioxidant",
+    "region": "Americas, Global"
   },
   {
     "ingredient_id": 79,
@@ -7027,7 +7105,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Full-fat soy; high energy; good for young pigs; rancidity concern; excellent bypass protein for ruminants"
+    "notes": "Full-fat soy; high energy; good for young pigs; rancidity concern; excellent bypass protein for ruminants",
+    "region": "Americas, Global"
   },
   {
     "ingredient_id": 80,
@@ -7123,7 +7202,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Used as filler/bulk; very low energy; dusty; good for rumen fill; quality control for purity"
+    "notes": "Used as filler/bulk; very low energy; dusty; good for rumen fill; quality control for purity",
+    "region": "Global"
   },
   {
     "ingredient_id": 81,
@@ -7220,7 +7300,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Excellent methionine supplement; very low lysine causes imbalance; fiber limits monogastric use"
+    "notes": "Excellent methionine supplement; very low lysine causes imbalance; fiber limits monogastric use",
+    "region": "Global"
   },
   {
     "ingredient_id": 82,
@@ -7316,7 +7397,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "High linoleic acid; good for egg omega-3 enrichment; soft carcass fat in pigs; use with vitamin E"
+    "notes": "High linoleic acid; good for egg omega-3 enrichment; soft carcass fat in pigs; use with vitamin E",
+    "region": "Global"
   },
   {
     "ingredient_id": 83,
@@ -7398,7 +7480,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Excellent energy; beta-carotene benefits layer yolk color; low protein requires supplementation"
+    "notes": "Excellent energy; beta-carotene benefits layer yolk color; low protein requires supplementation",
+    "region": "Global"
   },
   {
     "ingredient_id": 84,
@@ -7490,7 +7573,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Animal fat source. High energy. Use with antioxidant protection. Excellent for aquaculture."
+    "notes": "Animal fat source. High energy. Use with antioxidant protection. Excellent for aquaculture.",
+    "region": "Global"
   },
   {
     "ingredient_id": 85,
@@ -7570,7 +7654,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Gluten-free ancient grain. Good amino acid profile. Can replace maize/wheat up to 100%. High calcium content."
+    "notes": "Gluten-free ancient grain. Good amino acid profile. Can replace maize/wheat up to 100%. High calcium content.",
+    "region": "Africa"
   },
   {
     "ingredient_id": 86,
@@ -7650,7 +7735,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "By-product of tomato processing. High fiber limits inclusion. Rich in lycopene. Good for ruminants and rabbits."
+    "notes": "By-product of tomato processing. High fiber limits inclusion. Rich in lycopene. Good for ruminants and rabbits.",
+    "region": "Global"
   },
   {
     "ingredient_id": 87,
@@ -7742,7 +7828,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Clay-based toxin binder. Use at 1-2 kg/ton for mycotoxin control. Monitor for potential nutrient binding.; Binds mycotoxins, use 1-2 kg/ton"
+    "notes": "Clay-based toxin binder. Use at 1-2 kg/ton for mycotoxin control. Monitor for potential nutrient binding.; Binds mycotoxins, use 1-2 kg/ton",
+    "region": "Global"
   },
   {
     "ingredient_id": 88,
@@ -7836,7 +7923,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Layer premix concentrate. Use at 2.5-5 kg/ton of complete feed. Provides complete vitamin, mineral and amino acid supplementation. DO NOT FEED DIRECTLY."
+    "notes": "Layer premix concentrate. Use at 2.5-5 kg/ton of complete feed. Provides complete vitamin, mineral and amino acid supplementation. DO NOT FEED DIRECTLY.",
+    "region": "Global"
   },
   {
     "ingredient_id": 89,
@@ -7931,7 +8019,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Standard soft wheat. Good energy source. Relatively low lysine. Can be major cereal component (up to 70%) in most species. Contains gluten."
+    "notes": "Standard soft wheat. Good energy source. Relatively low lysine. Can be major cereal component (up to 70%) in most species. Contains gluten.",
+    "region": "Europe, Americas"
   },
   {
     "ingredient_id": 90,
@@ -8026,7 +8115,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "High fiber by-product. Good laxative effect. High phytate phosphorus. Moderate energy. Excellent for ruminants and rabbits. Limit in young poultry due to fiber content."
+    "notes": "High fiber by-product. Good laxative effect. High phytate phosphorus. Moderate energy. Excellent for ruminants and rabbits. Limit in young poultry due to fiber content.",
+    "region": "Europe, Americas"
   },
   {
     "ingredient_id": 91,
@@ -8118,7 +8208,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Very high protein concentrate (80%). Excellent amino acid profile except lysine. Used as specialty protein source. Bypass protein for ruminants. Excellent for aquaculture."
+    "notes": "Very high protein concentrate (80%). Excellent amino acid profile except lysine. Used as specialty protein source. Bypass protein for ruminants. Excellent for aquaculture.",
+    "region": "Europe, Americas"
   },
   {
     "ingredient_id": 92,
@@ -8198,7 +8289,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Wheat milling by-product. Moderate fiber and protein. Good energy value. Cost-effective ingredient. Phosphorus availability is low."
+    "notes": "Wheat milling by-product. Moderate fiber and protein. Good energy value. Cost-effective ingredient. Phosphorus availability is low.",
+    "region": "Europe, Americas"
   },
   {
     "ingredient_id": 93,
@@ -8293,7 +8385,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Very high fiber, low energy roughage. Primarily for ruminant bulk feed or bedding. Contains high silica. Poor digestibility for non-ruminants."
+    "notes": "Very high fiber, low energy roughage. Primarily for ruminant bulk feed or bedding. Contains high silica. Poor digestibility for non-ruminants.",
+    "region": "Europe, Americas"
   },
   {
     "ingredient_id": 94,
@@ -8373,7 +8466,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Good protein quality (high lysine). High in lactose. Limit in older animals due to lactose intolerance. Excellent for young pigs. Acid whey has lower pH and different mineral profile than sweet whey."
+    "notes": "Good protein quality (high lysine). High in lactose. Limit in older animals due to lactose intolerance. Excellent for young pigs. Acid whey has lower pH and different mineral profile than sweet whey.",
+    "region": "Global"
   },
   {
     "ingredient_id": 95,
@@ -8453,7 +8547,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Higher energy than acid whey. Better palatability. High quality protein. Lactose can cause diarrhea in monogastrics if included too high. Excellent for young piglets."
+    "notes": "Higher energy than acid whey. Better palatability. High quality protein. Lactose can cause diarrhea in monogastrics if included too high. Excellent for young piglets.",
+    "region": "Global"
   },
   {
     "ingredient_id": 96,
@@ -8547,7 +8642,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Single cell protein from yeast fermentation. High quality protein. Bypass protein for ruminants. Excellent for aquaculture. Contains high levels of B-vitamins. Nucleic acids may limit inclusion in some species."
+    "notes": "Single cell protein from yeast fermentation. High quality protein. Bypass protein for ruminants. Excellent for aquaculture. Contains high levels of B-vitamins. Nucleic acids may limit inclusion in some species.",
+    "region": "Global"
   },
   {
     "ingredient_id": 97,
@@ -8625,7 +8721,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Aquatic fern with moderate protein. High ash content limits use. Must be dried before use. Can be cultivated on-farm. Good protein source for ruminants and fish.; Use dried form; high moisture when fresh"
+    "notes": "Aquatic fern with moderate protein. High ash content limits use. Must be dried before use. Can be cultivated on-farm. Good protein source for ruminants and fish.; Use dried form; high moisture when fresh",
+    "region": "Africa, Asia"
   },
   {
     "ingredient_id": 98,
@@ -8703,7 +8800,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Protein-rich aquatic plant (35% CP). Better amino acid profile than many plant proteins. Excellent for aquaculture (tilapia, carp). Can be cultivated on-farm. High growth rate. Fiber and ash limit inclusion.; Protein-rich aquatic plant"
+    "notes": "Protein-rich aquatic plant (35% CP). Better amino acid profile than many plant proteins. Excellent for aquaculture (tilapia, carp). Can be cultivated on-farm. High growth rate. Fiber and ash limit inclusion.; Protein-rich aquatic plant",
+    "region": "Africa, Asia"
   },
   {
     "ingredient_id": 99,
@@ -8781,7 +8879,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Exceptional protein content (40%) for a plant source. Excellent amino acid profile. World's smallest flowering plant. Rapid growth. Outstanding for aquaculture and as protein supplement for all species. Still limited by ash content.; Highest protein aquatic plant"
+    "notes": "Exceptional protein content (40%) for a plant source. Excellent amino acid profile. World's smallest flowering plant. Rapid growth. Outstanding for aquaculture and as protein supplement for all species. Still limited by ash content.; Highest protein aquatic plant",
+    "region": "Africa, Asia"
   },
   {
     "ingredient_id": 100,
@@ -8863,7 +8962,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "African legume. Good protein and energy. Contains anti-nutritional factors that require processing (roasting, extrusion). Similar to peanuts. Good drought tolerance. Must be processed for poultry and pigs."
+    "notes": "African legume. Good protein and energy. Contains anti-nutritional factors that require processing (roasting, extrusion). Similar to peanuts. Good drought tolerance. Must be processed for poultry and pigs.",
+    "region": "Africa, Asia"
   },
   {
     "ingredient_id": 101,
@@ -8958,7 +9058,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Baobab fruit pulp. Low protein but high in vitamin C (5000 mg/kg), calcium and fiber. Pleasant taste improves palatability. Antioxidant properties. Limited by anti-nutritional factors.; High in vitamin C and fiber"
+    "notes": "Baobab fruit pulp. Low protein but high in vitamin C (5000 mg/kg), calcium and fiber. Pleasant taste improves palatability. Antioxidant properties. Limited by anti-nutritional factors.; High in vitamin C and fiber",
+    "region": "Global"
   },
   {
     "ingredient_id": 102,
@@ -9040,7 +9141,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Leaf powder very high in calcium and fiber. Rich in vitamins A and C. Anti-nutritional factors limit inclusion. Better for ruminants than monogastrics. High price limits commercial use.; Rich in vitamins A, C; limit to 5%"
+    "notes": "Leaf powder very high in calcium and fiber. Rich in vitamins A and C. Anti-nutritional factors limit inclusion. Better for ruminants than monogastrics. High price limits commercial use.; Rich in vitamins A, C; limit to 5%",
+    "region": "Global"
   },
   {
     "ingredient_id": 103,
@@ -9121,7 +9223,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Very high fiber leaf meal. Low energy density. High silica and calcium. Primarily for ruminant roughage or rabbit fiber. Not suitable for high-performance animals. Limited commercial feed use.; Very high fiber, limit to 5%"
+    "notes": "Very high fiber leaf meal. Low energy density. High silica and calcium. Primarily for ruminant roughage or rabbit fiber. Not suitable for high-performance animals. Limited commercial feed use.; Very high fiber, limit to 5%",
+    "region": "Global"
   },
   {
     "ingredient_id": 104,
@@ -9216,7 +9319,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Fermented forage for ruminants. High moisture content requires proper storage. Good energy from starch and fiber. Lactic acid fermentation provides preservative effect. Use as-fed basis. Not for pigs or poultry.; High moisture (65%), fermented feed for ruminants"
+    "notes": "Fermented forage for ruminants. High moisture content requires proper storage. Good energy from starch and fiber. Lactic acid fermentation provides preservative effect. Use as-fed basis. Not for pigs or poultry.; High moisture (65%), fermented feed for ruminants",
+    "region": "Americas, Global"
   },
   {
     "ingredient_id": 105,
@@ -9311,7 +9415,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Fine ground maize. Excellent energy source. Low fiber. Very low protein and lysine - must supplement amino acids. Mycotoxin contamination is major concern. Can replace maize grain up to 100% with proper supplementation."
+    "notes": "Fine ground maize. Excellent energy source. Low fiber. Very low protein and lysine - must supplement amino acids. Mycotoxin contamination is major concern. Can replace maize grain up to 100% with proper supplementation.",
+    "region": "Americas, Global"
   },
   {
     "ingredient_id": 106,
@@ -9405,7 +9510,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Coconut processing by-product. Very deficient in lysine - requires supplementation. High fiber limits monogastric use. Good bypass protein for ruminants. High oil content (>8%) provides energy but can cause soft fat in pigs/poultry. Must be aflatoxin tested."
+    "notes": "Coconut processing by-product. Very deficient in lysine - requires supplementation. High fiber limits monogastric use. Good bypass protein for ruminants. High oil content (>8%) provides energy but can cause soft fat in pigs/poultry. Must be aflatoxin tested.",
+    "region": "Oceania, Global"
   },
   {
     "ingredient_id": 107,
@@ -9500,7 +9606,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Legume seed popular in South Asia. Good protein content but deficient in methionine. Contains heat-labile anti-nutritional factors. Requires processing for optimal digestibility. Can partially replace soybean meal when processed properly."
+    "notes": "Legume seed popular in South Asia. Good protein content but deficient in methionine. Contains heat-labile anti-nutritional factors. Requires processing for optimal digestibility. Can partially replace soybean meal when processed properly.",
+    "region": "Global"
   },
   {
     "ingredient_id": 108,
@@ -9595,7 +9702,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Drought-tolerant legume. Good protein and starch. Deficient in methionine and lysine. Contains anti-nutritional factors. Processing (toasting, extrusion) improves digestibility. Can replace soybean meal partially (30-50%) when processed."
+    "notes": "Drought-tolerant legume. Good protein and starch. Deficient in methionine and lysine. Contains anti-nutritional factors. Processing (toasting, extrusion) improves digestibility. Can replace soybean meal partially (30-50%) when processed.",
+    "region": "Africa, Asia"
   },
   {
     "ingredient_id": 109,
@@ -9691,7 +9799,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Millet variety with exceptionally high calcium (3.4 g/kg). Good for layers but requires phosphorus supplementation. Moderate tannins limit inclusion. Good energy from starch. Gluten-free cereal. Can replace maize up to 50% with proper balancing."
+    "notes": "Millet variety with exceptionally high calcium (3.4 g/kg). Good for layers but requires phosphorus supplementation. Moderate tannins limit inclusion. Good energy from starch. Gluten-free cereal. Can replace maize up to 50% with proper balancing.",
+    "region": "Global"
   },
   {
     "ingredient_id": 110,
@@ -9785,7 +9894,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Highly digestible legume. Good protein quality. Low anti-nutritional factors compared to other legumes. Heat processing improves digestibility. Can replace soybean meal up to 50% in most species when heated. Good for aquaculture."
+    "notes": "Highly digestible legume. Good protein quality. Low anti-nutritional factors compared to other legumes. Heat processing improves digestibility. Can replace soybean meal up to 50% in most species when heated. Good for aquaculture.",
+    "region": "Asia"
   },
   {
     "ingredient_id": 111,
@@ -9879,7 +9989,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Important cereal in dry regions. Can replace maize up to 100% with low-tannin varieties. High-tannin varieties limit to 20-30% for monogastrics. Good energy source for ruminants. Requires amino acid supplementation due to low lysine and threonine."
+    "notes": "Important cereal in dry regions. Can replace maize up to 100% with low-tannin varieties. High-tannin varieties limit to 20-30% for monogastrics. Good energy source for ruminants. Requires amino acid supplementation due to low lysine and threonine.",
+    "region": "Americas, Global"
   },
   {
     "ingredient_id": 112,
@@ -9973,7 +10084,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Proso millet with excellent methionine content (4.5 g/kg) - higher than most cereals. Good energy source. Gluten-free. Can replace maize up to 100% with amino acid supplementation. No major anti-nutritional factors. Good for all species."
+    "notes": "Proso millet with excellent methionine content (4.5 g/kg) - higher than most cereals. Good energy source. Gluten-free. Can replace maize up to 100% with amino acid supplementation. No major anti-nutritional factors. Good for all species.",
+    "region": "Global"
   },
   {
     "ingredient_id": 113,
@@ -10067,7 +10179,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Foxtail millet. Good energy cereal. Moderate protein. Low tannins. Gluten-free. Can replace maize up to 100% with amino acid supplementation. No major anti-nutritional factors. Good alternative grain for all species."
+    "notes": "Foxtail millet. Good energy cereal. Moderate protein. Low tannins. Gluten-free. Can replace maize up to 100% with amino acid supplementation. No major anti-nutritional factors. Good alternative grain for all species.",
+    "region": "Global"
   },
   {
     "ingredient_id": 114,
@@ -10148,7 +10261,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "By-product of rice milling. Very high silica and fiber. Poorly digestible for all species. Used as fiber source in small amounts or as bedding material. Can reduce pellet quality. High inclusion will severely dilute diet energy and protein."
+    "notes": "By-product of rice milling. Very high silica and fiber. Poorly digestible for all species. Used as fiber source in small amounts or as bedding material. Can reduce pellet quality. High inclusion will severely dilute diet energy and protein.",
+    "region": "Global"
   },
   {
     "ingredient_id": 115,
@@ -10242,7 +10356,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Rapeseed meal with oil (higher energy than extracted). High glucosinolates severely limit inclusion. Must be limited to avoid thyroid and liver issues. Good protein quality if anti-nutritional factors are low. Double-zero varieties allow 200-300 g/kg inclusion."
+    "notes": "Rapeseed meal with oil (higher energy than extracted). High glucosinolates severely limit inclusion. Must be limited to avoid thyroid and liver issues. Good protein quality if anti-nutritional factors are low. Double-zero varieties allow 200-300 g/kg inclusion.",
+    "region": "Europe, Americas"
   },
   {
     "ingredient_id": 116,
@@ -10323,7 +10438,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Excellent energy source from starch. Very low protein requires supplementation. Good for all species as energy replacement for cereals. High fiber limits use in young poultry. Beta-carotene provides vitamin A activity and may color egg yolks. Easily digestible when cooked."
+    "notes": "Excellent energy source from starch. Very low protein requires supplementation. Good for all species as energy replacement for cereals. High fiber limits use in young poultry. Beta-carotene provides vitamin A activity and may color egg yolks. Easily digestible when cooked.",
+    "region": "Global"
   },
   {
     "ingredient_id": 117,
@@ -10403,7 +10519,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Wine industry by-product. High tannins severely limit use. Good fiber source for ruminants when limited to 10-15% of diet. Antioxidant properties from polyphenols. Very low digestibility for monogastrics. Cost-effective fiber source for ruminants only."
+    "notes": "Wine industry by-product. High tannins severely limit use. Good fiber source for ruminants when limited to 10-15% of diet. Antioxidant properties from polyphenols. Very low digestibility for monogastrics. Cost-effective fiber source for ruminants only.",
+    "region": "Global"
   },
   {
     "ingredient_id": 118,
@@ -10484,7 +10601,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Also known as carob. Pods are sweet (sucrose content) improving palatability. Low protein and energy. Moderate fiber. Used as binder in pet foods. Good source of soluble fiber (pectin). Can partially replace cereals in ruminant diets. Cost effective for ruminants."
+    "notes": "Also known as carob. Pods are sweet (sucrose content) improving palatability. Low protein and energy. Moderate fiber. Used as binder in pet foods. Good source of soluble fiber (pectin). Can partially replace cereals in ruminant diets. Cost effective for ruminants.",
+    "region": "Africa, Asia"
   },
   {
     "ingredient_id": 119,
@@ -10565,7 +10683,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Shea nut processing by-product. Moderate protein but poor quality. High fat provides energy but must be stabilized. High fiber limits monogastric use. Better for ruminants. Low cost but requires heavy amino acid supplementation. Not common in commercial feeds."
+    "notes": "Shea nut processing by-product. Moderate protein but poor quality. High fat provides energy but must be stabilized. High fiber limits monogastric use. Better for ruminants. Low cost but requires heavy amino acid supplementation. Not common in commercial feeds.",
+    "region": "Africa, Asia"
   },
   {
     "ingredient_id": 120,
@@ -10646,7 +10765,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Okra seed meal. High oil content provides energy but requires stabilization. Good protein level but poor amino acid balance. Fiber limits monogastric inclusion. Moderate protein quality. Unconventional ingredient - limited data available."
+    "notes": "Okra seed meal. High oil content provides energy but requires stabilization. Good protein level but poor amino acid balance. Fiber limits monogastric inclusion. Moderate protein quality. Unconventional ingredient - limited data available.",
+    "region": "Global"
   },
   {
     "ingredient_id": 121,
@@ -10726,7 +10846,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "DANGEROUS IF NOT PROCESSED PROPERLY. Cassava peel contains much higher cyanogenic glycosides than root. Requires extensive processing (sun drying 3-5 days, or cooking, or ensiling 30 days) to reduce HCN. Very low nutritional value. Use with extreme caution. Better for ruminants than monogastrics."
+    "notes": "DANGEROUS IF NOT PROCESSED PROPERLY. Cassava peel contains much higher cyanogenic glycosides than root. Requires extensive processing (sun drying 3-5 days, or cooking, or ensiling 30 days) to reduce HCN. Very low nutritional value. Use with extreme caution. Better for ruminants than monogastrics.",
+    "region": "Africa, Asia"
   },
   {
     "ingredient_id": 122,
@@ -10806,7 +10927,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "MUSTARD BRAN HAS HIGH TOXICITY RISK. Very high glucosinolates and erucic acid severely limit inclusion. Even at 5-8% inclusion requires careful formulation. Only for mature animals. Better for ruminants than monogastrics. High fiber and fat. Unsuitable for young animals or high-performance diets."
+    "notes": "MUSTARD BRAN HAS HIGH TOXICITY RISK. Very high glucosinolates and erucic acid severely limit inclusion. Even at 5-8% inclusion requires careful formulation. Only for mature animals. Better for ruminants than monogastrics. High fiber and fat. Unsuitable for young animals or high-performance diets.",
+    "region": "Global"
   },
   {
     "ingredient_id": 123,
@@ -10886,7 +11008,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Winged bean pods (not seeds). Moderate protein with good amino acid profile. Trypsin inhibitors limit raw use. Lower energy than seeds due to fiber. Can partially replace soybean meal when processed. Novel ingredient - limited commercial data."
+    "notes": "Winged bean pods (not seeds). Moderate protein with good amino acid profile. Trypsin inhibitors limit raw use. Lower energy than seeds due to fiber. Can partially replace soybean meal when processed. Novel ingredient - limited commercial data.",
+    "region": "Global"
   },
   {
     "ingredient_id": 124,
@@ -10968,7 +11091,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Fine wheat flour by-product. Low fiber, good energy. Can replace maize up to 80% in most species. Moderate protein but low lysine. Better digestibility than bran. Cost-effective energy source. Contains gluten."
+    "notes": "Fine wheat flour by-product. Low fiber, good energy. Can replace maize up to 80% in most species. Moderate protein but low lysine. Better digestibility than bran. Cost-effective energy source. Contains gluten.",
+    "region": "Europe, Americas"
   },
   {
     "ingredient_id": 125,
@@ -11050,7 +11174,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "By-product of soybean processing. High in sugars (raffinose, stachyose) that cause gas and reduce digestibility. Sweet taste improves palatability. Low protein. Can replace molasses in ruminant diets. High phosphorus. Oligosaccharides limit monogastric inclusion."
+    "notes": "By-product of soybean processing. High in sugars (raffinose, stachyose) that cause gas and reduce digestibility. Sweet taste improves palatability. Low protein. Can replace molasses in ruminant diets. High phosphorus. Oligosaccharides limit monogastric inclusion.",
+    "region": "Americas, Global"
   },
   {
     "ingredient_id": 126,
@@ -11145,7 +11270,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Non-protein nitrogen source for ruminants only. Provides nitrogen for rumen microbes to synthesize protein. 46% nitrogen × 6.25 = 287.5% crude protein equivalent. Requires adaptation period. Must have adequate fermentable energy (starch) in diet. Overfeeding causes rapid ammonia release and toxicity. Very cost-effective protein equivalent.; Nitrogen equivalent: 46% N Ã— 6.25 = 287.5% CP equivalent. RUMINANTS ONLY!"
+    "notes": "Non-protein nitrogen source for ruminants only. Provides nitrogen for rumen microbes to synthesize protein. 46% nitrogen × 6.25 = 287.5% crude protein equivalent. Requires adaptation period. Must have adequate fermentable energy (starch) in diet. Overfeeding causes rapid ammonia release and toxicity. Very cost-effective protein equivalent.; Nitrogen equivalent: 46% N Ã— 6.25 = 287.5% CP equivalent. RUMINANTS ONLY!",
+    "region": "Global"
   },
   {
     "ingredient_id": 127,
@@ -11237,7 +11363,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Balanced calcium (17.3%) and phosphorus (22.2%) mineral source. Phosphorus 100% available. Used to meet Ca and P requirements. Low inclusion rate (1-2%). High biological value. Monitor for heavy metal contamination. Better Ca:P ratio than dicalcium phosphate."
+    "notes": "Balanced calcium (17.3%) and phosphorus (22.2%) mineral source. Phosphorus 100% available. Used to meet Ca and P requirements. Low inclusion rate (1-2%). High biological value. Monitor for heavy metal contamination. Better Ca:P ratio than dicalcium phosphate.",
+    "region": "Global"
   },
   {
     "ingredient_id": 128,
@@ -11332,7 +11459,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Rendered pig protein. Excellent amino acid profile. High Ca and P. Banned for pigs (cannibalism risk). Good for poultry, fish, ruminants. Regulatory restrictions apply. Ensure proper processing to kill pathogens. Cost-effective protein for non-pig species."
+    "notes": "Rendered pig protein. Excellent amino acid profile. High Ca and P. Banned for pigs (cannibalism risk). Good for poultry, fish, ruminants. Regulatory restrictions apply. Ensure proper processing to kill pathogens. Cost-effective protein for non-pig species.",
+    "region": "Global"
   },
   {
     "ingredient_id": 129,
@@ -11427,7 +11555,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Rendered poultry protein (mid-fat grade). Excellent for pigs and aquaculture. BANNED for poultry (cannibalism risk). High energy from fat. Must be stabilized. Cost-effective alternative to fish meal for pigs/fish. High quality protein and amino acids."
+    "notes": "Rendered poultry protein (mid-fat grade). Excellent for pigs and aquaculture. BANNED for poultry (cannibalism risk). High energy from fat. Must be stabilized. Cost-effective alternative to fish meal for pigs/fish. High quality protein and amino acids.",
+    "region": "Global"
   },
   {
     "ingredient_id": 130,
@@ -11522,7 +11651,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Higher protein, lower fat grade of poultry meal. Premium protein source for pigs and aquaculture. BANNED for poultry. Cost-effective fish meal alternative. Excellent amino acid profile. High digestibility. Must be stabilized. Regulatory compliance essential."
+    "notes": "Higher protein, lower fat grade of poultry meal. Premium protein source for pigs and aquaculture. BANNED for poultry. Cost-effective fish meal alternative. Excellent amino acid profile. High digestibility. Must be stabilized. Regulatory compliance essential.",
+    "region": "Global"
   },
   {
     "ingredient_id": 131,
@@ -11617,7 +11747,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Premium poultry protein concentrate. Very high protein with excellent amino acid profile. Near fish meal quality. BANNED for poultry. Excellent for aquaculture (salmonids). High digestibility. Cost is limiting factor. Best used in specialty feeds for high-performance animals."
+    "notes": "Premium poultry protein concentrate. Very high protein with excellent amino acid profile. Near fish meal quality. BANNED for poultry. Excellent for aquaculture (salmonids). High digestibility. Cost is limiting factor. Best used in specialty feeds for high-performance animals.",
+    "region": "Global"
   },
   {
     "ingredient_id": 132,
@@ -11709,7 +11840,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Layer concentrate premix. Use at exactly 50 kg per ton of complete feed (5%). Provides complete vitamin (A, D3, E, K, B-vitamins), mineral (Ca, P, trace minerals), amino acid (lysine, methionine, threonine, tryptophan) package. DO NOT FEED DIRECTLY. Contains choline (100,000 mg/kg). One bag per 20 tons of feed."
+    "notes": "Layer concentrate premix. Use at exactly 50 kg per ton of complete feed (5%). Provides complete vitamin (A, D3, E, K, B-vitamins), mineral (Ca, P, trace minerals), amino acid (lysine, methionine, threonine, tryptophan) package. DO NOT FEED DIRECTLY. Contains choline (100,000 mg/kg). One bag per 20 tons of feed.",
+    "region": "Global"
   },
   {
     "ingredient_id": 133,
@@ -11787,7 +11919,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Layer concentrate for West African market. Use at exactly 25 kg/ton (2.5%). Double-strength vitamins and chelated trace minerals for tropical conditions. Higher vitamin E for heat stress. Complete nutrition package for layers. DO NOT EXCEED 25 kg/ton. Contains choline (200,000 mg/kg). One bag per 40 tons of feed."
+    "notes": "Layer concentrate for West African market. Use at exactly 25 kg/ton (2.5%). Double-strength vitamins and chelated trace minerals for tropical conditions. Higher vitamin E for heat stress. Complete nutrition package for layers. DO NOT EXCEED 25 kg/ton. Contains choline (200,000 mg/kg). One bag per 40 tons of feed.",
+    "region": "Global"
   },
   {
     "ingredient_id": 134,
@@ -11865,7 +11998,8 @@
     "is_custom": 0,
     "created_by": null,
     "created_date": null,
-    "notes": "Alternative layer concentrate formulation. Use at exactly 50 kg/ton (5%). Contains higher fat (7.68%) and methionine (29 g/kg) than Hendrix. Good for high-production layers. Lower protein but higher energy formulation. Complete vitamin (A, D3, E, K, B-vitamins) and mineral package. DO NOT EXCEED 50 kg/ton. Contains choline (100,000 mg/kg)."
+    "notes": "Alternative layer concentrate formulation. Use at exactly 50 kg/ton (5%). Contains higher fat (7.68%) and methionine (29 g/kg) than Hendrix. Good for high-production layers. Lower protein but higher energy formulation. Complete vitamin (A, D3, E, K, B-vitamins) and mineral package. DO NOT EXCEED 50 kg/ton. Contains choline (100,000 mg/kg).",
+    "region": "Global"
   },
   {
     "ingredient_id": 135,
@@ -11926,7 +12060,8 @@
     "is_custom": null,
     "created_by": null,
     "created_date": null,
-    "notes": "High moisture, mainly for ruminants"
+    "notes": "High moisture, mainly for ruminants",
+    "region": "Global"
   },
   {
     "ingredient_id": 136,
@@ -11989,7 +12124,8 @@
     "is_custom": null,
     "created_by": null,
     "created_date": null,
-    "notes": null
+    "notes": null,
+    "region": "Global"
   },
   {
     "ingredient_id": 137,
@@ -12050,7 +12186,8 @@
     "is_custom": null,
     "created_by": null,
     "created_date": null,
-    "notes": null
+    "notes": null,
+    "region": "Global"
   },
   {
     "ingredient_id": 138,
@@ -12125,7 +12262,8 @@
     "is_custom": null,
     "created_by": null,
     "created_date": null,
-    "notes": null
+    "notes": null,
+    "region": "Global"
   },
   {
     "ingredient_id": 139,
@@ -12202,7 +12340,8 @@
     "is_custom": null,
     "created_by": null,
     "created_date": null,
-    "notes": null
+    "notes": null,
+    "region": "Global"
   },
   {
     "ingredient_id": 140,
@@ -12277,7 +12416,8 @@
     "is_custom": null,
     "created_by": null,
     "created_date": null,
-    "notes": "Very high fiber, mainly used as bulking agent"
+    "notes": "Very high fiber, mainly used as bulking agent",
+    "region": "Global"
   },
   {
     "ingredient_id": 141,
@@ -12354,7 +12494,8 @@
     "is_custom": null,
     "created_by": null,
     "created_date": null,
-    "notes": "Must be properly detoxified, limit to 10% of diet"
+    "notes": "Must be properly detoxified, limit to 10% of diet",
+    "region": "Global"
   },
   {
     "ingredient_id": 142,
@@ -12429,7 +12570,8 @@
     "is_custom": null,
     "created_by": null,
     "created_date": null,
-    "notes": null
+    "notes": null,
+    "region": "Global"
   },
   {
     "ingredient_id": 143,
@@ -12504,7 +12646,8 @@
     "is_custom": null,
     "created_by": null,
     "created_date": null,
-    "notes": null
+    "notes": null,
+    "region": "Global"
   },
   {
     "ingredient_id": 144,
@@ -12579,7 +12722,8 @@
     "is_custom": null,
     "created_by": null,
     "created_date": null,
-    "notes": null
+    "notes": null,
+    "region": "Global"
   },
   {
     "ingredient_id": 145,
@@ -12634,7 +12778,8 @@
     "is_custom": null,
     "created_by": null,
     "created_date": null,
-    "notes": null
+    "notes": null,
+    "region": "Global"
   },
   {
     "ingredient_id": 146,
@@ -12689,7 +12834,8 @@
     "is_custom": null,
     "created_by": null,
     "created_date": null,
-    "notes": null
+    "notes": null,
+    "region": "Global"
   },
   {
     "ingredient_id": 147,
@@ -12744,7 +12890,8 @@
     "is_custom": null,
     "created_by": null,
     "created_date": null,
-    "notes": null
+    "notes": null,
+    "region": "Global"
   },
   {
     "ingredient_id": 148,
@@ -12819,7 +12966,8 @@
     "is_custom": null,
     "created_by": null,
     "created_date": null,
-    "notes": null
+    "notes": null,
+    "region": "Americas, Global"
   },
   {
     "ingredient_id": 149,
@@ -12880,7 +13028,8 @@
     "is_custom": null,
     "created_by": null,
     "created_date": null,
-    "notes": null
+    "notes": null,
+    "region": "Global"
   },
   {
     "ingredient_id": 150,
@@ -12941,7 +13090,8 @@
     "is_custom": null,
     "created_by": null,
     "created_date": null,
-    "notes": null
+    "notes": null,
+    "region": "Global"
   },
   {
     "ingredient_id": 151,
@@ -13002,7 +13152,8 @@
     "is_custom": null,
     "created_by": null,
     "created_date": null,
-    "notes": null
+    "notes": null,
+    "region": "Global"
   },
   {
     "ingredient_id": 152,
@@ -13063,7 +13214,8 @@
     "is_custom": null,
     "created_by": null,
     "created_date": null,
-    "notes": "Better digestibility than raw maize"
+    "notes": "Better digestibility than raw maize",
+    "region": "Global"
   },
   {
     "ingredient_id": 153,
@@ -13118,7 +13270,8 @@
     "is_custom": null,
     "created_by": null,
     "created_date": null,
-    "notes": "Liquid form, 88% activity relative to DL-methionine"
+    "notes": "Liquid form, 88% activity relative to DL-methionine",
+    "region": "Global"
   },
   {
     "ingredient_id": 154,
@@ -13193,7 +13346,8 @@
     "is_custom": null,
     "created_by": null,
     "created_date": null,
-    "notes": null
+    "notes": null,
+    "region": "Global"
   },
   {
     "ingredient_id": 155,
@@ -13268,7 +13422,8 @@
     "is_custom": null,
     "created_by": null,
     "created_date": null,
-    "notes": "Use 2.5-5 kg per ton of complete feed"
+    "notes": "Use 2.5-5 kg per ton of complete feed",
+    "region": "Global"
   },
   {
     "ingredient_id": 156,
@@ -13346,7 +13501,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "First limiting amino acid in corn-soybean diets for swine and poultry. Bioavailability: 100%. Provides 78% L-Lysine base content. Wide global usage in feed formulation. Cost-effective compared to protein-bound lysine. Reduces crude protein requirements and nitrogen emissions. Typical inclusion: 0.1-1.5% depending on species and diet formulation."
+    "notes": "First limiting amino acid in corn-soybean diets for swine and poultry. Bioavailability: 100%. Provides 78% L-Lysine base content. Wide global usage in feed formulation. Cost-effective compared to protein-bound lysine. Reduces crude protein requirements and nitrogen emissions. Typical inclusion: 0.1-1.5% depending on species and diet formulation.",
+    "region": "Global"
   },
   {
     "ingredient_id": 157,
@@ -13424,7 +13580,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Essential sulfur-containing amino acid. First or second limiting in poultry diets. 100% bioavailability by definition. Racemic mixture (50% D-, 50% L-form). D-form converted to L-form in liver. Improves feather development in poultry, lean gain in swine, milk protein in dairy. Reduces nitrogen emissions. Typical inclusion: 0.1-0.5% depending on species. Stable in feed processing. Shelf life up to 24 months in sealed packaging."
+    "notes": "Essential sulfur-containing amino acid. First or second limiting in poultry diets. 100% bioavailability by definition. Racemic mixture (50% D-, 50% L-form). D-form converted to L-form in liver. Improves feather development in poultry, lean gain in swine, milk protein in dairy. Reduces nitrogen emissions. Typical inclusion: 0.1-0.5% depending on species. Stable in feed processing. Shelf life up to 24 months in sealed packaging.",
+    "region": "Global"
   },
   {
     "ingredient_id": 158,
@@ -13502,7 +13659,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Third limiting amino acid in corn-soy diets for poultry and swine. Critical for gut health, immunity, and feather development. 100% bioavailability. Supports mucin synthesis in intestinal tract. Reduces nitrogen emissions when used in low-protein diets. Typical inclusion: 0.05-0.8% depending on species and diet formulation. Stable in feed processing. Shelf life up to 24 months."
+    "notes": "Third limiting amino acid in corn-soy diets for poultry and swine. Critical for gut health, immunity, and feather development. 100% bioavailability. Supports mucin synthesis in intestinal tract. Reduces nitrogen emissions when used in low-protein diets. Typical inclusion: 0.05-0.8% depending on species and diet formulation. Stable in feed processing. Shelf life up to 24 months.",
+    "region": "Global"
   },
   {
     "ingredient_id": 159,
@@ -13580,7 +13738,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Fourth limiting amino acid in swine, often limiting in poultry under stress. Critical for serotonin synthesis (behavior, feed intake). Important during heat stress and disease challenges. 100% bioavailability. Typical inclusion: 0.05-0.22% depending on species and stress level. Most expensive of major amino acids. Store away from light to prevent degradation."
+    "notes": "Fourth limiting amino acid in swine, often limiting in poultry under stress. Critical for serotonin synthesis (behavior, feed intake). Important during heat stress and disease challenges. 100% bioavailability. Typical inclusion: 0.05-0.22% depending on species and stress level. Most expensive of major amino acids. Store away from light to prevent degradation.",
+    "region": "Global"
   },
   {
     "ingredient_id": 160,
@@ -13658,7 +13817,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Fifth limiting amino acid in corn-soy diets for swine. Critical for muscle development and energy metabolism. Part of BCAA complex. 100% bioavailability. Typical inclusion: 0.05-0.9% depending on species and diet formulation. Important for tissue repair. Used in low-protein diets to maintain performance. More expensive than major amino acids but increasingly used in precision nutrition."
+    "notes": "Fifth limiting amino acid in corn-soy diets for swine. Critical for muscle development and energy metabolism. Part of BCAA complex. 100% bioavailability. Typical inclusion: 0.05-0.9% depending on species and diet formulation. Important for tissue repair. Used in low-protein diets to maintain performance. More expensive than major amino acids but increasingly used in precision nutrition.",
+    "region": "Global"
   },
   {
     "ingredient_id": 161,
@@ -13736,7 +13896,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Branched-chain amino acid (BCAA). Sixth limiting in some corn-soy diets. Critical for hemoglobin synthesis and energy metabolism. 100% bioavailability. Part of BCAA complex. Typical inclusion: 0.05-0.6% depending on species. Important for immune function. Used in precision nutrition programs. More expensive than major amino acids."
+    "notes": "Branched-chain amino acid (BCAA). Sixth limiting in some corn-soy diets. Critical for hemoglobin synthesis and energy metabolism. 100% bioavailability. Part of BCAA complex. Typical inclusion: 0.05-0.6% depending on species. Important for immune function. Used in precision nutrition programs. More expensive than major amino acids.",
+    "region": "Global"
   },
   {
     "ingredient_id": 162,
@@ -13814,7 +13975,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Essential for poultry (synthesized insufficiently). Critical for growth, feather development, and immunity in poultry. Important for feline nutrition (herpesvirus management). 100% bioavailability. Typical inclusion: 0.1-1.2% depending on species. Particularly important for young animals and breeding stock. More expensive than major amino acids but critical for poultry performance."
+    "notes": "Essential for poultry (synthesized insufficiently). Critical for growth, feather development, and immunity in poultry. Important for feline nutrition (herpesvirus management). 100% bioavailability. Typical inclusion: 0.1-1.2% depending on species. Particularly important for young animals and breeding stock. More expensive than major amino acids but critical for poultry performance.",
+    "region": "Global"
   },
   {
     "ingredient_id": 163,
@@ -13892,7 +14054,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Conditionally essential - can be synthesized from methionine. Important for feather development (keratin synthesis in poultry). Antioxidant properties (glutathione precursor). Typically included as 30-40% of total sulfur amino acids. 100% bioavailability. Heat-labile - may lose 10-15% during pelleting >80Â°C. Typical inclusion: 0.05-0.4% depending on species. More cost-effective than methionine for sulfur supply but less stable."
+    "notes": "Conditionally essential - can be synthesized from methionine. Important for feather development (keratin synthesis in poultry). Antioxidant properties (glutathione precursor). Typically included as 30-40% of total sulfur amino acids. 100% bioavailability. Heat-labile - may lose 10-15% during pelleting >80Â°C. Typical inclusion: 0.05-0.4% depending on species. More cost-effective than methionine for sulfur supply but less stable.",
+    "region": "Global"
   },
   {
     "ingredient_id": 164,
@@ -13970,7 +14133,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Liquid form for automated addition systems. Provides flexibility in feed manufacturing. 100% bioavailability. Requires specialized storage and handling infrastructure. Cost-effective for large feed mills. Reduces dust compared to powder. Typical liquid inclusion: 0.1-1.6% diet (adjust for 50% concentration). Stable for 12 months in proper storage. Requires corrosion-resistant equipment (stainless steel)."
+    "notes": "Liquid form for automated addition systems. Provides flexibility in feed manufacturing. 100% bioavailability. Requires specialized storage and handling infrastructure. Cost-effective for large feed mills. Reduces dust compared to powder. Typical liquid inclusion: 0.1-1.6% diet (adjust for 50% concentration). Stable for 12 months in proper storage. Requires corrosion-resistant equipment (stainless steel).",
+    "region": "Global"
   },
   {
     "ingredient_id": 165,
@@ -14048,7 +14212,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Liquid base form - alkaline (pH 10.7-11.0). More concentrated than HCl form (65% vs 78% base). Requires specialized handling systems. Cost-effective for large operations. Corrosive properties require specialized storage tanks (stainless steel 316L or fiberglass). 100% bioavailability. Typical liquid inclusion: 0.1-2.4% diet (adjust for 65% concentration and high pH). Not for direct water medication without pH adjustment. Stable for 12 months in proper storage. Higher risk than HCl form but lower cost per unit lysine.; Alternative to L-Lysine HCl. Contains sulphate carrier (30%). Lower lysine concentration requires higher inclusion rates. 100% bioavailability. Cost-competitive alternative to HCl form. Typical inclusion: adjust for 55% lysine base content. Sulfur content beneficial for wool/hair growth in some species. Dusty - requires proper handling. Stable in feed processing. Shelf life up to 24 months."
+    "notes": "Liquid base form - alkaline (pH 10.7-11.0). More concentrated than HCl form (65% vs 78% base). Requires specialized handling systems. Cost-effective for large operations. Corrosive properties require specialized storage tanks (stainless steel 316L or fiberglass). 100% bioavailability. Typical liquid inclusion: 0.1-2.4% diet (adjust for 65% concentration and high pH). Not for direct water medication without pH adjustment. Stable for 12 months in proper storage. Higher risk than HCl form but lower cost per unit lysine.; Alternative to L-Lysine HCl. Contains sulphate carrier (30%). Lower lysine concentration requires higher inclusion rates. 100% bioavailability. Cost-competitive alternative to HCl form. Typical inclusion: adjust for 55% lysine base content. Sulfur content beneficial for wool/hair growth in some species. Dusty - requires proper handling. Stable in feed processing. Shelf life up to 24 months.",
+    "region": "Global"
   },
   {
     "ingredient_id": 166,
@@ -14143,7 +14308,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Most abundant co-product from US ethanol industry. High-protein (>30% CP) and low-fat (<8% fat) varieties available. Excellent phosphorus source (>85% digestible). Can replace soybean meal + corn combination in most diets. Use crystalline lysine to balance amino acids. Test for sulfur content (can be high from sulfuric acid use)."
+    "notes": "Most abundant co-product from US ethanol industry. High-protein (>30% CP) and low-fat (<8% fat) varieties available. Excellent phosphorus source (>85% digestible). Can replace soybean meal + corn combination in most diets. Use crystalline lysine to balance amino acids. Test for sulfur content (can be high from sulfuric acid use).",
+    "region": "Americas, Global"
   },
   {
     "ingredient_id": 167,
@@ -14238,7 +14404,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Composition varies: bread, cookies, crackers, etc. Salt content can be high - check each batch. Excellent energy source similar to corn. Fat can be 8-15% depending on sources. Generally very palatable. Screen for foreign objects and packaging materials."
+    "notes": "Composition varies: bread, cookies, crackers, etc. Salt content can be high - check each batch. Excellent energy source similar to corn. Fat can be 8-15% depending on sources. Generally very palatable. Screen for foreign objects and packaging materials.",
+    "region": "Global"
   },
   {
     "ingredient_id": 168,
@@ -14333,7 +14500,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Byproduct of orange/lemon juice processing. Unpalatable at high inclusion - introduce gradually. Pectin is highly fermentable in rumen producing propionate. Good source of digestible fiber (60% NDF digestibility). Counteract high calcium with phosphorus and salt supplementation."
+    "notes": "Byproduct of orange/lemon juice processing. Unpalatable at high inclusion - introduce gradually. Pectin is highly fermentable in rumen producing propionate. Good source of digestible fiber (60% NDF digestibility). Counteract high calcium with phosphorus and salt supplementation.",
+    "region": "Global"
   },
   {
     "ingredient_id": 169,
@@ -14428,7 +14596,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Glandless cotton varieties eliminate gossypol issue. Solvent extraction reduces free gossypol to <0.02%. Excellent protein quality, low fiber. Higher inclusion possible with glandless types. Monitor for aflatoxin contamination. Good phosphorus source (>70% digestible) when phytase added."
+    "notes": "Glandless cotton varieties eliminate gossypol issue. Solvent extraction reduces free gossypol to <0.02%. Excellent protein quality, low fiber. Higher inclusion possible with glandless types. Monitor for aflatoxin contamination. Good phosphorus source (>70% digestible) when phytase added.",
+    "region": "Global"
   },
   {
     "ingredient_id": 170,
@@ -14523,7 +14692,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Byproduct of peanut blanching. Very cheap but limited by tannins. Tannin-binding agents (PEG) can improve utilization but not cost-effective. Best used in ruminant diets where tannins can be beneficial (bloat prevention). High inclusion causes dark, sticky feces in poultry."
+    "notes": "Byproduct of peanut blanching. Very cheap but limited by tannins. Tannin-binding agents (PEG) can improve utilization but not cost-effective. Best used in ruminant diets where tannins can be beneficial (bloat prevention). High inclusion causes dark, sticky feces in poultry.",
+    "region": "Global"
   },
   {
     "ingredient_id": 171,
@@ -14618,7 +14788,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Rendered poultry feathers - very sustainable protein source. Proper hydrolysis breaks keratin bonds improving digestibility (>75%). Excellent cystine source. Low palatability requires gradual introduction. Best used at 3-5% in most feeds. Cost-effective compared to fish meal. Must be from BSE-free sources."
+    "notes": "Rendered poultry feathers - very sustainable protein source. Proper hydrolysis breaks keratin bonds improving digestibility (>75%). Excellent cystine source. Low palatability requires gradual introduction. Best used at 3-5% in most feeds. Cost-effective compared to fish meal. Must be from BSE-free sources.",
+    "region": "Global"
   },
   {
     "ingredient_id": 172,
@@ -14713,7 +14884,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Feed-grade only - not for pet foods. Excellent calcium and phosphorus source for layers. Should not exceed 15% due to high mineral content. Use in swine finishing diets for bone/structural support. Must have clear ruminant-free supply chain documentation. Quality controlled by ARA (Animal Protein Producers Industry)."
+    "notes": "Feed-grade only - not for pet foods. Excellent calcium and phosphorus source for layers. Should not exceed 15% due to high mineral content. Use in swine finishing diets for bone/structural support. Must have clear ruminant-free supply chain documentation. Quality controlled by ARA (Animal Protein Producers Industry).",
+    "region": "Global"
   },
   {
     "ingredient_id": 173,
@@ -14808,7 +14980,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "High-quality animal protein from slaughterhouse byproducts (heads, feet, organs). Should not exceed 15% due to high mineral content. Excellent amino acid profile for poultry and fish feeds. Better digestibility than meat & bone meal. More consistent quality than meat & bone meal. Use in grower/finisher swine diets for lean gain."
+    "notes": "High-quality animal protein from slaughterhouse byproducts (heads, feet, organs). Should not exceed 15% due to high mineral content. Excellent amino acid profile for poultry and fish feeds. Better digestibility than meat & bone meal. More consistent quality than meat & bone meal. Use in grower/finisher swine diets for lean gain.",
+    "region": "Global"
   },
   {
     "ingredient_id": 174,
@@ -14903,7 +15076,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Available as sun-cured (lower quality, cheaper) or dehy (dehydrated, higher quality, more expensive). Good source of xanthophylls for yolk color. High protein for a forage but poor amino acid digestibility. Excellent for ruminant roughage. Contains natural antioxidants (vitamin E, carotene)."
+    "notes": "Available as sun-cured (lower quality, cheaper) or dehy (dehydrated, higher quality, more expensive). Good source of xanthophylls for yolk color. High protein for a forage but poor amino acid digestibility. Excellent for ruminant roughage. Contains natural antioxidants (vitamin E, carotene).",
+    "region": "Europe, Americas"
   },
   {
     "ingredient_id": 175,
@@ -14998,7 +15172,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Dehydrated within hours of harvest for maximum nutrient retention. Higher protein (18-22%) and lower fiber than sun-cured. Better carotene and xanthophyll content. More consistent quality. Premium forage ingredient. Excellent for dairy cows - high bypass protein fraction."
+    "notes": "Dehydrated within hours of harvest for maximum nutrient retention. Higher protein (18-22%) and lower fiber than sun-cured. Better carotene and xanthophyll content. More consistent quality. Premium forage ingredient. Excellent for dairy cows - high bypass protein fraction.",
+    "region": "Europe, Americas"
   },
   {
     "ingredient_id": 176,
@@ -15093,7 +15268,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Byproduct of shea butter extraction. Very limited nutritional value due to tannins. Ruminants can tolerate higher levels due to tannin-protein complex formation in rumen. Consider chemical analysis before each batch. Very variable nutrient content."
+    "notes": "Byproduct of shea butter extraction. Very limited nutritional value due to tannins. Ruminants can tolerate higher levels due to tannin-protein complex formation in rumen. Consider chemical analysis before each batch. Very variable nutrient content.",
+    "region": "Africa, Asia"
   },
   {
     "ingredient_id": 177,
@@ -15188,7 +15364,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Exceptional calcium content from seed coat. Good energy source (44.6% NFE). Processing (dehulling, cooking) reduces tannins and phytic acid. Potential prebiotic effects from soluble fiber. Sustainable use of underutilized African tree crop."
+    "notes": "Exceptional calcium content from seed coat. Good energy source (44.6% NFE). Processing (dehulling, cooking) reduces tannins and phytic acid. Potential prebiotic effects from soluble fiber. Sustainable use of underutilized African tree crop.",
+    "region": "Global"
   },
   {
     "ingredient_id": 178,
@@ -15283,7 +15460,8 @@
     "is_custom": 1,
     "created_by": "research_admin",
     "created_date": "2025-12-20",
-    "notes": "NOT FOR COMMERCIAL FORMULATION. High protein content is attractive but toxins make it unsafe. Current research on biological/chemical detoxification. Multiple research institutions investigating safety. DO NOT USE IN PRODUCTION FEEDS."
+    "notes": "NOT FOR COMMERCIAL FORMULATION. High protein content is attractive but toxins make it unsafe. Current research on biological/chemical detoxification. Multiple research institutions investigating safety. DO NOT USE IN PRODUCTION FEEDS.",
+    "region": "Global"
   },
   {
     "ingredient_id": 179,
@@ -15378,7 +15556,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Underutilized African legume with good nutritional profile. High in lysine compared to other legumes. Soaking and cooking reduces ANFs by 60-70%. Drought tolerant crop - good for climate resilience. Variable tannin content based on seed coat color."
+    "notes": "Underutilized African legume with good nutritional profile. High in lysine compared to other legumes. Soaking and cooking reduces ANFs by 60-70%. Drought tolerant crop - good for climate resilience. Variable tannin content based on seed coat color.",
+    "region": "Africa, Asia"
   },
   {
     "ingredient_id": 180,
@@ -15473,7 +15652,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Dual-purpose legume - grain for human/feed, haulms for fodder. Better protein quality than cereal straws. Sun-drying within 48 hours critical for quality. Can be used as silage when mixed with grasses. Not suitable for high-producing animals as sole forage."
+    "notes": "Dual-purpose legume - grain for human/feed, haulms for fodder. Better protein quality than cereal straws. Sun-drying within 48 hours critical for quality. Can be used as silage when mixed with grasses. Not suitable for high-producing animals as sole forage.",
+    "region": "Africa, Asia"
   },
   {
     "ingredient_id": 181,
@@ -15568,7 +15748,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Good protein source for the price. Contains residual amylases from malting process. Fiber is partially fermentable. Better feeding value than raw sorghum due to enzyme activation. Can replace soybean meal up to 25% in grower pig diets with amino acid supplementation."
+    "notes": "Good protein source for the price. Contains residual amylases from malting process. Fiber is partially fermentable. Better feeding value than raw sorghum due to enzyme activation. Can replace soybean meal up to 25% in grower pig diets with amino acid supplementation.",
+    "region": "Americas, Global"
   },
   {
     "ingredient_id": 182,
@@ -15663,7 +15844,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Better protein quality than wheat bran. Pearl millet bran preferred over finger millet due to lower tannins. Good source of B-vitamins and minerals. Fermentable fiber beneficial for gut health. Can replace 20-30% of cereal grains in finishing diets."
+    "notes": "Better protein quality than wheat bran. Pearl millet bran preferred over finger millet due to lower tannins. Good source of B-vitamins and minerals. Fermentable fiber beneficial for gut health. Can replace 20-30% of cereal grains in finishing diets.",
+    "region": "Global"
   },
   {
     "ingredient_id": 183,
@@ -15758,7 +15940,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Very cheap fiber source for ruminants in peanut-growing regions. Can be used as bedding and then fed. Better utilized when ammoniated or treated with alkali. Not suitable for high-producing animals. Consider transportation cost vs. nutritional value."
+    "notes": "Very cheap fiber source for ruminants in peanut-growing regions. Can be used as bedding and then fed. Better utilized when ammoniated or treated with alkali. Not suitable for high-producing animals. Consider transportation cost vs. nutritional value.",
+    "region": "Global"
   },
   {
     "ingredient_id": 184,
@@ -15853,7 +16036,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Available as high-fiber (dehulled) or low-fiber varieties. High-fiber version is cheaper but less digestible. Good methionine content for poultry. Heat treatment (toasted) improves digestibility and reduces oxidation. Popular in sunflower-growing regions of Southern Africa."
+    "notes": "Available as high-fiber (dehulled) or low-fiber varieties. High-fiber version is cheaper but less digestible. Good methionine content for poultry. Heat treatment (toasted) improves digestibility and reduces oxidation. Popular in sunflower-growing regions of Southern Africa.",
+    "region": "Global"
   },
   {
     "ingredient_id": 185,
@@ -15948,7 +16132,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Wet form (75-80% moisture) is very cheap but logistics challenging. Dried form increases cost but improves storability. Good rumen bypass protein for dairy cattle. Can partially replace forage in ruminant diets due to fiber digestibility (55-60% NDFd)."
+    "notes": "Wet form (75-80% moisture) is very cheap but logistics challenging. Dried form increases cost but improves storability. Good rumen bypass protein for dairy cattle. Can partially replace forage in ruminant diets due to fiber digestibility (55-60% NDFd).",
+    "region": "Global"
   },
   {
     "ingredient_id": 186,
@@ -16043,7 +16228,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Double-zero varieties (low GSL <12 Î¼mol/g, low erucic acid) are standard in EU. Excellent amino acid profile for plant protein. Heat treatment (toasting) improves digestibility and reduces GSL. Cost-effective alternative to soybean meal.; Double-zero varieties (low GSL <12 μmol/g, low erucic acid) are standard in EU. Excellent amino acid profile for plant protein. Heat treatment (toasting) improves digestibility and reduces GSL. Cost-effective alternative to soybean meal."
+    "notes": "Double-zero varieties (low GSL <12 Î¼mol/g, low erucic acid) are standard in EU. Excellent amino acid profile for plant protein. Heat treatment (toasting) improves digestibility and reduces GSL. Cost-effective alternative to soybean meal.; Double-zero varieties (low GSL <12 μmol/g, low erucic acid) are standard in EU. Excellent amino acid profile for plant protein. Heat treatment (toasting) improves digestibility and reduces GSL. Cost-effective alternative to soybean meal.",
+    "region": "Europe, Americas"
   },
   {
     "ingredient_id": 187,
@@ -16138,7 +16324,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Available as high-protein (38-40% CP, 15% CF) or low-protein (32-34% CP, 22% CF). Hi-pro version is dehulled with higher digestibility. Good selenium source for European diets. Toasting improves protein quality and reduces oxidation."
+    "notes": "Available as high-protein (38-40% CP, 15% CF) or low-protein (32-34% CP, 22% CF). Hi-pro version is dehulled with higher digestibility. Good selenium source for European diets. Toasting improves protein quality and reduces oxidation.",
+    "region": "Global"
   },
   {
     "ingredient_id": 188,
@@ -16233,7 +16420,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Excellent pectin source (25% of fiber) - highly fermentable in rumen. Good energy from volatile fatty acids. Soak in water 1:2 ratio for 30 minutes before feeding. Can replace 25% of hay in dairy rations. Very palatable and reduces sorting in TMR."
+    "notes": "Excellent pectin source (25% of fiber) - highly fermentable in rumen. Good energy from volatile fatty acids. Soak in water 1:2 ratio for 30 minutes before feeding. Can replace 25% of hay in dairy rations. Very palatable and reduces sorting in TMR.",
+    "region": "Global"
   },
   {
     "ingredient_id": 189,
@@ -16328,7 +16516,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Excellent alternative to corn DDGS in wheat-growing regions. Lower fat than corn DDGS reduces rancidity risk. High digestible fiber (65% NDFd) excellent for dairy cows. Can replace soybean meal + cereal grain combination. Protein quality improves with amino acid supplementation."
+    "notes": "Excellent alternative to corn DDGS in wheat-growing regions. Lower fat than corn DDGS reduces rancidity risk. High digestible fiber (65% NDFd) excellent for dairy cows. Can replace soybean meal + cereal grain combination. Protein quality improves with amino acid supplementation.",
+    "region": "Europe, Americas"
   },
   {
     "ingredient_id": 190,
@@ -16423,7 +16612,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Byproduct of pea protein isolation. Pure insoluble fiber (cellulose). Very low fermentability (slow fermentation rate) good for gut motility without excessive gas production. Used in diabetic pet foods for low glycemic impact. Good for hairball control in rabbits."
+    "notes": "Byproduct of pea protein isolation. Pure insoluble fiber (cellulose). Very low fermentability (slow fermentation rate) good for gut motility without excessive gas production. Used in diabetic pet foods for low glycemic impact. Good for hairball control in rabbits.",
+    "region": "Global"
   },
   {
     "ingredient_id": 191,
@@ -16518,7 +16708,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Tannin-managed (zero-tannin) varieties have white flowers. Traditional varieties with colored flowers have high tannins and vicine/convicine. Excellent protein quality for European-grown legume. Good amino acid profile except methionine. Fermentation improves digestibility."
+    "notes": "Tannin-managed (zero-tannin) varieties have white flowers. Traditional varieties with colored flowers have high tannins and vicine/convicine. Excellent protein quality for European-grown legume. Good amino acid profile except methionine. Fermentation improves digestibility.",
+    "region": "Global"
   },
   {
     "ingredient_id": 192,
@@ -16613,7 +16804,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Sweet lupins (L. albus, L. angustifolius) have <0.02% alkaloids. White lupin has highest protein (36-38%). Australian sweet lupins most common. Good amino acid profile except sulfur amino acids. Fermentation or enzyme treatment improves digestibility. Sustainable European protein source."
+    "notes": "Sweet lupins (L. albus, L. angustifolius) have <0.02% alkaloids. White lupin has highest protein (36-38%). Australian sweet lupins most common. Good amino acid profile except sulfur amino acids. Fermentation or enzyme treatment improves digestibility. Sustainable European protein source.",
+    "region": "Europe, Americas"
   },
   {
     "ingredient_id": 193,
@@ -16708,7 +16900,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Major co-product from European brewing industry. Very cost-effective protein source. Wet form requires local sourcing. Dried form is stable and transportable. Good source of B-vitamins from yeast. Fiber digestibility 55-60% in rumen. Can replace 30% of concentrate in dairy rations."
+    "notes": "Major co-product from European brewing industry. Very cost-effective protein source. Wet form requires local sourcing. Dried form is stable and transportable. Good source of B-vitamins from yeast. Fiber digestibility 55-60% in rumen. Can replace 30% of concentrate in dairy rations.",
+    "region": "Global"
   },
   {
     "ingredient_id": 194,
@@ -16803,7 +16996,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Also available as low-fat variant (<5% oil). High-fat version provides energy but reduces pellet durability. Good rumen bypass protein source for dairy cattle."
+    "notes": "Also available as low-fat variant (<5% oil). High-fat version provides energy but reduces pellet durability. Good rumen bypass protein source for dairy cattle.",
+    "region": "Oceania, Global"
   },
   {
     "ingredient_id": 195,
@@ -16898,7 +17092,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Stabilization via heating or extrusion inactivates lipase. De-oiled version also available. Excellent source of B-vitamins and oryzanol. High phosphorus requires calcium supplementation. Most widely used rice byproduct in Southeast Asia."
+    "notes": "Stabilization via heating or extrusion inactivates lipase. De-oiled version also available. Excellent source of B-vitamins and oryzanol. High phosphorus requires calcium supplementation. Most widely used rice byproduct in Southeast Asia.",
+    "region": "Asia"
   },
   {
     "ingredient_id": 196,
@@ -16993,7 +17188,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Primary energy source replacement for corn. Sun-drying followed by water soaking for 24h reduces cyanide by 80%. Fermentation further reduces cyanide. High starch digestibility (>90%). Very economical in Southeast Asia."
+    "notes": "Primary energy source replacement for corn. Sun-drying followed by water soaking for 24h reduces cyanide by 80%. Fermentation further reduces cyanide. High starch digestibility (>90%). Very economical in Southeast Asia.",
+    "region": "Africa, Asia"
   },
   {
     "ingredient_id": 197,
@@ -17088,7 +17284,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Produced from sago palm starch extraction waste. Lower energy than cassava due to higher fiber. Best for ruminants where fiber is beneficial. Limited micronutrient content requires vitamin/mineral premix supplementation."
+    "notes": "Produced from sago palm starch extraction waste. Lower energy than cassava due to higher fiber. Best for ruminants where fiber is beneficial. Limited micronutrient content requires vitamin/mineral premix supplementation.",
+    "region": "Global"
   },
   {
     "ingredient_id": 198,
@@ -17183,7 +17380,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Grown on nutrient-rich wastewater in controlled systems. Exceptional protein quality comparable to soybean meal. Very high mineral content may require diet reformulation. Fresh form has 92-94% moisture, dried form 8-10% moisture."
+    "notes": "Grown on nutrient-rich wastewater in controlled systems. Exceptional protein quality comparable to soybean meal. Very high mineral content may require diet reformulation. Fresh form has 92-94% moisture, dried form 8-10% moisture.",
+    "region": "Global"
   },
   {
     "ingredient_id": 199,
@@ -17278,7 +17476,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Excellent source of trace minerals and marine polysaccharides. Ulva (sea lettuce) has better digestibility than Sargassum. High prebiotic fiber content supports gut health. Fresh or dried forms available. Dried form has 90% DM."
+    "notes": "Excellent source of trace minerals and marine polysaccharides. Ulva (sea lettuce) has better digestibility than Sargassum. High prebiotic fiber content supports gut health. Fresh or dried forms available. Dried form has 90% DM.",
+    "region": "Oceania, Global"
   },
   {
     "ingredient_id": 200,
@@ -17373,7 +17572,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Excellent source of digestible carbohydrates (52% starch). Good energy value for monogastrics. Tannins in peel reduce protein digestibility. Drying at >85Â°C for 30 minutes eliminates most anti-nutritional factors. Vitamin A precursor content beneficial for poultry.; Excellent source of digestible carbohydrates (52% starch). Good energy value for monogastrics. Tannins in peel reduce protein digestibility. Drying at >85°C for 30 minutes eliminates most anti-nutritional factors. Vitamin A precursor content beneficial for poultry."
+    "notes": "Excellent source of digestible carbohydrates (52% starch). Good energy value for monogastrics. Tannins in peel reduce protein digestibility. Drying at >85Â°C for 30 minutes eliminates most anti-nutritional factors. Vitamin A precursor content beneficial for poultry.; Excellent source of digestible carbohydrates (52% starch). Good energy value for monogastrics. Tannins in peel reduce protein digestibility. Drying at >85°C for 30 minutes eliminates most anti-nutritional factors. Vitamin A precursor content beneficial for poultry.",
+    "region": "Global"
   },
   {
     "ingredient_id": 201,
@@ -17468,7 +17668,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Boiling for 30 minutes reduces oxalates by 85%. Excellent calcium source (2.5%). High-quality protein for a leafy material. Use as functional protein in tropical regions. Palatability improved after processing."
+    "notes": "Boiling for 30 minutes reduces oxalates by 85%. Excellent calcium source (2.5%). High-quality protein for a leafy material. Use as functional protein in tropical regions. Palatability improved after processing.",
+    "region": "Asia"
   },
   {
     "ingredient_id": 202,
@@ -17563,7 +17764,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Excellent protein source for tropical regions. Very fast-growing (harvest every 21 days). High moisture content makes transport costly. Dried meal is concentrated protein source. Rich in carotenoids for yolk color enhancement."
+    "notes": "Excellent protein source for tropical regions. Very fast-growing (harvest every 21 days). High moisture content makes transport costly. Dried meal is concentrated protein source. Rich in carotenoids for yolk color enhancement.",
+    "region": "Asia"
   },
   {
     "ingredient_id": 203,
@@ -17658,7 +17860,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Indian low-GSL varieties (e.g., Varuna, Kranti) are preferred. Requires quarterly testing for glucosinolate levels."
+    "notes": "Indian low-GSL varieties (e.g., Varuna, Kranti) are preferred. Requires quarterly testing for glucosinolate levels.",
+    "region": "Global"
   },
   {
     "ingredient_id": 204,
@@ -17753,7 +17956,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Best used as roughage for ruminants. Protein quality is poor with low lysine. Harvest at pod maturity for optimal nutrient content."
+    "notes": "Best used as roughage for ruminants. Protein quality is poor with low lysine. Harvest at pod maturity for optimal nutrient content.",
+    "region": "Global"
   },
   {
     "ingredient_id": 205,
@@ -17848,7 +18052,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Used primarily as fiber source in ruminant diets. Very low energy density. Best suited for gestating cows and dry ewes. Not recommended for high-producing animals."
+    "notes": "Used primarily as fiber source in ruminant diets. Very low energy density. Best suited for gestating cows and dry ewes. Not recommended for high-producing animals.",
+    "region": "Africa, Asia"
   },
   {
     "ingredient_id": 206,
@@ -17943,7 +18148,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Excellent fiber source for ruminants. Very low nutritional value for monogastrics. Use primarily as roughage extender in drought conditions. Free gossypol content typically 0.04-0.08%."
+    "notes": "Excellent fiber source for ruminants. Very low nutritional value for monogastrics. Use primarily as roughage extender in drought conditions. Free gossypol content typically 0.04-0.08%.",
+    "region": "Global"
   },
   {
     "ingredient_id": 207,
@@ -18038,7 +18244,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Detoxification reduces anti-nutritional factors by 70-80%. Use as protein supplement in ruminant diets. Monitor for residual pesticides used in neem cultivation."
+    "notes": "Detoxification reduces anti-nutritional factors by 70-80%. Use as protein supplement in ruminant diets. Monitor for residual pesticides used in neem cultivation.",
+    "region": "Global"
   },
   {
     "ingredient_id": 208,
@@ -18133,7 +18340,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Detoxification reduces tannin content by 60-70%. Good energy source due to high starch content. Use as partial replacement for cereal grains in monogastric diets."
+    "notes": "Detoxification reduces tannin content by 60-70%. Good energy source due to high starch content. Use as partial replacement for cereal grains in monogastric diets.",
+    "region": "Global"
   },
   {
     "ingredient_id": 209,
@@ -18228,7 +18436,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Similar to neem cake but with different toxic profile. Detoxification reduces ANFs by 65-75%. Use primarily in ruminant diets. Monitor for residual oil content (>8% reduces palatability)."
+    "notes": "Similar to neem cake but with different toxic profile. Detoxification reduces ANFs by 65-75%. Use primarily in ruminant diets. Monitor for residual oil content (>8% reduces palatability).",
+    "region": "Global"
   },
   {
     "ingredient_id": 210,
@@ -18323,7 +18532,8 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Stabilization via extrusion or heating prevents rancidity. Good source of B-vitamins and oryzanol. High phosphorus content beneficial for layers but requires calcium balancing. Strongly recommended for ruminant diets."
+    "notes": "Stabilization via extrusion or heating prevents rancidity. Good source of B-vitamins and oryzanol. High phosphorus content beneficial for layers but requires calcium balancing. Strongly recommended for ruminant diets.",
+    "region": "Asia"
   },
   {
     "ingredient_id": 211,
@@ -18418,6 +18628,7 @@
     "is_custom": 0,
     "created_by": "system_admin",
     "created_date": "2025-12-20",
-    "notes": "Excellent phosphorus source (>80% digestible). Lower lysine than corn DDGS but good energy value. Use with crystalline lysine supplementation. More variable than corn DDGS due to sorghum tannin content."
+    "notes": "Excellent phosphorus source (>80% digestible). Lower lysine than corn DDGS but good energy value. Use with crystalline lysine supplementation. More variable than corn DDGS due to sorghum tannin content.",
+    "region": "Americas, Global"
   }
 ]

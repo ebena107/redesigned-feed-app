@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-Flutter livestock feed formulation app for analyzing nutrients in animal feed. Primary users: livestock farmers across Nigeria (largest), India, United States, Kenya, and globally (Europe, Asia, Africa). Current version: 1.0.0+11, actively modernized through phased improvements (Phases 1-3 complete, see [doc/MODERNIZATION_PLAN.md](../doc/MODERNIZATION_PLAN.md)).
+Flutter livestock feed formulation app for analyzing nutrients in animal feed. Primary users: livestock farmers across Nigeria (largest), India, United States, Kenya, and globally (Europe, Asia, Africa). Current version: 1.0.0+12, actively modernized through phased improvements (Phases 1-3 complete, Phase 4 45% complete, see [doc/MODERNIZATION_PLAN.md](../doc/MODERNIZATION_PLAN.md)).
 
 ## Recent Modernization Notes
 - **DatabaseTimeout utility**: Centralized 30s timeout wrappers live in `lib/src/core/database/database_timeout.dart`. When adding new DB operations, use the helper instead of `Future.timeout` inline. Full integration into `AppDatabase` is pending; do not duplicate timeout logic in repositories.
@@ -449,33 +449,39 @@ See reference implementations:
    // - JSON amino acid profiles and warnings
    ```
 
-2. **InclusionLimitValidator** ([lib/src/features/reports/model/inclusion_limit_validator.dart](../lib/src/features/reports/model/inclusion_limit_validator.dart))
+2. **InclusionValidator** ([lib/src/features/add_update_feed/services/inclusion_validator.dart](../lib/src/features/add_update_feed/services/inclusion_validator.dart))
    - Validates ingredient inclusion percentages against maximum limits
    - Prevents use of toxic ingredients beyond safety thresholds
    - Enforces regulatory restrictions (e.g., processed animal protein limits)
    - Built-in limits for: cottonseed meal (15%), urea (dangerous), moringa (10%), rapeseed (10%), etc.
+   - **CRITICAL**: Always call BEFORE saving a feed to detect formulation issues
 
    ```dart
-   // Usage
-   final validation = InclusionLimitValidator.validateFormulation(
+   // Usage in feed calculations
+   final validation = InclusionValidator.validate(
      feedIngredients: feedIngredients,
      ingredientCache: ingredientCache,
-     totalQuantity: totalQuantity,
+     animalTypeId: 1, // Important for per-animal type limits
    );
    
-   if (validation.hasViolations) {
-     // Display hard violations - MUST fix before saving
-     for (final v in validation.violations) {
-       print('VIOLATION: ${v.description}');
+   if (!validation.isValid) {
+     // Display errors - MUST fix before saving
+     for (final error in validation.errors) {
+       showError(error); // User cannot proceed
      }
    }
-   if (validation.hasWarnings) {
-     // Display warnings - inform user but allow
-     for (final w in validation.warnings) {
-       print('WARNING: ${w.description}');
+   if (validation.warnings.isNotEmpty) {
+     // Display warnings - inform user but allow continuation
+     for (final warning in validation.warnings) {
+       showWarning(warning);
      }
    }
    ```
+
+   **Integration Points**:
+   - Called in `EnhancedCalculationEngine.calculateEnhancedResult()` to collect warnings
+   - Use `InclusionValidator.validate()` for pre-save validation before `saveUpdateFeed()`
+   - Warnings collected in `result.warningsJson` for inclusion in reports
 
 3. **Enhanced Ingredient Model** (v5 fields in [lib/src/features/add_ingredients/model/ingredient.dart](../lib/src/features/add_ingredients/model/ingredient.dart))
    ```dart
@@ -528,16 +534,21 @@ See reference implementations:
    }
    ```
 
-**Migration Strategy** (v4 → v5):
-- Database schema expanded with new columns (non-breaking)
-- All v4 columns kept active for backward compatibility
-- Calculations fallback to v4 values if v5 fields missing
-- JSON fields used for complex structures (amino acids, anti-nutritional factors)
+**Integration Pattern**:
+- `EnhancedCalculationEngine` is now PRIMARY calculation engine
+- `calculateResult()` in result_provider uses `EnhancedCalculationEngine.calculateEnhancedResult()`
+- Returns backward-compatible Result object with both v4 (legacy) and v5 (enhanced) fields
+- **ALWAYS call `InclusionValidator.validate()` before saving** to check for inclusion violations
 
-**Integration with result_provider.dart**:
-- Keep existing `estimatedResult()` and `calculateResult()` methods
-- Can replace internals of `calculateResult()` with `EnhancedCalculationEngine.calculateEnhancedResult()`
-- Or run both engines and merge results for gradual migration
+**When Adding New Calculation Features**:
+1. Add fields to appropriate model (`Ingredient` v5 fields, `Result` enhanced fields)
+2. Extend `EnhancedCalculationEngine._calculateEnhancedValues()` to compute new nutrient
+3. Update `Result.toJson()` to serialize new fields
+4. Add warning collection to `EnhancedCalculationEngine._collectWarnings()` if safety-related
+5. Test with `test/unit/` tests for calculation correctness and edge cases
+- JSON fields used for complex structures (amino acids, anti-nutritional factors)
+5. Test with `test/unit/` tests for calculation correctness and edge cases
+- JSON fields used for complex structures (amino acids, anti-nutritional factors)
 ```
 
 ### UI Patterns
@@ -582,6 +593,15 @@ See reference implementations:
 - ✅ Result model enhanced with v5 calculation fields
 - ✅ Enhanced calculation engine with comprehensive nutrient tracking
 
+**Phase 4.6 IN PROGRESS** (Regional Ingredient Expansion):
+- ✅ All 211 ingredients expanded (80+ tropical/alternative ingredients added)
+- ✅ Regional categorization complete (6 regions mapped: Africa, Asia, Europe, Americas, Oceania, Global)
+- ✅ Regional tagging applied to JSON (287 total tagged instances across regions)
+- ✅ Key tropical ingredients tagged: Azolla, Lemna, Wolffia, Cassava (4 variants), Moringa, Cowpea, etc.
+- ✅ Ingredient distribution verified: Africa (1), Africa+Asia (20), Asia (6), Europe+Americas (19), Americas+Global (14), Global (147), Oceania+Global (4)
+- ✅ Database migration v12 COMPLETE (region column added; index created)
+- 🟡 UI implementation pending (regional filter dropdown in StoredIngredients screen)
+
 **Calculation Improvements** (Phase 3 Complete):
 - `EnhancedCalculationEngine` ([lib/src/features/reports/providers/enhanced_calculation_engine.dart](../lib/src/features/reports/providers/enhanced_calculation_engine.dart)) supports harmonized v5 ingredients
 - `InclusionValidator` ([lib/src/features/add_update_feed/services/inclusion_validator.dart](../lib/src/features/add_update_feed/services/inclusion_validator.dart)) prevents toxic/regulatory violations
@@ -605,17 +625,28 @@ Refer to:
 **Focus Areas** (see `doc/MODERNIZATION_PLAN.md` for full details):
 
 1. **Performance Optimization**:
-   - Memory optimization (lazy loading, pagination for large ingredient lists)
-   - Database query optimization and indexing
-   - Widget rebuild optimization
+  - **Database Migration v12** (COMPLETE):
+    - Region column added to ingredients table (default 'Global')
+    - Index created: `idx_ingredients_region` for fast queries
+    - Docs: see `doc/DATABASE_MIGRATION_V12.md` and `doc/DATABASE_MIGRATION_V12_TESTING.md`
 
-2. **User-Requested Features** (from 148 Play Store reviews):
-   - Ingredient database expansion (80+ tropical/alternative ingredients)
-   - Dynamic price management (user-editable prices, history tracking)
-   - Inventory management module (stock tracking, alerts)
-   - Enhanced reporting (cost breakdown, batch reports, what-if analysis)
+2. **Regional Filter UI** (NEXT - 2-3 hours):
+  - Create RegionFilterWidget with dropdown (All/Africa/Asia/Europe/Americas/Oceania/Global)
+  - Add region badge to ingredient cards (color-coded by region)
+  - Integrate into StoredIngredients screen
+  - Implement filter persistence (SharedPreferences)
 
-3. **Polish & Compliance**:
+3. **Smart Sorting & Search** (FOLLOW-UP - 2-3 hours):
+  - Implement "Popular in Your Region" sorting
+  - Region-aware ingredient discovery
+  - Suggest local alternatives
+
+4. **Performance Optimization**:
+  - Memory optimization (lazy loading, pagination for large ingredient lists)
+  - Database query optimization and indexing
+  - Widget rebuild optimization
+
+5. **Polish & Compliance**:
    - Complete localization (multi-language support)
    - Accessibility improvements (WCAG AA compliance)
    - Documentation completion (dartdoc coverage)

@@ -70,6 +70,8 @@ class IngredientsRepository implements Repository {
   static const colIsStandardsBased = 'is_standards_based';
   static const colSeparationNotes = 'separation_notes';
   static const colMaxInclusionJson = 'max_inclusion_json';
+  // v12 regional tagging
+  static const colRegion = 'region';
 
   static const tableCreateQuery = 'CREATE TABLE $tableName ('
       '$colId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, '
@@ -111,6 +113,7 @@ class IngredientsRepository implements Repository {
       '$colMaxInclusionJson TEXT, '
       '$colWarning TEXT, '
       '$colRegulatoryNote TEXT, '
+      '$colRegion TEXT DEFAULT \'Global\', '
       '$colIsCustom INTEGER DEFAULT 0, '
       '$colCreatedBy TEXT, '
       '$colCreatedDate INTEGER, '
@@ -123,7 +126,7 @@ class IngredientsRepository implements Repository {
       'UPDATE $tableName SET $colPriceKg = ?, $colAvailableQty = ?, $colFavourite = ? WHERE $colId = ?';
 
   static const columns =
-      '$colId, $colName, $colStandardizedName, $colStandardReference, $colIsStandardsBased, $colSeparationNotes, $colCrudeProtein, $colCrudeFiber, $colCrudeFat, $colCalcium, $colPhosphorus, $colLysine, $colMethionine, $colMeGrowingPig, $colMeAdultPig, $colMePoultry, $colMeRuminant, $colMeRabbit, $colDeSalmonids, $colPriceKg, $colAvailableQty, $colCategoryId, $colFavourite, $colAsh, $colMoisture, $colStarch, $colBulkDensity, $colTotalPhosphorus, $colAvailablePhosphorus, $colPhytatePhosphorus, $colMeFinishingPig, $colAminoAcidsTotal, $colAminoAcidsSid, $colEnergy, $colAntiNutritionalFactors, $colMaxInclusionPct, $colMaxInclusionJson, $colWarning, $colRegulatoryNote, $colTimestamp';
+      '$colId, $colName, $colStandardizedName, $colStandardReference, $colIsStandardsBased, $colSeparationNotes, $colCrudeProtein, $colCrudeFiber, $colCrudeFat, $colCalcium, $colPhosphorus, $colLysine, $colMethionine, $colMeGrowingPig, $colMeAdultPig, $colMePoultry, $colMeRuminant, $colMeRabbit, $colDeSalmonids, $colPriceKg, $colAvailableQty, $colCategoryId, $colFavourite, $colAsh, $colMoisture, $colStarch, $colBulkDensity, $colTotalPhosphorus, $colAvailablePhosphorus, $colPhytatePhosphorus, $colMeFinishingPig, $colAminoAcidsTotal, $colAminoAcidsSid, $colEnergy, $colAntiNutritionalFactors, $colMaxInclusionPct, $colMaxInclusionJson, $colWarning, $colRegulatoryNote, $colRegion, $colTimestamp';
 
   Future<void> updateStoredIngredient(
       Map<String, Object?> placeData, num id) async {

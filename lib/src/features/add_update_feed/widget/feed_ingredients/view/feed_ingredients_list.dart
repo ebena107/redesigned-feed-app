@@ -125,6 +125,7 @@ class IngredientList extends ConsumerWidget {
               ),
             ),
 
+            const RegionFilterBar(),
             // Content area - Using ListView directly for better performance
             Expanded(
               child: data.filteredIngredients.isNotEmpty
@@ -165,6 +166,55 @@ class IngredientList extends ConsumerWidget {
             textAlign: TextAlign.center,
           ),
         ],
+      ),
+    );
+  }
+}
+
+class RegionFilterBar extends ConsumerStatefulWidget {
+  const RegionFilterBar({super.key});
+
+  @override
+  ConsumerState<RegionFilterBar> createState() => _RegionFilterBarState();
+}
+
+class _RegionFilterBarState extends ConsumerState<RegionFilterBar> {
+  static const _regions = [
+    'All',
+    'Africa',
+    'Asia',
+    'Europe',
+    'Americas',
+    'Oceania',
+    'Global'
+  ];
+  String _selected = 'All';
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: AppConstants.appBackgroundColor,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: _regions.map((r) {
+            final selected = _selected == r;
+            return Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: ChoiceChip(
+                label: Text(r),
+                selected: selected,
+                onSelected: (_) {
+                  setState(() => _selected = r);
+                  ref.read(ingredientProvider.notifier).setRegionFilter(r);
+                },
+                selectedColor:
+                    AppConstants.appCarrotColor.withValues(alpha: 0.2),
+              ),
+            );
+          }).toList(),
+        ),
       ),
     );
   }

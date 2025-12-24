@@ -31,6 +31,7 @@ dependencies:
   # ============================================
   flutter_riverpod: ^2.6.1       # Reactive state management
   riverpod_annotation: ^2.6.1    # Code generation for Riverpod
+  riverpod: ^2.6.1               # Core Riverpod (for Ref and non-Flutter use)
 
   # ============================================
   # DATA PERSISTENCE & DATABASE
