@@ -12,6 +12,7 @@ import 'package:in_app_review/in_app_review.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:feed_estimator/src/features/main/providers/main_async_provider.dart';
 
 // ignore_for_file: use_build_context_synchronously, deprecated_member_use
@@ -335,16 +336,22 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   }
 
   Future<void> _launchPrivacyPolicy() async {
-    // TODO: Replace with actual privacy policy URL
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-              'Privacy policy URL: https://yourdomain.com/privacy-policy\nPlease update with your actual URL'),
-          duration: Duration(seconds: 3),
-          behavior: SnackBarBehavior.fixed,
-        ),
-      );
+    // Privacy policy URL - hosted on GitHub
+    const url = 'https://github.com/ebena-ng/feed-estimator/blob/main/PRIVACY_POLICY.md';
+    
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Could not open privacy policy'),
+            duration: Duration(seconds: 3),
+            behavior: SnackBarBehavior.fixed,
+          ),
+        );
+      }
     }
   }
 
