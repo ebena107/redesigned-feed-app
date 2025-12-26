@@ -337,8 +337,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
   Future<void> _launchPrivacyPolicy() async {
     // Privacy policy URL - hosted on GitHub
-    const url = 'https://github.com/ebena-ng/feed-estimator/blob/main/PRIVACY_POLICY.md';
-    
+    const url =
+        'https://github.com/ebena-ng/feed-estimator/blob/main/PRIVACY_POLICY.md';
+
     final uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);

@@ -217,7 +217,8 @@ class _EnhancedPrivacySettingsScreenState
 
   Future<void> _launchPrivacyPolicy(BuildContext context) async {
     // Privacy policy URL - hosted on GitHub
-    const url = 'https://github.com/ebena-ng/feed-estimator/blob/main/PRIVACY_POLICY.md';
+    const url =
+        'https://github.com/ebena-ng/feed-estimator/blob/main/PRIVACY_POLICY.md';
 
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(

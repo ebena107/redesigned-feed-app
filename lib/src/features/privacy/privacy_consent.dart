@@ -191,7 +191,8 @@ class PrivacyConsentDialog extends ConsumerWidget {
 
   Future<void> _launchPrivacyPolicy(BuildContext context) async {
     // Privacy policy URL - hosted on GitHub
-    const url = 'https://github.com/ebena-ng/feed-estimator/blob/main/PRIVACY_POLICY.md';
+    const url =
+        'https://github.com/ebena-ng/feed-estimator/blob/main/PRIVACY_POLICY.md';
 
     final uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
@@ -310,7 +311,8 @@ class PrivacySettingsScreen extends ConsumerWidget {
   }
 
   Future<void> _launchPrivacyPolicy(BuildContext context) async {
-    const url = 'https://github.com/ebena-ng/feed-estimator/blob/main/PRIVACY_POLICY.md';
+    const url =
+        'https://github.com/ebena-ng/feed-estimator/blob/main/PRIVACY_POLICY.md';
     final uri = Uri.parse(url);
 
     if (await canLaunchUrl(uri)) {
