@@ -13,6 +13,7 @@ import 'package:feed_estimator/src/features/reports/widget/ingredients_list.dart
 import 'package:feed_estimator/src/features/reports/widget/report_bottom_bar.dart';
 import 'package:feed_estimator/src/features/reports/widget/result_card.dart'; // Extracted ResultCard
 import 'package:feed_estimator/src/utils/widgets/app_drawer.dart';
+import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -75,7 +76,9 @@ class AnalysisPage extends ConsumerWidget {
               centerTitle: false,
               collapseMode: CollapseMode.parallax,
               title: Text(
-                feedId == 9999 ? 'Estimated Analysis' : 'Analysis Report',
+                feedId == 9999
+                    ? context.l10n.reportTitleEstimate
+                    : context.l10n.reportTitleAnalysis,
                 style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,

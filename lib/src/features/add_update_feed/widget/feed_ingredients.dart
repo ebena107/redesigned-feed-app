@@ -14,13 +14,12 @@ import 'package:feed_estimator/src/utils/widgets/modern_dialogs.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 
 const String _tag = 'FeedIngredients';
 
 class FeedIngredientsField extends ConsumerWidget {
-  const FeedIngredientsField({
-    super.key,
-  });
+  const FeedIngredientsField({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -31,240 +30,223 @@ class FeedIngredientsField extends ConsumerWidget {
     double? width = displayWidth(context);
 
     return feedIngredients.isNotEmpty
-        ? Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            verticalDirection: VerticalDirection.down,
-            children: [
-              const Divider(
-                thickness: 1,
-                color: AppConstants.appIconGreyColor,
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: width * .32,
-                    child: Text(
-                      "Ingredient",
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium!
-                          .copyWith(fontSize: 14),
-                      textAlign: TextAlign.center,
+        ? CustomScrollView(
+            shrinkWrap: true,
+            slivers: [
+              SliverToBoxAdapter(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Divider(
+                      thickness: 1,
+                      color: AppConstants.appIconGreyColor,
                     ),
-                  ),
-                  SizedBox(
-                    width: width * .2,
-                    child: Text(
-                      "Price/Unit",
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium!
-                          .copyWith(fontSize: 14),
-                      textAlign: TextAlign.center,
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          width: width * .32,
+                          child: Text(
+                            context.l10n.navIngredients,
+                            style: Theme.of(
+                              context,
+                            ).textTheme.titleMedium!.copyWith(fontSize: 14),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        SizedBox(
+                          width: width * .2,
+                          child: Text(
+                            "${context.l10n.labelPrice}/${context.l10n.unitKg}",
+                            style: Theme.of(
+                              context,
+                            ).textTheme.titleMedium!.copyWith(fontSize: 14),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            context.l10n.labelQuantity,
+                            style: Theme.of(
+                              context,
+                            ).textTheme.titleMedium!.copyWith(fontSize: 14),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            '',
+                            style: Theme.of(
+                              context,
+                            ).textTheme.titleMedium!.copyWith(fontSize: 14),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  Expanded(
-                    //  width: width * .2,
-                    child: Text(
-                      "Quantity",
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium!
-                          .copyWith(fontSize: 14),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Expanded(
-                    //  width: width * .2,
-                    child: Text(
-                      "T: ${data.totalQuantity} Kg",
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium!
-                          .copyWith(fontSize: 14),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ],
-              ),
-              const Divider(
-                thickness: 1,
-                color: AppConstants.appIconGreyColor,
-              ),
-              Expanded(
-                flex: 1,
-                child: CustomScrollView(
-                  shrinkWrap: true,
-                  slivers: [
-                    SliverFixedExtentList(
-                      itemExtent: 48.0,
-                      delegate: SliverChildBuilderDelegate(
-                        (BuildContext context, int index) {
-                          final ingredient = feedIngredients[index];
-                          final allIngredients =
-                              ref.read(ingredientProvider).ingredients;
-                          final ingData = allIngredients.firstWhere(
-                            (f) => f.ingredientId == ingredient.ingredientId,
-                            orElse: () => Ingredient(),
-                          );
-                          final isStandardsBased =
-                              (ingData.isStandardsBased ?? 0) == 1;
-
-                          return Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              onTap: () => _showUpdateDialog(
-                                  context, ref, ingredient.ingredientId),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: AppConstants.spacing8,
-                                  vertical: AppConstants.spacing4,
-                                ),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    // Ingredient name - horizontally scrollable
-                                    SizedBox(
-                                      width: width * 0.32,
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Expanded(
-                                            child: SingleChildScrollView(
-                                              scrollDirection: Axis.horizontal,
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  GetIngredientName(
-                                                    id: ingredient.ingredientId,
-                                                    showDetails: true,
-                                                  ),
-                                                  // Region badge
-                                                  if (ingData.region != null &&
-                                                      ingData
-                                                          .region!.isNotEmpty)
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 2),
-                                                      child: Text(
-                                                        ingData.region!
-                                                            .split(',')
-                                                            .first
-                                                            .trim(),
-                                                        style: TextStyle(
-                                                          fontSize: 10,
-                                                          color:
-                                                              Colors.grey[600],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          if (FeatureFlags
-                                                  .showStandardsIndicators &&
-                                              isStandardsBased)
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 6),
-                                              child: Icon(
-                                                Icons.verified,
-                                                size: 14,
-                                                color: Colors.green[600],
-                                                semanticLabel:
-                                                    'Standards-based ingredient',
-                                              ),
-                                            ),
-                                        ],
-                                      ),
-                                    ),
-                                    // Price
-                                    Expanded(
-                                      child: Text(
-                                        ingredient.priceUnitKg.toString(),
-                                        textAlign: TextAlign.center,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium,
-                                      ),
-                                    ),
-                                    // Quantity and percentage
-                                    SizedBox(
-                                      width: width * .3,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            ingredient.quantity?.toString() ??
-                                                '0',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyMedium,
-                                          ),
-                                          Text(
-                                            data.totalQuantity > 0
-                                                ? "${ref.watch(feedProvider.notifier).calcPercent(ingredient.quantity).toStringAsFixed(1)}%"
-                                                : "0.0%",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall
-                                                ?.copyWith(
-                                                  color: AppConstants
-                                                      .appIconGreyColor,
-                                                ),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    // Delete button with better tap target
-                                    SizedBox(
-                                      width: UIConstants.minTapTarget,
-                                      height: UIConstants.minTapTarget,
-                                      child: IconButton(
-                                        padding: EdgeInsets.zero,
-                                        constraints: const BoxConstraints(
-                                          minWidth: UIConstants.minTapTarget,
-                                          minHeight: UIConstants.minTapTarget,
-                                        ),
-                                        onPressed: () => _showDeleteDialog(
-                                            context,
-                                            ref,
-                                            ingredient.ingredientId),
-                                        tooltip: 'Remove ingredient',
-                                        icon: const Icon(
-                                          CupertinoIcons.delete,
-                                          size: UIConstants.iconMedium,
-                                          color: Colors.redAccent,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                        childCount: data.feedIngredients.length,
-                      ),
+                    const Divider(
+                      thickness: 1,
+                      color: AppConstants.appIconGreyColor,
                     ),
                   ],
                 ),
               ),
-              // const Expanded(
-              //     flex: 1,
-              //     child: Divider(thickness: 2, color: AppConstants.mainAppColor)),
+              SliverFixedExtentList(
+                itemExtent: 48.0,
+                delegate: SliverChildBuilderDelegate((
+                  BuildContext context,
+                  int index,
+                ) {
+                  final ingredient = feedIngredients[index];
+                  final allIngredients =
+                      ref.read(ingredientProvider).ingredients;
+                  final ingData = allIngredients.firstWhere(
+                    (f) => f.ingredientId == ingredient.ingredientId,
+                    orElse: () => Ingredient(),
+                  );
+                  final isStandardsBased = (ingData.isStandardsBased ?? 0) == 1;
+
+                  return Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () => _showUpdateDialog(
+                        context,
+                        ref,
+                        ingredient.ingredientId,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppConstants.spacing8,
+                          vertical: AppConstants.spacing4,
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // Ingredient name - horizontally scrollable
+                            SizedBox(
+                              width: width * 0.32,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Expanded(
+                                    child: SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          GetIngredientName(
+                                            id: ingredient.ingredientId,
+                                            showDetails: true,
+                                          ),
+                                          // Region badge
+                                          if (ingData.region != null &&
+                                              ingData.region!.isNotEmpty)
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                top: 2,
+                                              ),
+                                              child: Text(
+                                                ingData.region!
+                                                    .split(',')
+                                                    .first
+                                                    .trim(),
+                                                style: TextStyle(
+                                                  fontSize: 10,
+                                                  color: Colors.grey[600],
+                                                ),
+                                              ),
+                                            ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  if (FeatureFlags.showStandardsIndicators &&
+                                      isStandardsBased)
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 6),
+                                      child: Icon(
+                                        Icons.verified,
+                                        size: 14,
+                                        color: Colors.green[600],
+                                        semanticLabel:
+                                            'Standards-based ingredient',
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            ),
+                            // Price
+                            Expanded(
+                              child: Text(
+                                ingredient.priceUnitKg.toString(),
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                            ),
+                            // Quantity and percentage
+                            SizedBox(
+                              width: width * .3,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    ingredient.quantity?.toString() ?? '0',
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodyMedium,
+                                  ),
+                                  Text(
+                                    data.totalQuantity > 0
+                                        ? "${ref.watch(feedProvider.notifier).calcPercent(ingredient.quantity).toStringAsFixed(1)}%"
+                                        : "0.0%",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(
+                                          color: AppConstants.appIconGreyColor,
+                                        ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            // Delete button with better tap target
+                            SizedBox(
+                              width: UIConstants.minTapTarget,
+                              height: UIConstants.minTapTarget,
+                              child: IconButton(
+                                padding: EdgeInsets.zero,
+                                constraints: const BoxConstraints(
+                                  minWidth: UIConstants.minTapTarget,
+                                  minHeight: UIConstants.minTapTarget,
+                                ),
+                                onPressed: () => _showDeleteDialog(
+                                  context,
+                                  ref,
+                                  ingredient.ingredientId,
+                                ),
+                                tooltip:
+                                    "${context.l10n.actionRemove} ${context.l10n.navIngredients}",
+                                icon: const Icon(
+                                  CupertinoIcons.delete,
+                                  size: UIConstants.iconMedium,
+                                  color: Colors.redAccent,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                }, childCount: data.feedIngredients.length),
+              ),
             ],
           )
         : const SizedBox();
@@ -280,7 +262,7 @@ void _showErrorSnackBar(BuildContext context, String message) {
       behavior: SnackBarBehavior.fixed,
       duration: const Duration(seconds: 3),
       action: SnackBarAction(
-        label: 'Dismiss',
+        label: context.l10n.actionClose,
         textColor: Colors.white,
         onPressed: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
       ),
@@ -289,11 +271,7 @@ void _showErrorSnackBar(BuildContext context, String message) {
 }
 
 /// Show delete confirmation dialog
-void _showDeleteDialog(
-  BuildContext context,
-  WidgetRef ref,
-  num? ingredientId,
-) {
+void _showDeleteDialog(BuildContext context, WidgetRef ref, num? ingredientId) {
   showDialog<void>(
     context: context,
     builder: (context) => _DeleteIngredientDialog(ingredientId: ingredientId),
@@ -301,11 +279,7 @@ void _showDeleteDialog(
 }
 
 /// Show update dialog for ingredient
-void _showUpdateDialog(
-  BuildContext context,
-  WidgetRef ref,
-  num? ingredientId,
-) {
+void _showUpdateDialog(BuildContext context, WidgetRef ref, num? ingredientId) {
   showDialog<void>(
     context: context,
     builder: (context) => _UpdateIngredientDialog(ingredientId: ingredientId),
@@ -340,13 +314,16 @@ class _DeleteIngredientDialogState
         Navigator.of(context).pop();
       }
     } catch (e, stackTrace) {
-      AppLogger.error('Failed to delete ingredient: $e',
-          tag: _tag, error: e, stackTrace: stackTrace);
+      AppLogger.error(
+        'Failed to delete ingredient: $e',
+        tag: _tag,
+        error: e,
+        stackTrace: stackTrace,
+      );
 
       if (mounted) {
         setState(() => _isDeleting = false);
-        _showErrorSnackBar(
-            context, 'Failed to remove ingredient. Please try again.');
+        _showErrorSnackBar(context, context.l10n.errorDatabaseOperation);
       }
     }
   }
@@ -367,7 +344,7 @@ class _DeleteIngredientDialogState
           const SizedBox(width: 12),
           Expanded(
             child: Text(
-              'Remove $ingredientName?',
+              "${context.l10n.actionRemove} $ingredientName?",
               overflow: TextOverflow.ellipsis,
               maxLines: 2,
             ),
@@ -375,17 +352,15 @@ class _DeleteIngredientDialogState
         ],
       ),
       content: Text(
-        'This will remove $ingredientName from your feed formulation. This action cannot be undone.',
+        "${context.l10n.actionRemove} $ingredientName. ${context.l10n.confirmDeletionWarning}",
       ),
       actions: [
         OutlinedButton(
           onPressed: _isDeleting ? null : () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
+          child: Text(context.l10n.actionCancel),
         ),
         FilledButton(
-          style: FilledButton.styleFrom(
-            backgroundColor: Colors.red[600],
-          ),
+          style: FilledButton.styleFrom(backgroundColor: Colors.red[600]),
           onPressed: _isDeleting ? null : _handleDelete,
           child: _isDeleting
               ? const SizedBox(
@@ -396,7 +371,7 @@ class _DeleteIngredientDialogState
                     color: Colors.white,
                   ),
                 )
-              : const Text('Remove'),
+              : Text(context.l10n.actionRemove),
         ),
       ],
     );
@@ -475,10 +450,11 @@ class _UpdateIngredientDialogState
         );
     final name = ingredient.name?.trim() ?? '';
     if (name.isEmpty) {
+      final fieldName = context.l10n.labelName;
       await ErrorDialog.show(
         context,
-        title: 'Name Required',
-        message: 'Please enter a name for this ingredient.',
+        title: context.l10n.errorRequired(fieldName),
+        message: context.l10n.errorRequired(fieldName),
       );
       return;
     }
@@ -492,14 +468,12 @@ class _UpdateIngredientDialogState
 
     try {
       // Update price and quantity
-      ref.read(feedProvider.notifier).setPrice(
-            widget.ingredientId!,
-            _priceController.text,
-          );
-      ref.read(feedProvider.notifier).setQuantity(
-            widget.ingredientId!,
-            _quantityController.text,
-          );
+      ref
+          .read(feedProvider.notifier)
+          .setPrice(widget.ingredientId!, _priceController.text);
+      ref
+          .read(feedProvider.notifier)
+          .setQuantity(widget.ingredientId!, _quantityController.text);
 
       // Recalculate results
       ref.read(resultProvider.notifier).estimatedResult(
@@ -525,10 +499,7 @@ class _UpdateIngredientDialogState
 
       if (mounted) {
         setState(() => _isUpdating = false);
-        _showErrorSnackBar(
-          context,
-          'Failed to update ingredient. Please try again.',
-        );
+        _showErrorSnackBar(context, context.l10n.errorDatabaseOperation);
       }
     }
   }
@@ -536,10 +507,7 @@ class _UpdateIngredientDialogState
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: GetIngredientName(
-        id: widget.ingredientId,
-        showDetails: true,
-      ),
+      title: GetIngredientName(id: widget.ingredientId, showDetails: true),
       content: Material(
         color: Colors.transparent,
         child: SizedBox(
@@ -556,12 +524,14 @@ class _UpdateIngredientDialogState
                     controller: _priceController,
                     enabled: !_isUpdating,
                     textInputAction: TextInputAction.next,
-                    keyboardType:
-                        const TextInputType.numberWithOptions(decimal: true),
+                    keyboardType: const TextInputType.numberWithOptions(
+                      decimal: true,
+                    ),
                     inputFormatters: InputValidators.numericFormatters,
                     decoration: InputDecoration(
-                      labelText: 'Price per Kg',
-                      hintText: '10.50',
+                      labelText:
+                          "${context.l10n.labelPrice} ${context.l10n.unitKg}",
+                      hintText: context.l10n.hintEnterPrice,
                       errorText: _priceError,
                       filled: false,
                       border: const UnderlineInputBorder(),
@@ -575,12 +545,14 @@ class _UpdateIngredientDialogState
                     controller: _quantityController,
                     enabled: !_isUpdating,
                     textInputAction: TextInputAction.done,
-                    keyboardType:
-                        const TextInputType.numberWithOptions(decimal: true),
+                    keyboardType: const TextInputType.numberWithOptions(
+                      decimal: true,
+                    ),
                     inputFormatters: InputValidators.numericFormatters,
                     decoration: InputDecoration(
-                      labelText: 'Quantity (Kg)',
-                      hintText: '100',
+                      labelText:
+                          "${context.l10n.labelQuantity} (${context.l10n.unitKg})",
+                      hintText: context.l10n.hintEnterQuantity,
                       errorText: _quantityError,
                       filled: false,
                       border: const UnderlineInputBorder(),
@@ -602,7 +574,7 @@ class _UpdateIngredientDialogState
               : () {
                   Navigator.of(context).pop();
                 },
-          child: const Text('Cancel'),
+          child: Text(context.l10n.actionCancel),
         ),
         FilledButton(
           onPressed: _isUpdating ? null : _handleUpdate,
@@ -615,7 +587,7 @@ class _UpdateIngredientDialogState
                     color: Colors.white,
                   ),
                 )
-              : const Text('Update'),
+              : Text(context.l10n.actionUpdate),
         ),
       ],
     );

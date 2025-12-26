@@ -1,0 +1,782 @@
+{
+  "@@locale": "es",
+  "@@author": "Feed Estimator Team",
+  "appTitle": "Estimador de Alimento",
+  "@appTitle": {
+    "description": "Application title"
+  },
+  "appDescription": "Optimizador de formulación de alimento para ganado",
+  "@appDescription": {
+    "description": "Application description"
+  },
+  
+  "navHome": "Inicio",
+  "@navHome": {
+    "description": "Navigation label for home screen"
+  },
+  "navFeeds": "Mis Alimentos",
+  "@navFeeds": {
+    "description": "Navigation label for feeds screen"
+  },
+  "navIngredients": "Ingredientes",
+  "@navIngredients": {
+    "description": "Navigation label for ingredients screen"
+  },
+  "navSettings": "Configuración",
+  "@navSettings": {
+    "description": "Navigation label for settings screen"
+  },
+  "navAbout": "Acerca de",
+  "@navAbout": {
+    "description": "Navigation label for about screen"
+  },
+  
+  "screenTitleHome": "Formulación de Alimento",
+  "@screenTitleHome": {
+    "description": "Home screen title"
+  },
+  "screenTitleIngredientLibrary": "Biblioteca de Ingredientes",
+  "@screenTitleIngredientLibrary": {
+    "description": "Ingredient library screen title"
+  },
+  "screenTitleNewFeed": "Crear Alimento",
+  "@screenTitleNewFeed": {
+    "description": "New feed creation screen title"
+  },
+  "screenTitleReports": "Análisis",
+  "@screenTitleReports": {
+    "description": "Reports/analysis screen title"
+  },
+  "screenTitleSettings": "Configuración",
+  "@screenTitleSettings": {
+    "description": "Settings screen title"
+  },
+  "screenTitleAbout": "Acerca de Estimador de Alimento",
+  "@screenTitleAbout": {
+    "description": "About screen title"
+  },
+  
+  "actionCreate": "Crear",
+  "@actionCreate": {
+    "description": "Action button to create new item"
+  },
+  "actionSave": "Guardar",
+  "@actionSave": {
+    "description": "Action button to save"
+  },
+  "actionUpdate": "Actualizar",
+  "@actionUpdate": {
+    "description": "Action button to update"
+  },
+  "actionDelete": "Eliminar",
+  "@actionDelete": {
+    "description": "Action button to delete"
+  },
+  "actionCancel": "Cancelar",
+  "@actionCancel": {
+    "description": "Action button to cancel"
+  },
+  "actionAdd": "Añadir",
+  "@actionAdd": {
+    "description": "Action button to add"
+  },
+  "actionAddNew": "Añadir Nuevo",
+  "@actionAddNew": {
+    "description": "Action button to add new item"
+  },
+  "actionRefresh": "Actualizar",
+  "@actionRefresh": {
+    "description": "Action button to refresh"
+  },
+  "actionEdit": "Editar",
+  "@actionEdit": {
+    "description": "Action button to edit"
+  },
+  "actionRemove": "Quitar",
+  "@actionRemove": {
+    "description": "Action button to remove"
+  },
+  "actionClose": "Cerrar",
+  "@actionClose": {
+    "description": "Action button to close"
+  },
+  "actionRetry": "Reintentar",
+  "@actionRetry": {
+    "description": "Action button to retry"
+  },
+  "actionViewReport": "Ver Reporte",
+  "@actionViewReport": {
+    "description": "Action to view detailed report"
+  },
+  "actionClear": "Limpiar",
+  "@actionClear": {
+    "description": "Action button to clear filters or selection"
+  },
+  "actionClearFilters": "Limpiar Filtros",
+  "@actionClearFilters": {
+    "description": "Action button to clear all active filters"
+  },
+  "actionSaveChanges": "Guardar Cambios",
+  "@actionSaveChanges": {
+    "description": "Action button to save changes"
+  },
+  "actionReset": "Restablecer",
+  "@actionReset": {
+    "description": "Action button to reset form"
+  },
+  
+  "homeEmptyTitle": "Sin Alimentos Aún",
+  "@homeEmptyTitle": {
+    "description": "Empty state title on home screen"
+  },
+  "homeEmptySubtitle": "Cree su primera formulación de alimento",
+  "@homeEmptySubtitle": {
+    "description": "Empty state subtitle on home screen"
+  },
+  "homeCreateFeed": "Crear Alimento",
+  "@homeCreateFeed": {
+    "description": "Button text to create first feed"
+  },
+  "homeAddFeed": "Agregar Alimento",
+  "@homeAddFeed": {
+    "description": "FAB text to add a new feed"
+  },
+  "homeLoadFailed": "Error al cargar alimentos: {error}",
+  "@homeLoadFailed": {
+    "description": "Error message when feeds fail to load",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "homeLoadingFeeds": "Cargando alimentos...",
+  "@homeLoadingFeeds": {
+    "description": "Loading message on home screen"
+  },
+  
+  "feedListEmpty": "Sin Alimentos Disponibles",
+  "@feedListEmpty": {
+    "description": "Empty state message in feed list"
+  },
+  "feedsLoadFailed": "Error al cargar alimentos",
+  "@feedsLoadFailed": {
+    "description": "Error message when feed loading fails"
+  },
+  "feedsEmptyStateTitle": "No se encontraron alimentos",
+  "@feedsEmptyStateTitle": {
+    "description": "Empty state title in feed grid"
+  },
+  "feedNameUnknown": "Alimento Desconocido",
+  "@feedNameUnknown": {
+    "description": "Fallback text for feeds with no name"
+  },
+  "feedSubtitle": "Alimento para {animalType}",
+  "@feedSubtitle": {
+    "description": "Feed subtitle with animal type",
+    "placeholders": {
+      "animalType": {
+        "type": "String",
+        "example": "Pig"
+      }
+    }
+  },
+  "feedDeleteTitle": "¿Eliminar \"{feedName}\"?",
+  "@feedDeleteTitle": {
+    "description": "Confirmation dialog title for feed deletion",
+    "placeholders": {
+      "feedName": {
+        "type": "String",
+        "example": "Broiler Starter"
+      }
+    }
+  },
+  "confirmDeletionWarning": "Esta acción no se puede deshacer.",
+  "@confirmDeletionWarning": {
+    "description": "Warning message in deletion confirmation dialogs"
+  },
+  
+  "feedStoreTitle": "Alimentos en Almacén",
+  "@feedStoreTitle": {
+    "description": "Title for stored feeds screen"
+  },
+  "feedStorePlaceholder": "Alimentos almacenados aquí",
+  "@feedStorePlaceholder": {
+    "description": "Placeholder text for stored feeds feature"
+  },
+  
+  "ingredientSelectedLabel": "Ingrediente Seleccionado",
+  "@ingredientSelectedLabel": {
+    "description": "Label shown when an ingredient is selected"
+  },
+  "ingredientSelectLabel": "Seleccionar Ingrediente",
+  "@ingredientSelectLabel": {
+    "description": "Label prompting user to select ingredient"
+  },
+  "ingredientSelectTitle": "Seleccionar Ingrediente",
+  "@ingredientSelectTitle": {
+    "description": "Title of ingredient selection sheet"
+  },
+  "ingredientSearchHint": "Buscar por nombre...",
+  "@ingredientSearchHint": {
+    "description": "Hint text in ingredient search field"
+  },
+  "ingredientNameUnknown": "Desconocido",
+  "@ingredientNameUnknown": {
+    "description": "Fallback text for ingredients with no name"
+  },
+  "ingredientAvailableQty": "{qty} kg disponibles",
+  "@ingredientAvailableQty": {
+    "description": "Display text for available ingredient quantity",
+    "placeholders": {
+      "qty": {
+        "type": "String",
+        "example": "150.5"
+      }
+    }
+  },
+  "ingredientPricePerKg": "{price}/kg",
+  "@ingredientPricePerKg": {
+    "description": "Display text for ingredient price per kg",
+    "placeholders": {
+      "price": {
+        "type": "String",
+        "example": "10.50"
+      }
+    }
+  },
+  "ingredientsLoadFailed": "Error al cargar ingredientes",
+  "@ingredientsLoadFailed": {
+    "description": "Error message when ingredients fail to load"
+  },
+  "ingredientsEmptyTitle": "No se encontraron ingredientes",
+  "@ingredientsEmptyTitle": {
+    "description": "Empty state title when no ingredients exist"
+  },
+  "ingredientsEmptySubtitle": "Agregue ingredientes para comenzar",
+  "@ingredientsEmptySubtitle": {
+    "description": "Empty state subtitle when no ingredients exist"
+  },
+  "ingredientsEmptyFilteredTitle": "Ningún ingrediente coincide con sus filtros",
+  "@ingredientsEmptyFilteredTitle": {
+    "description": "Empty state title when filters return no results"
+  },
+  "ingredientsEmptyFilteredSubtitle": "Intente ajustar su búsqueda o filtros",
+  "@ingredientsEmptyFilteredSubtitle": {
+    "description": "Empty state subtitle when filters return no results"
+  },
+  
+  "filterFavorites": "Favoritos",
+  "@filterFavorites": {
+    "description": "Filter chip label for favorites"
+  },
+  "filterCustom": "Personalizados",
+  "@filterCustom": {
+    "description": "Filter chip label for custom ingredients"
+  },
+  "filterRegionLabel": "Región: {region}",
+  "@filterRegionLabel": {
+    "description": "Filter chip label for regional filtering",
+    "placeholders": {
+      "region": {
+        "type": "String",
+        "example": "Africa"
+      }
+    }
+  },
+  
+  "fallbackUnknownSymbol": "?",
+  "@fallbackUnknownSymbol": {
+    "description": "Symbol shown when name/value is unknown"
+  },
+  
+  "actionExport": "Exportar",
+  "@actionExport": {
+    "description": "Action button to export data"
+  },
+  "actionImport": "Importar",
+  "@actionImport": {
+    "description": "Action button to import data"
+  },
+  
+  "labelName": "Nombre",
+  "@labelName": {
+    "description": "Label for name field"
+  },
+  "labelPrice": "Precio",
+  "@labelPrice": {
+    "description": "Label for price field"
+  },
+  "labelQuantity": "Cantidad",
+  "@labelQuantity": {
+    "description": "Label for quantity field"
+  },
+  "labelCategory": "Categoría",
+  "@labelCategory": {
+    "description": "Label for category field"
+  },
+  "labelRegion": "Región",
+  "@labelRegion": {
+    "description": "Label for region field"
+  },
+  "labelProtein": "Proteína",
+  "@labelProtein": {
+    "description": "Label for protein nutrient"
+  },
+  "labelFat": "Grasa",
+  "@labelFat": {
+    "description": "Label for fat nutrient"
+  },
+  "labelFiber": "Fibra",
+  "@labelFiber": {
+    "description": "Label for fiber nutrient"
+  },
+  "labelCalcium": "Calcio",
+  "@labelCalcium": {
+    "description": "Label for calcium nutrient"
+  },
+  "labelPhosphorus": "Fósforo",
+  "@labelPhosphorus": {
+    "description": "Label for phosphorus nutrient"
+  },
+  "labelEnergy": "Energía",
+  "@labelEnergy": {
+    "description": "Label for energy value"
+  },
+  "labelCost": "Costo",
+  "@labelCost": {
+    "description": "Label for cost value"
+  },
+  "labelTotal": "Total",
+  "@labelTotal": {
+    "description": "Label for total value"
+  },
+  
+  "hintEnterName": "ej: Alimento de Inicio para Broilers",
+  "hintEnterPrice": "10.50",
+  "hintEnterQuantity": "100",
+  "hintSearch": "Buscar ingredientes...",
+  "hintSelectIngredient": "Toque para seleccionar ingrediente",
+  
+  "errorRequired": "{field} es requerido",
+  "@errorRequired": {
+    "description": "Error message when a required field is empty",
+    "placeholders": {
+      "field": {
+        "type": "String",
+        "example": "Nombre"
+      }
+    }
+  },
+  "errorInvalidPrice": "Ingrese precio válido (ej: 10.50)",
+  "errorInvalidQuantity": "Ingrese cantidad válida (ej: 100)",
+  "errorPriceNegative": "El precio no puede ser negativo",
+  "errorQuantityZero": "La cantidad debe ser mayor que 0",
+  "errorNameTooShort": "El nombre debe tener al menos 3 caracteres",
+  "errorNameTooLong": "El nombre debe tener menos de 50 caracteres",
+  "errorUnique": "{field} ya existe",
+  "@errorUnique": {
+    "description": "Error when trying to create a duplicate",
+    "placeholders": {
+      "field": {
+        "type": "String",
+        "example": "Nombre del alimento"
+      }
+    }
+  },
+  "errorDatabaseOperation": "Operación de base de datos fallida. Intente nuevamente.",
+  "errorNetworkError": "Error de red. Verifique su conexión.",
+  
+  "messageCreatedSuccessfully": "{item} creado exitosamente",
+  "@messageCreatedSuccessfully": {
+    "description": "Success message when an item is created",
+    "placeholders": {
+      "item": {
+        "type": "String",
+        "example": "Alimento"
+      }
+    }
+  },
+  "messageUpdatedSuccessfully": "{item} actualizado exitosamente",
+  "@messageUpdatedSuccessfully": {
+    "description": "Success message when an item is updated",
+    "placeholders": {
+      "item": {
+        "type": "String",
+        "example": "Alimento"
+      }
+    }
+  },
+  "messageDeletedSuccessfully": "{item} eliminado exitosamente",
+  "@messageDeletedSuccessfully": {
+    "description": "Success message when an item is deleted",
+    "placeholders": {
+      "item": {
+        "type": "String",
+        "example": "Alimento"
+      }
+    }
+  },
+  "messageLoading": "Cargando...",
+  "messageNoData": "No hay datos disponibles",
+  "messageEmpty": "No hay {item} añadidos aún",
+  "@messageEmpty": {
+    "description": "Message when a list is empty",
+    "placeholders": {
+      "item": {
+        "type": "String",
+        "example": "ingredientes"
+      }
+    }
+  },
+  
+  "confirmDelete": "¿Eliminar {item}?",
+  "@confirmDelete": {
+    "description": "Confirmation message before deletion",
+    "placeholders": {
+      "item": {
+        "type": "String",
+        "example": "este ingrediente"
+      }
+    }
+  },
+  "confirmDeleteDescription": "Esta acción no se puede deshacer.",
+  
+  "animalTypePig": "Cerdo",
+  "animalTypePoultry": "Pollo",
+  "animalTypeRabbit": "Conejo",
+  "animalTypeRuminant": "Rumiante",
+  "animalTypeFish": "Pez",
+  
+  "regionAll": "Todas las Regiones",
+  "regionAfrica": "África",
+  "regionAsia": "Asia",
+  "regionEurope": "Europa",
+  "regionAmericas": "Américas",
+  "regionOceania": "Oceanía",
+  "regionGlobal": "Global",
+  
+  "filterBy": "Filtrar Por",
+  "sortBy": "Ordenar Por",
+  "sortByName": "Nombre",
+  "sortByPrice": "Precio",
+  "sortByRegion": "Región",
+  
+  "unitKg": "kg",
+  "unitG": "g",
+  "unitLb": "lb",
+  "unitTon": "ton",
+  "unitKcal": "kcal/kg",
+  
+  "settingLanguage": "Idioma",
+  "settingTheme": "Tema",
+  "settingNotifications": "Notificaciones",
+  "settingAbout": "Acerca de",
+  
+  "aboutVersion": "Versión {version}",
+  "@aboutVersion": {
+    "description": "About app version",
+    "placeholders": {
+      "version": {
+        "type": "String",
+        "example": "1.0.0"
+      }
+    }
+  },
+  "aboutPrivacy": "Política de Privacidad",
+  "@aboutPrivacy": {
+    "description": "About privacy policy link"
+  },
+  "aboutTerms": "Términos de Servicio",
+  "@aboutTerms": {
+    "description": "About terms of service link"
+  },
+  "aboutDeveloper": "Desarrollado para ganaderos",
+  "@aboutDeveloper": {
+    "description": "About developer credit"
+  },
+  "aboutContribution": "Sus comentarios nos ayudan a mejorar",
+  "@aboutContribution": {
+    "description": "About contribution message"
+  },
+  
+  "settingsTitle": "Configuración",
+  "@settingsTitle": {
+    "description": "Settings screen title"
+  },
+  "settingsSectionLanguage": "Idioma",
+  "@settingsSectionLanguage": {
+    "description": "Settings section: Language"
+  },
+  "settingsSectionPrivacy": "Privacidad y Datos",
+  "@settingsSectionPrivacy": {
+    "description": "Settings section: Privacy & Data"
+  },
+  "settingsSectionDataManagement": "Gestión de Datos",
+  "@settingsSectionDataManagement": {
+    "description": "Settings section: Data Management"
+  },
+  "settingsSectionLegal": "Legal",
+  "@settingsSectionLegal": {
+    "description": "Settings section: Legal"
+  },
+  "settingsSelectLanguage": "Seleccionar Idioma",
+  "@settingsSelectLanguage": {
+    "description": "Language selector label"
+  },
+  "settingsLanguageLimitedUI": "{language} (Interfaz del sistema limitada)",
+  "@settingsLanguageLimitedUI": {
+    "description": "Language option with limited framework support",
+    "placeholders": {
+      "language": {
+        "type": "String",
+        "example": "Tagalog"
+      }
+    }
+  },
+  "settingsDataConsent": "Consentimiento de Recopilación de Datos",
+  "@settingsDataConsent": {
+    "description": "Data collection consent toggle"
+  },
+  "settingsConsentGranted": "Ha consentido la recopilación de datos",
+  "@settingsConsentGranted": {
+    "description": "Consent status: granted"
+  },
+  "settingsConsentNotGranted": "No ha consentido",
+  "@settingsConsentNotGranted": {
+    "description": "Consent status: not granted"
+  },
+  "settingsConsentDate": "Fecha de Consentimiento",
+  "@settingsConsentDate": {
+    "description": "Date when consent was granted"
+  },
+  "settingsPrivacyPolicy": "Política de Privacidad",
+  "@settingsPrivacyPolicy": {
+    "description": "Privacy policy link"
+  },
+  "settingsPrivacyPolicySubtitle": "Ver nuestra política de privacidad",
+  "@settingsPrivacyPolicySubtitle": {
+    "description": "Privacy policy subtitle"
+  },
+  "settingsFeedFormulations": "Formulaciones de Alimento",
+  "@settingsFeedFormulations": {
+    "description": "Feed formulations count label"
+  },
+  "settingsCustomIngredients": "Ingredientes Personalizados",
+  "@settingsCustomIngredients": {
+    "description": "Custom ingredients count label"
+  },
+  "settingsDatabaseSize": "Tamaño de la Base de Datos",
+  "@settingsDatabaseSize": {
+    "description": "Database size label"
+  },
+  "settingsExportData": "Exportar Datos",
+  "@settingsExportData": {
+    "description": "Export data option"
+  },
+  "settingsExportDataSubtitle": "Respaldar todos sus datos",
+  "@settingsExportDataSubtitle": {
+    "description": "Export data subtitle"
+  },
+  "settingsImportData": "Importar Datos",
+  "@settingsImportData": {
+    "description": "Import data option"
+  },
+  "settingsImportDataSubtitle": "Restaurar desde respaldo",
+  "@settingsImportDataSubtitle": {
+    "description": "Import data subtitle"
+  },
+  "settingsDeleteData": "Eliminar Todos los Datos",
+  "@settingsDeleteData": {
+    "description": "Delete all data option"
+  },
+  "settingsDeleteDataSubtitle": "Eliminar permanentemente todo",
+  "@settingsDeleteDataSubtitle": {
+    "description": "Delete all data subtitle"
+  },
+  "settingsVersion": "Versión",
+  "@settingsVersion": {
+    "description": "App version label"
+  },
+  "settingsRateApp": "Calificar la Aplicación",
+  "@settingsRateApp": {
+    "description": "Rate app option"
+  },
+  "settingsRateAppSubtitle": "Compartir sus comentarios",
+  "@settingsRateAppSubtitle": {
+    "description": "Rate app subtitle"
+  },
+  "settingsLicenses": "Licencias de Código Abierto",
+  "@settingsLicenses": {
+    "description": "Open source licenses option"
+  },
+  "settingsTermsOfService": "Términos de Servicio",
+  "@settingsTermsOfService": {
+    "description": "Terms of service option"
+  },
+  "settingsTermsComingSoon": "Próximamente",
+  "@settingsTermsComingSoon": {
+    "description": "Terms of service coming soon"
+  },
+  "settingsDataSafety": "Seguridad de Datos",
+  "@settingsDataSafety": {
+    "description": "Data safety option"
+  },
+  "settingsDataSafetySubtitle": "Sus datos se almacenan localmente",
+  "@settingsDataSafetySubtitle": {
+    "description": "Data safety subtitle"
+  },
+  "settingsFooter": "Hecho con ❤️ para ganaderos",
+  "@settingsFooter": {
+    "description": "Settings footer message"
+  },
+  "settingsExporting": "Exportando datos...",
+  "@settingsExporting": {
+    "description": "Loading message while exporting"
+  },
+  "settingsExportSuccess": "Exportación Exitosa",
+  "@settingsExportSuccess": {
+    "description": "Export success dialog title"
+  },
+  "settingsExportSuccessMessage": "¡Su respaldo se ha creado exitosamente!",
+  "@settingsExportSuccessMessage": {
+    "description": "Export success message"
+  },
+  "settingsRevokeConsentTitle": "Revocar Consentimiento",
+  "@settingsRevokeConsentTitle": {
+    "description": "Revoke consent dialog title"
+  },
+  "settingsRevokeConsentMessage": "¿Está seguro de que desea revocar su consentimiento? Esto no eliminará sus datos, pero reconoce que ya no consiente la recopilación de datos.",
+  "@settingsRevokeConsentMessage": {
+    "description": "Revoke consent dialog message"
+  },
+  "settingsLanguageUpdated": "Idioma actualizado a {language}",
+  "@settingsLanguageUpdated": {
+    "description": "Language change success message",
+    "placeholders": {
+      "language": {
+        "type": "String",
+        "example": "English"
+      }
+    }
+  },
+  
+  "ingredientLibraryTitle": "Biblioteca de Ingredientes",
+  "actionRefresh": "Actualizar",
+  "manageInventoryTitle": "GESTIONAR INVENTARIO",
+  "customIngredientsTitle": "Ingredientes Personalizados",
+  "actionAddNew": "Añadir Nuevo",
+  
+  "regionAll": "Todos",
+  "regionAfrica": "África",
+  "regionAsia": "Asia",
+  "regionEurope": "Europa",
+  "regionAmericas": "América",
+  "regionOceania": "Oceanía",
+  "regionGlobal": "Global",
+  
+  "updateDetailsTitle": "Actualizar Detalles",
+  "labelFavorite": "Favorito",
+  "labelAddToFavorites": "Añadir a favoritos",
+  "labelPricePerKg": "Precio por kg",
+  "labelAvailableQty": "Cantidad Disponible (kg)",
+  "actionDelete": "Eliminar",
+  "actionPriceHistory": "Historial de Precios",
+  "actionReset": "Restablecer",
+  "actionSaveChanges": "Guardar Cambios",
+  
+  "deleteIngredientTitle": "¿Eliminar Ingrediente?",
+  "deleteIngredientMessage": "Esto eliminará permanentemente este ingrediente de su biblioteca. Esta acción no se puede deshacer.",
+  "confirmCancel": "Cancelar",
+  "confirmDelete": "Eliminar",
+  
+  "successIngredientUpdated": "Ingrediente actualizado exitosamente",
+  "errorSaveFailed": "Falló al guardar: {error}",
+  "successIngredientDeleted": "Ingrediente eliminado",
+  "errorDeleteFailed": "Falló al eliminar: {error}",
+  
+
+  "errorPriceGreaterThanZero": "Debe ser > 0",
+  "errorQuantityGreaterOrEqual": "Debe ser ≥ 0"
+  ,
+  
+  "addFeedTitle": "Añadir/Verificar Alimento",
+  "updateFeedTitle": "Actualizar Alimento",
+  "actionAddIngredients": "Añadir Ingredientes",
+  "tooltipAddIngredients": "Añadir más ingredientes al alimento",
+  "actionSave": "Guardar",
+  "actionUpdate": "Actualizar",
+  "tooltipSaveFeed": "Guardar alimento",
+  "tooltipUpdateFeed": "Actualizar alimento",
+  "actionAnalyse": "Analizar",
+  "tooltipAnalyseFeed": "Analizar composición del alimento",
+  
+  "errorFeedNameRequired": "Nombre de Alimento Requerido",
+  "errorFeedNameMessage": "Ingrese un nombre para su alimento antes de guardar.",
+  "errorMissingFeedName": "Falta Nombre de Alimento",
+  "errorMissingFeedNameMessage": "Ingrese un nombre de alimento antes de analizar.",
+  "errorNoIngredients": "Sin Ingredientes",
+  "errorNoIngredientsMessage": "Añada al menos un ingrediente para analizar.",
+  "errorInvalidQuantities": "Cantidades Inválidas",
+  "errorInvalidQuantitiesMessage": "Todos los ingredientes deben tener cantidades válidas mayores que 0.",
+  "errorGenericTitle": "Ocurrió un Error",
+  "errorGenericMessage": "Inténtelo nuevamente.",
+  "actionOk": "ACEPTAR",
+  
+  "analyseDialogTitle": "Analizar Composición del Alimento",
+  "analyseDialogMessageNew": "Ver análisis nutricional detallado de \"{feedName}\" sin guardarlo.",
+  "analyseDialogMessageUpdate": "Ver análisis nutricional detallado de \"{feedName}\" sin actualizarlo.",
+  "analyseDialogPreviewNote": "Esta es una vista previa. Puede guardar después.",
+  "analyseDialogNoSaveNote": "Los cambios no se guardarán.",
+  "analyseDialogFailedMessage": "Falló el análisis del alimento. Inténtelo nuevamente.",
+  
+  "reportTitleEstimate": "Análisis Estimado",
+  "reportTitleAnalysis": "Informe de Análisis",
+  
+  "nutrientDigestiveEnergy": "Energía Digestible",
+  "nutrientMetabolicEnergy": "Energía Metabolizable",
+  "nutrientCrudeProtein": "Proteína Cruda",
+  "nutrientCrudeFiber": "Fibra Cruda",
+  "nutrientCrudeFat": "Grasa Cruda",
+  "nutrientCalcium": "Calcio",
+  "nutrientPhosphorus": "Fósforo",
+  "nutrientLysine": "Lisina",
+  "nutrientMethionine": "Metionina",
+  "nutrientAsh": "Ceniza",
+  "nutrientMoisture": "Humedad",
+  "nutrientAvailablePhosphorus": "Fósf. Dispon.",
+  "nutrientTotalPhosphorus": "Fósf. Total",
+  "nutrientPhytatePhosphorus": "Fósf. Fitato",
+  
+  "unitKcal": "Kcal",
+  "unitPercent": "%",
+  "unitGramPerKg": "g/Kg",
+  
+  "aminoAcidProfileTitle": "Perfil de Aminoácidos",
+  "aminoAcidSidLabel": "SID (Digestible)",
+  "aminoAcidTotalLabel": "Total",
+  "aminoAcidSidButton": "SID",
+  "aminoAcidTotalButton": "Total",
+  "aminoAcidTableHeaderName": "Aminoácido",
+  "aminoAcidTableHeaderContent": "Contenido (%)",
+  "aminoAcidLysine": "Lisina",
+  "aminoAcidMethionine": "Metionina",
+  "aminoAcidCystine": "Cistina",
+  "aminoAcidThreonine": "Treonina",
+  "aminoAcidTryptophan": "Triptófano",
+  "aminoAcidArginine": "Arginina",
+  "aminoAcidIsoleucine": "Isoleucina",
+  "aminoAcidLeucine": "Leucina",
+  "aminoAcidValine": "Valina",
+  "aminoAcidHistidine": "Histidina",
+  "aminoAcidPhenylalanine": "Fenilalanina",
+  "aminoAcidSidInfo": "SID = Digestibilidad Ileal Estandarizada (estándar de la industria)",
+  "aminoAcidTotalInfo": "Aminoácidos totales (no todos digestibles)",
+  "aminoAcidLoadError": "Error al cargar datos de aminoácidos",
+  
+  "warningsCardTitle": "Advertencias y Recomendaciones",
+  "warningsCardIssueCount": "{count, plural, =1{1 problema encontrado} other{{count} problemas encontrados}}",
+  
+  "pdfPreviewTitle": "Ebena Feed Estimator | Vista Previa de {feedName}"
+}

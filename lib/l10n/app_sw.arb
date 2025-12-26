@@ -1,0 +1,1220 @@
+{
+  "@@locale": "sw",
+  "@@author": "Feed Estimator Team",
+
+  "appTitle": "Feed Estimator",
+  "@appTitle": {
+    "description": "Application title"
+  },
+  "appDescription": "Lugha ya uongezaji wa chakula cha mifugo",
+  "@appDescription": {
+    "description": "Application description"
+  },
+
+  "navHome": "Nyumbani",
+  "@navHome": {
+    "description": "Navigation label for home screen"
+  },
+  "navFeeds": "Chakula Changu",
+  "@navFeeds": {
+    "description": "Navigation label for feeds screen"
+  },
+  "navIngredients": "Vipengele",
+  "@navIngredients": {
+    "description": "Navigation label for ingredients screen"
+  },
+  "navSettings": "Mipango",
+  "@navSettings": {
+    "description": "Navigation label for settings screen"
+  },
+  "navAbout": "Kuhusu",
+  "@navAbout": {
+    "description": "Navigation label for about screen"
+  },
+
+  "screenTitleHome": "Uandaaji wa Chakula",
+  "@screenTitleHome": {
+    "description": "Home screen title"
+  },
+  "screenTitleIngredientLibrary": "Maktaba ya Vipengele",
+  "@screenTitleIngredientLibrary": {
+    "description": "Ingredient library screen title"
+  },
+  "screenTitleNewFeed": "Tengeneza Chakula",
+  "@screenTitleNewFeed": {
+    "description": "New feed creation screen title"
+  },
+  "screenTitleReports": "Uchambuzi",
+  "@screenTitleReports": {
+    "description": "Reports/analysis screen title"
+  },
+  "screenTitleSettings": "Mipango",
+  "@screenTitleSettings": {
+    "description": "Settings screen title"
+  },
+  "screenTitleAbout": "Kuhusu Feed Estimator",
+  "@screenTitleAbout": {
+    "description": "About screen title"
+  },
+
+  "actionCreate": "Tengeneza",
+  "@actionCreate": {
+    "description": "Action button to create new item"
+  },
+  "actionSave": "Hifadhi",
+  "@actionSave": {
+    "description": "Action button to save"
+  },
+  "actionUpdate": "Sasisha",
+  "@actionUpdate": {
+    "description": "Action button to update"
+  },
+  "actionDelete": "Futa",
+  "@actionDelete": {
+    "description": "Action button to delete"
+  },
+  "actionCancel": "Ghairi",
+  "@actionCancel": {
+    "description": "Action button to cancel"
+  },
+  "actionAdd": "Ongeza",
+  "@actionAdd": {
+    "description": "Action button to add"
+  },
+  "actionAddNew": "Ongeza Mpya",
+  "@actionAddNew": {
+    "description": "Action button to add new item"
+  },
+  "actionRefresh": "Pakia Tena",
+  "@actionRefresh": {
+    "description": "Action button to refresh"
+  },
+  "actionEdit": "Hariri",
+  "@actionEdit": {
+    "description": "Action button to edit"
+  },
+  "actionRemove": "Ondoa",
+  "@actionRemove": {
+    "description": "Action button to remove"
+  },
+  "actionClose": "Funga",
+  "@actionClose": {
+    "description": "Action button to close"
+  },
+  "actionRetry": "Jaribu Tena",
+  "@actionRetry": {
+    "description": "Action button to retry"
+  },
+  "actionViewReport": "Tazama Ripoti",
+  "@actionViewReport": {
+    "description": "Action to view detailed report"
+  },
+  "actionClear": "Futa",
+  "@actionClear": {
+    "description": "Action button to clear filters or selection"
+  },
+  "actionClearFilters": "Futa Vichujio",
+  "@actionClearFilters": {
+    "description": "Action button to clear all active filters"
+  },
+  "actionSaveChanges": "Hifadhi Mabadiliko",
+  "@actionSaveChanges": {
+    "description": "Action button to save changes"
+  },
+  "actionReset": "Weka Upya",
+  "@actionReset": {
+    "description": "Action button to reset form"
+  },
+  
+  "homeEmptyTitle": "Hakuna Chakula Bado",
+  "@homeEmptyTitle": {
+    "description": "Empty state title on home screen"
+  },
+  "homeEmptySubtitle": "Unda muundo wako wa kwanza wa chakula",
+  "@homeEmptySubtitle": {
+    "description": "Empty state subtitle on home screen"
+  },
+  "homeCreateFeed": "Unda Chakula",
+  "@homeCreateFeed": {
+    "description": "Button text to create first feed"
+  },
+  "homeAddFeed": "Ongeza Chakula",
+  "@homeAddFeed": {
+    "description": "FAB text to add a new feed"
+  },
+  "homeLoadFailed": "Imeshindwa kupakia chakula: {error}",
+  "@homeLoadFailed": {
+    "description": "Error message when feeds fail to load",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "homeLoadingFeeds": "Inapakia chakula...",
+  "@homeLoadingFeeds": {
+    "description": "Loading message on home screen"
+  },
+  
+  "feedListEmpty": "Hakuna Chakula Kilichopatikana",
+  "@feedListEmpty": {
+    "description": "Empty state message in feed list"
+  },
+  "feedsLoadFailed": "Imeshindwa kupakia chakula",
+  "@feedsLoadFailed": {
+    "description": "Error message when feed loading fails"
+  },
+  "feedsEmptyStateTitle": "Hakuna chakula kilipatikana",
+  "@feedsEmptyStateTitle": {
+    "description": "Empty state title in feed grid"
+  },
+  "feedNameUnknown": "Chakula Kisichojulikana",
+  "@feedNameUnknown": {
+    "description": "Fallback text for feeds with no name"
+  },
+  "feedSubtitle": "Chakula cha {animalType}",
+  "@feedSubtitle": {
+    "description": "Feed subtitle with animal type",
+    "placeholders": {
+      "animalType": {
+        "type": "String",
+        "example": "Pig"
+      }
+    }
+  },
+  "feedDeleteTitle": "Futa \"{feedName}\"?",
+  "@feedDeleteTitle": {
+    "description": "Confirmation dialog title for feed deletion",
+    "placeholders": {
+      "feedName": {
+        "type": "String",
+        "example": "Broiler Starter"
+      }
+    }
+  },
+  "confirmDeletionWarning": "Hatua hii haiwezi kutenguka.",
+  "@confirmDeletionWarning": {
+    "description": "Warning message in deletion confirmation dialogs"
+  },
+  
+  "feedStoreTitle": "Chakula katika Ghala",
+  "@feedStoreTitle": {
+    "description": "Title for stored feeds screen"
+  },
+  "feedStorePlaceholder": "Chakula kilichohifadhiwa hapa",
+  "@feedStorePlaceholder": {
+    "description": "Placeholder text for stored feeds feature"
+  },
+  
+  "ingredientSelectedLabel": "Kiambata Kilichochaguliwa",
+  "@ingredientSelectedLabel": {
+    "description": "Label shown when an ingredient is selected"
+  },
+  "ingredientSelectLabel": "Chagua Kiambata",
+  "@ingredientSelectLabel": {
+    "description": "Label prompting user to select ingredient"
+  },
+  "ingredientSelectTitle": "Chagua Kiambata",
+  "@ingredientSelectTitle": {
+    "description": "Title of ingredient selection sheet"
+  },
+  "ingredientSearchHint": "Tafuta kwa jina...",
+  "@ingredientSearchHint": {
+    "description": "Hint text in ingredient search field"
+  },
+  "ingredientNameUnknown": "Haijulikani",
+  "@ingredientNameUnknown": {
+    "description": "Fallback text for ingredients with no name"
+  },
+  "ingredientAvailableQty": "{qty} kg zinapatikana",
+  "@ingredientAvailableQty": {
+    "description": "Display text for available ingredient quantity",
+    "placeholders": {
+      "qty": {
+        "type": "String",
+        "example": "150.5"
+      }
+    }
+  },
+  "ingredientPricePerKg": "{price}/kg",
+  "@ingredientPricePerKg": {
+    "description": "Display text for ingredient price per kg",
+    "placeholders": {
+      "price": {
+        "type": "String",
+        "example": "10.50"
+      }
+    }
+  },
+  "ingredientsLoadFailed": "Imeshindwa kupakia viambata",
+  "@ingredientsLoadFailed": {
+    "description": "Error message when ingredients fail to load"
+  },
+  "ingredientsEmptyTitle": "Hakuna viambata vilivyopatikana",
+  "@ingredientsEmptyTitle": {
+    "description": "Empty state title when no ingredients exist"
+  },
+  "ingredientsEmptySubtitle": "Ongeza viambata ili kuanza",
+  "@ingredientsEmptySubtitle": {
+    "description": "Empty state subtitle when no ingredients exist"
+  },
+  "ingredientsEmptyFilteredTitle": "Hakuna viambata vinavyolingana na vichujio vyako",
+  "@ingredientsEmptyFilteredTitle": {
+    "description": "Empty state title when filters return no results"
+  },
+  "ingredientsEmptyFilteredSubtitle": "Jaribu kurekebisha utafutaji au vichujio vyako",
+  "@ingredientsEmptyFilteredSubtitle": {
+    "description": "Empty state subtitle when filters return no results"
+  },
+  
+  "filterFavorites": "Vipendwa",
+  "@filterFavorites": {
+    "description": "Filter chip label for favorites"
+  },
+  "filterCustom": "Maalum",
+  "@filterCustom": {
+    "description": "Filter chip label for custom ingredients"
+  },
+  "filterRegionLabel": "Mkoa: {region}",
+  "@filterRegionLabel": {
+    "description": "Filter chip label for regional filtering",
+    "placeholders": {
+      "region": {
+        "type": "String",
+        "example": "Africa"
+      }
+    }
+  },
+  
+  "fallbackUnknownSymbol": "?",
+  "@fallbackUnknownSymbol": {
+    "description": "Symbol shown when name/value is unknown"
+  },
+  
+  "actionExport": "Hamisha",
+  "@actionExport": {
+    "description": "Action button to export data"
+  },
+  "actionImport": "Ingiza",
+  "@actionImport": {
+    "description": "Action button to import data"
+  },
+
+  "labelName": "Jina",
+  "@labelName": {
+    "description": "Label for name field"
+  },
+  "labelPrice": "Bei",
+  "@labelPrice": {
+    "description": "Label for price field"
+  },
+  "labelQuantity": "Kiasi",
+  "@labelQuantity": {
+    "description": "Label for quantity field"
+  },
+  "labelCategory": "Aina",
+  "@labelCategory": {
+    "description": "Label for category field"
+  },
+  "labelRegion": "Eneo",
+  "@labelRegion": {
+    "description": "Label for region field"
+  },
+  "labelProtein": "Protini",
+  "@labelProtein": {
+    "description": "Label for protein nutrient"
+  },
+  "labelFat": "Mafuta",
+  "@labelFat": {
+    "description": "Label for fat nutrient"
+  },
+  "labelFiber": "Nyuzi",
+  "@labelFiber": {
+    "description": "Label for fiber nutrient"
+  },
+  "labelCalcium": "Kalisiamu",
+  "@labelCalcium": {
+    "description": "Label for calcium nutrient"
+  },
+  "labelPhosphorus": "Fosfoni",
+  "@labelPhosphorus": {
+    "description": "Label for phosphorus nutrient"
+  },
+  "labelEnergy": "Nishati",
+  "@labelEnergy": {
+    "description": "Label for energy value"
+  },
+  "labelCost": "Gharama",
+  "@labelCost": {
+    "description": "Label for cost value"
+  },
+  "labelTotal": "Jumla",
+  "@labelTotal": {
+    "description": "Label for total value"
+  },
+
+  "hintEnterName": "k.m., Chakula cha Kuku",
+  "@hintEnterName": {
+    "description": "Hint text for name input field"
+  },
+  "hintEnterPrice": "10.50",
+  "@hintEnterPrice": {
+    "description": "Hint text for price input field"
+  },
+  "hintEnterQuantity": "100",
+  "@hintEnterQuantity": {
+    "description": "Hint text for quantity input field"
+  },
+  "hintSearch": "Tafuta vipengele...",
+  "@hintSearch": {
+    "description": "Hint text for search field"
+  },
+  "hintSelectIngredient": "Gusa kuchagua kipengele",
+  "@hintSelectIngredient": {
+    "description": "Hint text for ingredient selection"
+  },
+  
+  "errorRequired": "{field} inahitajika",
+  "@errorRequired": {
+    "description": "Error message when a required field is empty",
+    "placeholders": {
+      "field": {
+        "type": "String",
+        "example": "Jina"
+      }
+    }
+  },
+  "errorInvalidPrice": "Ingiza bei sahihi (k.m., 10.50)",
+  "@errorInvalidPrice": {
+    "description": "Error message for invalid price format"
+  },
+  "errorInvalidQuantity": "Ingiza kiasi sahihi (k.m., 100)",
+  "@errorInvalidQuantity": {
+    "description": "Error message for invalid quantity format"
+  },
+  "errorPriceNegative": "Bei haiwezi kuwa hasi",
+  "@errorPriceNegative": {
+    "description": "Error message for negative price"
+  },
+  "errorQuantityZero": "Kiasi lazima kiwe zaidi ya 0",
+  "@errorQuantityZero": {
+    "description": "Error message for zero quantity"
+  },
+  "errorNameTooShort": "Jina lazima liwe na angalau herufi 3",
+  "@errorNameTooShort": {
+    "description": "Error message for name too short"
+  },
+  "errorNameTooLong": "Jina lazima liwe chini ya herufi 50",
+  "@errorNameTooLong": {
+    "description": "Error message for name too long"
+  },
+  "errorUnique": "{field} tayari ipo",
+  "@errorUnique": {
+    "description": "Error when trying to create a duplicate",
+    "placeholders": {
+      "field": {
+        "type": "String",
+        "example": "Jina la chakula"
+      }
+    }
+  },
+  "errorDatabaseOperation": "Operesheni ya hifadhidata imeshindwa. Jaribu tena.",
+  "@errorDatabaseOperation": {
+    "description": "Error message for database operation failure"
+  },
+  "errorNetworkError": "Hitilafu ya mtandao. Tafadhali angalia muunganisho wako.",
+  "@errorNetworkError": {
+    "description": "Error message for network errors"
+  },
+  
+  "messageCreatedSuccessfully": "{item} ilikuwa imetengenezwa kwa mafanikio",
+  "@messageCreatedSuccessfully": {
+    "description": "Success message when an item is created",
+    "placeholders": {
+      "item": {
+        "type": "String",
+        "example": "Chakula"
+      }
+    }
+  },
+  "messageUpdatedSuccessfully": "{item} imesasishwa kwa mafanikio",
+  "@messageUpdatedSuccessfully": {
+    "description": "Success message when an item is updated",
+    "placeholders": {
+      "item": {
+        "type": "String",
+        "example": "Chakula"
+      }
+    }
+  },
+  "messageDeletedSuccessfully": "{item} imefutwa kwa mafanikio",
+  "@messageDeletedSuccessfully": {
+    "description": "Success message when an item is deleted",
+    "placeholders": {
+      "item": {
+        "type": "String",
+        "example": "Chakula"
+      }
+    }
+  },
+  "messageLoading": "Inapakia...",
+  "@messageLoading": {
+    "description": "Loading message"
+  },
+  "messageNoData": "Hakuna data inayopatikana",
+  "@messageNoData": {
+    "description": "Message when no data is available"
+  },
+  "messageEmpty": "Hakuna {item} imeongezwa bado",
+  "@messageEmpty": {
+    "description": "Message when a list is empty",
+    "placeholders": {
+      "item": {
+        "type": "String",
+        "example": "vipengele"
+      }
+    }
+  },
+  
+  "confirmDelete": "Futa {item}?",
+  "@confirmDelete": {
+    "description": "Confirmation message before deletion",
+    "placeholders": {
+      "item": {
+        "type": "String",
+        "example": "kipengele hiki"
+      }
+    }
+  },
+  "confirmDeleteDescription": "Hatua hii haiwezi kufanywa upya.",
+  "@confirmDeleteDescription": {
+    "description": "Description for delete confirmation"
+  },
+  "animalTypePig": "Nguruwe",
+  "@animalTypePig": {
+    "description": "Animal type: Pig"
+  },
+  "animalTypePoultry": "Kuku",
+  "@animalTypePoultry": {
+    "description": "Animal type: Poultry"
+  },
+  "animalTypeRabbit": "Sungura",
+  "@animalTypeRabbit": {
+    "description": "Animal type: Rabbit"
+  },
+  "animalTypeRuminant": "Mifugaji",
+  "@animalTypeRuminant": {
+    "description": "Animal type: Ruminant"
+  },
+  "animalTypeFish": "Samaki",
+  "@animalTypeFish": {
+    "description": "Animal type: Fish"
+  },
+  
+  "regionAll": "Maeneo Yote",
+  "@regionAll": {
+    "description": "Filter option: All regions"
+  },
+  "regionAfrica": "Afrika",
+  "@regionAfrica": {
+    "description": "Region: Africa"
+  },
+  "regionAsia": "Asia",
+  "@regionAsia": {
+    "description": "Region: Asia"
+  },
+  "regionEurope": "Ulaya",
+  "@regionEurope": {
+    "description": "Region: Europe"
+  },
+  "regionAmericas": "Amerika",
+  "@regionAmericas": {
+    "description": "Region: Americas"
+  },
+  "regionOceania": "Oceania",
+  "@regionOceania": {
+    "description": "Region: Oceania"
+  },
+  "regionGlobal": "Ulimwengu",
+  "@regionGlobal": {
+    "description": "Region: Global"
+  },
+  
+  "filterBy": "Chuja Kwa",
+  "@filterBy": {
+    "description": "Filter label"
+  },
+  "sortBy": "Panga Kwa",
+  "@sortBy": {
+    "description": "Sort label"
+  },
+  "sortByName": "Jina",
+  "@sortByName": {
+    "description": "Sort option: By name"
+  },
+  "sortByPrice": "Bei",
+  "@sortByPrice": {
+    "description": "Sort option: By price"
+  },
+  "sortByRegion": "Eneo",
+  "@sortByRegion": {
+    "description": "Sort option: By region"
+  },
+  
+  "unitKg": "kg",
+  "@unitKg": {
+    "description": "Unit: Kilogram"
+  },
+  "unitG": "g",
+  "@unitG": {
+    "description": "Unit: Gram"
+  },
+  "unitLb": "lb",
+  "@unitLb": {
+    "description": "Unit: Pound"
+  },
+  "unitTon": "tani",
+  "@unitTon": {
+    "description": "Unit: Ton"
+  },
+  "unitKcal": "kcal/kg",
+  "@unitKcal": {
+    "description": "Unit: Kilocalories per kilogram"
+  },
+  
+  "settingLanguage": "Lugha",
+  "@settingLanguage": {
+    "description": "Settings: Language option"
+  },
+  "settingTheme": "Mandhari",
+  "@settingTheme": {
+    "description": "Settings: Theme option"
+  },
+  "settingNotifications": "Arifa",
+  "@settingNotifications": {
+    "description": "Settings: Notifications option"
+  },
+  "settingAbout": "Kuhusu",
+  "@settingAbout": {
+    "description": "Settings: About option"
+  },
+  
+  "aboutVersion": "Toleo {version}",
+  "@aboutVersion": {
+    "description": "About app version",
+    "placeholders": {
+      "version": {
+        "type": "String",
+        "example": "1.0.0"
+      }
+    }
+  },
+  "aboutPrivacy": "Sera ya Faragha",
+  "@aboutPrivacy": {
+    "description": "About privacy policy link"
+  },
+  "aboutTerms": "Masharti ya Huduma",
+  "@aboutTerms": {
+    "description": "About terms of service link"
+  },
+  "aboutDeveloper": "Iliyoendekezwa kwa wakulima wa mifugo",
+  "@aboutDeveloper": {
+    "description": "About developer credit"
+  },
+  "aboutContribution": "Maoni yako husaidia sisi kuboresha",
+  "@aboutContribution": {
+    "description": "About contribution message"
+  },
+  
+  "settingsTitle": "Mipango",
+  "@settingsTitle": {
+    "description": "Settings screen title"
+  },
+  "settingsSectionLanguage": "Lugha",
+  "@settingsSectionLanguage": {
+    "description": "Settings section: Language"
+  },
+  "settingsSectionPrivacy": "Faragha na Data",
+  "@settingsSectionPrivacy": {
+    "description": "Settings section: Privacy & Data"
+  },
+  "settingsSectionDataManagement": "Usimamizi wa Data",
+  "@settingsSectionDataManagement": {
+    "description": "Settings section: Data Management"
+  },
+  "settingsSectionLegal": "Kisheria",
+  "@settingsSectionLegal": {
+    "description": "Settings section: Legal"
+  },
+  "settingsSelectLanguage": "Chagua Lugha",
+  "@settingsSelectLanguage": {
+    "description": "Language selector label"
+  },
+  "settingsLanguageLimitedUI": "{language} (Kiolesura cha mfumo kilichowezeshwa)",
+  "@settingsLanguageLimitedUI": {
+    "description": "Language option with limited framework support",
+    "placeholders": {
+      "language": {
+        "type": "String",
+        "example": "Tagalog"
+      }
+    }
+  },
+  "settingsDataConsent": "Idhini ya Ukusanyaji wa Data",
+  "@settingsDataConsent": {
+    "description": "Data collection consent toggle"
+  },
+  "settingsConsentGranted": "Umeidhinisha ukusanyaji wa data",
+  "@settingsConsentGranted": {
+    "description": "Consent status: granted"
+  },
+  "settingsConsentNotGranted": "Hujaidhinisha",
+  "@settingsConsentNotGranted": {
+    "description": "Consent status: not granted"
+  },
+  "settingsConsentDate": "Tarehe ya Idhini",
+  "@settingsConsentDate": {
+    "description": "Date when consent was granted"
+  },
+  "settingsPrivacyPolicy": "Sera ya Faragha",
+  "@settingsPrivacyPolicy": {
+    "description": "Privacy policy link"
+  },
+  "settingsPrivacyPolicySubtitle": "Tazama sera yetu ya faragha",
+  "@settingsPrivacyPolicySubtitle": {
+    "description": "Privacy policy subtitle"
+  },
+  "settingsFeedFormulations": "Miundo ya Chakula",
+  "@settingsFeedFormulations": {
+    "description": "Feed formulations count label"
+  },
+  "settingsCustomIngredients": "Vipengele Maalum",
+  "@settingsCustomIngredients": {
+    "description": "Custom ingredients count label"
+  },
+  "settingsDatabaseSize": "Ukubwa wa Hifadhidata",
+  "@settingsDatabaseSize": {
+    "description": "Database size label"
+  },
+  "settingsExportData": "Hamisha Data",
+  "@settingsExportData": {
+    "description": "Export data option"
+  },
+  "settingsExportDataSubtitle": "Hifadhi nakala ya data yako yote",
+  "@settingsExportDataSubtitle": {
+    "description": "Export data subtitle"
+  },
+  "settingsImportData": "Leta Data",
+  "@settingsImportData": {
+    "description": "Import data option"
+  },
+  "settingsImportDataSubtitle": "Rejesha kutoka kwa nakala",
+  "@settingsImportDataSubtitle": {
+    "description": "Import data subtitle"
+  },
+  "settingsDeleteData": "Futa Data Yote",
+  "@settingsDeleteData": {
+    "description": "Delete all data option"
+  },
+  "settingsDeleteDataSubtitle": "Futa kila kitu kabisa",
+  "@settingsDeleteDataSubtitle": {
+    "description": "Delete all data subtitle"
+  },
+  "settingsVersion": "Toleo",
+  "@settingsVersion": {
+    "description": "App version label"
+  },
+  "settingsRateApp": "Kadiria Programu",
+  "@settingsRateApp": {
+    "description": "Rate app option"
+  },
+  "settingsRateAppSubtitle": "Shiriki maoni yako",
+  "@settingsRateAppSubtitle": {
+    "description": "Rate app subtitle"
+  },
+  "settingsLicenses": "Leseni za Chanzo Wazi",
+  "@settingsLicenses": {
+    "description": "Open source licenses option"
+  },
+  "settingsTermsOfService": "Masharti ya Huduma",
+  "@settingsTermsOfService": {
+    "description": "Terms of service option"
+  },
+  "settingsTermsComingSoon": "Inakuja hivi karibuni",
+  "@settingsTermsComingSoon": {
+    "description": "Terms of service coming soon"
+  },
+  "settingsDataSafety": "Usalama wa Data",
+  "@settingsDataSafety": {
+    "description": "Data safety option"
+  },
+  "settingsDataSafetySubtitle": "Data yako imehifadhiwa ndani",
+  "@settingsDataSafetySubtitle": {
+    "description": "Data safety subtitle"
+  },
+  "settingsFooter": "Imetengenezwa kwa ❤️ kwa wakulima wa mifugo",
+  "@settingsFooter": {
+    "description": "Settings footer message"
+  },
+  "settingsExporting": "Inahamisha data...",
+  "@settingsExporting": {
+    "description": "Loading message while exporting"
+  },
+  "settingsExportSuccess": "Uhamishaji Umefanikiwa",
+  "@settingsExportSuccess": {
+    "description": "Export success dialog title"
+  },
+  "settingsExportSuccessMessage": "Nakala yako imeundwa kwa mafanikio!",
+  "@settingsExportSuccessMessage": {
+    "description": "Export success message"
+  },
+  "settingsRevokeConsentTitle": "Futa Idhini",
+  "@settingsRevokeConsentTitle": {
+    "description": "Revoke consent dialog title"
+  },
+  "settingsRevokeConsentMessage": "Una uhakika unataka kufuta idhini yako? Hii haitafuta data yako, lakini unakubali kwamba hukubali tena ukusanyaji wa data.",
+  "@settingsRevokeConsentMessage": {
+    "description": "Revoke consent dialog message"
+  },
+  "settingsLanguageUpdated": "Lugha imesasishwa hadi {language}",
+  "@settingsLanguageUpdated": {
+    "description": "Language change success message",
+    "placeholders": {
+      "language": {
+        "type": "String",
+        "example": "English"
+      }
+    }
+  },
+  
+  "ingredientLibraryTitle": "Maktaba ya Vijenzi",
+  "actionRefresh": "Onesha Upya",
+  "manageInventoryTitle": "SIMAMIA HIFADHI",
+  "customIngredientsTitle": "Vijenzi vya Kawaida",
+  "actionAddNew": "Ongeza Mpya",
+  
+  "regionAll": "Zote",
+  "regionAfrica": "Afrika",
+  "regionAsia": "Azia",
+  "regionEurope": "Uropa",
+  "regionAmericas": "Amerika",
+  "regionOceania": "Okinoya",
+  "regionGlobal": "Ulimwengu",
+  
+  "updateDetailsTitle": "Sasisha Maelezo",
+  "labelFavorite": "Pendwa",
+  "labelAddToFavorites": "Ongeza kwa mapendwa",
+  "labelPricePerKg": "Bei kwa kg",
+  "labelAvailableQty": "Kiasi Kinachopo (kg)",
+  "actionDelete": "Futa",
+  "actionPriceHistory": "Historia ya Bei",
+  "actionReset": "Rejezesha",
+  "actionSaveChanges": "Hifadhi Mabadiliko",
+  
+  "deleteIngredientTitle": "Futa Kijinzi?",
+  "deleteIngredientMessage": "Hii itafuta kijinzi hiki kabisa mula kwenye maktaba yako. Hatua hii haiwezi kurudishwa.",
+  "confirmCancel": "Ghairi",
+  "confirmDelete": "Futa",
+  
+  "successIngredientUpdated": "Kijinzi kimesasishwa kwa mafanikio",
+  "errorSaveFailed": "Kushindwa kuhifadhi: {error}",
+  "successIngredientDeleted": "Kijinzi kimefutwa",
+  "errorDeleteFailed": "Kushindwa kufuta: {error}",
+  
+  "errorPriceGreaterThanZero": "Lazima kuwa > 0",
+  "errorQuantityGreaterOrEqual": "Lazima kuwa ≥ 0"
+  ,
+  
+  "addFeedTitle": "Ongeza/Kagua Lishe",
+  "@addFeedTitle": {
+    "description": "Title for adding a new feed"
+  },
+  "updateFeedTitle": "Sasisha Lishe",
+  "@updateFeedTitle": {
+    "description": "Title for updating an existing feed"
+  },
+  "actionAddIngredients": "Ongeza Vijenzi",
+  "@actionAddIngredients": {
+    "description": "Bottom bar action: add ingredients"
+  },
+  "tooltipAddIngredients": "Ongeza vijenzi zaidi kwenye lishe",
+  "@tooltipAddIngredients": {
+    "description": "Tooltip for adding ingredients"
+  },
+  "actionSave": "Hifadhi",
+  "@actionSave": {
+    "description": "Bottom bar action: save feed"
+  },
+  "actionUpdate": "Sasisha",
+  "@actionUpdate": {
+    "description": "Bottom bar action: update feed"
+  },
+  "tooltipSaveFeed": "Hifadhi lishe",
+  "@tooltipSaveFeed": {
+    "description": "Tooltip for saving feed"
+  },
+  "tooltipUpdateFeed": "Sasisha lishe",
+  "@tooltipUpdateFeed": {
+    "description": "Tooltip for updating feed"
+  },
+  "actionAnalyse": "Changanua",
+  "@actionAnalyse": {
+    "description": "Bottom bar action: analyse feed"
+  },
+  "tooltipAnalyseFeed": "Changanua muundo wa lishe",
+  "@tooltipAnalyseFeed": {
+    "description": "Tooltip for analysing feed"
+  },
+  
+  "errorFeedNameRequired": "Jina la Lishe Linahitajika",
+  "@errorFeedNameRequired": {
+    "description": "Error title when feed name is missing"
+  },
+  "errorFeedNameMessage": "Tafadhali weka jina la lishe kabla ya kuhifadhi.",
+  "@errorFeedNameMessage": {
+    "description": "Error message prompting user to enter feed name"
+  },
+  "errorMissingFeedName": "Jina la Lishe Halipo",
+  "@errorMissingFeedName": {
+    "description": "Error title when analysing without feed name"
+  },
+  "errorMissingFeedNameMessage": "Tafadhali weka jina la lishe kabla ya uchanganuzi.",
+  "@errorMissingFeedNameMessage": {
+    "description": "Error message to enter feed name before analysis"
+  },
+  "errorNoIngredients": "Hakuna Vijenzi",
+  "@errorNoIngredients": {
+    "description": "Error title when no ingredients added"
+  },
+  "errorNoIngredientsMessage": "Tafadhali ongeza kiunzi kimoja kwa uchanganuzi.",
+  "@errorNoIngredientsMessage": {
+    "description": "Error message to add at least one ingredient"
+  },
+  "errorInvalidQuantities": "Viwango Batili",
+  "@errorInvalidQuantities": {
+    "description": "Error title for invalid ingredient quantities"
+  },
+  "errorInvalidQuantitiesMessage": "Kila kiunzi kinapaswa kuwa na kiasi halali zaidi ya 0.",
+  "@errorInvalidQuantitiesMessage": {
+    "description": "Error message for invalid ingredient quantities"
+  },
+  "errorGenericTitle": "Tatizo Limetokea",
+  "@errorGenericTitle": {
+    "description": "Generic error dialog title"
+  },
+  "errorGenericMessage": "Tafadhali jaribu tena.",
+  "@errorGenericMessage": {
+    "description": "Generic error dialog message"
+  },
+  "actionOk": "Sawa",
+  "@actionOk": {
+    "description": "Confirmation button label"
+  },
+  
+  "analyseDialogTitle": "Changanua Muundo wa Lishe",
+  "@analyseDialogTitle": {
+    "description": "Dialog title for analysing feed"
+  },
+  "analyseDialogMessageNew": "Tazama uchanganuzi wa kina kwa \"{feedName}\" bila kuhifadhi.",
+  "@analyseDialogMessageNew": {
+    "description": "Dialog message for analysing new feed without saving",
+    "placeholders": {
+      "feedName": {
+        "type": "String",
+        "example": "Starter Broiler"
+      }
+    }
+  },
+  "analyseDialogMessageUpdate": "Tazama uchanganuzi wa kina kwa \"{feedName}\" bila kusasisha.",
+  "@analyseDialogMessageUpdate": {
+    "description": "Dialog message for analysing existing feed without updating",
+    "placeholders": {
+      "feedName": {
+        "type": "String",
+        "example": "Grower Pig"
+      }
+    }
+  },
+  "analyseDialogPreviewNote": "Hii ni onyesho la mapema. Unaweza kuhifadhi baadaye.",
+  "@analyseDialogPreviewNote": {
+    "description": "Note that analysis is a preview"
+  },
+  "analyseDialogNoSaveNote": "Mabadiliko hayatahifadhiwa.",
+  "@analyseDialogNoSaveNote": {
+    "description": "Note that changes will not be saved"
+  },
+  "analyseDialogFailedMessage": "Uchanganuzi wa lishe umeshindwa. Tafadhali jaribu tena.",
+  "@analyseDialogFailedMessage": {
+    "description": "Error message when analysis fails"
+  },
+  
+  "reportTitleEstimate": "Uchanganuzi Uliokadiriwa",
+  "@reportTitleEstimate": {
+    "description": "Title for estimated analysis"
+  },
+  "reportTitleAnalysis": "Ripoti ya Uchanganuzi",
+  "@reportTitleAnalysis": {
+    "description": "Title for analysis report"
+  },
+  
+  "nutrientDigestiveEnergy": "Nishati Inayomeng’enywa",
+  "@nutrientDigestiveEnergy": {
+    "description": "Digestive energy label"
+  },
+  "nutrientMetabolicEnergy": "Nishati Kimetaboliki",
+  "@nutrientMetabolicEnergy": {
+    "description": "Metabolic energy label"
+  },
+  "nutrientCrudeProtein": "Protini Ghafi",
+  "@nutrientCrudeProtein": {
+    "description": "Crude protein label"
+  },
+  "nutrientCrudeFiber": "Nyuzi Ghafi",
+  "@nutrientCrudeFiber": {
+    "description": "Crude fiber label"
+  },
+  "nutrientCrudeFat": "Mafuta Ghafi",
+  "@nutrientCrudeFat": {
+    "description": "Crude fat label"
+  },
+  "nutrientCalcium": "Kalsiamu",
+  "@nutrientCalcium": {
+    "description": "Calcium label"
+  },
+  "nutrientPhosphorus": "Fosforasi",
+  "@nutrientPhosphorus": {
+    "description": "Phosphorus label"
+  },
+  "nutrientLysine": "Lysine",
+  "@nutrientLysine": {
+    "description": "Lysine label"
+  },
+  "nutrientMethionine": "Methionine",
+  "@nutrientMethionine": {
+    "description": "Methionine label"
+  },
+  "nutrientAsh": "Majivu",
+  "@nutrientAsh": {
+    "description": "Ash label"
+  },
+  "nutrientMoisture": "Unyevu",
+  "@nutrientMoisture": {
+    "description": "Moisture label"
+  },
+  "nutrientAvailablePhosphorus": "Fosforasi Inayopatikana",
+  "@nutrientAvailablePhosphorus": {
+    "description": "Available phosphorus label"
+  },
+  "nutrientTotalPhosphorus": "Fosforasi Jumla",
+  "@nutrientTotalPhosphorus": {
+    "description": "Total phosphorus label"
+  },
+  "nutrientPhytatePhosphorus": "Fosforasi ya Faiti",
+  "@nutrientPhytatePhosphorus": {
+    "description": "Phytate phosphorus label"
+  },
+  
+  "unitKcal": "Kcal",
+  "@unitKcal": {
+    "description": "Unit label for kcal"
+  },
+  "unitPercent": "%",
+  "@unitPercent": {
+    "description": "Unit label for percent"
+  },
+  "unitGramPerKg": "g/Kg",
+  "@unitGramPerKg": {
+    "description": "Unit label for grams per kg"
+  },
+  
+  "aminoAcidProfileTitle": "Profaili ya Amino Asidi",
+  "@aminoAcidProfileTitle": {
+    "description": "Title for amino acid profile card"
+  },
+  "aminoAcidSidLabel": "SID (Inayomeng’enywa)",
+  "@aminoAcidSidLabel": {
+    "description": "Label for SID amino acids"
+  },
+  "aminoAcidTotalLabel": "Jumla",
+  "@aminoAcidTotalLabel": {
+    "description": "Label for total amino acids"
+  },
+  "aminoAcidSidButton": "SID",
+  "@aminoAcidSidButton": {
+    "description": "Button label for SID"
+  },
+  "aminoAcidTotalButton": "Jumla",
+  "@aminoAcidTotalButton": {
+    "description": "Button label for total"
+  },
+  "aminoAcidTableHeaderName": "Amino Asidi",
+  "@aminoAcidTableHeaderName": {
+    "description": "Table header for amino acid name"
+  },
+  "aminoAcidTableHeaderContent": "Yaliyomo (%)",
+  "@aminoAcidTableHeaderContent": {
+    "description": "Table header for amino acid content"
+  },
+  "aminoAcidLysine": "Lysine",
+  "@aminoAcidLysine": {
+    "description": "Amino acid: Lysine"
+  },
+  "aminoAcidMethionine": "Methionine",
+  "@aminoAcidMethionine": {
+    "description": "Amino acid: Methionine"
+  },
+  "aminoAcidCystine": "Cystine",
+  "@aminoAcidCystine": {
+    "description": "Amino acid: Cystine"
+  },
+  "aminoAcidThreonine": "Threonine",
+  "@aminoAcidThreonine": {
+    "description": "Amino acid: Threonine"
+  },
+  "aminoAcidTryptophan": "Tryptophan",
+  "@aminoAcidTryptophan": {
+    "description": "Amino acid: Tryptophan"
+  },
+  "aminoAcidArginine": "Arginine",
+  "@aminoAcidArginine": {
+    "description": "Amino acid: Arginine"
+  },
+  "aminoAcidIsoleucine": "Isoleucine",
+  "@aminoAcidIsoleucine": {
+    "description": "Amino acid: Isoleucine"
+  },
+  "aminoAcidLeucine": "Leucine",
+  "@aminoAcidLeucine": {
+    "description": "Amino acid: Leucine"
+  },
+  "aminoAcidValine": "Valine",
+  "@aminoAcidValine": {
+    "description": "Amino acid: Valine"
+  },
+  "aminoAcidHistidine": "Histidine",
+  "@aminoAcidHistidine": {
+    "description": "Amino acid: Histidine"
+  },
+  "aminoAcidPhenylalanine": "Phenylalanine",
+  "@aminoAcidPhenylalanine": {
+    "description": "Amino acid: Phenylalanine"
+  },
+  "aminoAcidSidInfo": "SID = Usagaji wa utumbo mdogo uliosanifiwa (kiwango cha tasnia)",
+  "@aminoAcidSidInfo": {
+    "description": "Info text for SID amino acids"
+  },
+  "aminoAcidTotalInfo": "Amino asidi jumla (si zote zinayeyuka)",
+  "@aminoAcidTotalInfo": {
+    "description": "Info text for total amino acids"
+  },
+  "aminoAcidLoadError": "Hitilafu kupakia data ya amino asidi",
+  "@aminoAcidLoadError": {
+    "description": "Error loading amino acid data"
+  },
+  
+  "warningsCardTitle": "Onyo na Mapendekezo",
+  "@warningsCardTitle": {
+    "description": "Title for warnings and recommendations"
+  },
+  "warningsCardIssueCount": "{count, plural, =1{Shida 1 imepatikana} other{{count} shida zimepatikana}}",
+  "@warningsCardIssueCount": {
+    "description": "Message showing number of issues found",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  
+  "pdfPreviewTitle": "Ebena Feed Estimator | {feedName} Print Preview",
+  "@pdfPreviewTitle": {
+    "description": "Title for PDF preview screen",
+    "placeholders": {
+      "feedName": {
+        "type": "String",
+        "example": "BROILER STARTER"
+      }
+    }
+  }
+  ,
+  
+  "addFeedTitle": "Ongeza/Angalia Chakula",
+  "updateFeedTitle": "Sasisha Chakula",
+  "actionAddIngredients": "Ongeza Vijenzi",
+  "tooltipAddIngredients": "Ongeza vijenzi zaidi kwa chakula",
+  "actionSave": "Hifadhi",
+  "actionUpdate": "Sasisha",
+  "tooltipSaveFeed": "Hifadhi chakula",
+  "tooltipUpdateFeed": "Sasisha chakula",
+  "actionAnalyse": "Chunguza",
+  "tooltipAnalyseFeed": "Chunguza muundo wa chakula",
+  
+  "errorFeedNameRequired": "Jina la Chakula Linahitajika",
+  "errorFeedNameMessage": "Tafadhali weka jina la chakula chako kabla ya kuhifadhi.",
+  "errorMissingFeedName": "Jina la Chakula Halijawekwa",
+  "errorMissingFeedNameMessage": "Tafadhali weka jina la chakula kabla ya kuchunguza.",
+  "errorNoIngredients": "Hakuna Vijenzi",
+  "errorNoIngredientsMessage": "Tafadhali ongeza angalau kijenzi kimoja ili kuchunguza.",
+  "errorInvalidQuantities": "Kiasi Kisicho Sahihi",
+  "errorInvalidQuantitiesMessage": "Vijenzi vyote lazima viwe na kiasi sahihi kikubwa kuliko 0.",
+  "errorGenericTitle": "Kosa Limetokea",
+  "errorGenericMessage": "Tafadhali jaribu tena.",
+  "actionOk": "SAWA",
+  
+  "analyseDialogTitle": "Chunguza Muundo wa Chakula",
+  "analyseDialogMessageNew": "Angalia uchambuzi wa lishe la \"{feedName}\" bila kuhifadhi.",
+  "analyseDialogMessageUpdate": "Angalia uchambuzi wa lishe la \"{feedName}\" bila kusasisha.",
+  "analyseDialogPreviewNote": "Hii ni hakiki ya awali. Unaweza kuhifadhi baadaye.",
+  "analyseDialogNoSaveNote": "Mabadiliko hayatahifadhiwa.",
+  "analyseDialogFailedMessage": "Uchambuzi wa chakula umeshindwa. Tafadhali jaribu tena.",
+  
+  "reportTitleEstimate": "Uchambuzi wa Kadiria",
+  "reportTitleAnalysis": "Ripoti ya Uchambuzi",
+  
+  "nutrientDigestiveEnergy": "Nishati ya Kuchovya",
+  "nutrientMetabolicEnergy": "Nishati ya Kimetaboliki",
+  "nutrientCrudeProtein": "Protini Ghafi",
+  "nutrientCrudeFiber": "Nyuzi Ghafi",
+  "nutrientCrudeFat": "Mafuta Ghafi",
+  "nutrientCalcium": "Kalisiamu",
+  "nutrientPhosphorus": "Phosphorasi",
+  "nutrientLysine": "Lysine",
+  "nutrientMethionine": "Methionine",
+  "nutrientAsh": "Majivu",
+  "nutrientMoisture": "Unyevunyevu",
+  "nutrientAvailablePhosphorus": "Phosph. Inapatikana",
+  "nutrientTotalPhosphorus": "Phosph. Jumla",
+  "nutrientPhytatePhosphorus": "Phosph. Phytate",
+  
+  "unitKcal": "Kcal",
+  "unitPercent": "%",
+  "unitGramPerKg": "g/Kg",
+  
+  "aminoAcidProfileTitle": "Profaili ya Asidi ya Amino",
+  "aminoAcidSidLabel": "SID (Inayoweza Kuchovya)",
+  "aminoAcidTotalLabel": "Jumla",
+  "aminoAcidSidButton": "SID",
+  "aminoAcidTotalButton": "Jumla",
+  "aminoAcidTableHeaderName": "Asidi ya Amino",
+  "aminoAcidTableHeaderContent": "Yaliyomo (%)",
+  "aminoAcidLysine": "Lysine",
+  "aminoAcidMethionine": "Methionine",
+  "aminoAcidCystine": "Cystine",
+  "aminoAcidThreonine": "Threonine",
+  "aminoAcidTryptophan": "Tryptophan",
+  "aminoAcidArginine": "Arginine",
+  "aminoAcidIsoleucine": "Isoleucine",
+  "aminoAcidLeucine": "Leucine",
+  "aminoAcidValine": "Valine",
+  "aminoAcidHistidine": "Histidine",
+  "aminoAcidPhenylalanine": "Phenylalanine",
+  "aminoAcidSidInfo": "SID = Uchovyo wa Ileal Uliowekwa Viwango (kiwango cha sekta)",
+  "aminoAcidTotalInfo": "Asidi za amino jumla (si zote zinachovywa)",
+  "aminoAcidLoadError": "Kosa la kupakia data ya asidi ya amino",
+  
+  "warningsCardTitle": "Maonyo na Mapendekezo",
+  
+  "pdfPreviewTitle": "Ebena Feed Estimator | {feedName} Hakiki ya Kuchapisha"
+}

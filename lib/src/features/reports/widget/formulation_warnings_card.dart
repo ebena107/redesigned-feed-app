@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 import 'package:flutter/material.dart';
 
 /// Formulation Warnings Card - displays warnings and recommendations
@@ -62,7 +63,7 @@ class _FormulationWarningsCardState extends State<FormulationWarningsCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Warnings & Recommendations',
+                          context.l10n.warningsCardTitle,
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 18,
@@ -70,7 +71,7 @@ class _FormulationWarningsCardState extends State<FormulationWarningsCard> {
                           ),
                         ),
                         Text(
-                          '${warnings.length} issue${warnings.length > 1 ? 's' : ''} found',
+                          context.l10n.warningsCardIssueCount(warnings.length),
                           style: TextStyle(
                             color: Colors.white.withValues(alpha: 0.9),
                             fontSize: 12,

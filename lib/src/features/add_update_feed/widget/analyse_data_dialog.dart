@@ -2,6 +2,7 @@ import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:feed_estimator/src/core/constants/ui_constants.dart';
 import 'package:go_router/go_router.dart';
 import 'package:feed_estimator/src/core/utils/logger.dart';
+import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -58,10 +59,10 @@ class AnalyseDataDialog extends ConsumerWidget {
 
         // Show error message
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Failed to analyse feed. Please try again.'),
+          SnackBar(
+            content: Text(context.l10n.analyseDialogFailedMessage),
             backgroundColor: Colors.redAccent,
-            duration: Duration(seconds: 3),
+            duration: const Duration(seconds: 3),
             behavior: SnackBarBehavior.fixed,
           ),
         );
@@ -73,11 +74,10 @@ class AnalyseDataDialog extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isNewFeed = feedId == null;
     final feedName = ref.watch(feedProvider).feedName;
-    final action = isNewFeed ? 'saving' : 'updating';
 
     return CupertinoAlertDialog(
       title: Text(
-        'Analyse Feed Composition',
+        context.l10n.analyseDialogTitle,
         style: TextStyle(
           color: isNewFeed
               ? AppConstants.appBlueColor
@@ -91,14 +91,16 @@ class AnalyseDataDialog extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'View detailed nutritional analysis for "$feedName" without $action it.',
+              isNewFeed
+                  ? context.l10n.analyseDialogMessageNew(feedName)
+                  : context.l10n.analyseDialogMessageUpdate(feedName),
               style: const TextStyle(fontSize: 14),
             ),
             const SizedBox(height: UIConstants.paddingSmall),
             Text(
               isNewFeed
-                  ? 'This is a preview. You can save later.'
-                  : 'Changes will not be saved.',
+                  ? context.l10n.analyseDialogPreviewNote
+                  : context.l10n.analyseDialogNoSaveNote,
               style: TextStyle(
                 fontSize: 12,
                 fontStyle: FontStyle.italic,
@@ -112,7 +114,7 @@ class AnalyseDataDialog extends ConsumerWidget {
         CupertinoDialogAction(
           isDefaultAction: true,
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
+          child: Text(context.l10n.actionCancel),
         ),
         CupertinoDialogAction(
           isDestructiveAction: false,
@@ -128,7 +130,7 @@ class AnalyseDataDialog extends ConsumerWidget {
                     : AppConstants.appCarrotColor,
               ),
               const SizedBox(width: UIConstants.paddingTiny),
-              const Text('Analyse'),
+              Text(context.l10n.actionAnalyse),
             ],
           ),
         ),

@@ -5,6 +5,7 @@ import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provi
 import 'package:feed_estimator/src/features/main/providers/main_async_provider.dart';
 import 'package:feed_estimator/src/features/main/widget/feed_grid.dart';
 import 'package:feed_estimator/src/features/reports/providers/result_provider.dart';
+import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 import 'package:feed_estimator/src/utils/widgets/app_drawer.dart';
 import 'package:feed_estimator/src/utils/widgets/error_widget.dart';
 import 'package:feed_estimator/src/utils/widgets/loading_widget.dart';
@@ -41,9 +42,9 @@ class MainView extends ConsumerWidget {
               statusBarBrightness: Brightness.dark,
             ),
             flexibleSpace: FlexibleSpaceBar(
-              title: const Text(
-                'Feed Estimator',
-                style: TextStyle(
+              title: Text(
+                context.l10n.appTitle,
+                style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   letterSpacing: 0.5,
@@ -103,7 +104,7 @@ class MainView extends ConsumerWidget {
                         ),
                         const SizedBox(height: 24),
                         Text(
-                          'No Feeds Yet',
+                          context.l10n.homeEmptyTitle,
                           style: Theme.of(context)
                               .textTheme
                               .headlineSmall
@@ -114,7 +115,7 @@ class MainView extends ConsumerWidget {
                         ),
                         const SizedBox(height: 12),
                         Text(
-                          'Create your first feed formulation',
+                          context.l10n.homeEmptySubtitle,
                           style:
                               Theme.of(context).textTheme.bodyMedium?.copyWith(
                                     color: Colors.grey.shade500,
@@ -131,7 +132,7 @@ class MainView extends ConsumerWidget {
                             context.go('/newFeed');
                           },
                           icon: const Icon(Icons.add),
-                          label: const Text('Create Feed'),
+                          label: Text(context.l10n.homeCreateFeed),
                         ),
                       ],
                     ),
@@ -142,15 +143,15 @@ class MainView extends ConsumerWidget {
             },
             error: (er, stack) => SliverFillRemaining(
               child: AppErrorWidget(
-                message: 'Failed to load feeds: ${er.toString()}',
+                message: context.l10n.homeLoadFailed(er.toString()),
                 onRetry: () {
                   ref.invalidate(asyncMainProvider);
                 },
               ),
             ),
-            loading: () => const SliverFillRemaining(
+            loading: () => SliverFillRemaining(
               child: AppLoadingWidget(
-                message: 'Loading feeds...',
+                message: context.l10n.homeLoadingFeeds,
               ),
             ),
           ),
@@ -171,7 +172,7 @@ class MainView extends ConsumerWidget {
           context.go('/newFeed');
         },
         icon: const Icon(Icons.add),
-        label: const Text('Add Feed'),
+        label: Text(context.l10n.homeAddFeed),
         backgroundColor: AppConstants.appCarrotColor,
         foregroundColor: Colors.white,
         elevation: 8,

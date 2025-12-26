@@ -1,10 +1,13 @@
 import 'dart:io';
 
 import 'package:feed_estimator/src/core/services/data_management_service.dart';
+import 'package:feed_estimator/src/core/localization/localization_provider.dart';
+import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 import 'package:feed_estimator/src/features/privacy/privacy_consent.dart';
 import 'package:feed_estimator/src/utils/widgets/modern_dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:file_picker/file_picker.dart';
@@ -69,23 +72,27 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: Text(context.l10n.settingsTitle),
         elevation: 0,
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : ListView(
               children: [
+                // Language Section
+                _buildSectionHeader(context.l10n.settingsSectionLanguage),
+                _buildLanguageSelector(ref),
+
                 // Privacy & Data Section
-                _buildSectionHeader('Privacy & Data'),
+                _buildSectionHeader(context.l10n.settingsSectionPrivacy),
                 _buildCard(
                   children: [
                     SwitchListTile(
-                      title: const Text('Data Collection Consent'),
+                      title: Text(context.l10n.settingsDataConsent),
                       subtitle: Text(
                         consentState.hasConsented
-                            ? 'You have consented to data collection'
-                            : 'You have not consented',
+                            ? context.l10n.settingsConsentGranted
+                            : context.l10n.settingsConsentNotGranted,
                       ),
                       value: consentState.hasConsented,
                       onChanged: (value) {
@@ -101,14 +108,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     if (consentState.consentDate != null)
                       ListTile(
                         leading: const Icon(Icons.calendar_today),
-                        title: const Text('Consent Date'),
+                        title: Text(context.l10n.settingsConsentDate),
                         subtitle: Text(_formatDate(consentState.consentDate!)),
                       ),
                     const Divider(),
                     ListTile(
                       leading: const Icon(Icons.policy),
-                      title: const Text('Privacy Policy'),
-                      subtitle: const Text('View our privacy policy'),
+                      title: Text(context.l10n.settingsPrivacyPolicy),
+                      subtitle:
+                          Text(context.l10n.settingsPrivacyPolicySubtitle),
                       trailing: const Icon(Icons.open_in_new),
                       onTap: _launchPrivacyPolicy,
                     ),
@@ -116,12 +124,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 ),
 
                 // Data Management Section
-                _buildSectionHeader('Data Management'),
+                _buildSectionHeader(context.l10n.settingsSectionDataManagement),
                 _buildCard(
                   children: [
                     ListTile(
                       leading: const Icon(Icons.description),
-                      title: const Text('Feed Formulations'),
+                      title: Text(context.l10n.settingsFeedFormulations),
                       trailing: Text(
                         '${_statistics['feeds'] ?? 0}',
                         style: theme.textTheme.titleMedium?.copyWith(
@@ -131,7 +139,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     ),
                     ListTile(
                       leading: const Icon(Icons.add_circle),
-                      title: const Text('Custom Ingredients'),
+                      title: Text(context.l10n.settingsCustomIngredients),
                       trailing: Text(
                         '${_statistics['custom_ingredients'] ?? 0}',
                         style: theme.textTheme.titleMedium?.copyWith(
@@ -141,7 +149,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     ),
                     ListTile(
                       leading: const Icon(Icons.storage),
-                      title: const Text('Database Size'),
+                      title: Text(context.l10n.settingsDatabaseSize),
                       trailing: Text(
                         _dataService.formatBytes(_databaseSize),
                         style: theme.textTheme.titleMedium?.copyWith(
@@ -152,23 +160,23 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     const Divider(),
                     ListTile(
                       leading: const Icon(Icons.download, color: Colors.blue),
-                      title: const Text('Export Data'),
-                      subtitle: const Text('Backup all your data'),
+                      title: Text(context.l10n.settingsExportData),
+                      subtitle: Text(context.l10n.settingsExportDataSubtitle),
                       trailing: const Icon(Icons.chevron_right),
                       onTap: _exportData,
                     ),
                     ListTile(
                       leading: const Icon(Icons.upload, color: Colors.green),
-                      title: const Text('Import Data'),
-                      subtitle: const Text('Restore from backup'),
+                      title: Text(context.l10n.settingsImportData),
+                      subtitle: Text(context.l10n.settingsImportDataSubtitle),
                       trailing: const Icon(Icons.chevron_right),
                       onTap: _importData,
                     ),
                     ListTile(
                       leading:
                           const Icon(Icons.delete_forever, color: Colors.red),
-                      title: const Text('Delete All Data'),
-                      subtitle: const Text('Permanently delete everything'),
+                      title: Text(context.l10n.settingsDeleteData),
+                      subtitle: Text(context.l10n.settingsDeleteDataSubtitle),
                       trailing: const Icon(Icons.chevron_right),
                       onTap: _showDeleteDataDialog,
                     ),
@@ -181,7 +189,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   children: [
                     ListTile(
                       leading: const Icon(Icons.info_outline),
-                      title: const Text('Version'),
+                      title: Text(context.l10n.settingsVersion),
                       trailing: Text(
                         _appVersion,
                         style: theme.textTheme.bodyMedium?.copyWith(
@@ -191,14 +199,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     ),
                     ListTile(
                       leading: const Icon(Icons.star_rate, color: Colors.amber),
-                      title: const Text('Rate the App'),
-                      subtitle: const Text('Share your feedback'),
+                      title: Text(context.l10n.settingsRateApp),
+                      subtitle: Text(context.l10n.settingsRateAppSubtitle),
                       trailing: const Icon(Icons.chevron_right),
                       onTap: _rateApp,
                     ),
                     ListTile(
                       leading: const Icon(Icons.code),
-                      title: const Text('Open Source Licenses'),
+                      title: Text(context.l10n.settingsLicenses),
                       trailing: const Icon(Icons.chevron_right),
                       onTap: () => showLicensePage(
                         context: context,
@@ -210,18 +218,18 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 ),
 
                 // Legal Section
-                _buildSectionHeader('Legal'),
+                _buildSectionHeader(context.l10n.settingsSectionLegal),
                 _buildCard(
                   children: [
-                    const ListTile(
-                      leading: Icon(Icons.gavel),
-                      title: Text('Terms of Service'),
-                      subtitle: Text('Coming soon'),
+                    ListTile(
+                      leading: const Icon(Icons.gavel),
+                      title: Text(context.l10n.settingsTermsOfService),
+                      subtitle: Text(context.l10n.settingsTermsComingSoon),
                     ),
-                    const ListTile(
-                      leading: Icon(Icons.security),
-                      title: Text('Data Safety'),
-                      subtitle: Text('Your data is stored locally'),
+                    ListTile(
+                      leading: const Icon(Icons.security),
+                      title: Text(context.l10n.settingsDataSafety),
+                      subtitle: Text(context.l10n.settingsDataSafetySubtitle),
                     ),
                   ],
                 ),
@@ -231,7 +239,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 // Footer
                 Center(
                   child: Text(
-                    'Made with ❤️ for livestock farmers',
+                    context.l10n.settingsFooter,
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: Colors.grey,
                     ),
@@ -269,6 +277,63 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     );
   }
 
+  /// Build language selector dropdown
+  Widget _buildLanguageSelector(WidgetRef ref) {
+    final currentLocale = ref.watch(localizationProvider);
+    final availableLocales = ref.watch(availableLocalesProvider);
+
+    // Check if Flutter framework has full support (Material/Cupertino widgets)
+    bool hasFrameworkSupport(AppLocale al) {
+      return GlobalMaterialLocalizations.delegate.isSupported(al.locale) &&
+          GlobalCupertinoLocalizations.delegate.isSupported(al.locale);
+    }
+
+    return _buildCard(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: DropdownButtonFormField<AppLocale>(
+            value: currentLocale,
+            onChanged: (AppLocale? newLocale) {
+              if (newLocale != null) {
+                ref.read(localizationProvider.notifier).setLocale(newLocale);
+
+                // Show success message with selected language
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      context.l10n
+                          .settingsLanguageUpdated(newLocale.displayName),
+                    ),
+                    duration: const Duration(seconds: 2),
+                    behavior: SnackBarBehavior.fixed,
+                  ),
+                );
+              }
+            },
+            items: availableLocales.map((al) {
+              final hasFramework = hasFrameworkSupport(al);
+              // Show all locales as enabled, with note about framework support
+              final label = hasFramework
+                  ? al.displayName
+                  : context.l10n.settingsLanguageLimitedUI(al.displayName);
+              return DropdownMenuItem<AppLocale>(
+                value: al,
+                child: Text(label),
+              );
+            }).toList(),
+            decoration: InputDecoration(
+              labelText: context.l10n.settingsSelectLanguage,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   Future<void> _launchPrivacyPolicy() async {
     // TODO: Replace with actual privacy policy URL
     if (mounted) {
@@ -286,10 +351,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   void _showRevokeConsentDialog() async {
     final confirmed = await ConfirmDialog.show(
       context,
-      title: 'Revoke Consent',
-      message: 'Are you sure you want to revoke your consent? '
-          'This will not delete your data, but you acknowledge that '
-          'you no longer consent to data collection.',
+      title: context.l10n.settingsRevokeConsentTitle,
+      message: context.l10n.settingsRevokeConsentMessage,
       confirmText: 'Revoke',
       cancelText: 'Cancel',
       isDestructive: true,
@@ -302,7 +365,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
   Future<void> _exportData() async {
     try {
-      LoadingDialog.show(context, message: 'Exporting data...');
+      LoadingDialog.show(context, message: context.l10n.settingsExporting);
 
       final file = await _dataService.exportDataToFile();
 
@@ -324,16 +387,16 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               children: [
                 Icon(Icons.check_circle, color: Colors.green[600], size: 28),
                 const SizedBox(width: 12),
-                const Text('Export Successful'),
+                Text(context.l10n.settingsExportSuccess),
               ],
             ),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Your backup has been created successfully!',
-                  style: TextStyle(fontWeight: FontWeight.w500),
+                Text(
+                  context.l10n.settingsExportSuccessMessage,
+                  style: const TextStyle(fontWeight: FontWeight.w500),
                 ),
                 const SizedBox(height: 16),
                 Container(

@@ -3,6 +3,7 @@ import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients
 import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provider.dart';
 import 'package:feed_estimator/src/features/main/model/feed.dart';
 import 'package:feed_estimator/src/features/reports/providers/result_provider.dart';
+import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -40,20 +41,20 @@ class GridMenu extends ConsumerWidget {
             value: _MenuOption.view,
             icon: Icons.visibility_outlined,
             color: Colors.deepPurple,
-            label: "View Report",
+            label: context.l10n.actionViewReport,
           ),
           _buildMenuItem(
             value: _MenuOption.update,
             icon: Icons.edit_outlined,
             color: AppConstants.appCarrotColor,
-            label: "Update",
+            label: context.l10n.actionUpdate,
           ),
           const PopupMenuDivider(),
           _buildMenuItem(
             value: _MenuOption.delete,
             icon: Icons.delete_outline,
             color: Colors.redAccent,
-            label: "Delete",
+            label: context.l10n.actionDelete,
           ),
         ],
       ),
@@ -114,13 +115,15 @@ class _DeleteConfirmDialog extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return CupertinoAlertDialog(
-      title: Text('Delete "${feed.feedName}"?'),
-      content: const Text('This action cannot be undone.'),
+      title: Text(
+        context.l10n.feedDeleteTitle(feed.feedName ?? ''),
+      ),
+      content: Text(context.l10n.confirmDeletionWarning),
       actions: [
         CupertinoDialogAction(
           isDefaultAction: true,
           onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel'),
+          child: Text(context.l10n.actionCancel),
         ),
         CupertinoDialogAction(
           isDestructiveAction: true,
@@ -128,7 +131,7 @@ class _DeleteConfirmDialog extends ConsumerWidget {
             ref.read(asyncMainProvider.notifier).deleteFeed(feed.feedId!);
             Navigator.pop(context);
           },
-          child: const Text('Delete'),
+          child: Text(context.l10n.actionDelete),
         ),
       ],
     );

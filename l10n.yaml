@@ -1,0 +1,22 @@
+# Flutter localization configuration
+# This file configures how localization files are generated from ARB files
+
+arb-dir: lib/l10n
+template-arb-file: app_en.arb
+output-localization-file: app_localizations.dart
+output-dir: lib/generated/l10n
+
+# Supported locales - define all languages the app supports
+# These correspond to the app_*.arb files in lib/l10n/
+supported-locales:
+  - en
+  - pt
+  - es
+  - yo
+  - fr
+  - sw
+  - fil
+  - tl
+
+# Null safety - generate null-safe code
+null-safety: true

@@ -9,10 +9,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final ingredientsListProvider = FutureProvider<List<Ingredient>>((ref) async {
   final repo = ref.watch(ingredientsRepository);
   final ingredients = await repo.getAll();
-  // Keep this provider alive in memory for 5 minutes to reduce DB hits
+  // Keep this provider alive in memory to reduce DB hits
   ref.keepAlive();
   return ingredients;
-}).cache(const Duration(minutes: 5));
+});
 
 // 2. The View Model / Logic
 final storeIngredientProvider =

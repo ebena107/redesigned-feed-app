@@ -1,5 +1,6 @@
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dart';
 import 'package:feed_estimator/src/features/store_ingredients/providers/stored_ingredient_provider.dart';
+import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -9,7 +10,8 @@ class IngredientSelectorTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(storeIngredientProvider);
-    final selectedName = state.selectedIngredient?.name ?? 'Tap to select';
+    final selectedName =
+        state.selectedIngredient?.name ?? context.l10n.hintSelectIngredient;
     final isSelected = state.selectedIngredient != null;
 
     return Card(
@@ -52,7 +54,10 @@ class IngredientSelectorTile extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      isSelected ? 'SELECTED INGREDIENT' : 'SELECT INGREDIENT',
+                      (isSelected
+                              ? context.l10n.ingredientSelectedLabel
+                              : context.l10n.ingredientSelectLabel)
+                          .toUpperCase(),
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: Colors.grey.shade600,
@@ -157,7 +162,7 @@ class _IngredientSearchSheetState
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Select Ingredient',
+                          context.l10n.ingredientSelectTitle,
                           style: Theme.of(context)
                               .textTheme
                               .headlineSmall
@@ -168,7 +173,7 @@ class _IngredientSearchSheetState
                         IconButton(
                           icon: const Icon(Icons.close_rounded),
                           onPressed: () => Navigator.pop(context),
-                          tooltip: 'Close',
+                          tooltip: context.l10n.actionClose,
                         ),
                       ],
                     ),
@@ -179,7 +184,7 @@ class _IngredientSearchSheetState
                       controller: _searchCtrl,
                       focusNode: _searchFocus,
                       decoration: InputDecoration(
-                        hintText: 'Search by name...',
+                        hintText: context.l10n.ingredientSearchHint,
                         prefixIcon: const Icon(Icons.search_rounded),
                         suffixIcon: _searchCtrl.text.isNotEmpty
                             ? IconButton(
@@ -217,7 +222,7 @@ class _IngredientSearchSheetState
                 child: Row(
                   children: [
                     FilterChip(
-                      label: const Text('Favorites'),
+                      label: Text(context.l10n.filterFavorites),
                       selected: state.showFavoritesOnly,
                       onSelected: (_) => notifier.toggleFavorites(),
                       avatar: Icon(
@@ -237,7 +242,7 @@ class _IngredientSearchSheetState
                     ),
                     const SizedBox(width: 8),
                     FilterChip(
-                      label: const Text('Custom'),
+                      label: Text(context.l10n.filterCustom),
                       selected: state.showCustomOnly,
                       onSelected: (_) => notifier.toggleCustom(),
                       avatar: Icon(
@@ -259,7 +264,11 @@ class _IngredientSearchSheetState
                     const SizedBox(width: 8),
                     if (state.regionFilter != null)
                       FilterChip(
-                        label: Text('Region: ${state.regionFilter}'),
+                        label: Text(
+                          context.l10n.filterRegionLabel(
+                            state.regionFilter ?? '',
+                          ),
+                        ),
                         selected: true,
                         onSelected: (_) => notifier.setRegionFilter('All'),
                         avatar: const Icon(Icons.public_rounded, size: 18),
@@ -283,7 +292,7 @@ class _IngredientSearchSheetState
                             setState(() {});
                           },
                           icon: const Icon(Icons.clear_all_rounded, size: 18),
-                          label: const Text('Clear'),
+                          label: Text(context.l10n.actionClear),
                           style: TextButton.styleFrom(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 12, vertical: 8),
@@ -356,7 +365,7 @@ class _IngredientSearchSheetState
                               size: 48, color: Colors.red.shade300),
                           const SizedBox(height: 16),
                           Text(
-                            'Failed to load ingredients',
+                            context.l10n.ingredientsLoadFailed,
                             style: Theme.of(context)
                                 .textTheme
                                 .titleMedium
@@ -375,7 +384,7 @@ class _IngredientSearchSheetState
                             onPressed: () =>
                                 ref.invalidate(ingredientsListProvider),
                             icon: const Icon(Icons.refresh_rounded),
-                            label: const Text('Retry'),
+                            label: Text(context.l10n.actionRetry),
                           ),
                         ],
                       ),
@@ -414,7 +423,7 @@ class _IngredientListTile extends StatelessWidget {
         child: Text(
           ingredient.name?.isNotEmpty == true
               ? ingredient.name![0].toUpperCase()
-              : '?',
+              : context.l10n.fallbackUnknownSymbol,
           style: TextStyle(
             color: isSelected ? Colors.white : const Color(0xff87643E),
             fontWeight: FontWeight.bold,
@@ -483,7 +492,9 @@ class _IngredientListTile extends StatelessWidget {
                 size: 14, color: Colors.grey.shade600),
             const SizedBox(width: 4),
             Text(
-              '${ingredient.availableQty?.toStringAsFixed(1) ?? '0'} kg available',
+              context.l10n.ingredientAvailableQty(
+                ingredient.availableQty?.toStringAsFixed(1) ?? '0',
+              ),
               style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
             ),
             if (ingredient.priceKg != null) ...[
@@ -491,7 +502,9 @@ class _IngredientListTile extends StatelessWidget {
               Icon(Icons.attach_money_rounded,
                   size: 14, color: Colors.grey.shade600),
               Text(
-                '${ingredient.priceKg?.toStringAsFixed(2)}/kg',
+                context.l10n.ingredientPricePerKg(
+                  ingredient.priceKg?.toStringAsFixed(2) ?? '0',
+                ),
                 style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
               ),
             ],
@@ -565,8 +578,8 @@ class _EmptyState extends StatelessWidget {
             const SizedBox(height: 24),
             Text(
               hasFilters
-                  ? 'No ingredients match your filters'
-                  : 'No ingredients found',
+                  ? context.l10n.ingredientsEmptyFilteredTitle
+                  : context.l10n.ingredientsEmptyTitle,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Colors.grey.shade700,
@@ -576,8 +589,8 @@ class _EmptyState extends StatelessWidget {
             const SizedBox(height: 12),
             Text(
               hasFilters
-                  ? 'Try adjusting your search or filters'
-                  : 'Add ingredients to get started',
+                  ? context.l10n.ingredientsEmptyFilteredSubtitle
+                  : context.l10n.ingredientsEmptySubtitle,
               style: TextStyle(
                 color: Colors.grey.shade600,
                 fontSize: 15,
@@ -589,7 +602,7 @@ class _EmptyState extends StatelessWidget {
               FilledButton.icon(
                 onPressed: onClearFilters,
                 icon: const Icon(Icons.clear_all_rounded),
-                label: const Text('Clear Filters'),
+                label: Text(context.l10n.actionClearFilters),
                 style: FilledButton.styleFrom(
                   backgroundColor: const Color(0xff87643E),
                   padding:

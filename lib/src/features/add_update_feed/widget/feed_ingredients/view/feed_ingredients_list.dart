@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 
 import '../cart/cart_widget.dart';
 import '../widget/ingredient_data_list.dart';
@@ -14,10 +15,7 @@ import '../widget/ingredient_search_widget.dart';
 
 class IngredientList extends ConsumerWidget {
   final int? feedId;
-  const IngredientList({
-    super.key,
-    this.feedId,
-  });
+  const IngredientList({super.key, this.feedId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -38,7 +36,7 @@ class IngredientList extends ConsumerWidget {
             stops: [0.4, 0.8],
             colors: [
               AppConstants.appBackgroundColor,
-              AppConstants.mainAppColor
+              AppConstants.mainAppColor,
             ],
           ),
         ),
@@ -91,13 +89,14 @@ class IngredientList extends ConsumerWidget {
                             ),
                             onPressed: () => search
                                 ? ref
-                                    .read(ingredientProvider.notifier)
-                                    .clearSearch()
+                                      .read(ingredientProvider.notifier)
+                                      .clearSearch()
                                 : ref
-                                    .read(ingredientProvider.notifier)
-                                    .toggleSearch(),
-                            tooltip:
-                                search ? 'Clear search' : 'Search ingredients',
+                                      .read(ingredientProvider.notifier)
+                                      .toggleSearch(),
+                            tooltip: search
+                                ? context.l10n.actionClear
+                                : context.l10n.hintSearch,
                           ),
                         if (showSort)
                           IconButton(
@@ -110,13 +109,14 @@ class IngredientList extends ConsumerWidget {
                             ),
                             onPressed: () => sort
                                 ? ref
-                                    .read(ingredientProvider.notifier)
-                                    .clearSort()
+                                      .read(ingredientProvider.notifier)
+                                      .clearSort()
                                 : ref
-                                    .read(ingredientProvider.notifier)
-                                    .toggleSort(),
-                            tooltip:
-                                sort ? 'Clear filter' : 'Filter ingredients',
+                                      .read(ingredientProvider.notifier)
+                                      .toggleSort(),
+                            tooltip: sort
+                                ? context.l10n.actionClearFilters
+                                : context.l10n.actionClearFilters,
                           ),
                       ],
                     ),
@@ -144,25 +144,21 @@ class IngredientList extends ConsumerWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.inbox_outlined,
-            size: 80,
-            color: Colors.grey[400],
-          ),
+          Icon(Icons.inbox_outlined, size: 80, color: Colors.grey[400]),
           const SizedBox(height: 16),
           Text(
-            'No Ingredients Available',
+            context.l10n.ingredientsEmptyFilteredTitle,
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  color: Colors.grey[700],
-                  fontWeight: FontWeight.w600,
-                ),
+              color: Colors.grey[700],
+              fontWeight: FontWeight.w600,
+            ),
           ),
           const SizedBox(height: 8),
           Text(
-            'Check your search or filter criteria',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Colors.grey[500],
-                ),
+            context.l10n.ingredientsEmptyFilteredSubtitle,
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(color: Colors.grey[500]),
             textAlign: TextAlign.center,
           ),
         ],
@@ -179,38 +175,42 @@ class RegionFilterBar extends ConsumerStatefulWidget {
 }
 
 class _RegionFilterBarState extends ConsumerState<RegionFilterBar> {
-  static const _regions = [
-    'All',
-    'Africa',
-    'Asia',
-    'Europe',
-    'Americas',
-    'Oceania',
-    'Global'
-  ];
   String _selected = 'All';
 
   @override
   Widget build(BuildContext context) {
+    final regionOptions = [
+      _RegionOption(value: 'All', label: context.l10n.regionAll),
+      _RegionOption(value: 'Africa', label: context.l10n.regionAfrica),
+      _RegionOption(value: 'Asia', label: context.l10n.regionAsia),
+      _RegionOption(value: 'Europe', label: context.l10n.regionEurope),
+      _RegionOption(value: 'Americas', label: context.l10n.regionAmericas),
+      _RegionOption(value: 'Oceania', label: context.l10n.regionOceania),
+      _RegionOption(value: 'Global', label: context.l10n.regionGlobal),
+    ];
+
     return Container(
       color: AppConstants.appBackgroundColor,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
-          children: _regions.map((r) {
-            final selected = _selected == r;
+          children: regionOptions.map((region) {
+            final selected = _selected == region.value;
             return Padding(
               padding: const EdgeInsets.only(right: 8.0),
               child: ChoiceChip(
-                label: Text(r),
+                label: Text(region.label),
                 selected: selected,
                 onSelected: (_) {
-                  setState(() => _selected = r);
-                  ref.read(ingredientProvider.notifier).setRegionFilter(r);
+                  setState(() => _selected = region.value);
+                  ref
+                      .read(ingredientProvider.notifier)
+                      .setRegionFilter(region.value);
                 },
-                selectedColor:
-                    AppConstants.appCarrotColor.withValues(alpha: 0.2),
+                selectedColor: AppConstants.appCarrotColor.withValues(
+                  alpha: 0.2,
+                ),
               ),
             );
           }).toList(),
@@ -221,10 +221,11 @@ class _RegionFilterBarState extends ConsumerState<RegionFilterBar> {
 }
 
 Widget buildBottomBar({int? feedId}) {
-  return Consumer(builder: (context, ref, child) {
-    final currentIndex = ref.watch(appNavigationProvider).navIndex;
+  return Consumer(
+    builder: (context, ref, child) {
+      final currentIndex = ref.watch(appNavigationProvider).navIndex;
 
-    return BottomNavigationBar(
+      return BottomNavigationBar(
         onTap: (int index) {
           ref.read(appNavigationProvider.notifier).changeIndex(index);
           _onItemTapped(index, context, ref, feedId);
@@ -232,23 +233,33 @@ Widget buildBottomBar({int? feedId}) {
         backgroundColor: AppConstants.appBackgroundColor,
         currentIndex: currentIndex,
         elevation: 0,
-        items: const [
+        items: [
           // BottomNavigationBarItem(
           //   icon: Icon(CupertinoIcons.cart_badge_plus),
           //   label: 'Cart',
           //   backgroundColor: AppConstants.appCarrotColor,
           // ),
           BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.refresh_thin), label: 'Clear'),
+            icon: const Icon(CupertinoIcons.refresh_thin),
+            label: context.l10n.actionClear,
+          ),
           BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.forward_end_alt), label: 'Proceed'),
+            icon: const Icon(CupertinoIcons.forward_end_alt),
+            label: context.l10n.actionAdd,
+          ),
           //  BottomNavigationBarItem(icon: Icon(CupertinoIcons.home), label: 'Home'),
-        ]);
-  });
+        ],
+      );
+    },
+  );
 }
 
 Future<void> _onItemTapped(
-    int index, BuildContext context, WidgetRef ref, int? feedId) async {
+  int index,
+  BuildContext context,
+  WidgetRef ref,
+  int? feedId,
+) async {
   switch (index) {
     // case 0:
     //   break;
@@ -264,4 +275,10 @@ Future<void> _onItemTapped(
 
       break;
   }
+}
+
+class _RegionOption {
+  final String value;
+  final String label;
+  const _RegionOption({required this.value, required this.label});
 }

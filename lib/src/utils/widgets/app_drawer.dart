@@ -4,6 +4,7 @@ import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provi
 import 'package:feed_estimator/src/features/reports/providers/result_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -43,12 +44,12 @@ class FeedAppDrawer extends ConsumerWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   children: [
-                    const _SectionLabel(text: 'NAVIGATION'),
+                    _SectionLabel(text: context.l10n.navHome),
                     const SizedBox(height: 6),
                     _DrawerTile(
                       icon: Icons.home_outlined,
-                      title: 'Feeds',
-                      subtitle: 'View and manage feed formulations',
+                      title: context.l10n.navFeeds,
+                      subtitle: context.l10n.screenTitleHome,
                       selected: location == '/' || location.startsWith('/feed'),
                       onTap: () {
                         context.pop();
@@ -58,8 +59,8 @@ class FeedAppDrawer extends ConsumerWidget {
                     const SizedBox(height: 8),
                     _DrawerTile(
                       icon: Icons.add_circle_outline,
-                      title: 'Create Feed',
-                      subtitle: 'Create a new feed formulation',
+                      title: context.l10n.homeCreateFeed,
+                      subtitle: context.l10n.screenTitleNewFeed,
                       selected: location.startsWith('/newFeed'),
                       onTap: () {
                         context.pop();
@@ -71,12 +72,12 @@ class FeedAppDrawer extends ConsumerWidget {
                       },
                     ),
                     const SizedBox(height: 14),
-                    const _SectionLabel(text: 'INGREDIENTS'),
+                    _SectionLabel(text: context.l10n.navIngredients),
                     const SizedBox(height: 6),
                     _DrawerTile(
                       icon: Icons.inventory_2_outlined,
-                      title: 'Ingredient Library',
-                      subtitle: 'Browse and manage all ingredients',
+                      title: context.l10n.screenTitleIngredientLibrary,
+                      subtitle: context.l10n.navIngredients,
                       selected: location.startsWith('/ingredientStore'),
                       onTap: () {
                         context.pop();
@@ -86,8 +87,8 @@ class FeedAppDrawer extends ConsumerWidget {
                     const SizedBox(height: 8),
                     _DrawerTile(
                       icon: Icons.science_outlined,
-                      title: 'Create Custom Ingredient',
-                      subtitle: 'Add a new ingredient to your library',
+                      title: context.l10n.customIngredientsTitle,
+                      subtitle: context.l10n.actionAddNew,
                       selected: location.startsWith('/newIngredient'),
                       onTap: () {
                         context.pop();
@@ -116,12 +117,12 @@ class FeedAppDrawer extends ConsumerWidget {
                   ],
                 ),
               ),
-              const _SectionLabel(text: 'SETTINGS'),
+              _SectionLabel(text: context.l10n.settingsTitle),
               const SizedBox(height: 6),
               _DrawerTile(
                 icon: Icons.settings_outlined,
-                title: 'Settings',
-                subtitle: 'Privacy, data, and app preferences',
+                title: context.l10n.navSettings,
+                subtitle: context.l10n.screenTitleSettings,
                 selected: location.startsWith('/settings'),
                 onTap: () {
                   context.pop();
@@ -172,7 +173,7 @@ class _DrawerHeader extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Feed Estimator',
+                  context.l10n.appTitle,
                   style: textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.w700,
                     letterSpacing: 0.2,
@@ -188,7 +189,7 @@ class _DrawerHeader extends StatelessWidget {
                         ? '${packageInfo.version}+${packageInfo.buildNumber}'
                         : '...';
                     return Text(
-                      'Version $value',
+                      context.l10n.aboutVersion(value),
                       style: textTheme.bodySmall?.copyWith(
                         color: Colors.grey.shade700,
                         fontWeight: FontWeight.w500,

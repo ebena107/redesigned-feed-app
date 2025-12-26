@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:feed_estimator/src/core/constants/ui_constants.dart';
@@ -46,7 +47,7 @@ class _AminoAcidProfileCardState extends State<AminoAcidProfileCard> {
         margin: UIConstants.paddingAllSmall,
         child: ListTile(
           leading: const Icon(Icons.error, color: Colors.red),
-          title: const Text('Error loading amino acid data'),
+          title: Text(context.l10n.aminoAcidLoadError),
         ),
       );
     }
@@ -69,14 +70,16 @@ class _AminoAcidProfileCardState extends State<AminoAcidProfileCard> {
         initiallyExpanded: widget.initiallyExpanded,
         leading: const Icon(Icons.science, color: AppConstants.appBlueColor),
         title: Text(
-          widget.title,
+          context.l10n.aminoAcidProfileTitle,
           style: const TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 16,
           ),
         ),
         subtitle: Text(
-          _showSid ? 'SID (Digestible)' : 'Total',
+          _showSid
+              ? context.l10n.aminoAcidSidLabel
+              : context.l10n.aminoAcidTotalLabel,
           style: TextStyle(
             fontSize: 12,
             color: Colors.grey[600],
@@ -93,15 +96,15 @@ class _AminoAcidProfileCardState extends State<AminoAcidProfileCard> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SegmentedButton<bool>(
-                        segments: const [
+                        segments: [
                           ButtonSegment(
                             value: true,
-                            label: Text('SID'),
-                            icon: Icon(Icons.check_circle, size: 16),
+                            label: Text(context.l10n.aminoAcidSidButton),
+                            icon: const Icon(Icons.check_circle, size: 16),
                           ),
                           ButtonSegment(
                             value: false,
-                            label: Text('Total'),
+                            label: Text(context.l10n.aminoAcidTotalButton),
                           ),
                         ],
                         selected: {_showSid},
@@ -117,7 +120,7 @@ class _AminoAcidProfileCardState extends State<AminoAcidProfileCard> {
                 ],
 
                 // Amino acid table
-                _buildAminoAcidTable(displayData),
+                _buildAminoAcidTable(displayData, context),
 
                 // Info note
                 const SizedBox(height: UIConstants.paddingSmall),
@@ -136,8 +139,8 @@ class _AminoAcidProfileCardState extends State<AminoAcidProfileCard> {
                       Expanded(
                         child: Text(
                           _showSid
-                              ? 'SID = Standardized Ileal Digestible (industry standard)'
-                              : 'Total amino acids (not all digestible)',
+                              ? context.l10n.aminoAcidSidInfo
+                              : context.l10n.aminoAcidTotalInfo,
                           style: TextStyle(
                             fontSize: 11,
                             color: Colors.blue[700],
@@ -155,20 +158,21 @@ class _AminoAcidProfileCardState extends State<AminoAcidProfileCard> {
     );
   }
 
-  Widget _buildAminoAcidTable(Map<String, num> data) {
-    // Essential amino acids in order
+  Widget _buildAminoAcidTable(Map<String, num> data, BuildContext context) {
+    final l10n = context.l10n;
+    // Essential amino acids in order with localized names
     final aminoAcids = [
-      {'name': 'Lysine', 'key': 'lysine'},
-      {'name': 'Methionine', 'key': 'methionine'},
-      {'name': 'Cystine', 'key': 'cystine'},
-      {'name': 'Threonine', 'key': 'threonine'},
-      {'name': 'Tryptophan', 'key': 'tryptophan'},
-      {'name': 'Arginine', 'key': 'arginine'},
-      {'name': 'Isoleucine', 'key': 'isoleucine'},
-      {'name': 'Leucine', 'key': 'leucine'},
-      {'name': 'Valine', 'key': 'valine'},
-      {'name': 'Histidine', 'key': 'histidine'},
-      {'name': 'Phenylalanine', 'key': 'phenylalanine'},
+      {'name': l10n.aminoAcidLysine, 'key': 'lysine'},
+      {'name': l10n.aminoAcidMethionine, 'key': 'methionine'},
+      {'name': l10n.aminoAcidCystine, 'key': 'cystine'},
+      {'name': l10n.aminoAcidThreonine, 'key': 'threonine'},
+      {'name': l10n.aminoAcidTryptophan, 'key': 'tryptophan'},
+      {'name': l10n.aminoAcidArginine, 'key': 'arginine'},
+      {'name': l10n.aminoAcidIsoleucine, 'key': 'isoleucine'},
+      {'name': l10n.aminoAcidLeucine, 'key': 'leucine'},
+      {'name': l10n.aminoAcidValine, 'key': 'valine'},
+      {'name': l10n.aminoAcidHistidine, 'key': 'histidine'},
+      {'name': l10n.aminoAcidPhenylalanine, 'key': 'phenylalanine'},
     ];
 
     return Table(
@@ -188,8 +192,8 @@ class _AminoAcidProfileCardState extends State<AminoAcidProfileCard> {
             color: AppConstants.appBlueColor.withValues(alpha: 0.1),
           ),
           children: [
-            _buildTableCell('Amino Acid', isHeader: true),
-            _buildTableCell('Content (%)', isHeader: true),
+            _buildTableCell(l10n.aminoAcidTableHeaderName, isHeader: true),
+            _buildTableCell(l10n.aminoAcidTableHeaderContent, isHeader: true),
           ],
         ),
         // Data rows

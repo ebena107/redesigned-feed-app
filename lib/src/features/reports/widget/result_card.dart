@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 import 'package:feed_estimator/src/features/main/model/feed.dart';
 import 'package:feed_estimator/src/features/reports/model/result.dart';
 import 'package:feed_estimator/src/features/reports/providers/result_provider.dart';
@@ -21,7 +22,6 @@ class ResultCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = ref.watch(resultProvider);
 
-    // Logic to find result based on type
     final Result? result;
     if (type == 'estimate') {
       result = provider.myResult;
@@ -32,7 +32,6 @@ class ResultCard extends ConsumerWidget {
       );
     }
 
-    // While calculating or if empty
     if (result == null || result.mEnergy == null) {
       return const SizedBox(
         height: 200,
@@ -40,7 +39,6 @@ class ResultCard extends ConsumerWidget {
       );
     }
 
-    // Decode enhanced fields
     List warnings = [];
     try {
       if (result.warningsJson != null && result.warningsJson!.isNotEmpty) {
@@ -69,106 +67,108 @@ class ResultCard extends ConsumerWidget {
       ),
       child: Column(
         children: [
-          // Row 1: Key Metrics
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Expanded(
                 child: _StatItem(
                   label: feed.animalId == 5
-                      ? 'Digestive Energy'
-                      : 'Metabolic Energy',
+                      ? context.l10n.nutrientDigestiveEnergy
+                      : context.l10n.nutrientMetabolicEnergy,
                   value: result.mEnergy?.toStringAsFixed(0) ?? '0',
-                  unit: 'Kcal',
+                  unit: context.l10n.unitKcal,
                   isLarge: true,
                 ),
               ),
               _VerticalDivider(),
               Expanded(
                 child: _StatItem(
-                  label: 'Crude Protein',
+                  label: context.l10n.nutrientCrudeProtein,
                   value: result.cProtein?.toStringAsFixed(2) ?? '0',
-                  unit: '%',
+                  unit: context.l10n.unitPercent,
                   isLarge: true,
                 ),
               ),
             ],
           ),
           const Divider(color: Colors.white24, height: 36, thickness: 1.5),
-
-          // Row 2: Secondary Metrics
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
                 child: _StatItem(
-                    label: 'Crude Fiber',
-                    value: '${result.cFibre?.toStringAsFixed(2)}'),
+                  label: context.l10n.nutrientCrudeFiber,
+                  value: '${result.cFibre?.toStringAsFixed(2)}',
+                ),
               ),
               Expanded(
                 child: _StatItem(
-                    label: 'Crude Fat',
-                    value: '${result.cFat?.toStringAsFixed(2)}'),
+                  label: context.l10n.nutrientCrudeFat,
+                  value: '${result.cFat?.toStringAsFixed(2)}',
+                ),
               ),
               Expanded(
                 child: _StatItem(
-                    label: 'Calcium',
-                    value: '${result.calcium?.toStringAsFixed(2)}'),
+                  label: context.l10n.nutrientCalcium,
+                  value: '${result.calcium?.toStringAsFixed(2)}',
+                ),
               ),
             ],
           ),
           const SizedBox(height: 20),
-
-          // Row 3: Micros
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
                 child: _StatItem(
-                    label: 'Phosphorus',
-                    value: '${result.phosphorus?.toStringAsFixed(2)}'),
+                  label: context.l10n.nutrientPhosphorus,
+                  value: '${result.phosphorus?.toStringAsFixed(2)}',
+                ),
               ),
               Expanded(
                 child: _StatItem(
-                    label: 'Lysine',
-                    value: '${result.lysine?.toStringAsFixed(2)}'),
+                  label: context.l10n.nutrientLysine,
+                  value: '${result.lysine?.toStringAsFixed(2)}',
+                ),
               ),
               Expanded(
                 child: _StatItem(
-                    label: 'Methionine',
-                    value: '${result.methionine?.toStringAsFixed(2)}'),
+                  label: context.l10n.nutrientMethionine,
+                  value: '${result.methionine?.toStringAsFixed(2)}',
+                ),
               ),
             ],
           ),
           const SizedBox(height: 20),
-
-          // Row 4: Enhanced v5 fields
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
                 child: _StatItem(
-                    label: 'Ash',
-                    value: result.ash != null
-                        ? result.ash!.toStringAsFixed(1)
-                        : '--',
-                    unit: '%'),
+                  label: context.l10n.nutrientAsh,
+                  value: result.ash != null
+                      ? result.ash!.toStringAsFixed(1)
+                      : '--',
+                  unit: context.l10n.unitPercent,
+                ),
               ),
               Expanded(
                 child: _StatItem(
-                    label: 'Moisture',
-                    value: result.moisture != null
-                        ? result.moisture!.toStringAsFixed(1)
-                        : '--',
-                    unit: '%'),
+                  label: context.l10n.nutrientMoisture,
+                  value: result.moisture != null
+                      ? result.moisture!.toStringAsFixed(1)
+                      : '--',
+                  unit: context.l10n.unitPercent,
+                ),
               ),
               Expanded(
                 child: _StatItem(
-                    label: 'Avail. P',
-                    value: result.availablePhosphorus != null
-                        ? result.availablePhosphorus!.toStringAsFixed(2)
-                        : '--',
-                    unit: 'g/Kg'),
+                  label: context.l10n.nutrientAvailablePhosphorus,
+                  value: result.availablePhosphorus != null
+                      ? result.availablePhosphorus!.toStringAsFixed(2)
+                      : '--',
+                  unit: context.l10n.unitGramPerKg,
+                ),
               ),
             ],
           ),
@@ -178,52 +178,59 @@ class ResultCard extends ConsumerWidget {
             children: [
               Expanded(
                 child: _StatItem(
-                    label: 'Total P',
-                    value: result.totalPhosphorus != null
-                        ? result.totalPhosphorus!.toStringAsFixed(2)
-                        : '--',
-                    unit: 'g/Kg'),
+                  label: context.l10n.nutrientTotalPhosphorus,
+                  value: result.totalPhosphorus != null
+                      ? result.totalPhosphorus!.toStringAsFixed(2)
+                      : '--',
+                  unit: context.l10n.unitGramPerKg,
+                ),
               ),
               Expanded(
                 child: _StatItem(
-                    label: 'Phytate P',
-                    value: result.phytatePhosphorus != null
-                        ? result.phytatePhosphorus!.toStringAsFixed(2)
-                        : '--',
-                    unit: 'g/Kg'),
+                  label: context.l10n.nutrientPhytatePhosphorus,
+                  value: result.phytatePhosphorus != null
+                      ? result.phytatePhosphorus!.toStringAsFixed(2)
+                      : '--',
+                  unit: context.l10n.unitGramPerKg,
+                ),
               ),
               const Expanded(child: SizedBox()),
             ],
           ),
           const Divider(color: Colors.white24, height: 36, thickness: 1.5),
-
-          // Warnings
           if (warnings.isNotEmpty) ...[
             Align(
               alignment: Alignment.centerLeft,
-              child: Text('Warnings',
-                  style: const TextStyle(
-                      color: Colors.orangeAccent,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold)),
+              child: Text(
+                context.l10n.warningsCardTitle,
+                style: const TextStyle(
+                  color: Colors.orangeAccent,
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
             const SizedBox(height: 8),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: warnings
                   .take(5)
-                  .map((w) => Padding(
-                        padding: const EdgeInsets.only(bottom: 4),
-                        child: Text(w.toString(),
-                            style: const TextStyle(
-                                color: Colors.white70, fontSize: 12)),
-                      ))
+                  .map(
+                    (w) => Padding(
+                      padding: const EdgeInsets.only(bottom: 4),
+                      child: Text(
+                        w.toString(),
+                        style: const TextStyle(
+                          color: Colors.white70,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  )
                   .toList(),
             ),
             const SizedBox(height: 16),
           ],
-
-          // Row 5: Financials
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
@@ -235,22 +242,25 @@ class ResultCard extends ConsumerWidget {
               children: [
                 Expanded(
                   child: _StatItem(
-                      label: 'Total Qty',
-                      value: '${result.totalQuantity}',
-                      unit: 'kg'),
+                    label: 'Total Qty',
+                    value: '${result.totalQuantity}',
+                    unit: 'kg',
+                  ),
                 ),
                 Expanded(
                   child: _StatItem(
-                      label: 'Total Cost',
-                      value: result.totalCost != null
-                          ? result.totalCost!.toStringAsFixed(2)
-                          : '0.00',
-                      unit: '#'),
+                    label: 'Total Cost',
+                    value: result.totalCost != null
+                        ? result.totalCost!.toStringAsFixed(2)
+                        : '0.00',
+                    unit: '#',
+                  ),
                 ),
                 Expanded(
                   child: _StatItem(
-                      label: 'Cost/Unit',
-                      value: '${result.costPerUnit?.toStringAsFixed(2)}'),
+                    label: 'Cost/Unit',
+                    value: '${result.costPerUnit?.toStringAsFixed(2)}',
+                  ),
                 ),
               ],
             ),
@@ -283,7 +293,6 @@ class _VerticalDivider extends StatelessWidget {
   }
 }
 
-/// Reusable Widget replacing Upper/Lower/Energy Cards
 class _StatItem extends StatelessWidget {
   final String label;
   final String value;
@@ -302,8 +311,10 @@ class _StatItem extends StatelessWidget {
     return Column(
       children: [
         if (isLarge) ...[
-          Text(label,
-              style: const TextStyle(color: Colors.white70, fontSize: 12)),
+          Text(
+            label,
+            style: const TextStyle(color: Colors.white70, fontSize: 12),
+          ),
           const SizedBox(height: 4),
           Row(
             crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -313,28 +324,35 @@ class _StatItem extends StatelessWidget {
               Text(
                 value,
                 style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold),
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
                 textAlign: TextAlign.center,
               ),
               if (unit != null) ...[
                 const SizedBox(width: 4),
-                Text(unit!,
-                    style:
-                        const TextStyle(color: Colors.white70, fontSize: 12)),
-              ]
+                Text(
+                  unit!,
+                  style: const TextStyle(color: Colors.white70, fontSize: 12),
+                ),
+              ],
             ],
-          )
+          ),
         ] else ...[
           Text(
             value,
             style: const TextStyle(
-                color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          Text(label,
-              style: const TextStyle(color: Colors.white60, fontSize: 11)),
-        ]
+          Text(
+            label,
+            style: const TextStyle(color: Colors.white60, fontSize: 11),
+          ),
+        ],
       ],
     );
   }

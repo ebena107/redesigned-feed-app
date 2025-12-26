@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 
 import '../widget/estimated_result_widget.dart';
 import '../widget/feed_info.dart';
@@ -36,7 +37,8 @@ class NewFeedPage extends ConsumerWidget {
     // feedId of null, 0, or 9999 indicates a new feed
     final isEdit = feedId != null && feedId != 0 && feedId != 9999;
     final id = isEdit ? feedId : null;
-    final title = isEdit ? "Update Feed" : "Add/Check Feed";
+    final title =
+        isEdit ? context.l10n.updateFeedTitle : context.l10n.addFeedTitle;
 
     AppLogger.debug('NewFeedPage - isEdit: $isEdit, id: $id', tag: _tag);
     return Scaffold(
@@ -125,6 +127,7 @@ class NewFeedPage extends ConsumerWidget {
 
 Widget buildBottomBar({int? feedId, required bool isEdit}) {
   return Consumer(builder: (context, ref, child) {
+    final l10n = context.l10n;
     return BottomNavigationBar(
       onTap: (int index) {
         ref.read(appNavigationProvider.notifier).changeIndex(index);
@@ -138,22 +141,22 @@ Widget buildBottomBar({int? feedId, required bool isEdit}) {
           isEdit ? AppConstants.appCarrotColor : AppConstants.appBlueColor,
       iconSize: UIConstants.iconLarge,
       items: [
-        const BottomNavigationBarItem(
-          icon: Icon(CupertinoIcons.cart_badge_plus),
-          label: 'Add Ingredients',
-          tooltip: 'Add more ingredients to feed',
+        BottomNavigationBarItem(
+          icon: const Icon(CupertinoIcons.cart_badge_plus),
+          label: l10n.actionAddIngredients,
+          tooltip: l10n.tooltipAddIngredients,
         ),
         BottomNavigationBarItem(
           icon: Icon(
             isEdit ? Icons.update : CupertinoIcons.floppy_disk,
           ),
-          label: isEdit ? 'Update' : 'Save',
-          tooltip: isEdit ? 'Update feed' : 'Save feed',
+          label: isEdit ? l10n.actionUpdate : l10n.actionSave,
+          tooltip: isEdit ? l10n.tooltipUpdateFeed : l10n.tooltipSaveFeed,
         ),
-        const BottomNavigationBarItem(
-          icon: Icon(CupertinoIcons.forward_end_alt),
-          label: 'Analyse',
-          tooltip: 'Analyse feed composition',
+        BottomNavigationBarItem(
+          icon: const Icon(CupertinoIcons.forward_end_alt),
+          label: l10n.actionAnalyse,
+          tooltip: l10n.tooltipAnalyseFeed,
         ),
       ],
     );
@@ -189,8 +192,8 @@ Future<void> _onItemTapped(
         if (feedName.isEmpty) {
           _showErrorSnackBar(
             context: context,
-            title: 'Feed Name Required',
-            message: 'Please enter a name for your feed before saving.',
+            title: context.l10n.errorFeedNameRequired,
+            message: context.l10n.errorFeedNameMessage,
           );
           AppLogger.warning('Save attempted without feed name', tag: _tag);
           return;
@@ -224,8 +227,8 @@ Future<void> _onItemTapped(
         if (feedName.isEmpty) {
           _showErrorSnackBar(
             context: context,
-            title: 'Missing Feed Name',
-            message: 'Please enter a feed name before analysing.',
+            title: context.l10n.errorMissingFeedName,
+            message: context.l10n.errorMissingFeedNameMessage,
           );
           return;
         }
@@ -233,8 +236,8 @@ Future<void> _onItemTapped(
         if (ingredients.isEmpty) {
           _showErrorSnackBar(
             context: context,
-            title: 'No Ingredients',
-            message: 'Please add at least one ingredient to analyse.',
+            title: context.l10n.errorNoIngredients,
+            message: context.l10n.errorNoIngredientsMessage,
           );
           return;
         }
@@ -242,9 +245,8 @@ Future<void> _onItemTapped(
         if (ingredients.any((e) => e.quantity == null || e.quantity == 0.0)) {
           _showErrorSnackBar(
             context: context,
-            title: 'Invalid Quantities',
-            message:
-                'All ingredients must have valid quantities greater than 0.',
+            title: context.l10n.errorInvalidQuantities,
+            message: context.l10n.errorInvalidQuantitiesMessage,
           );
           return;
         }
@@ -262,8 +264,8 @@ Future<void> _onItemTapped(
     if (!context.mounted) return;
     _showErrorSnackBar(
       context: context,
-      title: 'An Error Occurred',
-      message: 'Please try again.',
+      title: context.l10n.errorGenericTitle,
+      message: context.l10n.errorGenericMessage,
     );
   }
 }

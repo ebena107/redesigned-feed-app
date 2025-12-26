@@ -1,0 +1,1140 @@
+{
+  "@@locale": "fil",
+  "@@author": "Feed Estimator Team",
+  "appTitle": "Feed Estimator",
+  "@appTitle": {
+    "description": "Application title"
+  },
+  "appDescription": "Optimizer ng pagmula ng pagkain ng hayop",
+  "@appDescription": {
+    "description": "Application description"
+  },
+  
+  "navHome": "Tahanan",
+  "@navHome": {
+    "description": "Navigation label for home screen"
+  },
+  "navFeeds": "Aking mga Pagkain",
+  "@navFeeds": {
+    "description": "Navigation label for feeds screen"
+  },
+  "navIngredients": "Sangkap",
+  "@navIngredients": {
+    "description": "Navigation label for ingredients screen"
+  },
+  "navSettings": "Mga Setting",
+  "@navSettings": {
+    "description": "Navigation label for settings screen"
+  },
+  "navAbout": "Tungkol",
+  "@navAbout": {
+    "description": "Navigation label for about screen"
+  },
+  
+  "screenTitleHome": "Pagbuo ng Pagkain",
+  "@screenTitleHome": {
+    "description": "Home screen title"
+  },
+  "screenTitleIngredientLibrary": "Libro ng Sangkap",
+  "@screenTitleIngredientLibrary": {
+    "description": "Ingredient library screen title"
+  },
+  "screenTitleNewFeed": "Lumikha ng Pagkain",
+  "@screenTitleNewFeed": {
+    "description": "New feed creation screen title"
+  },
+  "screenTitleReports": "Pagsusuri",
+  "@screenTitleReports": {
+    "description": "Reports/analysis screen title"
+  },
+  "screenTitleSettings": "Mga Setting",
+  "@screenTitleSettings": {
+    "description": "Settings screen title"
+  },
+  "screenTitleAbout": "Tungkol sa Feed Estimator",
+  "@screenTitleAbout": {
+    "description": "About screen title"
+  },
+  
+  "actionCreate": "Lumikha",
+  "@actionCreate": {
+    "description": "Action button to create new item"
+  },
+  "actionSave": "I-save",
+  "@actionSave": {
+    "description": "Action button to save"
+  },
+  "actionUpdate": "I-update",
+  "@actionUpdate": {
+    "description": "Action button to update"
+  },
+  "actionDelete": "Tanggalin",
+  "@actionDelete": {
+    "description": "Action button to delete"
+  },
+  "actionCancel": "Kanselahin",
+  "@actionCancel": {
+    "description": "Action button to cancel"
+  },
+  "actionAdd": "Magdagdag",
+  "@actionAdd": {
+    "description": "Action button to add"
+  },
+  "actionAddNew": "Magdagdag ng Bago",
+  "@actionAddNew": {
+    "description": "Action button to add new item"
+  },
+  "actionRefresh": "I-refresh",
+  "@actionRefresh": {
+    "description": "Action button to refresh"
+  },
+  "actionEdit": "I-edit",
+  "@actionEdit": {
+    "description": "Action button to edit"
+  },
+  "actionRemove": "Alisin",
+  "@actionRemove": {
+    "description": "Action button to remove"
+  },
+  "actionClose": "Isara",
+  "@actionClose": {
+    "description": "Action button to close"
+  },
+  "actionRetry": "Subukan Muli",
+  "@actionRetry": {
+    "description": "Action button to retry"
+  },
+  "actionViewReport": "Tingnan ang Ulat",
+  "@actionViewReport": {
+    "description": "Action to view detailed report"
+  },
+  "actionClear": "I-clear",
+  "@actionClear": {
+    "description": "Action button to clear filters or selection"
+  },
+  "actionClearFilters": "I-clear ang mga Filter",
+  "@actionClearFilters": {
+    "description": "Action button to clear all active filters"
+  },
+  "actionSaveChanges": "I-save ang mga Pagbabago",
+  "@actionSaveChanges": {
+    "description": "Action button to save changes"
+  },
+  "actionReset": "I-reset",
+  "@actionReset": {
+    "description": "Action button to reset form"
+  },
+  
+  "homeEmptyTitle": "Walang Feed Pa",
+  "@homeEmptyTitle": {
+    "description": "Empty state title on home screen"
+  },
+  "homeEmptySubtitle": "Lumikha ng iyong unang formulasyon ng feed",
+  "@homeEmptySubtitle": {
+    "description": "Empty state subtitle on home screen"
+  },
+  "homeCreateFeed": "Lumikha ng Feed",
+  "@homeCreateFeed": {
+    "description": "Button text to create first feed"
+  },
+  "homeAddFeed": "Magdagdag ng Feed",
+  "@homeAddFeed": {
+    "description": "FAB text to add a new feed"
+  },
+  "homeLoadFailed": "Hindi na-load ang mga feed: {error}",
+  "@homeLoadFailed": {
+    "description": "Error message when feeds fail to load",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "homeLoadingFeeds": "Nilo-load ang mga feed...",
+  "@homeLoadingFeeds": {
+    "description": "Loading message on home screen"
+  },
+  
+  "feedListEmpty": "Walang Available na Feed",
+  "@feedListEmpty": {
+    "description": "Empty state message in feed list"
+  },
+  "feedsLoadFailed": "Hindi na-load ang mga feed",
+  "@feedsLoadFailed": {
+    "description": "Error message when feed loading fails"
+  },
+  "feedsEmptyStateTitle": "Walang nahanap na feed",
+  "@feedsEmptyStateTitle": {
+    "description": "Empty state title in feed grid"
+  },
+  "feedNameUnknown": "Hindi Kilalang Feed",
+  "@feedNameUnknown": {
+    "description": "Fallback text for feeds with no name"
+  },
+  "feedSubtitle": "Feed para sa {animalType}",
+  "@feedSubtitle": {
+    "description": "Feed subtitle with animal type",
+    "placeholders": {
+      "animalType": {
+        "type": "String",
+        "example": "Pig"
+      }
+    }
+  },
+  "feedDeleteTitle": "Tanggalin ang \"{feedName}\"?",
+  "@feedDeleteTitle": {
+    "description": "Confirmation dialog title for feed deletion",
+    "placeholders": {
+      "feedName": {
+        "type": "String",
+        "example": "Broiler Starter"
+      }
+    }
+  },
+  "confirmDeletionWarning": "Hindi na mababawi ang aksyong ito.",
+  "@confirmDeletionWarning": {
+    "description": "Warning message in deletion confirmation dialogs"
+  },
+  
+  "feedStoreTitle": "Feed sa Bodega",
+  "@feedStoreTitle": {
+    "description": "Title for stored feeds screen"
+  },
+  "feedStorePlaceholder": "Nakaimbak na feed dito",
+  "@feedStorePlaceholder": {
+    "description": "Placeholder text for stored feeds feature"
+  },
+  
+  "ingredientSelectedLabel": "Napiling Sangkap",
+  "@ingredientSelectedLabel": {
+    "description": "Label shown when an ingredient is selected"
+  },
+  "ingredientSelectLabel": "Pumili ng Sangkap",
+  "@ingredientSelectLabel": {
+    "description": "Label prompting user to select ingredient"
+  },
+  "ingredientSelectTitle": "Pumili ng Sangkap",
+  "@ingredientSelectTitle": {
+    "description": "Title of ingredient selection sheet"
+  },
+  "ingredientSearchHint": "Maghanap gamit ang pangalan...",
+  "@ingredientSearchHint": {
+    "description": "Hint text in ingredient search field"
+  },
+  "ingredientNameUnknown": "Hindi Kilala",
+  "@ingredientNameUnknown": {
+    "description": "Fallback text for ingredients with no name"
+  },
+  "ingredientAvailableQty": "{qty} kg available",
+  "@ingredientAvailableQty": {
+    "description": "Display text for available ingredient quantity",
+    "placeholders": {
+      "qty": {
+        "type": "String",
+        "example": "150.5"
+      }
+    }
+  },
+  "ingredientPricePerKg": "{price}/kg",
+  "@ingredientPricePerKg": {
+    "description": "Display text for ingredient price per kg",
+    "placeholders": {
+      "price": {
+        "type": "String",
+        "example": "10.50"
+      }
+    }
+  },
+  "ingredientsLoadFailed": "Hindi na-load ang mga sangkap",
+  "@ingredientsLoadFailed": {
+    "description": "Error message when ingredients fail to load"
+  },
+  "ingredientsEmptyTitle": "Walang nahanap na sangkap",
+  "@ingredientsEmptyTitle": {
+    "description": "Empty state title when no ingredients exist"
+  },
+  "ingredientsEmptySubtitle": "Magdagdag ng mga sangkap para magsimula",
+  "@ingredientsEmptySubtitle": {
+    "description": "Empty state subtitle when no ingredients exist"
+  },
+  "ingredientsEmptyFilteredTitle": "Walang sangkap na tumutugma sa iyong mga filter",
+  "@ingredientsEmptyFilteredTitle": {
+    "description": "Empty state title when filters return no results"
+  },
+  "ingredientsEmptyFilteredSubtitle": "Subukang i-adjust ang iyong paghahanap o mga filter",
+  "@ingredientsEmptyFilteredSubtitle": {
+    "description": "Empty state subtitle when filters return no results"
+  },
+  
+  "filterFavorites": "Mga Paborito",
+  "@filterFavorites": {
+    "description": "Filter chip label for favorites"
+  },
+  "filterCustom": "Custom",
+  "@filterCustom": {
+    "description": "Filter chip label for custom ingredients"
+  },
+  "filterRegionLabel": "Rehiyon: {region}",
+  "@filterRegionLabel": {
+    "description": "Filter chip label for regional filtering",
+    "placeholders": {
+      "region": {
+        "type": "String",
+        "example": "Africa"
+      }
+    }
+  },
+  
+  "fallbackUnknownSymbol": "?",
+  "@fallbackUnknownSymbol": {
+    "description": "Symbol shown when name/value is unknown"
+  },
+  
+  "actionExport": "I-export",
+  "@actionExport": {
+    "description": "Action button to export data"
+  },
+  "actionImport": "I-import",
+  "@actionImport": {
+    "description": "Action button to import data"
+  },
+  
+  "labelName": "Pangalan",
+  "@labelName": {
+    "description": "Label for name field"
+  },
+  "labelPrice": "Presyo",
+  "@labelPrice": {
+    "description": "Label for price field"
+  },
+  "labelQuantity": "Dami",
+  "@labelQuantity": {
+    "description": "Label for quantity field"
+  },
+  "labelCategory": "Kategorya",
+  "@labelCategory": {
+    "description": "Label for category field"
+  },
+  "labelRegion": "Rehiyon",
+  "@labelRegion": {
+    "description": "Label for region field"
+  },
+  "labelProtein": "Protina",
+  "@labelProtein": {
+    "description": "Label for protein nutrient"
+  },
+  "labelFat": "Taba",
+  "@labelFat": {
+    "description": "Label for fat nutrient"
+  },
+  "labelFiber": "Bituin",
+  "@labelFiber": {
+    "description": "Label for fiber nutrient"
+  },
+  "labelCalcium": "Kalyo",
+  "@labelCalcium": {
+    "description": "Label for calcium nutrient"
+  },
+  "labelPhosphorus": "Fosforo",
+  "@labelPhosphorus": {
+    "description": "Label for phosphorus nutrient"
+  },
+  "labelEnergy": "Enerhiya",
+  "@labelEnergy": {
+    "description": "Label for energy value"
+  },
+  "labelCost": "Gastos",
+  "@labelCost": {
+    "description": "Label for cost value"
+  },
+  "labelTotal": "Kabuuan",
+  "@labelTotal": {
+    "description": "Label for total value"
+  },
+  
+  "hintEnterName": "halimbawa, Pagkain ng Broiler Starter",
+  "@hintEnterName": {
+    "description": "Hint text for name input field"
+  },
+  "hintEnterPrice": "10.50",
+  "@hintEnterPrice": {
+    "description": "Hint text for price input field"
+  },
+  "hintEnterQuantity": "100",
+  "@hintEnterQuantity": {
+    "description": "Hint text for quantity input field"
+  },
+  "hintSearch": "Maghanap ng sangkap...",
+  "@hintSearch": {
+    "description": "Hint text for search field"
+  },
+  "hintSelectIngredient": "Tapikin upang piliin ang sangkap",
+  "@hintSelectIngredient": {
+    "description": "Hint text for ingredient selection"
+  },
+  
+  "errorRequired": "Kailangan ang {field}",
+  "@errorRequired": {
+    "description": "Error message when a required field is empty",
+    "placeholders": {
+      "field": {
+        "type": "String",
+        "example": "Pangalan"
+      }
+    }
+  },
+  "errorInvalidPrice": "Magpasok ng wastong presyo (halimbawa, 10.50)",
+  "@errorInvalidPrice": {
+    "description": "Error message for invalid price format"
+  },
+  "errorInvalidQuantity": "Magpasok ng wastong dami (halimbawa, 100)",
+  "@errorInvalidQuantity": {
+    "description": "Error message for invalid quantity format"
+  },
+  "errorPriceNegative": "Ang presyo ay hindi maaaring maging negatibo",
+  "@errorPriceNegative": {
+    "description": "Error message for negative price"
+  },
+  "errorQuantityZero": "Ang dami ay dapat na higit sa 0",
+  "@errorQuantityZero": {
+    "description": "Error message for zero quantity"
+  },
+  "errorNameTooShort": "Ang pangalan ay dapat na hindi bababa sa 3 na character",
+  "@errorNameTooShort": {
+    "description": "Error message for name too short"
+  },
+  "errorNameTooLong": "Ang pangalan ay dapat na mas mababa sa 50 na character",
+  "@errorNameTooLong": {
+    "description": "Error message for name too long"
+  },
+  "errorUnique": "Ang {field} ay nag-exist na",
+  "@errorUnique": {
+    "description": "Error when trying to create a duplicate",
+    "placeholders": {
+      "field": {
+        "type": "String",
+        "example": "Pangalan ng pagkain"
+      }
+    }
+  },
+  "errorDatabaseOperation": "Nabigo ang database na operasyon. Subukan ulit.",
+  "@errorDatabaseOperation": {
+    "description": "Error message for database operation failure"
+  },
+  "errorNetworkError": "Kamalian sa network. Mangyaring suriin ang iyong koneksyon.",
+  "@errorNetworkError": {
+    "description": "Error message for network errors"
+  },
+  
+  "messageCreatedSuccessfully": "Matagumpay na nilikha ang {item}",
+  "@messageCreatedSuccessfully": {
+    "description": "Success message when an item is created",
+    "placeholders": {
+      "item": {
+        "type": "String",
+        "example": "Pagkain"
+      }
+    }
+  },
+  "messageUpdatedSuccessfully": "Matagumpay na na-update ang {item}",
+  "@messageUpdatedSuccessfully": {
+    "description": "Success message when an item is updated",
+    "placeholders": {
+      "item": {
+        "type": "String",
+        "example": "Pagkain"
+      }
+    }
+  },
+  "messageDeletedSuccessfully": "Matagumpay na natanggal ang {item}",
+  "@messageDeletedSuccessfully": {
+    "description": "Success message when an item is deleted",
+    "placeholders": {
+      "item": {
+        "type": "String",
+        "example": "Pagkain"
+      }
+    }
+  },
+  "messageLoading": "Naglo-load...",
+  "@messageLoading": {
+    "description": "Loading message"
+  },
+  "messageNoData": "Walang available na data",
+  "@messageNoData": {
+    "description": "Message when no data is available"
+  },
+  "messageEmpty": "Walang {item} na naidagdag pa",
+  "@messageEmpty": {
+    "description": "Message when a list is empty",
+    "placeholders": {
+      "item": {
+        "type": "String",
+        "example": "sangkap"
+      }
+    }
+  },
+  
+  "confirmDelete": "Tanggalin ang {item}?",
+  "@confirmDelete": {
+    "description": "Confirmation message before deletion",
+    "placeholders": {
+      "item": {
+        "type": "String",
+        "example": "sangkapang ito"
+      }
+    }
+  },
+  "confirmDeleteDescription": "Ang aksyon na ito ay hindi maaaring bawiin.",
+  "@confirmDeleteDescription": {
+    "description": "Description for delete confirmation"
+  },
+  
+  "animalTypePig": "Baboy",
+  "@animalTypePig": {
+    "description": "Animal type: Pig"
+  },
+  "animalTypePoultry": "Manok",
+  "@animalTypePoultry": {
+    "description": "Animal type: Poultry"
+  },
+  "animalTypeRabbit": "Kuneho",
+  "@animalTypeRabbit": {
+    "description": "Animal type: Rabbit"
+  },
+  "animalTypeRuminant": "Umiing Hayop",
+  "@animalTypeRuminant": {
+    "description": "Animal type: Ruminant"
+  },
+  "animalTypeFish": "Isda",
+  "@animalTypeFish": {
+    "description": "Animal type: Fish"
+  },
+  
+  "regionAll": "Lahat ng Rehiyon",
+  "@regionAll": {
+    "description": "Filter option: All regions"
+  },
+  "regionAfrica": "Afrika",
+  "@regionAfrica": {
+    "description": "Region: Africa"
+  },
+  "regionAsia": "Asya",
+  "@regionAsia": {
+    "description": "Region: Asia"
+  },
+  "regionEurope": "Europa",
+  "@regionEurope": {
+    "description": "Region: Europe"
+  },
+  "regionAmericas": "Amerika",
+  "@regionAmericas": {
+    "description": "Region: Americas"
+  },
+  "regionOceania": "Oceania",
+  "@regionOceania": {
+    "description": "Region: Oceania"
+  },
+  "regionGlobal": "Pandaigdig",
+  "@regionGlobal": {
+    "description": "Region: Global"
+  },
+  
+  "filterBy": "I-filter Ayon sa",
+  "@filterBy": {
+    "description": "Filter label"
+  },
+  "sortBy": "Pagsort-in Ayon sa",
+  "@sortBy": {
+    "description": "Sort label"
+  },
+  "sortByName": "Pangalan",
+  "@sortByName": {
+    "description": "Sort option: By name"
+  },
+  "sortByPrice": "Presyo",
+  "@sortByPrice": {
+    "description": "Sort option: By price"
+  },
+  "sortByRegion": "Rehiyon",
+  "@sortByRegion": {
+    "description": "Sort option: By region"
+  },
+  
+  "unitKg": "kg",
+  "@unitKg": {
+    "description": "Unit: Kilogram"
+  },
+  "unitG": "g",
+  "@unitG": {
+    "description": "Unit: Gram"
+  },
+  "unitLb": "lb",
+  "@unitLb": {
+    "description": "Unit: Pound"
+  },
+  "unitTon": "tonelada",
+  "@unitTon": {
+    "description": "Unit: Ton"
+  },
+  "unitKcal": "kcal/kg",
+  "@unitKcal": {
+    "description": "Unit: Kilocalories per kilogram"
+  },
+  
+  "settingLanguage": "Wika",
+  "@settingLanguage": {
+    "description": "Settings: Language option"
+  },
+  "settingTheme": "Tema",
+  "@settingTheme": {
+    "description": "Settings: Theme option"
+  },
+  "settingNotifications": "Mga Notipikasyon",
+  "@settingNotifications": {
+    "description": "Settings: Notifications option"
+  },
+  "settingAbout": "Tungkol",
+  "@settingAbout": {
+    "description": "Settings: About option"
+  },
+  
+  "aboutVersion": "Bersyon {version}",
+  "@aboutVersion": {
+    "description": "About app version",
+    "placeholders": {
+      "version": {
+        "type": "String",
+        "example": "1.0.0"
+      }
+    }
+  },
+  "aboutPrivacy": "Privacy Policy",
+  "@aboutPrivacy": {
+    "description": "About privacy policy link"
+  },
+  "aboutTerms": "Mga Kaugnayan sa Serbisyo",
+  "@aboutTerms": {
+    "description": "About terms of service link"
+  },
+  "aboutDeveloper": "Ginawa para sa mga magsasaka ng hayop",
+  "@aboutDeveloper": {
+    "description": "About developer credit"
+  },
+  "aboutContribution": "Ang iyong feedback ay tumutulong sa amin na mapabuti",
+  "@aboutContribution": {
+    "description": "About contribution message"
+  },
+  
+  "settingsTitle": "Mga Setting",
+  "@settingsTitle": {
+    "description": "Settings screen title"
+  },
+  "settingsSectionLanguage": "Wika",
+  "@settingsSectionLanguage": {
+    "description": "Settings section: Language"
+  },
+  "settingsSectionPrivacy": "Privacy at Data",
+  "@settingsSectionPrivacy": {
+    "description": "Settings section: Privacy & Data"
+  },
+  "settingsSectionDataManagement": "Pamamahala ng Data",
+  "@settingsSectionDataManagement": {
+    "description": "Settings section: Data Management"
+  },
+  "settingsSectionLegal": "Legal",
+  "@settingsSectionLegal": {
+    "description": "Settings section: Legal"
+  },
+  "settingsSelectLanguage": "Pumili ng Wika",
+  "@settingsSelectLanguage": {
+    "description": "Language selector label"
+  },
+  "settingsLanguageLimitedUI": "{language} (Limitadong system UI)",
+  "@settingsLanguageLimitedUI": {
+    "description": "Language option with limited framework support",
+    "placeholders": {
+      "language": {
+        "type": "String",
+        "example": "Tagalog"
+      }
+    }
+  },
+  "settingsDataConsent": "Pahintulot sa Pagkolekta ng Data",
+  "@settingsDataConsent": {
+    "description": "Data collection consent toggle"
+  },
+  "settingsConsentGranted": "Pumayag ka na sa pagkolekta ng data",
+  "@settingsConsentGranted": {
+    "description": "Consent status: granted"
+  },
+  "settingsConsentNotGranted": "Hindi ka pumayag",
+  "@settingsConsentNotGranted": {
+    "description": "Consent status: not granted"
+  },
+  "settingsConsentDate": "Petsa ng Pahintulot",
+  "@settingsConsentDate": {
+    "description": "Date when consent was granted"
+  },
+  "settingsPrivacyPolicy": "Privacy Policy",
+  "@settingsPrivacyPolicy": {
+    "description": "Privacy policy link"
+  },
+  "settingsPrivacyPolicySubtitle": "Tingnan ang aming privacy policy",
+  "@settingsPrivacyPolicySubtitle": {
+    "description": "Privacy policy subtitle"
+  },
+  "settingsFeedFormulations": "Mga Formulation ng Feed",
+  "@settingsFeedFormulations": {
+    "description": "Feed formulations count label"
+  },
+  "settingsCustomIngredients": "Mga Custom na Sangkap",
+  "@settingsCustomIngredients": {
+    "description": "Custom ingredients count label"
+  },
+  "settingsDatabaseSize": "Laki ng Database",
+  "@settingsDatabaseSize": {
+    "description": "Database size label"
+  },
+  "settingsExportData": "I-export ang Data",
+  "@settingsExportData": {
+    "description": "Export data option"
+  },
+  "settingsExportDataSubtitle": "I-backup ang lahat ng iyong data",
+  "@settingsExportDataSubtitle": {
+    "description": "Export data subtitle"
+  },
+  "settingsImportData": "I-import ang Data",
+  "@settingsImportData": {
+    "description": "Import data option"
+  },
+  "settingsImportDataSubtitle": "Ibalik mula sa backup",
+  "@settingsImportDataSubtitle": {
+    "description": "Import data subtitle"
+  },
+  "settingsDeleteData": "Tanggalin ang Lahat ng Data",
+  "@settingsDeleteData": {
+    "description": "Delete all data option"
+  },
+  "settingsDeleteDataSubtitle": "Permanenteng tanggalin ang lahat",
+  "@settingsDeleteDataSubtitle": {
+    "description": "Delete all data subtitle"
+  },
+  "settingsVersion": "Bersyon",
+  "@settingsVersion": {
+    "description": "App version label"
+  },
+  "settingsRateApp": "I-rate ang App",
+  "@settingsRateApp": {
+    "description": "Rate app option"
+  },
+  "settingsRateAppSubtitle": "Ibahagi ang iyong feedback",
+  "@settingsRateAppSubtitle": {
+    "description": "Rate app subtitle"
+  },
+  "settingsLicenses": "Mga Open Source License",
+  "@settingsLicenses": {
+    "description": "Open source licenses option"
+  },
+  "settingsTermsOfService": "Mga Kaugnayan sa Serbisyo",
+  "@settingsTermsOfService": {
+    "description": "Terms of service option"
+  },
+  "settingsTermsComingSoon": "Paparating na",
+  "@settingsTermsComingSoon": {
+    "description": "Terms of service coming soon"
+  },
+  "settingsDataSafety": "Kaligtasan ng Data",
+  "@settingsDataSafety": {
+    "description": "Data safety option"
+  },
+  "settingsDataSafetySubtitle": "Ang iyong data ay naka-imbak sa lokal",
+  "@settingsDataSafetySubtitle": {
+    "description": "Data safety subtitle"
+  },
+  "settingsFooter": "Ginawa nang may ❤️ para sa mga magsasaka ng hayop",
+  "@settingsFooter": {
+    "description": "Settings footer message"
+  },
+  "settingsExporting": "Nag-e-export ng data...",
+  "@settingsExporting": {
+    "description": "Loading message while exporting"
+  },
+  "settingsExportSuccess": "Matagumpay ang Export",
+  "@settingsExportSuccess": {
+    "description": "Export success dialog title"
+  },
+  "settingsExportSuccessMessage": "Matagumpay na nalikha ang iyong backup!",
+  "@settingsExportSuccessMessage": {
+    "description": "Export success message"
+  },
+  "settingsRevokeConsentTitle": "Bawiin ang Pahintulot",
+  "@settingsRevokeConsentTitle": {
+    "description": "Revoke consent dialog title"
+  },
+  "settingsRevokeConsentMessage": "Sigurado ka bang gusto mong bawiin ang iyong pahintulot? Hindi nito tatanggalin ang iyong data, ngunit kinikilala mo na hindi ka na pumapayag sa pagkolekta ng data.",
+  "@settingsRevokeConsentMessage": {
+    "description": "Revoke consent dialog message"
+  },
+  "settingsLanguageUpdated": "Na-update ang wika sa {language}",
+  "@settingsLanguageUpdated": {
+    "description": "Language change success message",
+    "placeholders": {
+      "language": {
+        "type": "String",
+        "example": "English"
+      }
+    }
+  },
+  
+  "ingredientLibraryTitle": "Aklatan ng Sangkap",
+  "actionRefresh": "I-refresh",
+  "manageInventoryTitle": "PAMAHALAAN ANG INVENTORY",
+  "customIngredientsTitle": "Customized na Sangkap",
+  "actionAddNew": "Magdagdag ng Bago",
+  
+  "regionAll": "Lahat",
+  "regionAfrica": "Africa",
+  "regionAsia": "Asya",
+  "regionEurope": "Europe",
+  "regionAmericas": "Amerika",
+  "regionOceania": "Oceania",
+  "regionGlobal": "Pandaigdig",
+  
+  "updateDetailsTitle": "I-update ang Detalye",
+  "labelFavorite": "Paboritong",
+  "labelAddToFavorites": "Idagdag sa mga paboritong",
+  "labelPricePerKg": "Presyo bawat kg",
+  "labelAvailableQty": "Available na Dami (kg)",
+  "actionDelete": "Tanggalin",
+  "actionPriceHistory": "Kasaysayan ng Presyo",
+  "actionReset": "I-reset",
+  "actionSaveChanges": "Salbahin ang Pagbabago",
+  
+  "deleteIngredientTitle": "Tanggalin ang Sangkap?",
+  "deleteIngredientMessage": "Ito ay permanenteng aalis ang sangkapong ito mula sa iyong aklatan. Ang aksyon na ito ay hindi maaaring i-undo.",
+  "confirmCancel": "Kanselahin",
+  "confirmDelete": "Tanggalin",
+  
+  "successIngredientUpdated": "Ang sangkap ay na-update nang matagumpay",
+  "errorSaveFailed": "Hindi nakapagsave: {error}",
+  "successIngredientDeleted": "Tanggal na ang sangkap",
+  "errorDeleteFailed": "Hindi matanggal: {error}",
+  
+  "errorPriceGreaterThanZero": "Dapat > 0",
+  "errorQuantityGreaterOrEqual": "Dapat ≥ 0",
+  
+  "addFeedTitle": "Magdagdag/Suriin ang Feed",
+  "@addFeedTitle": {
+    "description": "Title for adding a new feed"
+  },
+  "updateFeedTitle": "I-update ang Feed",
+  "@updateFeedTitle": {
+    "description": "Title for updating an existing feed"
+  },
+  "actionAddIngredients": "Magdagdag ng Mga Sangkap",
+  "@actionAddIngredients": {
+    "description": "Bottom bar action: add ingredients"
+  },
+  "tooltipAddIngredients": "Magdagdag ng higit pang sangkap sa feed",
+  "@tooltipAddIngredients": {
+    "description": "Tooltip for adding ingredients"
+  },
+  "actionSave": "I-save",
+  "@actionSave": {
+    "description": "Bottom bar action: save feed"
+  },
+  "actionUpdate": "I-update",
+  "@actionUpdate": {
+    "description": "Bottom bar action: update feed"
+  },
+  "tooltipSaveFeed": "I-save ang feed",
+  "@tooltipSaveFeed": {
+    "description": "Tooltip for saving feed"
+  },
+  "tooltipUpdateFeed": "I-update ang feed",
+  "@tooltipUpdateFeed": {
+    "description": "Tooltip for updating feed"
+  },
+  "actionAnalyse": "Suriin",
+  "@actionAnalyse": {
+    "description": "Bottom bar action: analyse feed"
+  },
+  "tooltipAnalyseFeed": "Suriin ang komposisyon ng feed",
+  "@tooltipAnalyseFeed": {
+    "description": "Tooltip for analysing feed"
+  },
+  
+  "errorFeedNameRequired": "Kinakailangan ang Pangalan ng Feed",
+  "@errorFeedNameRequired": {
+    "description": "Error title when feed name is missing"
+  },
+  "errorFeedNameMessage": "Pakilagay ang pangalan ng feed bago mag-save.",
+  "@errorFeedNameMessage": {
+    "description": "Error message prompting user to enter feed name"
+  },
+  "errorMissingFeedName": "Walang Pangalan ng Feed",
+  "@errorMissingFeedName": {
+    "description": "Error title when analysing without feed name"
+  },
+  "errorMissingFeedNameMessage": "Pakilagay ang pangalan ng feed bago ang pagsusuri.",
+  "@errorMissingFeedNameMessage": {
+    "description": "Error message to enter feed name before analysis"
+  },
+  "errorNoIngredients": "Walang Sangkap",
+  "@errorNoIngredients": {
+    "description": "Error title when no ingredients added"
+  },
+  "errorNoIngredientsMessage": "Magdagdag ng kahit isang sangkap para sa pagsusuri.",
+  "@errorNoIngredientsMessage": {
+    "description": "Error message to add at least one ingredient"
+  },
+  "errorInvalidQuantities": "Maling Dami",
+  "@errorInvalidQuantities": {
+    "description": "Error title for invalid ingredient quantities"
+  },
+  "errorInvalidQuantitiesMessage": "Lahat ng sangkap ay dapat may wastong dami na mas malaki sa 0.",
+  "@errorInvalidQuantitiesMessage": {
+    "description": "Error message for invalid ingredient quantities"
+  },
+  "errorGenericTitle": "May Nagkaproblema",
+  "@errorGenericTitle": {
+    "description": "Generic error dialog title"
+  },
+  "errorGenericMessage": "Pakisubukang muli.",
+  "@errorGenericMessage": {
+    "description": "Generic error dialog message"
+  },
+  "actionOk": "OK",
+  "@actionOk": {
+    "description": "Confirmation button label"
+  },
+  
+  "analyseDialogTitle": "Suriin ang Komposisyon ng Feed",
+  "@analyseDialogTitle": {
+    "description": "Dialog title for analysing feed"
+  },
+  "analyseDialogMessageNew": "Tingnan ang detalyadong pagsusuri para sa \"{feedName}\" nang hindi sine-save.",
+  "@analyseDialogMessageNew": {
+    "description": "Dialog message for analysing new feed without saving",
+    "placeholders": {
+      "feedName": {
+        "type": "String",
+        "example": "Starter Broiler"
+      }
+    }
+  },
+  "analyseDialogMessageUpdate": "Tingnan ang detalyadong pagsusuri para sa \"{feedName}\" nang hindi nag-a-update.",
+  "@analyseDialogMessageUpdate": {
+    "description": "Dialog message for analysing existing feed without updating",
+    "placeholders": {
+      "feedName": {
+        "type": "String",
+        "example": "Grower Pig"
+      }
+    }
+  },
+  "analyseDialogPreviewNote": "Ito ay preview. Maaari mong i-save mamaya.",
+  "@analyseDialogPreviewNote": {
+    "description": "Note that analysis is a preview"
+  },
+  "analyseDialogNoSaveNote": "Hindi mase-save ang mga pagbabago.",
+  "@analyseDialogNoSaveNote": {
+    "description": "Note that changes will not be saved"
+  },
+  "analyseDialogFailedMessage": "Nabigo ang pagsusuri ng feed. Pakisubukang muli.",
+  "@analyseDialogFailedMessage": {
+    "description": "Error message when analysis fails"
+  },
+  
+  "reportTitleEstimate": "Tantiyang Pagsusuri",
+  "@reportTitleEstimate": {
+    "description": "Title for estimated analysis"
+  },
+  "reportTitleAnalysis": "Ulat ng Pagsusuri",
+  "@reportTitleAnalysis": {
+    "description": "Title for analysis report"
+  },
+  
+  "nutrientDigestiveEnergy": "Natutunaw na Enerhiya",
+  "@nutrientDigestiveEnergy": {
+    "description": "Digestive energy label"
+  },
+  "nutrientMetabolicEnergy": "Metabolic na Enerhiya",
+  "@nutrientMetabolicEnergy": {
+    "description": "Metabolic energy label"
+  },
+  "nutrientCrudeProtein": "Krudong Protina",
+  "@nutrientCrudeProtein": {
+    "description": "Crude protein label"
+  },
+  "nutrientCrudeFiber": "Krudong Hibla",
+  "@nutrientCrudeFiber": {
+    "description": "Crude fiber label"
+  },
+  "nutrientCrudeFat": "Krudong Taba",
+  "@nutrientCrudeFat": {
+    "description": "Crude fat label"
+  },
+  "nutrientCalcium": "Calcium",
+  "@nutrientCalcium": {
+    "description": "Calcium label"
+  },
+  "nutrientPhosphorus": "Posporus",
+  "@nutrientPhosphorus": {
+    "description": "Phosphorus label"
+  },
+  "nutrientLysine": "Lisina",
+  "@nutrientLysine": {
+    "description": "Lysine label"
+  },
+  "nutrientMethionine": "Metiyonina",
+  "@nutrientMethionine": {
+    "description": "Methionine label"
+  },
+  "nutrientAsh": "Abo",
+  "@nutrientAsh": {
+    "description": "Ash label"
+  },
+  "nutrientMoisture": "Halumigmig",
+  "@nutrientMoisture": {
+    "description": "Moisture label"
+  },
+  "nutrientAvailablePhosphorus": "Magagamit na Posporus",
+  "@nutrientAvailablePhosphorus": {
+    "description": "Available phosphorus label"
+  },
+  "nutrientTotalPhosphorus": "Kabuuang Posporus",
+  "@nutrientTotalPhosphorus": {
+    "description": "Total phosphorus label"
+  },
+  "nutrientPhytatePhosphorus": "Posporus ng Pitate",
+  "@nutrientPhytatePhosphorus": {
+    "description": "Phytate phosphorus label"
+  },
+  
+  "unitKcal": "Kcal",
+  "@unitKcal": {
+    "description": "Unit label for kcal"
+  },
+  "unitPercent": "%",
+  "@unitPercent": {
+    "description": "Unit label for percent"
+  },
+  "unitGramPerKg": "g/Kg",
+  "@unitGramPerKg": {
+    "description": "Unit label for grams per kg"
+  },
+  
+  "aminoAcidProfileTitle": "Profayl ng Amino Asido",
+  "@aminoAcidProfileTitle": {
+    "description": "Title for amino acid profile card"
+  },
+  "aminoAcidSidLabel": "SID (Natutunaw)",
+  "@aminoAcidSidLabel": {
+    "description": "Label for SID amino acids"
+  },
+  "aminoAcidTotalLabel": "Kabuuan",
+  "@aminoAcidTotalLabel": {
+    "description": "Label for total amino acids"
+  },
+  "aminoAcidSidButton": "SID",
+  "@aminoAcidSidButton": {
+    "description": "Button label for SID"
+  },
+  "aminoAcidTotalButton": "Kabuuan",
+  "@aminoAcidTotalButton": {
+    "description": "Button label for total"
+  },
+  "aminoAcidTableHeaderName": "Amino Asido",
+  "@aminoAcidTableHeaderName": {
+    "description": "Table header for amino acid name"
+  },
+  "aminoAcidTableHeaderContent": "Nilalaman (%)",
+  "@aminoAcidTableHeaderContent": {
+    "description": "Table header for amino acid content"
+  },
+  "aminoAcidLysine": "Lisina",
+  "@aminoAcidLysine": {
+    "description": "Amino acid: Lysine"
+  },
+  "aminoAcidMethionine": "Metiyonina",
+  "@aminoAcidMethionine": {
+    "description": "Amino acid: Methionine"
+  },
+  "aminoAcidCystine": "Sistina",
+  "@aminoAcidCystine": {
+    "description": "Amino acid: Cystine"
+  },
+  "aminoAcidThreonine": "Treonina",
+  "@aminoAcidThreonine": {
+    "description": "Amino acid: Threonine"
+  },
+  "aminoAcidTryptophan": "Triptofan",
+  "@aminoAcidTryptophan": {
+    "description": "Amino acid: Tryptophan"
+  },
+  "aminoAcidArginine": "Arjinin",
+  "@aminoAcidArginine": {
+    "description": "Amino acid: Arginine"
+  },
+  "aminoAcidIsoleucine": "Isolusin",
+  "@aminoAcidIsoleucine": {
+    "description": "Amino acid: Isoleucine"
+  },
+  "aminoAcidLeucine": "Leusin",
+  "@aminoAcidLeucine": {
+    "description": "Amino acid: Leucine"
+  },
+  "aminoAcidValine": "Valin",
+  "@aminoAcidValine": {
+    "description": "Amino acid: Valine"
+  },
+  "aminoAcidHistidine": "Histidina",
+  "@aminoAcidHistidine": {
+    "description": "Amino acid: Histidine"
+  },
+  "aminoAcidPhenylalanine": "Fenilalanina",
+  "@aminoAcidPhenylalanine": {
+    "description": "Amino acid: Phenylalanine"
+  },
+  "aminoAcidSidInfo": "SID = Pamantayang ileal na natutunaw (pamantayan ng industriya)",
+  "@aminoAcidSidInfo": {
+    "description": "Info text for SID amino acids"
+  },
+  "aminoAcidTotalInfo": "Kabuuang amino acid (hindi lahat ay natutunaw)",
+  "@aminoAcidTotalInfo": {
+    "description": "Info text for total amino acids"
+  },
+  "aminoAcidLoadError": "Nagka-error sa paglo-load ng data ng amino acid",
+  "@aminoAcidLoadError": {
+    "description": "Error loading amino acid data"
+  },
+  
+  "warningsCardTitle": "Mga Babala at Rekomendasyon",
+  "@warningsCardTitle": {
+    "description": "Title for warnings and recommendations"
+  },
+  "warningsCardIssueCount": "{count, plural, =1{1 isyu ang nahanap} other{{count} mga isyu ang nahanap}}",
+  "@warningsCardIssueCount": {
+    "description": "Message showing number of issues found",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  
+  "pdfPreviewTitle": "Ebena Feed Estimator | {feedName} Print Preview",
+  "@pdfPreviewTitle": {
+    "description": "Title for PDF preview screen",
+    "placeholders": {
+      "feedName": {
+        "type": "String",
+        "example": "BROILER STARTER"
+      }
+    }
+  }
+}

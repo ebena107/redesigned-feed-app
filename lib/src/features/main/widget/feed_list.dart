@@ -3,6 +3,7 @@ import 'package:feed_estimator/src/features/main/model/feed.dart';
 import 'package:feed_estimator/src/features/main/providers/main_async_provider.dart';
 import 'package:feed_estimator/src/features/reports/model/result.dart';
 import 'package:feed_estimator/src/features/reports/providers/result_provider.dart';
+import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,15 +28,15 @@ class FeedList extends ConsumerWidget {
           ? SliverList(
               delegate: _feedListDelegate(feeds),
             )
-          : const SliverFillRemaining(
+          : SliverFillRemaining(
               child: Align(
                 alignment: Alignment.center,
-                child: Text('No Feed Available'),
+                child: Text(context.l10n.feedListEmpty),
               ),
             ),
-      error: (error, stack) => const SliverFillRemaining(
+      error: (error, stack) => SliverFillRemaining(
         child: Center(
-          child: Text('No Feed Available'),
+          child: Text(context.l10n.feedsLoadFailed),
         ),
       ),
       loading: () => const SliverFillRemaining(
@@ -120,14 +121,14 @@ class FeedListTile extends ConsumerWidget {
                 SizedBox(
                   width: displayWidth(context) * .15,
                   child: ContentCard(
-                    title: 'Energy',
+                    title: context.l10n.labelEnergy,
                     value: myResult.mEnergy ?? 0.0,
                   ),
                 ),
                 SizedBox(
                   width: displayWidth(context) * .15,
                   child: ContentCard(
-                    title: 'cFiber',
+                    title: context.l10n.labelFiber,
                     value: myResult.cFibre ?? 0.0,
                   ),
                 ),
@@ -143,7 +144,9 @@ class FeedListTile extends ConsumerWidget {
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Text(
-                  '${animalName(id: feed!.animalId as int)} Feed',
+                  context.l10n.feedSubtitle(
+                    animalName(id: feed!.animalId as int),
+                  ),
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
@@ -154,14 +157,14 @@ class FeedListTile extends ConsumerWidget {
                 SizedBox(
                   width: displayWidth(context) * .15,
                   child: ContentCard(
-                    title: 'cProtein',
+                    title: context.l10n.labelProtein,
                     value: myResult.cProtein ?? 0.0,
                   ),
                 ),
                 SizedBox(
                   width: displayWidth(context) * .15,
                   child: ContentCard(
-                    title: 'cFat',
+                    title: context.l10n.labelFat,
                     value: myResult.cFat ?? 0.0,
                   ),
                 ),

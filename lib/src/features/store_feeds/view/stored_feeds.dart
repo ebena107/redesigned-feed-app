@@ -2,6 +2,7 @@ import 'package:feed_estimator/src/core/constants/common.dart';
 
 import 'package:feed_estimator/src/utils/widgets/app_drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 
 class StoredFeeds extends StatelessWidget {
   const StoredFeeds({
@@ -49,15 +50,15 @@ class StoredFeeds extends StatelessWidget {
                         const Color(0xff87643E).withValues(alpha: .7)
                       ]),
                 ),
-                child: const FlexibleSpaceBar(
-                    title: Text('Feed in Store'),
+                child: FlexibleSpaceBar(
+                    title: Text(context.l10n.feedStoreTitle),
                     centerTitle: true,
-                    background:
-                        Image(image: AssetImage('assets/images/back.png'))),
+                    background: const Image(
+                        image: AssetImage('assets/images/back.png'))),
               ),
             ),
-            const SliverToBoxAdapter(
-              child: Text('Stored Feed here'),
+            SliverToBoxAdapter(
+              child: Text(context.l10n.feedStorePlaceholder),
             )
           ],
         ),

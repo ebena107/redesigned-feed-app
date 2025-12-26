@@ -3,6 +3,7 @@ import 'package:feed_estimator/src/core/constants/ui_constants.dart';
 import 'package:feed_estimator/src/features/main/model/feed.dart';
 import 'package:feed_estimator/src/features/main/providers/main_async_provider.dart';
 import 'package:feed_estimator/src/features/main/widget/tile_image.dart';
+import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -159,7 +160,7 @@ class FeedGridCard extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            feed.feedName ?? 'Unknown Feed',
+                            feed.feedName ?? context.l10n.feedNameUnknown,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: theme.textTheme.labelLarge?.copyWith(
@@ -169,7 +170,9 @@ class FeedGridCard extends StatelessWidget {
                           ),
                           const SizedBox(height: 2),
                           Text(
-                            '${animalName(id: animalId.toInt())} Feed',
+                            context.l10n.feedSubtitle(
+                              animalName(id: animalId.toInt()),
+                            ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: theme.textTheme.bodySmall?.copyWith(
@@ -204,7 +207,8 @@ class _EmptyFeedState extends StatelessWidget {
       children: [
         Icon(Icons.inbox_outlined, size: 48, color: Colors.grey.shade400),
         const SizedBox(height: 16),
-        Text('No feeds found', style: TextStyle(color: Colors.grey.shade600)),
+        Text(context.l10n.feedsEmptyStateTitle,
+            style: TextStyle(color: Colors.grey.shade600)),
       ],
     );
   }
@@ -221,8 +225,8 @@ class _ErrorFeedState extends StatelessWidget {
         children: [
           Icon(Icons.error_outline, size: 48, color: Colors.red.shade300),
           const SizedBox(height: 16),
-          const Text('Failed to load feeds'),
-          TextButton(onPressed: onRetry, child: const Text('Retry')),
+          Text(context.l10n.feedsLoadFailed),
+          TextButton(onPressed: onRetry, child: Text(context.l10n.actionRetry)),
         ],
       ),
     );

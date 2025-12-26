@@ -1,10 +1,10 @@
-import 'package:feed_estimator/src/core/router/routes.dart';
 import 'package:feed_estimator/src/features/add_ingredients/repository/ingredients_repository.dart';
 import 'package:feed_estimator/src/features/add_ingredients/widgets/user_ingredients_widget.dart';
 import 'package:feed_estimator/src/features/price_management/view/price_history_view.dart';
 import 'package:feed_estimator/src/features/store_ingredients/providers/stored_ingredient_provider.dart';
 import 'package:feed_estimator/src/features/store_ingredients/widget/ingredient_select_widget.dart';
 import 'package:feed_estimator/src/utils/widgets/app_drawer.dart';
+import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,15 +30,41 @@ class StoredIngredients extends ConsumerWidget {
             backgroundColor: _brandColor,
             foregroundColor: Colors.white,
             systemOverlayStyle: SystemUiOverlayStyle.light,
-            title: const Text(
-              'Ingredient Library',
-              style: TextStyle(fontWeight: FontWeight.w600),
+            title: Text(
+              context.l10n.ingredientLibraryTitle,
+              style: const TextStyle(fontWeight: FontWeight.w600),
+            ),
+            flexibleSpace: FlexibleSpaceBar(
+              collapseMode: CollapseMode.parallax,
+              background: Stack(
+                fit: StackFit.expand,
+                children: [
+                  // Back pattern background
+                  const Image(
+                    image: AssetImage('assets/images/back.png'),
+                    fit: BoxFit.cover,
+                  ),
+                  // Brown overlay gradient
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          _brandColor.withValues(alpha: 0.6),
+                          _brandColor.withValues(alpha: 0.9),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             actions: [
               IconButton(
                 icon: const Icon(Icons.refresh_rounded),
                 onPressed: () => ref.invalidate(ingredientsListProvider),
-                tooltip: 'Refresh',
+                tooltip: context.l10n.actionRefresh,
               ),
               const SizedBox(width: 8),
             ],
@@ -52,7 +78,7 @@ class StoredIngredients extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'MANAGE INVENTORY',
+                    context.l10n.manageInventoryTitle,
                     style: Theme.of(context).textTheme.labelMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: _brandColor,
@@ -93,18 +119,27 @@ class StoredIngredients extends ConsumerWidget {
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
             sliver: SliverToBoxAdapter(
-              child: Row(
+              child: Wrap(
+                spacing: 12,
+                runSpacing: 8,
+                crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  Icon(Icons.science_rounded, color: _brandColor, size: 22),
-                  const SizedBox(width: 8),
-                  Text(
-                    'Custom Ingredients',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          color: _brandColor,
-                          fontWeight: FontWeight.bold,
-                        ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.science_rounded, color: _brandColor, size: 22),
+                      const SizedBox(width: 8),
+                      Text(
+                        context.l10n.customIngredientsTitle,
+                        style:
+                            Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  color: _brandColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
                   ),
-                  const Spacer(),
                   FilledButton.tonalIcon(
                     onPressed: () {
                       // Use direct path navigation for reliability
@@ -112,7 +147,7 @@ class StoredIngredients extends ConsumerWidget {
                       context.go('/newIngredient');
                     },
                     icon: const Icon(Icons.add_rounded, size: 18),
-                    label: const Text('Add New'),
+                    label: Text(context.l10n.actionAddNew),
                     style: FilledButton.styleFrom(
                       backgroundColor: _brandColor.withValues(alpha: 0.1),
                       foregroundColor: _brandColor,
@@ -144,34 +179,37 @@ class _RegionFilterBar extends ConsumerStatefulWidget {
 }
 
 class _RegionFilterBarState extends ConsumerState<_RegionFilterBar> {
-  static const _regions = [
-    'All',
-    'Africa',
-    'Asia',
-    'Europe',
-    'Americas',
-    'Oceania',
-    'Global'
-  ];
-
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(storeIngredientProvider);
     final selected = state.regionFilter ?? 'All';
 
+    // Map of region keys to translated names
+    final regions = {
+      'All': context.l10n.regionAll,
+      'Africa': context.l10n.regionAfrica,
+      'Asia': context.l10n.regionAsia,
+      'Europe': context.l10n.regionEurope,
+      'Americas': context.l10n.regionAmericas,
+      'Oceania': context.l10n.regionOceania,
+      'Global': context.l10n.regionGlobal,
+    };
+
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: _regions.map((r) {
+        children: regions.entries.map((entry) {
+          final key = entry.key;
+          final name = entry.value;
           final isSelected =
-              selected == r || (r == 'All' && state.regionFilter == null);
+              selected == key || (key == 'All' && state.regionFilter == null);
           return Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: ChoiceChip(
-              label: Text(r),
+              label: Text(name),
               selected: isSelected,
               onSelected: (_) {
-                ref.read(storeIngredientProvider.notifier).setRegionFilter(r);
+                ref.read(storeIngredientProvider.notifier).setRegionFilter(key);
               },
               selectedColor: const Color(0xff87643E).withValues(alpha: 0.2),
               labelStyle: TextStyle(
@@ -246,7 +284,7 @@ class _EditFormCardState extends ConsumerState<_EditFormCard> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Update Details',
+                    context.l10n.updateDetailsTitle,
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -278,8 +316,8 @@ class _EditFormCardState extends ConsumerState<_EditFormCard> {
                             const SizedBox(width: 6),
                             Text(
                               state.draftFavorite
-                                  ? 'Favorite'
-                                  : 'Add to favorites',
+                                  ? context.l10n.labelFavorite
+                                  : context.l10n.labelAddToFavorites,
                               style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
@@ -302,14 +340,19 @@ class _EditFormCardState extends ConsumerState<_EditFormCard> {
                 children: [
                   Expanded(
                     child: _ModernTextField(
-                      label: 'Price per kg',
+                      label: context.l10n.labelPricePerKg,
                       controller: _priceCtrl,
                       icon: Icons.attach_money_rounded,
                       onChanged: notifier.updateDraftPrice,
                       validator: (value) {
-                        if (value == null || value.isEmpty) return 'Required';
+                        if (value == null || value.isEmpty) {
+                          return context.l10n
+                              .errorRequired(context.l10n.labelPrice);
+                        }
                         final num = double.tryParse(value);
-                        if (num == null || num <= 0) return 'Must be > 0';
+                        if (num == null || num <= 0) {
+                          return context.l10n.errorPriceGreaterThanZero;
+                        }
                         return null;
                       },
                     ),
@@ -317,14 +360,19 @@ class _EditFormCardState extends ConsumerState<_EditFormCard> {
                   const SizedBox(width: 16),
                   Expanded(
                     child: _ModernTextField(
-                      label: 'Available Qty (kg)',
+                      label: context.l10n.labelAvailableQty,
                       controller: _qtyCtrl,
                       icon: Icons.inventory_2_rounded,
                       onChanged: notifier.updateDraftQty,
                       validator: (value) {
-                        if (value == null || value.isEmpty) return 'Required';
+                        if (value == null || value.isEmpty) {
+                          return context.l10n
+                              .errorRequired(context.l10n.labelQuantity);
+                        }
                         final num = double.tryParse(value);
-                        if (num == null || num < 0) return 'Must be ≥ 0';
+                        if (num == null || num < 0) {
+                          return context.l10n.errorQuantityGreaterOrEqual;
+                        }
                         return null;
                       },
                     ),
@@ -345,7 +393,7 @@ class _EditFormCardState extends ConsumerState<_EditFormCard> {
                       padding: const EdgeInsets.all(12),
                     ),
                     icon: const Icon(Icons.delete_outline_rounded),
-                    tooltip: 'Delete',
+                    tooltip: context.l10n.actionDelete,
                   ),
                   const SizedBox(width: 12),
 
@@ -358,7 +406,7 @@ class _EditFormCardState extends ConsumerState<_EditFormCard> {
                       padding: const EdgeInsets.all(12),
                     ),
                     icon: const Icon(Icons.trending_up_rounded),
-                    tooltip: 'Price History',
+                    tooltip: context.l10n.actionPriceHistory,
                   ),
                   const SizedBox(width: 12),
 
@@ -367,7 +415,7 @@ class _EditFormCardState extends ConsumerState<_EditFormCard> {
                     onPressed:
                         state.hasChanges ? () => notifier.resetDraft() : null,
                     icon: const Icon(Icons.refresh_rounded, size: 18),
-                    label: const Text('Reset'),
+                    label: Text(context.l10n.actionReset),
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 14),
@@ -390,7 +438,7 @@ class _EditFormCardState extends ConsumerState<_EditFormCard> {
                         ),
                       ),
                       icon: const Icon(Icons.save_rounded),
-                      label: const Text('Save Changes'),
+                      label: Text(context.l10n.actionSaveChanges),
                     ),
                   ),
                 ],
@@ -425,11 +473,11 @@ class _EditFormCardState extends ConsumerState<_EditFormCard> {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Row(
+            content: Row(
               children: [
-                Icon(Icons.check_circle_rounded, color: Colors.white),
-                SizedBox(width: 12),
-                Text('Ingredient updated successfully'),
+                const Icon(Icons.check_circle_rounded, color: Colors.white),
+                const SizedBox(width: 12),
+                Text(context.l10n.successIngredientUpdated),
               ],
             ),
             backgroundColor: Colors.green.shade600,
@@ -448,7 +496,8 @@ class _EditFormCardState extends ConsumerState<_EditFormCard> {
               children: [
                 const Icon(Icons.error_outline_rounded, color: Colors.white),
                 const SizedBox(width: 12),
-                Expanded(child: Text('Failed to save: $e')),
+                Expanded(
+                    child: Text(context.l10n.errorSaveFailed(e.toString()))),
               ],
             ),
             backgroundColor: Colors.red.shade600,
@@ -483,19 +532,17 @@ class _EditFormCardState extends ConsumerState<_EditFormCard> {
       builder: (context) => AlertDialog(
         icon: Icon(Icons.delete_forever_rounded,
             color: Colors.red.shade400, size: 32),
-        title: const Text('Delete Ingredient?'),
-        content: const Text(
-          'This will permanently remove this ingredient from your library. This action cannot be undone.',
-        ),
+        title: Text(context.l10n.deleteIngredientTitle),
+        content: Text(context.l10n.deleteIngredientMessage),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
+            child: Text(context.l10n.confirmCancel),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(context, true),
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text('Delete'),
+            child: Text(context.l10n.confirmDelete),
           ),
         ],
       ),
@@ -514,11 +561,11 @@ class _EditFormCardState extends ConsumerState<_EditFormCard> {
           if (context.mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: const Row(
+                content: Row(
                   children: [
-                    Icon(Icons.check_circle_rounded, color: Colors.white),
-                    SizedBox(width: 12),
-                    Text('Ingredient deleted'),
+                    const Icon(Icons.check_circle_rounded, color: Colors.white),
+                    const SizedBox(width: 12),
+                    Text(context.l10n.successIngredientDeleted),
                   ],
                 ),
                 backgroundColor: Colors.green.shade600,
@@ -530,7 +577,7 @@ class _EditFormCardState extends ConsumerState<_EditFormCard> {
           if (context.mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text('Failed to delete: $e'),
+                content: Text(context.l10n.errorDeleteFailed(e.toString())),
                 backgroundColor: Colors.red.shade600,
                 behavior: SnackBarBehavior.fixed,
               ),
