@@ -2,7 +2,6 @@ import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:feed_estimator/src/core/constants/ui_constants.dart';
 import 'package:go_router/go_router.dart';
 import 'package:feed_estimator/src/core/utils/logger.dart';
-import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

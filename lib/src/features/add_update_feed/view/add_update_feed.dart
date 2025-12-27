@@ -352,7 +352,7 @@ void _showAnalyseDialog(BuildContext context, int? feedId, String feedName) {
       feedId: feedId,
       feedName: feedName,
       analyseDialogTitle: l10n.analyseDialogTitle,
-      analyseDialogMessage: isNewFeed 
+      analyseDialogMessage: isNewFeed
           ? l10n.analyseDialogMessageNew(feedName)
           : l10n.analyseDialogMessageUpdate(feedName),
       analyseDialogNote: isNewFeed

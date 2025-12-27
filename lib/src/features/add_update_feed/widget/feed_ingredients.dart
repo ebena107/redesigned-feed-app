@@ -402,7 +402,7 @@ class _UpdateIngredientDialog extends ConsumerStatefulWidget {
   final String actionUpdate;
   final String labelName;
   final String errorDatabaseOperation;
-  
+
   const _UpdateIngredientDialog({
     required this.ingredientId,
     required this.labelPrice,
@@ -433,7 +433,7 @@ class _UpdateIngredientDialogState
   @override
   void initState() {
     super.initState();
-    
+
     final ingredient = _getIngredient();
     _priceController = TextEditingController(
       text: ingredient.priceUnitKg?.toString() ?? '',
@@ -441,6 +441,14 @@ class _UpdateIngredientDialogState
     _quantityController = TextEditingController(
       text: ingredient.quantity?.toString() ?? '',
     );
+  }
+
+  @override
+  void dispose() {
+    _priceController.dispose();
+    _quantityController.dispose();
+    super.dispose();
+  }
 
   FeedIngredients _getIngredient() {
     final data = ref.read(feedProvider);
