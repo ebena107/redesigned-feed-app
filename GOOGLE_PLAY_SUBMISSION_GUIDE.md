@@ -14,6 +14,7 @@ flutter build apk --release
 **Output**: `build/app/outputs/flutter-apk/app-release.apk` (~40-50 MB)
 
 **Verification**:
+
 ```bash
 # Check APK file exists and is properly signed
 dir build\app\outputs\flutter-apk\app-release.apk
@@ -24,11 +25,13 @@ dir build\app\outputs\flutter-apk\app-release.apk
 ## Step 2: Create Google Play Developer Account
 
 ### Prerequisites
+
 - Google Account
 - $25 one-time developer fee
 - Payment method (credit card)
 
 ### Steps
+
 1. Go to [Google Play Console](https://play.google.com/console)
 2. Click "Create app"
 3. Fill in:
@@ -45,16 +48,19 @@ dir build\app\outputs\flutter-apk\app-release.apk
 ### App Icons Required
 
 **1. Icon (192×192 PNG)**
+
 - Square, no rounded corners (system applies)
 - Safe area: 66×66 centered (33 pixels from edge)
 - File: `android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png`
 
 **2. Icon (512×512 PNG)**
+
 - Same design as 192×192 (scaled up)
 - Clear at small sizes
 - Used for Google Play Store display
 
 **Creation Instructions**:
+
 ```
 If icons don't exist, create using:
 - Flutter Icon Generator: https://pub.dev/packages/flutter_launcher_icons
@@ -72,11 +78,13 @@ Place in:
 **Purpose**: Displayed on your store listing page
 
 **Design**:
+
 - Title: "Feed Estimator"
 - Subtitle: "Professional Livestock Feed Formulation"
 - Highlight: Main features (ingredients, calculations, data export)
 
 **Create**:
+
 ```
 Use design tool (Canva, Figma, Photoshop):
 - Size: 1024×500 pixels
@@ -122,6 +130,7 @@ Use design tool (Canva, Figma, Photoshop):
    - No screenshot needed
 
 **How to Capture**:
+
 ```bash
 # Use Android emulator or real device
 flutter run -d emulator-5554
@@ -143,6 +152,7 @@ convert screenshot.png -resize 1080x1920 1080x1920.png
 ### Short Description (80 characters max)
 
 **Current**:
+
 ```
 Professional livestock feed formulation and nutritional analysis
 ```
@@ -243,10 +253,12 @@ Design cost-effective livestock feed with professional analysis
 ### Content Rating Questionnaire
 
 In Google Play Console:
+
 1. Go to **Policies > App content**
 2. Answer content rating questionnaire:
 
 **Typical Answers for Feed Estimator**:
+
 - Violence: None
 - Sexual content: None
 - Profanity: None
@@ -291,6 +303,7 @@ In Google Play Console:
 2. Click **Create new release**
 3. Upload: `build/app/outputs/flutter-apk/app-release.apk`
 4. Add Release Notes:
+
    ```
    v1.0.0+12 - December 2025
 
@@ -345,8 +358,8 @@ In Google Play Console:
 ### If Approved
 
 1. App appears on Google Play Store
-2. Links: 
-   - https://play.google.com/store/apps/details?id=ng.com.ebena.feed.app
+2. Links:
+   - <https://play.google.com/store/apps/details?id=ng.com.ebena.feed.app>
 3. Monitor:
    - Downloads
    - User reviews
@@ -367,18 +380,21 @@ In Google Play Console:
 ## Step 9: Post-Launch
 
 ### Day 1-7: Monitor
+
 - [ ] Check crash reports daily
 - [ ] Respond to user reviews
 - [ ] Monitor app ratings
 - [ ] Fix any reported bugs immediately
 
 ### Week 2: Update Marketing
+
 - [ ] Share announcement (social media, email)
 - [ ] Request early reviews from beta users
 - [ ] Monitor competitor apps
 - [ ] Plan v1.0.1 bug fixes
 
 ### Month 1: Analyze
+
 - [ ] 100+ downloads target
 - [ ] 4.5+ star rating
 - [ ] Zero crash reports
@@ -389,6 +405,7 @@ In Google Play Console:
 ## Important Reminders
 
 ⚠️ **Before Submitting**:
+
 1. ✅ Test on real Android 11+ device
 2. ✅ Verify all features work offline
 3. ✅ Check all localization strings
@@ -397,6 +414,7 @@ In Google Play Console:
 6. ✅ Verify database backup/restore
 
 ⚠️ **After Approval**:
+
 1. 📱 Release on both Google Play and GitHub Releases
 2. 📢 Announce to target users
 3. 📊 Monitor crash logs in Google Play Console
@@ -408,6 +426,7 @@ In Google Play Console:
 ## Troubleshooting
 
 ### APK Won't Upload
+
 ```
 Error: "Signature/version issue"
 Solution: 
@@ -417,6 +436,7 @@ Solution:
 ```
 
 ### App Rejected
+
 ```
 Common reasons:
 - Privacy policy not accessible
@@ -428,6 +448,7 @@ Solution: Review rejection reason, fix, resubmit
 ```
 
 ### Low Downloads
+
 ```
 Suggestions:
 - Improve app description (use keywords: feed, nutrition, animals)
@@ -458,10 +479,10 @@ dir build\app\outputs\flutter-apk\app-release.apk
 
 ## Support & Resources
 
-- **Google Play Developer Help**: https://support.google.com/googleplay/android-developer
-- **Submission Checklist**: https://play.google.com/console/developers
-- **Flutter Deployment**: https://docs.flutter.dev/deployment/android
-- **App Store Policies**: https://play.google.com/about/developer-content-policy/
+- **Google Play Developer Help**: <https://support.google.com/googleplay/android-developer>
+- **Submission Checklist**: <https://play.google.com/console/developers>
+- **Flutter Deployment**: <https://docs.flutter.dev/deployment/android>
+- **App Store Policies**: <https://play.google.com/about/developer-content-policy/>
 
 ---
 

@@ -13,11 +13,25 @@ const String _tag = 'AnalyseDataDialog';
 class AnalyseDataDialog extends ConsumerWidget {
   final num? feedId;
   final BuildContext parentContext;
+  final String feedName;
+  final String analyseDialogTitle;
+  final String analyseDialogMessage;
+  final String analyseDialogNote;
+  final String actionCancel;
+  final String actionAnalyse;
+  final String analyseDialogFailedMessage;
 
   const AnalyseDataDialog({
     super.key,
     required this.parentContext,
     this.feedId,
+    required this.feedName,
+    required this.analyseDialogTitle,
+    required this.analyseDialogMessage,
+    required this.analyseDialogNote,
+    required this.actionCancel,
+    required this.actionAnalyse,
+    required this.analyseDialogFailedMessage,
   });
 
   Future<void> _handleAnalyse(BuildContext context, WidgetRef ref) async {
@@ -60,7 +74,7 @@ class AnalyseDataDialog extends ConsumerWidget {
         // Show error message
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(context.l10n.analyseDialogFailedMessage),
+            content: Text(analyseDialogFailedMessage),
             backgroundColor: Colors.redAccent,
             duration: const Duration(seconds: 3),
             behavior: SnackBarBehavior.fixed,
@@ -73,11 +87,10 @@ class AnalyseDataDialog extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isNewFeed = feedId == null;
-    final feedName = ref.watch(feedProvider).feedName;
 
     return CupertinoAlertDialog(
       title: Text(
-        context.l10n.analyseDialogTitle,
+        analyseDialogTitle,
         style: TextStyle(
           color: isNewFeed
               ? AppConstants.appBlueColor
@@ -91,16 +104,12 @@ class AnalyseDataDialog extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              isNewFeed
-                  ? context.l10n.analyseDialogMessageNew(feedName)
-                  : context.l10n.analyseDialogMessageUpdate(feedName),
+              analyseDialogMessage,
               style: const TextStyle(fontSize: 14),
             ),
             const SizedBox(height: UIConstants.paddingSmall),
             Text(
-              isNewFeed
-                  ? context.l10n.analyseDialogPreviewNote
-                  : context.l10n.analyseDialogNoSaveNote,
+              analyseDialogNote,
               style: TextStyle(
                 fontSize: 12,
                 fontStyle: FontStyle.italic,
@@ -114,7 +123,7 @@ class AnalyseDataDialog extends ConsumerWidget {
         CupertinoDialogAction(
           isDefaultAction: true,
           onPressed: () => Navigator.of(context).pop(),
-          child: Text(context.l10n.actionCancel),
+          child: Text(actionCancel),
         ),
         CupertinoDialogAction(
           isDestructiveAction: false,
@@ -130,7 +139,7 @@ class AnalyseDataDialog extends ConsumerWidget {
                     : AppConstants.appCarrotColor,
               ),
               const SizedBox(width: UIConstants.paddingTiny),
-              Text(context.l10n.actionAnalyse),
+              Text(actionAnalyse),
             ],
           ),
         ),

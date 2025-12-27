@@ -280,9 +280,21 @@ void _showDeleteDialog(BuildContext context, WidgetRef ref, num? ingredientId) {
 
 /// Show update dialog for ingredient
 void _showUpdateDialog(BuildContext context, WidgetRef ref, num? ingredientId) {
+  final l10n = context.l10n;
   showDialog<void>(
     context: context,
-    builder: (context) => _UpdateIngredientDialog(ingredientId: ingredientId),
+    builder: (dialogContext) => _UpdateIngredientDialog(
+      ingredientId: ingredientId,
+      labelPrice: l10n.labelPrice,
+      labelQuantity: l10n.labelQuantity,
+      unitKg: l10n.unitKg,
+      hintEnterPrice: l10n.hintEnterPrice,
+      hintEnterQuantity: l10n.hintEnterQuantity,
+      actionCancel: l10n.actionCancel,
+      actionUpdate: l10n.actionUpdate,
+      labelName: l10n.labelName,
+      errorDatabaseOperation: l10n.errorDatabaseOperation,
+    ),
   );
 }
 
@@ -381,7 +393,28 @@ class _DeleteIngredientDialogState
 /// Update ingredient dialog with proper lifecycle management
 class _UpdateIngredientDialog extends ConsumerStatefulWidget {
   final num? ingredientId;
-  const _UpdateIngredientDialog({this.ingredientId});
+  final String labelPrice;
+  final String labelQuantity;
+  final String unitKg;
+  final String hintEnterPrice;
+  final String hintEnterQuantity;
+  final String actionCancel;
+  final String actionUpdate;
+  final String labelName;
+  final String errorDatabaseOperation;
+  
+  const _UpdateIngredientDialog({
+    required this.ingredientId,
+    required this.labelPrice,
+    required this.labelQuantity,
+    required this.unitKg,
+    required this.hintEnterPrice,
+    required this.hintEnterQuantity,
+    required this.actionCancel,
+    required this.actionUpdate,
+    required this.labelName,
+    required this.errorDatabaseOperation,
+  });
 
   @override
   ConsumerState<_UpdateIngredientDialog> createState() =>
@@ -400,6 +433,7 @@ class _UpdateIngredientDialogState
   @override
   void initState() {
     super.initState();
+    
     final ingredient = _getIngredient();
     _priceController = TextEditingController(
       text: ingredient.priceUnitKg?.toString() ?? '',
@@ -407,14 +441,6 @@ class _UpdateIngredientDialogState
     _quantityController = TextEditingController(
       text: ingredient.quantity?.toString() ?? '',
     );
-  }
-
-  @override
-  void dispose() {
-    _priceController.dispose();
-    _quantityController.dispose();
-    super.dispose();
-  }
 
   FeedIngredients _getIngredient() {
     final data = ref.read(feedProvider);
@@ -450,11 +476,10 @@ class _UpdateIngredientDialogState
         );
     final name = ingredient.name?.trim() ?? '';
     if (name.isEmpty) {
-      final fieldName = context.l10n.labelName;
       await ErrorDialog.show(
         context,
-        title: context.l10n.errorRequired(fieldName),
-        message: context.l10n.errorRequired(fieldName),
+        title: '${widget.labelName} is required',
+        message: '${widget.labelName} is required',
       );
       return;
     }
@@ -499,7 +524,7 @@ class _UpdateIngredientDialogState
 
       if (mounted) {
         setState(() => _isUpdating = false);
-        _showErrorSnackBar(context, context.l10n.errorDatabaseOperation);
+        _showErrorSnackBar(context, widget.errorDatabaseOperation);
       }
     }
   }
@@ -529,9 +554,8 @@ class _UpdateIngredientDialogState
                     ),
                     inputFormatters: InputValidators.numericFormatters,
                     decoration: InputDecoration(
-                      labelText:
-                          "${context.l10n.labelPrice} ${context.l10n.unitKg}",
-                      hintText: context.l10n.hintEnterPrice,
+                      labelText: "${widget.labelPrice} ${widget.unitKg}",
+                      hintText: widget.hintEnterPrice,
                       errorText: _priceError,
                       filled: false,
                       border: const UnderlineInputBorder(),
@@ -550,9 +574,8 @@ class _UpdateIngredientDialogState
                     ),
                     inputFormatters: InputValidators.numericFormatters,
                     decoration: InputDecoration(
-                      labelText:
-                          "${context.l10n.labelQuantity} (${context.l10n.unitKg})",
-                      hintText: context.l10n.hintEnterQuantity,
+                      labelText: "${widget.labelQuantity} (${widget.unitKg})",
+                      hintText: widget.hintEnterQuantity,
                       errorText: _quantityError,
                       filled: false,
                       border: const UnderlineInputBorder(),
@@ -574,7 +597,7 @@ class _UpdateIngredientDialogState
               : () {
                   Navigator.of(context).pop();
                 },
-          child: Text(context.l10n.actionCancel),
+          child: Text(widget.actionCancel),
         ),
         FilledButton(
           onPressed: _isUpdating ? null : _handleUpdate,
@@ -587,7 +610,7 @@ class _UpdateIngredientDialogState
                     color: Colors.white,
                   ),
                 )
-              : Text(context.l10n.actionUpdate),
+              : Text(widget.actionUpdate),
         ),
       ],
     );

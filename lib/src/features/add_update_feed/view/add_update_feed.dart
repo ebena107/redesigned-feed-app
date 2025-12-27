@@ -252,7 +252,7 @@ Future<void> _onItemTapped(
         }
 
         // Show analyse dialog
-        _showAnalyseDialog(context, feedId);
+        _showAnalyseDialog(context, feedId, feedName);
         break;
 
       default:
@@ -342,12 +342,25 @@ void _showSuccessSnackBar({
 }
 
 /// Show analyse confirmation dialog
-void _showAnalyseDialog(BuildContext context, int? feedId) {
+void _showAnalyseDialog(BuildContext context, int? feedId, String feedName) {
+  final l10n = context.l10n;
+  final isNewFeed = feedId == null;
   showDialog<void>(
     context: context,
     builder: (dialogContext) => AnalyseDataDialog(
       parentContext: context, // Pass parent context for navigation
       feedId: feedId,
+      feedName: feedName,
+      analyseDialogTitle: l10n.analyseDialogTitle,
+      analyseDialogMessage: isNewFeed 
+          ? l10n.analyseDialogMessageNew(feedName)
+          : l10n.analyseDialogMessageUpdate(feedName),
+      analyseDialogNote: isNewFeed
+          ? l10n.analyseDialogPreviewNote
+          : l10n.analyseDialogNoSaveNote,
+      actionCancel: l10n.actionCancel,
+      actionAnalyse: l10n.actionAnalyse,
+      analyseDialogFailedMessage: l10n.analyseDialogFailedMessage,
     ),
   );
 }
