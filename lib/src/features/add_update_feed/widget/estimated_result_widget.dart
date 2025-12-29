@@ -234,11 +234,11 @@ class EstimatedContentCard extends StatelessWidget {
           // Value with unit
           Flexible(
             flex: 3,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.baseline,
-              textBaseline: TextBaseline.alphabetic,
+            child: Wrap(
+              alignment: WrapAlignment.end,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: 2,
+              runSpacing: 0,
               children: [
                 Text(
                   displayValue,
@@ -247,9 +247,9 @@ class EstimatedContentCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     color: AppConstants.appBackgroundColor,
                   ),
+                  softWrap: false,
                 ),
-                if (displayUnit.isNotEmpty) ...[
-                  const SizedBox(width: 2),
+                if (displayUnit.isNotEmpty)
                   Text(
                     displayUnit,
                     style: const TextStyle(
@@ -257,7 +257,6 @@ class EstimatedContentCard extends StatelessWidget {
                       color: AppConstants.appBackgroundColor,
                     ),
                   ),
-                ],
               ],
             ),
           ),

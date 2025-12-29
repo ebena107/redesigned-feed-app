@@ -80,6 +80,7 @@ class _NutrientChip extends StatelessWidget {
     final borderColor = baseColor.shade100;
 
     return Container(
+      width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 2),
       decoration: BoxDecoration(
         color: bgColor,

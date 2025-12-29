@@ -34,7 +34,7 @@ class FeedGrid extends ConsumerWidget {
                   200.0, // Slightly wider for better card breathing room
               mainAxisSpacing: UIConstants.paddingMedium,
               crossAxisSpacing: UIConstants.paddingMedium,
-              childAspectRatio: 0.8, // Adjusted to prevent bottom overflow
+              childAspectRatio: 0.65, // Taller tiles to accommodate content
             ),
             delegate: SliverChildBuilderDelegate(
               (context, index) => FeedGridCard(feed: feeds[index]),
@@ -138,9 +138,9 @@ class FeedGridCard extends StatelessWidget {
                 ],
               ),
             ),
-            // CONTENT SECTION (35% height)
+            // CONTENT SECTION (more height for text and chips)
             Expanded(
-              flex: 40,
+              flex: 50,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: UIConstants.paddingSmall,
@@ -151,38 +151,36 @@ class FeedGridCard extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment:
-                      MainAxisAlignment.spaceEvenly, // Better distribution
+                      MainAxisAlignment.start, // Avoid compressing children
                   children: [
                     // Feed title and subtitle
-                    Flexible(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            feed.feedName ?? context.l10n.feedNameUnknown,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: theme.textTheme.labelLarge?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              height: 1.2, // Tighter line height
-                            ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          feed.feedName ?? context.l10n.feedNameUnknown,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textTheme.labelLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            height: 1.2, // Tighter line height
                           ),
-                          const SizedBox(height: 2),
-                          Text(
-                            context.l10n.feedSubtitle(
-                              animalName(id: animalId.toInt()),
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              fontSize: 10,
-                              color: theme.colorScheme.secondary,
-                              height: 1.2,
-                            ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          context.l10n.feedSubtitle(
+                            animalName(id: animalId.toInt()),
                           ),
-                        ],
-                      ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            fontSize: 10,
+                            color: theme.colorScheme.secondary,
+                            height: 1.2,
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 2),
                     // Nutrition footer with better spacing
