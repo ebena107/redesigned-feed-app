@@ -2,7 +2,6 @@ import 'package:feed_estimator/src/core/constants/ui_constants.dart';
 import 'package:feed_estimator/src/core/utils/input_validators.dart';
 import 'package:feed_estimator/src/core/utils/logger.dart';
 import 'package:feed_estimator/src/features/price_management/model/price_history.dart';
-import 'package:feed_estimator/src/features/price_management/provider/price_history_provider.dart';
 import 'package:feed_estimator/src/features/price_management/provider/price_update_notifier.dart';
 import 'package:feed_estimator/src/features/price_management/repository/price_history_repository.dart';
 import 'package:flutter/material.dart';
@@ -16,11 +15,13 @@ class PriceEditDialog extends ConsumerStatefulWidget {
   final int ingredientId;
   final PriceHistory? priceHistory;
   final VoidCallback? onSaved;
+  final BuildContext? parentContext;
 
   const PriceEditDialog({
     required this.ingredientId,
     this.priceHistory,
     this.onSaved,
+    this.parentContext,
     super.key,
   });
 
@@ -135,25 +136,11 @@ class _PriceEditDialogState extends ConsumerState<PriceEditDialog> {
       }
 
       if (mounted) {
-        // Invalidate cache
-        ref.invalidate(priceHistoryProvider(widget.ingredientId));
-
-        // Call callback
-        widget.onSaved?.call();
-
-        // Close dialog
+        // Close dialog first
         Navigator.of(context).pop();
-
-        // Show confirmation
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              widget.priceHistory != null ? 'Price updated' : 'Price recorded',
-            ),
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.green,
-          ),
-        );
+        // Notify parent (parent will show SnackBar)
+        widget.onSaved?.call();
+        // Parent handles provider invalidation and SnackBar
       }
     } catch (e, stackTrace) {
       AppLogger.error(
@@ -165,13 +152,7 @@ class _PriceEditDialogState extends ConsumerState<PriceEditDialog> {
 
       if (mounted) {
         setState(() => _isLoading = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Failed to save price. Please try again.'),
-            backgroundColor: Colors.red,
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
+        // Let parent decide how to notify on errors; dialog logs the error.
       }
     }
   }
@@ -244,10 +225,14 @@ class _PriceEditDialogState extends ConsumerState<PriceEditDialog> {
                     .map(
                       (currency) => DropdownMenuItem(
                         value: currency,
-                        child: Text(currency),
+                        child: Text(
+                          currency,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     )
                     .toList(),
+                isExpanded: true,
                 onChanged: _isLoading
                     ? null
                     : (value) {
@@ -312,10 +297,14 @@ class _PriceEditDialogState extends ConsumerState<PriceEditDialog> {
                     .map(
                       (source) => DropdownMenuItem(
                         value: source,
-                        child: Text(_formatSourceLabel(source)),
+                        child: Text(
+                          _formatSourceLabel(source),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     )
                     .toList(),
+                isExpanded: true,
                 onChanged: _isLoading
                     ? null
                     : (value) {

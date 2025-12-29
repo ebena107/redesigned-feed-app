@@ -293,40 +293,44 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       children: [
         Padding(
           padding: const EdgeInsets.all(16),
-          child: DropdownButtonFormField<AppLocale>(
-            value: currentLocale,
-            onChanged: (AppLocale? newLocale) {
-              if (newLocale != null) {
-                ref.read(localizationProvider.notifier).setLocale(newLocale);
+          child: SizedBox(
+            width: double.infinity,
+            child: DropdownButtonFormField<AppLocale>(
+              value: currentLocale,
+              isExpanded: true,
+              onChanged: (AppLocale? newLocale) {
+                if (newLocale != null) {
+                  ref.read(localizationProvider.notifier).setLocale(newLocale);
 
-                // Show success message with selected language
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      context.l10n
-                          .settingsLanguageUpdated(newLocale.displayName),
+                  // Show success message with selected language
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        context.l10n
+                            .settingsLanguageUpdated(newLocale.displayName),
+                      ),
+                      duration: const Duration(seconds: 2),
+                      behavior: SnackBarBehavior.fixed,
                     ),
-                    duration: const Duration(seconds: 2),
-                    behavior: SnackBarBehavior.fixed,
-                  ),
+                  );
+                }
+              },
+              items: availableLocales.map((al) {
+                final hasFramework = hasFrameworkSupport(al);
+                // Show all locales as enabled, with note about framework support
+                final label = hasFramework
+                    ? al.displayName
+                    : context.l10n.settingsLanguageLimitedUI(al.displayName);
+                return DropdownMenuItem<AppLocale>(
+                  value: al,
+                  child: Text(label, overflow: TextOverflow.ellipsis),
                 );
-              }
-            },
-            items: availableLocales.map((al) {
-              final hasFramework = hasFrameworkSupport(al);
-              // Show all locales as enabled, with note about framework support
-              final label = hasFramework
-                  ? al.displayName
-                  : context.l10n.settingsLanguageLimitedUI(al.displayName);
-              return DropdownMenuItem<AppLocale>(
-                value: al,
-                child: Text(label),
-              );
-            }).toList(),
-            decoration: InputDecoration(
-              labelText: context.l10n.settingsSelectLanguage,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+              }).toList(),
+              decoration: InputDecoration(
+                labelText: context.l10n.settingsSelectLanguage,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
               ),
             ),
           ),
@@ -338,7 +342,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   Future<void> _launchPrivacyPolicy() async {
     // Privacy policy URL - hosted on GitHub
     const url =
-        'https://github.com/ebena-ng/feed-estimator/blob/main/PRIVACY_POLICY.md';
+        'https://raw.githubusercontent.com/ebena107/redesigned-feed-app/main/PRIVACY_POLICY.md';
 
     final uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
