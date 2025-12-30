@@ -283,11 +283,13 @@ class _EditFormCardState extends ConsumerState<_EditFormCard> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    context.l10n.updateDetailsTitle,
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                  Expanded(
+                    child: Text(
+                      context.l10n.updateDetailsTitle,
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
                   ),
                   Material(
                     color: state.draftFavorite
@@ -381,65 +383,92 @@ class _EditFormCardState extends ConsumerState<_EditFormCard> {
               ),
               const SizedBox(height: 24),
 
-              // Action buttons
-              Row(
+              // Action buttons - Responsive layout
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // Delete button
-                  IconButton.filledTonal(
-                    onPressed: () => _confirmDelete(context, ref),
-                    style: IconButton.styleFrom(
-                      backgroundColor: Colors.red.shade50,
-                      foregroundColor: Colors.red.shade700,
-                      padding: const EdgeInsets.all(12),
-                    ),
-                    icon: const Icon(Icons.delete_outline_rounded),
-                    tooltip: context.l10n.actionDelete,
-                  ),
-                  const SizedBox(width: 12),
-
-                  // Price history button
-                  IconButton.filledTonal(
-                    onPressed: () => _viewPriceHistory(context),
-                    style: IconButton.styleFrom(
-                      backgroundColor: Colors.blue.shade50,
-                      foregroundColor: Colors.blue.shade700,
-                      padding: const EdgeInsets.all(12),
-                    ),
-                    icon: const Icon(Icons.trending_up_rounded),
-                    tooltip: context.l10n.actionPriceHistory,
-                  ),
-                  const SizedBox(width: 12),
-
-                  // Reset button
-                  OutlinedButton.icon(
-                    onPressed:
-                        state.hasChanges ? () => notifier.resetDraft() : null,
-                    icon: const Icon(Icons.refresh_rounded, size: 18),
-                    label: Text(context.l10n.actionReset),
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 14),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-
-                  // Save button
-                  Expanded(
-                    child: FilledButton.icon(
-                      onPressed: state.hasChanges && state.isValid
-                          ? () => _saveChanges(context, ref)
-                          : null,
-                      style: FilledButton.styleFrom(
-                        backgroundColor: widget.brandColor,
-                        disabledBackgroundColor: Colors.grey.shade300,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                  // Top row: Secondary actions
+                  Row(
+                    children: [
+                      // Delete button
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          onPressed: () => _confirmDelete(context, ref),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: Colors.red.shade700,
+                            side: BorderSide(color: Colors.red.shade300),
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                          ),
+                          icon: const Icon(Icons.delete_outline_rounded,
+                              size: 18),
+                          label: Text(context.l10n.actionDelete),
                         ),
                       ),
-                      icon: const Icon(Icons.save_rounded),
-                      label: Text(context.l10n.actionSaveChanges),
-                    ),
+                      const SizedBox(width: 8),
+
+                      // Price history button
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          onPressed: () => _viewPriceHistory(context),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: Colors.blue.shade700,
+                            side: BorderSide(color: Colors.blue.shade300),
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                          ),
+                          icon: const Icon(Icons.trending_up_rounded, size: 18),
+                          label: Text(context.l10n.actionPriceHistory),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Bottom row: Primary actions
+                  Row(
+                    children: [
+                      // Reset button
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          onPressed: state.hasChanges
+                              ? () => notifier.resetDraft()
+                              : null,
+                          icon: const Icon(Icons.refresh_rounded, size: 18),
+                          label: Text(context.l10n.actionReset),
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+
+                      // Save button - PRIMARY ACTION
+                      Expanded(
+                        flex: 2,
+                        child: FilledButton.icon(
+                          onPressed: state.hasChanges && state.isValid
+                              ? () => _saveChanges(context, ref)
+                              : null,
+                          style: FilledButton.styleFrom(
+                            backgroundColor: widget.brandColor,
+                            disabledBackgroundColor: Colors.grey.shade300,
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            elevation:
+                                state.hasChanges && state.isValid ? 2 : 0,
+                          ),
+                          icon: const Icon(Icons.save_rounded, size: 20),
+                          label: Text(
+                            context.l10n.actionSaveChanges,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
