@@ -5,6 +5,7 @@ import 'package:feed_estimator/src/features/add_ingredients/provider/user_ingred
 import 'package:feed_estimator/src/features/price_management/provider/price_history_provider.dart';
 import 'package:feed_estimator/src/features/price_management/widget/price_trend_chart.dart';
 import 'package:feed_estimator/src/utils/widgets/modern_dialogs.dart';
+import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -57,7 +58,8 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      'Your Custom Ingredients (${state.userIngredients.length})',
+                      context.l10n.customIngredientsHeader(
+                          state.userIngredients.length),
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
@@ -74,7 +76,7 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
                     Expanded(
                       child: OutlinedButton.icon(
                         icon: const Icon(Icons.download, size: 18),
-                        label: const Text('Export'),
+                        label: Text(context.l10n.actionExport),
                         onPressed: () => _showExportDialog(context),
                         style: OutlinedButton.styleFrom(
                           foregroundColor: Colors.green,
@@ -89,7 +91,7 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
                   Expanded(
                     child: OutlinedButton.icon(
                       icon: const Icon(Icons.upload, size: 18),
-                      label: const Text('Import'),
+                      label: Text(context.l10n.actionImport),
                       onPressed: () => _showImportDialog(context),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: Colors.blue,
@@ -117,7 +119,7 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
                 setState(() {});
               },
               decoration: InputDecoration(
-                hintText: 'Search your custom ingredients...',
+                hintText: context.l10n.customIngredientsSearchHint,
                 prefixIcon: const Icon(Icons.search),
                 suffixIcon: _searchController.text.isNotEmpty
                     ? IconButton(
@@ -158,8 +160,8 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
                   const SizedBox(height: 8),
                   Text(
                     state.userIngredients.isEmpty
-                        ? 'No custom ingredients yet.\nCreate your first custom ingredient!'
-                        : 'No ingredients match your search.',
+                        ? '${context.l10n.customIngredientsEmptyTitle}\n${context.l10n.customIngredientsEmptySubtitle}'
+                        : context.l10n.customIngredientsNoMatch,
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.grey.shade600),
                   ),
@@ -218,7 +220,8 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
                           ),
                           if (ingredient.createdBy != null)
                             Text(
-                              'by ${ingredient.createdBy}',
+                              context.l10n
+                                  .labelCreatedBy(ingredient.createdBy!),
                               style: TextStyle(
                                 fontSize: 12,
                                 color: Colors.grey.shade600,
@@ -246,27 +249,27 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
                   childAspectRatio: 1.5,
                   children: [
                     _nutrientTile(
-                      'Protein',
+                      context.l10n.labelProtein,
                       '${ingredient.crudeProtein ?? 0}%',
                     ),
                     _nutrientTile(
-                      'Fat',
+                      context.l10n.labelFat,
                       '${ingredient.crudeFat ?? 0}%',
                     ),
                     _nutrientTile(
-                      'Fiber',
+                      context.l10n.labelFiber,
                       '${ingredient.crudeFiber ?? 0}%',
                     ),
                     _nutrientTile(
-                      'Ca',
+                      context.l10n.labelCa,
                       '${ingredient.calcium ?? 0}%',
                     ),
                     _nutrientTile(
-                      'P',
+                      context.l10n.labelP,
                       '${ingredient.phosphorus ?? 0}%',
                     ),
                     _nutrientTile(
-                      'Price',
+                      context.l10n.labelPrice,
                       '\$${ingredient.priceKg ?? 0}',
                     ),
                   ],
@@ -286,7 +289,7 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Notes:',
+                          context.l10n.labelNotes,
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
@@ -336,7 +339,7 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          'Price History',
+                          context.l10n.labelPriceHistory,
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
@@ -369,7 +372,7 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
                         padding: const EdgeInsets.all(16.0),
                         child: Center(
                           child: Text(
-                            'No price history available',
+                            context.l10n.priceHistoryEmpty,
                             style: TextStyle(
                               color: Colors.grey.shade600,
                               fontSize: 12,
@@ -397,7 +400,7 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
                     padding: const EdgeInsets.all(16.0),
                     child: Center(
                       child: Text(
-                        'Error loading price history',
+                        context.l10n.priceHistoryError,
                         style: TextStyle(
                           color: Colors.red.shade600,
                           fontSize: 12,
@@ -451,14 +454,14 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
     showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('Delete Custom Ingredient?'),
+        title: Text(context.l10n.deleteCustomIngredientTitle),
         content: Text(
-          'Remove "${ingredient.name}" from your custom ingredients?',
+          context.l10n.deleteCustomIngredientMessage(ingredient.name ?? ''),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext),
-            child: const Text('Cancel'),
+            child: Text(context.l10n.actionCancel),
           ),
           TextButton(
             onPressed: () async {
@@ -473,13 +476,15 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
 
               scaffoldMessenger.showSnackBar(
                 SnackBar(
-                  content: Text('${ingredient.name} removed'),
+                  content: Text(context.l10n
+                      .ingredientRemovedSuccess(ingredient.name ?? '')),
                   duration: const Duration(seconds: 2),
                   backgroundColor: Colors.green,
                 ),
               );
             },
-            child: const Text('Delete', style: TextStyle(color: Colors.red)),
+            child: Text(context.l10n.actionDelete,
+                style: const TextStyle(color: Colors.red)),
           ),
         ],
       ),
@@ -488,30 +493,30 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
 
   /// Show export format selection dialog
   void _showExportDialog(BuildContext context) {
+    final l10n = context.l10n; // Capture before dialog
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Export Format'),
-        content:
-            const Text('Choose export format for your custom ingredients:'),
+      builder: (dialogContext) => AlertDialog(
+        title: Text(l10n.exportFormatTitle),
+        content: Text(l10n.exportFormatMessage),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            onPressed: () => Navigator.pop(dialogContext),
+            child: Text(l10n.actionCancel),
           ),
           TextButton(
             onPressed: () async {
-              Navigator.pop(context);
+              Navigator.pop(dialogContext);
               await _exportToJson(context);
             },
-            child: const Text('JSON'),
+            child: Text(l10n.actionJson),
           ),
           TextButton(
             onPressed: () async {
-              Navigator.pop(context);
+              Navigator.pop(dialogContext);
               await _exportToCsv(context);
             },
-            child: const Text('CSV'),
+            child: Text(l10n.actionCsv),
           ),
         ],
       ),
@@ -521,7 +526,7 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
   /// Export to JSON file
   Future<void> _exportToJson(BuildContext context) async {
     try {
-      LoadingDialog.show(context, message: 'Exporting to JSON...');
+      LoadingDialog.show(context, message: context.l10n.exportingToJson);
 
       final file =
           await ref.read(userIngredientsProvider.notifier).exportToJsonFile();
@@ -542,8 +547,8 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
             );
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('✗ Export failed'),
+              SnackBar(
+                content: Text(context.l10n.exportFailed),
                 backgroundColor: Colors.red,
               ),
             );
@@ -560,7 +565,7 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('✗ Export failed: $e'),
+              content: Text(context.l10n.exportFailedWithError(e.toString())),
               backgroundColor: Colors.red,
             ),
           );
@@ -572,7 +577,7 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
   /// Export to CSV file
   Future<void> _exportToCsv(BuildContext context) async {
     try {
-      LoadingDialog.show(context, message: 'Exporting to CSV...');
+      LoadingDialog.show(context, message: context.l10n.exportingToCsv);
 
       final file =
           await ref.read(userIngredientsProvider.notifier).exportToCsvFile();
@@ -593,8 +598,8 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
             );
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('✗ Export failed'),
+              SnackBar(
+                content: Text(context.l10n.exportFailed),
                 backgroundColor: Colors.red,
               ),
             );
@@ -611,7 +616,7 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('✗ Export failed: $e'),
+              content: Text(context.l10n.exportFailedWithError(e.toString())),
               backgroundColor: Colors.red,
             ),
           );
@@ -622,29 +627,30 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
 
   /// Show import format selection dialog
   void _showImportDialog(BuildContext context) {
+    final l10n = context.l10n; // Capture before dialog
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Import Custom Ingredients'),
-        content: const Text('Choose the file format to import:'),
+      builder: (dialogContext) => AlertDialog(
+        title: Text(l10n.importCustomIngredientsTitle),
+        content: Text(l10n.importFormatMessage),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            onPressed: () => Navigator.pop(dialogContext),
+            child: Text(l10n.actionCancel),
           ),
           TextButton(
             onPressed: () async {
-              Navigator.pop(context);
+              Navigator.pop(dialogContext);
               await _importWithFilePicker(context, isJson: true);
             },
-            child: const Text('JSON'),
+            child: Text(l10n.actionJson),
           ),
           TextButton(
             onPressed: () async {
-              Navigator.pop(context);
+              Navigator.pop(dialogContext);
               await _importWithFilePicker(context, isJson: false);
             },
-            child: const Text('CSV'),
+            child: Text(l10n.actionCsv),
           ),
         ],
       ),
@@ -673,16 +679,16 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
         showDialog(
           context: context,
           barrierDismissible: false,
-          builder: (context) => const Center(
+          builder: (context) => Center(
             child: Card(
               child: Padding(
-                padding: EdgeInsets.all(24),
+                padding: const EdgeInsets.all(24),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    CircularProgressIndicator(),
-                    SizedBox(height: 16),
-                    Text('Importing data...'),
+                    const CircularProgressIndicator(),
+                    const SizedBox(height: 16),
+                    Text(context.l10n.importingData),
                   ],
                 ),
               ),
@@ -730,13 +736,13 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
               size: 48,
             ),
             title: Text(state.status == 'success'
-                ? 'Import Successful'
-                : 'Import Failed'),
+                ? context.l10n.importSuccessTitle
+                : context.l10n.importFailedTitle),
             content: Text(state.message),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(dialogContext),
-                child: const Text('OK'),
+                child: Text(context.l10n.actionOk),
               ),
             ],
           ),

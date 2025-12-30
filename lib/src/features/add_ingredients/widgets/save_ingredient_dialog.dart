@@ -1,4 +1,5 @@
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
+import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -69,7 +70,9 @@ class SaveIngredientDialog extends ConsumerWidget {
 
                   // Success message
                   Text(
-                    '${name?.toUpperCase() ?? "Ingredient"}\nAdded Successfully',
+                    context.l10n.ingredientAddedSuccessTitle(
+                      name?.toUpperCase() ?? context.l10n.labelIngredient,
+                    ),
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                           fontWeight: FontWeight.w700,
@@ -80,7 +83,7 @@ class SaveIngredientDialog extends ConsumerWidget {
 
                   // Description
                   Text(
-                    'Would you like to add another ingredient?',
+                    context.l10n.ingredientAddedSuccessMessage,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Colors.grey.shade600,
@@ -105,7 +108,7 @@ class SaveIngredientDialog extends ConsumerWidget {
                             ),
                           ),
                           child: Text(
-                            'No, Go Back',
+                            context.l10n.ingredientAddedNo,
                             style: Theme.of(context)
                                 .textTheme
                                 .labelLarge
@@ -127,7 +130,7 @@ class SaveIngredientDialog extends ConsumerWidget {
                             padding: const EdgeInsets.symmetric(vertical: 12),
                           ),
                           child: Text(
-                            'Yes, Continue',
+                            context.l10n.ingredientAddedYes,
                             style: Theme.of(context)
                                 .textTheme
                                 .labelLarge

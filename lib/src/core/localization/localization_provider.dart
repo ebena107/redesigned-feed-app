@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+/// Provider for managing app localization state
+final localizationProvider = NotifierProvider<LocalizationNotifier, AppLocale>(
+  LocalizationNotifier.new,
+);
+
 /// Supported locales in the app
 enum AppLocale {
   en('English', Locale('en', 'US')),
@@ -42,13 +47,21 @@ enum AppLocale {
 }
 
 /// Notifier for managing app localization
-class LocalizationNotifier extends StateNotifier<AppLocale> {
-  LocalizationNotifier(this._prefs) : super(AppLocale.en) {
-    _loadSavedLocale();
+class LocalizationNotifier extends Notifier<AppLocale> {
+  late SharedPreferences _prefs;
+  static const String _localePrefKey = 'app_locale';
+
+  @override
+  AppLocale build() {
+    _initializePrefs();
+    return AppLocale.en;
   }
 
-  final SharedPreferences _prefs;
-  static const String _localePrefKey = 'app_locale';
+  /// Initialize SharedPreferences and load saved locale
+  Future<void> _initializePrefs() async {
+    _prefs = await SharedPreferences.getInstance();
+    _loadSavedLocale();
+  }
 
   /// Load the previously saved locale from SharedPreferences
   Future<void> _loadSavedLocale() async {
@@ -70,15 +83,6 @@ class LocalizationNotifier extends StateNotifier<AppLocale> {
     await setLocale(appLocale);
   }
 }
-
-/// Provider for localization state management
-final localizationProvider =
-    StateNotifierProvider<LocalizationNotifier, AppLocale>((ref) {
-  // This will be initialized properly in main.dart with SharedPreferences
-  throw UnimplementedError(
-    'localizationProvider must be overridden in main.dart',
-  );
-});
 
 /// Helper provider to get supported locales for MaterialApp
 final supportedLocalesProvider = Provider<List<Locale>>((ref) {

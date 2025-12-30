@@ -1241,5 +1241,309 @@
         "example": "BROILER STARTER"
       }
     }
+  },
+  
+  "formSectionBasicInfo": "Basic Information",
+  "@formSectionBasicInfo": {
+    "description": "Form section header for basic ingredient information"
+  },
+  "formSectionEnergyValues": "Energy Values",
+  "@formSectionEnergyValues": {
+    "description": "Form section header for energy values"
+  },
+  "formSectionMacronutrients": "Macronutrients",
+  "@formSectionMacronutrients": {
+    "description": "Form section header for macronutrients"
+  },
+  "formSectionMicronutrients": "Micronutrients",
+  "@formSectionMicronutrients": {
+    "description": "Form section header for micronutrients"
+  },
+  "formSectionCostAvailability": "Cost & Availability",
+  "@formSectionCostAvailability": {
+    "description": "Form section header for cost and availability"
+  },
+  "formSectionAdditionalInfo": "Additional Information",
+  "@formSectionAdditionalInfo": {
+    "description": "Form section header for additional information"
+  },
+  "fieldHintEnergyMode": "Enter Energy Values for each specific group of animals?",
+  "@fieldHintEnergyMode": {
+    "description": "Label for energy mode selector checkbox"
+  },
+  "fieldLabelAdultPigs": "Adult Pigs",
+  "@fieldLabelAdultPigs": {
+    "description": "Label for adult pigs energy field"
+  },
+  "fieldLabelGrowingPigs": "Growing Pigs",
+  "@fieldLabelGrowingPigs": {
+    "description": "Label for growing pigs energy field"
+  },
+  "fieldLabelPoultry": "Poultry",
+  "@fieldLabelPoultry": {
+    "description": "Label for poultry energy field"
+  },
+  "fieldLabelRabbit": "Rabbit",
+  "@fieldLabelRabbit": {
+    "description": "Label for rabbit energy field"
+  },
+  "fieldLabelRuminant": "Ruminant",
+  "@fieldLabelRuminant": {
+    "description": "Label for ruminant energy field"
+  },
+  "fieldLabelFish": "Fish",
+  "@fieldLabelFish": {
+    "description": "Label for fish/salmonids energy field"
+  },
+  "fieldLabelCreatedBy": "Created By",
+  "@fieldLabelCreatedBy": {
+    "description": "Label for creator name field"
+  },
+  "fieldLabelNotes": "Notes",
+  "@fieldLabelNotes": {
+    "description": "Label for notes field"
+  },
+  "customIngredientHeader": "Creating Custom Ingredient",
+  "@customIngredientHeader": {
+    "description": "Header title for custom ingredient creation"
+  },
+  "customIngredientDescription": "You can add your own ingredient with custom nutritional values",
+  "@customIngredientDescription": {
+    "description": "Description text for custom ingredient creation"
+  },
+  
+  "addFeedTitle": "Add Feed",
+  "@addFeedTitle": {
+    "description": "Title for add feed screen"
+  },
+  "updateFeedTitle": "Update Feed",
+  "@updateFeedTitle": {
+    "description": "Title for update feed screen"
+  },
+  "newIngredientTitle": "New Ingredient",
+  "@newIngredientTitle": {
+    "description": "Title for new ingredient form"
+  },
+  "fieldLabelFeedName": "Feed Name",
+  "@fieldLabelFeedName": {
+    "description": "Label for feed name field"
+  },
+  "fieldLabelAnimalType": "Animal Type",
+  "@fieldLabelAnimalType": {
+    "description": "Label for animal type selection field"
+  },
+  "fieldLabelProductionStage": "Production Stage",
+  "@fieldLabelProductionStage": {
+    "description": "Label for production stage field"
+  },
+  "actionAddIngredients": "Add Ingredients",
+  "@actionAddIngredients": {
+    "description": "Action button to add ingredients"
+  },
+  "tooltipAddIngredients": "Add ingredients to your feed formulation",
+  "@tooltipAddIngredients": {
+    "description": "Tooltip for add ingredients button"
+  },
+  "tooltipSaveFeed": "Save your feed formulation",
+  "@tooltipSaveFeed": {
+    "description": "Tooltip for save feed button"
+  },
+  "tooltipUpdateFeed": "Update your feed formulation",
+  "@tooltipUpdateFeed": {
+    "description": "Tooltip for update feed button"
+  },
+  "tooltipAnalyseFeed": "Analyze the nutritional composition of your feed",
+  "@tooltipAnalyseFeed": {
+    "description": "Tooltip for analyze feed button"
+  },
+  
+  "ingredientAddedSuccessTitle": "{name} Added Successfully",
+  "@ingredientAddedSuccessTitle": {
+    "description": "Success dialog title when ingredient is added",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Corn"
+      }
+    }
+  },
+  "ingredientAddedSuccessMessage": "Would you like to add another ingredient?",
+  "@ingredientAddedSuccessMessage": {
+    "description": "Success dialog message asking if user wants to continue"
+  },
+  "ingredientAddedNo": "No, Go Back",
+  "@ingredientAddedNo": {
+    "description": "Button to decline adding another ingredient"
+  },
+  "ingredientAddedYes": "Yes, Continue",
+  "@ingredientAddedYes": {
+    "description": "Button to continue adding ingredients"
+  },
+  
+  "customIngredientsHeader": "Your Custom Ingredients ({count})",
+  "@customIngredientsHeader": {
+    "description": "Header showing count of custom ingredients",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "customIngredientsSearchHint": "Search your custom ingredients...",
+  "@customIngredientsSearchHint": {
+    "description": "Search field hint for custom ingredients"
+  },
+  "customIngredientsEmptyTitle": "No custom ingredients yet",
+  "@customIngredientsEmptyTitle": {
+    "description": "Empty state title when no custom ingredients exist"
+  },
+  "customIngredientsEmptySubtitle": "Create your first custom ingredient!",
+  "@customIngredientsEmptySubtitle": {
+    "description": "Empty state subtitle encouraging creation"
+  },
+  "customIngredientsNoMatch": "No ingredients match your search",
+  "@customIngredientsNoMatch": {
+    "description": "Message when search returns no results"
+  },
+  
+  "labelCreatedBy": "by {creator}",
+  "@labelCreatedBy": {
+    "description": "Label showing ingredient creator",
+    "placeholders": {
+      "creator": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "labelNotes": "Notes:",
+  "@labelNotes": {
+    "description": "Label for notes section"
+  },
+  "labelPriceHistory": "Price History",
+  "@labelPriceHistory": {
+    "description": "Label for price history section"
+  },
+  "labelCa": "Ca",
+  "@labelCa": {
+    "description": "Short label for Calcium"
+  },
+  "labelP": "P",
+  "@labelP": {
+    "description": "Short label for Phosphorus"
+  },
+  
+  "priceHistoryEmpty": "No price history available",
+  "@priceHistoryEmpty": {
+    "description": "Message when no price history exists"
+  },
+  "priceHistoryError": "Error loading price history",
+  "@priceHistoryError": {
+    "description": "Error message for price history loading failure"
+  },
+  
+  "deleteCustomIngredientTitle": "Delete Custom Ingredient?",
+  "@deleteCustomIngredientTitle": {
+    "description": "Confirmation dialog title for deleting custom ingredient"
+  },
+  "deleteCustomIngredientMessage": "Remove \"{name}\" from your custom ingredients?",
+  "@deleteCustomIngredientMessage": {
+    "description": "Confirmation message for deleting custom ingredient",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "My Custom Mix"
+      }
+    }
+  },
+  "ingredientRemovedSuccess": "{name} removed",
+  "@ingredientRemovedSuccess": {
+    "description": "Success message after ingredient removal",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Corn"
+      }
+    }
+  },
+  
+  "exportFormatTitle": "Export Format",
+  "@exportFormatTitle": {
+    "description": "Dialog title for export format selection"
+  },
+  "exportFormatMessage": "Choose export format for your custom ingredients:",
+  "@exportFormatMessage": {
+    "description": "Dialog message for export format selection"
+  },
+  "exportingToJson": "Exporting to JSON...",
+  "@exportingToJson": {
+    "description": "Loading message while exporting to JSON"
+  },
+  "exportingToCsv": "Exporting to CSV...",
+  "@exportingToCsv": {
+    "description": "Loading message while exporting to CSV"
+  },
+  "exportFailed": "Export failed",
+  "@exportFailed": {
+    "description": "Error message when export fails"
+  },
+  "exportFailedWithError": "Export failed: {error}",
+  "@exportFailedWithError": {
+    "description": "Error message with details when export fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "File write error"
+      }
+    }
+  },
+  
+  "importCustomIngredientsTitle": "Import Custom Ingredients",
+  "@importCustomIngredientsTitle": {
+    "description": "Dialog title for importing custom ingredients"
+  },
+  "importFormatMessage": "Choose the file format to import:",
+  "@importFormatMessage": {
+    "description": "Dialog message for import format selection"
+  },
+  "importingData": "Importing data...",
+  "@importingData": {
+    "description": "Loading message while importing"
+  },
+  "importSuccessTitle": "Import Successful",
+  "@importSuccessTitle": {
+    "description": "Success dialog title after import"
+  },
+  "importFailedTitle": "Import Failed",
+  "@importFailedTitle": {
+    "description": "Error dialog title after failed import"
+  },
+  "importError": "Error: {error}",
+  "@importError": {
+    "description": "Error message with details",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Invalid file format"
+      }
+    }
+  },
+  
+  "actionOk": "OK",
+  "@actionOk": {
+    "description": "OK button label"
+  },
+  "actionJson": "JSON",
+  "@actionJson": {
+    "description": "JSON format option"
+  },
+  "actionCsv": "CSV",
+  "@actionCsv": {
+    "description": "CSV format option"
+  },
+  "labelIngredient": "Ingredient",
+  "@labelIngredient": {
+    "description": "Generic label for ingredient"
   }
 }

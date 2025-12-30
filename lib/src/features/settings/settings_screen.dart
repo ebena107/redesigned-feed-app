@@ -390,16 +390,20 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         await Future.delayed(const Duration(milliseconds: 500));
       }
 
-      // THEN show success dialog
+      // THEN show success dialog - capture localization BEFORE showing dialog
       if (mounted) {
+        final l10n =
+            context.l10n; // Capture from widget context, not dialog context
         showDialog(
           context: context,
-          builder: (context) => AlertDialog(
+          builder: (dialogContext) => AlertDialog(
             title: Row(
               children: [
                 Icon(Icons.check_circle, color: Colors.green[600], size: 28),
                 const SizedBox(width: 12),
-                Text(context.l10n.settingsExportSuccess),
+                Expanded(
+                  child: Text(l10n.settingsExportSuccess),
+                ),
               ],
             ),
             content: Column(
@@ -407,7 +411,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  context.l10n.settingsExportSuccessMessage,
+                  l10n.settingsExportSuccessMessage,
                   style: const TextStyle(fontWeight: FontWeight.w500),
                 ),
                 const SizedBox(height: 16),
@@ -440,8 +444,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               OutlinedButton.icon(
                 onPressed: () async {
                   try {
+                    // Capture navigator before closing dialog
+                    final navigator = Navigator.of(dialogContext);
+
                     // Close dialog first
-                    Navigator.of(context).pop();
+                    navigator.pop();
 
                     // Share the file
                     await Share.shareXFiles(
@@ -457,7 +464,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 label: const Text('Share'),
               ),
               FilledButton(
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () {
+                  try {
+                    Navigator.of(dialogContext, rootNavigator: true).pop();
+                  } catch (e) {
+                    // Fallback: try without rootNavigator
+                    Navigator.of(dialogContext).pop();
+                  }
+                },
                 child: const Text('Done'),
               ),
             ],
@@ -682,6 +696,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             behavior: SnackBarBehavior.fixed,
           ),
         );
+
+        // Invalidate all providers to refresh the app
+        ref.invalidate(asyncMainProvider);
 
         // Reload statistics
         await _loadData();

@@ -1,5 +1,6 @@
 import 'package:feed_estimator/src/features/add_ingredients/provider/form_controllers.dart';
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
+import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -122,7 +123,7 @@ Widget notesField(WidgetRef ref) {
 }
 
 /// Header card indicating custom ingredient creation with Material Design 3 styling
-Widget customIngredientHeader() {
+Widget customIngredientHeader(BuildContext context) {
   return Container(
     decoration: BoxDecoration(
       gradient: LinearGradient(
@@ -161,21 +162,27 @@ Widget customIngredientHeader() {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
-                  'Creating Custom Ingredient',
-                  style: TextStyle(
+                Text(
+                  context.l10n.customIngredientHeader,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
                     color: Color(0xff87643E),
+                    height: 1.2,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'You can add your own ingredient with custom nutritional values',
+                  context.l10n.customIngredientDescription,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
                     color: const Color(0xff87643E).withValues(alpha: 0.7),
+                    height: 1.2,
                   ),
                 ),
               ],

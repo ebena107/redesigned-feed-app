@@ -30,11 +30,10 @@ class FeedGrid extends ConsumerWidget {
           padding: const EdgeInsets.all(UIConstants.paddingSmall),
           sliver: SliverGrid(
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent:
-                  200.0, // Slightly wider for better card breathing room
+              maxCrossAxisExtent: 190.0,
               mainAxisSpacing: UIConstants.paddingMedium,
               crossAxisSpacing: UIConstants.paddingMedium,
-              childAspectRatio: 0.65, // Taller tiles to accommodate content
+              childAspectRatio: 0.68, // Optimized for text-heavy content
             ),
             delegate: SliverChildBuilderDelegate(
               (context, index) => FeedGridCard(feed: feeds[index]),
@@ -144,46 +143,51 @@ class FeedGridCard extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: UIConstants.paddingSmall,
-                  vertical:
-                      4, // Reduced vertical padding slightly to prevent overflow
+                  vertical: 6,
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment:
-                      MainAxisAlignment.start, // Avoid compressing children
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // Feed title and subtitle
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          feed.feedName ?? context.l10n.feedNameUnknown,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: theme.textTheme.labelLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            height: 1.2, // Tighter line height
+                    // Feed title and subtitle with flexible height
+                    Flexible(
+                      flex: 2,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              feed.feedName ?? context.l10n.feedNameUnknown,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: theme.textTheme.labelLarge?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                height: 1.2,
+                              ),
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          context.l10n.feedSubtitle(
-                            animalName(id: animalId.toInt()),
+                          const SizedBox(height: 2),
+                          Flexible(
+                            child: Text(
+                              context.l10n.feedSubtitle(
+                                animalName(id: animalId.toInt()),
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                fontSize: 10,
+                                color: theme.colorScheme.secondary,
+                                height: 1.2,
+                              ),
+                            ),
                           ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            fontSize: 10,
-                            color: theme.colorScheme.secondary,
-                            height: 1.2,
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                    const SizedBox(height: 2),
-                    // Nutrition footer with better spacing
+                    const SizedBox(height: 4),
+                    // Nutrition footer with constrained height
                     FooterResultCard(feedId: feedId),
                   ],
                 ),

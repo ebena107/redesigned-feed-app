@@ -55,27 +55,35 @@ class _PriceHistoryViewState extends ConsumerState<PriceHistoryView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // Header: title above, actions below to avoid Row overflow
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'Price History',
                         style: Theme.of(context).textTheme.titleMedium,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      Row(
+                      const SizedBox(height: UIConstants.paddingSmall),
+                      Wrap(
+                        spacing: UIConstants.paddingSmall,
+                        runSpacing: UIConstants.paddingSmall,
                         children: [
                           OutlinedButton.icon(
                             onPressed: () => _showImportDialog(context),
-                            icon: const Icon(Icons.file_upload,
-                                size: UIConstants.iconSmall),
+                            icon: const Icon(
+                              Icons.file_upload,
+                              size: UIConstants.iconSmall,
+                            ),
                             label: const Text('Import CSV'),
                           ),
-                          const SizedBox(width: UIConstants.paddingSmall),
                           FilledButton.icon(
                             onPressed: () => _showAddPriceDialog(context),
                             label: const Text('Add Price'),
-                            icon: const Icon(Icons.add,
-                                size: UIConstants.iconSmall),
+                            icon: const Icon(
+                              Icons.add,
+                              size: UIConstants.iconSmall,
+                            ),
                           ),
                         ],
                       ),
@@ -303,15 +311,20 @@ class _PriceHistoryViewState extends ConsumerState<PriceHistoryView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Price and Change
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                // Price and Change (wrap to avoid overflow on narrow screens)
+                Wrap(
+                  alignment: WrapAlignment.start,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  spacing: UIConstants.paddingSmall,
+                  runSpacing: UIConstants.paddingSmall,
                   children: [
                     Text(
                       '${price.price.toStringAsFixed(2)} ${price.currency}',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
+                      overflow: TextOverflow.ellipsis,
+                      softWrap: false,
                     ),
                     if (priceChange != null)
                       Container(
@@ -342,9 +355,12 @@ class _PriceHistoryViewState extends ConsumerState<PriceHistoryView> {
 
                 const SizedBox(height: UIConstants.paddingSmall),
 
-                // Date and Source
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                // Date and Source (wrap to avoid overflow)
+                Wrap(
+                  alignment: WrapAlignment.start,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  spacing: UIConstants.paddingSmall,
+                  runSpacing: UIConstants.paddingSmall,
                   children: [
                     Text(
                       dateFormat.format(priceDate),
@@ -434,13 +450,22 @@ class _PriceHistoryViewState extends ConsumerState<PriceHistoryView> {
   void _showAddPriceDialog(BuildContext context) {
     showDialog<void>(
       context: context,
-      builder: (context) => PriceEditDialog(
+      builder: (dialogContext) => PriceEditDialog(
         ingredientId: widget.ingredientId,
+        parentContext: context,
         onSaved: () {
           if (mounted) {
             ref.invalidate(priceHistoryProvider(widget.ingredientId));
             ref.invalidate(
                 currentPriceProvider(ingredientId: widget.ingredientId));
+            // Show confirmation from parent context
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Price recorded'),
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: Colors.green,
+              ),
+            );
           }
         },
       ),
@@ -451,14 +476,23 @@ class _PriceHistoryViewState extends ConsumerState<PriceHistoryView> {
   void _showEditPriceDialog(BuildContext context, PriceHistory priceHistory) {
     showDialog<void>(
       context: context,
-      builder: (context) => PriceEditDialog(
+      builder: (dialogContext) => PriceEditDialog(
         ingredientId: widget.ingredientId,
         priceHistory: priceHistory,
+        parentContext: context,
         onSaved: () {
           if (mounted) {
             ref.invalidate(priceHistoryProvider(widget.ingredientId));
             ref.invalidate(
                 currentPriceProvider(ingredientId: widget.ingredientId));
+            // Show confirmation from parent context
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Price updated'),
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: Colors.green,
+              ),
+            );
           }
         },
       ),

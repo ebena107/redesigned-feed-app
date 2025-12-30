@@ -21,39 +21,43 @@ class FooterResultCard extends ConsumerWidget {
 
     if (myResult.mEnergy == null) return const SizedBox.shrink();
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-          child: _NutrientChip(
-            label: context.l10n.labelEnergy.toUpperCase(),
-            value: '${myResult.mEnergy?.round() ?? 0}',
-            unit: context.l10n.unitKcal,
-            // OPTIMIZATION: DeepOrange is more readable than standard Orange for text
-            baseColor: Colors.deepOrange,
+    return ConstrainedBox(
+      constraints: const BoxConstraints(minHeight: 34, maxHeight: 42),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: _NutrientChip(
+              label: context.l10n.labelEnergy.toUpperCase(),
+              value: '${myResult.mEnergy?.round() ?? 0}',
+              unit: context.l10n.unitKcal,
+              // OPTIMIZATION: DeepOrange is more readable than standard Orange for text
+              baseColor: Colors.deepOrange,
+            ),
           ),
-        ),
-        const SizedBox(width: 4),
-        Expanded(
-          child: _NutrientChip(
-            label: context.l10n.labelProtein.toUpperCase(),
-            value: myResult.cProtein?.toStringAsFixed(1) ?? '0',
-            unit: '%',
-            // OPTIMIZATION: Indigo implies strength/structure and contrasts well with Orange
-            baseColor: Colors.indigo,
+          const SizedBox(width: 4),
+          Expanded(
+            child: _NutrientChip(
+              label: context.l10n.labelProtein.toUpperCase(),
+              value: myResult.cProtein?.toStringAsFixed(1) ?? '0',
+              unit: '%',
+              // OPTIMIZATION: Indigo implies strength/structure and contrasts well with Orange
+              baseColor: Colors.indigo,
+            ),
           ),
-        ),
-        const SizedBox(width: 4),
-        Expanded(
-          child: _NutrientChip(
-            label: context.l10n.labelFat.toUpperCase(),
-            value: myResult.cFat?.toStringAsFixed(1) ?? '0',
-            unit: '%',
-            // OPTIMIZATION: Teal is visually distinct from Orange (unlike Amber/Yellow)
-            baseColor: Colors.teal,
+          const SizedBox(width: 4),
+          Expanded(
+            child: _NutrientChip(
+              label: context.l10n.labelFat.toUpperCase(),
+              value: myResult.cFat?.toStringAsFixed(1) ?? '0',
+              unit: '%',
+              // OPTIMIZATION: Teal is visually distinct from Orange (unlike Amber/Yellow)
+              baseColor: Colors.teal,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -81,7 +85,7 @@ class _NutrientChip extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 2),
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
       decoration: BoxDecoration(
         color: bgColor,
         borderRadius: BorderRadius.circular(8),
@@ -91,39 +95,58 @@ class _NutrientChip extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 9, // Slightly larger for readability
-              fontWeight: FontWeight.w900,
-              color: textColor.withValues(alpha: 0.8),
-              letterSpacing: 0.5,
+          // Flexible label with FittedBox to handle long translations
+          Flexible(
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.center,
+              child: Text(
+                label,
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.visible,
+                style: TextStyle(
+                  fontSize: 9,
+                  fontWeight: FontWeight.w900,
+                  color: textColor.withValues(alpha: 0.8),
+                  letterSpacing: 0.3,
+                  height: 1.1,
+                ),
+              ),
             ),
           ),
-          const SizedBox(height: 1),
-          RichText(
-            textAlign: TextAlign.center,
-            text: TextSpan(
-              children: [
-                TextSpan(
-                  text: value,
-                  style: TextStyle(
-                    fontSize: 13, // Bolder, clearer number
-                    fontWeight: FontWeight.w900,
-                    color: textColor,
-                    height: 1.0,
+          const SizedBox(height: 2),
+          // Value and unit with flexible sizing
+          Flexible(
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.baseline,
+                textBaseline: TextBaseline.alphabetic,
+                children: [
+                  Text(
+                    value,
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w900,
+                      color: textColor,
+                      height: 1.0,
+                    ),
                   ),
-                ),
-                const WidgetSpan(child: SizedBox(width: 1.5)),
-                TextSpan(
-                  text: unit,
-                  style: TextStyle(
-                    fontSize: 8,
-                    fontWeight: FontWeight.bold,
-                    color: textColor,
+                  const SizedBox(width: 2),
+                  Text(
+                    unit,
+                    style: TextStyle(
+                      fontSize: 8,
+                      fontWeight: FontWeight.bold,
+                      color: textColor.withValues(alpha: 0.9),
+                      height: 1.0,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],

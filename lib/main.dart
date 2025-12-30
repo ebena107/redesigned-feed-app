@@ -1,27 +1,16 @@
 import 'dart:ui';
 
-import 'package:feed_estimator/src/core/localization/localization_provider.dart';
 import 'package:feed_estimator/src/features/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   registerErrorHandlers();
 
-  // Initialize SharedPreferences for localization
-  final sharedPreferences = await SharedPreferences.getInstance();
-
   // Show splash screen during initialization
   runApp(
     ProviderScope(
-      overrides: [
-        // Override localizationProvider with initialized SharedPreferences
-        localizationProvider.overrideWith(
-          (ref) => LocalizationNotifier(sharedPreferences),
-        ),
-      ],
       child: const AppWithSplash(),
     ),
   );

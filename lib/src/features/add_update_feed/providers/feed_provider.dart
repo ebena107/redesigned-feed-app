@@ -2,10 +2,14 @@ import 'dart:async';
 
 import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:feed_estimator/src/core/database/app_db.dart';
+import 'package:feed_estimator/src/core/utils/logger.dart';
 
 import 'package:feed_estimator/src/features/add_update_feed/repository/animal_type_repository.dart';
+import 'package:feed_estimator/src/features/add_update_feed/services/inclusion_validator.dart';
 
 import 'package:feed_estimator/src/features/add_update_feed/model/animal_type.dart';
+import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
+import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dart';
 import 'package:feed_estimator/src/features/main/model/feed.dart';
 
 import 'package:feed_estimator/src/features/main/repository/feed_ingredient_repository.dart';
@@ -181,6 +185,56 @@ class FeedNotifier extends Notifier<FeedState> {
         state =
             state.copyWith(message: 'Ensure Feed Details is entered correctly');
         state = state.copyWith(status: 'failure');
+      }
+
+      // CRITICAL: Validate inclusion limits and anti-nutritional factors before save
+      try {
+        final ingredientData = ref.read(ingredientProvider);
+        final ingredientCache = <num, Ingredient>{};
+        for (final ing in ingredientData.ingredients) {
+          if (ing.ingredientId != null) {
+            ingredientCache[ing.ingredientId!] = ing;
+          }
+        }
+
+        final validation = InclusionValidator.validate(
+          feedIngredients: state.feedIngredients,
+          ingredientCache: ingredientCache,
+          animalTypeId: state.animalTypeId,
+        );
+
+        if (!validation.isValid) {
+          state = state.copyWith(
+            message:
+                'Cannot save feed: ${validation.errors.join("; ")}. Please adjust ingredient quantities.',
+            status: 'failure',
+          );
+          AppLogger.warning(
+            'Feed save blocked by inclusion validation: ${validation.errors}',
+            tag: 'FeedNotifier',
+          );
+          return 'failure';
+        }
+
+        // Log warnings but allow save (they will be displayed in analysis report)
+        if (validation.warnings.isNotEmpty) {
+          AppLogger.info(
+            'Feed has warnings: ${validation.warnings}',
+            tag: 'FeedNotifier',
+          );
+        }
+      } catch (e, stackTrace) {
+        AppLogger.error(
+          'Error during feed validation: $e',
+          tag: 'FeedNotifier',
+          error: e,
+          stackTrace: stackTrace,
+        );
+        state = state.copyWith(
+          message: 'Error validating feed formulation. Please try again.',
+          status: 'failure',
+        );
+        return 'failure';
       }
 
       final bool available = await (todo == "save"

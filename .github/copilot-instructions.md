@@ -5,9 +5,20 @@
 Flutter livestock feed formulation app for analyzing nutrients in animal feed. Primary users: livestock farmers across Nigeria (largest), India, United States, Kenya, and globally (Europe, Asia, Africa). Current version: 1.0.0+12, actively modernized through phased improvements (Phases 1-3 complete, Phase 4 45% complete, see [doc/MODERNIZATION_PLAN.md](../doc/MODERNIZATION_PLAN.md)).
 
 ## Recent Modernization Notes
-- **DatabaseTimeout utility**: Centralized 30s timeout wrappers live in `lib/src/core/database/database_timeout.dart`. When adding new DB operations, use the helper instead of `Future.timeout` inline. Full integration into `AppDatabase` is pending; do not duplicate timeout logic in repositories.
-- **PaginationHelper**: For long lists, prefer `PaginationHelper` (pageSize=50, preloadThreshold=10) from `lib/src/core/utils/pagination_helper.dart`. Avoid loading entire collections at once.
-- **List virtualization**: Ingredient lists now use `ListView.builder` with `itemExtent` (~48) and no nested `SingleChildScrollView`. Maintain this pattern to keep 60fps scroll.
+
+**CRITICAL - Feed Formulation Core**:
+- **EnhancedCalculationEngine** ([lib/src/features/reports/providers/enhanced_calculation_engine.dart](../lib/src/features/reports/providers/enhanced_calculation_engine.dart)): PRIMARY calculation engine for all nutrient analysis. Supports 10 essential amino acids (total + SID), phosphorus breakdown (total/available/phytate), proximate analysis. Always the entry point for feed calculations.
+- **InclusionValidator** ([lib/src/features/add_update_feed/services/inclusion_validator.dart](../lib/src/features/add_update_feed/services/inclusion_validator.dart)): MANDATORY validation before saving feeds. Checks inclusion limits per animal type and detects anti-nutritional factor violations. Always call this before `saveUpdateFeed()`.
+
+**Performance & Infrastructure**:
+- **DatabaseTimeout utility**: Centralized 30s timeout wrappers in `lib/src/core/database/database_timeout.dart`. Use instead of inline `Future.timeout()`.
+- **PaginationHelper**: For ingredient lists >100 items, use `PaginationHelper` (pageSize=50) from `lib/src/core/utils/pagination_helper.dart` to avoid memory bloat.
+- **List virtualization**: Ingredient lists use `ListView.builder` with `itemExtent` (~48), no nested `SingleChildScrollView` - maintains 60fps scroll.
+
+**Secondary Features**:
+- **Price Management** (Phase 4.5): Optional dynamic pricing via `PriceHistoryRepository`. Pass `currentPrices` to engine when available, but calculation works without it using stored prices.
+- **Type-Safe Navigation**: Use `@TypedGoRoute` with `.go(context)` pattern (never `Navigator.push()` or `pushNamed()`).
+- **Localization (i18n)**: Always use `context.l10n.keyName` for UI strings (5 languages supported).
 - **Instructions source**: Keep this file in sync when adding cross-cutting patterns so new contributors see updated guidance.
 
 ## Architecture Essentials
@@ -111,7 +122,7 @@ flutter test --coverage         # With coverage report
 
 ### Database Migrations
 **Location**: `lib/src/core/database/app_db.dart`  
-**Current version**: 8 (see `_currentVersion`)
+**Current version**: 12 (see `_currentVersion`)
 
 When modifying schema:
 1. Increment `_currentVersion` constant
@@ -376,6 +387,139 @@ padding: UIConstants.paddingHorizontalNormal,
 
 ## Common Patterns
 
+### Enhanced Calculation System (v5) - FEED FORMULATION CORE
+
+**Phase 3 Implementation**: Harmonized ingredient dataset with comprehensive nutrient tracking for accurate feed formulation
+
+**Key Components**:
+
+1. **EnhancedCalculationEngine** ([lib/src/features/reports/providers/enhanced_calculation_engine.dart](../lib/src/features/reports/providers/enhanced_calculation_engine.dart))
+   - PRIMARY calculation engine for all feed nutrient analysis
+   - Calculates all 10 essential amino acids (lysine, methionine, threonine, tryptophan, cystine, phenylalanine, tyrosine, leucine, isoleucine, valine)
+   - Tracks SID (Standardized Ileal Digestibility) values for precision (NRC 2012 standard)
+   - Enhanced phosphorus breakdown: total, available (bioavailable), phytate (bound)
+   - Collects proximate analysis: ash, moisture, starch, bulk density
+   - Anti-nutritional factor tracking with safety warnings
+   - Regulatory and formulation violation warnings
+
+   ```dart
+   // CRITICAL: Always use for feed calculations
+   final result = EnhancedCalculationEngine.calculateEnhancedResult(
+     feedIngredients: feedIngredients,
+     ingredientCache: ingredientCache,
+     animalTypeId: 1, // 1=pig, 2=poultry, 3=rabbit, 4=ruminant, 5=fish
+     currentPrices: ref.watch(currentPriceProvider), // Optional: for cost calculation
+   );
+   
+   // Result includes both legacy v4 fields and enhanced v5 fields
+   // v4: mEnergy, cProtein, calcium, lysine, etc.
+   // v5: ash, moisture, totalPhosphorus, availablePhosphorus, aminoAcidsJson, warningsJson
+   ```
+
+2. **InclusionValidator** ([lib/src/features/add_update_feed/services/inclusion_validator.dart](../lib/src/features/add_update_feed/services/inclusion_validator.dart))
+   - **MANDATORY** validation - ALWAYS call before saving a feed
+   - Validates ingredient inclusion percentages against maximum safe limits per animal type
+   - Prevents use of toxic ingredients beyond safety thresholds (e.g., cottonseed meal >15%, rapeseed >10%)
+   - Enforces regulatory restrictions (processed animal protein limits, dangerous substances like urea)
+   - Collects anti-nutritional factor warnings (glucosinolates, trypsin inhibitors, tannins, phytic acid)
+   - Returns errors (must fix) and warnings (inform user but allow continuation)
+
+   ```dart
+   // Usage: CRITICAL for feed validation
+   final validation = InclusionValidator.validate(
+     feedIngredients: feedIngredients,
+     ingredientCache: ingredientCache,
+     animalTypeId: 1, // Per-animal type limits
+   );
+   
+   if (!validation.isValid) {
+     // Display errors - user cannot save feed until fixed
+     for (final error in validation.errors) {
+       showError(error);
+     }
+     return; // Prevent save
+   }
+   
+   // Warnings are collected in calculation engine and included in reports
+   for (final warning in validation.warnings) {
+     showWarning(warning); // Inform user
+   }
+   ```
+
+3. **Enhanced Ingredient Model** (v5 fields in [lib/src/features/add_ingredients/model/ingredient.dart](../lib/src/features/add_ingredients/model/ingredient.dart))
+   ```dart
+   class Ingredient {
+     // Legacy fields (v4 - preserved for backward compatibility)
+     num? crudeProtein;
+     num? lysine;        // Deprecated: Use aminoAcidsTotal for detailed profile
+     num? methionine;    // Deprecated: Use aminoAcidsTotal
+     num? phosphorus;    // Deprecated: Use totalPhosphorus
+     
+     // NEW v5 nutrient fields
+     num? ash;
+     num? moisture;
+     num? starch;
+     num? bulkDensity;
+     num? totalPhosphorus;          // Total phosphorus content
+     num? availablePhosphorus;      // Bioavailable phosphorus
+     num? phytatePhosphorus;        // Bound phytate phosphorus
+     num? meFinishingPig;           // Energy for finishing pigs
+     
+     // Complex nutrient structures
+     AminoAcidsProfile? aminoAcidsTotal;  // 10 amino acids (total)
+     AminoAcidsProfile? aminoAcidsSid;    // 10 amino acids (SID digestibility)
+     EnergyValues? energy;                // Energy for all animal types
+     AntiNutritionalFactors? antiNutritionalFactors;
+     
+     // Safety & regulatory
+     num? maxInclusionPct;           // Maximum % of feed formulation
+     Map<String, dynamic>? maxInclusionJson;  // Per-animal-type limits
+     String? warning;                // Safety warning (e.g., "High gossypol")
+     String? regulatoryNote;         // Regulatory restrictions
+     String? region;                 // Regional availability (Africa, Asia, Global)
+   }
+   ```
+
+4. **Enhanced Result Model** (v5 fields in [lib/src/features/reports/model/result.dart](../lib/src/features/reports/model/result.dart))
+   ```dart
+   class Result {
+     // Legacy v4 fields (backward compatible)
+     num? mEnergy;
+     num? cProtein;
+     num? lysine;
+     num? methionine;
+     
+     // NEW v5 fields (enhanced analysis)
+     num? ash;
+     num? moisture;
+     num? totalPhosphorus;
+     num? availablePhosphorus;
+     num? phytatePhosphorus;
+     
+     // JSON stores for complex nutrient profiles and warnings
+     String? aminoAcidsTotalJson;    // Full 10-amino-acid profile
+     String? aminoAcidsSidJson;      // SID digestibility values
+     String? energyJson;             // Energy values for all animal types
+     String? warningsJson;           // Formulation warnings & violations
+   }
+   ```
+
+**Integration Pattern - FEED FORMULATION WORKFLOW**:
+1. Load feed ingredients and ingredient database cache
+2. Call `InclusionValidator.validate()` - if errors, show user and prevent save
+3. Call `EnhancedCalculationEngine.calculateEnhancedResult()` with all ingredients
+4. Check result for warnings and anti-nutritional factors
+5. Display results in report/analysis view
+6. Save feed with calculated nutrients
+
+**When Adding New Feed Nutrients**:
+1. Add fields to `Ingredient` model (v5 section) with proper defaults
+2. Update `EnhancedCalculationEngine._calculateEnhancedValues()` to accumulate new nutrient
+3. Update `Result` model with new field (use JSON for complex structures)
+4. Extend `_collectWarnings()` if safety-related (e.g., nutrient deficiency)
+5. Add test cases in `test/unit/` for calculation correctness
+6. Update documentation with new nutrient source and methodology
+
 ### Repository Pattern
 All repos extend `core/repositories/Repository` (see [lib/src/core/repositories/repository.dart](../lib/src/core/repositories/repository.dart)):
 ```dart
@@ -421,135 +565,68 @@ See reference implementations:
 - [lib/src/features/main/repository/feed_repository.dart](../lib/src/features/main/repository/feed_repository.dart)
 - [lib/src/features/add_ingredients/repository/ingredients_repository.dart](../lib/src/features/add_ingredients/repository/ingredients_repository.dart)
 
-### Enhanced Calculation System (v5)
+### Price Management System (Phase 4.5 - OPTIONAL SECONDARY FEATURE)
 
-**Phase 3 Implementation**: Harmonized ingredient dataset with comprehensive nutrient tracking
+**Use Case**: Optional dynamic pricing - calculation works without it using stored ingredient prices.
 
 **Key Components**:
 
-1. **EnhancedCalculationEngine** ([lib/src/features/reports/providers/enhanced_calculation_engine.dart](../lib/src/features/reports/providers/enhanced_calculation_engine.dart))
-   - Calculates all 10 essential amino acids (lysine, methionine, threonine, tryptophan, cystine, phenylalanine, tyrosine, leucine, isoleucine, valine)
-   - Tracks SID (Standardized Ileal Digestibility) values for precision
-   - Enhanced phosphorus breakdown: total, available (bioavailable), phytate (bound)
-   - Collects proximate analysis: ash, moisture, starch, bulk density
-   - Anti-nutritional factor tracking
-   - Regulatory and safety warnings collection
-
-   ```dart
-   // Usage
-   final result = EnhancedCalculationEngine.calculateEnhancedResult(
-     feedIngredients: feedIngredients,
-     ingredientCache: ingredientCache,
-     animalTypeId: 1, // 1=growing pig, 2=poultry, 3=rabbit, 4=ruminant, 5=fish
-   );
-   
-   // Result includes:
-   // - Legacy v4 fields (backward compatible): mEnergy, cProtein, calcium, lysine, etc.
-   // - Enhanced v5 fields: ash, moisture, totalPhosphorus, availablePhosphorus, etc.
-   // - JSON amino acid profiles and warnings
-   ```
-
-2. **InclusionValidator** ([lib/src/features/add_update_feed/services/inclusion_validator.dart](../lib/src/features/add_update_feed/services/inclusion_validator.dart))
-   - Validates ingredient inclusion percentages against maximum limits
-   - Prevents use of toxic ingredients beyond safety thresholds
-   - Enforces regulatory restrictions (e.g., processed animal protein limits)
-   - Built-in limits for: cottonseed meal (15%), urea (dangerous), moringa (10%), rapeseed (10%), etc.
-   - **CRITICAL**: Always call BEFORE saving a feed to detect formulation issues
-
-   ```dart
-   // Usage in feed calculations
-   final validation = InclusionValidator.validate(
-     feedIngredients: feedIngredients,
-     ingredientCache: ingredientCache,
-     animalTypeId: 1, // Important for per-animal type limits
-   );
-   
-   if (!validation.isValid) {
-     // Display errors - MUST fix before saving
-     for (final error in validation.errors) {
-       showError(error); // User cannot proceed
-     }
-   }
-   if (validation.warnings.isNotEmpty) {
-     // Display warnings - inform user but allow continuation
-     for (final warning in validation.warnings) {
-       showWarning(warning);
-     }
-   }
-   ```
-
-   **Integration Points**:
-   - Called in `EnhancedCalculationEngine.calculateEnhancedResult()` to collect warnings
-   - Use `InclusionValidator.validate()` for pre-save validation before `saveUpdateFeed()`
-   - Warnings collected in `result.warningsJson` for inclusion in reports
-
-3. **Enhanced Ingredient Model** (v5 fields in [lib/src/features/add_ingredients/model/ingredient.dart](../lib/src/features/add_ingredients/model/ingredient.dart))
-   ```dart
-   class Ingredient {
-     // Legacy fields (preserved for backward compatibility)
-     num? crudeProtein;
-     num? lysine;        // Deprecated: Use aminoAcidsTotalJson
-     num? methionine;    // Deprecated: Use aminoAcidsTotalJson
-     num? phosphorus;    // Deprecated: Use totalPhosphorus
-     
-     // New v5 fields
-     num? ash;
-     num? moisture;
-     num? bulkDensity;
-     num? totalPhosphorus;
-     num? availablePhosphorus;
-     num? phytatePhosphorus;
-     num? meFinishingPig;
-     
-     String? aminoAcidsTotalJson;    // Map<String, num> of 10 amino acids
-     String? aminoAcidsSidJson;      // Map<String, num> with SID values
-     String? antiNutrionalFactorsJson;
-     
-     num? maxInclusionPct;           // Safety limit (0 = unlimited)
-     String? warning;                // Safety warning
-     String? regulatoryNote;         // Regulatory restrictions
-   }
-   ```
-
-4. **Enhanced Result Model** (v5 fields in [lib/src/features/reports/model/result.dart](../lib/src/features/reports/model/result.dart))
-   ```dart
-   class Result {
-     // Legacy fields preserved
-     num? mEnergy;
-     num? cProtein;
-     num? lysine;
-     num? methionine;
-     
-     // New v5 fields
-     num? ash;
-     num? moisture;
-     num? totalPhosphorus;
-     num? availablePhosphorus;
-     num? phytatePhosphorus;
-     
-     // JSON stores for complex data
-     String? aminoAcidsTotalJson;    // Full amino acid profile
-     String? aminoAcidsSidJson;      // SID digestibility values
-     String? warningsJson;           // Collection of warnings
-   }
-   ```
+1. **PriceHistory Model** - Tracks ingredient price changes over time (source attribution: user/import/system)
+2. **PriceHistoryRepository** - CRUD operations, date range queries for trends
+3. **Riverpod Providers** - `current_price_provider` (latest prices map), `price_history_provider` (async)
 
 **Integration Pattern**:
-- `EnhancedCalculationEngine` is now PRIMARY calculation engine
-- `calculateResult()` in result_provider uses `EnhancedCalculationEngine.calculateEnhancedResult()`
-- Returns backward-compatible Result object with both v4 (legacy) and v5 (enhanced) fields
-- **ALWAYS call `InclusionValidator.validate()` before saving** to check for inclusion violations
-
-**When Adding New Calculation Features**:
-1. Add fields to appropriate model (`Ingredient` v5 fields, `Result` enhanced fields)
-2. Extend `EnhancedCalculationEngine._calculateEnhancedValues()` to compute new nutrient
-3. Update `Result.toJson()` to serialize new fields
-4. Add warning collection to `EnhancedCalculationEngine._collectWarnings()` if safety-related
-5. Test with `test/unit/` tests for calculation correctness and edge cases
-- JSON fields used for complex structures (amino acids, anti-nutritional factors)
-5. Test with `test/unit/` tests for calculation correctness and edge cases
-- JSON fields used for complex structures (amino acids, anti-nutritional factors)
+```dart
+// Optional: Use current prices in feed calculation (calculates cost with latest prices)
+// WITHOUT this: calculation uses ingredient.priceKg values stored in database
+final currentPrices = ref.watch(currentPriceProvider);
+final result = EnhancedCalculationEngine.calculateEnhancedResult(
+  feedIngredients: feedIngredients,
+  ingredientCache: ingredientCache,
+  animalTypeId: animalTypeId,
+  currentPrices: currentPrices, // Optional parameter - omit if not needed
+);
 ```
+
+**When Working with Prices**:
+- Price management is NOT required for feed formulation to work
+- Use `PriceHistoryRepository.recordPrice()` for audit trail on manual updates
+- CSV import via `import_export` feature can bulk load prices
+- Always check if `currentPriceProvider` returns null (feature not active)
+
+
+
+**Key Concept**: Support for regional ingredient filtering - farmers can access global ingredients plus region-specific alternatives.
+
+**Database v12 Changes**:
+- New `region` column in `ingredients` table (default='Global')
+- 211 ingredients tagged with regions: Africa, Asia, Europe, Americas, Oceania, Global
+- Index created: `idx_ingredients_region` for fast regional queries
+- Backward compatible with all v9-v11 databases
+
+**Regional Tags**:
+```dart
+// Example regions in ingredients
+ingredient.region = 'Africa';        // African crops (cassava, sorghum, etc.)
+ingredient.region = 'Asia';          // Asian ingredients (tapioca, fishmeal, etc.)
+ingredient.region = 'Global';        // Available everywhere (corn, soybeans, etc.)
+ingredient.region = 'Europe,Asia';   // Multiple regions supported
+```
+
+**Integration Pattern**:
+- Display in ingredient cards: Show region badge (color-coded)
+- Filter in StoredIngredients: Allow filtering by All/Africa/Asia/Europe/Americas/Oceania
+- Query pattern: `WHERE region LIKE '%[RegionName]%'` for substring matching
+- User preference: Store selected region in SharedPreferences for persistence
+
+**When Adding Regional Features**:
+1. Update ingredient query methods to accept optional region filter
+2. Add region display in ingredient list cards
+3. Implement region filter dropdown in StoredIngredients screen
+4. Persist user's selected region preference
+5. Test regional queries with database migration
+
+
 
 ### UI Patterns
 - **Cupertino dialogs** for updates/deletes (iOS-style): `CupertinoAlertDialog`
@@ -589,18 +666,20 @@ See reference implementations:
 - ✅ New ingredient JSON structure with 10 essential amino acids (total + SID)
 - ✅ Enhanced phosphorus tracking (total, available, phytate)
 - ✅ Inclusion limit validation with safety warnings (`InclusionValidator`)
-- ✅ Database migration v4 → v8 (schema expansion, backward compatible)
+- ✅ Database migration v4 → v12 (schema expansion, backward compatible)
 - ✅ Result model enhanced with v5 calculation fields
 - ✅ Enhanced calculation engine with comprehensive nutrient tracking
 
-**Phase 4.6 IN PROGRESS** (Regional Ingredient Expansion):
-- ✅ All 211 ingredients expanded (80+ tropical/alternative ingredients added)
-- ✅ Regional categorization complete (6 regions mapped: Africa, Asia, Europe, Americas, Oceania, Global)
-- ✅ Regional tagging applied to JSON (287 total tagged instances across regions)
-- ✅ Key tropical ingredients tagged: Azolla, Lemna, Wolffia, Cassava (4 variants), Moringa, Cowpea, etc.
-- ✅ Ingredient distribution verified: Africa (1), Africa+Asia (20), Asia (6), Europe+Americas (19), Americas+Global (14), Global (147), Oceania+Global (4)
-- ✅ Database migration v12 COMPLETE (region column added; index created)
-- 🟡 UI implementation pending (regional filter dropdown in StoredIngredients screen)
+**Phase 4 STATUS**: 🟡 **IN PROGRESS** (75% complete)
+- ✅ Phase 4.5: Price Management (application layer + UI complete, CSV import integrated)
+- ✅ Phase 4.7a: Localization (5 languages: en, pt, es, yo, fr - 120+ strings complete)
+- ✅ Phase 5.1: CSV Import (complete with price history bulk import)
+- ✅ Phase 4.6: Regional Ingredient Expansion (211 ingredients, DB v12 migration complete)
+- 🟡 Phase 4.6 UI: Regional filter dropdown pending (StoredIngredients screen)
+- 📋 Phase 4.2-4.4: Performance optimization planned
+- 📋 Phase 4.7b+: Accessibility & advanced features planned
+
+**Test Coverage**: ✅ 435+/436 passing (99%+ pass rate)
 
 **Calculation Improvements** (Phase 3 Complete):
 - `EnhancedCalculationEngine` ([lib/src/features/reports/providers/enhanced_calculation_engine.dart](../lib/src/features/reports/providers/enhanced_calculation_engine.dart)) supports harmonized v5 ingredients
@@ -612,6 +691,8 @@ See reference implementations:
 
 **User Demographics**: Nigeria (largest market), India, USA, Kenya, plus Europe/Asia/Africa regions. Current rating: 4.5★ (148 reviews).
 
+**Localization**: App supports 5 languages (English, Portuguese, Spanish, Yoruba, French) via `AppLocalizations` (Flutter i18n). Use `context.l10n.keyName` for translated strings in UI code. Settings screen allows language switching with persistence.
+
 Refer to:
 - `doc/PHASE_2_COMPLETION_REPORT.md` - Ingredient audit results
 - `doc/PHASE_3_IMPLEMENTATION_SUMMARY.md` - Phase 3 complete implementation details
@@ -620,39 +701,94 @@ Refer to:
 - `lib/src/features/add_update_feed/services/inclusion_validator.dart` - Inclusion validation
 - `lib/src/features/reports/model/inclusion_validation.dart` - Validation data models
 
+### Localization (i18n) Best Practices
+
+**ALWAYS use localized strings** - Never hardcode user-facing text:
+
+```dart
+// ✅ CORRECT - Use context.l10n for all UI text
+Text(context.l10n.labelPrice)
+Text(context.l10n.actionSave)
+hintText: context.l10n.hintEnterName
+
+// ❌ WRONG - Hardcoded strings
+Text('Price')
+Text('Save')
+hintText: 'Enter name'
+```
+
+**Supported Languages**: English (en), Portuguese (pt), Spanish (es), Yoruba (yo), French (fr)
+
+**Implementation Pattern**:
+- Access via `context.l10n.keyName` (requires `BuildContext`)
+- Strings defined in `lib/generated/l10n/app_localizations_*.dart` (auto-generated)
+- Source files: `lib/l10n/app_*.arb` (edit ARB files to add/modify strings)
+- Language switching: `LocalizationProvider` in `lib/src/core/localization/localization_provider.dart`
+- Settings integration: Language selector in `SettingsScreen`
+
+**Adding New Strings**:
+1. Add key-value to all `lib/l10n/app_*.arb` files (en, pt, es, yo, fr)
+2. Run `flutter gen-l10n` to regenerate localization files
+3. Use `context.l10n.yourNewKey` in UI code
+
+**Common Patterns**:
+```dart
+// Labels
+Text(context.l10n.labelName)
+Text(context.l10n.labelPrice)
+
+// Actions
+onPressed: () => context.l10n.actionSave
+Text(context.l10n.actionCancel)
+
+// Errors/Messages
+Text(context.l10n.errorDatabaseOperation)
+Text(context.l10n.confirmDeletionWarning)
+
+// Navigation
+title: context.l10n.navIngredients
+title: context.l10n.navSettings
+```
+
+See `doc/LOCALIZATION_QUICK_REFERENCE.md` for complete list of available strings.
+
 ### Next Steps (Phase 4 Roadmap)
 
-**Focus Areas** (see `doc/MODERNIZATION_PLAN.md` for full details):
+**PRIORITY 1 - Feed Formulation Enhancements** (Phase 4.2-4.4):
+1. **Amino Acid Optimization** (IN PROGRESS):
+   - Enhance SID digestibility calculations per animal type
+   - Implement amino acid balance ratios (e.g., Met:Lys ratio for different species)
+   - Add amino acid deficiency warnings in reports
+   - Test against NRC, CVB, INRA standards
 
-1. **Performance Optimization**:
-  - **Database Migration v12** (COMPLETE):
-    - Region column added to ingredients table (default 'Global')
-    - Index created: `idx_ingredients_region` for fast queries
-    - Docs: see `doc/DATABASE_MIGRATION_V12.md` and `doc/DATABASE_MIGRATION_V12_TESTING.md`
+2. **Anti-Nutritional Factor Tracking** (IN PROGRESS):
+   - Expand ANF detection (glucosinolates, trypsin inhibitors, tannins, phytic acid)
+   - Per-animal-type ANF tolerance thresholds
+   - Automatic ingredient replacement suggestions based on ANF levels
+   - Add enzyme recommendations (phytase, protease) when needed
 
-2. **Regional Filter UI** (NEXT - 2-3 hours):
-  - Create RegionFilterWidget with dropdown (All/Africa/Asia/Europe/Americas/Oceania/Global)
-  - Add region badge to ingredient cards (color-coded by region)
-  - Integrate into StoredIngredients screen
-  - Implement filter persistence (SharedPreferences)
+3. **Nutrient Balancing** (PLANNED):
+   - Implement nutrient:energy ratios (e.g., lysine/ME for optimal growth)
+   - Detect nutritional imbalances and suggest corrections
+   - Add safety margins per nutrient (avoid over/under-supplementation)
+   - Cost-optimized formulation suggestions
 
-3. **Smart Sorting & Search** (FOLLOW-UP - 2-3 hours):
-  - Implement "Popular in Your Region" sorting
-  - Region-aware ingredient discovery
-  - Suggest local alternatives
+4. **Performance Optimization** (Phase 4.2-4.4):
+   - Caching of calculation results per feed
+   - Database query optimization for large ingredient databases
+   - Batch calculation for multiple feeds
 
-4. **Performance Optimization**:
-  - Memory optimization (lazy loading, pagination for large ingredient lists)
-  - Database query optimization and indexing
-  - Widget rebuild optimization
+**PRIORITY 2 - Regional & User Features** (Phase 4.6):
+- Regional ingredient availability filtering (Africa/Asia/Europe/Americas)
+- "Popular in Your Region" ingredient suggestions
+- Regional pricing variations
 
-5. **Polish & Compliance**:
-   - Complete localization (multi-language support)
-   - Accessibility improvements (WCAG AA compliance)
-   - Documentation completion (dartdoc coverage)
-   - Dependency security review
+**PRIORITY 3 - Polish** (Phase 4.7b+):
+- Accessibility improvements
+- Advanced reporting features
+- Dependency security review
 
-**Success Metrics**: 0 errors/warnings, 80%+ test coverage, <2s startup time, 4.7+ rating
+**Success Metrics**: Accurate feed formulation within 5% of international standards, 0 errors/warnings, 80%+ test coverage, 4.7+ rating
 
 ## Form & Input Best Practices
 
@@ -786,3 +922,27 @@ When MCP tools are available, **prefer using them over terminal commands**:
 - `github-pull-request_copilot-coding-agent` - Delegate tasks to coding agent
 
 Fallback to terminal commands when MCP tools are unavailable or for complex operations.
+
+## Critical Agent Patterns & Gotchas
+
+**DO NOT**:
+- ❌ Use `Future.microtask()` for state initialization - causes StateError in Riverpod (use `WidgetsBinding.instance.addPostFrameCallback()`)
+- ❌ Create `TextEditingController` in Consumer widgets without `ConsumerStatefulWidget` + `dispose()` (memory leaks)
+- ❌ Use `Navigator.push()` or `context.pushNamed()` (use type-safe routing: `AddFeedRoute().go(context)`)
+- ❌ Hardcode UI strings (always use `context.l10n.keyName` for i18n)
+- ❌ Duplicate timeout logic (use `DatabaseTimeout` utility from `lib/src/core/database/database_timeout.dart`)
+- ❌ Load entire ingredient lists at once (use `PaginationHelper` with pageSize=50)
+- ❌ Skip running `dart run build_runner build` after modifying `@riverpod` or `@TypedGoRoute` (code won't compile)
+
+**DO**:
+- ✅ Use sealed classes for state (not @freezed)
+- ✅ Use manual `copyWith()` implementations  
+- ✅ Always call `InclusionValidator.validate()` before saving feeds
+- ✅ Pass `currentPrices` to `EnhancedCalculationEngine` for latest pricing
+- ✅ Use `AppLogger` instead of `print()` or `debugPrint()`
+- ✅ Use `InputValidators` for all user input (11 validators available)
+- ✅ Use `UIConstants` and `WidgetBuilders` for consistent UI
+- ✅ Use `ConsumerStatefulWidget` for dialogs with controllers
+- ✅ Test edge cases: null values, empty lists, boundary conditions
+- ✅ Use `ProviderContainer` in unit tests with `addTearDown(container.dispose)`
+- ✅ Initialize test bindings: `TestWidgetsFlutterBinding.ensureInitialized()`

@@ -101,7 +101,8 @@ class GridMenu extends ConsumerWidget {
       case _MenuOption.delete:
         showCupertinoDialog(
           context: context,
-          builder: (context) => _DeleteConfirmDialog(feed: feed!),
+          builder: (dialogContext) =>
+              _DeleteConfirmDialog(feed: feed!, parentContext: context),
         );
         break;
     }
@@ -110,28 +111,35 @@ class GridMenu extends ConsumerWidget {
 
 class _DeleteConfirmDialog extends ConsumerWidget {
   final Feed feed;
-  const _DeleteConfirmDialog({required this.feed});
+  final BuildContext parentContext;
+
+  const _DeleteConfirmDialog({
+    required this.feed,
+    required this.parentContext,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = parentContext.l10n;
+    final title = l10n.feedDeleteTitle(feed.feedName ?? '');
+
     return CupertinoAlertDialog(
-      title: Text(
-        context.l10n.feedDeleteTitle(feed.feedName ?? ''),
-      ),
-      content: Text(context.l10n.confirmDeletionWarning),
+      title: Text(title),
+      content: Text(l10n.confirmDeletionWarning),
       actions: [
         CupertinoDialogAction(
           isDefaultAction: true,
-          onPressed: () => Navigator.pop(context),
-          child: Text(context.l10n.actionCancel),
+          onPressed: () => context.pop(),
+          child: Text(l10n.actionCancel),
         ),
         CupertinoDialogAction(
           isDestructiveAction: true,
-          onPressed: () {
-            ref.read(asyncMainProvider.notifier).deleteFeed(feed.feedId!);
-            Navigator.pop(context);
+          onPressed: () async {
+            final navigator = Navigator.of(context);
+            await ref.read(asyncMainProvider.notifier).deleteFeed(feed.feedId!);
+            navigator.pop();
           },
-          child: Text(context.l10n.actionDelete),
+          child: Text(l10n.actionDelete),
         ),
       ],
     );

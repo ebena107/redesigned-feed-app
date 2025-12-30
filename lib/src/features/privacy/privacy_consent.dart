@@ -5,17 +5,12 @@ import 'package:url_launcher/url_launcher.dart';
 
 /// Privacy consent state provider
 final privacyConsentProvider =
-    StateNotifierProvider<PrivacyConsentNotifier, PrivacyConsentState>((ref) {
-  return PrivacyConsentNotifier();
-});
+    NotifierProvider<PrivacyConsentNotifier, PrivacyConsentState>(
+  PrivacyConsentNotifier.new,
+);
 
 /// Privacy consent state
-class PrivacyConsentState {
-  final bool hasConsented;
-  final bool hasSeenDialog;
-  final DateTime? consentDate;
-  final bool isLoading;
-
+sealed class PrivacyConsentState {
   const PrivacyConsentState({
     this.hasConsented = false,
     this.hasSeenDialog = false,
@@ -23,13 +18,18 @@ class PrivacyConsentState {
     this.isLoading = true,
   });
 
+  final bool hasConsented;
+  final bool hasSeenDialog;
+  final DateTime? consentDate;
+  final bool isLoading;
+
   PrivacyConsentState copyWith({
     bool? hasConsented,
     bool? hasSeenDialog,
     DateTime? consentDate,
     bool? isLoading,
   }) {
-    return PrivacyConsentState(
+    return _PrivacyConsentStateImpl(
       hasConsented: hasConsented ?? this.hasConsented,
       hasSeenDialog: hasSeenDialog ?? this.hasSeenDialog,
       consentDate: consentDate ?? this.consentDate,
@@ -38,10 +38,22 @@ class PrivacyConsentState {
   }
 }
 
+/// Privacy consent state implementation
+class _PrivacyConsentStateImpl extends PrivacyConsentState {
+  const _PrivacyConsentStateImpl({
+    super.hasConsented = false,
+    super.hasSeenDialog = false,
+    super.consentDate,
+    super.isLoading = true,
+  });
+}
+
 /// Privacy consent notifier
-class PrivacyConsentNotifier extends StateNotifier<PrivacyConsentState> {
-  PrivacyConsentNotifier() : super(const PrivacyConsentState(isLoading: true)) {
+class PrivacyConsentNotifier extends Notifier<PrivacyConsentState> {
+  @override
+  PrivacyConsentState build() {
     _loadConsentState();
+    return const _PrivacyConsentStateImpl(isLoading: true);
   }
 
   static const String _consentKey = 'privacy_consent';
@@ -55,7 +67,7 @@ class PrivacyConsentNotifier extends StateNotifier<PrivacyConsentState> {
       final hasSeenDialog = prefs.getBool(_seenDialogKey) ?? false;
       final consentDateMs = prefs.getInt(_consentDateKey);
 
-      state = PrivacyConsentState(
+      state = _PrivacyConsentStateImpl(
         hasConsented: hasConsented,
         hasSeenDialog: hasSeenDialog,
         consentDate: consentDateMs != null

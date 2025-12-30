@@ -903,5 +903,195 @@
   "warningsCardTitle": "Avertissements et Recommandations",
   "warningsCardIssueCount": "{count, plural, =1{1 problème trouvé} other{{count} problèmes trouvés}}",
   
-  "pdfPreviewTitle": "Ebena Feed Estimator | Aperçu de {feedName}"
+  "pdfPreviewTitle": "Ebena Feed Estimator | Aperçu de {feedName}",
+  
+  "ingredientAddedSuccessTitle": "{name} Ajouté avec Succès",
+  "@ingredientAddedSuccessTitle": {
+    "description": "Success dialog title when ingredient is added",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Maïs"
+      }
+    }
+  },
+  "ingredientAddedSuccessMessage": "Voulez-vous ajouter un autre ingrédient?",
+  "@ingredientAddedSuccessMessage": {
+    "description": "Success dialog message asking if user wants to continue"
+  },
+  "ingredientAddedNo": "Non, Retour",
+  "@ingredientAddedNo": {
+    "description": "Button to decline adding another ingredient"
+  },
+  "ingredientAddedYes": "Oui, Continuer",
+  "@ingredientAddedYes": {
+    "description": "Button to continue adding ingredients"
+  },
+  
+  "customIngredientsHeader": "Vos Ingrédients Personnalisés ({count})",
+  "@customIngredientsHeader": {
+    "description": "Header showing count of custom ingredients",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "customIngredientsSearchHint": "Rechercher vos ingrédients personnalisés...",
+  "@customIngredientsSearchHint": {
+    "description": "Search field hint for custom ingredients"
+  },
+  "customIngredientsEmptyTitle": "Pas encore d'ingrédients personnalisés",
+  "@customIngredientsEmptyTitle": {
+    "description": "Empty state title when no custom ingredients exist"
+  },
+  "customIngredientsEmptySubtitle": "Créez votre premier ingrédient personnalisé!",
+  "@customIngredientsEmptySubtitle": {
+    "description": "Empty state subtitle encouraging creation"
+  },
+  "customIngredientsNoMatch": "Aucun ingrédient ne correspond à votre recherche",
+  "@customIngredientsNoMatch": {
+    "description": "Message when search returns no results"
+  },
+  
+  "labelCreatedBy": "par {creator}",
+  "@labelCreatedBy": {
+    "description": "Label showing ingredient creator",
+    "placeholders": {
+      "creator": {
+        "type": "String",
+        "example": "Jean"
+      }
+    }
+  },
+  "labelNotes": "Notes:",
+  "@labelNotes": {
+    "description": "Label for notes section"
+  },
+  "labelPriceHistory": "Historique des Prix",
+  "@labelPriceHistory": {
+    "description": "Label for price history section"
+  },
+  "labelCa": "Ca",
+  "@labelCa": {
+    "description": "Short label for Calcium"
+  },
+  "labelP": "P",
+  "@labelP": {
+    "description": "Short label for Phosphorus"
+  },
+  
+  "priceHistoryEmpty": "Aucun historique de prix disponible",
+  "@priceHistoryEmpty": {
+    "description": "Message when no price history exists"
+  },
+  "priceHistoryError": "Erreur lors du chargement de l'historique des prix",
+  "@priceHistoryError": {
+    "description": "Error message for price history loading failure"
+  },
+  
+  "deleteCustomIngredientTitle": "Supprimer l'Ingrédient Personnalisé?",
+  "@deleteCustomIngredientTitle": {
+    "description": "Confirmation dialog title for deleting custom ingredient"
+  },
+  "deleteCustomIngredientMessage": "Retirer \"{name}\" de vos ingrédients personnalisés?",
+  "@deleteCustomIngredientMessage": {
+    "description": "Confirmation message for deleting custom ingredient",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Mon Mélange Personnalisé"
+      }
+    }
+  },
+  "ingredientRemovedSuccess": "{name} supprimé",
+  "@ingredientRemovedSuccess": {
+    "description": "Success message after ingredient removal",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Maïs"
+      }
+    }
+  },
+  
+  "exportFormatTitle": "Format d'Exportation",
+  "@exportFormatTitle": {
+    "description": "Dialog title for export format selection"
+  },
+  "exportFormatMessage": "Choisissez le format d'exportation pour vos ingrédients personnalisés:",
+  "@exportFormatMessage": {
+    "description": "Dialog message for export format selection"
+  },
+  "exportingToJson": "Exportation vers JSON...",
+  "@exportingToJson": {
+    "description": "Loading message while exporting to JSON"
+  },
+  "exportingToCsv": "Exportation vers CSV...",
+  "@exportingToCsv": {
+    "description": "Loading message while exporting to CSV"
+  },
+  "exportFailed": "Échec de l'exportation",
+  "@exportFailed": {
+    "description": "Error message when export fails"
+  },
+  "exportFailedWithError": "Échec de l'exportation: {error}",
+  "@exportFailedWithError": {
+    "description": "Error message with details when export fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Erreur d'écriture de fichier"
+      }
+    }
+  },
+  
+  "importCustomIngredientsTitle": "Importer des Ingrédients Personnalisés",
+  "@importCustomIngredientsTitle": {
+    "description": "Dialog title for importing custom ingredients"
+  },
+  "importFormatMessage": "Choisissez le format de fichier à importer:",
+  "@importFormatMessage": {
+    "description": "Dialog message for import format selection"
+  },
+  "importingData": "Importation des données...",
+  "@importingData": {
+    "description": "Loading message while importing"
+  },
+  "importSuccessTitle": "Importation Réussie",
+  "@importSuccessTitle": {
+    "description": "Success dialog title after import"
+  },
+  "importFailedTitle": "Échec de l'Importation",
+  "@importFailedTitle": {
+    "description": "Error dialog title after failed import"
+  },
+  "importError": "Erreur: {error}",
+  "@importError": {
+    "description": "Error message with details",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Format de fichier invalide"
+      }
+    }
+  },
+  
+  "actionOk": "OK",
+  "@actionOk": {
+    "description": "OK button label"
+  },
+  "actionJson": "JSON",
+  "@actionJson": {
+    "description": "JSON format option"
+  },
+  "actionCsv": "CSV",
+  "@actionCsv": {
+    "description": "CSV format option"
+  },
+  "labelIngredient": "Ingrédient",
+  "@labelIngredient": {
+    "description": "Generic label for ingredient"
+  }
 }

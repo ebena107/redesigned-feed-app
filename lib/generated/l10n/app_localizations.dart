@@ -1220,19 +1220,19 @@ abstract class AppLocalizations {
   /// **'Must be ≥ 0'**
   String get errorQuantityGreaterOrEqual;
 
-  /// Title for adding a new feed
+  /// Title for add feed screen
   ///
   /// In en, this message translates to:
-  /// **'Add/Check Feed'**
+  /// **'Add Feed'**
   String get addFeedTitle;
 
-  /// Title for updating an existing feed
+  /// Title for update feed screen
   ///
   /// In en, this message translates to:
   /// **'Update Feed'**
   String get updateFeedTitle;
 
-  /// Button to add ingredients to feed
+  /// Action button to add ingredients
   ///
   /// In en, this message translates to:
   /// **'Add Ingredients'**
@@ -1241,19 +1241,19 @@ abstract class AppLocalizations {
   /// Tooltip for add ingredients button
   ///
   /// In en, this message translates to:
-  /// **'Add more ingredients to feed'**
+  /// **'Add ingredients to your feed formulation'**
   String get tooltipAddIngredients;
 
   /// Tooltip for save feed button
   ///
   /// In en, this message translates to:
-  /// **'Save feed'**
+  /// **'Save your feed formulation'**
   String get tooltipSaveFeed;
 
   /// Tooltip for update feed button
   ///
   /// In en, this message translates to:
-  /// **'Update feed'**
+  /// **'Update your feed formulation'**
   String get tooltipUpdateFeed;
 
   /// Analyse button label
@@ -1262,10 +1262,10 @@ abstract class AppLocalizations {
   /// **'Analyse'**
   String get actionAnalyse;
 
-  /// Tooltip for analyse feed button
+  /// Tooltip for analyze feed button
   ///
   /// In en, this message translates to:
-  /// **'Analyse feed composition'**
+  /// **'Analyze the nutritional composition of your feed'**
   String get tooltipAnalyseFeed;
 
   /// Error title when feed name is missing
@@ -1621,6 +1621,336 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Ebena Feed Estimator | {feedName} Print Preview'**
   String pdfPreviewTitle(String feedName);
+
+  /// Form section header for basic ingredient information
+  ///
+  /// In en, this message translates to:
+  /// **'Basic Information'**
+  String get formSectionBasicInfo;
+
+  /// Form section header for energy values
+  ///
+  /// In en, this message translates to:
+  /// **'Energy Values'**
+  String get formSectionEnergyValues;
+
+  /// Form section header for macronutrients
+  ///
+  /// In en, this message translates to:
+  /// **'Macronutrients'**
+  String get formSectionMacronutrients;
+
+  /// Form section header for micronutrients
+  ///
+  /// In en, this message translates to:
+  /// **'Micronutrients'**
+  String get formSectionMicronutrients;
+
+  /// Form section header for cost and availability
+  ///
+  /// In en, this message translates to:
+  /// **'Cost & Availability'**
+  String get formSectionCostAvailability;
+
+  /// Form section header for additional information
+  ///
+  /// In en, this message translates to:
+  /// **'Additional Information'**
+  String get formSectionAdditionalInfo;
+
+  /// Label for energy mode selector checkbox
+  ///
+  /// In en, this message translates to:
+  /// **'Enter Energy Values for each specific group of animals?'**
+  String get fieldHintEnergyMode;
+
+  /// Label for adult pigs energy field
+  ///
+  /// In en, this message translates to:
+  /// **'Adult Pigs'**
+  String get fieldLabelAdultPigs;
+
+  /// Label for growing pigs energy field
+  ///
+  /// In en, this message translates to:
+  /// **'Growing Pigs'**
+  String get fieldLabelGrowingPigs;
+
+  /// Label for poultry energy field
+  ///
+  /// In en, this message translates to:
+  /// **'Poultry'**
+  String get fieldLabelPoultry;
+
+  /// Label for rabbit energy field
+  ///
+  /// In en, this message translates to:
+  /// **'Rabbit'**
+  String get fieldLabelRabbit;
+
+  /// Label for ruminant energy field
+  ///
+  /// In en, this message translates to:
+  /// **'Ruminant'**
+  String get fieldLabelRuminant;
+
+  /// Label for fish/salmonids energy field
+  ///
+  /// In en, this message translates to:
+  /// **'Fish'**
+  String get fieldLabelFish;
+
+  /// Label for creator name field
+  ///
+  /// In en, this message translates to:
+  /// **'Created By'**
+  String get fieldLabelCreatedBy;
+
+  /// Label for notes field
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get fieldLabelNotes;
+
+  /// Header title for custom ingredient creation
+  ///
+  /// In en, this message translates to:
+  /// **'Creating Custom Ingredient'**
+  String get customIngredientHeader;
+
+  /// Description text for custom ingredient creation
+  ///
+  /// In en, this message translates to:
+  /// **'You can add your own ingredient with custom nutritional values'**
+  String get customIngredientDescription;
+
+  /// Title for new ingredient form
+  ///
+  /// In en, this message translates to:
+  /// **'New Ingredient'**
+  String get newIngredientTitle;
+
+  /// Label for feed name field
+  ///
+  /// In en, this message translates to:
+  /// **'Feed Name'**
+  String get fieldLabelFeedName;
+
+  /// Label for animal type selection field
+  ///
+  /// In en, this message translates to:
+  /// **'Animal Type'**
+  String get fieldLabelAnimalType;
+
+  /// Label for production stage field
+  ///
+  /// In en, this message translates to:
+  /// **'Production Stage'**
+  String get fieldLabelProductionStage;
+
+  /// Success dialog title when ingredient is added
+  ///
+  /// In en, this message translates to:
+  /// **'{name} Added Successfully'**
+  String ingredientAddedSuccessTitle(String name);
+
+  /// Success dialog message asking if user wants to continue
+  ///
+  /// In en, this message translates to:
+  /// **'Would you like to add another ingredient?'**
+  String get ingredientAddedSuccessMessage;
+
+  /// Button to decline adding another ingredient
+  ///
+  /// In en, this message translates to:
+  /// **'No, Go Back'**
+  String get ingredientAddedNo;
+
+  /// Button to continue adding ingredients
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, Continue'**
+  String get ingredientAddedYes;
+
+  /// Header showing count of custom ingredients
+  ///
+  /// In en, this message translates to:
+  /// **'Your Custom Ingredients ({count})'**
+  String customIngredientsHeader(int count);
+
+  /// Search field hint for custom ingredients
+  ///
+  /// In en, this message translates to:
+  /// **'Search your custom ingredients...'**
+  String get customIngredientsSearchHint;
+
+  /// Empty state title when no custom ingredients exist
+  ///
+  /// In en, this message translates to:
+  /// **'No custom ingredients yet'**
+  String get customIngredientsEmptyTitle;
+
+  /// Empty state subtitle encouraging creation
+  ///
+  /// In en, this message translates to:
+  /// **'Create your first custom ingredient!'**
+  String get customIngredientsEmptySubtitle;
+
+  /// Message when search returns no results
+  ///
+  /// In en, this message translates to:
+  /// **'No ingredients match your search'**
+  String get customIngredientsNoMatch;
+
+  /// Label showing ingredient creator
+  ///
+  /// In en, this message translates to:
+  /// **'by {creator}'**
+  String labelCreatedBy(String creator);
+
+  /// Label for notes section
+  ///
+  /// In en, this message translates to:
+  /// **'Notes:'**
+  String get labelNotes;
+
+  /// Label for price history section
+  ///
+  /// In en, this message translates to:
+  /// **'Price History'**
+  String get labelPriceHistory;
+
+  /// Short label for Calcium
+  ///
+  /// In en, this message translates to:
+  /// **'Ca'**
+  String get labelCa;
+
+  /// Short label for Phosphorus
+  ///
+  /// In en, this message translates to:
+  /// **'P'**
+  String get labelP;
+
+  /// Message when no price history exists
+  ///
+  /// In en, this message translates to:
+  /// **'No price history available'**
+  String get priceHistoryEmpty;
+
+  /// Error message for price history loading failure
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading price history'**
+  String get priceHistoryError;
+
+  /// Confirmation dialog title for deleting custom ingredient
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Custom Ingredient?'**
+  String get deleteCustomIngredientTitle;
+
+  /// Confirmation message for deleting custom ingredient
+  ///
+  /// In en, this message translates to:
+  /// **'Remove \"{name}\" from your custom ingredients?'**
+  String deleteCustomIngredientMessage(String name);
+
+  /// Success message after ingredient removal
+  ///
+  /// In en, this message translates to:
+  /// **'{name} removed'**
+  String ingredientRemovedSuccess(String name);
+
+  /// Dialog title for export format selection
+  ///
+  /// In en, this message translates to:
+  /// **'Export Format'**
+  String get exportFormatTitle;
+
+  /// Dialog message for export format selection
+  ///
+  /// In en, this message translates to:
+  /// **'Choose export format for your custom ingredients:'**
+  String get exportFormatMessage;
+
+  /// Loading message while exporting to JSON
+  ///
+  /// In en, this message translates to:
+  /// **'Exporting to JSON...'**
+  String get exportingToJson;
+
+  /// Loading message while exporting to CSV
+  ///
+  /// In en, this message translates to:
+  /// **'Exporting to CSV...'**
+  String get exportingToCsv;
+
+  /// Error message when export fails
+  ///
+  /// In en, this message translates to:
+  /// **'Export failed'**
+  String get exportFailed;
+
+  /// Error message with details when export fails
+  ///
+  /// In en, this message translates to:
+  /// **'Export failed: {error}'**
+  String exportFailedWithError(String error);
+
+  /// Dialog title for importing custom ingredients
+  ///
+  /// In en, this message translates to:
+  /// **'Import Custom Ingredients'**
+  String get importCustomIngredientsTitle;
+
+  /// Dialog message for import format selection
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the file format to import:'**
+  String get importFormatMessage;
+
+  /// Loading message while importing
+  ///
+  /// In en, this message translates to:
+  /// **'Importing data...'**
+  String get importingData;
+
+  /// Success dialog title after import
+  ///
+  /// In en, this message translates to:
+  /// **'Import Successful'**
+  String get importSuccessTitle;
+
+  /// Error dialog title after failed import
+  ///
+  /// In en, this message translates to:
+  /// **'Import Failed'**
+  String get importFailedTitle;
+
+  /// Error message with details
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String importError(String error);
+
+  /// JSON format option
+  ///
+  /// In en, this message translates to:
+  /// **'JSON'**
+  String get actionJson;
+
+  /// CSV format option
+  ///
+  /// In en, this message translates to:
+  /// **'CSV'**
+  String get actionCsv;
+
+  /// Generic label for ingredient
+  ///
+  /// In en, this message translates to:
+  /// **'Ingredient'**
+  String get labelIngredient;
 }
 
 class _AppLocalizationsDelegate

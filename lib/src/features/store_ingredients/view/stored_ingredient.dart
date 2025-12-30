@@ -527,22 +527,23 @@ class _EditFormCardState extends ConsumerState<_EditFormCard> {
   }
 
   Future<void> _confirmDelete(BuildContext context, WidgetRef ref) async {
+    final l10n = context.l10n; // Capture before dialog
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (dialogContext) => AlertDialog(
         icon: Icon(Icons.delete_forever_rounded,
             color: Colors.red.shade400, size: 32),
-        title: Text(context.l10n.deleteIngredientTitle),
-        content: Text(context.l10n.deleteIngredientMessage),
+        title: Text(l10n.deleteIngredientTitle),
+        content: Text(l10n.deleteIngredientMessage),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: Text(context.l10n.confirmCancel),
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: Text(l10n.confirmCancel),
           ),
           FilledButton(
-            onPressed: () => Navigator.pop(context, true),
+            onPressed: () => Navigator.pop(dialogContext, true),
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
-            child: Text(context.l10n.confirmDelete),
+            child: Text(l10n.confirmDelete),
           ),
         ],
       ),

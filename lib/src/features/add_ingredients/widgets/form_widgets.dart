@@ -66,9 +66,13 @@ Widget categoryField(
           items: categories.map((IngredientCategory cat) {
             return DropdownMenuItem<num>(
               value: cat.categoryId,
-              child: Text(cat.category.toString()),
+              child: Text(
+                cat.category.toString(),
+                overflow: TextOverflow.ellipsis,
+              ),
             );
           }).toList(),
+          isExpanded: true,
           onChanged: (value) => ref
               .read(ingredientProvider.notifier)
               .setCategory(value.toString()),

@@ -1,5 +1,5 @@
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
-
+import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -24,13 +24,13 @@ class IngredientForm extends ConsumerWidget {
         children: <Widget>[
           // Custom ingredient header
           if (isCustom) ...[
-            customIngredientHeader(),
+            customIngredientHeader(context),
             const SizedBox(height: 24),
           ],
 
           // Basic Information Section
           _FormSection(
-            title: 'Basic Information',
+            title: context.l10n.formSectionBasicInfo,
             children: [
               nameField(ref, ingId, context),
               const SizedBox(height: 16),
@@ -41,7 +41,7 @@ class IngredientForm extends ConsumerWidget {
 
           // Energy Values Section
           _FormSection(
-            title: 'Energy Values',
+            title: context.l10n.formSectionEnergyValues,
             children: [
               _EnergyModeSelector(ref: ref),
               const SizedBox(height: 16),
@@ -56,7 +56,7 @@ class IngredientForm extends ConsumerWidget {
 
           // Macronutrient Section
           _FormSection(
-            title: 'Macronutrients',
+            title: context.l10n.formSectionMacronutrients,
             children: [
               Row(
                 children: [
@@ -73,7 +73,7 @@ class IngredientForm extends ConsumerWidget {
 
           // Micronutrient Section
           _FormSection(
-            title: 'Micronutrients',
+            title: context.l10n.formSectionMicronutrients,
             children: [
               Row(
                 children: [
@@ -96,7 +96,7 @@ class IngredientForm extends ConsumerWidget {
 
           // Cost & Availability Section
           _FormSection(
-            title: 'Cost & Availability',
+            title: context.l10n.formSectionCostAvailability,
             children: [
               Row(
                 children: [
@@ -112,7 +112,7 @@ class IngredientForm extends ConsumerWidget {
           if (isCustom) ...[
             const SizedBox(height: 24),
             _FormSection(
-              title: 'Additional Information',
+              title: context.l10n.formSectionAdditionalInfo,
               children: [
                 createdByField(ref),
                 const SizedBox(height: 16),
@@ -146,14 +146,17 @@ class _FormSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        // Section header
+        // Section header with flexible sizing for long translations
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4.0),
           child: Text(
             title,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.w600,
                   color: const Color(0xff87643E),
+                  height: 1.2,
                 ),
           ),
         ),
@@ -201,8 +204,12 @@ class _EnergyModeSelector extends StatelessWidget {
         children: [
           Expanded(
             child: Text(
-              'Enter Energy Values for each specific Group of Animals?',
-              style: Theme.of(context).textTheme.bodyMedium,
+              context.l10n.fieldHintEnergyMode,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    height: 1.2,
+                  ),
             ),
           ),
           const SizedBox(width: 16),
@@ -239,10 +246,13 @@ class _AnimalSpecificEnergyFields extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 4.0, bottom: 8.0),
                     child: Text(
-                      'Adult Pigs',
+                      context.l10n.fieldLabelAdultPigs,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
                             color:
                                 const Color(0xff87643E).withValues(alpha: 0.7),
+                            height: 1.1,
                           ),
                     ),
                   ),
@@ -258,10 +268,13 @@ class _AnimalSpecificEnergyFields extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 4.0, bottom: 8.0),
                     child: Text(
-                      'Growing Pigs',
+                      context.l10n.fieldLabelGrowingPigs,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
                             color:
                                 const Color(0xff87643E).withValues(alpha: 0.7),
+                            height: 1.1,
                           ),
                     ),
                   ),
@@ -281,10 +294,13 @@ class _AnimalSpecificEnergyFields extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 4.0, bottom: 8.0),
                     child: Text(
-                      'Fish',
+                      context.l10n.fieldLabelFish,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
                             color:
                                 const Color(0xff87643E).withValues(alpha: 0.7),
+                            height: 1.1,
                           ),
                     ),
                   ),
@@ -300,10 +316,13 @@ class _AnimalSpecificEnergyFields extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 4.0, bottom: 8.0),
                     child: Text(
-                      'Poultry',
+                      context.l10n.fieldLabelPoultry,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
                             color:
                                 const Color(0xff87643E).withValues(alpha: 0.7),
+                            height: 1.1,
                           ),
                     ),
                   ),
@@ -323,10 +342,13 @@ class _AnimalSpecificEnergyFields extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 4.0, bottom: 8.0),
                     child: Text(
-                      'Rabbit',
+                      context.l10n.fieldLabelRabbit,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
                             color:
                                 const Color(0xff87643E).withValues(alpha: 0.7),
+                            height: 1.1,
                           ),
                     ),
                   ),
@@ -342,10 +364,13 @@ class _AnimalSpecificEnergyFields extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 4.0, bottom: 8.0),
                     child: Text(
-                      'Ruminant',
+                      context.l10n.fieldLabelRuminant,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
                             color:
                                 const Color(0xff87643E).withValues(alpha: 0.7),
+                            height: 1.1,
                           ),
                     ),
                   ),

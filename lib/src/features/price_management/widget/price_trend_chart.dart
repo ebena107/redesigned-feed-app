@@ -57,13 +57,17 @@ class PriceTrendChart extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Title and stats
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          // Title and stats (wrap to avoid overflow on small screens)
+          Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: UIConstants.paddingSmall,
+            runSpacing: UIConstants.paddingSmall,
             children: [
               Text(
                 'Price Trend',
                 style: Theme.of(context).textTheme.titleMedium,
+                overflow: TextOverflow.ellipsis,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -114,14 +118,18 @@ class PriceTrendChart extends StatelessWidget {
               color: Colors.grey[100],
               borderRadius: BorderRadius.circular(4),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Wrap(
+              alignment: WrapAlignment.spaceBetween,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: UIConstants.paddingSmall,
+              runSpacing: UIConstants.paddingSmall,
               children: [
                 Text(
                   'Latest: ${sortedHistory.last.price.toStringAsFixed(2)} $currency',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
+                  overflow: TextOverflow.ellipsis,
                 ),
                 Text(
                   'as of ${DateFormat('MMM dd, yyyy').format(sortedHistory.last.effectiveDate)}',

@@ -835,4 +835,195 @@ class AppLocalizationsFr extends AppLocalizations {
   String pdfPreviewTitle(String feedName) {
     return 'Ebena Feed Estimator | Aperçu de $feedName';
   }
+
+  @override
+  String get formSectionBasicInfo => 'Basic Information';
+
+  @override
+  String get formSectionEnergyValues => 'Energy Values';
+
+  @override
+  String get formSectionMacronutrients => 'Macronutrients';
+
+  @override
+  String get formSectionMicronutrients => 'Micronutrients';
+
+  @override
+  String get formSectionCostAvailability => 'Cost & Availability';
+
+  @override
+  String get formSectionAdditionalInfo => 'Additional Information';
+
+  @override
+  String get fieldHintEnergyMode =>
+      'Enter Energy Values for each specific group of animals?';
+
+  @override
+  String get fieldLabelAdultPigs => 'Adult Pigs';
+
+  @override
+  String get fieldLabelGrowingPigs => 'Growing Pigs';
+
+  @override
+  String get fieldLabelPoultry => 'Poultry';
+
+  @override
+  String get fieldLabelRabbit => 'Rabbit';
+
+  @override
+  String get fieldLabelRuminant => 'Ruminant';
+
+  @override
+  String get fieldLabelFish => 'Fish';
+
+  @override
+  String get fieldLabelCreatedBy => 'Created By';
+
+  @override
+  String get fieldLabelNotes => 'Notes';
+
+  @override
+  String get customIngredientHeader => 'Creating Custom Ingredient';
+
+  @override
+  String get customIngredientDescription =>
+      'You can add your own ingredient with custom nutritional values';
+
+  @override
+  String get newIngredientTitle => 'New Ingredient';
+
+  @override
+  String get fieldLabelFeedName => 'Feed Name';
+
+  @override
+  String get fieldLabelAnimalType => 'Animal Type';
+
+  @override
+  String get fieldLabelProductionStage => 'Production Stage';
+
+  @override
+  String ingredientAddedSuccessTitle(String name) {
+    return '$name Ajouté avec Succès';
+  }
+
+  @override
+  String get ingredientAddedSuccessMessage =>
+      'Voulez-vous ajouter un autre ingrédient?';
+
+  @override
+  String get ingredientAddedNo => 'Non, Retour';
+
+  @override
+  String get ingredientAddedYes => 'Oui, Continuer';
+
+  @override
+  String customIngredientsHeader(int count) {
+    return 'Vos Ingrédients Personnalisés ($count)';
+  }
+
+  @override
+  String get customIngredientsSearchHint =>
+      'Rechercher vos ingrédients personnalisés...';
+
+  @override
+  String get customIngredientsEmptyTitle =>
+      'Pas encore d\'ingrédients personnalisés';
+
+  @override
+  String get customIngredientsEmptySubtitle =>
+      'Créez votre premier ingrédient personnalisé!';
+
+  @override
+  String get customIngredientsNoMatch =>
+      'Aucun ingrédient ne correspond à votre recherche';
+
+  @override
+  String labelCreatedBy(String creator) {
+    return 'par $creator';
+  }
+
+  @override
+  String get labelNotes => 'Notes:';
+
+  @override
+  String get labelPriceHistory => 'Historique des Prix';
+
+  @override
+  String get labelCa => 'Ca';
+
+  @override
+  String get labelP => 'P';
+
+  @override
+  String get priceHistoryEmpty => 'Aucun historique de prix disponible';
+
+  @override
+  String get priceHistoryError =>
+      'Erreur lors du chargement de l\'historique des prix';
+
+  @override
+  String get deleteCustomIngredientTitle =>
+      'Supprimer l\'Ingrédient Personnalisé?';
+
+  @override
+  String deleteCustomIngredientMessage(String name) {
+    return 'Retirer \"$name\" de vos ingrédients personnalisés?';
+  }
+
+  @override
+  String ingredientRemovedSuccess(String name) {
+    return '$name supprimé';
+  }
+
+  @override
+  String get exportFormatTitle => 'Format d\'Exportation';
+
+  @override
+  String get exportFormatMessage =>
+      'Choisissez le format d\'exportation pour vos ingrédients personnalisés:';
+
+  @override
+  String get exportingToJson => 'Exportation vers JSON...';
+
+  @override
+  String get exportingToCsv => 'Exportation vers CSV...';
+
+  @override
+  String get exportFailed => 'Échec de l\'exportation';
+
+  @override
+  String exportFailedWithError(String error) {
+    return 'Échec de l\'exportation: $error';
+  }
+
+  @override
+  String get importCustomIngredientsTitle =>
+      'Importer des Ingrédients Personnalisés';
+
+  @override
+  String get importFormatMessage =>
+      'Choisissez le format de fichier à importer:';
+
+  @override
+  String get importingData => 'Importation des données...';
+
+  @override
+  String get importSuccessTitle => 'Importation Réussie';
+
+  @override
+  String get importFailedTitle => 'Échec de l\'Importation';
+
+  @override
+  String importError(String error) {
+    return 'Erreur: $error';
+  }
+
+  @override
+  String get actionJson => 'JSON';
+
+  @override
+  String get actionCsv => 'CSV';
+
+  @override
+  String get labelIngredient => 'Ingrédient';
 }
