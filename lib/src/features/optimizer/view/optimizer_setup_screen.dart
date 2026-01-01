@@ -5,7 +5,7 @@ import '../model/optimization_constraint.dart';
 import '../widgets/constraint_input_card.dart';
 import '../widgets/ingredient_selection_card.dart';
 import '../widgets/optimization_settings_card.dart';
-import '../../add_update_feed/providers/feed_provider.dart';
+import '../../main/repository/feed_repository.dart';
 import 'optimization_results_screen.dart';
 
 /// Main screen for setting up and running feed formulation optimization
@@ -36,8 +36,8 @@ class _OptimizerSetupScreenState extends ConsumerState<OptimizerSetupScreen> {
   Future<void> _loadExistingFeed(int feedId) async {
     try {
       // Load feed from database
-      final feedRepository = ref.read(feedRepositoryProvider);
-      final feed = await feedRepository.getFeedById(feedId);
+      final feedRepo = ref.read(feedRepository);
+      final feed = await feedRepo.getFeedById(feedId);
 
       if (feed == null || !mounted) {
         return;
