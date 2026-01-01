@@ -23,7 +23,7 @@ class OptimizationSettingsCard extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             DropdownButtonFormField<ObjectiveFunction>(
-              value: optimizerState.objective,
+              initialValue: optimizerState.objective,
               decoration: const InputDecoration(
                 labelText: 'Objective',
                 border: OutlineInputBorder(),

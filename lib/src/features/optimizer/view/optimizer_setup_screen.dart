@@ -9,7 +9,9 @@ import 'optimization_results_screen.dart';
 
 /// Main screen for setting up and running feed formulation optimization
 class OptimizerSetupScreen extends ConsumerStatefulWidget {
-  const OptimizerSetupScreen({super.key});
+  const OptimizerSetupScreen({super.key, this.existingFeedId});
+
+  final int? existingFeedId;
 
   @override
   ConsumerState<OptimizerSetupScreen> createState() =>
@@ -18,6 +20,28 @@ class OptimizerSetupScreen extends ConsumerStatefulWidget {
 
 class _OptimizerSetupScreenState extends ConsumerState<OptimizerSetupScreen> {
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    // Load existing feed data if feedId is provided
+    if (widget.existingFeedId != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _loadExistingFeed(widget.existingFeedId!);
+      });
+    }
+  }
+
+  Future<void> _loadExistingFeed(int feedId) async {
+    // TODO: Load feed from database and pre-populate optimizer
+    // This will be implemented when we integrate with feed repository
+    // For now, show a message
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Loading feed #$feedId for optimization...')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -191,7 +215,7 @@ class _OptimizerSetupScreenState extends ConsumerState<OptimizerSetupScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 DropdownButtonFormField<String>(
-                  value: nutrientName,
+                  initialValue: nutrientName,
                   decoration: const InputDecoration(labelText: 'Nutrient'),
                   items: const [
                     DropdownMenuItem(
@@ -209,7 +233,7 @@ class _OptimizerSetupScreenState extends ConsumerState<OptimizerSetupScreen> {
                 ),
                 const SizedBox(height: 16),
                 DropdownButtonFormField<ConstraintType>(
-                  value: type,
+                  initialValue: type,
                   decoration: const InputDecoration(labelText: 'Type'),
                   items: const [
                     DropdownMenuItem(
@@ -282,7 +306,7 @@ class _OptimizerSetupScreenState extends ConsumerState<OptimizerSetupScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 DropdownButtonFormField<String>(
-                  value: nutrientName,
+                  initialValue: nutrientName,
                   decoration: const InputDecoration(labelText: 'Nutrient'),
                   items: const [
                     DropdownMenuItem(
@@ -300,7 +324,7 @@ class _OptimizerSetupScreenState extends ConsumerState<OptimizerSetupScreen> {
                 ),
                 const SizedBox(height: 16),
                 DropdownButtonFormField<ConstraintType>(
-                  value: type,
+                  initialValue: type,
                   decoration: const InputDecoration(labelText: 'Type'),
                   items: const [
                     DropdownMenuItem(

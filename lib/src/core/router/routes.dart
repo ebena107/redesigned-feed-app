@@ -230,10 +230,17 @@ class FeedIngredientsRoute extends GoRouteData {
 
 @immutable
 class OptimizerSetupRoute extends GoRouteData {
-  const OptimizerSetupRoute();
+  const OptimizerSetupRoute({this.feedId});
+  final int? feedId;
+
   @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      const OptimizerSetupScreen();
+  Widget build(BuildContext context, GoRouterState state) {
+    final id = feedId ??
+        (state.uri.queryParameters['feedId'] != null
+            ? int.tryParse(state.uri.queryParameters['feedId']!)
+            : null);
+    return OptimizerSetupScreen(existingFeedId: id);
+  }
 }
 
 @immutable
