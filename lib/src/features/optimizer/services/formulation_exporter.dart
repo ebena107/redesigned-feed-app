@@ -119,7 +119,7 @@ class FormulationExporter {
       final price = request.ingredientPrices[entry.key] ?? 0.0;
       final costContribution = (entry.value / 100.0) * price;
 
-      buffer.writeln('${ingredient?.name ?? 'Unknown Ingredient'}');
+      buffer.writeln(ingredient?.name ?? 'Unknown Ingredient');
       buffer.writeln('  Proportion: ${entry.value.toStringAsFixed(2)}%');
       buffer.writeln('  Price: \$${price.toStringAsFixed(2)}/kg');
       buffer.writeln(
