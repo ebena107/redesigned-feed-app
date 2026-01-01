@@ -5,6 +5,7 @@ import '../model/optimization_constraint.dart';
 import '../widgets/constraint_input_card.dart';
 import '../widgets/ingredient_selection_card.dart';
 import '../widgets/optimization_settings_card.dart';
+import '../widgets/animal_category_card.dart';
 import '../../main/repository/feed_repository.dart';
 import 'optimization_results_screen.dart';
 
@@ -102,6 +103,10 @@ class _OptimizerSetupScreenState extends ConsumerState<OptimizerSetupScreen> {
         child: ListView(
           padding: const EdgeInsets.all(16.0),
           children: [
+            // Animal Category Card
+            const AnimalCategoryCard(),
+            const SizedBox(height: 16),
+
             // Optimization Settings Card
             const OptimizationSettingsCard(),
             const SizedBox(height: 16),
