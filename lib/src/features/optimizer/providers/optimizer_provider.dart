@@ -22,6 +22,8 @@ class OptimizerState {
   final OptimizationResult? lastResult;
   final bool isOptimizing;
   final String? errorMessage;
+  final String? selectedCategory; // e.g., "Poultry - Broiler Starter"
+  final String? requirementSource; // e.g., "NRC 1994 Poultry"
 
   const OptimizerState({
     this.constraints = const [],
@@ -32,6 +34,8 @@ class OptimizerState {
     this.lastResult,
     this.isOptimizing = false,
     this.errorMessage,
+    this.selectedCategory,
+    this.requirementSource,
   });
 
   OptimizerState copyWith({
@@ -43,6 +47,8 @@ class OptimizerState {
     OptimizationResult? lastResult,
     bool? isOptimizing,
     String? errorMessage,
+    String? selectedCategory,
+    String? requirementSource,
   }) {
     return OptimizerState(
       constraints: constraints ?? this.constraints,
@@ -54,6 +60,8 @@ class OptimizerState {
       lastResult: lastResult ?? this.lastResult,
       isOptimizing: isOptimizing ?? this.isOptimizing,
       errorMessage: errorMessage,
+      selectedCategory: selectedCategory ?? this.selectedCategory,
+      requirementSource: requirementSource ?? this.requirementSource,
     );
   }
 
@@ -223,6 +231,29 @@ class OptimizerNotifier extends Notifier<OptimizerState> {
         errorMessage: 'Optimization failed: ${e.toString()}',
       );
     }
+  }
+
+  /// Load animal category requirements
+  void loadAnimalRequirements(dynamic category) {
+    // Import needed: import '../model/nutrient_requirement.dart';
+    final constraints = category.getAllConstraints();
+    final sources =
+        category.requirements.map((r) => r.source).toSet().join(', ');
+
+    state = state.copyWith(
+      constraints: constraints,
+      selectedCategory: category.displayName,
+      requirementSource: sources,
+    );
+  }
+
+  /// Clear animal category
+  void clearAnimalCategory() {
+    state = state.copyWith(
+      selectedCategory: null,
+      requirementSource: null,
+      constraints: [],
+    );
   }
 
   /// Reset optimizer state
