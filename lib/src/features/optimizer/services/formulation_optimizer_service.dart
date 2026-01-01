@@ -167,8 +167,6 @@ class FormulationOptimizerService {
     OptimizationRequest request,
     Map<int, Ingredient> ingredientCache,
   ) {
-    final numIngredients = request.availableIngredientIds.length;
-
     // Objective coefficients (based on objective function)
     final objectiveCoefficients = _buildObjectiveCoefficients(
       request,
@@ -214,11 +212,11 @@ class FormulationOptimizerService {
           break;
         case ObjectiveFunction.maximizeProtein:
           // Use negative protein (to maximize via minimization)
-          coefficient = -(ingredient.crudeProtein ?? 0.0);
+          coefficient = -((ingredient.crudeProtein ?? 0.0).toDouble());
           break;
         case ObjectiveFunction.maximizeEnergy:
           // Use negative energy (to maximize via minimization)
-          coefficient = -(ingredient.energy?.nePig ?? 0.0);
+          coefficient = -((ingredient.energy?.nePig ?? 0.0).toDouble());
           break;
       }
 
@@ -287,7 +285,7 @@ class FormulationOptimizerService {
 
       // Also check ingredient's own max inclusion limit
       if (ingredient.maxInclusionPct != null) {
-        maxPct = maxPct.clamp(0.0, ingredient.maxInclusionPct!);
+        maxPct = maxPct.clamp(0.0, (ingredient.maxInclusionPct!).toDouble());
       }
 
       lower.add(minPct);
@@ -302,26 +300,26 @@ class FormulationOptimizerService {
     switch (nutrientName.toLowerCase()) {
       case 'crudeprotein':
       case 'protein':
-        return ingredient.crudeProtein ?? 0.0;
+        return (ingredient.crudeProtein ?? 0.0).toDouble();
       case 'crudefat':
       case 'fat':
-        return ingredient.crudeFat ?? 0.0;
+        return (ingredient.crudeFat ?? 0.0).toDouble();
       case 'crudefiber':
       case 'fiber':
-        return ingredient.crudeFiber ?? 0.0;
+        return (ingredient.crudeFiber ?? 0.0).toDouble();
       case 'ash':
-        return ingredient.ash ?? 0.0;
+        return (ingredient.ash ?? 0.0).toDouble();
       case 'moisture':
-        return ingredient.moisture ?? 0.0;
+        return (ingredient.moisture ?? 0.0).toDouble();
       case 'calcium':
-        return ingredient.calcium ?? 0.0;
+        return (ingredient.calcium ?? 0.0).toDouble();
       case 'phosphorus':
-        return ingredient.phosphorus ?? 0.0;
+        return (ingredient.phosphorus ?? 0.0).toDouble();
       case 'energy':
       case 'nepig':
-        return ingredient.energy?.nePig ?? 0.0;
+        return (ingredient.energy?.nePig ?? 0.0).toDouble();
       case 'mepoultry':
-        return ingredient.energy?.mePoultry ?? 0.0;
+        return (ingredient.energy?.mePoultry ?? 0.0).toDouble();
       // Add more nutrients as needed
       default:
         return 0.0;

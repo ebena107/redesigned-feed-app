@@ -1,0 +1,17 @@
+Analyzing optimizer...                                          
+
+warning - The value of the local variable 'numIngredients' isn't used - lib\src\features\optimizer\services\formulation_optimizer_service.dart:170:11 - unused_local_variable
+  error - A value of type 'num' can't be assigned to a variable of type 'double' - lib\src\features\optimizer\services\formulation_optimizer_service.dart:217:25 - invalid_assignment
+  error - A value of type 'num' can't be assigned to a variable of type 'double' - lib\src\features\optimizer\services\formulation_optimizer_service.dart:221:25 - invalid_assignment
+  error - A value of type 'num' can't be assigned to a variable of type 'double' - lib\src\features\optimizer\services\formulation_optimizer_service.dart:290:18 - invalid_assignment
+  error - A value of type 'num' can't be returned from the method '_getNutrientValue' because it has a return type of 'double' - lib\src\features\optimizer\services\formulation_optimizer_service.dart:305:16 - return_of_invalid_type
+  error - A value of type 'num' can't be returned from the method '_getNutrientValue' because it has a return type of 'double' - lib\src\features\optimizer\services\formulation_optimizer_service.dart:308:16 - return_of_invalid_type
+  error - A value of type 'num' can't be returned from the method '_getNutrientValue' because it has a return type of 'double' - lib\src\features\optimizer\services\formulation_optimizer_service.dart:311:16 - return_of_invalid_type
+  error - A value of type 'num' can't be returned from the method '_getNutrientValue' because it has a return type of 'double' - lib\src\features\optimizer\services\formulation_optimizer_service.dart:313:16 - return_of_invalid_type
+  error - A value of type 'num' can't be returned from the method '_getNutrientValue' because it has a return type of 'double' - lib\src\features\optimizer\services\formulation_optimizer_service.dart:315:16 - return_of_invalid_type
+  error - A value of type 'num' can't be returned from the method '_getNutrientValue' because it has a return type of 'double' - lib\src\features\optimizer\services\formulation_optimizer_service.dart:317:16 - return_of_invalid_type
+  error - A value of type 'num' can't be returned from the method '_getNutrientValue' because it has a return type of 'double' - lib\src\features\optimizer\services\formulation_optimizer_service.dart:319:16 - return_of_invalid_type
+  error - A value of type 'num' can't be returned from the method '_getNutrientValue' because it has a return type of 'double' - lib\src\features\optimizer\services\formulation_optimizer_service.dart:322:16 - return_of_invalid_type
+  error - A value of type 'num' can't be returned from the method '_getNutrientValue' because it has a return type of 'double' - lib\src\features\optimizer\services\formulation_optimizer_service.dart:324:16 - return_of_invalid_type
+
+13 issues found. (ran in 0.4s)
