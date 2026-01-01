@@ -1,12 +1,30 @@
 # 📑 Master Documentation Index
 
 **Location**: `/doc` folder  
-**Last Updated**: December 15, 2025  
+**Last Updated**: January 1, 2026  
 **Status**: ✅ **COMPLETE & ORGANIZED**
 
 ---
 
 ## 🎯 Quick Navigation
+
+### 🆕 NEW - Feed Formulation Optimizer (Planning Phase)
+
+- **For quick overview**: `FEED_OPTIMIZER_QUICK_REFERENCE.md` (5 min)
+  - Architecture overview
+  - Key components and timeline
+  - Implementation status
+  
+- **For implementation**: `FEED_OPTIMIZER_IMPLEMENTATION_PLAN.md` (30-40 min)
+  - Complete technical specification
+  - 40+ files to create/modify
+  - Testing and verification strategy
+  
+- **For task tracking**: `FEED_OPTIMIZER_TASKS.md` (10-15 min)
+  - 150+ granular tasks
+  - 9 implementation phases
+  - Progress tracking
+
 
 ### 🔴 URGENT - Start Here
 
@@ -39,6 +57,32 @@
 ---
 
 ## 📚 All Documentation Files
+
+### Feed Formulation Optimizer Documentation (3 files) 🆕
+
+1. **FEED_OPTIMIZER_QUICK_REFERENCE.md** ⭐ START HERE
+   - Architecture overview with diagrams
+   - Key components and services
+   - Optimization algorithm details
+   - Implementation timeline (4-6 weeks)
+   - 📄 Length: 5-7 min read
+
+2. **FEED_OPTIMIZER_IMPLEMENTATION_PLAN.md** 📋 DETAILED PLAN
+   - Complete technical specification
+   - 40+ files to create/modify
+   - Data models, services, UI components
+   - Integration points with existing features
+   - Testing and verification strategy
+   - 📄 Length: 30-40 min read
+
+3. **FEED_OPTIMIZER_TASKS.md** ✅ TASK BREAKDOWN
+   - 150+ granular tasks across 9 phases
+   - Progress tracking (currently 1% complete)
+   - Estimated 4-6 weeks implementation
+   - Phase-by-phase checklist
+   - 📄 Length: 10-15 min read
+
+---
 
 ### Bug Fix Documentation (7 files)
 
