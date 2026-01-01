@@ -56,11 +56,8 @@ class NewFeedPage extends ConsumerWidget {
                   ? AppConstants.appCarrotColor
                   : AppConstants.appBlueColor,
               expandedHeight: displayHeight(context) * .25,
-              // Extend app bar color into status bar
-              systemOverlayStyle: SystemUiOverlayStyle(
-                statusBarColor: isEdit
-                    ? AppConstants.appCarrotColor
-                    : AppConstants.appBlueColor,
+              // Android 15+ edge-to-edge: Removed deprecated statusBarColor
+              systemOverlayStyle: const SystemUiOverlayStyle(
                 statusBarIconBrightness: Brightness.light,
                 statusBarBrightness: Brightness.dark,
               ),

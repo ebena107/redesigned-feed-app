@@ -45,25 +45,21 @@ class AppConstants {
   static const double radiusLarge = 24.0;
   static const double radiusRound = 28.0;
 
+  // Android 15+ edge-to-edge: Removed deprecated color properties
+  // (statusBarColor, systemNavigationBarColor, systemNavigationBarDividerColor)
   static SystemUiOverlayStyle pagesBar = SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
     statusBarIconBrightness: Brightness.dark,
     statusBarBrightness:
         Platform.isAndroid ? Brightness.light : Brightness.dark,
-    systemNavigationBarColor:
-        Colors.transparent, //bottom navigation bar - android
-    systemNavigationBarDividerColor: AppConstants.mainAccentColor,
     systemNavigationBarIconBrightness: Brightness.dark,
   );
 
+  // Android 15+ edge-to-edge: Removed deprecated color properties
+  // (statusBarColor, systemNavigationBarColor, systemNavigationBarDividerColor)
   static SystemUiOverlayStyle mainBar = SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
     statusBarIconBrightness: Brightness.light,
     statusBarBrightness:
         Platform.isAndroid ? Brightness.light : Brightness.dark,
-    systemNavigationBarColor:
-        appBackgroundColor, //bottom navigation bar - android
-    systemNavigationBarDividerColor: Colors.transparent,
     systemNavigationBarIconBrightness: Brightness.dark,
   );
 }
