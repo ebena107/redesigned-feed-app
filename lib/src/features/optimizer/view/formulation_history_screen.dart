@@ -113,7 +113,7 @@ class _FormulationCard extends StatelessWidget {
                       vertical: 6.0,
                     ),
                     decoration: BoxDecoration(
-                      color: _getScoreColor(score).withOpacity(0.2),
+                      color: _getScoreColor(score).withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(12.0),
                     ),
                     child: Text(

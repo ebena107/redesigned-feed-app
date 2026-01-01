@@ -37,7 +37,8 @@ class _OptimizerSetupScreenState extends ConsumerState<OptimizerSetupScreen> {
     try {
       // Load feed from database
       final feedRepo = ref.read(feedRepository);
-      final feed = await feedRepo.getFeedById(feedId);
+      final allFeeds = await feedRepo.getAll();
+      final feed = allFeeds.where((f) => f.feedId == feedId).firstOrNull;
 
       if (feed == null || !mounted) {
         return;
@@ -52,8 +53,8 @@ class _OptimizerSetupScreenState extends ConsumerState<OptimizerSetupScreen> {
 
         if (ingredientId != null) {
           ref.read(optimizerProvider.notifier).addIngredient(
-                ingredientId,
-                price,
+                ingredientId.toInt(),
+                price.toDouble(),
               );
         }
       }

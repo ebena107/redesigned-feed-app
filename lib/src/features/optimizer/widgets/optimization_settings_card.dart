@@ -84,7 +84,7 @@ class OptimizationSettingsCard extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.all(12.0),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: Row(
@@ -94,7 +94,7 @@ class OptimizationSettingsCard extends ConsumerWidget {
           Expanded(
             child: Text(
               description,
-              style: TextStyle(color: color.withOpacity(0.8)),
+              style: TextStyle(color: color.withValues(alpha: 0.8)),
             ),
           ),
         ],

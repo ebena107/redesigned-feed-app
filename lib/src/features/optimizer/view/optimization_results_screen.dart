@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/optimizer_provider.dart';
 import '../../add_ingredients/provider/ingredients_provider.dart';
 import '../../add_ingredients/model/ingredient.dart';
-import '../services/formulation_exporter.dart';
 
 /// Screen for displaying optimization results
 class OptimizationResultsScreen extends ConsumerWidget {
@@ -291,8 +290,6 @@ class OptimizationResultsScreen extends ConsumerWidget {
     dynamic optimizerState,
     Map<int, Ingredient> ingredientCache,
   ) async {
-    final exporter = FormulationExporter();
-
     // Show export format dialog
     final format = await showDialog<String>(
       context: context,
@@ -322,37 +319,11 @@ class OptimizationResultsScreen extends ConsumerWidget {
     );
 
     if (format != null && context.mounted) {
-      String content;
-      String filename;
-
-      switch (format) {
-        case 'json':
-          content = exporter.exportAsJson(
-            result: result,
-            request: optimizerState,
-            ingredientCache: ingredientCache,
-          );
-          filename = 'formulation.json';
-          break;
-        case 'csv':
-          content = exporter.exportAsCsv(
-            result: result,
-            request: optimizerState,
-            ingredientCache: ingredientCache,
-          );
-          filename = 'formulation.csv';
-          break;
-        case 'text':
-          content = exporter.exportAsTextReport(
-            result: result,
-            request: optimizerState,
-            ingredientCache: ingredientCache,
-          );
-          filename = 'formulation.txt';
-          break;
-        default:
-          return;
-      }
+      final filename = format == 'json'
+          ? 'formulation.json'
+          : format == 'csv'
+              ? 'formulation.csv'
+              : 'formulation.txt';
 
       // Share functionality would go here
       // For now, just show a snackbar
