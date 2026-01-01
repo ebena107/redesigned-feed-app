@@ -73,18 +73,26 @@ class SimplexSolver {
     List<double> lb,
     List<double> ub,
   ) {
-    if (c.isEmpty)
+    if (c.isEmpty) {
       throw ArgumentError('Objective coefficients cannot be empty');
-    if (A.isEmpty) throw ArgumentError('Constraint matrix cannot be empty');
-    if (b.isEmpty) throw ArgumentError('Constraint bounds cannot be empty');
+    }
+    if (A.isEmpty) {
+      throw ArgumentError('Constraint matrix cannot be empty');
+    }
+    if (b.isEmpty) {
+      throw ArgumentError('Constraint bounds cannot be empty');
+    }
 
     final numVars = c.length;
-    if (lb.length != numVars)
+    if (lb.length != numVars) {
       throw ArgumentError('Lower bounds length mismatch');
-    if (ub.length != numVars)
+    }
+    if (ub.length != numVars) {
       throw ArgumentError('Upper bounds length mismatch');
-    if (A.length != b.length)
+    }
+    if (A.length != b.length) {
       throw ArgumentError('Constraint matrix/bounds mismatch');
+    }
 
     for (final row in A) {
       if (row.length != numVars) {
