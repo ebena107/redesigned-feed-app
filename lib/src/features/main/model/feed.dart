@@ -17,6 +17,12 @@ class Feed {
   num? timestampModified;
   String? productionStage; // Phase 4: pig_grower, broiler_starter, etc.
 
+  // Optimizer fields
+  bool? isOptimized; // Whether this feed was created by the optimizer
+  String? optimizationConstraintsJson; // Serialized constraints used
+  double? optimizationScore; // Quality score (0-100)
+  String? optimizationObjective; // minimizeCost, maximizeProtein, etc.
+
   Feed({
     this.feedId,
     this.feedName,
@@ -24,6 +30,10 @@ class Feed {
     this.feedIngredients,
     this.timestampModified,
     this.productionStage,
+    this.isOptimized,
+    this.optimizationConstraintsJson,
+    this.optimizationScore,
+    this.optimizationObjective,
   });
 
   Feed.fromJson(dynamic json) {
@@ -38,6 +48,12 @@ class Feed {
     }
     timestampModified = json['timestamp_modified'];
     productionStage = json['production_stage'];
+    isOptimized = json['is_optimized'];
+    optimizationConstraintsJson = json['optimization_constraints_json'];
+    optimizationScore = json['optimization_score'] != null
+        ? (json['optimization_score'] as num).toDouble()
+        : null;
+    optimizationObjective = json['optimization_objective'];
   }
 
   Feed copyWith({
@@ -47,6 +63,10 @@ class Feed {
     List<FeedIngredients>? feedIngredients,
     num? timestampModified,
     String? productionStage,
+    bool? isOptimized,
+    String? optimizationConstraintsJson,
+    double? optimizationScore,
+    String? optimizationObjective,
   }) =>
       Feed(
         feedId: feedId ?? this.feedId,
@@ -55,6 +75,12 @@ class Feed {
         feedIngredients: feedIngredients ?? this.feedIngredients,
         timestampModified: timestampModified ?? this.timestampModified,
         productionStage: productionStage ?? this.productionStage,
+        isOptimized: isOptimized ?? this.isOptimized,
+        optimizationConstraintsJson:
+            optimizationConstraintsJson ?? this.optimizationConstraintsJson,
+        optimizationScore: optimizationScore ?? this.optimizationScore,
+        optimizationObjective:
+            optimizationObjective ?? this.optimizationObjective,
       );
 
   Map<String, dynamic> toJson() {
@@ -68,6 +94,18 @@ class Feed {
     map['timestamp_modified'] = timestampModified;
     if (productionStage != null) {
       map['production_stage'] = productionStage;
+    }
+    if (isOptimized != null) {
+      map['is_optimized'] = isOptimized;
+    }
+    if (optimizationConstraintsJson != null) {
+      map['optimization_constraints_json'] = optimizationConstraintsJson;
+    }
+    if (optimizationScore != null) {
+      map['optimization_score'] = optimizationScore;
+    }
+    if (optimizationObjective != null) {
+      map['optimization_objective'] = optimizationObjective;
     }
     return map;
   }
