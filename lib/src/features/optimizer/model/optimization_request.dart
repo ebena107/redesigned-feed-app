@@ -1,3 +1,5 @@
+import 'optimization_constraint.dart';
+
 /// Optimization request containing all parameters for feed formulation optimization
 class OptimizationRequest {
   final List<OptimizationConstraint> constraints;

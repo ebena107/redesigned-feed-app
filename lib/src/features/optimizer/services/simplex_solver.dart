@@ -111,9 +111,7 @@ class SimplexSolver {
     final numConstraints = A.length;
 
     // Add slack variables for inequality constraints
-    // Add artificial variables for equality constraints (if needed)
     final numSlackVars = numConstraints;
-    final totalVars = numVars + numSlackVars;
 
     // Extended objective coefficients (original + slack variables)
     final extendedC = List<double>.from(c)
@@ -143,7 +141,6 @@ class SimplexSolver {
 
   List<List<double>> _initializeTableau(_StandardForm form) {
     final numConstraints = form.constraintMatrix.length;
-    final numVars = form.objectiveCoefficients.length;
 
     // Tableau format:
     // [A | I | b]  <- constraint rows
