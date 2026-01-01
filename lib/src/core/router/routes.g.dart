@@ -72,6 +72,20 @@ RouteBase get $homeRoute => GoRouteData.$route(
           path: '/about',
           factory: $AboutRouteExtension._fromState,
         ),
+        GoRouteData.$route(
+          path: '/optimizer',
+          factory: $OptimizerSetupRouteExtension._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'results',
+              factory: $OptimizationResultsRouteExtension._fromState,
+            ),
+          ],
+        ),
+        GoRouteData.$route(
+          path: '/formulationHistory',
+          factory: $FormulationHistoryRouteExtension._fromState,
+        ),
       ],
     );
 
@@ -338,6 +352,60 @@ extension $AboutRouteExtension on AboutRoute {
 
   String get location => GoRouteData.$location(
         '/about',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $OptimizerSetupRouteExtension on OptimizerSetupRoute {
+  static OptimizerSetupRoute _fromState(GoRouterState state) =>
+      const OptimizerSetupRoute();
+
+  String get location => GoRouteData.$location(
+        '/optimizer',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $OptimizationResultsRouteExtension on OptimizationResultsRoute {
+  static OptimizationResultsRoute _fromState(GoRouterState state) =>
+      const OptimizationResultsRoute();
+
+  String get location => GoRouteData.$location(
+        '/optimizer/results',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $FormulationHistoryRouteExtension on FormulationHistoryRoute {
+  static FormulationHistoryRoute _fromState(GoRouterState state) =>
+      const FormulationHistoryRoute();
+
+  String get location => GoRouteData.$location(
+        '/formulationHistory',
       );
 
   void go(BuildContext context) => context.go(location);

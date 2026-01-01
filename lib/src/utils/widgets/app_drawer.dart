@@ -99,6 +99,20 @@ class FeedAppDrawer extends ConsumerWidget {
                       },
                     ),
                     const SizedBox(height: 14),
+                    _SectionLabel(text: 'OPTIMIZER'),
+                    const SizedBox(height: 6),
+                    _DrawerTile(
+                      icon: Icons.science,
+                      title: 'Feed Optimizer',
+                      subtitle: 'AI-powered formulation',
+                      selected: location.startsWith('/optimizer') ||
+                          location.startsWith('/formulationHistory'),
+                      onTap: () {
+                        context.pop();
+                        context.go('/optimizer');
+                      },
+                    ),
+                    const SizedBox(height: 14),
                     // const _SectionLabel(text: 'SETTINGS'),
                     // const SizedBox(height: 6),
                     // _DrawerTile(

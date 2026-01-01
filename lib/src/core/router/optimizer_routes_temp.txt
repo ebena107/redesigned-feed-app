@@ -1,0 +1,25 @@
+
+// Optimizer Routes
+@immutable
+class OptimizerSetupRoute extends GoRouteData {
+  const OptimizerSetupRoute();
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const OptimizerSetupScreen();
+}
+
+@immutable
+class OptimizationResultsRoute extends GoRouteData {
+  const OptimizationResultsRoute();
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const OptimizationResultsScreen();
+}
+
+@immutable
+class FormulationHistoryRoute extends GoRouteData {
+  const FormulationHistoryRoute();
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const FormulationHistoryScreen();
+}

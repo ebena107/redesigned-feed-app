@@ -5,6 +5,9 @@ import 'package:feed_estimator/src/features/add_update_feed/widget/feed_ingredie
 import 'package:feed_estimator/src/features/import_export/view/import_wizard_screen.dart';
 import 'package:feed_estimator/src/features/main/model/feed.dart';
 import 'package:feed_estimator/src/features/main/view/feed_home.dart';
+import 'package:feed_estimator/src/features/optimizer/view/optimizer_setup_screen.dart';
+import 'package:feed_estimator/src/features/optimizer/view/optimization_results_screen.dart';
+import 'package:feed_estimator/src/features/optimizer/view/formulation_history_screen.dart';
 import 'package:feed_estimator/src/features/reports/view/report.dart';
 import 'package:feed_estimator/src/features/reports/widget/pdf_export/pdf_preview.dart';
 import 'package:feed_estimator/src/features/settings/settings_screen.dart';
@@ -66,6 +69,19 @@ part 'routes.g.dart';
     // 6. ABOUT
     TypedGoRoute<AboutRoute>(
       path: '/about',
+    ),
+
+    // 7. OPTIMIZER
+    TypedGoRoute<OptimizerSetupRoute>(
+      path: '/optimizer',
+      routes: [
+        TypedGoRoute<OptimizationResultsRoute>(path: 'results'),
+      ],
+    ),
+
+    // 8. FORMULATION HISTORY
+    TypedGoRoute<FormulationHistoryRoute>(
+      path: '/formulationHistory',
     ),
   ],
 )
@@ -206,4 +222,32 @@ class FeedIngredientsRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       IngredientList(feedId: feedId);
+}
+
+// ==========================================
+// OPTIMIZER ROUTES
+// ==========================================
+
+@immutable
+class OptimizerSetupRoute extends GoRouteData {
+  const OptimizerSetupRoute();
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const OptimizerSetupScreen();
+}
+
+@immutable
+class OptimizationResultsRoute extends GoRouteData {
+  const OptimizationResultsRoute();
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const OptimizationResultsScreen();
+}
+
+@immutable
+class FormulationHistoryRoute extends GoRouteData {
+  const FormulationHistoryRoute();
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const FormulationHistoryScreen();
 }
