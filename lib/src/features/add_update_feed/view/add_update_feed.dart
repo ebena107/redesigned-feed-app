@@ -61,6 +61,18 @@ class NewFeedPage extends ConsumerWidget {
                 statusBarIconBrightness: Brightness.light,
                 statusBarBrightness: Brightness.dark,
               ),
+              // Add Optimize action for existing feeds
+              actions: isEdit
+                  ? [
+                      IconButton(
+                        icon: const Icon(Icons.science),
+                        tooltip: 'Optimize Feed',
+                        onPressed: () {
+                          context.go('/optimizer?feedId=$feedId');
+                        },
+                      ),
+                    ]
+                  : null,
               //  title: feedId == null ? Text("Set New Feed") : Text("Update Feed"),
               flexibleSpace: Container(
                 decoration: BoxDecoration(

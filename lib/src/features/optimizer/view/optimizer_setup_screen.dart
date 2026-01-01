@@ -5,6 +5,7 @@ import '../model/optimization_constraint.dart';
 import '../widgets/constraint_input_card.dart';
 import '../widgets/ingredient_selection_card.dart';
 import '../widgets/optimization_settings_card.dart';
+import '../../add_update_feed/providers/feed_provider.dart';
 import 'optimization_results_screen.dart';
 
 /// Main screen for setting up and running feed formulation optimization
@@ -33,13 +34,47 @@ class _OptimizerSetupScreenState extends ConsumerState<OptimizerSetupScreen> {
   }
 
   Future<void> _loadExistingFeed(int feedId) async {
-    // TODO: Load feed from database and pre-populate optimizer
-    // This will be implemented when we integrate with feed repository
-    // For now, show a message
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Loading feed #$feedId for optimization...')),
-      );
+    try {
+      // Load feed from database
+      final feedRepository = ref.read(feedRepositoryProvider);
+      final feed = await feedRepository.getFeedById(feedId);
+
+      if (feed == null || !mounted) {
+        return;
+      }
+
+      // Pre-populate optimizer with feed ingredients
+      final feedIngredients = feed.feedIngredients ?? [];
+
+      for (final feedIngredient in feedIngredients) {
+        final ingredientId = feedIngredient.ingredientId;
+        final price = feedIngredient.priceUnitKg ?? 0.0;
+
+        if (ingredientId != null) {
+          ref.read(optimizerProvider.notifier).addIngredient(
+                ingredientId,
+                price,
+              );
+        }
+      }
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Loaded "${feed.feedName}" for optimization'),
+            backgroundColor: Colors.green,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error loading feed: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
