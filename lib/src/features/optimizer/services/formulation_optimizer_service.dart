@@ -4,6 +4,45 @@ import '../model/optimization_result.dart';
 import 'simplex_solver.dart';
 import '../../add_ingredients/model/ingredient.dart';
 
+// ============ Helper Classes ============
+
+class _ValidationResult {
+  final bool isValid;
+  final String message;
+
+  _ValidationResult(this.isValid, this.message);
+}
+
+class _LPProblem {
+  final List<double> objectiveCoefficients;
+  final List<List<double>> constraintMatrix;
+  final List<double> constraintBounds;
+  final List<double> lowerBounds;
+  final List<double> upperBounds;
+
+  _LPProblem({
+    required this.objectiveCoefficients,
+    required this.constraintMatrix,
+    required this.constraintBounds,
+    required this.lowerBounds,
+    required this.upperBounds,
+  });
+}
+
+class _ConstraintMatrixResult {
+  final List<List<double>> matrix;
+  final List<double> bounds;
+
+  _ConstraintMatrixResult({required this.matrix, required this.bounds});
+}
+
+class _VariableBounds {
+  final List<double> lower;
+  final List<double> upper;
+
+  _VariableBounds({required this.lower, required this.upper});
+}
+
 /// Main service for feed formulation optimization
 ///
 /// This service coordinates the optimization process by:
@@ -235,6 +274,7 @@ class FormulationOptimizerService {
     final bounds = <double>[];
 
     // Add nutritional constraints
+    // Convert all to <= form for simplex
     for (final constraint in request.constraints) {
       final row = <double>[];
 
@@ -242,26 +282,32 @@ class FormulationOptimizerService {
         final ingredient = ingredientCache[ingredientId]!;
         final nutrientValue =
             _getNutrientValue(ingredient, constraint.nutrientName);
-        row.add(nutrientValue);
+
+        // Nutrient contribution: nutrient_value * percentage / 100
+        // Since x is in percentage (0-100), we scale by 1/100
+        final scaledValue = nutrientValue / 100.0;
+
+        if (constraint.type == ConstraintType.min) {
+          // Min constraint: nutrient * x / 100 >= minValue
+          // Convert to: -nutrient * x / 100 <= -minValue
+          row.add(-scaledValue);
+        } else {
+          // Max constraint: nutrient * x / 100 <= maxValue
+          row.add(scaledValue);
+        }
       }
 
       matrix.add(row);
 
       // Set bound based on constraint type
       if (constraint.type == ConstraintType.min) {
-        bounds.add(constraint.value);
+        // For min: -sum(nutrient * x / 100) <= -minValue
+        bounds.add(-constraint.value);
       } else if (constraint.type == ConstraintType.max) {
-        bounds.add(constraint.value);
-      } else {
-        // Exact - add as both min and max
+        // For max: sum(nutrient * x / 100) <= maxValue
         bounds.add(constraint.value);
       }
     }
-
-    // Add sum constraint (total = 100%)
-    final sumRow = List.filled(request.availableIngredientIds.length, 1.0);
-    matrix.add(sumRow);
-    bounds.add(100.0); // Total must equal 100%
 
     return _ConstraintMatrixResult(matrix: matrix, bounds: bounds);
   }
@@ -314,12 +360,30 @@ class FormulationOptimizerService {
       case 'calcium':
         return (ingredient.calcium ?? 0.0).toDouble();
       case 'phosphorus':
-        return (ingredient.phosphorus ?? 0.0).toDouble();
+      case 'totalphosphorus':
+        return (ingredient.totalPhosphorus ?? ingredient.phosphorus ?? 0.0)
+            .toDouble();
+      case 'availablephosphorus':
+        return (ingredient.availablePhosphorus ?? 0.0).toDouble();
+      case 'lysine':
+        return (ingredient.lysine ?? 0.0).toDouble();
+      case 'methionine':
+        return (ingredient.methionine ?? 0.0).toDouble();
       case 'energy':
       case 'nepig':
         return (ingredient.energy?.nePig ?? 0.0).toDouble();
       case 'mepoultry':
-        return (ingredient.energy?.mePoultry ?? 0.0).toDouble();
+        return (ingredient.energy?.mePoultry ?? ingredient.mePoultry ?? 0.0)
+            .toDouble();
+      case 'mepig':
+        return (ingredient.energy?.mePig ?? ingredient.meGrowingPig ?? 0.0)
+            .toDouble();
+      case 'meruminant':
+        return (ingredient.energy?.meRuminant ?? ingredient.meRuminant ?? 0.0)
+            .toDouble();
+      case 'merabbit':
+        return (ingredient.energy?.meRabbit ?? ingredient.meRabbit ?? 0.0)
+            .toDouble();
       // Add more nutrients as needed
       default:
         return 0.0;
@@ -356,7 +420,11 @@ class FormulationOptimizerService {
       'moisture': 0.0,
       'calcium': 0.0,
       'phosphorus': 0.0,
+      'availablePhosphorus': 0.0,
+      'lysine': 0.0,
+      'methionine': 0.0,
       'energy': 0.0,
+      'mePoultry': 0.0,
     };
 
     for (final entry in proportions.entries) {
@@ -376,9 +444,19 @@ class FormulationOptimizerService {
       nutrients['calcium'] =
           nutrients['calcium']! + (ingredient.calcium ?? 0.0) * proportion;
       nutrients['phosphorus'] = nutrients['phosphorus']! +
-          (ingredient.phosphorus ?? 0.0) * proportion;
+          (ingredient.totalPhosphorus ?? ingredient.phosphorus ?? 0.0) *
+              proportion;
+      nutrients['availablePhosphorus'] = nutrients['availablePhosphorus']! +
+          (ingredient.availablePhosphorus ?? 0.0) * proportion;
+      nutrients['lysine'] =
+          nutrients['lysine']! + (ingredient.lysine ?? 0.0) * proportion;
+      nutrients['methionine'] = nutrients['methionine']! +
+          (ingredient.methionine ?? 0.0) * proportion;
       nutrients['energy'] =
           nutrients['energy']! + (ingredient.energy?.nePig ?? 0.0) * proportion;
+      nutrients['mePoultry'] = nutrients['mePoultry']! +
+          (ingredient.energy?.mePoultry ?? ingredient.mePoultry ?? 0.0) *
+              proportion;
     }
 
     return nutrients;
@@ -459,43 +537,4 @@ class FormulationOptimizerService {
 
     return warnings;
   }
-}
-
-// Helper classes
-
-class _ValidationResult {
-  final bool isValid;
-  final String message;
-
-  _ValidationResult(this.isValid, this.message);
-}
-
-class _LPProblem {
-  final List<double> objectiveCoefficients;
-  final List<List<double>> constraintMatrix;
-  final List<double> constraintBounds;
-  final List<double> lowerBounds;
-  final List<double> upperBounds;
-
-  _LPProblem({
-    required this.objectiveCoefficients,
-    required this.constraintMatrix,
-    required this.constraintBounds,
-    required this.lowerBounds,
-    required this.upperBounds,
-  });
-}
-
-class _ConstraintMatrixResult {
-  final List<List<double>> matrix;
-  final List<double> bounds;
-
-  _ConstraintMatrixResult({required this.matrix, required this.bounds});
-}
-
-class _VariableBounds {
-  final List<double> lower;
-  final List<double> upper;
-
-  _VariableBounds({required this.lower, required this.upper});
 }
