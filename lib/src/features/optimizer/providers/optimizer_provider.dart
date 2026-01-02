@@ -5,6 +5,8 @@ import '../model/optimization_result.dart';
 import '../services/formulation_optimizer_service.dart';
 import '../../add_ingredients/model/ingredient.dart';
 import '../../add_ingredients/provider/ingredients_provider.dart';
+import '../../price_management/provider/current_price_provider.dart';
+import '../../../core/utils/logger.dart';
 
 /// Provider for the FormulationOptimizerService
 final formulationOptimizerServiceProvider =
@@ -24,6 +26,7 @@ class OptimizerState {
   final String? errorMessage;
   final String? selectedCategory; // e.g., "Poultry - Broiler Starter"
   final String? requirementSource; // e.g., "NRC 1994 Poultry"
+  final bool hasStartedCustom; // True if user is in custom optimization flow
 
   const OptimizerState({
     this.constraints = const [],
@@ -36,6 +39,7 @@ class OptimizerState {
     this.errorMessage,
     this.selectedCategory,
     this.requirementSource,
+    this.hasStartedCustom = false,
   });
 
   OptimizerState copyWith({
@@ -49,6 +53,7 @@ class OptimizerState {
     String? errorMessage,
     String? selectedCategory,
     String? requirementSource,
+    bool? hasStartedCustom,
   }) {
     return OptimizerState(
       constraints: constraints ?? this.constraints,
@@ -62,6 +67,7 @@ class OptimizerState {
       errorMessage: errorMessage,
       selectedCategory: selectedCategory ?? this.selectedCategory,
       requirementSource: requirementSource ?? this.requirementSource,
+      hasStartedCustom: hasStartedCustom ?? this.hasStartedCustom,
     );
   }
 
@@ -254,6 +260,156 @@ class OptimizerNotifier extends Notifier<OptimizerState> {
       requirementSource: null,
       constraints: [],
     );
+  }
+
+  /// Load quick optimize defaults for Broiler Chicken Starter with 10 common ingredients
+  /// Uses NRC 1994 Poultry constraints for broiler starter
+  /// Minimizes cost while meeting nutritional requirements
+  ///
+  /// Quick ingredients: corn, soy, fish meal, limestone, salt, phosphate, vitamin premix,
+  /// amino acid supplement, methionine supplement, choline supplement
+  Future<void> loadQuickOptimizeDefaults() async {
+    try {
+      // Broiler Chicken Starter constraints (NRC 1994)
+      // Age: 0-3 weeks, Target production: meat production, Quality: high
+      const broilerStarterConstraints = [
+        OptimizationConstraint(
+          nutrientName: 'crudeProtein',
+          type: ConstraintType.min,
+          value: 23.0,
+          unit: '%',
+        ),
+        OptimizationConstraint(
+          nutrientName: 'crudeProtein',
+          type: ConstraintType.max,
+          value: 24.5,
+          unit: '%',
+        ),
+        OptimizationConstraint(
+          nutrientName: 'mePoultry',
+          type: ConstraintType.min,
+          value: 2950,
+          unit: 'kcal/kg',
+        ),
+        OptimizationConstraint(
+          nutrientName: 'lysine',
+          type: ConstraintType.min,
+          value: 1.15,
+          unit: 'g/kg',
+        ),
+        OptimizationConstraint(
+          nutrientName: 'lysine',
+          type: ConstraintType.max,
+          value: 1.30,
+          unit: 'g/kg',
+        ),
+        OptimizationConstraint(
+          nutrientName: 'calcium',
+          type: ConstraintType.min,
+          value: 0.85,
+          unit: '%',
+        ),
+        OptimizationConstraint(
+          nutrientName: 'calcium',
+          type: ConstraintType.max,
+          value: 1.00,
+          unit: '%',
+        ),
+        OptimizationConstraint(
+          nutrientName: 'availablePhosphorus',
+          type: ConstraintType.min,
+          value: 0.40,
+          unit: '%',
+        ),
+        OptimizationConstraint(
+          nutrientName: 'availablePhosphorus',
+          type: ConstraintType.max,
+          value: 0.55,
+          unit: '%',
+        ),
+      ];
+
+      // Common 10 ingredients: corn, soy, fishmeal, limestone, salt, phosphate,
+      // vitamin premix, amino acid premix, methionine, choline
+      const commonIngredientsForBroiler = [
+        1, // Corn (yellow corn - grain)
+        4, // Soybean meal (protein supplement)
+        7, // Fish meal (protein + amino acids)
+        19, // Limestone (calcium source)
+        23, // Salt (mineral)
+        25, // Phosphoric acid (phosphorus source)
+        34, // Vitamin mineral premix (micronutrients)
+        42, // Amino acid supplement (methionine + lysine)
+        48, // DL-Methionine (specific amino acid)
+        52, // Choline chloride (micronutrient)
+      ];
+
+      // Get current prices from price history repository
+      Map<int, double> prices = {};
+      try {
+        for (final ingId in commonIngredientsForBroiler) {
+          final price = await ref.read(currentPriceProvider(ingredientId: ingId).future);
+          prices[ingId] = price;
+        }
+      } catch (_) {
+        // Use default prices if price history unavailable
+        // Typical NGN prices per kg (fallback)
+        prices = {
+          1: 0.01, // Corn (very cheap)
+          4: 0.015, // Soybean meal
+          7: 0.025, // Fish meal
+          19: 0.005, // Limestone
+          23: 0.008, // Salt
+          25: 0.012, // Phosphoric acid
+          34: 0.050, // Vitamin premix (expensive)
+          42: 0.040, // Amino acid supplement
+          48: 0.045, // DL-Methionine
+          52: 0.020, // Choline chloride
+        };
+      }
+
+      state = state.copyWith(
+        constraints: broilerStarterConstraints,
+        selectedIngredientIds: commonIngredientsForBroiler.cast<int>(),
+        ingredientPrices: prices,
+        objective: ObjectiveFunction.minimizeCost,
+        selectedCategory: 'poultry_broiler_starter', // Localization key
+        requirementSource: 'NRC 1994 Poultry',
+        errorMessage: null,
+      );
+
+      AppLogger.info(
+        'Quick optimize defaults loaded: broiler starter with ${commonIngredientsForBroiler.length} ingredients',
+        tag: 'OptimizerNotifier',
+      );
+    } catch (e, stackTrace) {
+      AppLogger.error(
+        'Failed to load quick optimize defaults: $e',
+        tag: 'OptimizerNotifier',
+        error: e,
+        stackTrace: stackTrace,
+      );
+      state = state.copyWith(
+        errorMessage: 'Failed to load quick optimize defaults',
+      );
+    }
+  }
+
+  /// Start custom optimization flow (user selects all options)
+  void startCustomFlow() {
+    state = state.copyWith(hasStartedCustom: true);
+  }
+
+  /// Start quick optimize with smart defaults for broiler chicken starter
+  /// Loads pre-configured constraints and ingredients, skips animal selection step
+  Future<void> startQuickOptimize() async {
+    await loadQuickOptimizeDefaults();
+    // Don't set hasStartedCustom - quick mode shows simplified workflow
+  }
+
+  /// Go back to choice screen (quick vs custom)
+  void goBackToChoice() {
+    state = state.copyWith(hasStartedCustom: false);
   }
 
   /// Reset optimizer state

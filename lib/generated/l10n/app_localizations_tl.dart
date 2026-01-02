@@ -1021,4 +1021,253 @@ class AppLocalizationsTl extends AppLocalizations {
 
   @override
   String get labelIngredient => 'Ingredient';
+
+  @override
+  String get optimizerTitle => 'Feed Optimizer';
+
+  @override
+  String get optimizerDescription =>
+      'Awtomatikong lumikha ng pinakamainam na feed formulations';
+
+  @override
+  String get optimizerMenuTitle => 'I-optimize ang Feed';
+
+  @override
+  String get optimizerQuickOptimize => 'Quick Optimize';
+
+  @override
+  String get optimizerQuickOptimizeDescription =>
+      'Broiler Chicken Starter with 10 common ingredients (2 minutes)';
+
+  @override
+  String get optimizerWhyTheseDefaults => 'Why these defaults?';
+
+  @override
+  String get optimizerWhyTheseDefaultsExplanation =>
+      'These settings are optimized for broiler chicken starters based on NRC 1994 poultry standards. The 10 ingredients are widely available, cost-effective, and provide excellent nutrition. Results in 2 minutes.';
+
+  @override
+  String get optimizerCustomOptimize => 'Custom Optimize';
+
+  @override
+  String get quickOptimizeTitle => 'Mabilis na Pag-optimize (Inirekomenda)';
+
+  @override
+  String get quickOptimizeDescription =>
+      'Pre-configured na pormulasyon para sa Broiler Chicken. Bawasan ang gastos gamit ang mataas na kalidad na sangkap.';
+
+  @override
+  String get quickOptimizeButton => 'Simulan ang Mabilis na Pag-optimize';
+
+  @override
+  String get quickOptimizeTooltip =>
+      'Bakit ang mga default na ito? Inirekomenda sila ng mga nutritionist para sa maliliit na magsasaka. Maaari mong i-customize ang mga hadlang pagkatapos.';
+
+  @override
+  String get customOptimizeTitle => 'Customized na Pag-optimize';
+
+  @override
+  String get optimizerActionReset => 'I-reset';
+
+  @override
+  String get optimizerActionAdd => 'Idagdag';
+
+  @override
+  String get optimizerOptimizing => 'Nag-ooptimize...';
+
+  @override
+  String get optimizerRunOptimization => 'Patakbuhin ang Optimization';
+
+  @override
+  String get optimizerNoConstraints =>
+      'Walang idinagdag na hadlang pa. I-tap ang + upang magdagdag.';
+
+  @override
+  String get optimizerNoResults =>
+      'Walang resulta pa. Magpatakbo ng optimization upang makita ang mga resulta.';
+
+  @override
+  String optimizerLoadedFeed(String feedName) {
+    return 'Na-load ang feed: $feedName';
+  }
+
+  @override
+  String get optimizerErrorLoadingFeed => 'Error sa pag-load ng feed';
+
+  @override
+  String get optimizerConstraintsTitle => 'Mga Hadlang sa Nutrisyon';
+
+  @override
+  String get optimizerAddConstraintTooltip =>
+      'Magdagdag ng hadlang sa nutrisyon';
+
+  @override
+  String get optimizerEditConstraint => 'I-edit ang Hadlang';
+
+  @override
+  String get optimizerLabelNutrient => 'Nutrisyon';
+
+  @override
+  String get optimizerLabelType => 'Uri';
+
+  @override
+  String get optimizerLabelValue => 'Halaga';
+
+  @override
+  String get optimizerLabelUnit => 'Yunit';
+
+  @override
+  String get optimizerConstraintMinimum => 'Pinakamababa';
+
+  @override
+  String get optimizerConstraintMaximum => 'Pinakamataas';
+
+  @override
+  String get nutrientEnergy => 'Enerhiya (kcal/kg)';
+
+  @override
+  String get optimizerAnimalCategory => 'Uri ng Hayop';
+
+  @override
+  String get optimizerSelectAnimalSpecies => 'Pumili ng uri ng hayop';
+
+  @override
+  String get optimizerSelectProductionStage => 'Pumili ng yugto ng produksyon';
+
+  @override
+  String get optimizerLoadRequirements => 'I-load ang Mga Kinakailangan';
+
+  @override
+  String get optimizerConstraints => 'Mga Hadlang sa Nutrisyon';
+
+  @override
+  String get optimizerAddConstraint => 'Magdagdag ng Hadlang';
+
+  @override
+  String get optimizerConstraintType => 'Uri ng Hadlang';
+
+  @override
+  String get optimizerConstraintMin => 'Pinakamababa';
+
+  @override
+  String get optimizerConstraintMax => 'Pinakamataas';
+
+  @override
+  String get optimizerConstraintExact => 'Eksakto';
+
+  @override
+  String get optimizerSelectIngredients => 'Pumili ng Mga Sangkap';
+
+  @override
+  String get optimizerIngredientsSelected => 'mga sangkap na napili';
+
+  @override
+  String get optimizerUseAllIngredients => 'Gamitin Lahat ng Available';
+
+  @override
+  String get optimizerObjectiveFunction => 'Ano ang pinaka-mahalaga?';
+
+  @override
+  String get optimizerObjectiveMinimizeCost => 'Pinakamababang Halaga';
+
+  @override
+  String get optimizerObjectiveMaximizeProtein => 'Pinakamataas na Protina';
+
+  @override
+  String get optimizerObjectiveMaximizeEnergy => 'Pinakamaraming Enerhiya';
+
+  @override
+  String get optimizerButtonOptimize => 'I-optimize';
+
+  @override
+  String get optimizerButtonQuickOptimize =>
+      'Mabilis na Pag-optimize (Inirerekomenda)';
+
+  @override
+  String get optimizerCalculating =>
+      'Kinakalkula ang pinakamainam na formula...';
+
+  @override
+  String get optimizerResultsTitle => 'Mga Resulta ng Pag-optimize';
+
+  @override
+  String get optimizerResultsSuccess => 'Tagumpay!';
+
+  @override
+  String get optimizerResultsFailed => 'Nabigo ang Pag-optimize';
+
+  @override
+  String get optimizerResultsQualityScore => 'Puntos ng Kalidad';
+
+  @override
+  String get optimizerResultsTotalCost => 'Kabuuang Halaga';
+
+  @override
+  String get optimizerResultsCostPerKg => 'Halaga bawat kilo';
+
+  @override
+  String get optimizerResultsIngredientProportions => 'Hatiin ng Sangkap';
+
+  @override
+  String get optimizerResultsNutritionalProfile => 'Profile ng Nutrisyon';
+
+  @override
+  String get optimizerResultsWarnings => 'Mga Babala';
+
+  @override
+  String get optimizerResultsWhyExplain => 'Bakit ang Mga Proporsyong Ito?';
+
+  @override
+  String get optimizerErrorNoIngredients =>
+      'Pumili ng hindi bababa sa 2 sangkap';
+
+  @override
+  String get optimizerErrorNoAnimal => 'Pumili ng uri ng hayop';
+
+  @override
+  String get optimizerErrorInfeasible =>
+      'Walang solusyon na natagpuan. Subukang ayusin ang mga hadlang o magdagdag ng mas maraming sangkap.';
+
+  @override
+  String get optimizerErrorGeneral => 'Nabigo ang pag-optimize. Subukan muli.';
+
+  @override
+  String get optimizerHelpTitle => 'Paano Ito Gumagana';
+
+  @override
+  String get optimizerHelpConstraints =>
+      'Ang mga hadlang ay mga kinakailangan sa nutrisyon tulad ng minimum na protina o maximum na hibla. Ang optimizer ay nakakahanap ng pinakamahusay na timpla ng sangkap na nakakatugon sa lahat ng kinakailangan.';
+
+  @override
+  String get optimizerHelpObjective =>
+      'Ang layunin ay nagsasabi sa optimizer kung ano ang uunahin: pinakamurang feed, pinakamataas na protina, o pinakamaraming enerhiya.';
+
+  @override
+  String get optimizerActionSave => 'I-save sa Aking Mga Feed';
+
+  @override
+  String get optimizerActionShare => 'Ibahagi sa Veterinarian';
+
+  @override
+  String get optimizerActionTryAgain => 'Subukan Muli';
+
+  @override
+  String get optimizerFormulationHistory => 'Mga Nakaraang Formula';
+
+  @override
+  String get optimizerExportTitle => 'Format ng Pag-export';
+
+  @override
+  String get optimizerExportFormatJson => 'JSON';
+
+  @override
+  String get optimizerExportFormatCsv => 'CSV';
+
+  @override
+  String get optimizerExportFormatText => 'Ulat ng Teksto';
+
+  @override
+  String optimizerExportedAs(String format, String filename) {
+    return 'I-export bilang $format: $filename';
+  }
 }

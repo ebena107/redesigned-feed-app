@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 import '../providers/optimizer_provider.dart';
 import '../../add_ingredients/provider/ingredients_provider.dart';
 
@@ -21,14 +22,19 @@ class IngredientSelectionCard extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Available Ingredients',
-                  style: Theme.of(context).textTheme.titleLarge,
+                Expanded(
+                  child: Text(
+                    'Available Ingredients',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
                 ),
                 TextButton.icon(
                   onPressed: () => _showIngredientSelectionDialog(context, ref),
                   icon: const Icon(Icons.add),
-                  label: const Text('Select'),
+                  label: Text(
+                    context.l10n.optimizerSelectIngredients,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ],
             ),
@@ -82,7 +88,7 @@ class IngredientSelectionCard extends ConsumerWidget {
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setState) => AlertDialog(
-          title: const Text('Select Ingredients'),
+          title: Text(context.l10n.optimizerSelectIngredients),
           content: SizedBox(
             width: double.maxFinite,
             child: ListView.builder(
@@ -114,7 +120,7 @@ class IngredientSelectionCard extends ConsumerWidget {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Cancel'),
+              child: Text(context.l10n.actionCancel),
             ),
             ElevatedButton(
               onPressed: () {
@@ -139,7 +145,7 @@ class IngredientSelectionCard extends ConsumerWidget {
 
                 Navigator.of(context).pop();
               },
-              child: const Text('Done'),
+              child: Text(context.l10n.actionSave),
             ),
           ],
         ),

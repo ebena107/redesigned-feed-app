@@ -1545,5 +1545,363 @@
   "labelIngredient": "Ingredient",
   "@labelIngredient": {
     "description": "Generic label for ingredient"
+  },
+  
+  "optimizerTitle": "Feed Optimizer",
+  "@optimizerTitle": {
+    "description": "Feed optimizer main title"
+  },
+  "optimizerDescription": "Automatically create optimal feed formulations",
+  "@optimizerDescription": {
+    "description": "Feed optimizer description"
+  },
+  "optimizerMenuTitle": "Optimize Feed",
+  "@optimizerMenuTitle": {
+    "description": "Menu item for optimizer"
+  },
+  
+  "optimizerQuickOptimize": "Quick Optimize",
+  "@optimizerQuickOptimize": {
+    "description": "Quick optimize button label - uses smart defaults"
+  },
+  "optimizerQuickOptimizeDescription": "Broiler Chicken Starter with 10 common ingredients (2 minutes)",
+  "@optimizerQuickOptimizeDescription": {
+    "description": "Description of quick optimize with typical use case"
+  },
+  "optimizerWhyTheseDefaults": "Why these defaults?",
+  "@optimizerWhyTheseDefaults": {
+    "description": "Tooltip button label for explaining default values"
+  },
+  "optimizerWhyTheseDefaultsExplanation": "These settings are optimized for broiler chicken starters based on NRC 1994 poultry standards. The 10 ingredients are widely available, cost-effective, and provide excellent nutrition. Results in 2 minutes.",
+  "@optimizerWhyTheseDefaultsExplanation": {
+    "description": "Detailed explanation of why the quick optimize defaults were chosen"
+  },
+  "optimizerCustomOptimize": "Custom Optimize",
+  "@optimizerCustomOptimize": {
+    "description": "Custom optimize button - full manual control over all settings"
+  },
+  
+  "quickOptimizeTitle": "Quick Optimize (Recommended)",
+  "@quickOptimizeTitle": {
+    "description": "Quick optimize card title"
+  },
+  "quickOptimizeDescription": "Broiler Chicken Starter with 10 common ingredients - 2 minutes",
+  "@quickOptimizeDescription": {
+    "description": "Description of quick optimize feature"
+  },
+  "quickOptimizeButton": "Start Quick Optimize",
+  "@quickOptimizeButton": {
+    "description": "Button label to start quick optimization"
+  },
+  "quickOptimizeTooltip": "Quick Optimize uses proven defaults based on NRC 1994 poultry standards. The 10 ingredients are widely available across Africa and Asia. Results in 2 minutes.",
+  "@quickOptimizeTooltip": {
+    "description": "Farmer-friendly explanation of why to use quick optimize"
+  },
+  "customOptimizeTitle": "Custom Optimize",
+  "@customOptimizeTitle": {
+    "description": "Custom optimize card title - for advanced users"
+  },
+  "optimizerActionReset": "Reset",
+  "@optimizerActionReset": {
+    "description": "Reset button tooltip"
+  },
+  "optimizerActionAdd": "Add",
+  "@optimizerActionAdd": {
+    "description": "Add button in dialogs"
+  },
+  "optimizerOptimizing": "Optimizing...",
+  "@optimizerOptimizing": {
+    "description": "Button text while optimization runs"
+  },
+  "optimizerRunOptimization": "Run Optimization",
+  "@optimizerRunOptimization": {
+    "description": "Button to start optimization"
+  },
+  "optimizerNoConstraints": "No constraints added yet. Tap + to add.",
+  "@optimizerNoConstraints": {
+    "description": "Empty state message when no constraints"
+  },
+  "optimizerNoResults": "No results yet. Run an optimization to see results.",
+  "@optimizerNoResults": {
+    "description": "Empty state message in results screen"
+  },
+  "optimizerLoadedFeed": "Loaded feed: {feedName}",
+  "@optimizerLoadedFeed": {
+    "description": "Snackbar message when feed is loaded",
+    "placeholders": {
+      "feedName": {
+        "type": "String",
+        "example": "Broiler Starter"
+      }
+    }
+  },
+  "optimizerErrorLoadingFeed": "Error loading feed",
+  "@optimizerErrorLoadingFeed": {
+    "description": "Error message when feed fails to load"
+  },
+  "optimizerConstraintsTitle": "Nutritional Constraints",
+  "@optimizerConstraintsTitle": {
+    "description": "Section title for constraints"
+  },
+  "optimizerAddConstraintTooltip": "Add nutritional constraint",
+  "@optimizerAddConstraintTooltip": {
+    "description": "Tooltip for add constraint button"
+  },
+  "optimizerEditConstraint": "Edit Constraint",
+  "@optimizerEditConstraint": {
+    "description": "Title for edit constraint dialog"
+  },
+  "optimizerLabelNutrient": "Nutrient",
+  "@optimizerLabelNutrient": {
+    "description": "Label for nutrient dropdown in constraint dialog"
+  },
+  "optimizerLabelType": "Type",
+  "@optimizerLabelType": {
+    "description": "Label for constraint type dropdown"
+  },
+  "optimizerLabelValue": "Value",
+  "@optimizerLabelValue": {
+    "description": "Label for constraint value input"
+  },
+  "optimizerLabelUnit": "Unit",
+  "@optimizerLabelUnit": {
+    "description": "Label for unit display"
+  },
+  "optimizerConstraintMinimum": "Minimum",
+  "@optimizerConstraintMinimum": {
+    "description": "Minimum constraint type option"
+  },
+  "optimizerConstraintMaximum": "Maximum",
+  "@optimizerConstraintMaximum": {
+    "description": "Maximum constraint type option"
+  },
+  "nutrientEnergy": "Energy (kcal/kg)",
+  "@nutrientEnergy": {
+    "description": "Energy nutrient option with unit"
+  },
+  
+  "optimizerAnimalCategory": "Animal Type",
+  "@optimizerAnimalCategory": {
+    "description": "Animal category selection label"
+  },
+  "optimizerSelectAnimalSpecies": "Select animal species",
+  "@optimizerSelectAnimalSpecies": {
+    "description": "Prompt to select animal species"
+  },
+  "optimizerSelectProductionStage": "Select production stage",
+  "@optimizerSelectProductionStage": {
+    "description": "Prompt to select production stage"
+  },
+  "optimizerLoadRequirements": "Load Requirements",
+  "@optimizerLoadRequirements": {
+    "description": "Button to load nutritional requirements"
+  },
+  
+  "optimizerConstraints": "Nutritional Constraints",
+  "@optimizerConstraints": {
+    "description": "Nutritional constraints section title"
+  },
+  "optimizerAddConstraint": "Add Constraint",
+  "@optimizerAddConstraint": {
+    "description": "Button to add new constraint"
+  },
+  "optimizerConstraintType": "Constraint Type",
+  "@optimizerConstraintType": {
+    "description": "Label for constraint type dropdown"
+  },
+  "optimizerConstraintMin": "Minimum",
+  "@optimizerConstraintMin": {
+    "description": "Minimum constraint type"
+  },
+  "optimizerConstraintMax": "Maximum",
+  "@optimizerConstraintMax": {
+    "description": "Maximum constraint type"
+  },
+  "optimizerConstraintExact": "Exact",
+  "@optimizerConstraintExact": {
+    "description": "Exact constraint type"
+  },
+  
+  "optimizerSelectIngredients": "Select Ingredients",
+  "@optimizerSelectIngredients": {
+    "description": "Button/label for ingredient selection"
+  },
+  "optimizerIngredientsSelected": "ingredients selected",
+  "@optimizerIngredientsSelected": {
+    "description": "Text showing number of ingredients selected"
+  },
+  "optimizerUseAllIngredients": "Use All Available",
+  "@optimizerUseAllIngredients": {
+    "description": "Button to select all ingredients"
+  },
+  
+  "optimizerObjectiveFunction": "What's most important?",
+  "@optimizerObjectiveFunction": {
+    "description": "Objective function selection prompt (farmer-friendly)"
+  },
+  "optimizerObjectiveMinimizeCost": "Lowest Cost",
+  "@optimizerObjectiveMinimizeCost": {
+    "description": "Minimize cost objective"
+  },
+  "optimizerObjectiveMaximizeProtein": "Highest Protein",
+  "@optimizerObjectiveMaximizeProtein": {
+    "description": "Maximize protein objective"
+  },
+  "optimizerObjectiveMaximizeEnergy": "Most Energy",
+  "@optimizerObjectiveMaximizeEnergy": {
+    "description": "Maximize energy objective"
+  },
+  
+  "optimizerButtonOptimize": "Optimize",
+  "@optimizerButtonOptimize": {
+    "description": "Button to start optimization"
+  },
+  "optimizerButtonQuickOptimize": "Quick Optimize (Recommended)",
+  "@optimizerButtonQuickOptimize": {
+    "description": "Quick optimize button with smart defaults"
+  },
+  "optimizerCalculating": "Calculating best formulation...",
+  "@optimizerCalculating": {
+    "description": "Progress message during optimization"
+  },
+  
+  "optimizerResultsTitle": "Optimization Results",
+  "@optimizerResultsTitle": {
+    "description": "Results screen title"
+  },
+  "optimizerResultsSuccess": "Success!",
+  "@optimizerResultsSuccess": {
+    "description": "Successful optimization message"
+  },
+  "optimizerResultsFailed": "Optimization Failed",
+  "@optimizerResultsFailed": {
+    "description": "Failed optimization message"
+  },
+  "optimizerResultsQualityScore": "Quality Score",
+  "@optimizerResultsQualityScore": {
+    "description": "Quality score label"
+  },
+  "optimizerResultsTotalCost": "Total Cost",
+  "@optimizerResultsTotalCost": {
+    "description": "Total cost label"
+  },
+  "optimizerResultsCostPerKg": "Cost per kg",
+  "@optimizerResultsCostPerKg": {
+    "description": "Cost per kilogram label"
+  },
+  "optimizerResultsIngredientProportions": "Ingredient Breakdown",
+  "@optimizerResultsIngredientProportions": {
+    "description": "Ingredient proportions section title"
+  },
+  "optimizerResultsNutritionalProfile": "Nutritional Profile",
+  "@optimizerResultsNutritionalProfile": {
+    "description": "Nutritional profile section title"
+  },
+  "optimizerResultsWarnings": "Warnings",
+  "@optimizerResultsWarnings": {
+    "description": "Warnings section title"
+  },
+  "optimizerResultsWhyExplain": "Why These Proportions?",
+  "@optimizerResultsWhyExplain": {
+    "description": "Explanation section title"
+  },
+  
+  "optimizerErrorNoIngredients": "Please select at least 2 ingredients",
+  "@optimizerErrorNoIngredients": {
+    "description": "Error when no ingredients selected"
+  },
+  "optimizerErrorNoAnimal": "Please select an animal type",
+  "@optimizerErrorNoAnimal": {
+    "description": "Error when no animal selected"
+  },
+  "optimizerErrorInfeasible": "No solution found. Try adjusting constraints or adding more ingredients.",
+  "@optimizerErrorInfeasible": {
+    "description": "Error when optimization problem is infeasible"
+  },
+  "optimizerErrorGeneral": "Optimization failed. Please try again.",
+  "@optimizerErrorGeneral": {
+    "description": "General optimization error"
+  },
+  
+  "optimizerHelpTitle": "How It Works",
+  "@optimizerHelpTitle": {
+    "description": "Help dialog title"
+  },
+  "optimizerHelpConstraints": "Constraints are nutritional requirements like minimum protein or maximum fiber. The optimizer finds the best ingredient mix that meets all requirements.",
+  "@optimizerHelpConstraints": {
+    "description": "Help text explaining constraints"
+  },
+  "optimizerHelpObjective": "The objective tells the optimizer what to prioritize: cheapest feed, highest protein, or most energy.",
+  "@optimizerHelpObjective": {
+    "description": "Help text explaining objectives"
+  },
+  
+  "optimizerActionSave": "Save to My Feeds",
+  "@optimizerActionSave": {
+    "description": "Save optimization result as feed"
+  },
+  "optimizerActionShare": "Share with Vet",
+  "@optimizerActionShare": {
+    "description": "Share result with veterinarian"
+  },
+  "optimizerActionTryAgain": "Try Again",
+  "@optimizerActionTryAgain": {
+    "description": "Retry optimization"
+  },
+  
+  "optimizerFormulationHistory": "Previous Formulations",
+  "@optimizerFormulationHistory": {
+    "description": "History of optimized formulations"
+  },
+  
+  "optimizerExportTitle": "Export Format",
+  "@optimizerExportTitle": {
+    "description": "Title for export format dialog"
+  },
+  "optimizerExportFormatJson": "JSON",
+  "@optimizerExportFormatJson": {
+    "description": "JSON export format option"
+  },
+  "optimizerExportFormatCsv": "CSV",
+  "@optimizerExportFormatCsv": {
+    "description": "CSV export format option"
+  },
+  "optimizerExportFormatText": "Text Report",
+  "@optimizerExportFormatText": {
+    "description": "Text report export format option"
+  },
+  "optimizerExportedAs": "Export as {format}: {filename}",
+  "@optimizerExportedAs": {
+    "description": "Export snackbar message",
+    "placeholders": {
+      "format": {
+        "type": "String",
+        "example": "json"
+      },
+      "filename": {
+        "type": "String",
+        "example": "formulation.json"
+      }
+    }
+  },
+  "quickOptimizeTitle": "Quick Optimize (Recommended)",
+  "@quickOptimizeTitle": {
+    "description": "Title for quick optimize option"
+  },
+  "quickOptimizeDescription": "Pre-configured formulation for Broiler Chicken Starter. Minimize cost with high-quality ingredients.",
+  "@quickOptimizeDescription": {
+    "description": "Description of quick optimize feature"
+  },
+  "quickOptimizeButton": "Start Quick Optimize",
+  "@quickOptimizeButton": {
+    "description": "Button label for quick optimize"
+  },
+  "quickOptimizeTooltip": "Why these defaults? They're recommended by nutritionists for small-scale farmers. You can customize constraints afterward.",
+  "@quickOptimizeTooltip": {
+    "description": "Tooltip explaining why quick optimize defaults are recommended"
+  },
+  "customOptimizeTitle": "Custom Optimize",
+  "@customOptimizeTitle": {
+    "description": "Title for custom optimization setup"
   }
 }

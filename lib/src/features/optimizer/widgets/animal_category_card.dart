@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 import '../providers/optimizer_provider.dart';
 import '../data/animal_requirements.dart';
 
@@ -103,7 +104,7 @@ class _AnimalCategoryCardState extends ConsumerState<AnimalCategoryCard> {
               ElevatedButton.icon(
                 onPressed: () => _loadRequirements(),
                 icon: const Icon(Icons.download),
-                label: const Text('Load Industry Requirements'),
+                label: Text(context.l10n.optimizerLoadRequirements),
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 48),
                 ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 import '../providers/optimizer_provider.dart';
 import '../model/optimization_constraint.dart';
 import '../widgets/constraint_input_card.dart';
@@ -63,7 +64,8 @@ class _OptimizerSetupScreenState extends ConsumerState<OptimizerSetupScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Loaded "${feed.feedName}" for optimization'),
+            content:
+                Text(context.l10n.optimizerLoadedFeed(feed.feedName ?? '')),
             backgroundColor: Colors.green,
           ),
         );
@@ -72,7 +74,7 @@ class _OptimizerSetupScreenState extends ConsumerState<OptimizerSetupScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Error loading feed: $e'),
+            content: Text(context.l10n.optimizerErrorLoadingFeed),
             backgroundColor: Colors.red,
           ),
         );
@@ -87,139 +89,487 @@ class _OptimizerSetupScreenState extends ConsumerState<OptimizerSetupScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Feed Formulation Optimizer'),
+        title: Text(context.l10n.optimizerTitle),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: () {
               ref.read(optimizerProvider.notifier).reset();
             },
-            tooltip: 'Reset',
+            tooltip: context.l10n.optimizerActionReset,
           ),
         ],
       ),
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          padding: const EdgeInsets.all(16.0),
-          children: [
-            // Animal Category Card
-            const AnimalCategoryCard(),
-            const SizedBox(height: 16),
+      body: _buildOptimizeChoice(context, ref, optimizerState, canOptimize),
+    );
+  }
 
-            // Optimization Settings Card
-            const OptimizationSettingsCard(),
-            const SizedBox(height: 16),
+  /// Build the choice between Quick Optimize and Custom Optimize
+  Widget _buildOptimizeChoice(
+    BuildContext context,
+    WidgetRef ref,
+    OptimizerState optimizerState,
+    bool canOptimize,
+  ) {
+    // If quick optimize defaults were loaded, show simplified quick optimize flow
+    if (optimizerState.selectedCategory == 'poultry_broiler_starter') {
+      return _buildQuickOptimizeFlow(context, ref, optimizerState, canOptimize);
+    }
 
-            // Ingredient Selection Card
-            const IngredientSelectionCard(),
-            const SizedBox(height: 16),
+    // If we're already in the custom optimization flow, show the custom setup
+    if (optimizerState.hasStartedCustom) {
+      return _buildCustomOptimizeFlow(
+          context, ref, optimizerState, canOptimize);
+    }
 
-            // Constraints Card
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+    // Show choice screen
+    return ListView(
+      padding: const EdgeInsets.all(16.0),
+      children: [
+        const SizedBox(height: 24),
+        Text(
+          context.l10n.optimizerTitle,
+          style: Theme.of(context).textTheme.headlineSmall,
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 8),
+        Text(
+          'Choose your optimization approach',
+          style: Theme.of(context).textTheme.bodyMedium,
+          textAlign: TextAlign.center,
+          maxLines: 2,
+        ),
+        const SizedBox(height: 32),
+
+        // Quick Optimize Card
+        Card(
+          elevation: 4,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Nutritional Constraints',
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.add_circle),
-                          onPressed: () => _showAddConstraintDialog(context),
-                          tooltip: 'Add Constraint',
-                        ),
-                      ],
+                    Icon(Icons.flash_on, color: Colors.orange[700], size: 28),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        context.l10n.quickOptimizeTitle,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
                     ),
-                    const SizedBox(height: 8),
-                    if (optimizerState.constraints.isEmpty)
-                      const Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: Center(
-                          child: Text(
-                            'No constraints added yet.\nTap + to add nutritional constraints.',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.grey),
-                          ),
-                        ),
-                      )
-                    else
-                      ...optimizerState.constraints
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  context.l10n.quickOptimizeDescription,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                const SizedBox(height: 16),
+                ElevatedButton.icon(
+                  onPressed: () => _setupQuickOptimize(context, ref),
+                  icon: const Icon(Icons.play_arrow),
+                  label: Text(context.l10n.quickOptimizeButton),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+
+        // Custom Optimize Card
+        Card(
+          elevation: 2,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(Icons.tune, color: Colors.blue[700], size: 28),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        context.l10n.customOptimizeTitle,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                const Text(
+                  'Set up your own constraints and ingredients for complete control.',
+                  maxLines: 2,
+                ),
+                const SizedBox(height: 16),
+                OutlinedButton.icon(
+                  onPressed: () {
+                    ref.read(optimizerProvider.notifier).startCustomFlow();
+                  },
+                  icon: const Icon(Icons.settings),
+                  label: const Text('Start Custom'),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 32),
+
+        // Tooltip with farmer-friendly explanation
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.blue[50],
+            border: Border.all(color: Colors.blue[200]!),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(Icons.info, color: Colors.blue[700]),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  context.l10n.quickOptimizeTooltip,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// Build the quick optimize flow (simplified UI)
+  /// Shows only: constraints (pre-loaded), ingredients (pre-loaded), optimization button
+  Widget _buildQuickOptimizeFlow(
+    BuildContext context,
+    WidgetRef ref,
+    OptimizerState optimizerState,
+    bool canOptimize,
+  ) {
+    return Form(
+      key: _formKey,
+      child: ListView(
+        padding: const EdgeInsets.all(16.0),
+        children: [
+          // Back button + title
+          Row(
+            children: [
+              IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  ref.read(optimizerProvider.notifier).reset();
+                },
+                tooltip: 'Back to options',
+              ),
+              Expanded(
+                child: Text(
+                  context.l10n.quickOptimizeTitle,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+
+          // Summary Card showing what's loaded
+          Card(
+            color: Colors.green[50],
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.check_circle, color: Colors.green[700]),
+                      const SizedBox(width: 8),
+                      Text(
+                        'Quick Optimize Ready',
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium
+                            ?.copyWith(color: Colors.green[700]),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    'Broiler Chicken Starter (NRC 1994)',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  Text(
+                    '${optimizerState.constraints.length} constraints · ${optimizerState.selectedIngredientIds.length} ingredients',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          // Constraints Card (read-only display)
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    context.l10n.optimizerConstraintsTitle,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 12),
+                  if (optimizerState.constraints.isEmpty)
+                    Text(
+                      'No constraints loaded',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    )
+                  else
+                    Column(
+                      children: optimizerState.constraints
                           .asMap()
                           .entries
                           .map((entry) {
-                        return ConstraintInputCard(
-                          constraint: entry.value,
-                          index: entry.key,
-                          onDelete: () {
-                            ref
-                                .read(optimizerProvider.notifier)
-                                .removeConstraint(entry.key);
-                          },
-                          onEdit: () => _showEditConstraintDialog(
-                              context, entry.key, entry.value),
+                        final constraint = entry.value;
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  constraint.nutrientName,
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                              ),
+                              Text(
+                                '${constraint.type.name}: ${constraint.value} ${constraint.unit}',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
                         );
-                      }),
+                      }).toList(),
+                    ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          // Ingredients Card (read-only display)
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    context.l10n.navIngredients,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 12),
+                  if (optimizerState.selectedIngredientIds.isEmpty)
+                    Text(
+                      'No ingredients selected',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    )
+                  else
+                    Text(
+                      '${optimizerState.selectedIngredientIds.length} ingredients selected',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 32),
+
+          // Run Optimization Button
+          FilledButton.icon(
+            onPressed: canOptimize ? () => _runOptimization(context) : null,
+            icon: optimizerState.isOptimizing
+                ? const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    ),
+                  )
+                : const Icon(Icons.play_arrow),
+            label: Text(
+              optimizerState.isOptimizing
+                  ? context.l10n.optimizerOptimizing
+                  : context.l10n.optimizerRunOptimization,
+            ),
+          ),
+
+          const SizedBox(height: 16),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCustomOptimizeFlow(
+    BuildContext context,
+    WidgetRef ref,
+    OptimizerState optimizerState,
+    bool canOptimize,
+  ) {
+    return Form(
+      key: _formKey,
+      child: ListView(
+        padding: const EdgeInsets.all(16.0),
+        children: [
+          // Back button + title
+          Row(
+            children: [
+              IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  ref.read(optimizerProvider.notifier).goBackToChoice();
+                },
+                tooltip: 'Back to options',
+              ),
+              Expanded(
+                child: Text(
+                  context.l10n.customOptimizeTitle,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+
+          // Animal Category Card
+          const AnimalCategoryCard(),
+          const SizedBox(height: 16),
+
+          // Optimization Settings Card
+          const OptimizationSettingsCard(),
+          const SizedBox(height: 16),
+
+          // Ingredient Selection Card
+          const IngredientSelectionCard(),
+          const SizedBox(height: 16),
+
+          // Constraints Card
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        context.l10n.optimizerConstraintsTitle,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.add_circle),
+                        onPressed: () => _showAddConstraintDialog(context),
+                        tooltip: context.l10n.optimizerAddConstraintTooltip,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  if (optimizerState.constraints.isEmpty)
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Center(
+                        child: Text(
+                          context.l10n.optimizerNoConstraints,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(color: Colors.grey),
+                        ),
+                      ),
+                    )
+                  else
+                    ...optimizerState.constraints.asMap().entries.map((entry) {
+                      return ConstraintInputCard(
+                        constraint: entry.value,
+                        index: entry.key,
+                        onDelete: () {
+                          ref
+                              .read(optimizerProvider.notifier)
+                              .removeConstraint(entry.key);
+                        },
+                        onEdit: () => _showEditConstraintDialog(
+                            context, entry.key, entry.value),
+                      );
+                    }),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          // Error Message
+          if (optimizerState.errorMessage != null)
+            Card(
+              color: Colors.red.shade50,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  children: [
+                    const Icon(Icons.error, color: Colors.red),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        optimizerState.errorMessage!,
+                        style: const TextStyle(color: Colors.red),
+                      ),
+                    ),
                   ],
                 ),
               ),
             ),
-            const SizedBox(height: 16),
 
-            // Error Message
-            if (optimizerState.errorMessage != null)
-              Card(
-                color: Colors.red.shade50,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.error, color: Colors.red),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          optimizerState.errorMessage!,
-                          style: const TextStyle(color: Colors.red),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+          const SizedBox(height: 24),
 
-            const SizedBox(height: 24),
-
-            // Optimize Button
-            ElevatedButton.icon(
-              onPressed: canOptimize && !optimizerState.isOptimizing
-                  ? () => _runOptimization(context)
-                  : null,
-              icon: optimizerState.isOptimizing
-                  ? const SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : const Icon(Icons.play_arrow),
-              label: Text(
-                optimizerState.isOptimizing
-                    ? 'Optimizing...'
-                    : 'Run Optimization',
-              ),
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.all(16.0),
-                textStyle: const TextStyle(fontSize: 18),
-              ),
+          // Optimize Button
+          ElevatedButton.icon(
+            onPressed: canOptimize && !optimizerState.isOptimizing
+                ? () => _runOptimization(context)
+                : null,
+            icon: optimizerState.isOptimizing
+                ? const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : const Icon(Icons.play_arrow),
+            label: Text(
+              optimizerState.isOptimizing
+                  ? context.l10n.optimizerOptimizing
+                  : context.l10n.optimizerRunOptimization,
             ),
-          ],
-        ),
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.all(16.0),
+              textStyle: const TextStyle(fontSize: 18),
+            ),
+          ),
+        ],
       ),
     );
+  }
+
+  /// Setup quick optimize with default values for broiler chicken
+  void _setupQuickOptimize(BuildContext context, WidgetRef ref) async {
+    // Start loading quick optimize defaults
+    await ref.read(optimizerProvider.notifier).startQuickOptimize();
+    // The UI will automatically update via the ref.watch(optimizerProvider)
   }
 
   Future<void> _runOptimization(BuildContext context) async {
@@ -250,53 +600,68 @@ class _OptimizerSetupScreenState extends ConsumerState<OptimizerSetupScreen> {
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setState) => AlertDialog(
-          title: const Text('Add Constraint'),
+          title: Text(context.l10n.optimizerAddConstraint),
           content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 DropdownButtonFormField<String>(
                   initialValue: nutrientName,
-                  decoration: const InputDecoration(labelText: 'Nutrient'),
-                  items: const [
+                  decoration: InputDecoration(
+                      labelText: context.l10n.optimizerLabelNutrient),
+                  items: [
                     DropdownMenuItem(
-                        value: 'crudeProtein', child: Text('Crude Protein')),
+                        value: 'crudeProtein',
+                        child: Text(context.l10n.nutrientCrudeProtein)),
                     DropdownMenuItem(
-                        value: 'crudeFat', child: Text('Crude Fat')),
+                        value: 'crudeFat',
+                        child: Text(context.l10n.nutrientCrudeFat)),
                     DropdownMenuItem(
-                        value: 'crudeFiber', child: Text('Crude Fiber')),
-                    DropdownMenuItem(value: 'calcium', child: Text('Calcium')),
+                        value: 'crudeFiber',
+                        child: Text(context.l10n.nutrientCrudeFiber)),
                     DropdownMenuItem(
-                        value: 'phosphorus', child: Text('Phosphorus')),
-                    DropdownMenuItem(value: 'energy', child: Text('Energy')),
+                        value: 'calcium',
+                        child: Text(context.l10n.nutrientCalcium)),
+                    DropdownMenuItem(
+                        value: 'phosphorus',
+                        child: Text(context.l10n.nutrientPhosphorus)),
+                    DropdownMenuItem(
+                        value: 'energy',
+                        child: Text(context.l10n.nutrientEnergy)),
                   ],
                   onChanged: (val) => setState(() => nutrientName = val!),
                 ),
                 const SizedBox(height: 16),
                 DropdownButtonFormField<ConstraintType>(
                   initialValue: type,
-                  decoration: const InputDecoration(labelText: 'Type'),
-                  items: const [
+                  decoration: InputDecoration(
+                      labelText: context.l10n.optimizerLabelType),
+                  items: [
                     DropdownMenuItem(
-                        value: ConstraintType.min, child: Text('Minimum')),
+                        value: ConstraintType.min,
+                        child: Text(context.l10n.optimizerConstraintMinimum)),
                     DropdownMenuItem(
-                        value: ConstraintType.max, child: Text('Maximum')),
+                        value: ConstraintType.max,
+                        child: Text(context.l10n.optimizerConstraintMaximum)),
                     DropdownMenuItem(
-                        value: ConstraintType.exact, child: Text('Exact')),
+                        value: ConstraintType.exact,
+                        child: Text(context.l10n.optimizerConstraintExact)),
                   ],
                   onChanged: (val) => setState(() => type = val!),
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
                   initialValue: value.toString(),
-                  decoration: const InputDecoration(labelText: 'Value'),
+                  decoration: InputDecoration(
+                      labelText: context.l10n.optimizerLabelValue),
                   keyboardType: TextInputType.number,
                   onChanged: (val) => value = double.tryParse(val) ?? value,
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
                   initialValue: unit,
-                  decoration: const InputDecoration(labelText: 'Unit'),
+                  decoration: InputDecoration(
+                      labelText: context.l10n.optimizerLabelUnit),
                   onChanged: (val) => unit = val,
                 ),
               ],
@@ -305,11 +670,11 @@ class _OptimizerSetupScreenState extends ConsumerState<OptimizerSetupScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(false),
-              child: const Text('Cancel'),
+              child: Text(context.l10n.actionCancel),
             ),
             ElevatedButton(
               onPressed: () => Navigator.of(context).pop(true),
-              child: const Text('Add'),
+              child: Text(context.l10n.optimizerActionAdd),
             ),
           ],
         ),
@@ -341,53 +706,68 @@ class _OptimizerSetupScreenState extends ConsumerState<OptimizerSetupScreen> {
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setState) => AlertDialog(
-          title: const Text('Edit Constraint'),
+          title: Text(context.l10n.optimizerEditConstraint),
           content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 DropdownButtonFormField<String>(
                   initialValue: nutrientName,
-                  decoration: const InputDecoration(labelText: 'Nutrient'),
-                  items: const [
+                  decoration: InputDecoration(
+                      labelText: context.l10n.optimizerLabelNutrient),
+                  items: [
                     DropdownMenuItem(
-                        value: 'crudeProtein', child: Text('Crude Protein')),
+                        value: 'crudeProtein',
+                        child: Text(context.l10n.nutrientCrudeProtein)),
                     DropdownMenuItem(
-                        value: 'crudeFat', child: Text('Crude Fat')),
+                        value: 'crudeFat',
+                        child: Text(context.l10n.nutrientCrudeFat)),
                     DropdownMenuItem(
-                        value: 'crudeFiber', child: Text('Crude Fiber')),
-                    DropdownMenuItem(value: 'calcium', child: Text('Calcium')),
+                        value: 'crudeFiber',
+                        child: Text(context.l10n.nutrientCrudeFiber)),
                     DropdownMenuItem(
-                        value: 'phosphorus', child: Text('Phosphorus')),
-                    DropdownMenuItem(value: 'energy', child: Text('Energy')),
+                        value: 'calcium',
+                        child: Text(context.l10n.nutrientCalcium)),
+                    DropdownMenuItem(
+                        value: 'phosphorus',
+                        child: Text(context.l10n.nutrientPhosphorus)),
+                    DropdownMenuItem(
+                        value: 'energy',
+                        child: Text(context.l10n.nutrientEnergy)),
                   ],
                   onChanged: (val) => setState(() => nutrientName = val!),
                 ),
                 const SizedBox(height: 16),
                 DropdownButtonFormField<ConstraintType>(
                   initialValue: type,
-                  decoration: const InputDecoration(labelText: 'Type'),
-                  items: const [
+                  decoration: InputDecoration(
+                      labelText: context.l10n.optimizerLabelType),
+                  items: [
                     DropdownMenuItem(
-                        value: ConstraintType.min, child: Text('Minimum')),
+                        value: ConstraintType.min,
+                        child: Text(context.l10n.optimizerConstraintMinimum)),
                     DropdownMenuItem(
-                        value: ConstraintType.max, child: Text('Maximum')),
+                        value: ConstraintType.max,
+                        child: Text(context.l10n.optimizerConstraintMaximum)),
                     DropdownMenuItem(
-                        value: ConstraintType.exact, child: Text('Exact')),
+                        value: ConstraintType.exact,
+                        child: Text(context.l10n.optimizerConstraintExact)),
                   ],
                   onChanged: (val) => setState(() => type = val!),
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
                   initialValue: value.toString(),
-                  decoration: const InputDecoration(labelText: 'Value'),
+                  decoration: InputDecoration(
+                      labelText: context.l10n.optimizerLabelValue),
                   keyboardType: TextInputType.number,
                   onChanged: (val) => value = double.tryParse(val) ?? value,
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
                   initialValue: unit,
-                  decoration: const InputDecoration(labelText: 'Unit'),
+                  decoration: InputDecoration(
+                      labelText: context.l10n.optimizerLabelUnit),
                   onChanged: (val) => unit = val,
                 ),
               ],
@@ -396,11 +776,11 @@ class _OptimizerSetupScreenState extends ConsumerState<OptimizerSetupScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(false),
-              child: const Text('Cancel'),
+              child: Text(context.l10n.actionCancel),
             ),
             ElevatedButton(
               onPressed: () => Navigator.of(context).pop(true),
-              child: const Text('Save'),
+              child: Text(context.l10n.actionSave),
             ),
           ],
         ),

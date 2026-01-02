@@ -1951,6 +1951,468 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Ingredient'**
   String get labelIngredient;
+
+  /// Feed optimizer main title
+  ///
+  /// In en, this message translates to:
+  /// **'Feed Optimizer'**
+  String get optimizerTitle;
+
+  /// Feed optimizer description
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically create optimal feed formulations'**
+  String get optimizerDescription;
+
+  /// Menu item for optimizer
+  ///
+  /// In en, this message translates to:
+  /// **'Optimize Feed'**
+  String get optimizerMenuTitle;
+
+  /// Quick optimize button label - uses smart defaults
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Optimize'**
+  String get optimizerQuickOptimize;
+
+  /// Description of quick optimize with typical use case
+  ///
+  /// In en, this message translates to:
+  /// **'Broiler Chicken Starter with 10 common ingredients (2 minutes)'**
+  String get optimizerQuickOptimizeDescription;
+
+  /// Tooltip button label for explaining default values
+  ///
+  /// In en, this message translates to:
+  /// **'Why these defaults?'**
+  String get optimizerWhyTheseDefaults;
+
+  /// Detailed explanation of why the quick optimize defaults were chosen
+  ///
+  /// In en, this message translates to:
+  /// **'These settings are optimized for broiler chicken starters based on NRC 1994 poultry standards. The 10 ingredients are widely available, cost-effective, and provide excellent nutrition. Results in 2 minutes.'**
+  String get optimizerWhyTheseDefaultsExplanation;
+
+  /// Custom optimize button - full manual control over all settings
+  ///
+  /// In en, this message translates to:
+  /// **'Custom Optimize'**
+  String get optimizerCustomOptimize;
+
+  /// Title for quick optimize option
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Optimize (Recommended)'**
+  String get quickOptimizeTitle;
+
+  /// Description of quick optimize feature
+  ///
+  /// In en, this message translates to:
+  /// **'Pre-configured formulation for Broiler Chicken Starter. Minimize cost with high-quality ingredients.'**
+  String get quickOptimizeDescription;
+
+  /// Button label for quick optimize
+  ///
+  /// In en, this message translates to:
+  /// **'Start Quick Optimize'**
+  String get quickOptimizeButton;
+
+  /// Tooltip explaining why quick optimize defaults are recommended
+  ///
+  /// In en, this message translates to:
+  /// **'Why these defaults? They\'re recommended by nutritionists for small-scale farmers. You can customize constraints afterward.'**
+  String get quickOptimizeTooltip;
+
+  /// Title for custom optimization setup
+  ///
+  /// In en, this message translates to:
+  /// **'Custom Optimize'**
+  String get customOptimizeTitle;
+
+  /// Reset button tooltip
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get optimizerActionReset;
+
+  /// Add button in dialogs
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get optimizerActionAdd;
+
+  /// Button text while optimization runs
+  ///
+  /// In en, this message translates to:
+  /// **'Optimizing...'**
+  String get optimizerOptimizing;
+
+  /// Button to start optimization
+  ///
+  /// In en, this message translates to:
+  /// **'Run Optimization'**
+  String get optimizerRunOptimization;
+
+  /// Empty state message when no constraints
+  ///
+  /// In en, this message translates to:
+  /// **'No constraints added yet. Tap + to add.'**
+  String get optimizerNoConstraints;
+
+  /// Empty state message in results screen
+  ///
+  /// In en, this message translates to:
+  /// **'No results yet. Run an optimization to see results.'**
+  String get optimizerNoResults;
+
+  /// Snackbar message when feed is loaded
+  ///
+  /// In en, this message translates to:
+  /// **'Loaded feed: {feedName}'**
+  String optimizerLoadedFeed(String feedName);
+
+  /// Error message when feed fails to load
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading feed'**
+  String get optimizerErrorLoadingFeed;
+
+  /// Section title for constraints
+  ///
+  /// In en, this message translates to:
+  /// **'Nutritional Constraints'**
+  String get optimizerConstraintsTitle;
+
+  /// Tooltip for add constraint button
+  ///
+  /// In en, this message translates to:
+  /// **'Add nutritional constraint'**
+  String get optimizerAddConstraintTooltip;
+
+  /// Title for edit constraint dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Constraint'**
+  String get optimizerEditConstraint;
+
+  /// Label for nutrient dropdown in constraint dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Nutrient'**
+  String get optimizerLabelNutrient;
+
+  /// Label for constraint type dropdown
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get optimizerLabelType;
+
+  /// Label for constraint value input
+  ///
+  /// In en, this message translates to:
+  /// **'Value'**
+  String get optimizerLabelValue;
+
+  /// Label for unit display
+  ///
+  /// In en, this message translates to:
+  /// **'Unit'**
+  String get optimizerLabelUnit;
+
+  /// Minimum constraint type option
+  ///
+  /// In en, this message translates to:
+  /// **'Minimum'**
+  String get optimizerConstraintMinimum;
+
+  /// Maximum constraint type option
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum'**
+  String get optimizerConstraintMaximum;
+
+  /// Energy nutrient option with unit
+  ///
+  /// In en, this message translates to:
+  /// **'Energy (kcal/kg)'**
+  String get nutrientEnergy;
+
+  /// Animal category selection label
+  ///
+  /// In en, this message translates to:
+  /// **'Animal Type'**
+  String get optimizerAnimalCategory;
+
+  /// Prompt to select animal species
+  ///
+  /// In en, this message translates to:
+  /// **'Select animal species'**
+  String get optimizerSelectAnimalSpecies;
+
+  /// Prompt to select production stage
+  ///
+  /// In en, this message translates to:
+  /// **'Select production stage'**
+  String get optimizerSelectProductionStage;
+
+  /// Button to load nutritional requirements
+  ///
+  /// In en, this message translates to:
+  /// **'Load Requirements'**
+  String get optimizerLoadRequirements;
+
+  /// Nutritional constraints section title
+  ///
+  /// In en, this message translates to:
+  /// **'Nutritional Constraints'**
+  String get optimizerConstraints;
+
+  /// Button to add new constraint
+  ///
+  /// In en, this message translates to:
+  /// **'Add Constraint'**
+  String get optimizerAddConstraint;
+
+  /// Label for constraint type dropdown
+  ///
+  /// In en, this message translates to:
+  /// **'Constraint Type'**
+  String get optimizerConstraintType;
+
+  /// Minimum constraint type
+  ///
+  /// In en, this message translates to:
+  /// **'Minimum'**
+  String get optimizerConstraintMin;
+
+  /// Maximum constraint type
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum'**
+  String get optimizerConstraintMax;
+
+  /// Exact constraint type
+  ///
+  /// In en, this message translates to:
+  /// **'Exact'**
+  String get optimizerConstraintExact;
+
+  /// Button/label for ingredient selection
+  ///
+  /// In en, this message translates to:
+  /// **'Select Ingredients'**
+  String get optimizerSelectIngredients;
+
+  /// Text showing number of ingredients selected
+  ///
+  /// In en, this message translates to:
+  /// **'ingredients selected'**
+  String get optimizerIngredientsSelected;
+
+  /// Button to select all ingredients
+  ///
+  /// In en, this message translates to:
+  /// **'Use All Available'**
+  String get optimizerUseAllIngredients;
+
+  /// Objective function selection prompt (farmer-friendly)
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s most important?'**
+  String get optimizerObjectiveFunction;
+
+  /// Minimize cost objective
+  ///
+  /// In en, this message translates to:
+  /// **'Lowest Cost'**
+  String get optimizerObjectiveMinimizeCost;
+
+  /// Maximize protein objective
+  ///
+  /// In en, this message translates to:
+  /// **'Highest Protein'**
+  String get optimizerObjectiveMaximizeProtein;
+
+  /// Maximize energy objective
+  ///
+  /// In en, this message translates to:
+  /// **'Most Energy'**
+  String get optimizerObjectiveMaximizeEnergy;
+
+  /// Button to start optimization
+  ///
+  /// In en, this message translates to:
+  /// **'Optimize'**
+  String get optimizerButtonOptimize;
+
+  /// Quick optimize button with smart defaults
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Optimize (Recommended)'**
+  String get optimizerButtonQuickOptimize;
+
+  /// Progress message during optimization
+  ///
+  /// In en, this message translates to:
+  /// **'Calculating best formulation...'**
+  String get optimizerCalculating;
+
+  /// Results screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Optimization Results'**
+  String get optimizerResultsTitle;
+
+  /// Successful optimization message
+  ///
+  /// In en, this message translates to:
+  /// **'Success!'**
+  String get optimizerResultsSuccess;
+
+  /// Failed optimization message
+  ///
+  /// In en, this message translates to:
+  /// **'Optimization Failed'**
+  String get optimizerResultsFailed;
+
+  /// Quality score label
+  ///
+  /// In en, this message translates to:
+  /// **'Quality Score'**
+  String get optimizerResultsQualityScore;
+
+  /// Total cost label
+  ///
+  /// In en, this message translates to:
+  /// **'Total Cost'**
+  String get optimizerResultsTotalCost;
+
+  /// Cost per kilogram label
+  ///
+  /// In en, this message translates to:
+  /// **'Cost per kg'**
+  String get optimizerResultsCostPerKg;
+
+  /// Ingredient proportions section title
+  ///
+  /// In en, this message translates to:
+  /// **'Ingredient Breakdown'**
+  String get optimizerResultsIngredientProportions;
+
+  /// Nutritional profile section title
+  ///
+  /// In en, this message translates to:
+  /// **'Nutritional Profile'**
+  String get optimizerResultsNutritionalProfile;
+
+  /// Warnings section title
+  ///
+  /// In en, this message translates to:
+  /// **'Warnings'**
+  String get optimizerResultsWarnings;
+
+  /// Explanation section title
+  ///
+  /// In en, this message translates to:
+  /// **'Why These Proportions?'**
+  String get optimizerResultsWhyExplain;
+
+  /// Error when no ingredients selected
+  ///
+  /// In en, this message translates to:
+  /// **'Please select at least 2 ingredients'**
+  String get optimizerErrorNoIngredients;
+
+  /// Error when no animal selected
+  ///
+  /// In en, this message translates to:
+  /// **'Please select an animal type'**
+  String get optimizerErrorNoAnimal;
+
+  /// Error when optimization problem is infeasible
+  ///
+  /// In en, this message translates to:
+  /// **'No solution found. Try adjusting constraints or adding more ingredients.'**
+  String get optimizerErrorInfeasible;
+
+  /// General optimization error
+  ///
+  /// In en, this message translates to:
+  /// **'Optimization failed. Please try again.'**
+  String get optimizerErrorGeneral;
+
+  /// Help dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'How It Works'**
+  String get optimizerHelpTitle;
+
+  /// Help text explaining constraints
+  ///
+  /// In en, this message translates to:
+  /// **'Constraints are nutritional requirements like minimum protein or maximum fiber. The optimizer finds the best ingredient mix that meets all requirements.'**
+  String get optimizerHelpConstraints;
+
+  /// Help text explaining objectives
+  ///
+  /// In en, this message translates to:
+  /// **'The objective tells the optimizer what to prioritize: cheapest feed, highest protein, or most energy.'**
+  String get optimizerHelpObjective;
+
+  /// Save optimization result as feed
+  ///
+  /// In en, this message translates to:
+  /// **'Save to My Feeds'**
+  String get optimizerActionSave;
+
+  /// Share result with veterinarian
+  ///
+  /// In en, this message translates to:
+  /// **'Share with Vet'**
+  String get optimizerActionShare;
+
+  /// Retry optimization
+  ///
+  /// In en, this message translates to:
+  /// **'Try Again'**
+  String get optimizerActionTryAgain;
+
+  /// History of optimized formulations
+  ///
+  /// In en, this message translates to:
+  /// **'Previous Formulations'**
+  String get optimizerFormulationHistory;
+
+  /// Title for export format dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Export Format'**
+  String get optimizerExportTitle;
+
+  /// JSON export format option
+  ///
+  /// In en, this message translates to:
+  /// **'JSON'**
+  String get optimizerExportFormatJson;
+
+  /// CSV export format option
+  ///
+  /// In en, this message translates to:
+  /// **'CSV'**
+  String get optimizerExportFormatCsv;
+
+  /// Text report export format option
+  ///
+  /// In en, this message translates to:
+  /// **'Text Report'**
+  String get optimizerExportFormatText;
+
+  /// Export snackbar message
+  ///
+  /// In en, this message translates to:
+  /// **'Export as {format}: {filename}'**
+  String optimizerExportedAs(String format, String filename);
 }
 
 class _AppLocalizationsDelegate

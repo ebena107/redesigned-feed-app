@@ -134,10 +134,9 @@ class _DeleteConfirmDialog extends ConsumerWidget {
         ),
         CupertinoDialogAction(
           isDestructiveAction: true,
-          onPressed: () async {
-            final navigator = Navigator.of(context);
-            await ref.read(asyncMainProvider.notifier).deleteFeed(feed.feedId!);
-            navigator.pop();
+          onPressed: () {
+            ref.read(asyncMainProvider.notifier).deleteFeed(feed.feedId!);
+            context.pop();
           },
           child: Text(l10n.actionDelete),
         ),

@@ -1026,4 +1026,257 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get labelIngredient => 'Ingrédient';
+
+  @override
+  String get optimizerTitle => 'Optimiseur d\'Aliments';
+
+  @override
+  String get optimizerDescription =>
+      'Créez automatiquement des formulations d\'aliments optimales';
+
+  @override
+  String get optimizerMenuTitle => 'Optimiser l\'Aliment';
+
+  @override
+  String get optimizerQuickOptimize => 'Quick Optimize';
+
+  @override
+  String get optimizerQuickOptimizeDescription =>
+      'Broiler Chicken Starter with 10 common ingredients (2 minutes)';
+
+  @override
+  String get optimizerWhyTheseDefaults => 'Why these defaults?';
+
+  @override
+  String get optimizerWhyTheseDefaultsExplanation =>
+      'These settings are optimized for broiler chicken starters based on NRC 1994 poultry standards. The 10 ingredients are widely available, cost-effective, and provide excellent nutrition. Results in 2 minutes.';
+
+  @override
+  String get optimizerCustomOptimize => 'Custom Optimize';
+
+  @override
+  String get quickOptimizeTitle => 'Optimisation Rapide (Recommandé)';
+
+  @override
+  String get quickOptimizeDescription =>
+      'Formulation préconfigurée pour Poulet de Chair. Minimisez les coûts avec des ingrédients de haute qualité.';
+
+  @override
+  String get quickOptimizeButton => 'Démarrer l\'Optimisation Rapide';
+
+  @override
+  String get quickOptimizeTooltip =>
+      'Pourquoi ces paramètres ? Ils sont recommandés par les nutritionnistes pour les petits agriculteurs. Vous pouvez personnaliser les contraintes après.';
+
+  @override
+  String get customOptimizeTitle => 'Optimisation Personnalisée';
+
+  @override
+  String get optimizerActionReset => 'Réinitialiser';
+
+  @override
+  String get optimizerActionAdd => 'Ajouter';
+
+  @override
+  String get optimizerOptimizing => 'Optimisation...';
+
+  @override
+  String get optimizerRunOptimization => 'Exécuter l\'Optimisation';
+
+  @override
+  String get optimizerNoConstraints =>
+      'Aucune contrainte ajoutée. Appuyez sur + pour ajouter.';
+
+  @override
+  String get optimizerNoResults =>
+      'Aucun résultat pour le moment. Exécutez une optimisation pour voir les résultats.';
+
+  @override
+  String optimizerLoadedFeed(String feedName) {
+    return 'Aliment chargé : $feedName';
+  }
+
+  @override
+  String get optimizerErrorLoadingFeed =>
+      'Erreur lors du chargement de l\'aliment';
+
+  @override
+  String get optimizerConstraintsTitle => 'Contraintes Nutritionnelles';
+
+  @override
+  String get optimizerAddConstraintTooltip =>
+      'Ajouter une contrainte nutritionnelle';
+
+  @override
+  String get optimizerEditConstraint => 'Modifier la Contrainte';
+
+  @override
+  String get optimizerLabelNutrient => 'Nutriment';
+
+  @override
+  String get optimizerLabelType => 'Type';
+
+  @override
+  String get optimizerLabelValue => 'Valeur';
+
+  @override
+  String get optimizerLabelUnit => 'Unité';
+
+  @override
+  String get optimizerConstraintMinimum => 'Minimum';
+
+  @override
+  String get optimizerConstraintMaximum => 'Maximum';
+
+  @override
+  String get nutrientEnergy => 'Énergie (kcal/kg)';
+
+  @override
+  String get optimizerAnimalCategory => 'Type d\'Animal';
+
+  @override
+  String get optimizerSelectAnimalSpecies => 'Sélectionnez l\'espèce animale';
+
+  @override
+  String get optimizerSelectProductionStage =>
+      'Sélectionnez le stade de production';
+
+  @override
+  String get optimizerLoadRequirements => 'Charger les Exigences';
+
+  @override
+  String get optimizerConstraints => 'Contraintes Nutritionnelles';
+
+  @override
+  String get optimizerAddConstraint => 'Ajouter une Contrainte';
+
+  @override
+  String get optimizerConstraintType => 'Type de Contrainte';
+
+  @override
+  String get optimizerConstraintMin => 'Minimum';
+
+  @override
+  String get optimizerConstraintMax => 'Maximum';
+
+  @override
+  String get optimizerConstraintExact => 'Exact';
+
+  @override
+  String get optimizerSelectIngredients => 'Sélectionner les Ingrédients';
+
+  @override
+  String get optimizerIngredientsSelected => 'ingrédients sélectionnés';
+
+  @override
+  String get optimizerUseAllIngredients => 'Utiliser Tous Disponibles';
+
+  @override
+  String get optimizerObjectiveFunction =>
+      'Qu\'est-ce qui est le plus important?';
+
+  @override
+  String get optimizerObjectiveMinimizeCost => 'Coût le Plus Bas';
+
+  @override
+  String get optimizerObjectiveMaximizeProtein => 'Protéine la Plus Élevée';
+
+  @override
+  String get optimizerObjectiveMaximizeEnergy => 'Plus d\'Énergie';
+
+  @override
+  String get optimizerButtonOptimize => 'Optimiser';
+
+  @override
+  String get optimizerButtonQuickOptimize => 'Optimisation Rapide (Recommandé)';
+
+  @override
+  String get optimizerCalculating => 'Calcul de la meilleure formulation...';
+
+  @override
+  String get optimizerResultsTitle => 'Résultats de l\'Optimisation';
+
+  @override
+  String get optimizerResultsSuccess => 'Succès!';
+
+  @override
+  String get optimizerResultsFailed => 'Échec de l\'Optimisation';
+
+  @override
+  String get optimizerResultsQualityScore => 'Score de Qualité';
+
+  @override
+  String get optimizerResultsTotalCost => 'Coût Total';
+
+  @override
+  String get optimizerResultsCostPerKg => 'Coût par kg';
+
+  @override
+  String get optimizerResultsIngredientProportions =>
+      'Répartition des Ingrédients';
+
+  @override
+  String get optimizerResultsNutritionalProfile => 'Profil Nutritionnel';
+
+  @override
+  String get optimizerResultsWarnings => 'Avertissements';
+
+  @override
+  String get optimizerResultsWhyExplain => 'Pourquoi Ces Proportions?';
+
+  @override
+  String get optimizerErrorNoIngredients =>
+      'Veuillez sélectionner au moins 2 ingrédients';
+
+  @override
+  String get optimizerErrorNoAnimal =>
+      'Veuillez sélectionner un type d\'animal';
+
+  @override
+  String get optimizerErrorInfeasible =>
+      'Aucune solution trouvée. Essayez d\'ajuster les contraintes ou d\'ajouter plus d\'ingrédients.';
+
+  @override
+  String get optimizerErrorGeneral =>
+      'L\'optimisation a échoué. Veuillez réessayer.';
+
+  @override
+  String get optimizerHelpTitle => 'Comment Ça Marche';
+
+  @override
+  String get optimizerHelpConstraints =>
+      'Les contraintes sont des exigences nutritionnelles comme la protéine minimale ou la fibre maximale. L\'optimiseur trouve le meilleur mélange d\'ingrédients qui répond à toutes les exigences.';
+
+  @override
+  String get optimizerHelpObjective =>
+      'L\'objectif indique à l\'optimiseur ce qu\'il faut prioriser: aliment le moins cher, protéine la plus élevée ou plus d\'énergie.';
+
+  @override
+  String get optimizerActionSave => 'Enregistrer dans Mes Aliments';
+
+  @override
+  String get optimizerActionShare => 'Partager avec le Vétérinaire';
+
+  @override
+  String get optimizerActionTryAgain => 'Réessayer';
+
+  @override
+  String get optimizerFormulationHistory => 'Formulations Précédentes';
+
+  @override
+  String get optimizerExportTitle => 'Format d\'Exportation';
+
+  @override
+  String get optimizerExportFormatJson => 'JSON';
+
+  @override
+  String get optimizerExportFormatCsv => 'CSV';
+
+  @override
+  String get optimizerExportFormatText => 'Rapport Texte';
+
+  @override
+  String optimizerExportedAs(String format, String filename) {
+    return 'Exporté en $format : $filename';
+  }
 }

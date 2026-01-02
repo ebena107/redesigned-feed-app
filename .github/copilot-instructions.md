@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-Flutter livestock feed formulation app for analyzing nutrients in animal feed. Primary users: livestock farmers across Nigeria (largest), India, United States, Kenya, and globally (Europe, Asia, Africa). Current version: 1.0.0+12, actively modernized through phased improvements (Phases 1-3 complete, Phase 4 45% complete, see [doc/MODERNIZATION_PLAN.md](../doc/MODERNIZATION_PLAN.md)).
+Flutter livestock feed formulation app for analyzing nutrients in animal feed. Primary users: livestock farmers across Nigeria (largest), India, United States, Kenya, and globally (Europe, Asia, Africa). Current version: 1.0.1+11, actively modernized through phased improvements (Phases 1-3 complete, Phase 4 75% complete, see [doc/MODERNIZATION_PLAN.md](../doc/MODERNIZATION_PLAN.md)).
 
 ## Recent Modernization Notes
 
@@ -17,8 +17,11 @@ Flutter livestock feed formulation app for analyzing nutrients in animal feed. P
 
 **Secondary Features**:
 - **Price Management** (Phase 4.5): Optional dynamic pricing via `PriceHistoryRepository`. Pass `currentPrices` to engine when available, but calculation works without it using stored prices.
+- **Feed Optimizer** (Phase 5 - IN DEVELOPMENT): AI-powered feed formulation optimizer in `lib/src/features/optimizer/`. Uses linear programming (simplex algorithm) to auto-generate optimal formulations based on cost, nutrition constraints, and ingredient availability. See [doc/FEED_OPTIMIZER_QUICK_REFERENCE.md](../doc/FEED_OPTIMIZER_QUICK_REFERENCE.md) for architecture.
+- **Import/Export** (Phase 5.1 - COMPLETE): Full CSV/JSON import/export for ingredients and feeds in `lib/src/features/import_export/`. Supports bulk ingredient import with price history tracking.
 - **Type-Safe Navigation**: Use `@TypedGoRoute` with `.go(context)` pattern (never `Navigator.push()` or `pushNamed()`).
 - **Localization (i18n)**: Always use `context.l10n.keyName` for UI strings (5 languages supported).
+- **Feature Flags**: Use `FeatureFlags` class (`lib/src/core/constants/feature_flags.dart`) for gradual rollout control. Check flag status with `FeatureFlags.logStatus()` on app startup.
 - **Instructions source**: Keep this file in sync when adding cross-cutting patterns so new contributors see updated guidance.
 
 ## Architecture Essentials
@@ -28,15 +31,18 @@ Flutter livestock feed formulation app for analyzing nutrients in animal feed. P
 lib/src/
 ├── features/          # Business domains (add_ingredients, main, reports, etc.)
 │   └── [feature]/
-│       ├── model/     # Data classes (JSON serialization, NOT sealed)
+│       ├── model/     # Data classes (JSON serialization, NOT sealed/NOT freezed)
 │       ├── provider/  # Riverpod state (Notifier/AsyncNotifier)
 │       ├── repository/# Data access (extends core/repositories/Repository)
+│       ├── service/   # Business logic services (e.g., optimizer, validators)
 │       ├── view/      # Screens
 │       └── widget/    # Feature widgets
 ├── core/
 │   ├── value_objects/ # Domain primitives (Weight, Price, Quantity) using Equatable
 │   ├── exceptions/    # Custom hierarchy (AppException → 7 specific types)
 │   ├── database/      # SQLite (sqflite/sqflite_common_ffi with migrations)
+│   ├── constants/     # App-wide constants (ui_constants, feature_flags)
+│   ├── localization/  # i18n providers and helpers
 │   └── router/        # Type-safe go_router with @TypedGoRoute annotations
 ```
 
@@ -594,9 +600,52 @@ final result = EnhancedCalculationEngine.calculateEnhancedResult(
 - CSV import via `import_export` feature can bulk load prices
 - Always check if `currentPriceProvider` returns null (feature not active)
 
+### Feed Optimizer System (Phase 5 - IN DEVELOPMENT)
 
+**Use Case**: AI-powered automatic formulation optimization based on cost, nutrition, and ingredient availability.
 
-**Key Concept**: Support for regional ingredient filtering - farmers can access global ingredients plus region-specific alternatives.
+**Status**: Core architecture complete, UI components active, optimization engine in testing phase.
+
+**Key Components**:
+
+1. **FormulationOptimizerService** - Linear programming solver using simplex algorithm
+2. **ConstraintValidator** - Pre/post optimization validation
+3. **FormulationScorer** - Multi-criteria scoring (cost, quality, safety)
+4. **Optimizer Models** - Request/response/constraint data structures
+
+**Location**: `lib/src/features/optimizer/`
+
+**Architecture**:
+```dart
+// Optimization request structure
+final request = OptimizationRequest(
+  animalTypeId: 1,
+  constraints: [
+    OptimizationConstraint(nutrient: 'protein', min: 18, max: 22),
+    OptimizationConstraint(nutrient: 'energy', min: 3000),
+  ],
+  availableIngredients: ingredientList,
+  targetCost: 1500.0, // Optional cost ceiling
+);
+
+// Run optimization
+final result = await FormulationOptimizerService.optimize(request);
+
+// Result includes optimized ingredient proportions and scores
+if (result.isValid) {
+  // Convert to Feed and save
+  final feed = result.toFeed();
+}
+```
+
+**When Working with Optimizer**:
+- **Documentation**: See [doc/FEED_OPTIMIZER_QUICK_REFERENCE.md](../doc/FEED_OPTIMIZER_QUICK_REFERENCE.md) for complete architecture
+- **Task Tracking**: Implementation progress in [doc/FEED_OPTIMIZER_TASKS.md](../doc/FEED_OPTIMIZER_TASKS.md)
+- **Testing**: Integration tests in `test/integration/formulation_workflow_test.dart`
+- **Navigation**: Type-safe routes: `OptimizerSetupRoute().go(context)`
+- **Results**: Display uses `OptimizationResultsScreen` with interactive charts
+
+### Regional Ingredient Expansion (Phase 4.6 - DATABASE v12 COMPLETE)
 
 **Database v12 Changes**:
 - New `region` column in `ingredients` table (default='Global')

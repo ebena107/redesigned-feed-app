@@ -1009,4 +1009,249 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get labelIngredient => 'Ingredient';
+
+  @override
+  String get optimizerTitle => 'Kiboresha Chakula';
+
+  @override
+  String get optimizerDescription =>
+      'Tengeneza michanganyiko bora ya chakula kiotomatiki';
+
+  @override
+  String get optimizerMenuTitle => 'Boresha Chakula';
+
+  @override
+  String get optimizerQuickOptimize => 'Quick Optimize';
+
+  @override
+  String get optimizerQuickOptimizeDescription =>
+      'Broiler Chicken Starter with 10 common ingredients (2 minutes)';
+
+  @override
+  String get optimizerWhyTheseDefaults => 'Why these defaults?';
+
+  @override
+  String get optimizerWhyTheseDefaultsExplanation =>
+      'These settings are optimized for broiler chicken starters based on NRC 1994 poultry standards. The 10 ingredients are widely available, cost-effective, and provide excellent nutrition. Results in 2 minutes.';
+
+  @override
+  String get optimizerCustomOptimize => 'Custom Optimize';
+
+  @override
+  String get quickOptimizeTitle => 'Uboresha Mabilis (Inarekomenda)';
+
+  @override
+  String get quickOptimizeDescription =>
+      'Muundo ulioandaliwa mapema kwa Kuku wa Kufanya. Punguza gharama na viungo vya ubora wa juu.';
+
+  @override
+  String get quickOptimizeButton => 'Anzisha Uboresha Mabilis';
+
+  @override
+  String get quickOptimizeTooltip =>
+      'Kwa nini thamani hizi? Zinapendekezwa na wataalamu wa lishe kwa wakulima wadogo. Unaweza kuakisi mipango baada.';
+
+  @override
+  String get customOptimizeTitle => 'Uboresha Inacho Ogezeana';
+
+  @override
+  String get optimizerActionReset => 'Weka Upya';
+
+  @override
+  String get optimizerActionAdd => 'Ongeza';
+
+  @override
+  String get optimizerOptimizing => 'Inaboresha...';
+
+  @override
+  String get optimizerRunOptimization => 'Endesha Uboresha';
+
+  @override
+  String get optimizerNoConstraints =>
+      'Hakuna vikwazo vilivyoongezwa bado. Gusa + ili kuongeza.';
+
+  @override
+  String get optimizerNoResults =>
+      'Hakuna matokeo bado. Endesha uboresha ili kuona matokeo.';
+
+  @override
+  String optimizerLoadedFeed(String feedName) {
+    return 'Chakula kimepakiwa: $feedName';
+  }
+
+  @override
+  String get optimizerErrorLoadingFeed => 'Hitilafu wakati wa kupakia chakula';
+
+  @override
+  String get optimizerConstraintsTitle => 'Vikwazo vya Lishe';
+
+  @override
+  String get optimizerAddConstraintTooltip => 'Ongeza kikwazo cha lishe';
+
+  @override
+  String get optimizerEditConstraint => 'Hariri Kikwazo';
+
+  @override
+  String get optimizerLabelNutrient => 'Lishe';
+
+  @override
+  String get optimizerLabelType => 'Aina';
+
+  @override
+  String get optimizerLabelValue => 'Thamani';
+
+  @override
+  String get optimizerLabelUnit => 'Kitengo';
+
+  @override
+  String get optimizerConstraintMinimum => 'Kiwango cha Chini';
+
+  @override
+  String get optimizerConstraintMaximum => 'Kiwango cha Juu';
+
+  @override
+  String get nutrientEnergy => 'Nishati (kcal/kg)';
+
+  @override
+  String get optimizerAnimalCategory => 'Aina ya Mnyama';
+
+  @override
+  String get optimizerSelectAnimalSpecies => 'Chagua aina ya mnyama';
+
+  @override
+  String get optimizerSelectProductionStage => 'Chagua hatua ya uzalishaji';
+
+  @override
+  String get optimizerLoadRequirements => 'Pakia Mahitaji';
+
+  @override
+  String get optimizerConstraints => 'Vizuizi vya Lishe';
+
+  @override
+  String get optimizerAddConstraint => 'Ongeza Kizuizi';
+
+  @override
+  String get optimizerConstraintType => 'Aina ya Kizuizi';
+
+  @override
+  String get optimizerConstraintMin => 'Kiwango cha Chini';
+
+  @override
+  String get optimizerConstraintMax => 'Kiwango cha Juu';
+
+  @override
+  String get optimizerConstraintExact => 'Halisi';
+
+  @override
+  String get optimizerSelectIngredients => 'Chagua Viungo';
+
+  @override
+  String get optimizerIngredientsSelected => 'viungo vilivyochaguliwa';
+
+  @override
+  String get optimizerUseAllIngredients => 'Tumia Vyote Vilivyopo';
+
+  @override
+  String get optimizerObjectiveFunction => 'Ni nini muhimu zaidi?';
+
+  @override
+  String get optimizerObjectiveMinimizeCost => 'Bei Nafuu';
+
+  @override
+  String get optimizerObjectiveMaximizeProtein => 'Protini Nyingi';
+
+  @override
+  String get optimizerObjectiveMaximizeEnergy => 'Nishati Nyingi';
+
+  @override
+  String get optimizerButtonOptimize => 'Boresha';
+
+  @override
+  String get optimizerButtonQuickOptimize => 'Boresha Haraka (Inashauriwa)';
+
+  @override
+  String get optimizerCalculating => 'Inahesabu michanganyiko bora...';
+
+  @override
+  String get optimizerResultsTitle => 'Matokeo ya Uboreshaji';
+
+  @override
+  String get optimizerResultsSuccess => 'Imefanikiwa!';
+
+  @override
+  String get optimizerResultsFailed => 'Uboreshaji Umeshindwa';
+
+  @override
+  String get optimizerResultsQualityScore => 'Alama ya Ubora';
+
+  @override
+  String get optimizerResultsTotalCost => 'Gharama Jumla';
+
+  @override
+  String get optimizerResultsCostPerKg => 'Bei kwa kilo';
+
+  @override
+  String get optimizerResultsIngredientProportions => 'Mgawanyo wa Viungo';
+
+  @override
+  String get optimizerResultsNutritionalProfile => 'Taarifa ya Lishe';
+
+  @override
+  String get optimizerResultsWarnings => 'Maonyo';
+
+  @override
+  String get optimizerResultsWhyExplain => 'Kwa Nini Uwiano Huu?';
+
+  @override
+  String get optimizerErrorNoIngredients => 'Tafadhali chagua angalau viungo 2';
+
+  @override
+  String get optimizerErrorNoAnimal => 'Tafadhali chagua aina ya mnyama';
+
+  @override
+  String get optimizerErrorInfeasible =>
+      'Hakuna suluhisho. Jaribu kurekebisha vizuizi au kuongeza viungo zaidi.';
+
+  @override
+  String get optimizerErrorGeneral => 'Uboreshaji umeshindwa. Jaribu tena.';
+
+  @override
+  String get optimizerHelpTitle => 'Jinsi Inavyofanya Kazi';
+
+  @override
+  String get optimizerHelpConstraints =>
+      'Vizuizi ni mahitaji ya lishe kama protini ya chini au nyuzi ya juu. Kiboresha kinatafuta mchanganyiko bora wa viungo unaotimiza mahitaji yote.';
+
+  @override
+  String get optimizerHelpObjective =>
+      'Lengo linamwambia kiboresha ni nini cha kutanguliza: chakula cha bei nafuu, protini nyingi, au nishati nyingi.';
+
+  @override
+  String get optimizerActionSave => 'Hifadhi kwenye Chakula Changu';
+
+  @override
+  String get optimizerActionShare => 'Shiriki na Daktari wa Wanyama';
+
+  @override
+  String get optimizerActionTryAgain => 'Jaribu Tena';
+
+  @override
+  String get optimizerFormulationHistory => 'Michanganyiko ya Awali';
+
+  @override
+  String get optimizerExportTitle => 'Muundo wa Kuhariri';
+
+  @override
+  String get optimizerExportFormatJson => 'JSON';
+
+  @override
+  String get optimizerExportFormatCsv => 'CSV';
+
+  @override
+  String get optimizerExportFormatText => 'Ripoti ya Maandishi';
+
+  @override
+  String optimizerExportedAs(String format, String filename) {
+    return 'Imehaririwa kwa $format: $filename';
+  }
 }

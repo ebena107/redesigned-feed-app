@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 import '../providers/optimizer_provider.dart';
 import '../model/optimization_request.dart';
 
@@ -29,18 +30,18 @@ class OptimizationSettingsCard extends ConsumerWidget {
                 border: OutlineInputBorder(),
                 helperText: 'What should the optimizer prioritize?',
               ),
-              items: const [
+              items: [
                 DropdownMenuItem(
                   value: ObjectiveFunction.minimizeCost,
-                  child: Text('Minimize Cost'),
+                  child: Text(context.l10n.optimizerObjectiveMinimizeCost),
                 ),
                 DropdownMenuItem(
                   value: ObjectiveFunction.maximizeProtein,
-                  child: Text('Maximize Protein'),
+                  child: Text(context.l10n.optimizerObjectiveMaximizeProtein),
                 ),
                 DropdownMenuItem(
                   value: ObjectiveFunction.maximizeEnergy,
-                  child: Text('Maximize Energy'),
+                  child: Text(context.l10n.optimizerObjectiveMaximizeEnergy),
                 ),
               ],
               onChanged: (value) {

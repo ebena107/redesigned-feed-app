@@ -1007,4 +1007,248 @@ class AppLocalizationsYo extends AppLocalizations {
 
   @override
   String get labelIngredient => 'Ingredient';
+
+  @override
+  String get optimizerTitle => 'Ounjẹ Ẹranko Daradara';
+
+  @override
+  String get optimizerDescription => 'Ṣẹda awọn ounjẹ to dara julọ laifọwọyi';
+
+  @override
+  String get optimizerMenuTitle => 'Ṣe Ounjẹ To Dara';
+
+  @override
+  String get optimizerQuickOptimize => 'Quick Optimize';
+
+  @override
+  String get optimizerQuickOptimizeDescription =>
+      'Broiler Chicken Starter with 10 common ingredients (2 minutes)';
+
+  @override
+  String get optimizerWhyTheseDefaults => 'Why these defaults?';
+
+  @override
+  String get optimizerWhyTheseDefaultsExplanation =>
+      'These settings are optimized for broiler chicken starters based on NRC 1994 poultry standards. The 10 ingredients are widely available, cost-effective, and provide excellent nutrition. Results in 2 minutes.';
+
+  @override
+  String get optimizerCustomOptimize => 'Custom Optimize';
+
+  @override
+  String get quickOptimizeTitle => 'Àtúnṣe Kiakia (Á ló gba)';
+
+  @override
+  String get quickOptimizeDescription =>
+      'Àpapọ̀ tí a ti ṣeto nítele fún Ìyẹ Ọ̀bẹ̀. Dinku iye owó pẹ̀lú àwọn nǹkan tí ó dá.';
+
+  @override
+  String get quickOptimizeButton => 'Bẹ̀rẹ̀ Àtúnṣe Kiakia';
+
+  @override
+  String get quickOptimizeTooltip =>
+      'Ídí wo ní àwọn ípìnlẹ̀ yìí? Wọ́n ni á ṣe tìrà àwọn onímọ̀ lishe fún àwọn ọ̀dọ̀ oké kékeré. O lè ṣe àtúnṣe àwọn ìdiwọ́n lẹ́yìn.';
+
+  @override
+  String get customOptimizeTitle => 'Àtúnṣe Ìbásísì';
+
+  @override
+  String get optimizerActionReset => 'Tun Ṣeto';
+
+  @override
+  String get optimizerActionAdd => 'Fi Kun';
+
+  @override
+  String get optimizerOptimizing => 'Ń ṣe àtúnṣe...';
+
+  @override
+  String get optimizerRunOptimization => 'Ṣe Àtúnṣe';
+
+  @override
+  String get optimizerNoConstraints =>
+      'Ko si àwọn ìdiwọ́n tí a fi kun síbẹ̀. Tẹ + láti fi kun.';
+
+  @override
+  String get optimizerNoResults =>
+      'Ko si èsì síbẹ̀. Ṣe àtúnṣe láti rí àwọn èsì.';
+
+  @override
+  String optimizerLoadedFeed(String feedName) {
+    return 'Oúnjẹ ti gba: $feedName';
+  }
+
+  @override
+  String get optimizerErrorLoadingFeed => 'Àṣìṣe ní ìgbà gbígba oúnjẹ';
+
+  @override
+  String get optimizerConstraintsTitle => 'Àwọn Ìdiwọ́n Ìjẹun';
+
+  @override
+  String get optimizerAddConstraintTooltip => 'Fi ìdiwọ́n ìjẹun kun';
+
+  @override
+  String get optimizerEditConstraint => 'Ṣàtúnṣe Ìdiwọ́n';
+
+  @override
+  String get optimizerLabelNutrient => 'Ìjẹun';
+
+  @override
+  String get optimizerLabelType => 'Irú';
+
+  @override
+  String get optimizerLabelValue => 'Iye';
+
+  @override
+  String get optimizerLabelUnit => 'Àmì';
+
+  @override
+  String get optimizerConstraintMinimum => 'Kékeré jù';
+
+  @override
+  String get optimizerConstraintMaximum => 'Pọ̀jù';
+
+  @override
+  String get nutrientEnergy => 'Agbara (kcal/kg)';
+
+  @override
+  String get optimizerAnimalCategory => 'Iru Ẹranko';
+
+  @override
+  String get optimizerSelectAnimalSpecies => 'Yan iru ẹranko';
+
+  @override
+  String get optimizerSelectProductionStage => 'Yan ipele iṣelọpọ';
+
+  @override
+  String get optimizerLoadRequirements => 'Gbe Awọn Ibeere';
+
+  @override
+  String get optimizerConstraints => 'Awọn Idiwọ Ounjẹ';
+
+  @override
+  String get optimizerAddConstraint => 'Fi Idiwọ Kun';
+
+  @override
+  String get optimizerConstraintType => 'Iru Idiwọ';
+
+  @override
+  String get optimizerConstraintMin => 'Kere Ju';
+
+  @override
+  String get optimizerConstraintMax => 'Pọ Ju';
+
+  @override
+  String get optimizerConstraintExact => 'Gangan';
+
+  @override
+  String get optimizerSelectIngredients => 'Yan Awọn Eroja';
+
+  @override
+  String get optimizerIngredientsSelected => 'awọn eroja ti a yan';
+
+  @override
+  String get optimizerUseAllIngredients => 'Lo Gbogbo Ti O Wa';
+
+  @override
+  String get optimizerObjectiveFunction => 'Kini o ṣe pataki julọ?';
+
+  @override
+  String get optimizerObjectiveMinimizeCost => 'Owo Kekere Julọ';
+
+  @override
+  String get optimizerObjectiveMaximizeProtein => 'Protein Pọ Julọ';
+
+  @override
+  String get optimizerObjectiveMaximizeEnergy => 'Agbara Pọ Ju';
+
+  @override
+  String get optimizerButtonOptimize => 'Ṣe Daradara';
+
+  @override
+  String get optimizerButtonQuickOptimize => 'Ṣe Daradara Kiakia (A Ṣeduro)';
+
+  @override
+  String get optimizerCalculating => 'N ṣe iṣiro ounjẹ to dara julọ...';
+
+  @override
+  String get optimizerResultsTitle => 'Awọn Abajade';
+
+  @override
+  String get optimizerResultsSuccess => 'Aṣeyọri!';
+
+  @override
+  String get optimizerResultsFailed => 'Ko Ṣiṣẹ';
+
+  @override
+  String get optimizerResultsQualityScore => 'Aaye Didara';
+
+  @override
+  String get optimizerResultsTotalCost => 'Iye Owo Lapapọ';
+
+  @override
+  String get optimizerResultsCostPerKg => 'Owo fun kg kan';
+
+  @override
+  String get optimizerResultsIngredientProportions => 'Pipin Awọn Eroja';
+
+  @override
+  String get optimizerResultsNutritionalProfile => 'Profaili Ounjẹ';
+
+  @override
+  String get optimizerResultsWarnings => 'Awọn Ikilọ';
+
+  @override
+  String get optimizerResultsWhyExplain => 'Kilode Ti A Fi Yan Awọn Iwọn Yi?';
+
+  @override
+  String get optimizerErrorNoIngredients => 'Jọwọ yan o kere ju eroja meji';
+
+  @override
+  String get optimizerErrorNoAnimal => 'Jọwọ yan iru ẹranko kan';
+
+  @override
+  String get optimizerErrorInfeasible =>
+      'Ko ri ojutu kankan. Gbiyanju lati ṣatunṣe awọn idiwọ tabi fi awọn eroja diẹ sii kun.';
+
+  @override
+  String get optimizerErrorGeneral => 'Ko ṣiṣẹ. Gbiyanju lẹẹkansi.';
+
+  @override
+  String get optimizerHelpTitle => 'Bi O Ṣe N Ṣiṣẹ';
+
+  @override
+  String get optimizerHelpConstraints =>
+      'Awọn idiwọ jẹ awọn ibeere ounjẹ bii protein kekere tabi okun pọ ju. Olutọpa n wa adalu eroja to dara julọ ti o pade gbogbo awọn ibeere.';
+
+  @override
+  String get optimizerHelpObjective =>
+      'Ibi-afẹde sọ fun olutọpa ohun ti o gbọdọ ṣe akọkọ: ounjẹ ti o pọn julọ, protein pọ julọ, tabi agbara pọ ju.';
+
+  @override
+  String get optimizerActionSave => 'Fi Pamọ Si Awọn Ounjẹ Mi';
+
+  @override
+  String get optimizerActionShare => 'Pin Pẹlu Dokita Ẹranko';
+
+  @override
+  String get optimizerActionTryAgain => 'Gbiyanju Lẹẹkansi';
+
+  @override
+  String get optimizerFormulationHistory => 'Awọn Àpapọ̀ Tẹ́lẹ̀';
+
+  @override
+  String get optimizerExportTitle => 'Ọ̀nà Ìforúkọsílẹ̀';
+
+  @override
+  String get optimizerExportFormatJson => 'JSON';
+
+  @override
+  String get optimizerExportFormatCsv => 'CSV';
+
+  @override
+  String get optimizerExportFormatText => 'Ìjábọ̀ Ọ̀rọ̀';
+
+  @override
+  String optimizerExportedAs(String format, String filename) {
+    return 'Forúkọsílẹ̀ gẹ́gẹ́ $format: $filename';
+  }
 }

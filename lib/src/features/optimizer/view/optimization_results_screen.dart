@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 import '../providers/optimizer_provider.dart';
 import '../../add_ingredients/provider/ingredients_provider.dart';
 import '../../add_ingredients/model/ingredient.dart';
@@ -16,8 +17,8 @@ class OptimizationResultsScreen extends ConsumerWidget {
 
     if (result == null) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Optimization Results')),
-        body: const Center(child: Text('No results available')),
+        appBar: AppBar(title: Text(context.l10n.optimizerResultsTitle)),
+        body: Center(child: Text(context.l10n.optimizerNoResults)),
       );
     }
 
@@ -31,13 +32,13 @@ class OptimizationResultsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Optimization Results'),
+        title: Text(context.l10n.optimizerResultsTitle),
         actions: [
           IconButton(
             icon: const Icon(Icons.share),
             onPressed: () =>
                 _shareResults(context, result, optimizerState, ingredientCache),
-            tooltip: 'Share',
+            tooltip: context.l10n.optimizerActionShare,
           ),
         ],
       ),
@@ -154,33 +155,107 @@ class OptimizationResultsScreen extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Ingredient Composition',
-                      style: Theme.of(context).textTheme.titleLarge,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Optimized Formulation',
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        Text(
+                          'Total: 100 kg',
+                          style:
+                              Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.blue,
+                                  ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Cost per kg: \$${(result.totalCost / 100).toStringAsFixed(3)}',
+                      style: TextStyle(
+                        color: Colors.grey.shade700,
+                        fontSize: 14,
+                      ),
+                    ),
+                    const Divider(height: 24),
                     ...result.ingredientProportions.entries.map((entry) {
                       final ingredient = ingredientCache[entry.key];
+                      final percentage = entry.value;
+                      final kg =
+                          percentage; // Since total is 100kg, percentage = kg
+                      final ingredientCost =
+                          (optimizerState.ingredientPrices[entry.key] ?? 0.0) *
+                              kg;
+
                       return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        padding: const EdgeInsets.symmetric(vertical: 12.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(ingredient?.name ?? 'Unknown'),
-                                Text(
-                                  '${entry.value.toStringAsFixed(2)}%',
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
+                                Expanded(
+                                  child: Text(
+                                    ingredient?.name ?? 'Unknown',
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      '${kg.toStringAsFixed(2)} kg',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                    Text(
+                                      '(${percentage.toStringAsFixed(1)}%)',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey.shade600,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
                             const SizedBox(height: 4),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Price: \$${(optimizerState.ingredientPrices[entry.key] ?? 0.0).toStringAsFixed(2)}/kg',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey.shade600,
+                                  ),
+                                ),
+                                Text(
+                                  'Cost: \$${ingredientCost.toStringAsFixed(2)}',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey.shade600,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 6),
                             LinearProgressIndicator(
                               value: entry.value / 100.0,
                               backgroundColor: Colors.grey.shade300,
+                              valueColor: const AlwaysStoppedAnimation<Color>(
+                                  Colors.blue),
                             ),
                           ],
                         ),
@@ -294,23 +369,23 @@ class OptimizationResultsScreen extends ConsumerWidget {
     final format = await showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Export Format'),
+        title: Text(context.l10n.optimizerExportTitle),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
               leading: const Icon(Icons.code),
-              title: const Text('JSON'),
+              title: Text(context.l10n.optimizerExportFormatJson),
               onTap: () => Navigator.of(context).pop('json'),
             ),
             ListTile(
               leading: const Icon(Icons.table_chart),
-              title: const Text('CSV'),
+              title: Text(context.l10n.optimizerExportFormatCsv),
               onTap: () => Navigator.of(context).pop('csv'),
             ),
             ListTile(
               leading: const Icon(Icons.description),
-              title: const Text('Text Report'),
+              title: Text(context.l10n.optimizerExportFormatText),
               onTap: () => Navigator.of(context).pop('text'),
             ),
           ],
@@ -329,7 +404,9 @@ class OptimizationResultsScreen extends ConsumerWidget {
       // For now, just show a snackbar
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Export as $format: $filename')),
+          SnackBar(
+              content:
+                  Text(context.l10n.optimizerExportedAs(format, filename))),
         );
       }
     }
