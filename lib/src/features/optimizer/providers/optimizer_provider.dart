@@ -2,11 +2,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../model/optimization_constraint.dart';
 import '../model/optimization_request.dart';
 import '../model/optimization_result.dart';
+import '../model/nutrient_requirement.dart';
 import '../services/formulation_optimizer_service.dart';
 import '../../add_ingredients/model/ingredient.dart';
 import '../../add_ingredients/provider/ingredients_provider.dart';
 import '../../price_management/provider/current_price_provider.dart';
+import '../../main/model/feed.dart';
 import '../../../core/utils/logger.dart';
+import '../data/animal_requirements.dart';
 
 /// Provider for the FormulationOptimizerService
 final formulationOptimizerServiceProvider =
@@ -348,7 +351,8 @@ class OptimizerNotifier extends Notifier<OptimizerState> {
       Map<int, double> prices = {};
       try {
         for (final ingId in commonIngredientsForBroiler) {
-          final price = await ref.read(currentPriceProvider(ingredientId: ingId).future);
+          final price =
+              await ref.read(currentPriceProvider(ingredientId: ingId).future);
           prices[ingId] = price;
         }
       } catch (_) {
@@ -400,10 +404,200 @@ class OptimizerNotifier extends Notifier<OptimizerState> {
     state = state.copyWith(hasStartedCustom: true);
   }
 
+  /// Load optimizer data from an existing feed
+  /// Extracts animal type, ingredients, quantities, and prices from the feed
+  Future<void> loadFromExistingFeed(Feed feed) async {
+    try {
+      // Validate feed has ingredients
+      if (feed.feedIngredients == null || feed.feedIngredients!.isEmpty) {
+        state = state.copyWith(
+          errorMessage: 'Feed has no ingredients',
+        );
+        return;
+      }
+
+      // Extract ingredient IDs, prices, and inclusion limits
+      final ingredientIds = <int>[];
+      final prices = <int, double>{};
+      final ingredientLimits = <int, InclusionLimit>{};
+      final animalTypeId = feed.animalId?.toInt() ?? 1;
+
+      // Get ingredient cache to access maxInclusionJson data
+      final ingredientsState = ref.read(ingredientProvider);
+
+      for (final feedIng in feed.feedIngredients!) {
+        if (feedIng.ingredientId != null) {
+          final ingId = feedIng.ingredientId!.toInt();
+          ingredientIds.add(ingId);
+
+          // Load price
+          try {
+            final latestPrice = await ref.read(
+              currentPriceProvider(ingredientId: ingId).future,
+            );
+            prices[ingId] = latestPrice;
+          } catch (_) {
+            // Fallback to feed's stored price
+            prices[ingId] = (feedIng.priceUnitKg ?? 0.01).toDouble();
+          }
+
+          // Load ingredient-specific inclusion limits from database
+          final ingredient = ingredientsState.ingredients.firstWhere(
+            (ing) => ing.ingredientId == ingId,
+            orElse: () => Ingredient(),
+          );
+
+          if (ingredient.maxInclusionJson != null) {
+            // Use per-animal-type limits from maxInclusionJson
+            final maxInclusion = _getMaxInclusionForAnimal(
+              ingredient.maxInclusionJson!,
+              animalTypeId,
+            );
+            if (maxInclusion != null) {
+              ingredientLimits[ingId] = InclusionLimit(
+                minPct: 0.0,
+                maxPct: maxInclusion,
+              );
+            }
+          } else if (ingredient.maxInclusionPct != null &&
+              ingredient.maxInclusionPct! > 0) {
+            // Fallback to simple maxInclusionPct
+            ingredientLimits[ingId] = InclusionLimit(
+              minPct: 0.0,
+              maxPct: ingredient.maxInclusionPct!.toDouble(),
+            );
+          }
+        }
+      }
+
+      // Load constraints based on animal type using animal_requirements registry
+      final stage = feed.productionStage ?? 'grower';
+
+      // Determine species and find matching category
+      AnimalCategory? category;
+      String requirementSourceStr = 'Unknown';
+
+      if (animalTypeId == 1) {
+        // Pig
+        category = findCategory('Swine', stage);
+        requirementSourceStr = 'NRC 2012 Swine';
+      } else if (animalTypeId == 2) {
+        // Poultry
+        category = findCategory('Poultry', stage);
+        requirementSourceStr = 'NRC 1994 Poultry';
+      } else if (animalTypeId == 3) {
+        // Rabbit - not in current registry, default to swine grower as fallback
+        category = findCategory('Swine', 'Grower');
+        requirementSourceStr = 'NRC 2012 Swine (Rabbit fallback)';
+      } else if (animalTypeId == 4) {
+        // Ruminant/Cattle
+        category = findCategory('Cattle', stage);
+        requirementSourceStr = 'NRC 2001 Cattle';
+      } else if (animalTypeId == 5) {
+        // Fish
+        category = findCategory('Fish', stage);
+        requirementSourceStr = 'NRC 2011 Fish';
+      } else {
+        // Default to Swine Grower
+        category = findCategory('Swine', 'Grower');
+        requirementSourceStr = 'NRC 2012 Swine (Default)';
+      }
+
+      // Fallback if category not found
+      if (category == null) {
+        category = swinePiglet;
+        requirementSourceStr = 'NRC 2012 Swine (Fallback)';
+      }
+
+      final constraints = category.getAllConstraints();
+
+      state = state.copyWith(
+        constraints: constraints,
+        selectedIngredientIds: ingredientIds,
+        ingredientPrices: prices,
+        ingredientLimits: ingredientLimits.isNotEmpty ? ingredientLimits : null,
+        objective: ObjectiveFunction.minimizeCost,
+        selectedCategory: category.displayName,
+        requirementSource: requirementSourceStr,
+        errorMessage: null,
+      );
+
+      AppLogger.info(
+        'Loaded optimizer from feed ${feed.feedName}: ${ingredientIds.length} ingredients, ${ingredientLimits.length} with inclusion limits, category: ${category.displayName}',
+        tag: 'OptimizerNotifier',
+      );
+    } catch (e, stackTrace) {
+      AppLogger.error(
+        'Failed to load optimizer from feed: $e',
+        tag: 'OptimizerNotifier',
+        error: e,
+        stackTrace: stackTrace,
+      );
+      state = state.copyWith(
+        errorMessage: 'Failed to load feed data: ${e.toString()}',
+      );
+    }
+  }
+
+  /// Extract max inclusion percentage for specific animal type from ingredient's maxInclusionJson
+  /// Uses same logic as InclusionValidator for consistency
+  double? _getMaxInclusionForAnimal(
+    Map<String, dynamic> maxInclusionJson,
+    int animalTypeId,
+  ) {
+    // Map animal type ID to category keys (same as in core/constants/animal_categories.dart)
+    final categoryKeys = <String>[];
+
+    if (animalTypeId == 1) {
+      // Pig
+      categoryKeys.addAll(['pig', 'swine', 'porcine']);
+    } else if (animalTypeId == 2) {
+      // Poultry
+      categoryKeys.addAll(['poultry', 'chicken', 'broiler', 'layer']);
+    } else if (animalTypeId == 3) {
+      // Rabbit
+      categoryKeys.addAll(['rabbit', 'lagomorph']);
+    } else if (animalTypeId == 4) {
+      // Ruminant
+      categoryKeys
+          .addAll(['ruminant', 'cattle', 'beef', 'dairy', 'sheep', 'goat']);
+    } else if (animalTypeId == 5) {
+      // Fish
+      categoryKeys.addAll(['fish', 'aquaculture', 'tilapia', 'catfish']);
+    }
+
+    // Try preferred keys first
+    for (final key in categoryKeys) {
+      final val = maxInclusionJson[key];
+      if (val is num && val > 0) return val.toDouble();
+    }
+
+    // Common fallbacks
+    for (final key in const ['default', 'all', 'any']) {
+      final val = maxInclusionJson[key];
+      if (val is num && val > 0) return val.toDouble();
+    }
+
+    // Last resort: pick the most conservative (minimum positive) limit
+    final numericValues =
+        maxInclusionJson.values.whereType<num>().where((e) => e > 0).toList();
+    if (numericValues.isNotEmpty) {
+      numericValues.sort();
+      return numericValues.first.toDouble();
+    }
+
+    return null;
+  }
+
   /// Start quick optimize with smart defaults for broiler chicken starter
   /// Loads pre-configured constraints and ingredients, skips animal selection step
-  Future<void> startQuickOptimize() async {
-    await loadQuickOptimizeDefaults();
+  /// If feed is provided, loads data from existing feed instead
+  Future<void> startQuickOptimize({Feed? existingFeed}) async {
+    if (existingFeed != null) {
+      await loadFromExistingFeed(existingFeed);
+    } else {
+      await loadQuickOptimizeDefaults();
+    }
     // Don't set hasStartedCustom - quick mode shows simplified workflow
   }
 

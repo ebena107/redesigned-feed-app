@@ -158,9 +158,11 @@ class OptimizationResultsScreen extends ConsumerWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'Optimized Formulation',
-                          style: Theme.of(context).textTheme.titleLarge,
+                        Expanded(
+                          child: Text(
+                            'Optimized Formulation',
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
                         ),
                         Text(
                           'Total: 100 kg',

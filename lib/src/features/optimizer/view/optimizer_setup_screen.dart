@@ -8,6 +8,7 @@ import '../widgets/ingredient_selection_card.dart';
 import '../widgets/optimization_settings_card.dart';
 import '../widgets/animal_category_card.dart';
 import '../../main/repository/feed_repository.dart';
+import '../../main/model/feed.dart';
 import 'optimization_results_screen.dart';
 
 /// Main screen for setting up and running feed formulation optimization
@@ -23,6 +24,7 @@ class OptimizerSetupScreen extends ConsumerStatefulWidget {
 
 class _OptimizerSetupScreenState extends ConsumerState<OptimizerSetupScreen> {
   final _formKey = GlobalKey<FormState>();
+  Feed? _existingFeed; // Store the loaded feed for Quick Optimize
 
   @override
   void initState() {
@@ -45,6 +47,11 @@ class _OptimizerSetupScreenState extends ConsumerState<OptimizerSetupScreen> {
       if (feed == null || !mounted) {
         return;
       }
+
+      // Store the feed for Quick Optimize
+      setState(() {
+        _existingFeed = feed;
+      });
 
       // Pre-populate optimizer with feed ingredients
       final feedIngredients = feed.feedIngredients ?? [];
@@ -111,8 +118,9 @@ class _OptimizerSetupScreenState extends ConsumerState<OptimizerSetupScreen> {
     OptimizerState optimizerState,
     bool canOptimize,
   ) {
-    // If quick optimize defaults were loaded, show simplified quick optimize flow
-    if (optimizerState.selectedCategory == 'poultry_broiler_starter') {
+    // If quick optimize was started (has constraints and ingredients loaded), show simplified quick optimize flow
+    if (optimizerState.constraints.isNotEmpty &&
+        optimizerState.selectedIngredientIds.isNotEmpty) {
       return _buildQuickOptimizeFlow(context, ref, optimizerState, canOptimize);
     }
 
@@ -299,11 +307,12 @@ class _OptimizerSetupScreenState extends ConsumerState<OptimizerSetupScreen> {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'Broiler Chicken Starter (NRC 1994)',
+                    optimizerState.selectedCategory ??
+                        'Broiler Chicken Starter',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   Text(
-                    '${optimizerState.constraints.length} constraints · ${optimizerState.selectedIngredientIds.length} ingredients',
+                    '${optimizerState.requirementSource ?? ''} · ${optimizerState.constraints.length} constraints · ${optimizerState.selectedIngredientIds.length} ingredients${optimizerState.ingredientLimits != null ? ' · ${optimizerState.ingredientLimits!.length} limits' : ''}',
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ],
@@ -565,10 +574,12 @@ class _OptimizerSetupScreenState extends ConsumerState<OptimizerSetupScreen> {
     );
   }
 
-  /// Setup quick optimize with default values for broiler chicken
+  /// Setup quick optimize with feed data or default values
   void _setupQuickOptimize(BuildContext context, WidgetRef ref) async {
-    // Start loading quick optimize defaults
-    await ref.read(optimizerProvider.notifier).startQuickOptimize();
+    // Start loading quick optimize - pass existing feed if available
+    await ref.read(optimizerProvider.notifier).startQuickOptimize(
+          existingFeed: _existingFeed,
+        );
     // The UI will automatically update via the ref.watch(optimizerProvider)
   }
 
