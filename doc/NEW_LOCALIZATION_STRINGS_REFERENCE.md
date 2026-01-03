@@ -149,6 +149,7 @@
 ## Integration in Code
 
 ### Example 1: Form Section Header
+
 **File**: `lib/src/features/add_ingredients/widgets/ingredient_form.dart`
 
 ```dart
@@ -161,6 +162,7 @@ _FormSection(
 ```
 
 ### Example 2: Animal Type Label
+
 **File**: `lib/src/features/add_ingredients/widgets/ingredient_form.dart`
 
 ```dart
@@ -174,6 +176,7 @@ Flexible(
 ```
 
 ### Example 3: Energy Mode Hint
+
 **File**: `lib/src/features/add_ingredients/widgets/ingredient_form.dart`
 
 ```dart
@@ -185,6 +188,7 @@ Text(
 ```
 
 ### Example 4: Custom Ingredient Header
+
 **File**: `lib/src/features/add_ingredients/widgets/custom_ingredient_fields.dart`
 
 ```dart
@@ -192,6 +196,7 @@ Text(context.l10n.customIngredientHeader)
 ```
 
 ### Example 5: Feed Form Title
+
 **File**: `lib/src/features/add_update_feed/view/add_update_feed.dart`
 
 ```dart
@@ -225,26 +230,31 @@ When translating, use this exact format (don't include trailing commas if it's t
 ## Verification Commands
 
 ### 1. Check English strings are correctly formatted:
+
 ```bash
 grep -c '"form' lib/l10n/app_en.arb  # Count form-related strings
 ```
 
 ### 2. Generate localization files:
+
 ```bash
 flutter gen-l10n
 ```
 
 ### 3. Verify all languages compile:
+
 ```bash
 flutter analyze
 ```
 
 ### 4. Check for missing translations:
+
 ```bash
 flutter analyze 2>&1 | grep -i "untranslated"
 ```
 
 ### 5. Build and test:
+
 ```bash
 flutter pub get
 flutter test

@@ -9,6 +9,7 @@ import '../../add_ingredients/provider/ingredients_provider.dart';
 import '../../price_management/provider/current_price_provider.dart';
 import '../../main/model/feed.dart';
 import '../../../core/utils/logger.dart';
+import '../../../core/constants/animal_categories.dart' as ac;
 import '../data/animal_requirements.dart';
 
 /// Provider for the FormulationOptimizerService
@@ -408,108 +409,132 @@ class OptimizerNotifier extends Notifier<OptimizerState> {
   /// Extracts animal type, ingredients, quantities, and prices from the feed
   Future<void> loadFromExistingFeed(Feed feed) async {
     try {
-      // Validate feed has ingredients
-      if (feed.feedIngredients == null || feed.feedIngredients!.isEmpty) {
-        state = state.copyWith(
-          errorMessage: 'Feed has no ingredients',
-        );
-        return;
-      }
+      AppLogger.info(
+          '[OPTIMIZER-BACKEND] loadFromExistingFeed: ${feed.feedName}, animalId=${feed.animalId}, ingredients=${feed.feedIngredients?.length ?? 0}',
+          tag: 'OptimizerNotifier');
 
-      // Extract ingredient IDs, prices, and inclusion limits
+      // Extract ingredient IDs, prices, and inclusion limits (even if empty)
       final ingredientIds = <int>[];
       final prices = <int, double>{};
       final ingredientLimits = <int, InclusionLimit>{};
       final animalTypeId = feed.animalId?.toInt() ?? 1;
 
+      AppLogger.info(
+          '[OPTIMIZER-BACKEND] Extracted animalTypeId: $animalTypeId',
+          tag: 'OptimizerNotifier');
+
       // Get ingredient cache to access maxInclusionJson data
       final ingredientsState = ref.read(ingredientProvider);
 
-      for (final feedIng in feed.feedIngredients!) {
-        if (feedIng.ingredientId != null) {
-          final ingId = feedIng.ingredientId!.toInt();
-          ingredientIds.add(ingId);
+      // Process ingredients if they exist
+      if (feed.feedIngredients != null && feed.feedIngredients!.isNotEmpty) {
+        for (final feedIng in feed.feedIngredients!) {
+          if (feedIng.ingredientId != null) {
+            final ingId = feedIng.ingredientId!.toInt();
+            ingredientIds.add(ingId);
 
-          // Load price
-          try {
-            final latestPrice = await ref.read(
-              currentPriceProvider(ingredientId: ingId).future,
+            // Load price
+            try {
+              final latestPrice = await ref.read(
+                currentPriceProvider(ingredientId: ingId).future,
+              );
+              prices[ingId] = latestPrice;
+            } catch (_) {
+              // Fallback to feed's stored price
+              prices[ingId] = (feedIng.priceUnitKg ?? 0.01).toDouble();
+            }
+
+            // Load ingredient-specific inclusion limits from database
+            final ingredient = ingredientsState.ingredients.firstWhere(
+              (ing) => ing.ingredientId == ingId,
+              orElse: () => Ingredient(),
             );
-            prices[ingId] = latestPrice;
-          } catch (_) {
-            // Fallback to feed's stored price
-            prices[ingId] = (feedIng.priceUnitKg ?? 0.01).toDouble();
-          }
 
-          // Load ingredient-specific inclusion limits from database
-          final ingredient = ingredientsState.ingredients.firstWhere(
-            (ing) => ing.ingredientId == ingId,
-            orElse: () => Ingredient(),
-          );
-
-          if (ingredient.maxInclusionJson != null) {
-            // Use per-animal-type limits from maxInclusionJson
-            final maxInclusion = _getMaxInclusionForAnimal(
-              ingredient.maxInclusionJson!,
-              animalTypeId,
-            );
-            if (maxInclusion != null) {
+            if (ingredient.maxInclusionJson != null) {
+              // Use per-animal-type limits from maxInclusionJson
+              final maxInclusion = _getMaxInclusionForAnimal(
+                ingredient.maxInclusionJson!,
+                animalTypeId,
+              );
+              if (maxInclusion != null) {
+                ingredientLimits[ingId] = InclusionLimit(
+                  minPct: 0.0,
+                  maxPct: maxInclusion,
+                );
+              }
+            } else if (ingredient.maxInclusionPct != null &&
+                ingredient.maxInclusionPct! > 0) {
+              // Fallback to simple maxInclusionPct
               ingredientLimits[ingId] = InclusionLimit(
                 minPct: 0.0,
-                maxPct: maxInclusion,
+                maxPct: ingredient.maxInclusionPct!.toDouble(),
               );
             }
-          } else if (ingredient.maxInclusionPct != null &&
-              ingredient.maxInclusionPct! > 0) {
-            // Fallback to simple maxInclusionPct
-            ingredientLimits[ingId] = InclusionLimit(
-              minPct: 0.0,
-              maxPct: ingredient.maxInclusionPct!.toDouble(),
-            );
           }
         }
+      } else {
+        AppLogger.info(
+            '[OPTIMIZER-BACKEND] Feed has no ingredients (OK for quick optimize)',
+            tag: 'OptimizerNotifier');
       }
 
-      // Load constraints based on animal type using animal_requirements registry
+      // Load constraints using unified category system
+      // Uses AnimalCategoryMapper for consistency with inclusion limits
       final stage = feed.productionStage ?? 'grower';
 
-      // Determine species and find matching category
+      AppLogger.info(
+          '[OPTIMIZER-BACKEND] Looking for category: animalTypeId=$animalTypeId, stage=$stage',
+          tag: 'OptimizerNotifier');
+
+      // Get preference list using unified system
+      final categoryPrefs = ac.AnimalCategoryMapper.getCategoryPreferences(
+        animalTypeId: animalTypeId,
+        productionStage: stage,
+      );
+
+      AppLogger.info('[OPTIMIZER-BACKEND] Category preferences: $categoryPrefs',
+          tag: 'OptimizerNotifier');
+
+      // Try to find category from preference list
       AnimalCategory? category;
       String requirementSourceStr = 'Unknown';
 
-      if (animalTypeId == 1) {
-        // Pig
-        category = findCategory('Swine', stage);
-        requirementSourceStr = 'NRC 2012 Swine';
-      } else if (animalTypeId == 2) {
-        // Poultry
-        category = findCategory('Poultry', stage);
-        requirementSourceStr = 'NRC 1994 Poultry';
-      } else if (animalTypeId == 3) {
-        // Rabbit - not in current registry, default to swine grower as fallback
-        category = findCategory('Swine', 'Grower');
-        requirementSourceStr = 'NRC 2012 Swine (Rabbit fallback)';
-      } else if (animalTypeId == 4) {
-        // Ruminant/Cattle
-        category = findCategory('Cattle', stage);
-        requirementSourceStr = 'NRC 2001 Cattle';
-      } else if (animalTypeId == 5) {
-        // Fish
-        category = findCategory('Fish', stage);
-        requirementSourceStr = 'NRC 2011 Fish';
-      } else {
-        // Default to Swine Grower
-        category = findCategory('Swine', 'Grower');
-        requirementSourceStr = 'NRC 2012 Swine (Default)';
+      for (final categoryKey in categoryPrefs) {
+        category = findCategoryByKey(categoryKey);
+        if (category != null) {
+          AppLogger.info('[OPTIMIZER-BACKEND] Found category: $categoryKey',
+              tag: 'OptimizerNotifier');
+          break;
+        }
       }
 
-      // Fallback if category not found
+      // Set requirement source based on animal type
+      if (animalTypeId == 1) {
+        requirementSourceStr = 'NRC 2012 Swine';
+      } else if (animalTypeId == 2) {
+        requirementSourceStr = 'NRC 1994 Poultry';
+      } else if (animalTypeId == 3) {
+        requirementSourceStr = 'NRC 1977 Rabbit';
+      } else if (animalTypeId == 4) {
+        requirementSourceStr = 'NRC 2001 Cattle / Ruminants';
+      } else if (animalTypeId == 5) {
+        requirementSourceStr = 'NRC 2011 Fish / Aquaculture';
+      }
+
+      // Fallback if category not found in registry
       if (category == null) {
+        AppLogger.warning(
+            '[OPTIMIZER-BACKEND] No category found in registry, using swinePiglet fallback',
+            tag: 'OptimizerNotifier');
         category = swinePiglet;
         requirementSourceStr = 'NRC 2012 Swine (Fallback)';
       }
 
       final constraints = category.getAllConstraints();
+
+      AppLogger.info(
+          '[OPTIMIZER-BACKEND] Found category: ${category.displayName}, constraints=${constraints.length}',
+          tag: 'OptimizerNotifier');
 
       state = state.copyWith(
         constraints: constraints,
@@ -523,16 +548,16 @@ class OptimizerNotifier extends Notifier<OptimizerState> {
       );
 
       AppLogger.info(
-        'Loaded optimizer from feed ${feed.feedName}: ${ingredientIds.length} ingredients, ${ingredientLimits.length} with inclusion limits, category: ${category.displayName}',
-        tag: 'OptimizerNotifier',
-      );
+          '[OPTIMIZER-BACKEND] Loaded optimizer from feed ${feed.feedName}: ${ingredientIds.length} ingredients, ${ingredientLimits.length} with inclusion limits, category: ${category.displayName}',
+          tag: 'OptimizerNotifier');
     } catch (e, stackTrace) {
       AppLogger.error(
-        'Failed to load optimizer from feed: $e',
+        '[OPTIMIZER-BACKEND] Failed to load optimizer from feed: $e',
         tag: 'OptimizerNotifier',
         error: e,
         stackTrace: stackTrace,
       );
+
       state = state.copyWith(
         errorMessage: 'Failed to load feed data: ${e.toString()}',
       );
@@ -593,11 +618,23 @@ class OptimizerNotifier extends Notifier<OptimizerState> {
   /// Loads pre-configured constraints and ingredients, skips animal selection step
   /// If feed is provided, loads data from existing feed instead
   Future<void> startQuickOptimize({Feed? existingFeed}) async {
+    AppLogger.info(
+        '[OPTIMIZER-BACKEND] startQuickOptimize: existingFeed=${existingFeed?.feedName}, animalId=${existingFeed?.animalId}',
+        tag: 'OptimizerNotifier');
+
     if (existingFeed != null) {
+      AppLogger.info('[OPTIMIZER-BACKEND] Loading from existing feed...',
+          tag: 'OptimizerNotifier');
       await loadFromExistingFeed(existingFeed);
     } else {
+      AppLogger.info('[OPTIMIZER-BACKEND] Loading quick optimize defaults...',
+          tag: 'OptimizerNotifier');
       await loadQuickOptimizeDefaults();
     }
+
+    AppLogger.info(
+        '[OPTIMIZER-BACKEND] startQuickOptimize complete: constraints=${state.constraints.length}, ingredients=${state.selectedIngredientIds.length}, category=${state.selectedCategory}',
+        tag: 'OptimizerNotifier');
     // Don't set hasStartedCustom - quick mode shows simplified workflow
   }
 

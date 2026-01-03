@@ -19,7 +19,10 @@ class _AnimalCategoryCardState extends ConsumerState<AnimalCategoryCard> {
   @override
   Widget build(BuildContext context) {
     final optimizerState = ref.watch(optimizerProvider);
-    final allSpecies = getAllSpecies();
+    final allCategoryKeys = getAllCategoryKeys()
+        .where((key) =>
+            !key.contains('_')) // Show only generic categories in dropdown
+        .toList();
 
     return Card(
       child: Padding(
@@ -52,42 +55,42 @@ class _AnimalCategoryCardState extends ConsumerState<AnimalCategoryCard> {
             ),
             const SizedBox(height: 16),
 
-            // Species Dropdown
+            // Category Key Dropdown (unified system)
             DropdownButtonFormField<String>(
               initialValue: selectedSpecies,
               decoration: const InputDecoration(
-                labelText: 'Species',
+                labelText: 'Animal Type',
                 border: OutlineInputBorder(),
-                helperText: 'Select animal species',
+                helperText: 'Select animal category',
               ),
-              items: allSpecies.map((species) {
+              items: allCategoryKeys.map((categoryKey) {
                 return DropdownMenuItem(
-                  value: species,
-                  child: Text(species),
+                  value: categoryKey,
+                  child: Text(_formatCategoryKey(categoryKey)),
                 );
               }).toList(),
               onChanged: (value) {
                 setState(() {
                   selectedSpecies = value;
-                  selectedStage = null; // Reset stage when species changes
+                  selectedStage = null; // Reset stage when category changes
                 });
               },
             ),
             const SizedBox(height: 16),
 
-            // Production Stage Dropdown
+            // Specific Stage Dropdown (if subcategories available)
             if (selectedSpecies != null) ...[
               DropdownButtonFormField<String>(
                 initialValue: selectedStage,
                 decoration: const InputDecoration(
-                  labelText: 'Production Stage',
+                  labelText: 'Specific Stage (Optional)',
                   border: OutlineInputBorder(),
-                  helperText: 'Select production stage',
+                  helperText: 'Select specific production stage',
                 ),
-                items: getStagesForSpecies(selectedSpecies!).map((category) {
+                items: _getSubcategoriesFor(selectedSpecies!).map((subKey) {
                   return DropdownMenuItem(
-                    value: category.stage,
-                    child: Text(category.stage),
+                    value: subKey,
+                    child: Text(_formatCategoryKey(subKey)),
                   );
                 }).toList(),
                 onChanged: (value) {
@@ -174,9 +177,12 @@ class _AnimalCategoryCardState extends ConsumerState<AnimalCategoryCard> {
   }
 
   void _loadRequirements() {
-    if (selectedSpecies == null || selectedStage == null) return;
+    if (selectedSpecies == null) return;
 
-    final category = findCategory(selectedSpecies!, selectedStage!);
+    // Use specific stage if selected, otherwise use generic category
+    final categoryKey = selectedStage ?? selectedSpecies!;
+
+    final category = findCategoryByKey(categoryKey);
     if (category == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -198,5 +204,27 @@ class _AnimalCategoryCardState extends ConsumerState<AnimalCategoryCard> {
         backgroundColor: Colors.green,
       ),
     );
+  }
+
+  /// Format category key for display (e.g., 'pig_grower' → 'Pig - Grower')
+  String _formatCategoryKey(String key) {
+    if (key == 'pig') return 'Pig (Generic)';
+    if (key == 'poultry') return 'Poultry (Generic)';
+    if (key == 'ruminant') return 'Ruminant (Generic)';
+    if (key == 'rabbit') return 'Rabbit (Generic)';
+    if (key == 'fish' || key == 'aquaculture') return 'Fish (Generic)';
+
+    // Format specific categories
+    return key
+        .split('_')
+        .map((word) => word[0].toUpperCase() + word.substring(1))
+        .join(' - ');
+  }
+
+  /// Get subcategories for a generic category
+  List<String> _getSubcategoriesFor(String genericKey) {
+    return getAllCategoryKeys()
+        .where((key) => key.startsWith(genericKey) && key != genericKey)
+        .toList();
   }
 }

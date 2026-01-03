@@ -99,6 +99,7 @@ class FormulationOptimizerService {
       final achievedNutrients = _calculateAchievedNutrients(
         proportions,
         ingredientCache,
+        request.animalTypeId,
       );
 
       // Step 6: Calculate quality score
@@ -273,6 +274,17 @@ class FormulationOptimizerService {
     final matrix = <List<double>>[];
     final bounds = <double>[];
 
+    // CRITICAL: Add equality constraint - sum of all proportions = 100%
+    // This ensures the formulation is complete and prevents issues with >10 ingredients
+    final sumRow = List.filled(request.availableIngredientIds.length, 1.0);
+    matrix.add(sumRow);
+    bounds.add(100.0); // Sum must equal 100%
+
+    // Add another row for the equality (convert to two inequalities: >= 100 and <= 100)
+    final sumRow2 = List.filled(request.availableIngredientIds.length, -1.0);
+    matrix.add(sumRow2);
+    bounds.add(-100.0); // Negative sum <= -100 means sum >= 100
+
     // Add nutritional constraints
     // Convert all to <= form for simplex
     for (final constraint in request.constraints) {
@@ -411,6 +423,7 @@ class FormulationOptimizerService {
   Map<String, double> _calculateAchievedNutrients(
     Map<int, double> proportions,
     Map<int, Ingredient> ingredientCache,
+    int? animalTypeId,
   ) {
     final nutrients = <String, double>{
       'crudeProtein': 0.0,
@@ -424,7 +437,6 @@ class FormulationOptimizerService {
       'lysine': 0.0,
       'methionine': 0.0,
       'energy': 0.0,
-      'mePoultry': 0.0,
     };
 
     for (final entry in proportions.entries) {
@@ -452,14 +464,58 @@ class FormulationOptimizerService {
           nutrients['lysine']! + (ingredient.lysine ?? 0.0) * proportion;
       nutrients['methionine'] = nutrients['methionine']! +
           (ingredient.methionine ?? 0.0) * proportion;
-      nutrients['energy'] =
-          nutrients['energy']! + (ingredient.energy?.nePig ?? 0.0) * proportion;
-      nutrients['mePoultry'] = nutrients['mePoultry']! +
-          (ingredient.energy?.mePoultry ?? ingredient.mePoultry ?? 0.0) *
-              proportion;
+
+      // Calculate energy based on animal type ID
+      final energy = _getEnergyForAnimal(ingredient, animalTypeId);
+      nutrients['energy'] = nutrients['energy']! + energy * proportion;
     }
 
     return nutrients;
+  }
+
+  /// Get energy value for specific animal type with NE prioritization for pigs
+  double _getEnergyForAnimal(Ingredient ing, int? animalTypeId) {
+    if (animalTypeId == null) return 0.0;
+
+    // PIGS: Prioritize NE > ME > DE (NRC 2012 standard)
+    if (animalTypeId == 1) {
+      if (ing.energy?.nePig != null) return ing.energy!.nePig!.toDouble();
+      if (ing.energy?.mePig != null) {
+        final me = ing.energy!.mePig!.toDouble();
+        return (0.87 * me - 442).clamp(0, double.infinity);
+      }
+      if (ing.meGrowingPig != null) {
+        final me = ing.meGrowingPig!.toDouble();
+        return (0.87 * me - 442).clamp(0, double.infinity);
+      }
+      if (ing.energy?.dePig != null) {
+        final de = ing.energy!.dePig!.toDouble();
+        return (0.75 * de - 600).clamp(0, double.infinity);
+      }
+      return 0;
+    }
+
+    // POULTRY: Use ME (industry standard)
+    if (animalTypeId == 2) {
+      return (ing.energy?.mePoultry ?? ing.mePoultry ?? 0).toDouble();
+    }
+
+    // RABBITS: Use ME
+    if (animalTypeId == 3) {
+      return (ing.energy?.meRabbit ?? ing.meRabbit ?? 0).toDouble();
+    }
+
+    // RUMINANTS: Use ME
+    if (animalTypeId == 4) {
+      return (ing.energy?.meRuminant ?? ing.meRuminant ?? 0).toDouble();
+    }
+
+    // SALMONIDS: Use DE
+    if (animalTypeId == 5) {
+      return (ing.energy?.deSalmonids ?? ing.deSalmonids ?? 0).toDouble();
+    }
+
+    return 0;
   }
 
   /// Calculate quality score (0-100)

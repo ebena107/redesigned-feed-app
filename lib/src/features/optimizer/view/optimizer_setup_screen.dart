@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:feed_estimator/src/core/localization/localization_helper.dart';
+import 'package:feed_estimator/src/core/utils/logger.dart';
 import '../providers/optimizer_provider.dart';
 import '../model/optimization_constraint.dart';
 import '../widgets/constraint_input_card.dart';
@@ -8,6 +9,7 @@ import '../widgets/ingredient_selection_card.dart';
 import '../widgets/optimization_settings_card.dart';
 import '../widgets/animal_category_card.dart';
 import '../../main/repository/feed_repository.dart';
+import '../../main/repository/feed_ingredient_repository.dart';
 import '../../main/model/feed.dart';
 import 'optimization_results_screen.dart';
 
@@ -31,6 +33,9 @@ class _OptimizerSetupScreenState extends ConsumerState<OptimizerSetupScreen> {
     super.initState();
     // Load existing feed data if feedId is provided
     if (widget.existingFeedId != null) {
+      AppLogger.info(
+          'OptimizerSetupScreen initiated with feedId: ${widget.existingFeedId}',
+          tag: 'OptimizerSetupScreen');
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _loadExistingFeed(widget.existingFeedId!);
       });
@@ -39,12 +44,38 @@ class _OptimizerSetupScreenState extends ConsumerState<OptimizerSetupScreen> {
 
   Future<void> _loadExistingFeed(int feedId) async {
     try {
-      // Load feed from database
+      AppLogger.info(
+          '[OPTIMIZER-UI] Starting _loadExistingFeed for feedId: $feedId',
+          tag: 'OptimizerSetupScreen');
+
+      // Load feed and ingredients from database
       final feedRepo = ref.read(feedRepository);
+      final feedIngredientRepo = ref.read(feedIngredientRepository);
+
       final allFeeds = await feedRepo.getAll();
-      final feed = allFeeds.where((f) => f.feedId == feedId).firstOrNull;
+      final allIngredients = await feedIngredientRepo.getAll();
+
+      // Find the feed
+      var feed = allFeeds.where((f) => f.feedId == feedId).firstOrNull;
+
+      if (feed != null) {
+        // Merge ingredients into the feed
+        final feedIngredients =
+            allIngredients.where((i) => i.feedId == feedId).toList();
+        feed = feed.copyWith(feedIngredients: feedIngredients);
+
+        AppLogger.info(
+            '[OPTIMIZER-UI] Feed loaded and merged: ${feed.feedName}, animalId: ${feed.animalId}, ingredientCount: ${feed.feedIngredients?.length ?? 0}',
+            tag: 'OptimizerSetupScreen');
+      } else {
+        AppLogger.info(
+            '[OPTIMIZER-UI] Feed loaded (direct): feedId=$feedId, ingredientCount: ${feed?.feedIngredients?.length ?? 0}',
+            tag: 'OptimizerSetupScreen');
+      }
 
       if (feed == null || !mounted) {
+        AppLogger.warning('[OPTIMIZER-UI] Feed is null or widget unmounted',
+            tag: 'OptimizerSetupScreen');
         return;
       }
 
@@ -52,9 +83,14 @@ class _OptimizerSetupScreenState extends ConsumerState<OptimizerSetupScreen> {
       setState(() {
         _existingFeed = feed;
       });
+      AppLogger.info('[OPTIMIZER-UI] Stored _existingFeed in state',
+          tag: 'OptimizerSetupScreen');
 
       // Pre-populate optimizer with feed ingredients
       final feedIngredients = feed.feedIngredients ?? [];
+      AppLogger.info(
+          '[OPTIMIZER-UI] Pre-populating ${feedIngredients.length} ingredients',
+          tag: 'OptimizerSetupScreen');
 
       for (final feedIngredient in feedIngredients) {
         final ingredientId = feedIngredient.ingredientId;
@@ -65,8 +101,21 @@ class _OptimizerSetupScreenState extends ConsumerState<OptimizerSetupScreen> {
                 ingredientId.toInt(),
                 price.toDouble(),
               );
+          AppLogger.debug(
+              '[OPTIMIZER-UI] Added ingredient $ingredientId with price $price',
+              tag: 'OptimizerSetupScreen');
         }
       }
+
+      // Start Quick Optimize flow with the loaded feed
+      AppLogger.info(
+          '[OPTIMIZER-UI] Starting Quick Optimize with feed: ${feed.feedName}',
+          tag: 'OptimizerSetupScreen');
+      await ref
+          .read(optimizerProvider.notifier)
+          .startQuickOptimize(existingFeed: feed);
+      AppLogger.info('[OPTIMIZER-UI] Quick Optimize initialized',
+          tag: 'OptimizerSetupScreen');
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -76,8 +125,13 @@ class _OptimizerSetupScreenState extends ConsumerState<OptimizerSetupScreen> {
             backgroundColor: Colors.green,
           ),
         );
+        AppLogger.info(
+            '[OPTIMIZER-UI] Showed success snackbar for ${feed.feedName}',
+            tag: 'OptimizerSetupScreen');
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      AppLogger.error('[OPTIMIZER-UI] Error in _loadExistingFeed: $e',
+          tag: 'OptimizerSetupScreen', error: e, stackTrace: stackTrace);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -93,6 +147,10 @@ class _OptimizerSetupScreenState extends ConsumerState<OptimizerSetupScreen> {
   Widget build(BuildContext context) {
     final optimizerState = ref.watch(optimizerProvider);
     final canOptimize = ref.watch(canOptimizeProvider);
+
+    AppLogger.info(
+        '[OPTIMIZER-UI] Build: constraints=${optimizerState.constraints.length}, ingredients=${optimizerState.selectedIngredientIds.length}, category=${optimizerState.selectedCategory}, existingFeed=$_existingFeed',
+        tag: 'OptimizerSetupScreen');
 
     return Scaffold(
       appBar: AppBar(
@@ -121,6 +179,9 @@ class _OptimizerSetupScreenState extends ConsumerState<OptimizerSetupScreen> {
     // If quick optimize was started (has constraints and ingredients loaded), show simplified quick optimize flow
     if (optimizerState.constraints.isNotEmpty &&
         optimizerState.selectedIngredientIds.isNotEmpty) {
+      AppLogger.info(
+          '[OPTIMIZER-UI] Entering _buildQuickOptimizeFlow: ${optimizerState.constraints.length} constraints, ${optimizerState.selectedIngredientIds.length} ingredients, category=${optimizerState.selectedCategory}',
+          tag: 'OptimizerSetupScreen');
       return _buildQuickOptimizeFlow(context, ref, optimizerState, canOptimize);
     }
 
@@ -259,172 +320,170 @@ class _OptimizerSetupScreenState extends ConsumerState<OptimizerSetupScreen> {
     OptimizerState optimizerState,
     bool canOptimize,
   ) {
-    return Form(
-      key: _formKey,
-      child: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: [
-          // Back button + title
-          Row(
-            children: [
-              IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () {
-                  ref.read(optimizerProvider.notifier).reset();
-                },
-                tooltip: 'Back to options',
-              ),
-              Expanded(
-                child: Text(
-                  context.l10n.quickOptimizeTitle,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
+    AppLogger.info(
+        '[OPTIMIZER-UI] _buildQuickOptimizeFlow: building widget tree',
+        tag: 'OptimizerSetupScreen');
 
-          // Summary Card showing what's loaded
-          Card(
-            color: Colors.green[50],
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Icon(Icons.check_circle, color: Colors.green[700]),
-                      const SizedBox(width: 8),
-                      Text(
-                        'Quick Optimize Ready',
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium
-                            ?.copyWith(color: Colors.green[700]),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
+    return ListView(
+      padding: const EdgeInsets.all(16.0),
+      children: [
+        // Back button + title
+        Row(
+          children: [
+            IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                ref.read(optimizerProvider.notifier).reset();
+              },
+              tooltip: 'Back to options',
+            ),
+            Expanded(
+              child: Text(
+                context.l10n.quickOptimizeTitle,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+
+        // Summary Card showing what's loaded
+        Card(
+          color: Colors.green[50],
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(Icons.check_circle, color: Colors.green[700]),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Quick Optimize Ready',
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium
+                          ?.copyWith(color: Colors.green[700]),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  optimizerState.selectedCategory ?? 'Broiler Chicken Starter',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                Text(
+                  '${optimizerState.requirementSource ?? ''} · ${optimizerState.constraints.length} constraints · ${optimizerState.selectedIngredientIds.length} ingredients${optimizerState.ingredientLimits != null ? ' · ${optimizerState.ingredientLimits!.length} limits' : ''}',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+
+        // Constraints Card (read-only display)
+        Card(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  context.l10n.optimizerConstraintsTitle,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(height: 12),
+                if (optimizerState.constraints.isEmpty)
                   Text(
-                    optimizerState.selectedCategory ??
-                        'Broiler Chicken Starter',
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    'No constraints loaded',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  )
+                else
+                  Column(
+                    children:
+                        optimizerState.constraints.asMap().entries.map((entry) {
+                      final constraint = entry.value;
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                constraint.nutrientName,
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
+                            ),
+                            Text(
+                              '${constraint.type.name}: ${constraint.value} ${constraint.unit}',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
                   ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+
+        // Ingredients Card (read-only display)
+        Card(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  context.l10n.navIngredients,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(height: 12),
+                if (optimizerState.selectedIngredientIds.isEmpty)
                   Text(
-                    '${optimizerState.requirementSource ?? ''} · ${optimizerState.constraints.length} constraints · ${optimizerState.selectedIngredientIds.length} ingredients${optimizerState.ingredientLimits != null ? ' · ${optimizerState.ingredientLimits!.length} limits' : ''}',
+                    'No ingredients selected',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  )
+                else
+                  Text(
+                    '${optimizerState.selectedIngredientIds.length} ingredients selected',
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
-                ],
-              ),
+              ],
             ),
           ),
-          const SizedBox(height: 16),
+        ),
+        const SizedBox(height: 32),
 
-          // Constraints Card (read-only display)
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    context.l10n.optimizerConstraintsTitle,
-                    style: Theme.of(context).textTheme.titleMedium,
+        // Run Optimization Button
+        FilledButton.icon(
+          onPressed: canOptimize ? () => _runOptimization(context) : null,
+          icon: optimizerState.isOptimizing
+              ? const SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                   ),
-                  const SizedBox(height: 12),
-                  if (optimizerState.constraints.isEmpty)
-                    Text(
-                      'No constraints loaded',
-                      style: Theme.of(context).textTheme.bodySmall,
-                    )
-                  else
-                    Column(
-                      children: optimizerState.constraints
-                          .asMap()
-                          .entries
-                          .map((entry) {
-                        final constraint = entry.value;
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  constraint.nutrientName,
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                ),
-                              ),
-                              Text(
-                                '${constraint.type.name}: ${constraint.value} ${constraint.unit}',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall
-                                    ?.copyWith(fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                ],
-              ),
-            ),
+                )
+              : const Icon(Icons.play_arrow),
+          label: Text(
+            optimizerState.isOptimizing
+                ? context.l10n.optimizerOptimizing
+                : context.l10n.optimizerRunOptimization,
           ),
-          const SizedBox(height: 16),
+        ),
 
-          // Ingredients Card (read-only display)
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    context.l10n.navIngredients,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  const SizedBox(height: 12),
-                  if (optimizerState.selectedIngredientIds.isEmpty)
-                    Text(
-                      'No ingredients selected',
-                      style: Theme.of(context).textTheme.bodySmall,
-                    )
-                  else
-                    Text(
-                      '${optimizerState.selectedIngredientIds.length} ingredients selected',
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 32),
-
-          // Run Optimization Button
-          FilledButton.icon(
-            onPressed: canOptimize ? () => _runOptimization(context) : null,
-            icon: optimizerState.isOptimizing
-                ? const SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                    ),
-                  )
-                : const Icon(Icons.play_arrow),
-            label: Text(
-              optimizerState.isOptimizing
-                  ? context.l10n.optimizerOptimizing
-                  : context.l10n.optimizerRunOptimization,
-            ),
-          ),
-
-          const SizedBox(height: 16),
-        ],
-      ),
+        const SizedBox(height: 16),
+      ],
     );
   }
 
@@ -576,15 +635,24 @@ class _OptimizerSetupScreenState extends ConsumerState<OptimizerSetupScreen> {
 
   /// Setup quick optimize with feed data or default values
   void _setupQuickOptimize(BuildContext context, WidgetRef ref) async {
+    AppLogger.info(
+        '[OPTIMIZER-UI] _setupQuickOptimize called: existingFeed=${_existingFeed?.feedName}, animalId=${_existingFeed?.animalId}',
+        tag: 'OptimizerSetupScreen');
+
     // Start loading quick optimize - pass existing feed if available
     await ref.read(optimizerProvider.notifier).startQuickOptimize(
           existingFeed: _existingFeed,
         );
+
+    AppLogger.info(
+        '[OPTIMIZER-UI] After startQuickOptimize, notifier completed',
+        tag: 'OptimizerSetupScreen');
     // The UI will automatically update via the ref.watch(optimizerProvider)
   }
 
   Future<void> _runOptimization(BuildContext context) async {
-    if (!_formKey.currentState!.validate()) {
+    // Only validate if form key is attached (custom flow only)
+    if (_formKey.currentState != null && !_formKey.currentState!.validate()) {
       return;
     }
 

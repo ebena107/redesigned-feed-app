@@ -513,49 +513,170 @@ final fishTilapia = AnimalCategory(
 );
 
 // ============================================================================
-// CATEGORY REGISTRY
+// RABBIT CATEGORIES
 // ============================================================================
 
+/// Rabbit - Grower (NRC 1977 Rabbit Nutrition)
+final rabbitGrower = AnimalCategory(
+  species: 'Rabbit',
+  stage: 'Grower',
+  description: 'Growing rabbits from weaning to market weight',
+  requirements: [
+    NutrientRequirement(
+      nutrientName: 'crudeProtein',
+      minValue: 16.0,
+      maxValue: 18.0,
+      targetValue: 17.0,
+      unit: '%',
+      source: 'NRC 1977 Rabbit',
+    ),
+    NutrientRequirement(
+      nutrientName: 'crudeFiber',
+      minValue: 12.0,
+      maxValue: 16.0,
+      targetValue: 14.0,
+      unit: '%',
+      source: 'NRC 1977 Rabbit',
+    ),
+    NutrientRequirement(
+      nutrientName: 'crudeFat',
+      minValue: 2.0,
+      maxValue: 5.0,
+      unit: '%',
+      source: 'NRC 1977 Rabbit',
+    ),
+    NutrientRequirement(
+      nutrientName: 'energy',
+      minValue: 2400,
+      maxValue: 2700,
+      targetValue: 2500,
+      unit: 'kcal/kg',
+      source: 'NRC 1977 Rabbit',
+    ),
+    NutrientRequirement(
+      nutrientName: 'calcium',
+      minValue: 0.4,
+      maxValue: 1.0,
+      unit: '%',
+      source: 'NRC 1977 Rabbit',
+    ),
+    NutrientRequirement(
+      nutrientName: 'phosphorus',
+      minValue: 0.25,
+      maxValue: 0.50,
+      unit: '%',
+      source: 'NRC 1977 Rabbit',
+    ),
+  ],
+);
+
+// ============================================================================
+// UNIFIED CATEGORY REGISTRY
+// ============================================================================
+// Uses same naming convention as AnimalCategory constants in
+// lib/src/core/constants/animal_categories.dart for consistency across
+// inclusion limits (max_inclusion_json) and nutritional requirements
+
 /// Map of all available animal categories
+/// Keys match AnimalCategory.* constants and max_inclusion_json keys
 final Map<String, List<AnimalCategory>> animalCategoryRegistry = {
-  'Poultry': [
+  // Poultry categories
+  'poultry_broiler_starter': [poultryBroilerStarter],
+  'poultry_broiler_grower': [poultryBroilerGrower],
+  'poultry_broiler_finisher': [poultryBroilerFinisher],
+  'poultry_layer': [poultryLayerProduction],
+  'poultry': [
     poultryBroilerStarter,
     poultryBroilerGrower,
     poultryBroilerFinisher,
     poultryLayerProduction,
   ],
-  'Swine': [
+
+  // Swine/Pig categories
+  'pig_starter': [swinePiglet],
+  'pig_grower': [swineGrower],
+  'pig_finisher': [swineFinisher],
+  'pig': [
     swinePiglet,
     swineGrower,
     swineFinisher,
   ],
-  'Cattle': [
+
+  // Ruminant categories
+  'ruminant_dairy': [cattleDairyLactation],
+  'ruminant_beef': [cattleBeefGrower],
+  'ruminant_sheep': [sheepGrowing],
+  'ruminant_goat': [goatDairy],
+  'ruminant': [
     cattleDairyLactation,
     cattleBeefGrower,
-  ],
-  'Sheep/Goat': [
     sheepGrowing,
     goatDairy,
   ],
-  'Fish': [
-    fishTilapia,
-  ],
+
+  // Fish/Aquaculture categories
+  'fish_freshwater': [fishTilapia],
+  'fish': [fishTilapia],
+  'aquaculture': [fishTilapia],
+
+  // Rabbit categories
+  'rabbit_grower': [rabbitGrower],
+  'rabbit': [rabbitGrower],
 };
 
-/// Get all species names
-List<String> getAllSpecies() => animalCategoryRegistry.keys.toList();
+/// Get all category keys
+List<String> getAllCategoryKeys() => animalCategoryRegistry.keys.toList();
 
-/// Get all stages for a species
-List<AnimalCategory> getStagesForSpecies(String species) =>
-    animalCategoryRegistry[species] ?? [];
+/// Get all categories for a category key
+List<AnimalCategory> getCategoriesForKey(String categoryKey) =>
+    animalCategoryRegistry[categoryKey] ?? [];
 
-/// Find category by species and stage
+/// Find category by unified category key
+/// Returns the first category in the list (most specific)
+AnimalCategory? findCategoryByKey(String categoryKey) {
+  final categories = animalCategoryRegistry[categoryKey];
+  if (categories == null || categories.isEmpty) return null;
+  return categories.first;
+}
+
+/// LEGACY: Find category by old species and stage names
+/// Kept for backward compatibility during migration
+@Deprecated('Use findCategoryByKey with unified keys instead')
 AnimalCategory? findCategory(String species, String stage) {
-  final categories = animalCategoryRegistry[species];
-  if (categories == null) return null;
+  // Map old species names to new category keys
+  final categoryKey = _mapLegacyToUnified(species, stage);
+  return findCategoryByKey(categoryKey);
+}
 
-  return categories.firstWhere(
-    (cat) => cat.stage == stage,
-    orElse: () => categories.first,
-  );
+/// Map legacy species/stage to unified category key
+String _mapLegacyToUnified(String species, String stage) {
+  final lowerStage = stage.toLowerCase();
+
+  if (species == 'Poultry') {
+    if (lowerStage.contains('starter')) return 'poultry_broiler_starter';
+    if (lowerStage.contains('grower')) return 'poultry_broiler_grower';
+    if (lowerStage.contains('finisher')) return 'poultry_broiler_finisher';
+    if (lowerStage.contains('layer')) return 'poultry_layer';
+    return 'poultry';
+  } else if (species == 'Swine') {
+    if (lowerStage.contains('piglet') || lowerStage.contains('starter')) {
+      return 'pig_starter';
+    }
+    if (lowerStage.contains('grower')) return 'pig_grower';
+    if (lowerStage.contains('finisher')) return 'pig_finisher';
+    return 'pig';
+  } else if (species == 'Cattle') {
+    if (lowerStage.contains('dairy')) return 'ruminant_dairy';
+    if (lowerStage.contains('beef')) return 'ruminant_beef';
+    return 'ruminant_dairy';
+  } else if (species == 'Sheep/Goat') {
+    if (lowerStage.contains('goat')) return 'ruminant_goat';
+    return 'ruminant_sheep';
+  } else if (species == 'Fish') {
+    return 'fish_freshwater';
+  } else if (species == 'Rabbit') {
+    return 'rabbit_grower';
+  }
+
+  return 'pig'; // Ultimate fallback
 }

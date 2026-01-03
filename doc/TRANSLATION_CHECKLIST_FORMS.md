@@ -60,11 +60,13 @@
 ## Translation Guidelines
 
 ### 1. **Consistency with Existing Translations**
+
 - Always check the same key in existing app_*.arb files for style consistency
 - Example: If "Ingredientes" is used, use consistent terminology throughout
 - Follow capitalization patterns from existing translated strings
 
 ### 2. **Length Considerations**
+
 - Be aware of space constraints in forms:
   - Section headers: Allow up to 2 lines (max ~25 characters with some fonts)
   - Field labels: Max 1 line (~15-18 characters recommended)
@@ -72,9 +74,11 @@
 - If translation exceeds space, flag for UI review
 
 ### 3. **Technical Terms**
+
 Use appropriate terminology for livestock farming:
 
 #### Portuguese (PT):
+
 - Pig → Porco (adult) / Leitão (growing)
 - Poultry → Aves / Galinha
 - Ruminant → Ruminante / Gado
@@ -83,6 +87,7 @@ Use appropriate terminology for livestock farming:
 - Micronutrients → Micronutrientes / Minerais e Vitaminas
 
 #### Spanish (ES):
+
 - Pig → Cerdo
 - Poultry → Aves
 - Ruminant → Rumiante
@@ -90,6 +95,7 @@ Use appropriate terminology for livestock farming:
 - Cost & Availability → Costo y Disponibilidad
 
 #### French (FR):
+
 - Pig → Porc
 - Poultry → Volaille
 - Ruminant → Ruminant
@@ -97,30 +103,35 @@ Use appropriate terminology for livestock farming:
 - Macronutrients → Macronutriments / Nutriments principaux
 
 #### Yoruba (YO):
+
 - Pig → Ọ̀sìnìn
 - Poultry → Adìe
 - Ruminant → Ẹranko aje
 - Cost & Availability → Iye ati Iranlowo
 
 #### Filipino (FIL):
+
 - Pig → Baboy
 - Poultry → Manok / Pasyaw
 - Ruminant → Baka
 - Cost & Availability → Gastos at Pagkakataon
 
 #### Swahili (SW):
+
 - Pig → Mbuzi / Nguruwe
 - Poultry → Kuku
 - Ruminant → Mifugo
 - Cost & Availability → Gharama na Upatikanaji
 
 #### Tagalog (TL):
+
 - Pig → Baboy
 - Poultry → Manok
 - Ruminant → Baka
 - Cost & Availability → Gastos at Availability
 
 ### 4. **JSON Structure**
+
 Each translation must follow ARB format:
 ```json
 {
@@ -132,6 +143,7 @@ Each translation must follow ARB format:
 ```
 
 ### 5. **Files to Update**
+
 ```
 lib/l10n/
 ├── app_en.arb    ✅ DONE (40+ new strings added)
@@ -149,12 +161,14 @@ lib/l10n/
 ## Translation Workflow
 
 ### Step 1: Extract English Strings
+
 All 40+ strings are already in `app_en.arb`:
 ```bash
 cat lib/l10n/app_en.arb | grep -A 2 '"form' | head -20
 ```
 
 ### Step 2: Add Translations to Target Language Files
+
 For each language (e.g., Portuguese):
 1. Open `lib/l10n/app_pt.arb`
 2. Find section matching the new strings (around line 700+)
@@ -162,6 +176,7 @@ For each language (e.g., Portuguese):
 4. Maintain consistent indentation and JSON structure
 
 ### Step 3: Validate Translations
+
 ```bash
 # Generate localization files
 flutter gen-l10n
@@ -174,6 +189,7 @@ flutter test
 ```
 
 ### Step 4: Test in Each Language
+
 ```bash
 # Edit lib/main.dart to set initial locale:
 locale: const Locale('pt'),  // or 'es', 'fr', etc.
@@ -186,6 +202,7 @@ locale: const Locale('pt'),  // or 'es', 'fr', etc.
 ```
 
 ### Step 5: Commit & Create PR
+
 ```bash
 git add lib/l10n/app_*.arb
 git commit -m "chore: translate form localization strings to [language]"

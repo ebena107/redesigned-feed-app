@@ -11,6 +11,7 @@ When navigating to Quick Optimize from an existing feed (main > update feed > op
 ## Root Cause Analysis
 
 ### Issue 1: Wrong State Detection Logic
+
 **File:** `lib/src/features/optimizer/view/optimizer_setup_screen.dart` (Line 122)
 
 **Problem:**
@@ -32,6 +33,7 @@ But the UI check was looking for the hardcoded localization key `'poultry_broile
 **Result:** UI condition fails, never enters quick optimize flow, stays at choice screen, buttons don't respond.
 
 ### Issue 2: Hardcoded Display Text
+
 **File:** Same file, Line 299
 
 **Problem:**
@@ -54,6 +56,7 @@ Even if the UI entered the quick optimize flow, it would:
 ## Solution
 
 ### Fix 1: Dynamic State Detection
+
 ```dart
 // CORRECT: Check if constraints and ingredients were actually loaded
 if (optimizerState.constraints.isNotEmpty && optimizerState.selectedIngredientIds.isNotEmpty) {
@@ -69,6 +72,7 @@ if (optimizerState.constraints.isNotEmpty && optimizerState.selectedIngredientId
 - Automatically triggers when any quick optimize source succeeds
 
 ### Fix 2: Dynamic Display Text
+
 ```dart
 Text(
   optimizerState.selectedCategory ?? 'Broiler Chicken Starter',
@@ -89,6 +93,7 @@ Text(
 ## Data Flow Verification
 
 ### When User Navigates: main > update feed > optimize(quick) > start
+
 1. ✅ `_loadExistingFeed(feedId)` called in `initState`
 2. ✅ Feed loaded from database
 3. ✅ Feed ingredients pre-populated via `addIngredient()` calls
@@ -133,4 +138,3 @@ Text(
 ✅ **Logic:** Stateless/pure UI update, no side effects
 ✅ **Backward Compatibility:** Works with both quick optimize sources
 ✅ **Error Handling:** Graceful fallbacks if data missing
-

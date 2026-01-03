@@ -367,28 +367,31 @@ class OptimizationResultsScreen extends ConsumerWidget {
     dynamic optimizerState,
     Map<int, Ingredient> ingredientCache,
   ) async {
+    // Capture l10n before async operation to avoid TypeError
+    final l10n = context.l10n;
+
     // Show export format dialog
     final format = await showDialog<String>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(context.l10n.optimizerExportTitle),
+      builder: (dialogContext) => AlertDialog(
+        title: Text(l10n.optimizerExportTitle),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
               leading: const Icon(Icons.code),
-              title: Text(context.l10n.optimizerExportFormatJson),
-              onTap: () => Navigator.of(context).pop('json'),
+              title: Text(l10n.optimizerExportFormatJson),
+              onTap: () => Navigator.of(dialogContext).pop('json'),
             ),
             ListTile(
               leading: const Icon(Icons.table_chart),
-              title: Text(context.l10n.optimizerExportFormatCsv),
-              onTap: () => Navigator.of(context).pop('csv'),
+              title: Text(l10n.optimizerExportFormatCsv),
+              onTap: () => Navigator.of(dialogContext).pop('csv'),
             ),
             ListTile(
               leading: const Icon(Icons.description),
-              title: Text(context.l10n.optimizerExportFormatText),
-              onTap: () => Navigator.of(context).pop('text'),
+              title: Text(l10n.optimizerExportFormatText),
+              onTap: () => Navigator.of(dialogContext).pop('text'),
             ),
           ],
         ),
