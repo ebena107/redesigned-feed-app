@@ -123,14 +123,25 @@ class OptimizerNotifier extends Notifier<OptimizerState> {
   }
 
   /// Add an ingredient
+  /// Automatically sets a minimum 1% inclusion to ensure the ingredient is used
+  /// This is critical for realistic feed formulations where all selected ingredients
+  /// should be represented in the final formulation (unless removed from selection).
+  /// Without minimum inclusion, simplex can choose to use only the cheapest ingredient.
   void addIngredient(int ingredientId, double price) {
     final newIds = [...state.selectedIngredientIds, ingredientId];
     final newPrices = Map<int, double>.from(state.ingredientPrices);
     newPrices[ingredientId] = price;
 
+    // Set minimum inclusion of 1% to ensure ingredient is used in formulation
+    // Users can adjust this via setIngredientLimit() if needed
+    final newLimits =
+        Map<int, InclusionLimit>.from(state.ingredientLimits ?? {});
+    newLimits[ingredientId] = const InclusionLimit(minPct: 1.0, maxPct: 100.0);
+
     state = state.copyWith(
       selectedIngredientIds: newIds,
       ingredientPrices: newPrices,
+      ingredientLimits: newLimits,
     );
   }
 
@@ -141,9 +152,16 @@ class OptimizerNotifier extends Notifier<OptimizerState> {
     final newPrices = Map<int, double>.from(state.ingredientPrices);
     newPrices.remove(ingredientId);
 
+    // Also remove any custom inclusion limits for this ingredient
+    final newLimits = state.ingredientLimits != null
+        ? Map<int, InclusionLimit>.from(state.ingredientLimits!)
+        : null;
+    newLimits?.remove(ingredientId);
+
     state = state.copyWith(
       selectedIngredientIds: newIds,
       ingredientPrices: newPrices,
+      ingredientLimits: newLimits,
     );
   }
 
