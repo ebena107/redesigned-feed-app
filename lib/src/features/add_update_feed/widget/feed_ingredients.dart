@@ -272,9 +272,16 @@ void _showErrorSnackBar(BuildContext context, String message) {
 
 /// Show delete confirmation dialog
 void _showDeleteDialog(BuildContext context, WidgetRef ref, num? ingredientId) {
+  final l10n = context.l10n;
   showDialog<void>(
     context: context,
-    builder: (context) => _DeleteIngredientDialog(ingredientId: ingredientId),
+    builder: (dialogContext) => _DeleteIngredientDialog(
+      ingredientId: ingredientId,
+      actionRemove: l10n.actionRemove,
+      actionCancel: l10n.actionCancel,
+      confirmDeletionWarning: l10n.confirmDeletionWarning,
+      errorDatabaseOperation: l10n.errorDatabaseOperation,
+    ),
   );
 }
 
@@ -300,7 +307,18 @@ void _showUpdateDialog(BuildContext context, WidgetRef ref, num? ingredientId) {
 
 class _DeleteIngredientDialog extends ConsumerStatefulWidget {
   final num? ingredientId;
-  const _DeleteIngredientDialog({this.ingredientId});
+  final String actionRemove;
+  final String actionCancel;
+  final String confirmDeletionWarning;
+  final String errorDatabaseOperation;
+
+  const _DeleteIngredientDialog({
+    this.ingredientId,
+    required this.actionRemove,
+    required this.actionCancel,
+    required this.confirmDeletionWarning,
+    required this.errorDatabaseOperation,
+  });
 
   @override
   ConsumerState<_DeleteIngredientDialog> createState() =>
@@ -335,7 +353,7 @@ class _DeleteIngredientDialogState
 
       if (mounted) {
         setState(() => _isDeleting = false);
-        _showErrorSnackBar(context, context.l10n.errorDatabaseOperation);
+        _showErrorSnackBar(context, widget.errorDatabaseOperation);
       }
     }
   }
@@ -356,7 +374,7 @@ class _DeleteIngredientDialogState
           const SizedBox(width: 12),
           Expanded(
             child: Text(
-              "${context.l10n.actionRemove} $ingredientName?",
+              "${widget.actionRemove} $ingredientName?",
               overflow: TextOverflow.ellipsis,
               maxLines: 2,
             ),
@@ -364,12 +382,12 @@ class _DeleteIngredientDialogState
         ],
       ),
       content: Text(
-        "${context.l10n.actionRemove} $ingredientName. ${context.l10n.confirmDeletionWarning}",
+        "${widget.actionRemove} $ingredientName. ${widget.confirmDeletionWarning}",
       ),
       actions: [
         OutlinedButton(
           onPressed: _isDeleting ? null : () => Navigator.of(context).pop(),
-          child: Text(context.l10n.actionCancel),
+          child: Text(widget.actionCancel),
         ),
         FilledButton(
           style: FilledButton.styleFrom(backgroundColor: Colors.red[600]),
@@ -383,7 +401,7 @@ class _DeleteIngredientDialogState
                     color: Colors.white,
                   ),
                 )
-              : Text(context.l10n.actionRemove),
+              : Text(widget.actionRemove),
         ),
       ],
     );

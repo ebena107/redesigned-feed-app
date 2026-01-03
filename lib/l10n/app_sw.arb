@@ -267,6 +267,14 @@
   "@ingredientsEmptyFilteredSubtitle": {
     "description": "Empty state subtitle when filters return no results"
   },
+  "noIngredientsSelected": "Hakuna viungo vilivyochaguliwa bado",
+  "@noIngredientsSelected": {
+    "description": "Message shown when cart is empty"
+  },
+  "selectedIngredients": "Viungo Vilivyochaguliwa",
+  "@selectedIngredients": {
+    "description": "Title for cart/selected ingredients list"
+  },
   
   "filterFavorites": "Vipendwa",
   "@filterFavorites": {

@@ -266,6 +266,14 @@
   "@ingredientsEmptyFilteredSubtitle": {
     "description": "Empty state subtitle when filters return no results"
   },
+  "noIngredientsSelected": "Aún no se han seleccionado ingredientes",
+  "@noIngredientsSelected": {
+    "description": "Message shown when cart is empty"
+  },
+  "selectedIngredients": "Ingredientes Seleccionados",
+  "@selectedIngredients": {
+    "description": "Title for cart/selected ingredients list"
+  },
   
   "filterFavorites": "Favoritos",
   "@filterFavorites": {

@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.0.2+12] - 2026-01-03
+
+### Bug Fixes
+- Fixed delete confirmation dialog cancel button not working in grid menu
+- Fixed ingredient removal dialog crash in update feed mode (TypeError on context.l10n access)
+- Added confirmation dialog when removing ingredients from cart to prevent accidental deletion
+- **Fixed cart ingredient removal dialog not localized** - Now supports all 8 languages
+
+### Improvements
+- Standardized all dialog dismiss patterns using Navigator.of(context).pop()
+- Improved dialog localization by passing strings as constructor parameters
+- Enhanced error handling in delete operations with proper mounted checks
+- Cart delete dialog now properly localized in Swahili, Spanish, French, and all other supported languages
+
+### Technical
+- Comprehensive dialog implementation audit (35+ dialogs verified)
+- Context.pop() usage audit (10 instances reviewed and corrected)
+- Hardcoded strings audit (13+ instances identified, cart fixed)
+- Clean flutter analyze output with zero issues
+
+
+
+
 All notable changes to Feed Estimator will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),

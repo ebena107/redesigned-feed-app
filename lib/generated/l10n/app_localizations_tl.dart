@@ -190,6 +190,12 @@ class AppLocalizationsTl extends AppLocalizations {
       'Subukang baguhin ang iyong paghahanap o mga salaan';
 
   @override
+  String get noIngredientsSelected => 'No ingredients selected yet';
+
+  @override
+  String get selectedIngredients => 'Selected Ingredients';
+
+  @override
   String get filterFavorites => 'Mga Paborito';
 
   @override

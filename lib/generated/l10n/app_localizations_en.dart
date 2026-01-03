@@ -189,6 +189,12 @@ class AppLocalizationsEn extends AppLocalizations {
       'Try adjusting your search or filters';
 
   @override
+  String get noIngredientsSelected => 'No ingredients selected yet';
+
+  @override
+  String get selectedIngredients => 'Selected Ingredients';
+
+  @override
   String get filterFavorites => 'Favorites';
 
   @override

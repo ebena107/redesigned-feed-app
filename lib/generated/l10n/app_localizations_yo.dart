@@ -189,6 +189,12 @@ class AppLocalizationsYo extends AppLocalizations {
       'Gbiyanju ṣatunṣe wiwa rẹ tabi awọn asẹ';
 
   @override
+  String get noIngredientsSelected => 'No ingredients selected yet';
+
+  @override
+  String get selectedIngredients => 'Selected Ingredients';
+
+  @override
   String get filterFavorites => 'Awọn Ayanfẹ';
 
   @override

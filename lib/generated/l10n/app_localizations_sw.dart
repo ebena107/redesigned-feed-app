@@ -189,6 +189,12 @@ class AppLocalizationsSw extends AppLocalizations {
       'Jaribu kurekebisha utafutaji au vichujio vyako';
 
   @override
+  String get noIngredientsSelected => 'Hakuna viungo vilivyochaguliwa bado';
+
+  @override
+  String get selectedIngredients => 'Viungo Vilivyochaguliwa';
+
+  @override
   String get filterFavorites => 'Vipendwa';
 
   @override

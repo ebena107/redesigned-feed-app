@@ -190,6 +190,12 @@ class AppLocalizationsFil extends AppLocalizations {
       'Subukang i-adjust ang iyong paghahanap o mga filter';
 
   @override
+  String get noIngredientsSelected => 'No ingredients selected yet';
+
+  @override
+  String get selectedIngredients => 'Selected Ingredients';
+
+  @override
   String get filterFavorites => 'Mga Paborito';
 
   @override

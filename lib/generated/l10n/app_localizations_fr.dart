@@ -191,6 +191,13 @@ class AppLocalizationsFr extends AppLocalizations {
       'Essayez d\'ajuster votre recherche ou vos filtres';
 
   @override
+  String get noIngredientsSelected =>
+      'Aucun ingrédient sélectionné pour le moment';
+
+  @override
+  String get selectedIngredients => 'Ingrédients Sélectionnés';
+
+  @override
   String get filterFavorites => 'Favoris';
 
   @override

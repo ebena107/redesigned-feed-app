@@ -189,6 +189,12 @@ class AppLocalizationsPt extends AppLocalizations {
       'Tente ajustar sua busca ou filtros';
 
   @override
+  String get noIngredientsSelected => 'No ingredients selected yet';
+
+  @override
+  String get selectedIngredients => 'Selected Ingredients';
+
+  @override
   String get filterFavorites => 'Favoritos';
 
   @override

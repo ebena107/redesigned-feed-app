@@ -129,7 +129,7 @@ class _DeleteConfirmDialog extends ConsumerWidget {
       actions: [
         CupertinoDialogAction(
           isDefaultAction: true,
-          onPressed: () => context.pop(),
+          onPressed: () => Navigator.of(context).pop(),
           child: Text(l10n.actionCancel),
         ),
         CupertinoDialogAction(

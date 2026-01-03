@@ -1,4 +1,5 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
+import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -59,7 +60,7 @@ class CartIconWithBadge extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Selected Ingredients ($counter)',
+                          '${context.l10n.selectedIngredients} ($counter)',
                           style:
                               Theme.of(context).textTheme.titleLarge?.copyWith(
                                     fontWeight: FontWeight.bold,
@@ -88,6 +89,35 @@ class CartIconWithBadge extends ConsumerWidget {
                         return Dismissible(
                           key: ValueKey(item.ingredientId),
                           direction: DismissDirection.endToStart,
+                          confirmDismiss: (direction) async {
+                            return await showDialog<bool>(
+                              context: context,
+                              builder: (BuildContext dialogContext) {
+                                return AlertDialog(
+                                  title: Text(context.l10n.actionRemove),
+                                  content: Text(
+                                    '${context.l10n.actionRemove} $ingredientName ${context.l10n.confirmDeletionWarning}',
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.of(dialogContext)
+                                              .pop(false),
+                                      child: Text(context.l10n.actionCancel),
+                                    ),
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.of(dialogContext).pop(true),
+                                      style: TextButton.styleFrom(
+                                        foregroundColor: Colors.red,
+                                      ),
+                                      child: Text(context.l10n.actionRemove),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
                           onDismissed: (_) {
                             ref
                                 .read(ingredientProvider.notifier)

@@ -446,6 +446,18 @@ abstract class AppLocalizations {
   /// **'Try adjusting your search or filters'**
   String get ingredientsEmptyFilteredSubtitle;
 
+  /// Message shown when cart is empty
+  ///
+  /// In en, this message translates to:
+  /// **'No ingredients selected yet'**
+  String get noIngredientsSelected;
+
+  /// Title for cart/selected ingredients list
+  ///
+  /// In en, this message translates to:
+  /// **'Selected Ingredients'**
+  String get selectedIngredients;
+
   /// Filter chip label for favorites
   ///
   /// In en, this message translates to:
