@@ -53,14 +53,8 @@ class FeedApp extends ConsumerWidget {
 
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+    // Enable edge-to-edge without invoking deprecated system bar color APIs
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-    // Android 15+ edge-to-edge: Removed deprecated color properties
-    // (statusBarColor, systemNavigationBarColor, systemNavigationBarDividerColor)
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-          systemStatusBarContrastEnforced: false,
-          systemNavigationBarContrastEnforced: false),
-    );
 
     return MaterialApp.router(
       locale: effectiveLocale,

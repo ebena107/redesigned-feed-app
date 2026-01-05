@@ -66,6 +66,7 @@ class FeedNameField extends ConsumerStatefulWidget {
 
 class _FeedNameFieldState extends ConsumerState<FeedNameField> {
   late TextEditingController _controller;
+  late FocusNode _focusNode;
   String? _errorText;
 
   @override
@@ -73,10 +74,19 @@ class _FeedNameFieldState extends ConsumerState<FeedNameField> {
     super.initState();
     final feedName = ref.read(feedProvider).feedName;
     _controller = TextEditingController(text: feedName);
+    _focusNode = FocusNode();
+
+    // Auto-validate when field loses focus
+    _focusNode.addListener(() {
+      if (!_focusNode.hasFocus && _controller.text.isNotEmpty) {
+        _validateAndSave(_controller.text);
+      }
+    });
   }
 
   @override
   void dispose() {
+    _focusNode.dispose();
     _controller.dispose();
     super.dispose();
   }
@@ -115,24 +125,27 @@ class _FeedNameFieldState extends ConsumerState<FeedNameField> {
     // Editable field for new feed
     return SizedBox(
       height: UIConstants.fieldHeight,
-      child: WidgetBuilders.buildTextField(
-        label: 'Feed Name',
-        hint: 'e.g., Broiler Starter Feed',
-        controller: _controller,
-        errorText: _errorText,
-        inputFormatters: InputValidators.nameFormatters,
-        textAlign: TextAlign.center,
-        onChanged: (value) {
-          // Clear error as user types
-          if (_errorText != null) {
-            setState(() => _errorText = null);
-          }
-        },
-        onSubmitted: _validateAndSave,
-        suffixIcon: const Icon(
-          CupertinoIcons.paw,
-          color: AppConstants.appIconGreyColor,
-          size: UIConstants.iconMedium,
+      child: Focus(
+        focusNode: _focusNode,
+        child: WidgetBuilders.buildTextField(
+          label: 'Feed Name',
+          hint: 'e.g., Broiler Starter Feed',
+          controller: _controller,
+          errorText: _errorText,
+          inputFormatters: InputValidators.nameFormatters,
+          textAlign: TextAlign.center,
+          onChanged: (value) {
+            // Clear error as user types
+            if (_errorText != null) {
+              setState(() => _errorText = null);
+            }
+          },
+          onSubmitted: _validateAndSave,
+          suffixIcon: const Icon(
+            CupertinoIcons.paw,
+            color: AppConstants.appIconGreyColor,
+            size: UIConstants.iconMedium,
+          ),
         ),
       ),
     );
