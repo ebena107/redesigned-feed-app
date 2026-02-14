@@ -28,7 +28,7 @@ class AppDatabase {
   static final AppDatabase _instance = AppDatabase._();
 
   // Current database version - increment when adding migrations
-  static const int _currentVersion = 12;
+  static const int _currentVersion = 13;
 
   factory AppDatabase() => _instance;
 
@@ -141,6 +141,9 @@ class AppDatabase {
         break;
       case 12:
         await _migrationV11ToV12(db);
+        break;
+      case 13:
+        await _migrationV12ToV13(db);
         break;
       // Add future migrations here
       default:
@@ -469,6 +472,63 @@ class AppDatabase {
     }
 
     debugPrint('Migration 11→12: Complete');
+  }
+
+  /// Migration from v12 to v13: Fix foreign key references in feed_ingredients
+  /// CRITICAL: Corrects self-reference bug that caused feed data to become orphaned
+  /// This migration recreates the feed_ingredients table with correct foreign keys
+  Future<void> _migrationV12ToV13(Database db) async {
+    debugPrint('Migration 12→13: Fixing feed_ingredients foreign keys');
+
+    try {
+      // SQLite doesn't support ALTER TABLE to modify constraints
+      // Must recreate table with correct foreign keys
+
+      // Step 1: Rename old table
+      await db.execute('''
+        ALTER TABLE feed_ingredients RENAME TO feed_ingredients_old
+      ''');
+
+      debugPrint('Migration 12→13: Old table renamed');
+
+      // Step 2: Create new table with correct foreign keys
+      await db.execute('''
+        CREATE TABLE feed_ingredients (
+          id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+          feed_id INTEGER NOT NULL,
+          ingredient_id INTEGER NOT NULL,
+          quantity REAL NOT NULL,
+          price_unit_kg REAL NOT NULL,
+          FOREIGN KEY(feed_id) REFERENCES ${FeedRepository.tableName}(${FeedRepository.colId})
+            ON DELETE CASCADE ON UPDATE NO ACTION,
+          FOREIGN KEY(ingredient_id) REFERENCES ${IngredientsRepository.tableName}(${IngredientsRepository.colId})
+            ON DELETE CASCADE ON UPDATE NO ACTION
+        )
+      ''');
+
+      debugPrint('Migration 12→13: New table created with correct foreign keys');
+
+      // Step 3: Copy data from old table to new table
+      await db.execute('''
+        INSERT INTO feed_ingredients (id, feed_id, ingredient_id, quantity, price_unit_kg)
+        SELECT id, feed_id, ingredient_id, quantity, price_unit_kg
+        FROM feed_ingredients_old
+      ''');
+
+      debugPrint('Migration 12→13: Data copied from old table');
+
+      // Step 4: Drop old table
+      await db.execute('DROP TABLE feed_ingredients_old');
+
+      debugPrint('Migration 12→13: Old table dropped');
+      debugPrint('Migration 12→13: Foreign keys corrected, all data preserved');
+    } catch (e, stackTrace) {
+      debugPrint('Migration 12→13: Error fixing foreign keys: $e');
+      debugPrint('Stack trace: $stackTrace');
+      rethrow;
+    }
+
+    debugPrint('Migration 12→13: Complete');
   }
 
   /// this should be run when the database is being created

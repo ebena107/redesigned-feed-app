@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'package:feed_estimator/src/core/database/app_db.dart';
-import 'package:feed_estimator/src/features/add_ingredients/repository/ingredient_category_repository.dart';
+import 'package:feed_estimator/src/features/add_ingredients/repository/ingredients_repository.dart';
 import 'package:feed_estimator/src/features/main/model/feed.dart';
+import 'package:feed_estimator/src/features/main/repository/feed_repository.dart';
 import 'package:feed_estimator/src/core/repositories/repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,8 +34,8 @@ class FeedIngredientRepository implements Repository {
       '$colIngredientId INTEGER NOT NULL, '
       '$colQuantity REAL NOT NULL, '
       '$colPrice REAL NOT NULL, '
-      'FOREIGN KEY($colFeedId) REFERENCES ${FeedIngredientRepository.tableName}(${FeedIngredientRepository.colId}) ON DELETE NO ACTION ON UPDATE NO ACTION,'
-      'FOREIGN KEY($colIngredientId) REFERENCES ${IngredientsCategoryRepository.tableName}(${IngredientsCategoryRepository.colId}) ON DELETE NO ACTION ON UPDATE NO ACTION'
+      'FOREIGN KEY($colFeedId) REFERENCES ${FeedRepository.tableName}(${FeedRepository.colId}) ON DELETE CASCADE ON UPDATE NO ACTION,'
+      'FOREIGN KEY($colIngredientId) REFERENCES ${IngredientsRepository.tableName}(${IngredientsRepository.colId}) ON DELETE CASCADE ON UPDATE NO ACTION'
       ')';
 
   static const columns =
