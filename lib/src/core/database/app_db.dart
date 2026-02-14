@@ -506,7 +506,8 @@ class AppDatabase {
         )
       ''');
 
-      debugPrint('Migration 12→13: New table created with correct foreign keys');
+      debugPrint(
+          'Migration 12→13: New table created with correct foreign keys');
 
       // Step 3: Copy data from old table to new table
       await db.execute('''
