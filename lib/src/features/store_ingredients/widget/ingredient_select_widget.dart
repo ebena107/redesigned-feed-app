@@ -1,6 +1,8 @@
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dart';
+import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
 import 'package:feed_estimator/src/features/store_ingredients/providers/stored_ingredient_provider.dart';
 import 'package:feed_estimator/src/core/localization/localization_helper.dart';
+import 'package:feed_estimator/src/core/router/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -348,6 +350,16 @@ class _IngredientSearchSheetState
                             notifier.selectIngredient(ing);
                             Navigator.pop(context);
                           },
+                          onCopy: () {
+                            // Close the selector sheet first
+                            Navigator.pop(context);
+                            // Copy ingredient values to form
+                            ref
+                                .read(ingredientProvider.notifier)
+                                .copyFromIngredient(ing);
+                            // Navigate to new ingredient screen
+                            const NewIngredientRoute().go(context);
+                          },
                         );
                       },
                     );
@@ -404,11 +416,13 @@ class _IngredientListTile extends StatelessWidget {
   final Ingredient ingredient;
   final bool isSelected;
   final VoidCallback onTap;
+  final VoidCallback? onCopy;
 
   const _IngredientListTile({
     required this.ingredient,
     required this.isSelected,
     required this.onTap,
+    this.onCopy,
   });
 
   @override
@@ -461,6 +475,25 @@ class _IngredientListTile extends StatelessWidget {
                         Icons.science_rounded,
                         color: const Color(0xff87643E),
                         size: 18,
+                      ),
+                    ],
+                    // Add copy button
+                    if (onCopy != null) ...[
+                      const SizedBox(width: 8),
+                      InkWell(
+                        onTap: onCopy,
+                        borderRadius: BorderRadius.circular(8),
+                        child: Padding(
+                          padding: const EdgeInsets.all(4),
+                          child: Tooltip(
+                            message: 'Create custom ingredient from this',
+                            child: Icon(
+                              Icons.content_copy_rounded,
+                              color: Colors.grey.shade600,
+                              size: 20,
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ],

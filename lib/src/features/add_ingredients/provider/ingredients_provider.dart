@@ -1155,4 +1155,43 @@ class IngredientNotifier extends Notifier<IngredientState> {
 
     await loadIngredients();
   }
+
+  /// Copy an existing ingredient's values to create a new custom ingredient
+  /// This pre-fills the form with all values from the source ingredient
+  void copyFromIngredient(Ingredient sourceIngredient) {
+    // Reset to default state first
+    setDefaultValues();
+
+    // Copy all nutritional values
+    setName(sourceIngredient.name.toString());
+    setCalcium(sourceIngredient.calcium.toString());
+    setPhosphorous(sourceIngredient.phosphorus.toString());
+    setMeth(sourceIngredient.methionine.toString());
+    setLyzine(sourceIngredient.lysine.toString());
+    setEnergyFish(sourceIngredient.deSalmonids.toString());
+    setEnergyPoultry(sourceIngredient.mePoultry.toString());
+    setEnergyRabbit(sourceIngredient.meRabbit.toString());
+    setEnergyRuminant(sourceIngredient.meRuminant.toString());
+    setEnergyGrowPig(sourceIngredient.meGrowingPig.toString());
+    setEnergyAdultPig(sourceIngredient.meAdultPig.toString());
+    setFat(sourceIngredient.crudeFat.toString());
+    setFiber(sourceIngredient.crudeFiber.toString());
+    setProtein(sourceIngredient.crudeProtein.toString());
+    setCategory(sourceIngredient.categoryId.toString());
+
+    // Optional fields - copy if present
+    if (sourceIngredient.priceKg != null) {
+      setPrice(sourceIngredient.priceKg.toString());
+    }
+    if (sourceIngredient.availableQty != null) {
+      setAvailableQuantity(sourceIngredient.availableQty.toString());
+    }
+
+    // Set default createdBy to 'User' and empty notes for new custom ingredient
+    setCreatedBy('User');
+    setNotes('Copied from ${sourceIngredient.name}');
+
+    // Mark as single energy value if was single
+    state = state.copyWith(singleEnergyValue: false);
+  }
 }
