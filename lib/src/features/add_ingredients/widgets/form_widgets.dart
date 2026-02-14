@@ -12,6 +12,29 @@ import 'package:go_router/go_router.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 
+String? _requiredTextValidator(
+  String? value, {
+  String message = 'Value is required',
+  int minLength = 3,
+}) {
+  final trimmed = value?.trim() ?? '';
+  if (trimmed.isEmpty || trimmed.length < minLength) {
+    return message;
+  }
+  return null;
+}
+
+String? _requiredNumberValidator(
+  String? value, {
+  String message = 'Value is required',
+  String invalidMessage = 'Enter a valid number',
+}) {
+  final trimmed = value?.trim() ?? '';
+  if (trimmed.isEmpty) return message;
+  if (num.tryParse(trimmed) == null) return invalidMessage;
+  return null;
+}
+
 Widget nameField(WidgetRef ref, int? ingId, BuildContext context) {
   final myRef = ref.watch(ingredientProvider);
   final data = myRef.name;
@@ -33,6 +56,10 @@ Widget nameField(WidgetRef ref, int? ingId, BuildContext context) {
               ref.read(ingredientProvider.notifier).setName(value!),
           onFocusOut: (value) =>
               ref.read(ingredientProvider.notifier).setName(value),
+          validator: (value) => _requiredTextValidator(
+            value,
+            message: 'Name is required',
+          ),
           context: context,
         )
       : Padding(
@@ -81,6 +108,7 @@ Widget categoryField(
             errorText: data.categoryId!.error,
             icon: Icons.group_outlined,
           ),
+          validator: (value) => value == null ? 'Category is required' : null,
           focusColor: AppConstants.appCarrotColor,
         )
       : Padding(
@@ -114,6 +142,7 @@ Widget proteinField(WidgetRef ref, context) {
     onSaved: (value) => ref.read(ingredientProvider.notifier).setProtein(value),
     onFocusOut: (value) =>
         ref.read(ingredientProvider.notifier).setProtein(value),
+    validator: _requiredNumberValidator,
     context: context,
   );
 }
@@ -136,6 +165,7 @@ Widget fatField(WidgetRef ref) {
         ref.read(ingredientProvider.notifier).setFat(value),
     onSaved: (value) => ref.read(ingredientProvider.notifier).setFat(value),
     onFocusOut: (value) => ref.read(ingredientProvider.notifier).setFat(value),
+    validator: _requiredNumberValidator,
     context: null,
   );
 }
@@ -159,6 +189,7 @@ Widget fibreField(WidgetRef ref) {
     onSaved: (value) => ref.read(ingredientProvider.notifier).setFiber(value),
     onFocusOut: (value) =>
         ref.read(ingredientProvider.notifier).setFiber(value),
+    validator: _requiredNumberValidator,
     context: null,
   );
 }
@@ -183,6 +214,7 @@ Widget energyField(WidgetRef ref) {
         ref.read(ingredientProvider.notifier).setAllEnergy(value),
     onFocusOut: (value) =>
         ref.read(ingredientProvider.notifier).setAllEnergy(value),
+    validator: _requiredNumberValidator,
     context: null,
   );
 }
@@ -207,6 +239,7 @@ Widget energyAdultPigField(WidgetRef ref) {
         ref.read(ingredientProvider.notifier).setEnergyAdultPig(value!),
     onFocusOut: (value) =>
         ref.read(ingredientProvider.notifier).setEnergyAdultPig(value),
+    validator: _requiredNumberValidator,
     context: null,
   );
 }
@@ -231,6 +264,7 @@ Widget energyGrowingPigField(WidgetRef ref) {
         ref.read(ingredientProvider.notifier).setEnergyGrowPig(value!),
     onFocusOut: (value) =>
         ref.read(ingredientProvider.notifier).setEnergyGrowPig(value),
+    validator: _requiredNumberValidator,
     context: null,
   );
 }
@@ -255,6 +289,7 @@ Widget energyRabbitField(WidgetRef ref) {
         ref.read(ingredientProvider.notifier).setEnergyRabbit(value!),
     onFocusOut: (value) =>
         ref.read(ingredientProvider.notifier).setEnergyRabbit(value),
+    validator: _requiredNumberValidator,
     context: null,
   );
 }
@@ -279,6 +314,7 @@ Widget energyRuminantField(WidgetRef ref) {
         ref.read(ingredientProvider.notifier).setEnergyRuminant(value!),
     onFocusOut: (value) =>
         ref.read(ingredientProvider.notifier).setEnergyRuminant(value),
+    validator: _requiredNumberValidator,
     context: null,
   );
 }
@@ -303,6 +339,7 @@ Widget energyPoultryField(WidgetRef ref) {
         ref.read(ingredientProvider.notifier).setEnergyPoultry(value!),
     onFocusOut: (value) =>
         ref.read(ingredientProvider.notifier).setEnergyPoultry(value),
+    validator: _requiredNumberValidator,
     context: null,
   );
 }
@@ -327,6 +364,7 @@ Widget energyFishField(WidgetRef ref) {
         ref.read(ingredientProvider.notifier).setEnergyFish(value!),
     onFocusOut: (value) =>
         ref.read(ingredientProvider.notifier).setEnergyFish(value),
+    validator: _requiredNumberValidator,
     context: null,
   );
 }
@@ -350,6 +388,7 @@ Widget lyzineField(WidgetRef ref) {
     onSaved: (value) => ref.read(ingredientProvider.notifier).setLyzine(value),
     onFocusOut: (value) =>
         ref.read(ingredientProvider.notifier).setLyzine(value),
+    validator: _requiredNumberValidator,
     context: null,
   );
 }
@@ -372,6 +411,7 @@ Widget methionineField(WidgetRef ref) {
         ref.read(ingredientProvider.notifier).setMeth(value),
     onSaved: (value) => ref.read(ingredientProvider.notifier).setMeth(value!),
     onFocusOut: (value) => ref.read(ingredientProvider.notifier).setMeth(value),
+    validator: _requiredNumberValidator,
     context: null,
   );
 }
@@ -396,6 +436,7 @@ Widget phosphorusField(WidgetRef ref) {
         ref.read(ingredientProvider.notifier).setPhosphorous(value!),
     onFocusOut: (value) =>
         ref.read(ingredientProvider.notifier).setPhosphorous(value),
+    validator: _requiredNumberValidator,
     context: null,
   );
 }
@@ -420,6 +461,7 @@ Widget calciumField(WidgetRef ref) {
         ref.read(ingredientProvider.notifier).setCalcium(value!),
     onFocusOut: (value) =>
         ref.read(ingredientProvider.notifier).setCalcium(value),
+    validator: _requiredNumberValidator,
     context: null,
   );
 }
@@ -488,6 +530,8 @@ class SaveButton extends ConsumerWidget {
       width: displayWidth(context),
       child: ElevatedButton.icon(
         onPressed: () async {
+          FocusScope.of(context).unfocus();
+          myKey?.currentState?.save();
           ref.read(ingredientProvider.notifier).validate();
           if (data.validate && myKey!.currentState!.validate()) {
             if (ingId != null) {
@@ -553,6 +597,7 @@ class _FormTextField extends StatelessWidget {
   final Function(String) onFieldSubmitted;
   final Function(String?) onSaved;
   final Function(String) onFocusOut;
+  final String? Function(String?)? validator;
   final BuildContext? context;
 
   const _FormTextField({
@@ -563,6 +608,7 @@ class _FormTextField extends StatelessWidget {
     required this.onFieldSubmitted,
     required this.onSaved,
     required this.onFocusOut,
+    this.validator,
     this.context,
   });
 
@@ -582,6 +628,7 @@ class _FormTextField extends StatelessWidget {
         onFieldSubmitted: onFieldSubmitted,
         onSaved: onSaved,
         onTapOutside: (event) => onFocusOut(controller.text),
+        validator: validator,
         onEditingComplete: () {
           if (this.context != null) {
             FocusScope.of(this.context!).nextFocus();

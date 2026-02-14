@@ -560,6 +560,8 @@ class IngredientNotifier extends Notifier<IngredientState> {
       priceKg: ValidationModel(value: null, error: null, isValid: false),
       availableQty: ValidationModel(value: null, error: null, isValid: false),
       categoryId: ValidationModel(value: null, error: null, isValid: false),
+      createdBy: ValidationModel(value: 'User', error: null, isValid: true),
+      notes: ValidationModel(value: '', error: null, isValid: true),
     );
   }
 
@@ -887,7 +889,21 @@ class IngredientNotifier extends Notifier<IngredientState> {
   }
 
   setPrice(String? value) {
-    if (value!.isNotEmpty && value.isValidNumber) {
+    if (value == null || value.trim().isEmpty) {
+      if (state.newIngredient!.ingredientId != null) {
+        final ing = state.newIngredient!.copyWith(priceKg: null);
+        state = state.copyWith(
+          priceKg: ValidationModel(value: null, error: null, isValid: true),
+          newIngredient: ing,
+        );
+      } else {
+        state = state.copyWith(
+            priceKg: ValidationModel(value: null, error: null, isValid: true));
+      }
+      return;
+    }
+
+    if (value.isValidNumber) {
       if (state.newIngredient!.ingredientId != null) {
         final ing =
             state.newIngredient!.copyWith(priceKg: double.tryParse(value));
@@ -906,7 +922,23 @@ class IngredientNotifier extends Notifier<IngredientState> {
   }
 
   setAvailableQuantity(String? value) {
-    if (value!.isNotEmpty && value.isValidNumber) {
+    if (value == null || value.trim().isEmpty) {
+      if (state.newIngredient!.ingredientId != null) {
+        final ing = state.newIngredient!.copyWith(availableQty: null);
+        state = state.copyWith(
+          availableQty:
+              ValidationModel(value: null, error: null, isValid: true),
+          newIngredient: ing,
+        );
+      } else {
+        state = state.copyWith(
+            availableQty:
+                ValidationModel(value: null, error: null, isValid: true));
+      }
+      return;
+    }
+
+    if (value.isValidNumber) {
       if (state.newIngredient!.ingredientId != null) {
         final ing =
             state.newIngredient!.copyWith(availableQty: double.tryParse(value));
@@ -928,18 +960,12 @@ class IngredientNotifier extends Notifier<IngredientState> {
 
   setCreatedBy(String? value) {
     final trimmed = value?.trim() ?? '';
-    if (trimmed.length >= 2) {
-      final updated = state.newIngredient?.copyWith(createdBy: trimmed);
-      state = state.copyWith(
-        createdBy: ValidationModel(value: trimmed, error: null, isValid: true),
-        newIngredient: updated,
-      );
-    } else {
-      state = state.copyWith(
-        createdBy: ValidationModel(
-            value: null, error: 'Creator name required', isValid: false),
-      );
-    }
+    final resolved = trimmed.isEmpty ? 'User' : trimmed;
+    final updated = state.newIngredient?.copyWith(createdBy: resolved);
+    state = state.copyWith(
+      createdBy: ValidationModel(value: resolved, error: null, isValid: true),
+      newIngredient: updated,
+    );
   }
 
   setNotes(String? value) {
@@ -985,6 +1011,12 @@ class IngredientNotifier extends Notifier<IngredientState> {
   }
 
   validate() {
+    if (state.categoryId!.value == null) {
+      state = state.copyWith(
+          categoryId: ValidationModel(
+              value: null, error: 'Category is required', isValid: false));
+    }
+
     if (state.name!.value != null &&
         state.crudeProtein!.value != null &&
         state.crudeFiber!.value != null &&
@@ -999,8 +1031,6 @@ class IngredientNotifier extends Notifier<IngredientState> {
         state.meRuminant!.value != null &&
         state.meRabbit!.value != null &&
         state.deSalmonids!.value != null &&
-        state.priceKg!.value != null &&
-        state.availableQty!.value != null &&
         state.categoryId!.value != null) {
       state = state.copyWith(validate: true);
     } else {
@@ -1033,6 +1063,8 @@ class IngredientNotifier extends Notifier<IngredientState> {
         categoryId: int.tryParse(state.categoryId!.value.toString()),
         favourite: state.favourite,
         isCustom: 1, // Mark as custom ingredient
+        createdBy: state.createdBy?.value?.toString() ?? 'User',
+        notes: state.notes?.value?.toString() ?? '',
         createdDate: now, // Set creation timestamp
       );
       state = state.copyWith(newIngredient: newIngredient);
@@ -1112,6 +1144,8 @@ class IngredientNotifier extends Notifier<IngredientState> {
       setFiber(ingredient.crudeFiber.toString());
       setProtein(ingredient.crudeProtein.toString());
       setCategory(ingredient.categoryId.toString());
+      setCreatedBy(ingredient.createdBy?.toString());
+      setNotes(ingredient.notes?.toString());
       //  setName(ingredient.name.toString());
     }
   }
