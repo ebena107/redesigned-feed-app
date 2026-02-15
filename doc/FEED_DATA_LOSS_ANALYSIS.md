@@ -398,6 +398,7 @@ See full technical details in our documentation.
 ## Testing Recommendations
 
 ### Test Case 1: Fresh Install
+
 ```
 1. Install app fresh
 2. Create multiple feeds with ingredients
@@ -407,6 +408,7 @@ See full technical details in our documentation.
 ```
 
 ### Test Case 2: Migration from V12
+
 ```
 1. Install version 1.0.4+14 (V12)
 2. Create test feeds
@@ -417,6 +419,7 @@ See full technical details in our documentation.
 ```
 
 ### Test Case 3: Foreign Key Validation
+
 ```
 1. Enable foreign key checking
 2. Delete a feed
@@ -425,6 +428,7 @@ See full technical details in our documentation.
 ```
 
 ### Test Case 4: Data Integrity
+
 ```
 1. Run PRAGMA integrity_check
 2. Run PRAGMA foreign_key_check
@@ -497,11 +501,13 @@ Before migrations, automatically backup database file.
 ## Impact Assessment
 
 ### Current Users Affected
+
 - ⚠️ HIGH: All users who created feeds in versions with buggy schema
 - ⚠️ MEDIUM: Users who updated between V1-V12
 - ✅ LOW: New users (after V13 fix)
 
 ### Severity Classification
+
 - **Data Loss**: ✅ FALSE - Data is not deleted, just orphaned
 - **Data Corruption**: ⚠️ POSSIBLE - Constraint violations can corrupt
 - **User Experience**: 🔴 CRITICAL - Users perceive complete data loss
@@ -530,7 +536,7 @@ Before migrations, automatically backup database file.
 
 **Solution**: Fix schema + add corrective migration to preserve existing data
 
-**Timeline**: 
+**Timeline**:
 - Immediate: Fix code and create migration
 - Testing: 1-2 days on multiple devices
 - Release: As soon as testing passes
