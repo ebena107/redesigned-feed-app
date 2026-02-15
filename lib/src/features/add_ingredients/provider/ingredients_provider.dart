@@ -1107,12 +1107,17 @@ class IngredientNotifier extends Notifier<IngredientState> {
             .create(state.newIngredient!.toJson());
       }
     } catch (e) {
+      AppLogger.error('Error saving ingredient: $e');
       return onFailure();
     }
 
-    if (response!.isNaN) {
+    // Check if response is valid (> 0 means successful insert)
+    if (response == null || response <= 0) {
+      AppLogger.error('Failed to save ingredient: invalid response=$response');
       return onFailure();
     } else {
+      // Refresh the ingredients list to show the new ingredient
+      await loadIngredients();
       return onSuccess!();
     }
   }

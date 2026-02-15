@@ -546,7 +546,6 @@ class SaveButton extends ConsumerWidget {
                         context, QuickAlertType.error, 'Failed to save'),
                   );
             } else {
-              ref.read(ingredientProvider.notifier).createIngredient();
               await ref.read(ingredientProvider.notifier).saveIngredient(
                     onSuccess: () {
                       context.go('/');
