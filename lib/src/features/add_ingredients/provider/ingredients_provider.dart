@@ -9,6 +9,7 @@ import 'package:feed_estimator/src/features/add_ingredients/repository/ingredien
 import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provider.dart';
 import 'package:feed_estimator/src/features/main/model/feed.dart';
 import 'package:feed_estimator/src/features/main/repository/feed_ingredient_repository.dart';
+import 'package:feed_estimator/src/features/store_ingredients/providers/stored_ingredient_provider.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -1118,6 +1119,8 @@ class IngredientNotifier extends Notifier<IngredientState> {
     } else {
       // Refresh the ingredients list to show the new ingredient
       await loadIngredients();
+      // Invalidate the dropdown list cache so it refreshes with the new ingredient
+      ref.invalidate(ingredientsListProvider);
       return onSuccess!();
     }
   }
