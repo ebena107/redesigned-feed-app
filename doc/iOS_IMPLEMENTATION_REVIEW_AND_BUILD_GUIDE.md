@@ -13,6 +13,7 @@
 ### ✅ Current iOS Configuration Status
 
 #### Project Structure
+
 - ✅ `ios/Runner/AppDelegate.swift` - Standard Flutter setup
 - ✅ `ios/Runner/Info.plist` - Privacy permissions configured
 - ✅ `ios/Runner/Runner.xcodeproj` - Xcode project initialized
@@ -563,18 +564,21 @@ Expected iOS App size: **40-60 MB**
 ## Next Steps for iOS Release
 
 ### Immediate (Week 1)
+
 1. [ ] Create iOS app icons (1024x1024)
 2. [ ] Take iOS screenshots (1290x2796 for iPhone 14 Pro Max)
 3. [ ] Write app description and keywords
 4. [ ] Set up Apple Developer Team in Xcode
 
 ### Short-term (Week 2-3)
+
 1. [ ] Test on physical iOS device
 2. [ ] Build release archive
 3. [ ] Upload to TestFlight for beta testing
 4. [ ] Gather feedback from beta testers
 
 ### Pre-Submission (Week 4)
+
 1. [ ] Verify all permissions prompts work correctly
 2. [ ] Test all file picker functionality
 3. [ ] Verify photo library access
@@ -582,6 +586,7 @@ Expected iOS App size: **40-60 MB**
 5. [ ] Review privacy policy one final time
 
 ### Submission (Week 5+)
+
 1. [ ] Upload build to App Store Connect
 2. [ ] Fill in all app metadata
 3. [ ] Add screenshots and preview video
