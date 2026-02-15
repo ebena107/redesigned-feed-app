@@ -63,7 +63,26 @@ class AppDatabase {
 
   Future<Database> _initDb() async {
     if (Platform.isWindows || Platform.isLinux) {
-      sqfliteFfiInit();
+      try {
+        sqfliteFfiInit();
+      } catch (e) {
+        if (Platform.isWindows) {
+          throw Exception(
+            'SQLite3 library initialization failed on Windows.\n'
+            'This is typically caused by missing native libraries.\n'
+            'Please ensure you have run: flutter pub get\n'
+            'And that sqlite3_flutter_libs package is properly configured.\n'
+            'Error details: $e'
+          );
+        } else {
+          throw Exception(
+            'SQLite3 library initialization failed on Linux.\n'
+            'Please ensure you have the required system libraries installed.\n'
+            'Error details: $e'
+          );
+        }
+      }
+      
       final databaseFactory = databaseFactoryFfi;
       final appDocumentsDir = await getApplicationDocumentsDirectory();
       final dbPath = join(appDocumentsDir.path, "databases", dbFileName);
