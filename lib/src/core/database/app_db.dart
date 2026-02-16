@@ -28,7 +28,7 @@ class AppDatabase {
   static final AppDatabase _instance = AppDatabase._();
 
   // Current database version - increment when adding migrations
-  static const int _currentVersion = 14;
+  static const int _currentVersion = 15;
 
   factory AppDatabase() => _instance;
 
@@ -162,6 +162,9 @@ class AppDatabase {
         break;
       case 14:
         await _migrationV13ToV14(db);
+        break;
+      case 15:
+        await _migrationV14ToV15(db);
         break;
       // Add future migrations here
       default:
@@ -636,6 +639,59 @@ class AppDatabase {
     }
   }
 
+  /// Migration from v14 to v15: Create formulation_history table
+  /// Adds database persistence for feed formulation results
+  Future<void> _migrationV14ToV15(Database db) async {
+    debugPrint('Migration 14→15: Creating formulation_history table');
+
+    try {
+      // Create formulation_history table
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS formulation_history (
+          id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+          animal_type_id INTEGER NOT NULL,
+          feed_type TEXT,
+          formulation_name TEXT,
+          created_at INTEGER NOT NULL,
+          constraints_json TEXT NOT NULL,
+          selected_ingredient_ids TEXT NOT NULL,
+          result_json TEXT NOT NULL,
+          status TEXT NOT NULL,
+          cost_per_kg REAL NOT NULL,
+          notes TEXT,
+          FOREIGN KEY(animal_type_id) REFERENCES ${AnimalTypeRepository.tableName}(${AnimalTypeRepository.colId})
+            ON DELETE CASCADE ON UPDATE NO ACTION
+        )
+      ''');
+
+      debugPrint('Migration 14→15: formulation_history table created');
+
+      // Add indexes for performance
+      await db.execute('''
+        CREATE INDEX IF NOT EXISTS idx_formulation_history_animal_type
+        ON formulation_history(animal_type_id)
+      ''');
+
+      await db.execute('''
+        CREATE INDEX IF NOT EXISTS idx_formulation_history_created_at
+        ON formulation_history(created_at DESC)
+      ''');
+
+      await db.execute('''
+        CREATE INDEX IF NOT EXISTS idx_formulation_history_status
+        ON formulation_history(status)
+      ''');
+
+      debugPrint('Migration 14→15: Added 3 performance indexes');
+      debugPrint('Migration 14→15: Complete');
+    } catch (e, stackTrace) {
+      debugPrint(
+          'Migration 14→15: Error creating formulation_history table: $e');
+      debugPrint('Stack trace: $stackTrace');
+      rethrow;
+    }
+  }
+
   /// this should be run when the database is being created
   /// and populate the tables with initial data
   Future<void> _createAll(Database db) async {
@@ -657,6 +713,25 @@ class AppDatabase {
         notes TEXT,
         created_at INTEGER NOT NULL,
         FOREIGN KEY(ingredient_id) REFERENCES ${IngredientsRepository.tableName}(${IngredientsRepository.colId})
+          ON DELETE CASCADE ON UPDATE NO ACTION
+      )
+    ''');
+
+    // Create formulation_history table
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS formulation_history (
+        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        animal_type_id INTEGER NOT NULL,
+        feed_type TEXT,
+        formulation_name TEXT,
+        created_at INTEGER NOT NULL,
+        constraints_json TEXT NOT NULL,
+        selected_ingredient_ids TEXT NOT NULL,
+        result_json TEXT NOT NULL,
+        status TEXT NOT NULL,
+        cost_per_kg REAL NOT NULL,
+        notes TEXT,
+        FOREIGN KEY(animal_type_id) REFERENCES ${AnimalTypeRepository.tableName}(${AnimalTypeRepository.colId})
           ON DELETE CASCADE ON UPDATE NO ACTION
       )
     ''');
