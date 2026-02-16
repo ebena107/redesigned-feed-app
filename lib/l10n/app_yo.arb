@@ -56,6 +56,10 @@
   "@screenTitleAbout": {
     "description": "About screen title"
   },
+  "screenTitleImportWizard": "Oluranlowo Gbigbe Wọle",
+  "@screenTitleImportWizard": {
+    "description": "Import wizard screen title"
+  },
 
   "actionCreate": "Ṣẹda",
   "@actionCreate": {
@@ -790,34 +794,17 @@
   },
   
   "ingredientLibraryTitle": "Apoti Elo-ikunrin",
-  "actionRefresh": "Inu tun",
   "manageInventoryTitle": "ṢIṢẸ IGBOOWU",
   "customIngredientsTitle": "Elo-ikunrin Ti a Ṣelọ",
-  "actionAddNew": "Fi Kan Tuntun",
-  
-  "regionAll": "Gbogbo",
-  "regionAfrica": "Afirika",
-  "regionAsia": "Asia",
-  "regionEurope": "Europa",
-  "regionAmericas": "Amerika",
-  "regionOceania": "Oṣean",
-  "regionGlobal": "Agbaye",
-  
   "updateDetailsTitle": "Tun Alaye",
   "labelFavorite": "Anfani",
   "labelAddToFavorites": "Fi kun anfani",
   "labelPricePerKg": "Iyipada fun kg",
   "labelAvailableQty": "Iye Igboowu (kg)",
-  "actionDelete": "Pa",
   "actionPriceHistory": "Itan Iyipada",
-  "actionReset": "Tun",
-  "actionSaveChanges": "Fi Pamọ Ayipada",
-  
   "deleteIngredientTitle": "Pa Elo-ikunrin?",
   "deleteIngredientMessage": "Eyi a pa elo-ikunrin yi lagilagi kuro ninu apoti rẹ. Aṣiṣe yii ko le tun ṣe.",
   "confirmCancel": "Fa",
-  "confirmDelete": "Pa",
-  
   "successIngredientUpdated": "Elo-ikunrin ti tun daradara",
   "errorSaveFailed": "Iṣoro ati ifipamọ: {error}",
   "successIngredientDeleted": "Elo-ikunrin ti pa",
@@ -831,8 +818,6 @@
   "updateFeedTitle": "Tun Eko",
   "actionAddIngredients": "Fi Awọn Elo-ikunrin Kun",
   "tooltipAddIngredients": "Fi awọn elo-ikunrin diẹ sii kun eko",
-  "actionSave": "Fi Pamọ",
-  "actionUpdate": "Tun",
   "tooltipSaveFeed": "Fi eko pamọ",
   "tooltipUpdateFeed": "Tun eko",
   "actionAnalyse": "Ṣayẹwo",
@@ -875,7 +860,6 @@
   "nutrientTotalPhosphorus": "Phosph. Lapapọ",
   "nutrientPhytatePhosphorus": "Phosph. Phytate",
   
-  "unitKcal": "Kcal",
   "unitPercent": "%",
   "unitGramPerKg": "g/Kg",
   
@@ -925,5 +909,276 @@
         "example": "BROILER STARTER"
       }
     }
+  },
+
+  "noIngredientsSelected": "Ko si eroja ti a ti yan",
+  "@noIngredientsSelected": {
+    "description": "Message shown when cart is empty"
+  },
+  "selectedIngredients": "Awọn eroja ti a yan",
+  "@selectedIngredients": {
+    "description": "Title for cart/selected ingredients list"
+  },
+  "formSectionBasicInfo": "Alaye ipilẹ",
+  "@formSectionBasicInfo": {
+    "description": "Form section header for basic ingredient information"
+  },
+  "formSectionEnergyValues": "Iye agbara",
+  "@formSectionEnergyValues": {
+    "description": "Form section header for energy values"
+  },
+  "formSectionMacronutrients": "Awọn makironutrienti",
+  "@formSectionMacronutrients": {
+    "description": "Form section header for macronutrients"
+  },
+  "formSectionMicronutrients": "Awọn mikironutrienti",
+  "@formSectionMicronutrients": {
+    "description": "Form section header for micronutrients"
+  },
+  "formSectionCostAvailability": "Iye owo ati wiwa",
+  "@formSectionCostAvailability": {
+    "description": "Form section header for cost and availability"
+  },
+  "formSectionAdditionalInfo": "Alaye afikun",
+  "@formSectionAdditionalInfo": {
+    "description": "Form section header for additional information"
+  },
+  "fieldHintEnergyMode": "Fi iye agbara sii fun ẹgbẹ kọọkan ti ẹranko?",
+  "@fieldHintEnergyMode": {
+    "description": "Label for energy mode selector checkbox"
+  },
+  "fieldLabelAdultPigs": "Ẹlẹdẹ agbalagba",
+  "@fieldLabelAdultPigs": {
+    "description": "Label for adult pigs energy field"
+  },
+  "fieldLabelGrowingPigs": "Ẹlẹdẹ to ndagba",
+  "@fieldLabelGrowingPigs": {
+    "description": "Label for growing pigs energy field"
+  },
+  "fieldLabelPoultry": "Adie",
+  "@fieldLabelPoultry": {
+    "description": "Label for poultry energy field"
+  },
+  "fieldLabelRabbit": "Ehoro",
+  "@fieldLabelRabbit": {
+    "description": "Label for rabbit energy field"
+  },
+  "fieldLabelRuminant": "Ruminant",
+  "@fieldLabelRuminant": {
+    "description": "Label for ruminant energy field"
+  },
+  "fieldLabelFish": "Eja",
+  "@fieldLabelFish": {
+    "description": "Label for fish/salmonids energy field"
+  },
+  "fieldLabelCreatedBy": "Ti a ṣẹda nipasẹ",
+  "@fieldLabelCreatedBy": {
+    "description": "Label for creator name field"
+  },
+  "fieldLabelNotes": "Awọn akọsilẹ",
+  "@fieldLabelNotes": {
+    "description": "Label for notes field"
+  },
+  "customIngredientHeader": "Ṣiṣẹda Eroja Aṣa",
+  "@customIngredientHeader": {
+    "description": "Header title for custom ingredient creation"
+  },
+  "customIngredientDescription": "O le fi eroja tirẹ kun pẹlu awọn iye to jẹ aládàáṣiṣẹ",
+  "@customIngredientDescription": {
+    "description": "Description text for custom ingredient creation"
+  },
+  "newIngredientTitle": "Eroja Tuntun",
+  "@newIngredientTitle": {
+    "description": "Title for new ingredient form"
+  },
+  "fieldLabelFeedName": "Orukọ Ounjẹ",
+  "@fieldLabelFeedName": {
+    "description": "Label for feed name field"
+  },
+  "fieldLabelAnimalType": "Iru Ẹranko",
+  "@fieldLabelAnimalType": {
+    "description": "Label for animal type selection field"
+  },
+  "fieldLabelProductionStage": "Ipele iṣelọpọ",
+  "@fieldLabelProductionStage": {
+    "description": "Label for production stage field"
+  },
+  "ingredientAddedSuccessTitle": "{name} ti fi kun",
+  "@ingredientAddedSuccessTitle": {
+    "description": "Success dialog title when ingredient is added",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Corn"
+      }
+    }
+  },
+  "ingredientAddedSuccessMessage": "Ṣe o fẹ fi eroja miiran kun?",
+  "@ingredientAddedSuccessMessage": {
+    "description": "Success dialog message asking if user wants to continue"
+  },
+  "ingredientAddedNo": "Rara, Pada",
+  "@ingredientAddedNo": {
+    "description": "Button to decline adding another ingredient"
+  },
+  "ingredientAddedYes": "Bẹẹni, Tẹsiwaju",
+  "@ingredientAddedYes": {
+    "description": "Button to continue adding ingredients"
+  },
+  "customIngredientsHeader": "Awọn Eroja Aṣa Rẹ ({count})",
+  "@customIngredientsHeader": {
+    "description": "Header showing count of custom ingredients",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "customIngredientsSearchHint": "Wa awọn eroja aṣa rẹ...",
+  "@customIngredientsSearchHint": {
+    "description": "Search field hint for custom ingredients"
+  },
+  "customIngredientsEmptyTitle": "Ko si eroja aṣa sibẹ",
+  "@customIngredientsEmptyTitle": {
+    "description": "Empty state title when no custom ingredients exist"
+  },
+  "customIngredientsEmptySubtitle": "Ṣẹda eroja aṣa akọkọ rẹ!",
+  "@customIngredientsEmptySubtitle": {
+    "description": "Empty state subtitle encouraging creation"
+  },
+  "customIngredientsNoMatch": "Ko si eroja ti o baamu wiwa rẹ",
+  "@customIngredientsNoMatch": {
+    "description": "Message when search returns no results"
+  },
+  "labelCreatedBy": "nipasẹ {creator}",
+  "@labelCreatedBy": {
+    "description": "Label showing ingredient creator",
+    "placeholders": {
+      "creator": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "labelNotes": "Awọn akọsilẹ:",
+  "@labelNotes": {
+    "description": "Label for notes section"
+  },
+  "labelPriceHistory": "Itan idiyele",
+  "@labelPriceHistory": {
+    "description": "Label for price history section"
+  },
+  "labelCa": "Ca",
+  "@labelCa": {
+    "description": "Short label for Calcium"
+  },
+  "labelP": "P",
+  "@labelP": {
+    "description": "Short label for Phosphorus"
+  },
+  "priceHistoryEmpty": "Ko si itan idiyele",
+  "@priceHistoryEmpty": {
+    "description": "Empty state message for price history"
+  },
+  "priceHistoryError": "Ko le gbe itan idiyele",
+  "@priceHistoryError": {
+    "description": "Error message for price history load failure"
+  },
+  "deleteCustomIngredientTitle": "Pa \"{name}\" rẹ?",
+  "@deleteCustomIngredientTitle": {
+    "description": "Confirmation dialog title for deleting a custom ingredient",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Corn"
+      }
+    }
+  },
+  "deleteCustomIngredientMessage": "Ṣe o da ọ loju pe o fẹ pa eroja aṣa yii?",
+  "@deleteCustomIngredientMessage": {
+    "description": "Confirmation dialog message for deleting a custom ingredient"
+  },
+  "ingredientRemovedSuccess": "{name} ti yọ",
+  "@ingredientRemovedSuccess": {
+    "description": "Success message after ingredient removal",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Corn"
+      }
+    }
+  },
+  "exportFormatTitle": "Ọna kika Ikọja",
+  "@exportFormatTitle": {
+    "description": "Dialog title for export format selection"
+  },
+  "exportFormatMessage": "Yan ọna kika ikọja fun awọn eroja aṣa rẹ:",
+  "@exportFormatMessage": {
+    "description": "Dialog message for export format selection"
+  },
+  "exportingToJson": "N kọja si JSON...",
+  "@exportingToJson": {
+    "description": "Loading message while exporting to JSON"
+  },
+  "exportingToCsv": "N kọja si CSV...",
+  "@exportingToCsv": {
+    "description": "Loading message while exporting to CSV"
+  },
+  "exportFailed": "Ikọja kuna",
+  "@exportFailed": {
+    "description": "Error message when export fails"
+  },
+  "exportFailedWithError": "Ikọja kuna: {error}",
+  "@exportFailedWithError": {
+    "description": "Error message with details when export fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "File write error"
+      }
+    }
+  },
+  "importCustomIngredientsTitle": "Gbe Awọn Eroja Aṣa Wọle",
+  "@importCustomIngredientsTitle": {
+    "description": "Dialog title for importing custom ingredients"
+  },
+  "importFormatMessage": "Yan ọna kika faili lati gbe wọle:",
+  "@importFormatMessage": {
+    "description": "Dialog message for import format selection"
+  },
+  "importingData": "N gbe data wọle...",
+  "@importingData": {
+    "description": "Loading message while importing"
+  },
+  "importSuccessTitle": "Gbigbe wọle ṣaṣeyọri",
+  "@importSuccessTitle": {
+    "description": "Success dialog title after import"
+  },
+  "importFailedTitle": "Gbigbe wọle kuna",
+  "@importFailedTitle": {
+    "description": "Error dialog title after failed import"
+  },
+  "importError": "Aṣiṣe: {error}",
+  "@importError": {
+    "description": "Error message with details",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Invalid file format"
+      }
+    }
+  },
+  "actionJson": "JSON",
+  "@actionJson": {
+    "description": "JSON format option"
+  },
+  "actionCsv": "CSV",
+  "@actionCsv": {
+    "description": "CSV format option"
+  },
+  "labelIngredient": "Eroja",
+  "@labelIngredient": {
+    "description": "Generic label for ingredient"
   }
 }

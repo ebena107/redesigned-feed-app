@@ -55,6 +55,10 @@
   "@screenTitleAbout": {
     "description": "About screen title"
   },
+  "screenTitleImportWizard": "Assistente de Importação",
+  "@screenTitleImportWizard": {
+    "description": "Import wizard screen title"
+  },
   
   "actionCreate": "Criar",
   "@actionCreate": {
@@ -663,34 +667,17 @@
   },
   
   "ingredientLibraryTitle": "Biblioteca de Ingredientes",
-  "actionRefresh": "Atualizar",
   "manageInventoryTitle": "GERENCIAR INVENTÁRIO",
   "customIngredientsTitle": "Ingredientes Personalizados",
-  "actionAddNew": "Adicionar Novo",
-  
-  "regionAll": "Todos",
-  "regionAfrica": "África",
-  "regionAsia": "Ásia",
-  "regionEurope": "Europa",
-  "regionAmericas": "Américas",
-  "regionOceania": "Oceania",
-  "regionGlobal": "Global",
-  
   "updateDetailsTitle": "Atualizar Detalhes",
   "labelFavorite": "Favorito",
   "labelAddToFavorites": "Adicionar aos favoritos",
   "labelPricePerKg": "Preço por kg",
   "labelAvailableQty": "Quantidade Disponível (kg)",
-  "actionDelete": "Excluir",
   "actionPriceHistory": "Histórico de Preços",
-  "actionReset": "Redefinir",
-  "actionSaveChanges": "Salvar Alterações",
-  
   "deleteIngredientTitle": "Excluir Ingrediente?",
   "deleteIngredientMessage": "Isso removerá permanentemente este ingrediente de sua biblioteca. Esta ação não pode ser desfeita.",
   "confirmCancel": "Cancelar",
-  "confirmDelete": "Excluir",
-  
   "successIngredientUpdated": "Ingrediente atualizado com sucesso",
   "errorSaveFailed": "Falha ao salvar: {error}",
   "successIngredientDeleted": "Ingrediente excluído",
@@ -704,8 +691,6 @@
   "updateFeedTitle": "Atualizar Ração",
   "actionAddIngredients": "Adicionar Ingredientes",
   "tooltipAddIngredients": "Adicionar mais ingredientes à ração",
-  "actionSave": "Guardar",
-  "actionUpdate": "Atualizar",
   "tooltipSaveFeed": "Guardar ração",
   "tooltipUpdateFeed": "Atualizar ração",
   "actionAnalyse": "Analisar",
@@ -748,7 +733,6 @@
   "nutrientTotalPhosphorus": "Fósf. Total",
   "nutrientPhytatePhosphorus": "Fósf. Fitato",
   
-  "unitKcal": "Kcal",
   "unitPercent": "%",
   "unitGramPerKg": "g/Kg",
   
@@ -777,5 +761,275 @@
   "warningsCardTitle": "Avisos e Recomendações",
   "warningsCardIssueCount": "{count, plural, =1{1 problema encontrado} other{{count} problemas encontrados}}",
   
-  "pdfPreviewTitle": "Ebena Feed Estimator | Pré-visualização de {feedName}"
+  "pdfPreviewTitle": "Ebena Feed Estimator | Pré-visualização de {feedName}",
+  "noIngredientsSelected": "Nenhum ingrediente selecionado ainda",
+  "@noIngredientsSelected": {
+    "description": "Message shown when cart is empty"
+  },
+  "selectedIngredients": "Ingredientes Selecionados",
+  "@selectedIngredients": {
+    "description": "Title for cart/selected ingredients list"
+  },
+  "formSectionBasicInfo": "Informações Básicas",
+  "@formSectionBasicInfo": {
+    "description": "Form section header for basic ingredient information"
+  },
+  "formSectionEnergyValues": "Valores de Energia",
+  "@formSectionEnergyValues": {
+    "description": "Form section header for energy values"
+  },
+  "formSectionMacronutrients": "Macronutrientes",
+  "@formSectionMacronutrients": {
+    "description": "Form section header for macronutrients"
+  },
+  "formSectionMicronutrients": "Micronutrientes",
+  "@formSectionMicronutrients": {
+    "description": "Form section header for micronutrients"
+  },
+  "formSectionCostAvailability": "Custo e Disponibilidade",
+  "@formSectionCostAvailability": {
+    "description": "Form section header for cost and availability"
+  },
+  "formSectionAdditionalInfo": "Informações Adicionais",
+  "@formSectionAdditionalInfo": {
+    "description": "Form section header for additional information"
+  },
+  "fieldHintEnergyMode": "Inserir valores de energia para cada grupo específico de animais?",
+  "@fieldHintEnergyMode": {
+    "description": "Label for energy mode selector checkbox"
+  },
+  "fieldLabelAdultPigs": "Suínos adultos",
+  "@fieldLabelAdultPigs": {
+    "description": "Label for adult pigs energy field"
+  },
+  "fieldLabelGrowingPigs": "Suínos em crescimento",
+  "@fieldLabelGrowingPigs": {
+    "description": "Label for growing pigs energy field"
+  },
+  "fieldLabelPoultry": "Aves",
+  "@fieldLabelPoultry": {
+    "description": "Label for poultry energy field"
+  },
+  "fieldLabelRabbit": "Coelho",
+  "@fieldLabelRabbit": {
+    "description": "Label for rabbit energy field"
+  },
+  "fieldLabelRuminant": "Ruminante",
+  "@fieldLabelRuminant": {
+    "description": "Label for ruminant energy field"
+  },
+  "fieldLabelFish": "Peixe",
+  "@fieldLabelFish": {
+    "description": "Label for fish/salmonids energy field"
+  },
+  "fieldLabelCreatedBy": "Criado por",
+  "@fieldLabelCreatedBy": {
+    "description": "Label for creator name field"
+  },
+  "fieldLabelNotes": "Notas",
+  "@fieldLabelNotes": {
+    "description": "Label for notes field"
+  },
+  "customIngredientHeader": "Criando Ingrediente Personalizado",
+  "@customIngredientHeader": {
+    "description": "Header title for custom ingredient creation"
+  },
+  "customIngredientDescription": "Você pode adicionar seu próprio ingrediente com valores nutricionais personalizados",
+  "@customIngredientDescription": {
+    "description": "Description text for custom ingredient creation"
+  },
+  "newIngredientTitle": "Novo Ingrediente",
+  "@newIngredientTitle": {
+    "description": "Title for new ingredient form"
+  },
+  "fieldLabelFeedName": "Nome da Ração",
+  "@fieldLabelFeedName": {
+    "description": "Label for feed name field"
+  },
+  "fieldLabelAnimalType": "Tipo de Animal",
+  "@fieldLabelAnimalType": {
+    "description": "Label for animal type selection field"
+  },
+  "fieldLabelProductionStage": "Estágio de Produção",
+  "@fieldLabelProductionStage": {
+    "description": "Label for production stage field"
+  },
+  "ingredientAddedSuccessTitle": "{name} adicionado com sucesso",
+  "@ingredientAddedSuccessTitle": {
+    "description": "Success dialog title when ingredient is added",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Corn"
+      }
+    }
+  },
+  "ingredientAddedSuccessMessage": "Deseja adicionar outro ingrediente?",
+  "@ingredientAddedSuccessMessage": {
+    "description": "Success dialog message asking if user wants to continue"
+  },
+  "ingredientAddedNo": "Não, Voltar",
+  "@ingredientAddedNo": {
+    "description": "Button to decline adding another ingredient"
+  },
+  "ingredientAddedYes": "Sim, Continuar",
+  "@ingredientAddedYes": {
+    "description": "Button to continue adding ingredients"
+  },
+  "customIngredientsHeader": "Seus Ingredientes Personalizados ({count})",
+  "@customIngredientsHeader": {
+    "description": "Header showing count of custom ingredients",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "customIngredientsSearchHint": "Pesquisar seus ingredientes personalizados...",
+  "@customIngredientsSearchHint": {
+    "description": "Search field hint for custom ingredients"
+  },
+  "customIngredientsEmptyTitle": "Nenhum ingrediente personalizado ainda",
+  "@customIngredientsEmptyTitle": {
+    "description": "Empty state title when no custom ingredients exist"
+  },
+  "customIngredientsEmptySubtitle": "Crie seu primeiro ingrediente personalizado!",
+  "@customIngredientsEmptySubtitle": {
+    "description": "Empty state subtitle encouraging creation"
+  },
+  "customIngredientsNoMatch": "Nenhum ingrediente corresponde à sua pesquisa",
+  "@customIngredientsNoMatch": {
+    "description": "Message when search returns no results"
+  },
+  "labelCreatedBy": "por {creator}",
+  "@labelCreatedBy": {
+    "description": "Label showing ingredient creator",
+    "placeholders": {
+      "creator": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "labelNotes": "Notas:",
+  "@labelNotes": {
+    "description": "Label for notes section"
+  },
+  "labelPriceHistory": "Histórico de Preços",
+  "@labelPriceHistory": {
+    "description": "Label for price history section"
+  },
+  "labelCa": "Ca",
+  "@labelCa": {
+    "description": "Short label for Calcium"
+  },
+  "labelP": "P",
+  "@labelP": {
+    "description": "Short label for Phosphorus"
+  },
+  "priceHistoryEmpty": "Sem histórico de preços",
+  "@priceHistoryEmpty": {
+    "description": "Empty state message for price history"
+  },
+  "priceHistoryError": "Falha ao carregar histórico de preços",
+  "@priceHistoryError": {
+    "description": "Error message for price history load failure"
+  },
+  "deleteCustomIngredientTitle": "Excluir \"{name}\"?",
+  "@deleteCustomIngredientTitle": {
+    "description": "Confirmation dialog title for deleting a custom ingredient",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Corn"
+      }
+    }
+  },
+  "deleteCustomIngredientMessage": "Tem certeza de que deseja excluir este ingrediente personalizado?",
+  "@deleteCustomIngredientMessage": {
+    "description": "Confirmation dialog message for deleting a custom ingredient"
+  },
+  "ingredientRemovedSuccess": "{name} removido",
+  "@ingredientRemovedSuccess": {
+    "description": "Success message after ingredient removal",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Corn"
+      }
+    }
+  },
+  "exportFormatTitle": "Formato de Exportação",
+  "@exportFormatTitle": {
+    "description": "Dialog title for export format selection"
+  },
+  "exportFormatMessage": "Escolha o formato de exportação para seus ingredientes personalizados:",
+  "@exportFormatMessage": {
+    "description": "Dialog message for export format selection"
+  },
+  "exportingToJson": "Exportando para JSON...",
+  "@exportingToJson": {
+    "description": "Loading message while exporting to JSON"
+  },
+  "exportingToCsv": "Exportando para CSV...",
+  "@exportingToCsv": {
+    "description": "Loading message while exporting to CSV"
+  },
+  "exportFailed": "Falha na exportação",
+  "@exportFailed": {
+    "description": "Error message when export fails"
+  },
+  "exportFailedWithError": "Falha na exportação: {error}",
+  "@exportFailedWithError": {
+    "description": "Error message with details when export fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "File write error"
+      }
+    }
+  },
+  "importCustomIngredientsTitle": "Importar Ingredientes Personalizados",
+  "@importCustomIngredientsTitle": {
+    "description": "Dialog title for importing custom ingredients"
+  },
+  "importFormatMessage": "Escolha o formato do arquivo para importar:",
+  "@importFormatMessage": {
+    "description": "Dialog message for import format selection"
+  },
+  "importingData": "Importando dados...",
+  "@importingData": {
+    "description": "Loading message while importing"
+  },
+  "importSuccessTitle": "Importação Bem-sucedida",
+  "@importSuccessTitle": {
+    "description": "Success dialog title after import"
+  },
+  "importFailedTitle": "Falha na Importação",
+  "@importFailedTitle": {
+    "description": "Error dialog title after failed import"
+  },
+  "importError": "Erro: {error}",
+  "@importError": {
+    "description": "Error message with details",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Invalid file format"
+      }
+    }
+  },
+  "actionJson": "JSON",
+  "@actionJson": {
+    "description": "JSON format option"
+  },
+  "actionCsv": "CSV",
+  "@actionCsv": {
+    "description": "CSV format option"
+  },
+  "labelIngredient": "Ingrediente",
+  "@labelIngredient": {
+    "description": "Generic label for ingredient"
+  }
 }

@@ -188,25 +188,31 @@ abstract class AppLocalizations {
   /// **'About Feed Estimator'**
   String get screenTitleAbout;
 
+  /// Import wizard screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Import Wizard'**
+  String get screenTitleImportWizard;
+
   /// Action button to create new item
   ///
   /// In en, this message translates to:
   /// **'Create'**
   String get actionCreate;
 
-  /// Save button label
+  /// Action button to save
   ///
   /// In en, this message translates to:
   /// **'Save'**
   String get actionSave;
 
-  /// Update button label
+  /// Action button to update
   ///
   /// In en, this message translates to:
   /// **'Update'**
   String get actionUpdate;
 
-  /// Delete action button or tooltip
+  /// Action button to delete
   ///
   /// In en, this message translates to:
   /// **'Delete'**
@@ -224,13 +230,13 @@ abstract class AppLocalizations {
   /// **'Add'**
   String get actionAdd;
 
-  /// Add new ingredient button label
+  /// Action button to add new item
   ///
   /// In en, this message translates to:
   /// **'Add New'**
   String get actionAddNew;
 
-  /// Refresh action tooltip
+  /// Action button to refresh
   ///
   /// In en, this message translates to:
   /// **'Refresh'**
@@ -272,13 +278,13 @@ abstract class AppLocalizations {
   /// **'Clear Filters'**
   String get actionClearFilters;
 
-  /// Save changes button label
+  /// Action button to save changes
   ///
   /// In en, this message translates to:
   /// **'Save Changes'**
   String get actionSaveChanges;
 
-  /// Reset form button label
+  /// Action button to reset form
   ///
   /// In en, this message translates to:
   /// **'Reset'**
@@ -704,11 +710,11 @@ abstract class AppLocalizations {
   /// **'No {item} added yet'**
   String messageEmpty(String item);
 
-  /// Confirm delete button in confirmation dialog
+  /// Confirmation message before deletion
   ///
   /// In en, this message translates to:
-  /// **'Delete'**
-  String get confirmDelete;
+  /// **'Delete {item}?'**
+  String confirmDelete(String item);
 
   /// Description for delete confirmation
   ///
@@ -746,43 +752,43 @@ abstract class AppLocalizations {
   /// **'Fish'**
   String get animalTypeFish;
 
-  /// Region filter option for all regions
+  /// Filter option: All regions
   ///
   /// In en, this message translates to:
-  /// **'All'**
+  /// **'All Regions'**
   String get regionAll;
 
-  /// Region filter option for Africa
+  /// Region: Africa
   ///
   /// In en, this message translates to:
   /// **'Africa'**
   String get regionAfrica;
 
-  /// Region filter option for Asia
+  /// Region: Asia
   ///
   /// In en, this message translates to:
   /// **'Asia'**
   String get regionAsia;
 
-  /// Region filter option for Europe
+  /// Region: Europe
   ///
   /// In en, this message translates to:
   /// **'Europe'**
   String get regionEurope;
 
-  /// Region filter option for Americas
+  /// Region: Americas
   ///
   /// In en, this message translates to:
   /// **'Americas'**
   String get regionAmericas;
 
-  /// Region filter option for Oceania
+  /// Region: Oceania
   ///
   /// In en, this message translates to:
   /// **'Oceania'**
   String get regionOceania;
 
-  /// Region filter option for global/general ingredients
+  /// Region: Global
   ///
   /// In en, this message translates to:
   /// **'Global'**
@@ -842,10 +848,10 @@ abstract class AppLocalizations {
   /// **'ton'**
   String get unitTon;
 
-  /// Unit label for kilocalories
+  /// Unit: Kilocalories per kilogram
   ///
   /// In en, this message translates to:
-  /// **'Kcal'**
+  /// **'kcal/kg'**
   String get unitKcal;
 
   /// Settings: Language option
@@ -1232,19 +1238,19 @@ abstract class AppLocalizations {
   /// **'Must be ≥ 0'**
   String get errorQuantityGreaterOrEqual;
 
-  /// Title for add feed screen
+  /// Title for adding a new feed
   ///
   /// In en, this message translates to:
-  /// **'Add Feed'**
+  /// **'Add/Check Feed'**
   String get addFeedTitle;
 
-  /// Title for update feed screen
+  /// Title for updating an existing feed
   ///
   /// In en, this message translates to:
   /// **'Update Feed'**
   String get updateFeedTitle;
 
-  /// Action button to add ingredients
+  /// Button to add ingredients to feed
   ///
   /// In en, this message translates to:
   /// **'Add Ingredients'**
@@ -1253,19 +1259,19 @@ abstract class AppLocalizations {
   /// Tooltip for add ingredients button
   ///
   /// In en, this message translates to:
-  /// **'Add ingredients to your feed formulation'**
+  /// **'Add more ingredients to feed'**
   String get tooltipAddIngredients;
 
   /// Tooltip for save feed button
   ///
   /// In en, this message translates to:
-  /// **'Save your feed formulation'**
+  /// **'Save feed'**
   String get tooltipSaveFeed;
 
   /// Tooltip for update feed button
   ///
   /// In en, this message translates to:
-  /// **'Update your feed formulation'**
+  /// **'Update feed'**
   String get tooltipUpdateFeed;
 
   /// Analyse button label
@@ -1274,10 +1280,10 @@ abstract class AppLocalizations {
   /// **'Analyse'**
   String get actionAnalyse;
 
-  /// Tooltip for analyze feed button
+  /// Tooltip for analyse feed button
   ///
   /// In en, this message translates to:
-  /// **'Analyze the nutritional composition of your feed'**
+  /// **'Analyse feed composition'**
   String get tooltipAnalyseFeed;
 
   /// Error title when feed name is missing

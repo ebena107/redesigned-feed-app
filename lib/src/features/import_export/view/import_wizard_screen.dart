@@ -6,6 +6,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:feed_estimator/src/utils/widgets/responsive_scaffold.dart';
 
 class ImportWizardScreen extends ConsumerWidget {
   const ImportWizardScreen({super.key});
@@ -14,7 +15,7 @@ class ImportWizardScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(importWizardProvider);
 
-    return Scaffold(
+    return ResponsiveScaffold(
       appBar: AppBar(
         title: const Text('Import Ingredients'),
         actions: [

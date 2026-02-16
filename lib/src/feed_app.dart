@@ -1,7 +1,7 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:feed_estimator/src/core/constants/feature_flags.dart';
-import 'package:feed_estimator/src/core/router/router.dart';
 import 'package:feed_estimator/src/core/localization/localization_provider.dart';
+import 'package:feed_estimator/src/core/router/router.dart';
 import 'package:feed_estimator/generated/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

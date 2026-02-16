@@ -48,10 +48,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get screenTitleAbout => 'Sobre Estimador de Ração';
 
   @override
+  String get screenTitleImportWizard => 'Assistente de Importação';
+
+  @override
   String get actionCreate => 'Criar';
 
   @override
-  String get actionSave => 'Guardar';
+  String get actionSave => 'Salvar';
 
   @override
   String get actionUpdate => 'Atualizar';
@@ -189,10 +192,10 @@ class AppLocalizationsPt extends AppLocalizations {
       'Tente ajustar sua busca ou filtros';
 
   @override
-  String get noIngredientsSelected => 'No ingredients selected yet';
+  String get noIngredientsSelected => 'Nenhum ingrediente selecionado ainda';
 
   @override
-  String get selectedIngredients => 'Selected Ingredients';
+  String get selectedIngredients => 'Ingredientes Selecionados';
 
   @override
   String get filterFavorites => 'Favoritos';
@@ -333,7 +336,9 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get confirmDelete => 'Excluir';
+  String confirmDelete(String item) {
+    return 'Deletar $item?';
+  }
 
   @override
   String get confirmDeleteDescription => 'Esta ação não pode ser desfeita.';
@@ -354,7 +359,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get animalTypeFish => 'Peixe';
 
   @override
-  String get regionAll => 'Todos';
+  String get regionAll => 'Todas as Regiões';
 
   @override
   String get regionAfrica => 'África';
@@ -402,7 +407,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get unitTon => 'ton';
 
   @override
-  String get unitKcal => 'Kcal';
+  String get unitKcal => 'kcal/kg';
 
   @override
   String get settingLanguage => 'Idioma';
@@ -835,113 +840,116 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get formSectionBasicInfo => 'Basic Information';
+  String get formSectionBasicInfo => 'Informações Básicas';
 
   @override
-  String get formSectionEnergyValues => 'Energy Values';
+  String get formSectionEnergyValues => 'Valores de Energia';
 
   @override
-  String get formSectionMacronutrients => 'Macronutrients';
+  String get formSectionMacronutrients => 'Macronutrientes';
 
   @override
-  String get formSectionMicronutrients => 'Micronutrients';
+  String get formSectionMicronutrients => 'Micronutrientes';
 
   @override
-  String get formSectionCostAvailability => 'Cost & Availability';
+  String get formSectionCostAvailability => 'Custo e Disponibilidade';
 
   @override
-  String get formSectionAdditionalInfo => 'Additional Information';
+  String get formSectionAdditionalInfo => 'Informações Adicionais';
 
   @override
   String get fieldHintEnergyMode =>
-      'Enter Energy Values for each specific group of animals?';
+      'Inserir valores de energia para cada grupo específico de animais?';
 
   @override
-  String get fieldLabelAdultPigs => 'Adult Pigs';
+  String get fieldLabelAdultPigs => 'Suínos adultos';
 
   @override
-  String get fieldLabelGrowingPigs => 'Growing Pigs';
+  String get fieldLabelGrowingPigs => 'Suínos em crescimento';
 
   @override
-  String get fieldLabelPoultry => 'Poultry';
+  String get fieldLabelPoultry => 'Aves';
 
   @override
-  String get fieldLabelRabbit => 'Rabbit';
+  String get fieldLabelRabbit => 'Coelho';
 
   @override
-  String get fieldLabelRuminant => 'Ruminant';
+  String get fieldLabelRuminant => 'Ruminante';
 
   @override
-  String get fieldLabelFish => 'Fish';
+  String get fieldLabelFish => 'Peixe';
 
   @override
-  String get fieldLabelCreatedBy => 'Created By';
+  String get fieldLabelCreatedBy => 'Criado por';
 
   @override
-  String get fieldLabelNotes => 'Notes';
+  String get fieldLabelNotes => 'Notas';
 
   @override
-  String get customIngredientHeader => 'Creating Custom Ingredient';
+  String get customIngredientHeader => 'Criando Ingrediente Personalizado';
 
   @override
   String get customIngredientDescription =>
-      'You can add your own ingredient with custom nutritional values';
+      'Você pode adicionar seu próprio ingrediente com valores nutricionais personalizados';
 
   @override
-  String get newIngredientTitle => 'New Ingredient';
+  String get newIngredientTitle => 'Novo Ingrediente';
 
   @override
-  String get fieldLabelFeedName => 'Feed Name';
+  String get fieldLabelFeedName => 'Nome da Ração';
 
   @override
-  String get fieldLabelAnimalType => 'Animal Type';
+  String get fieldLabelAnimalType => 'Tipo de Animal';
 
   @override
-  String get fieldLabelProductionStage => 'Production Stage';
+  String get fieldLabelProductionStage => 'Estágio de Produção';
 
   @override
   String ingredientAddedSuccessTitle(String name) {
-    return '$name Added Successfully';
+    return '$name adicionado com sucesso';
   }
 
   @override
   String get ingredientAddedSuccessMessage =>
-      'Would you like to add another ingredient?';
+      'Deseja adicionar outro ingrediente?';
 
   @override
-  String get ingredientAddedNo => 'No, Go Back';
+  String get ingredientAddedNo => 'Não, Voltar';
 
   @override
-  String get ingredientAddedYes => 'Yes, Continue';
+  String get ingredientAddedYes => 'Sim, Continuar';
 
   @override
   String customIngredientsHeader(int count) {
-    return 'Your Custom Ingredients ($count)';
+    return 'Seus Ingredientes Personalizados ($count)';
   }
 
   @override
-  String get customIngredientsSearchHint => 'Search your custom ingredients...';
+  String get customIngredientsSearchHint =>
+      'Pesquisar seus ingredientes personalizados...';
 
   @override
-  String get customIngredientsEmptyTitle => 'No custom ingredients yet';
+  String get customIngredientsEmptyTitle =>
+      'Nenhum ingrediente personalizado ainda';
 
   @override
   String get customIngredientsEmptySubtitle =>
-      'Create your first custom ingredient!';
+      'Crie seu primeiro ingrediente personalizado!';
 
   @override
-  String get customIngredientsNoMatch => 'No ingredients match your search';
+  String get customIngredientsNoMatch =>
+      'Nenhum ingrediente corresponde à sua pesquisa';
 
   @override
   String labelCreatedBy(String creator) {
-    return 'by $creator';
+    return 'por $creator';
   }
 
   @override
-  String get labelNotes => 'Notes:';
+  String get labelNotes => 'Notas:';
 
   @override
-  String get labelPriceHistory => 'Price History';
+  String get labelPriceHistory => 'Histórico de Preços';
 
   @override
   String get labelCa => 'Ca';
@@ -950,63 +958,65 @@ class AppLocalizationsPt extends AppLocalizations {
   String get labelP => 'P';
 
   @override
-  String get priceHistoryEmpty => 'No price history available';
+  String get priceHistoryEmpty => 'Sem histórico de preços';
 
   @override
-  String get priceHistoryError => 'Error loading price history';
+  String get priceHistoryError => 'Falha ao carregar histórico de preços';
 
   @override
-  String get deleteCustomIngredientTitle => 'Delete Custom Ingredient?';
+  String get deleteCustomIngredientTitle => 'Excluir \"null\"?';
 
   @override
   String deleteCustomIngredientMessage(String name) {
-    return 'Remove \"$name\" from your custom ingredients?';
+    return 'Tem certeza de que deseja excluir este ingrediente personalizado?';
   }
 
   @override
   String ingredientRemovedSuccess(String name) {
-    return '$name removed';
+    return '$name removido';
   }
 
   @override
-  String get exportFormatTitle => 'Export Format';
+  String get exportFormatTitle => 'Formato de Exportação';
 
   @override
   String get exportFormatMessage =>
-      'Choose export format for your custom ingredients:';
+      'Escolha o formato de exportação para seus ingredientes personalizados:';
 
   @override
-  String get exportingToJson => 'Exporting to JSON...';
+  String get exportingToJson => 'Exportando para JSON...';
 
   @override
-  String get exportingToCsv => 'Exporting to CSV...';
+  String get exportingToCsv => 'Exportando para CSV...';
 
   @override
-  String get exportFailed => 'Export failed';
+  String get exportFailed => 'Falha na exportação';
 
   @override
   String exportFailedWithError(String error) {
-    return 'Export failed: $error';
+    return 'Falha na exportação: $error';
   }
 
   @override
-  String get importCustomIngredientsTitle => 'Import Custom Ingredients';
+  String get importCustomIngredientsTitle =>
+      'Importar Ingredientes Personalizados';
 
   @override
-  String get importFormatMessage => 'Choose the file format to import:';
+  String get importFormatMessage =>
+      'Escolha o formato do arquivo para importar:';
 
   @override
-  String get importingData => 'Importing data...';
+  String get importingData => 'Importando dados...';
 
   @override
-  String get importSuccessTitle => 'Import Successful';
+  String get importSuccessTitle => 'Importação Bem-sucedida';
 
   @override
-  String get importFailedTitle => 'Import Failed';
+  String get importFailedTitle => 'Falha na Importação';
 
   @override
   String importError(String error) {
-    return 'Error: $error';
+    return 'Erro: $error';
   }
 
   @override
@@ -1016,5 +1026,5 @@ class AppLocalizationsPt extends AppLocalizations {
   String get actionCsv => 'CSV';
 
   @override
-  String get labelIngredient => 'Ingredient';
+  String get labelIngredient => 'Ingrediente';
 }

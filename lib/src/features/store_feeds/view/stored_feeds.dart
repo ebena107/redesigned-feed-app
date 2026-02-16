@@ -1,6 +1,6 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
 
-import 'package:feed_estimator/src/utils/widgets/app_drawer.dart';
+import 'package:feed_estimator/src/utils/widgets/responsive_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 
@@ -11,8 +11,7 @@ class StoredFeeds extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: const FeedAppDrawer(),
+    return ResponsiveScaffold(
       body: Container(
         decoration: const BoxDecoration(
             gradient: LinearGradient(

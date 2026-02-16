@@ -55,6 +55,10 @@
   "@screenTitleAbout": {
     "description": "About screen title"
   },
+  "screenTitleImportWizard": "Wizard ng Pag-import",
+  "@screenTitleImportWizard": {
+    "description": "Import wizard screen title"
+  },
   
   "actionCreate": "Lumikha",
   "@actionCreate": {
@@ -789,34 +793,17 @@
   },
   
   "ingredientLibraryTitle": "Aklatan ng Sangkap",
-  "actionRefresh": "I-refresh",
   "manageInventoryTitle": "PAMAHALAAN ANG INVENTORY",
   "customIngredientsTitle": "Customized na Sangkap",
-  "actionAddNew": "Magdagdag ng Bago",
-  
-  "regionAll": "Lahat",
-  "regionAfrica": "Africa",
-  "regionAsia": "Asya",
-  "regionEurope": "Europe",
-  "regionAmericas": "Amerika",
-  "regionOceania": "Oceania",
-  "regionGlobal": "Pandaigdig",
-  
   "updateDetailsTitle": "I-update ang Detalye",
   "labelFavorite": "Paboritong",
   "labelAddToFavorites": "Idagdag sa mga paboritong",
   "labelPricePerKg": "Presyo bawat kg",
   "labelAvailableQty": "Available na Dami (kg)",
-  "actionDelete": "Tanggalin",
   "actionPriceHistory": "Kasaysayan ng Presyo",
-  "actionReset": "I-reset",
-  "actionSaveChanges": "Salbahin ang Pagbabago",
-  
   "deleteIngredientTitle": "Tanggalin ang Sangkap?",
   "deleteIngredientMessage": "Ito ay permanenteng aalis ang sangkapong ito mula sa iyong aklatan. Ang aksyon na ito ay hindi maaaring i-undo.",
   "confirmCancel": "Kanselahin",
-  "confirmDelete": "Tanggalin",
-  
   "successIngredientUpdated": "Ang sangkap ay na-update nang matagumpay",
   "errorSaveFailed": "Hindi nakapagsave: {error}",
   "successIngredientDeleted": "Tanggal na ang sangkap",
@@ -840,14 +827,6 @@
   "tooltipAddIngredients": "Magdagdag ng higit pang sangkap sa feed",
   "@tooltipAddIngredients": {
     "description": "Tooltip for adding ingredients"
-  },
-  "actionSave": "I-save",
-  "@actionSave": {
-    "description": "Bottom bar action: save feed"
-  },
-  "actionUpdate": "I-update",
-  "@actionUpdate": {
-    "description": "Bottom bar action: update feed"
   },
   "tooltipSaveFeed": "I-save ang feed",
   "@tooltipSaveFeed": {
@@ -1014,10 +993,6 @@
     "description": "Phytate phosphorus label"
   },
   
-  "unitKcal": "Kcal",
-  "@unitKcal": {
-    "description": "Unit label for kcal"
-  },
   "unitPercent": "%",
   "@unitPercent": {
     "description": "Unit label for percent"
@@ -1136,5 +1111,276 @@
         "example": "BROILER STARTER"
       }
     }
+  },
+
+  "noIngredientsSelected": "Wala pang napiling sangkap",
+  "@noIngredientsSelected": {
+    "description": "Message shown when cart is empty"
+  },
+  "selectedIngredients": "Mga Napiling Sangkap",
+  "@selectedIngredients": {
+    "description": "Title for cart/selected ingredients list"
+  },
+  "formSectionBasicInfo": "Pangunahing Impormasyon",
+  "@formSectionBasicInfo": {
+    "description": "Form section header for basic ingredient information"
+  },
+  "formSectionEnergyValues": "Mga Halaga ng Enerhiya",
+  "@formSectionEnergyValues": {
+    "description": "Form section header for energy values"
+  },
+  "formSectionMacronutrients": "Makronutriyente",
+  "@formSectionMacronutrients": {
+    "description": "Form section header for macronutrients"
+  },
+  "formSectionMicronutrients": "Mikronutriyente",
+  "@formSectionMicronutrients": {
+    "description": "Form section header for micronutrients"
+  },
+  "formSectionCostAvailability": "Gastos at Pagkakaroon",
+  "@formSectionCostAvailability": {
+    "description": "Form section header for cost and availability"
+  },
+  "formSectionAdditionalInfo": "Karagdagang Impormasyon",
+  "@formSectionAdditionalInfo": {
+    "description": "Form section header for additional information"
+  },
+  "fieldHintEnergyMode": "Ilagay ang mga halaga ng enerhiya para sa bawat partikular na grupo ng hayop?",
+  "@fieldHintEnergyMode": {
+    "description": "Label for energy mode selector checkbox"
+  },
+  "fieldLabelAdultPigs": "Mga baboy na nasa hustong gulang",
+  "@fieldLabelAdultPigs": {
+    "description": "Label for adult pigs energy field"
+  },
+  "fieldLabelGrowingPigs": "Mga baboy na lumalaki",
+  "@fieldLabelGrowingPigs": {
+    "description": "Label for growing pigs energy field"
+  },
+  "fieldLabelPoultry": "Poultry",
+  "@fieldLabelPoultry": {
+    "description": "Label for poultry energy field"
+  },
+  "fieldLabelRabbit": "Kuneho",
+  "@fieldLabelRabbit": {
+    "description": "Label for rabbit energy field"
+  },
+  "fieldLabelRuminant": "Ruminant",
+  "@fieldLabelRuminant": {
+    "description": "Label for ruminant energy field"
+  },
+  "fieldLabelFish": "Isda",
+  "@fieldLabelFish": {
+    "description": "Label for fish/salmonids energy field"
+  },
+  "fieldLabelCreatedBy": "Nilikhang ni",
+  "@fieldLabelCreatedBy": {
+    "description": "Label for creator name field"
+  },
+  "fieldLabelNotes": "Mga tala",
+  "@fieldLabelNotes": {
+    "description": "Label for notes field"
+  },
+  "customIngredientHeader": "Paglikha ng Pasadyang Sangkap",
+  "@customIngredientHeader": {
+    "description": "Header title for custom ingredient creation"
+  },
+  "customIngredientDescription": "Maaari kang magdagdag ng sarili mong sangkap na may pasadyang mga halagang nutrisyon",
+  "@customIngredientDescription": {
+    "description": "Description text for custom ingredient creation"
+  },
+  "newIngredientTitle": "Bagong Sangkap",
+  "@newIngredientTitle": {
+    "description": "Title for new ingredient form"
+  },
+  "fieldLabelFeedName": "Pangalan ng Pakain",
+  "@fieldLabelFeedName": {
+    "description": "Label for feed name field"
+  },
+  "fieldLabelAnimalType": "Uri ng Hayop",
+  "@fieldLabelAnimalType": {
+    "description": "Label for animal type selection field"
+  },
+  "fieldLabelProductionStage": "Yugto ng Produksyon",
+  "@fieldLabelProductionStage": {
+    "description": "Label for production stage field"
+  },
+  "ingredientAddedSuccessTitle": "{name} ay naidagdag",
+  "@ingredientAddedSuccessTitle": {
+    "description": "Success dialog title when ingredient is added",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Corn"
+      }
+    }
+  },
+  "ingredientAddedSuccessMessage": "Gusto mo bang magdagdag pa ng isa pang sangkap?",
+  "@ingredientAddedSuccessMessage": {
+    "description": "Success dialog message asking if user wants to continue"
+  },
+  "ingredientAddedNo": "Hindi, Bumalik",
+  "@ingredientAddedNo": {
+    "description": "Button to decline adding another ingredient"
+  },
+  "ingredientAddedYes": "Oo, Magpatuloy",
+  "@ingredientAddedYes": {
+    "description": "Button to continue adding ingredients"
+  },
+  "customIngredientsHeader": "Iyong Mga Pasadyang Sangkap ({count})",
+  "@customIngredientsHeader": {
+    "description": "Header showing count of custom ingredients",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "customIngredientsSearchHint": "Maghanap sa iyong mga pasadyang sangkap...",
+  "@customIngredientsSearchHint": {
+    "description": "Search field hint for custom ingredients"
+  },
+  "customIngredientsEmptyTitle": "Wala pang pasadyang sangkap",
+  "@customIngredientsEmptyTitle": {
+    "description": "Empty state title when no custom ingredients exist"
+  },
+  "customIngredientsEmptySubtitle": "Gumawa ng iyong unang pasadyang sangkap!",
+  "@customIngredientsEmptySubtitle": {
+    "description": "Empty state subtitle encouraging creation"
+  },
+  "customIngredientsNoMatch": "Walang sangkap na tumugma sa iyong paghahanap",
+  "@customIngredientsNoMatch": {
+    "description": "Message when search returns no results"
+  },
+  "labelCreatedBy": "ni {creator}",
+  "@labelCreatedBy": {
+    "description": "Label showing ingredient creator",
+    "placeholders": {
+      "creator": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "labelNotes": "Mga tala:",
+  "@labelNotes": {
+    "description": "Label for notes section"
+  },
+  "labelPriceHistory": "Kasaysayan ng Presyo",
+  "@labelPriceHistory": {
+    "description": "Label for price history section"
+  },
+  "labelCa": "Ca",
+  "@labelCa": {
+    "description": "Short label for Calcium"
+  },
+  "labelP": "P",
+  "@labelP": {
+    "description": "Short label for Phosphorus"
+  },
+  "priceHistoryEmpty": "Walang kasaysayan ng presyo",
+  "@priceHistoryEmpty": {
+    "description": "Empty state message for price history"
+  },
+  "priceHistoryError": "Hindi ma-load ang kasaysayan ng presyo",
+  "@priceHistoryError": {
+    "description": "Error message for price history load failure"
+  },
+  "deleteCustomIngredientTitle": "Tanggalin ang \"{name}\"?",
+  "@deleteCustomIngredientTitle": {
+    "description": "Confirmation dialog title for deleting a custom ingredient",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Corn"
+      }
+    }
+  },
+  "deleteCustomIngredientMessage": "Sigurado ka bang nais mong tanggalin ang pasadyang sangkap na ito?",
+  "@deleteCustomIngredientMessage": {
+    "description": "Confirmation dialog message for deleting a custom ingredient"
+  },
+  "ingredientRemovedSuccess": "Inalis ang {name}",
+  "@ingredientRemovedSuccess": {
+    "description": "Success message after ingredient removal",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Corn"
+      }
+    }
+  },
+  "exportFormatTitle": "Format ng Export",
+  "@exportFormatTitle": {
+    "description": "Dialog title for export format selection"
+  },
+  "exportFormatMessage": "Piliin ang format ng export para sa iyong mga pasadyang sangkap:",
+  "@exportFormatMessage": {
+    "description": "Dialog message for export format selection"
+  },
+  "exportingToJson": "Ini-export sa JSON...",
+  "@exportingToJson": {
+    "description": "Loading message while exporting to JSON"
+  },
+  "exportingToCsv": "Ini-export sa CSV...",
+  "@exportingToCsv": {
+    "description": "Loading message while exporting to CSV"
+  },
+  "exportFailed": "Nabigo ang export",
+  "@exportFailed": {
+    "description": "Error message when export fails"
+  },
+  "exportFailedWithError": "Nabigo ang export: {error}",
+  "@exportFailedWithError": {
+    "description": "Error message with details when export fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "File write error"
+      }
+    }
+  },
+  "importCustomIngredientsTitle": "I-import ang Mga Pasadyang Sangkap",
+  "@importCustomIngredientsTitle": {
+    "description": "Dialog title for importing custom ingredients"
+  },
+  "importFormatMessage": "Piliin ang format ng file na i-import:",
+  "@importFormatMessage": {
+    "description": "Dialog message for import format selection"
+  },
+  "importingData": "Ini-import ang data...",
+  "@importingData": {
+    "description": "Loading message while importing"
+  },
+  "importSuccessTitle": "Matagumpay ang Import",
+  "@importSuccessTitle": {
+    "description": "Success dialog title after import"
+  },
+  "importFailedTitle": "Nabigo ang Import",
+  "@importFailedTitle": {
+    "description": "Error dialog title after failed import"
+  },
+  "importError": "Error: {error}",
+  "@importError": {
+    "description": "Error message with details",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Invalid file format"
+      }
+    }
+  },
+  "actionJson": "JSON",
+  "@actionJson": {
+    "description": "JSON format option"
+  },
+  "actionCsv": "CSV",
+  "@actionCsv": {
+    "description": "CSV format option"
+  },
+  "labelIngredient": "Sangkap",
+  "@labelIngredient": {
+    "description": "Generic label for ingredient"
   }
 }

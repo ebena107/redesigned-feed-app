@@ -17,6 +17,7 @@ class FeedGrid extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncFeeds = ref.watch(asyncMainProvider);
+    final compact = isCompactLayout(context);
 
     return asyncFeeds.when(
       data: (feeds) {
@@ -29,11 +30,11 @@ class FeedGrid extends ConsumerWidget {
         return SliverPadding(
           padding: const EdgeInsets.all(UIConstants.paddingSmall),
           sliver: SliverGrid(
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 190.0,
+            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: compact ? 190.0 : 240.0,
               mainAxisSpacing: UIConstants.paddingMedium,
               crossAxisSpacing: UIConstants.paddingMedium,
-              childAspectRatio: 0.68, // Optimized for text-heavy content
+              childAspectRatio: compact ? 0.68 : 0.75,
             ),
             delegate: SliverChildBuilderDelegate(
               (context, index) => FeedGridCard(feed: feeds[index]),

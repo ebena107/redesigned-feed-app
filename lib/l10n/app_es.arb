@@ -55,6 +55,10 @@
   "@screenTitleAbout": {
     "description": "About screen title"
   },
+  "screenTitleImportWizard": "Asistente de importación",
+  "@screenTitleImportWizard": {
+    "description": "Import wizard screen title"
+  },
   
   "actionCreate": "Crear",
   "@actionCreate": {
@@ -671,34 +675,17 @@
   },
   
   "ingredientLibraryTitle": "Biblioteca de Ingredientes",
-  "actionRefresh": "Actualizar",
   "manageInventoryTitle": "GESTIONAR INVENTARIO",
   "customIngredientsTitle": "Ingredientes Personalizados",
-  "actionAddNew": "Añadir Nuevo",
-  
-  "regionAll": "Todos",
-  "regionAfrica": "África",
-  "regionAsia": "Asia",
-  "regionEurope": "Europa",
-  "regionAmericas": "América",
-  "regionOceania": "Oceanía",
-  "regionGlobal": "Global",
-  
   "updateDetailsTitle": "Actualizar Detalles",
   "labelFavorite": "Favorito",
   "labelAddToFavorites": "Añadir a favoritos",
   "labelPricePerKg": "Precio por kg",
   "labelAvailableQty": "Cantidad Disponible (kg)",
-  "actionDelete": "Eliminar",
   "actionPriceHistory": "Historial de Precios",
-  "actionReset": "Restablecer",
-  "actionSaveChanges": "Guardar Cambios",
-  
   "deleteIngredientTitle": "¿Eliminar Ingrediente?",
   "deleteIngredientMessage": "Esto eliminará permanentemente este ingrediente de su biblioteca. Esta acción no se puede deshacer.",
   "confirmCancel": "Cancelar",
-  "confirmDelete": "Eliminar",
-  
   "successIngredientUpdated": "Ingrediente actualizado exitosamente",
   "errorSaveFailed": "Falló al guardar: {error}",
   "successIngredientDeleted": "Ingrediente eliminado",
@@ -713,8 +700,6 @@
   "updateFeedTitle": "Actualizar Alimento",
   "actionAddIngredients": "Añadir Ingredientes",
   "tooltipAddIngredients": "Añadir más ingredientes al alimento",
-  "actionSave": "Guardar",
-  "actionUpdate": "Actualizar",
   "tooltipSaveFeed": "Guardar alimento",
   "tooltipUpdateFeed": "Actualizar alimento",
   "actionAnalyse": "Analizar",
@@ -757,7 +742,6 @@
   "nutrientTotalPhosphorus": "Fósf. Total",
   "nutrientPhytatePhosphorus": "Fósf. Fitato",
   
-  "unitKcal": "Kcal",
   "unitPercent": "%",
   "unitGramPerKg": "g/Kg",
   
@@ -961,7 +945,6 @@
     }
   },
   
-  "actionOk": "ACEPTAR",
   "@actionOk": {
     "description": "OK button label"
   },
@@ -976,5 +959,90 @@
   "labelIngredient": "Ingrediente",
   "@labelIngredient": {
     "description": "Generic label for ingredient"
+  },
+
+  "formSectionBasicInfo": "Información básica",
+  "@formSectionBasicInfo": {
+    "description": "Form section header for basic ingredient information"
+  },
+  "formSectionEnergyValues": "Valores de energía",
+  "@formSectionEnergyValues": {
+    "description": "Form section header for energy values"
+  },
+  "formSectionMacronutrients": "Macronutrientes",
+  "@formSectionMacronutrients": {
+    "description": "Form section header for macronutrients"
+  },
+  "formSectionMicronutrients": "Micronutrientes",
+  "@formSectionMicronutrients": {
+    "description": "Form section header for micronutrients"
+  },
+  "formSectionCostAvailability": "Costo y disponibilidad",
+  "@formSectionCostAvailability": {
+    "description": "Form section header for cost and availability"
+  },
+  "formSectionAdditionalInfo": "Información adicional",
+  "@formSectionAdditionalInfo": {
+    "description": "Form section header for additional information"
+  },
+  "fieldHintEnergyMode": "¿Ingresar valores de energía para cada grupo específico de animales?",
+  "@fieldHintEnergyMode": {
+    "description": "Label for energy mode selector checkbox"
+  },
+  "fieldLabelAdultPigs": "Cerdos adultos",
+  "@fieldLabelAdultPigs": {
+    "description": "Label for adult pigs energy field"
+  },
+  "fieldLabelGrowingPigs": "Cerdos en crecimiento",
+  "@fieldLabelGrowingPigs": {
+    "description": "Label for growing pigs energy field"
+  },
+  "fieldLabelPoultry": "Aves de corral",
+  "@fieldLabelPoultry": {
+    "description": "Label for poultry energy field"
+  },
+  "fieldLabelRabbit": "Conejo",
+  "@fieldLabelRabbit": {
+    "description": "Label for rabbit energy field"
+  },
+  "fieldLabelRuminant": "Rumiantes",
+  "@fieldLabelRuminant": {
+    "description": "Label for ruminant energy field"
+  },
+  "fieldLabelFish": "Pescado",
+  "@fieldLabelFish": {
+    "description": "Label for fish/salmonids energy field"
+  },
+  "fieldLabelCreatedBy": "Creado por",
+  "@fieldLabelCreatedBy": {
+    "description": "Label for creator name field"
+  },
+  "fieldLabelNotes": "Notas",
+  "@fieldLabelNotes": {
+    "description": "Label for notes field"
+  },
+  "customIngredientHeader": "Creando ingrediente personalizado",
+  "@customIngredientHeader": {
+    "description": "Header title for custom ingredient creation"
+  },
+  "customIngredientDescription": "Puedes agregar tu propio ingrediente con valores nutricionales personalizados",
+  "@customIngredientDescription": {
+    "description": "Description text for custom ingredient creation"
+  },
+  "newIngredientTitle": "Nuevo ingrediente",
+  "@newIngredientTitle": {
+    "description": "Title for new ingredient form"
+  },
+  "fieldLabelFeedName": "Nombre del alimento",
+  "@fieldLabelFeedName": {
+    "description": "Label for feed name field"
+  },
+  "fieldLabelAnimalType": "Tipo de animal",
+  "@fieldLabelAnimalType": {
+    "description": "Label for animal type selection field"
+  },
+  "fieldLabelProductionStage": "Etapa de producción",
+  "@fieldLabelProductionStage": {
+    "description": "Label for production stage field"
   }
 }

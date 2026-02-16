@@ -48,16 +48,19 @@ class AppLocalizationsYo extends AppLocalizations {
   String get screenTitleAbout => 'Nipa Iṣiro Eko Aran';
 
   @override
+  String get screenTitleImportWizard => 'Oluranlowo Gbigbe Wọle';
+
+  @override
   String get actionCreate => 'Ṣẹda';
 
   @override
   String get actionSave => 'Fi Pamọ';
 
   @override
-  String get actionUpdate => 'Tun';
+  String get actionUpdate => 'Ṣe Atuala';
 
   @override
-  String get actionDelete => 'Pa';
+  String get actionDelete => 'Paare';
 
   @override
   String get actionCancel => 'Fagile';
@@ -66,10 +69,10 @@ class AppLocalizationsYo extends AppLocalizations {
   String get actionAdd => 'Ṣafikun';
 
   @override
-  String get actionAddNew => 'Fi Kan Tuntun';
+  String get actionAddNew => 'Ṣafikun Tuntun';
 
   @override
-  String get actionRefresh => 'Inu tun';
+  String get actionRefresh => 'Ṣatun';
 
   @override
   String get actionEdit => 'Ṣatunraye';
@@ -90,10 +93,10 @@ class AppLocalizationsYo extends AppLocalizations {
   String get actionClearFilters => 'Nu Awọn Asẹ';
 
   @override
-  String get actionSaveChanges => 'Fi Pamọ Ayipada';
+  String get actionSaveChanges => 'Fi Awọn Ayipada Pamọ';
 
   @override
-  String get actionReset => 'Tun';
+  String get actionReset => 'Tun Ṣeto';
 
   @override
   String get homeEmptyTitle => 'Ko Si Ounjẹ Sibẹ';
@@ -189,10 +192,10 @@ class AppLocalizationsYo extends AppLocalizations {
       'Gbiyanju ṣatunṣe wiwa rẹ tabi awọn asẹ';
 
   @override
-  String get noIngredientsSelected => 'No ingredients selected yet';
+  String get noIngredientsSelected => 'Ko si eroja ti a ti yan';
 
   @override
-  String get selectedIngredients => 'Selected Ingredients';
+  String get selectedIngredients => 'Awọn eroja ti a yan';
 
   @override
   String get filterFavorites => 'Awọn Ayanfẹ';
@@ -333,7 +336,9 @@ class AppLocalizationsYo extends AppLocalizations {
   }
 
   @override
-  String get confirmDelete => 'Pa';
+  String confirmDelete(String item) {
+    return 'Paare $item?';
+  }
 
   @override
   String get confirmDeleteDescription => 'Iṣẹ yii ko le tun rọ pada.';
@@ -354,25 +359,25 @@ class AppLocalizationsYo extends AppLocalizations {
   String get animalTypeFish => 'Eja';
 
   @override
-  String get regionAll => 'Gbogbo';
+  String get regionAll => 'Gbogbo Agbegbe';
 
   @override
-  String get regionAfrica => 'Afirika';
+  String get regionAfrica => 'Afrika';
 
   @override
-  String get regionAsia => 'Asia';
+  String get regionAsia => 'Esia';
 
   @override
   String get regionEurope => 'Europa';
 
   @override
-  String get regionAmericas => 'Amerika';
+  String get regionAmericas => 'Awọn Amerika';
 
   @override
-  String get regionOceania => 'Oṣean';
+  String get regionOceania => 'Oseania';
 
   @override
-  String get regionGlobal => 'Agbaye';
+  String get regionGlobal => 'Ayaba';
 
   @override
   String get filterBy => 'Ya Nipase';
@@ -402,7 +407,7 @@ class AppLocalizationsYo extends AppLocalizations {
   String get unitTon => 'ton';
 
   @override
-  String get unitKcal => 'Kcal';
+  String get unitKcal => 'kcal/kg';
 
   @override
   String get settingLanguage => 'Ede';
@@ -831,113 +836,111 @@ class AppLocalizationsYo extends AppLocalizations {
   }
 
   @override
-  String get formSectionBasicInfo => 'Basic Information';
+  String get formSectionBasicInfo => 'Alaye ipilẹ';
 
   @override
-  String get formSectionEnergyValues => 'Energy Values';
+  String get formSectionEnergyValues => 'Iye agbara';
 
   @override
-  String get formSectionMacronutrients => 'Macronutrients';
+  String get formSectionMacronutrients => 'Awọn makironutrienti';
 
   @override
-  String get formSectionMicronutrients => 'Micronutrients';
+  String get formSectionMicronutrients => 'Awọn mikironutrienti';
 
   @override
-  String get formSectionCostAvailability => 'Cost & Availability';
+  String get formSectionCostAvailability => 'Iye owo ati wiwa';
 
   @override
-  String get formSectionAdditionalInfo => 'Additional Information';
+  String get formSectionAdditionalInfo => 'Alaye afikun';
 
   @override
   String get fieldHintEnergyMode =>
-      'Enter Energy Values for each specific group of animals?';
+      'Fi iye agbara sii fun ẹgbẹ kọọkan ti ẹranko?';
 
   @override
-  String get fieldLabelAdultPigs => 'Adult Pigs';
+  String get fieldLabelAdultPigs => 'Ẹlẹdẹ agbalagba';
 
   @override
-  String get fieldLabelGrowingPigs => 'Growing Pigs';
+  String get fieldLabelGrowingPigs => 'Ẹlẹdẹ to ndagba';
 
   @override
-  String get fieldLabelPoultry => 'Poultry';
+  String get fieldLabelPoultry => 'Adie';
 
   @override
-  String get fieldLabelRabbit => 'Rabbit';
+  String get fieldLabelRabbit => 'Ehoro';
 
   @override
   String get fieldLabelRuminant => 'Ruminant';
 
   @override
-  String get fieldLabelFish => 'Fish';
+  String get fieldLabelFish => 'Eja';
 
   @override
-  String get fieldLabelCreatedBy => 'Created By';
+  String get fieldLabelCreatedBy => 'Ti a ṣẹda nipasẹ';
 
   @override
-  String get fieldLabelNotes => 'Notes';
+  String get fieldLabelNotes => 'Awọn akọsilẹ';
 
   @override
-  String get customIngredientHeader => 'Creating Custom Ingredient';
+  String get customIngredientHeader => 'Ṣiṣẹda Eroja Aṣa';
 
   @override
   String get customIngredientDescription =>
-      'You can add your own ingredient with custom nutritional values';
+      'O le fi eroja tirẹ kun pẹlu awọn iye to jẹ aládàáṣiṣẹ';
 
   @override
-  String get newIngredientTitle => 'New Ingredient';
+  String get newIngredientTitle => 'Eroja Tuntun';
 
   @override
-  String get fieldLabelFeedName => 'Feed Name';
+  String get fieldLabelFeedName => 'Orukọ Ounjẹ';
 
   @override
-  String get fieldLabelAnimalType => 'Animal Type';
+  String get fieldLabelAnimalType => 'Iru Ẹranko';
 
   @override
-  String get fieldLabelProductionStage => 'Production Stage';
+  String get fieldLabelProductionStage => 'Ipele iṣelọpọ';
 
   @override
   String ingredientAddedSuccessTitle(String name) {
-    return '$name Added Successfully';
+    return '$name ti fi kun';
   }
 
   @override
-  String get ingredientAddedSuccessMessage =>
-      'Would you like to add another ingredient?';
+  String get ingredientAddedSuccessMessage => 'Ṣe o fẹ fi eroja miiran kun?';
 
   @override
-  String get ingredientAddedNo => 'No, Go Back';
+  String get ingredientAddedNo => 'Rara, Pada';
 
   @override
-  String get ingredientAddedYes => 'Yes, Continue';
+  String get ingredientAddedYes => 'Bẹẹni, Tẹsiwaju';
 
   @override
   String customIngredientsHeader(int count) {
-    return 'Your Custom Ingredients ($count)';
+    return 'Awọn Eroja Aṣa Rẹ ($count)';
   }
 
   @override
-  String get customIngredientsSearchHint => 'Search your custom ingredients...';
+  String get customIngredientsSearchHint => 'Wa awọn eroja aṣa rẹ...';
 
   @override
-  String get customIngredientsEmptyTitle => 'No custom ingredients yet';
+  String get customIngredientsEmptyTitle => 'Ko si eroja aṣa sibẹ';
 
   @override
-  String get customIngredientsEmptySubtitle =>
-      'Create your first custom ingredient!';
+  String get customIngredientsEmptySubtitle => 'Ṣẹda eroja aṣa akọkọ rẹ!';
 
   @override
-  String get customIngredientsNoMatch => 'No ingredients match your search';
+  String get customIngredientsNoMatch => 'Ko si eroja ti o baamu wiwa rẹ';
 
   @override
   String labelCreatedBy(String creator) {
-    return 'by $creator';
+    return 'nipasẹ $creator';
   }
 
   @override
-  String get labelNotes => 'Notes:';
+  String get labelNotes => 'Awọn akọsilẹ:';
 
   @override
-  String get labelPriceHistory => 'Price History';
+  String get labelPriceHistory => 'Itan idiyele';
 
   @override
   String get labelCa => 'Ca';
@@ -946,63 +949,62 @@ class AppLocalizationsYo extends AppLocalizations {
   String get labelP => 'P';
 
   @override
-  String get priceHistoryEmpty => 'No price history available';
+  String get priceHistoryEmpty => 'Ko si itan idiyele';
 
   @override
-  String get priceHistoryError => 'Error loading price history';
+  String get priceHistoryError => 'Ko le gbe itan idiyele';
 
   @override
-  String get deleteCustomIngredientTitle => 'Delete Custom Ingredient?';
+  String get deleteCustomIngredientTitle => 'Pa \"null\" rẹ?';
 
   @override
   String deleteCustomIngredientMessage(String name) {
-    return 'Remove \"$name\" from your custom ingredients?';
+    return 'Ṣe o da ọ loju pe o fẹ pa eroja aṣa yii?';
   }
 
   @override
   String ingredientRemovedSuccess(String name) {
-    return '$name removed';
+    return '$name ti yọ';
   }
 
   @override
-  String get exportFormatTitle => 'Export Format';
+  String get exportFormatTitle => 'Ọna kika Ikọja';
 
   @override
-  String get exportFormatMessage =>
-      'Choose export format for your custom ingredients:';
+  String get exportFormatMessage => 'Yan ọna kika ikọja fun awọn eroja aṣa rẹ:';
 
   @override
-  String get exportingToJson => 'Exporting to JSON...';
+  String get exportingToJson => 'N kọja si JSON...';
 
   @override
-  String get exportingToCsv => 'Exporting to CSV...';
+  String get exportingToCsv => 'N kọja si CSV...';
 
   @override
-  String get exportFailed => 'Export failed';
+  String get exportFailed => 'Ikọja kuna';
 
   @override
   String exportFailedWithError(String error) {
-    return 'Export failed: $error';
+    return 'Ikọja kuna: $error';
   }
 
   @override
-  String get importCustomIngredientsTitle => 'Import Custom Ingredients';
+  String get importCustomIngredientsTitle => 'Gbe Awọn Eroja Aṣa Wọle';
 
   @override
-  String get importFormatMessage => 'Choose the file format to import:';
+  String get importFormatMessage => 'Yan ọna kika faili lati gbe wọle:';
 
   @override
-  String get importingData => 'Importing data...';
+  String get importingData => 'N gbe data wọle...';
 
   @override
-  String get importSuccessTitle => 'Import Successful';
+  String get importSuccessTitle => 'Gbigbe wọle ṣaṣeyọri';
 
   @override
-  String get importFailedTitle => 'Import Failed';
+  String get importFailedTitle => 'Gbigbe wọle kuna';
 
   @override
   String importError(String error) {
-    return 'Error: $error';
+    return 'Aṣiṣe: $error';
   }
 
   @override
@@ -1012,5 +1014,5 @@ class AppLocalizationsYo extends AppLocalizations {
   String get actionCsv => 'CSV';
 
   @override
-  String get labelIngredient => 'Ingredient';
+  String get labelIngredient => 'Eroja';
 }

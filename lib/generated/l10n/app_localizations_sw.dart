@@ -48,6 +48,9 @@ class AppLocalizationsSw extends AppLocalizations {
   String get screenTitleAbout => 'Kuhusu Feed Estimator';
 
   @override
+  String get screenTitleImportWizard => 'Mchawi wa Uingizaji';
+
+  @override
   String get actionCreate => 'Tengeneza';
 
   @override
@@ -69,7 +72,7 @@ class AppLocalizationsSw extends AppLocalizations {
   String get actionAddNew => 'Ongeza Mpya';
 
   @override
-  String get actionRefresh => 'Onesha Upya';
+  String get actionRefresh => 'Pakia Tena';
 
   @override
   String get actionEdit => 'Hariri';
@@ -93,7 +96,7 @@ class AppLocalizationsSw extends AppLocalizations {
   String get actionSaveChanges => 'Hifadhi Mabadiliko';
 
   @override
-  String get actionReset => 'Rejezesha';
+  String get actionReset => 'Weka Upya';
 
   @override
   String get homeEmptyTitle => 'Hakuna Chakula Bado';
@@ -334,7 +337,9 @@ class AppLocalizationsSw extends AppLocalizations {
   }
 
   @override
-  String get confirmDelete => 'Futa';
+  String confirmDelete(String item) {
+    return 'Futa $item?';
+  }
 
   @override
   String get confirmDeleteDescription => 'Hatua hii haiwezi kufanywa upya.';
@@ -355,22 +360,22 @@ class AppLocalizationsSw extends AppLocalizations {
   String get animalTypeFish => 'Samaki';
 
   @override
-  String get regionAll => 'Zote';
+  String get regionAll => 'Maeneo Yote';
 
   @override
   String get regionAfrica => 'Afrika';
 
   @override
-  String get regionAsia => 'Azia';
+  String get regionAsia => 'Asia';
 
   @override
-  String get regionEurope => 'Uropa';
+  String get regionEurope => 'Ulaya';
 
   @override
   String get regionAmericas => 'Amerika';
 
   @override
-  String get regionOceania => 'Okinoya';
+  String get regionOceania => 'Oceania';
 
   @override
   String get regionGlobal => 'Ulimwengu';
@@ -403,7 +408,7 @@ class AppLocalizationsSw extends AppLocalizations {
   String get unitTon => 'tani';
 
   @override
-  String get unitKcal => 'Kcal';
+  String get unitKcal => 'kcal/kg';
 
   @override
   String get settingLanguage => 'Lugha';
@@ -611,101 +616,101 @@ class AppLocalizationsSw extends AppLocalizations {
   String get errorQuantityGreaterOrEqual => 'Lazima kuwa ≥ 0';
 
   @override
-  String get addFeedTitle => 'Ongeza/Angalia Chakula';
+  String get addFeedTitle => 'Ongeza/Kagua Lishe';
 
   @override
-  String get updateFeedTitle => 'Sasisha Chakula';
+  String get updateFeedTitle => 'Sasisha Lishe';
 
   @override
   String get actionAddIngredients => 'Ongeza Vijenzi';
 
   @override
-  String get tooltipAddIngredients => 'Ongeza vijenzi zaidi kwa chakula';
+  String get tooltipAddIngredients => 'Ongeza vijenzi zaidi kwenye lishe';
 
   @override
-  String get tooltipSaveFeed => 'Hifadhi chakula';
+  String get tooltipSaveFeed => 'Hifadhi lishe';
 
   @override
-  String get tooltipUpdateFeed => 'Sasisha chakula';
+  String get tooltipUpdateFeed => 'Sasisha lishe';
 
   @override
-  String get actionAnalyse => 'Chunguza';
+  String get actionAnalyse => 'Changanua';
 
   @override
-  String get tooltipAnalyseFeed => 'Chunguza muundo wa chakula';
+  String get tooltipAnalyseFeed => 'Changanua muundo wa lishe';
 
   @override
-  String get errorFeedNameRequired => 'Jina la Chakula Linahitajika';
+  String get errorFeedNameRequired => 'Jina la Lishe Linahitajika';
 
   @override
   String get errorFeedNameMessage =>
-      'Tafadhali weka jina la chakula chako kabla ya kuhifadhi.';
+      'Tafadhali weka jina la lishe kabla ya kuhifadhi.';
 
   @override
-  String get errorMissingFeedName => 'Jina la Chakula Halijawekwa';
+  String get errorMissingFeedName => 'Jina la Lishe Halipo';
 
   @override
   String get errorMissingFeedNameMessage =>
-      'Tafadhali weka jina la chakula kabla ya kuchunguza.';
+      'Tafadhali weka jina la lishe kabla ya uchanganuzi.';
 
   @override
   String get errorNoIngredients => 'Hakuna Vijenzi';
 
   @override
   String get errorNoIngredientsMessage =>
-      'Tafadhali ongeza angalau kijenzi kimoja ili kuchunguza.';
+      'Tafadhali ongeza kiunzi kimoja kwa uchanganuzi.';
 
   @override
-  String get errorInvalidQuantities => 'Kiasi Kisicho Sahihi';
+  String get errorInvalidQuantities => 'Viwango Batili';
 
   @override
   String get errorInvalidQuantitiesMessage =>
-      'Vijenzi vyote lazima viwe na kiasi sahihi kikubwa kuliko 0.';
+      'Kila kiunzi kinapaswa kuwa na kiasi halali zaidi ya 0.';
 
   @override
-  String get errorGenericTitle => 'Kosa Limetokea';
+  String get errorGenericTitle => 'Tatizo Limetokea';
 
   @override
   String get errorGenericMessage => 'Tafadhali jaribu tena.';
 
   @override
-  String get actionOk => 'SAWA';
+  String get actionOk => 'Sawa';
 
   @override
-  String get analyseDialogTitle => 'Chunguza Muundo wa Chakula';
+  String get analyseDialogTitle => 'Changanua Muundo wa Lishe';
 
   @override
   String analyseDialogMessageNew(String feedName) {
-    return 'Angalia uchambuzi wa lishe la \"$feedName\" bila kuhifadhi.';
+    return 'Tazama uchanganuzi wa kina kwa \"$feedName\" bila kuhifadhi.';
   }
 
   @override
   String analyseDialogMessageUpdate(String feedName) {
-    return 'Angalia uchambuzi wa lishe la \"$feedName\" bila kusasisha.';
+    return 'Tazama uchanganuzi wa kina kwa \"$feedName\" bila kusasisha.';
   }
 
   @override
   String get analyseDialogPreviewNote =>
-      'Hii ni hakiki ya awali. Unaweza kuhifadhi baadaye.';
+      'Hii ni onyesho la mapema. Unaweza kuhifadhi baadaye.';
 
   @override
   String get analyseDialogNoSaveNote => 'Mabadiliko hayatahifadhiwa.';
 
   @override
   String get analyseDialogFailedMessage =>
-      'Uchambuzi wa chakula umeshindwa. Tafadhali jaribu tena.';
+      'Uchanganuzi wa lishe umeshindwa. Tafadhali jaribu tena.';
 
   @override
-  String get reportTitleEstimate => 'Uchambuzi wa Kadiria';
+  String get reportTitleEstimate => 'Uchanganuzi Uliokadiriwa';
 
   @override
-  String get reportTitleAnalysis => 'Ripoti ya Uchambuzi';
+  String get reportTitleAnalysis => 'Ripoti ya Uchanganuzi';
 
   @override
-  String get nutrientDigestiveEnergy => 'Nishati ya Kuchovya';
+  String get nutrientDigestiveEnergy => 'Nishati Inayomeng’enywa';
 
   @override
-  String get nutrientMetabolicEnergy => 'Nishati ya Kimetaboliki';
+  String get nutrientMetabolicEnergy => 'Nishati Kimetaboliki';
 
   @override
   String get nutrientCrudeProtein => 'Protini Ghafi';
@@ -717,10 +722,10 @@ class AppLocalizationsSw extends AppLocalizations {
   String get nutrientCrudeFat => 'Mafuta Ghafi';
 
   @override
-  String get nutrientCalcium => 'Kalisiamu';
+  String get nutrientCalcium => 'Kalsiamu';
 
   @override
-  String get nutrientPhosphorus => 'Phosphorasi';
+  String get nutrientPhosphorus => 'Fosforasi';
 
   @override
   String get nutrientLysine => 'Lysine';
@@ -732,16 +737,16 @@ class AppLocalizationsSw extends AppLocalizations {
   String get nutrientAsh => 'Majivu';
 
   @override
-  String get nutrientMoisture => 'Unyevunyevu';
+  String get nutrientMoisture => 'Unyevu';
 
   @override
-  String get nutrientAvailablePhosphorus => 'Phosph. Inapatikana';
+  String get nutrientAvailablePhosphorus => 'Fosforasi Inayopatikana';
 
   @override
-  String get nutrientTotalPhosphorus => 'Phosph. Jumla';
+  String get nutrientTotalPhosphorus => 'Fosforasi Jumla';
 
   @override
-  String get nutrientPhytatePhosphorus => 'Phosph. Phytate';
+  String get nutrientPhytatePhosphorus => 'Fosforasi ya Faiti';
 
   @override
   String get unitPercent => '%';
@@ -750,10 +755,10 @@ class AppLocalizationsSw extends AppLocalizations {
   String get unitGramPerKg => 'g/Kg';
 
   @override
-  String get aminoAcidProfileTitle => 'Profaili ya Asidi ya Amino';
+  String get aminoAcidProfileTitle => 'Profaili ya Amino Asidi';
 
   @override
-  String get aminoAcidSidLabel => 'SID (Inayoweza Kuchovya)';
+  String get aminoAcidSidLabel => 'SID (Inayomeng’enywa)';
 
   @override
   String get aminoAcidTotalLabel => 'Jumla';
@@ -765,7 +770,7 @@ class AppLocalizationsSw extends AppLocalizations {
   String get aminoAcidTotalButton => 'Jumla';
 
   @override
-  String get aminoAcidTableHeaderName => 'Asidi ya Amino';
+  String get aminoAcidTableHeaderName => 'Amino Asidi';
 
   @override
   String get aminoAcidTableHeaderContent => 'Yaliyomo (%)';
@@ -805,16 +810,16 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get aminoAcidSidInfo =>
-      'SID = Uchovyo wa Ileal Uliowekwa Viwango (kiwango cha sekta)';
+      'SID = Usagaji wa utumbo mdogo uliosanifiwa (kiwango cha tasnia)';
 
   @override
-  String get aminoAcidTotalInfo => 'Asidi za amino jumla (si zote zinachovywa)';
+  String get aminoAcidTotalInfo => 'Amino asidi jumla (si zote zinayeyuka)';
 
   @override
-  String get aminoAcidLoadError => 'Kosa la kupakia data ya asidi ya amino';
+  String get aminoAcidLoadError => 'Hitilafu kupakia data ya amino asidi';
 
   @override
-  String get warningsCardTitle => 'Maonyo na Mapendekezo';
+  String get warningsCardTitle => 'Onyo na Mapendekezo';
 
   @override
   String warningsCardIssueCount(int count) {
@@ -829,117 +834,118 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String pdfPreviewTitle(String feedName) {
-    return 'Ebena Feed Estimator | $feedName Hakiki ya Kuchapisha';
+    return 'Ebena Feed Estimator | $feedName Print Preview';
   }
 
   @override
-  String get formSectionBasicInfo => 'Basic Information';
+  String get formSectionBasicInfo => 'Taarifa za Msingi';
 
   @override
-  String get formSectionEnergyValues => 'Energy Values';
+  String get formSectionEnergyValues => 'Thamani za Nishati';
 
   @override
-  String get formSectionMacronutrients => 'Macronutrients';
+  String get formSectionMacronutrients => 'Virutubishi Vikuu';
 
   @override
-  String get formSectionMicronutrients => 'Micronutrients';
+  String get formSectionMicronutrients => 'Virutubishi Vidogo';
 
   @override
-  String get formSectionCostAvailability => 'Cost & Availability';
+  String get formSectionCostAvailability => 'Gharama na Upatikanaji';
 
   @override
-  String get formSectionAdditionalInfo => 'Additional Information';
+  String get formSectionAdditionalInfo => 'Taarifa za Ziada';
 
   @override
   String get fieldHintEnergyMode =>
-      'Enter Energy Values for each specific group of animals?';
+      'Ingiza thamani za nishati kwa kila kundi maalum la wanyama?';
 
   @override
-  String get fieldLabelAdultPigs => 'Adult Pigs';
+  String get fieldLabelAdultPigs => 'Nguruwe wakubwa';
 
   @override
-  String get fieldLabelGrowingPigs => 'Growing Pigs';
+  String get fieldLabelGrowingPigs => 'Nguruwe wanaokua';
 
   @override
-  String get fieldLabelPoultry => 'Poultry';
+  String get fieldLabelPoultry => 'Kuku';
 
   @override
-  String get fieldLabelRabbit => 'Rabbit';
+  String get fieldLabelRabbit => 'Sungura';
 
   @override
-  String get fieldLabelRuminant => 'Ruminant';
+  String get fieldLabelRuminant => 'Wanyama wanaocheua';
 
   @override
-  String get fieldLabelFish => 'Fish';
+  String get fieldLabelFish => 'Samaki';
 
   @override
-  String get fieldLabelCreatedBy => 'Created By';
+  String get fieldLabelCreatedBy => 'Imeundwa na';
 
   @override
-  String get fieldLabelNotes => 'Notes';
+  String get fieldLabelNotes => 'Maelezo';
 
   @override
-  String get customIngredientHeader => 'Creating Custom Ingredient';
+  String get customIngredientHeader => 'Kutengeneza Kiungo Maalum';
 
   @override
   String get customIngredientDescription =>
-      'You can add your own ingredient with custom nutritional values';
+      'Unaweza kuongeza kiungo chako mwenyewe chenye thamani maalum za lishe';
 
   @override
-  String get newIngredientTitle => 'New Ingredient';
+  String get newIngredientTitle => 'Kiungo Kipya';
 
   @override
-  String get fieldLabelFeedName => 'Feed Name';
+  String get fieldLabelFeedName => 'Jina la Chakula';
 
   @override
-  String get fieldLabelAnimalType => 'Animal Type';
+  String get fieldLabelAnimalType => 'Aina ya Mnyama';
 
   @override
-  String get fieldLabelProductionStage => 'Production Stage';
+  String get fieldLabelProductionStage => 'Hatua ya Uzalishaji';
 
   @override
   String ingredientAddedSuccessTitle(String name) {
-    return '$name Added Successfully';
+    return '$name imeongezwa';
   }
 
   @override
   String get ingredientAddedSuccessMessage =>
-      'Would you like to add another ingredient?';
+      'Ungependa kuongeza kiungo kingine?';
 
   @override
-  String get ingredientAddedNo => 'No, Go Back';
+  String get ingredientAddedNo => 'Hapana, Rudi';
 
   @override
-  String get ingredientAddedYes => 'Yes, Continue';
+  String get ingredientAddedYes => 'Ndiyo, Endelea';
 
   @override
   String customIngredientsHeader(int count) {
-    return 'Your Custom Ingredients ($count)';
+    return 'Viungo Vyako Maalum ($count)';
   }
 
   @override
-  String get customIngredientsSearchHint => 'Search your custom ingredients...';
+  String get customIngredientsSearchHint => 'Tafuta viungo vyako maalum...';
 
   @override
-  String get customIngredientsEmptyTitle => 'No custom ingredients yet';
+  String get customIngredientsEmptyTitle => 'Bado hakuna viungo maalum';
 
   @override
   String get customIngredientsEmptySubtitle =>
-      'Create your first custom ingredient!';
+      'Tengeneza kiungo chako cha kwanza!';
 
   @override
-  String get customIngredientsNoMatch => 'No ingredients match your search';
+  String get customIngredientsNoMatch =>
+      'Hakuna kiungo kinacholingana na utafutaji wako';
 
   @override
   String labelCreatedBy(String creator) {
-    return 'by $creator';
+    return 'na $creator';
   }
 
   @override
-  String get labelNotes => 'Notes:';
+  String get labelNotes => 'Maelezo:';
 
   @override
-  String get labelPriceHistory => 'Price History';
+  String get labelPriceHistory => 'Historia ya Bei';
 
   @override
   String get labelCa => 'Ca';
@@ -948,63 +954,63 @@ class AppLocalizationsSw extends AppLocalizations {
   String get labelP => 'P';
 
   @override
-  String get priceHistoryEmpty => 'No price history available';
+  String get priceHistoryEmpty => 'Hakuna historia ya bei';
 
   @override
-  String get priceHistoryError => 'Error loading price history';
+  String get priceHistoryError => 'Imeshindikana kupakia historia ya bei';
 
   @override
-  String get deleteCustomIngredientTitle => 'Delete Custom Ingredient?';
+  String get deleteCustomIngredientTitle => 'Futa \"null\"?';
 
   @override
   String deleteCustomIngredientMessage(String name) {
-    return 'Remove \"$name\" from your custom ingredients?';
+    return 'Una uhakika unataka kufuta kiungo hiki maalum?';
   }
 
   @override
   String ingredientRemovedSuccess(String name) {
-    return '$name removed';
+    return '$name kimeondolewa';
   }
 
   @override
-  String get exportFormatTitle => 'Export Format';
+  String get exportFormatTitle => 'Muundo wa Kuhamisha';
 
   @override
   String get exportFormatMessage =>
-      'Choose export format for your custom ingredients:';
+      'Chagua muundo wa kuhamisha kwa viungo vyako maalum:';
 
   @override
-  String get exportingToJson => 'Exporting to JSON...';
+  String get exportingToJson => 'Inahamishwa kwenda JSON...';
 
   @override
-  String get exportingToCsv => 'Exporting to CSV...';
+  String get exportingToCsv => 'Inahamishwa kwenda CSV...';
 
   @override
-  String get exportFailed => 'Export failed';
+  String get exportFailed => 'Uhamisho umeshindikana';
 
   @override
   String exportFailedWithError(String error) {
-    return 'Export failed: $error';
+    return 'Uhamisho umeshindikana: $error';
   }
 
   @override
-  String get importCustomIngredientsTitle => 'Import Custom Ingredients';
+  String get importCustomIngredientsTitle => 'Ingiza Viungo Maalum';
 
   @override
-  String get importFormatMessage => 'Choose the file format to import:';
+  String get importFormatMessage => 'Chagua muundo wa faili wa kuingiza:';
 
   @override
-  String get importingData => 'Importing data...';
+  String get importingData => 'Inaingiza data...';
 
   @override
-  String get importSuccessTitle => 'Import Successful';
+  String get importSuccessTitle => 'Uingizaji Umefaulu';
 
   @override
-  String get importFailedTitle => 'Import Failed';
+  String get importFailedTitle => 'Uingizaji Umeshindikana';
 
   @override
   String importError(String error) {
-    return 'Error: $error';
+    return 'Hitilafu: $error';
   }
 
   @override
@@ -1014,5 +1020,5 @@ class AppLocalizationsSw extends AppLocalizations {
   String get actionCsv => 'CSV';
 
   @override
-  String get labelIngredient => 'Ingredient';
+  String get labelIngredient => 'Kiungo';
 }

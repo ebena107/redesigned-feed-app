@@ -48,6 +48,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get screenTitleAbout => 'About Feed Estimator';
 
   @override
+  String get screenTitleImportWizard => 'Import Wizard';
+
+  @override
   String get actionCreate => 'Create';
 
   @override
@@ -334,7 +337,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get confirmDelete => 'Delete';
+  String confirmDelete(String item) {
+    return 'Delete $item?';
+  }
 
   @override
   String get confirmDeleteDescription => 'This action cannot be undone.';
@@ -355,7 +360,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get animalTypeFish => 'Fish';
 
   @override
-  String get regionAll => 'All';
+  String get regionAll => 'All Regions';
 
   @override
   String get regionAfrica => 'Africa';
@@ -403,7 +408,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get unitTon => 'ton';
 
   @override
-  String get unitKcal => 'Kcal';
+  String get unitKcal => 'kcal/kg';
 
   @override
   String get settingLanguage => 'Language';
@@ -611,7 +616,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorQuantityGreaterOrEqual => 'Must be ≥ 0';
 
   @override
-  String get addFeedTitle => 'Add Feed';
+  String get addFeedTitle => 'Add/Check Feed';
 
   @override
   String get updateFeedTitle => 'Update Feed';
@@ -620,21 +625,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get actionAddIngredients => 'Add Ingredients';
 
   @override
-  String get tooltipAddIngredients =>
-      'Add ingredients to your feed formulation';
+  String get tooltipAddIngredients => 'Add more ingredients to feed';
 
   @override
-  String get tooltipSaveFeed => 'Save your feed formulation';
+  String get tooltipSaveFeed => 'Save feed';
 
   @override
-  String get tooltipUpdateFeed => 'Update your feed formulation';
+  String get tooltipUpdateFeed => 'Update feed';
 
   @override
   String get actionAnalyse => 'Analyse';
 
   @override
-  String get tooltipAnalyseFeed =>
-      'Analyze the nutritional composition of your feed';
+  String get tooltipAnalyseFeed => 'Analyse feed composition';
 
   @override
   String get errorFeedNameRequired => 'Feed Name Required';

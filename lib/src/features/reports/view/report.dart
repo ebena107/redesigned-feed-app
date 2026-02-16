@@ -12,7 +12,7 @@ import 'package:feed_estimator/src/features/reports/widget/formulation_warnings_
 import 'package:feed_estimator/src/features/reports/widget/ingredients_list.dart';
 import 'package:feed_estimator/src/features/reports/widget/report_bottom_bar.dart';
 import 'package:feed_estimator/src/features/reports/widget/result_card.dart'; // Extracted ResultCard
-import 'package:feed_estimator/src/utils/widgets/app_drawer.dart';
+import 'package:feed_estimator/src/utils/widgets/responsive_scaffold.dart';
 import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 
 import 'package:flutter/material.dart';
@@ -53,9 +53,9 @@ class AnalysisPage extends ConsumerWidget {
 
     // 3. View State (Analysis vs Ingredients)
     final showIngredients = ref.watch(resultProvider).toggle;
-    return Scaffold(
-      drawer: const FeedAppDrawer(),
+    return ResponsiveScaffold(
       backgroundColor: AppConstants.appBackgroundColor,
+      bottomNavigationBar: const ReportBottomBar(),
       body: CustomScrollView(
         slivers: [
           // Custom App Bar with integrated background
@@ -250,7 +250,6 @@ class AnalysisPage extends ConsumerWidget {
           ),
         ],
       ),
-      bottomNavigationBar: const ReportBottomBar(),
     );
   }
 

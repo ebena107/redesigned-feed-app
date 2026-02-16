@@ -45,163 +45,150 @@ class _UserIngredientsWidgetState extends ConsumerState<UserIngredientsWidget> {
     return LayoutBuilder(
       builder: (context, constraints) {
         return SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight:
-                  constraints.maxHeight.isFinite ? constraints.maxHeight : 0,
-            ),
-            child: IntrinsicHeight(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Header with count and actions
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header with count and actions
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
                       children: [
-                        Row(
-                          children: [
-                            const Icon(Icons.science,
-                                color: Colors.blue, size: 20),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: Text(
-                                context.l10n.customIngredientsHeader(
-                                    state.userIngredients.length),
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMedium
-                                    ?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                              ),
-                            ),
-                          ],
+                        const Icon(Icons.science, color: Colors.blue, size: 20),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            context.l10n.customIngredientsHeader(
+                                state.userIngredients.length),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                          ),
                         ),
-                        const SizedBox(height: 8),
-                        // Import/Export action buttons
-                        Row(
-                          children: [
-                            // Export button
-                            if (state.userIngredients.isNotEmpty)
-                              Expanded(
-                                child: OutlinedButton.icon(
-                                  icon: const Icon(Icons.download, size: 18),
-                                  label: Text(context.l10n.actionExport),
-                                  onPressed: () => _showExportDialog(context),
-                                  style: OutlinedButton.styleFrom(
-                                    foregroundColor: Colors.green,
-                                    side: const BorderSide(color: Colors.green),
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 8),
-                                  ),
-                                ),
-                              ),
-                            if (state.userIngredients.isNotEmpty)
-                              const SizedBox(width: 8),
-                            // Import button
-                            Expanded(
-                              child: OutlinedButton.icon(
-                                icon: const Icon(Icons.upload, size: 18),
-                                label: Text(context.l10n.actionImport),
-                                onPressed: () => _showImportDialog(context),
-                                style: OutlinedButton.styleFrom(
-                                  foregroundColor: Colors.blue,
-                                  side: const BorderSide(color: Colors.blue),
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 8),
-                                ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    // Import/Export action buttons
+                    Row(
+                      children: [
+                        // Export button
+                        if (state.userIngredients.isNotEmpty)
+                          Expanded(
+                            child: OutlinedButton.icon(
+                              icon: const Icon(Icons.download, size: 18),
+                              label: Text(context.l10n.actionExport),
+                              onPressed: () => _showExportDialog(context),
+                              style: OutlinedButton.styleFrom(
+                                foregroundColor: Colors.green,
+                                side: const BorderSide(color: Colors.green),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8),
                               ),
                             ),
-                          ],
+                          ),
+                        if (state.userIngredients.isNotEmpty)
+                          const SizedBox(width: 8),
+                        // Import button
+                        Expanded(
+                          child: OutlinedButton.icon(
+                            icon: const Icon(Icons.upload, size: 18),
+                            label: Text(context.l10n.actionImport),
+                            onPressed: () => _showImportDialog(context),
+                            style: OutlinedButton.styleFrom(
+                              foregroundColor: Colors.blue,
+                              side: const BorderSide(color: Colors.blue),
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+
+              // Search field
+              if (state.userIngredients.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: TextField(
+                    controller: _searchController,
+                    onChanged: (query) {
+                      ref
+                          .read(userIngredientsProvider.notifier)
+                          .searchUserIngredients(query);
+                      setState(() {});
+                    },
+                    decoration: InputDecoration(
+                      hintText: context.l10n.customIngredientsSearchHint,
+                      prefixIcon: const Icon(Icons.search),
+                      suffixIcon: _searchController.text.isNotEmpty
+                          ? IconButton(
+                              icon: const Icon(Icons.clear),
+                              onPressed: () {
+                                _searchController.clear();
+                                ref
+                                    .read(userIngredientsProvider.notifier)
+                                    .clearSearch();
+                                setState(() {});
+                              },
+                            )
+                          : null,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      filled: true,
+                      fillColor: Colors.grey.shade100,
+                    ),
+                  ),
+                ),
+
+              // List of user ingredients
+              if (state.isLoading)
+                const Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 24),
+                    child: CircularProgressIndicator(),
+                  ),
+                )
+              else if (state.filteredIngredients.isEmpty)
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.inbox,
+                            size: 48, color: Colors.grey.shade300),
+                        const SizedBox(height: 8),
+                        Text(
+                          state.userIngredients.isEmpty
+                              ? '${context.l10n.customIngredientsEmptyTitle}\n${context.l10n.customIngredientsEmptySubtitle}'
+                              : context.l10n.customIngredientsNoMatch,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.grey.shade600),
                         ),
                       ],
                     ),
                   ),
-
-                  // Search field
-                  if (state.userIngredients.isNotEmpty)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: TextField(
-                        controller: _searchController,
-                        onChanged: (query) {
-                          ref
-                              .read(userIngredientsProvider.notifier)
-                              .searchUserIngredients(query);
-                          setState(() {});
-                        },
-                        decoration: InputDecoration(
-                          hintText: context.l10n.customIngredientsSearchHint,
-                          prefixIcon: const Icon(Icons.search),
-                          suffixIcon: _searchController.text.isNotEmpty
-                              ? IconButton(
-                                  icon: const Icon(Icons.clear),
-                                  onPressed: () {
-                                    _searchController.clear();
-                                    ref
-                                        .read(userIngredientsProvider.notifier)
-                                        .clearSearch();
-                                    setState(() {});
-                                  },
-                                )
-                              : null,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          filled: true,
-                          fillColor: Colors.grey.shade100,
-                        ),
-                      ),
-                    ),
-
-                  // List of user ingredients
-                  if (state.isLoading)
-                    Expanded(
-                      child: Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    )
-                  else if (state.filteredIngredients.isEmpty)
-                    Expanded(
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.inbox,
-                                  size: 48, color: Colors.grey.shade300),
-                              const SizedBox(height: 8),
-                              Text(
-                                state.userIngredients.isEmpty
-                                    ? '${context.l10n.customIngredientsEmptyTitle}\n${context.l10n.customIngredientsEmptySubtitle}'
-                                    : context.l10n.customIngredientsNoMatch,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(color: Colors.grey.shade600),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    )
-                  else
-                    Expanded(
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: state.filteredIngredients.length,
-                        itemBuilder: (context, index) {
-                          final ingredient = state.filteredIngredients[index];
-                          return _buildIngredientCard(context, ref, ingredient);
-                        },
-                      ),
-                    ),
-                ],
-              ),
-            ),
+                )
+              else
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: state.filteredIngredients.length,
+                  itemBuilder: (context, index) {
+                    final ingredient = state.filteredIngredients[index];
+                    return _buildIngredientCard(context, ref, ingredient);
+                  },
+                ),
+            ],
           ),
         );
       },

@@ -161,7 +161,7 @@ Added better error handling in `app_db.dart`:
    ```bash
    flutter doctor -v
    ```
-   
+
 3. **Delete and reconfigure**:
    ```bash
    rmdir /s /q .dart_tool

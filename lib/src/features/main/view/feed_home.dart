@@ -6,7 +6,7 @@ import 'package:feed_estimator/src/features/main/providers/main_async_provider.d
 import 'package:feed_estimator/src/features/main/widget/feed_grid.dart';
 import 'package:feed_estimator/src/features/reports/providers/result_provider.dart';
 import 'package:feed_estimator/src/core/localization/localization_helper.dart';
-import 'package:feed_estimator/src/utils/widgets/app_drawer.dart';
+import 'package:feed_estimator/src/utils/widgets/responsive_scaffold.dart';
 import 'package:feed_estimator/src/utils/widgets/error_widget.dart';
 import 'package:feed_estimator/src/utils/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
@@ -20,9 +20,9 @@ class MainView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final data = ref.watch(asyncMainProvider);
+    final compact = isCompactLayout(context);
 
-    return Scaffold(
-      drawer: const FeedAppDrawer(),
+    return ResponsiveScaffold(
       backgroundColor: AppConstants.appBackgroundColor,
       body: CustomScrollView(
         slivers: <Widget>[
@@ -31,7 +31,9 @@ class MainView extends ConsumerWidget {
             pinned: true,
             snap: false,
             floating: true,
-            expandedHeight: UIConstants.fieldHeight * 2.5,
+            expandedHeight: compact
+                ? UIConstants.fieldHeight * 2.5
+                : UIConstants.fieldHeight * 2.0,
             elevation: 0,
             backgroundColor: AppConstants.mainAppColor,
             foregroundColor: Colors.white,
@@ -52,7 +54,7 @@ class MainView extends ConsumerWidget {
                 ),
               ),
               centerTitle: true,
-              expandedTitleScale: 1.3,
+              expandedTitleScale: compact ? 1.3 : 1.15,
               collapseMode: CollapseMode.parallax,
               background: Container(
                 decoration: BoxDecoration(

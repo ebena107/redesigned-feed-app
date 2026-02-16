@@ -49,6 +49,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get screenTitleAbout => 'À Propos d\'Estimateur d\'Aliment';
 
   @override
+  String get screenTitleImportWizard => 'Assistant d\'importation';
+
+  @override
   String get actionCreate => 'Créer';
 
   @override
@@ -70,7 +73,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get actionAddNew => 'Ajouter Nouveau';
 
   @override
-  String get actionRefresh => 'Actualiser';
+  String get actionRefresh => 'Rafraîchir';
 
   @override
   String get actionEdit => 'Modifier';
@@ -336,7 +339,9 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get confirmDelete => 'Supprimer';
+  String confirmDelete(String item) {
+    return 'Supprimer $item?';
+  }
 
   @override
   String get confirmDeleteDescription =>
@@ -358,7 +363,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get animalTypeFish => 'Poisson';
 
   @override
-  String get regionAll => 'Tous';
+  String get regionAll => 'Toutes les Régions';
 
   @override
   String get regionAfrica => 'Afrique';
@@ -406,7 +411,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get unitTon => 'tonne';
 
   @override
-  String get unitKcal => 'Kcal';
+  String get unitKcal => 'kcal/kg';
 
   @override
   String get settingLanguage => 'Langue';
@@ -844,69 +849,69 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get formSectionBasicInfo => 'Basic Information';
+  String get formSectionBasicInfo => 'Informations de base';
 
   @override
-  String get formSectionEnergyValues => 'Energy Values';
+  String get formSectionEnergyValues => 'Valeurs énergétiques';
 
   @override
-  String get formSectionMacronutrients => 'Macronutrients';
+  String get formSectionMacronutrients => 'Macronutriments';
 
   @override
-  String get formSectionMicronutrients => 'Micronutrients';
+  String get formSectionMicronutrients => 'Micronutriments';
 
   @override
-  String get formSectionCostAvailability => 'Cost & Availability';
+  String get formSectionCostAvailability => 'Coût et disponibilité';
 
   @override
-  String get formSectionAdditionalInfo => 'Additional Information';
+  String get formSectionAdditionalInfo => 'Informations supplémentaires';
 
   @override
   String get fieldHintEnergyMode =>
-      'Enter Energy Values for each specific group of animals?';
+      'Saisir des valeurs d\'énergie pour chaque groupe spécifique d\'animaux ?';
 
   @override
-  String get fieldLabelAdultPigs => 'Adult Pigs';
+  String get fieldLabelAdultPigs => 'Porcs adultes';
 
   @override
-  String get fieldLabelGrowingPigs => 'Growing Pigs';
+  String get fieldLabelGrowingPigs => 'Porcs en croissance';
 
   @override
-  String get fieldLabelPoultry => 'Poultry';
+  String get fieldLabelPoultry => 'Volaille';
 
   @override
-  String get fieldLabelRabbit => 'Rabbit';
+  String get fieldLabelRabbit => 'Lapin';
 
   @override
   String get fieldLabelRuminant => 'Ruminant';
 
   @override
-  String get fieldLabelFish => 'Fish';
+  String get fieldLabelFish => 'Poisson';
 
   @override
-  String get fieldLabelCreatedBy => 'Created By';
+  String get fieldLabelCreatedBy => 'Créé par';
 
   @override
   String get fieldLabelNotes => 'Notes';
 
   @override
-  String get customIngredientHeader => 'Creating Custom Ingredient';
+  String get customIngredientHeader => 'Création d\'un ingrédient personnalisé';
 
   @override
   String get customIngredientDescription =>
-      'You can add your own ingredient with custom nutritional values';
+      'Vous pouvez ajouter votre propre ingrédient avec des valeurs nutritionnelles personnalisées';
 
   @override
-  String get newIngredientTitle => 'New Ingredient';
+  String get newIngredientTitle => 'Nouvel ingrédient';
 
   @override
-  String get fieldLabelFeedName => 'Feed Name';
+  String get fieldLabelFeedName => 'Nom de l\'aliment';
 
   @override
-  String get fieldLabelAnimalType => 'Animal Type';
+  String get fieldLabelAnimalType => 'Type d\'animal';
 
   @override
-  String get fieldLabelProductionStage => 'Production Stage';
+  String get fieldLabelProductionStage => 'Stade de production';
 
   @override
   String ingredientAddedSuccessTitle(String name) {

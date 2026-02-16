@@ -28,7 +28,7 @@ class AppDatabase {
   static final AppDatabase _instance = AppDatabase._();
 
   // Current database version - increment when adding migrations
-  static const int _currentVersion = 13;
+  static const int _currentVersion = 14;
 
   factory AppDatabase() => _instance;
 
@@ -159,6 +159,9 @@ class AppDatabase {
         break;
       case 13:
         await _migrationV12ToV13(db);
+        break;
+      case 14:
+        await _migrationV13ToV14(db);
         break;
       // Add future migrations here
       default:
@@ -545,6 +548,92 @@ class AppDatabase {
     }
 
     debugPrint('Migration 12→13: Complete');
+  }
+
+  /// Migration from v13 to v14: Backfill v5 nutrient fields and energy JSON
+  /// Ensures existing ingredient rows get harmonized data for enhanced calculations
+  Future<void> _migrationV13ToV14(Database db) async {
+    debugPrint('Migration 13→14: Backfilling v5 nutrient fields');
+
+    try {
+      final ingredients = await loadIngredientJson();
+      final batch = db.batch();
+
+      for (final ingredient in ingredients) {
+        final id = ingredient.ingredientId;
+        if (id == null) continue;
+
+        final data = <String, Object?>{};
+
+        void put(String key, Object? value) {
+          if (value != null) data[key] = value;
+        }
+
+        // Legacy + v5 nutrient values
+        put('crude_protein', ingredient.crudeProtein);
+        put('crude_fiber', ingredient.crudeFiber);
+        put('crude_fat', ingredient.crudeFat);
+        put('calcium', ingredient.calcium);
+        put('phosphorus', ingredient.phosphorus);
+        put('lysine', ingredient.lysine);
+        put('methionine', ingredient.methionine);
+        put('me_growing_pig', ingredient.meGrowingPig);
+        put('me_adult_pig', ingredient.meAdultPig);
+        put('me_poultry', ingredient.mePoultry);
+        put('me_ruminant', ingredient.meRuminant);
+        put('me_rabbit', ingredient.meRabbit);
+        put('de_salmonids', ingredient.deSalmonids);
+        put('ash', ingredient.ash);
+        put('moisture', ingredient.moisture);
+        put('starch', ingredient.starch);
+        put('bulk_density', ingredient.bulkDensity);
+        put('total_phosphorus', ingredient.totalPhosphorus);
+        put('available_phosphorus', ingredient.availablePhosphorus);
+        put('phytate_phosphorus', ingredient.phytatePhosphorus);
+        put('me_finishing_pig', ingredient.meFinishingPig);
+
+        // JSON fields
+        if (ingredient.aminoAcidsTotal != null) {
+          put('amino_acids_total',
+              jsonEncode(ingredient.aminoAcidsTotal!.toJson()));
+        }
+        if (ingredient.aminoAcidsSid != null) {
+          put('amino_acids_sid',
+              jsonEncode(ingredient.aminoAcidsSid!.toJson()));
+        }
+        if (ingredient.energy != null) {
+          put('energy', jsonEncode(ingredient.energy!.toJson()));
+        }
+        if (ingredient.antiNutritionalFactors != null) {
+          put('anti_nutritional_factors',
+              jsonEncode(ingredient.antiNutritionalFactors!.toJson()));
+        }
+
+        put('max_inclusion_pct', ingredient.maxInclusionPct);
+        if (ingredient.maxInclusionJson != null) {
+          put('max_inclusion_json', jsonEncode(ingredient.maxInclusionJson));
+        }
+        put('warning', ingredient.warning);
+        put('regulatory_note', ingredient.regulatoryNote);
+        put('region', ingredient.region);
+
+        if (data.isNotEmpty) {
+          batch.update(
+            IngredientsRepository.tableName,
+            data,
+            where: '${IngredientsRepository.colId} = ?',
+            whereArgs: [id],
+          );
+        }
+      }
+
+      await batch.commit(noResult: true);
+      debugPrint('Migration 13→14: Backfill complete');
+    } catch (e, stackTrace) {
+      debugPrint('Migration 13→14: Error backfilling v5 fields: $e');
+      debugPrint('Stack trace: $stackTrace');
+      rethrow;
+    }
   }
 
   /// this should be run when the database is being created

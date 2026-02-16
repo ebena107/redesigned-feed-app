@@ -7,7 +7,7 @@ import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provi
 import 'package:feed_estimator/src/features/add_update_feed/widget/analyse_data_dialog.dart';
 import 'package:feed_estimator/src/features/main/providers/main_async_provider.dart';
 import 'package:feed_estimator/src/features/reports/providers/result_provider.dart';
-import 'package:feed_estimator/src/utils/widgets/app_drawer.dart';
+import 'package:feed_estimator/src/utils/widgets/responsive_scaffold.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -41,9 +41,12 @@ class NewFeedPage extends ConsumerWidget {
         isEdit ? context.l10n.updateFeedTitle : context.l10n.addFeedTitle;
 
     AppLogger.debug('NewFeedPage - isEdit: $isEdit, id: $id', tag: _tag);
-    return Scaffold(
-      drawer: const FeedAppDrawer(),
+    return ResponsiveScaffold(
       backgroundColor: AppConstants.appBackgroundColor,
+      bottomNavigationBar: buildBottomBar(
+        isEdit: isEdit,
+        feedId: id,
+      ),
       body: SafeArea(
         top: false,
         child: CustomScrollView(
@@ -116,10 +119,6 @@ class NewFeedPage extends ConsumerWidget {
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: buildBottomBar(
-        isEdit: isEdit,
-        feedId: id,
       ),
     );
   }

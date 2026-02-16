@@ -3,7 +3,7 @@ import 'package:feed_estimator/src/features/add_ingredients/widgets/user_ingredi
 import 'package:feed_estimator/src/features/price_management/view/price_history_view.dart';
 import 'package:feed_estimator/src/features/store_ingredients/providers/stored_ingredient_provider.dart';
 import 'package:feed_estimator/src/features/store_ingredients/widget/ingredient_select_widget.dart';
-import 'package:feed_estimator/src/utils/widgets/app_drawer.dart';
+import 'package:feed_estimator/src/utils/widgets/responsive_scaffold.dart';
 import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,9 +20,8 @@ class StoredIngredients extends ConsumerWidget {
     final state = ref.watch(storeIngredientProvider);
     final hasSelection = state.selectedIngredient != null;
 
-    return Scaffold(
+    return ResponsiveScaffold(
       backgroundColor: Colors.grey[50],
-      drawer: const FeedAppDrawer(),
       body: CustomScrollView(
         slivers: [
           // Modern app bar
@@ -572,7 +571,7 @@ class _EditFormCardState extends ConsumerState<_EditFormCard> {
           FilledButton(
             onPressed: () => Navigator.pop(dialogContext, true),
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
-            child: Text(l10n.confirmDelete),
+            child: Text(l10n.actionDelete),
           ),
         ],
       ),

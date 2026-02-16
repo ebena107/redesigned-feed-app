@@ -1,12 +1,13 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:flutter/material.dart';
+import 'package:feed_estimator/src/utils/widgets/responsive_scaffold.dart';
 
 class About extends StatelessWidget {
   const About({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ResponsiveScaffold(
       appBar: AppBar(
         title: const Text('About'),
         elevation: 0,

@@ -48,6 +48,9 @@ class AppLocalizationsTl extends AppLocalizations {
   String get screenTitleAbout => 'Tungkol sa Feed Estimator';
 
   @override
+  String get screenTitleImportWizard => 'Wizard ng Pag-import';
+
+  @override
   String get actionCreate => 'Lumikha';
 
   @override
@@ -57,7 +60,7 @@ class AppLocalizationsTl extends AppLocalizations {
   String get actionUpdate => 'I-update';
 
   @override
-  String get actionDelete => 'Tanggalin';
+  String get actionDelete => 'Burahin';
 
   @override
   String get actionCancel => 'Kanselahin';
@@ -90,7 +93,7 @@ class AppLocalizationsTl extends AppLocalizations {
   String get actionClearFilters => 'Linisin ang mga Salaan';
 
   @override
-  String get actionSaveChanges => 'Salbahin ang Pagbabago';
+  String get actionSaveChanges => 'I-save ang mga Pagbabago';
 
   @override
   String get actionReset => 'I-reset';
@@ -190,10 +193,10 @@ class AppLocalizationsTl extends AppLocalizations {
       'Subukang baguhin ang iyong paghahanap o mga salaan';
 
   @override
-  String get noIngredientsSelected => 'No ingredients selected yet';
+  String get noIngredientsSelected => 'Wala pang napiling sangkap';
 
   @override
-  String get selectedIngredients => 'Selected Ingredients';
+  String get selectedIngredients => 'Mga Napiling Sangkap';
 
   @override
   String get filterFavorites => 'Mga Paborito';
@@ -338,7 +341,9 @@ class AppLocalizationsTl extends AppLocalizations {
   }
 
   @override
-  String get confirmDelete => 'Tanggalin';
+  String confirmDelete(String item) {
+    return 'Burahin ang $item?';
+  }
 
   @override
   String get confirmDeleteDescription =>
@@ -360,10 +365,10 @@ class AppLocalizationsTl extends AppLocalizations {
   String get animalTypeFish => 'Isda';
 
   @override
-  String get regionAll => 'Lahat';
+  String get regionAll => 'Lahat ng Rehiyon';
 
   @override
-  String get regionAfrica => 'Africa';
+  String get regionAfrica => 'Afrika';
 
   @override
   String get regionAsia => 'Asya';
@@ -378,7 +383,7 @@ class AppLocalizationsTl extends AppLocalizations {
   String get regionOceania => 'Oceania';
 
   @override
-  String get regionGlobal => 'Pandaigdigan';
+  String get regionGlobal => 'Pandaigdig';
 
   @override
   String get filterBy => 'I-filter ayon sa';
@@ -408,7 +413,7 @@ class AppLocalizationsTl extends AppLocalizations {
   String get unitTon => 'tonelada';
 
   @override
-  String get unitKcal => 'Kcal';
+  String get unitKcal => 'kcal/kg';
 
   @override
   String get settingLanguage => 'Wika';
@@ -845,113 +850,115 @@ class AppLocalizationsTl extends AppLocalizations {
   }
 
   @override
-  String get formSectionBasicInfo => 'Basic Information';
+  String get formSectionBasicInfo => 'Pangunahing Impormasyon';
 
   @override
-  String get formSectionEnergyValues => 'Energy Values';
+  String get formSectionEnergyValues => 'Mga Halaga ng Enerhiya';
 
   @override
-  String get formSectionMacronutrients => 'Macronutrients';
+  String get formSectionMacronutrients => 'Makronutriyente';
 
   @override
-  String get formSectionMicronutrients => 'Micronutrients';
+  String get formSectionMicronutrients => 'Mikronutriyente';
 
   @override
-  String get formSectionCostAvailability => 'Cost & Availability';
+  String get formSectionCostAvailability => 'Gastos at Pagkakaroon';
 
   @override
-  String get formSectionAdditionalInfo => 'Additional Information';
+  String get formSectionAdditionalInfo => 'Karagdagang Impormasyon';
 
   @override
   String get fieldHintEnergyMode =>
-      'Enter Energy Values for each specific group of animals?';
+      'Ilagay ang mga halaga ng enerhiya para sa bawat partikular na grupo ng hayop?';
 
   @override
-  String get fieldLabelAdultPigs => 'Adult Pigs';
+  String get fieldLabelAdultPigs => 'Mga baboy na nasa hustong gulang';
 
   @override
-  String get fieldLabelGrowingPigs => 'Growing Pigs';
+  String get fieldLabelGrowingPigs => 'Mga baboy na lumalaki';
 
   @override
-  String get fieldLabelPoultry => 'Poultry';
+  String get fieldLabelPoultry => 'Manok';
 
   @override
-  String get fieldLabelRabbit => 'Rabbit';
+  String get fieldLabelRabbit => 'Kuneho';
 
   @override
   String get fieldLabelRuminant => 'Ruminant';
 
   @override
-  String get fieldLabelFish => 'Fish';
+  String get fieldLabelFish => 'Isda';
 
   @override
-  String get fieldLabelCreatedBy => 'Created By';
+  String get fieldLabelCreatedBy => 'Nilikhang ni';
 
   @override
-  String get fieldLabelNotes => 'Notes';
+  String get fieldLabelNotes => 'Mga tala';
 
   @override
-  String get customIngredientHeader => 'Creating Custom Ingredient';
+  String get customIngredientHeader => 'Paglikha ng Pasadyang Sangkap';
 
   @override
   String get customIngredientDescription =>
-      'You can add your own ingredient with custom nutritional values';
+      'Maaari kang magdagdag ng sarili mong sangkap na may pasadyang mga halagang nutrisyon';
 
   @override
-  String get newIngredientTitle => 'New Ingredient';
+  String get newIngredientTitle => 'Bagong Sangkap';
 
   @override
-  String get fieldLabelFeedName => 'Feed Name';
+  String get fieldLabelFeedName => 'Pangalan ng Pakain';
 
   @override
-  String get fieldLabelAnimalType => 'Animal Type';
+  String get fieldLabelAnimalType => 'Uri ng Hayop';
 
   @override
-  String get fieldLabelProductionStage => 'Production Stage';
+  String get fieldLabelProductionStage => 'Yugto ng Produksyon';
 
   @override
   String ingredientAddedSuccessTitle(String name) {
-    return '$name Added Successfully';
+    return '$name ay naidagdag';
   }
 
   @override
   String get ingredientAddedSuccessMessage =>
-      'Would you like to add another ingredient?';
+      'Gusto mo bang magdagdag pa ng isa pang sangkap?';
 
   @override
-  String get ingredientAddedNo => 'No, Go Back';
+  String get ingredientAddedNo => 'Hindi, Bumalik';
 
   @override
-  String get ingredientAddedYes => 'Yes, Continue';
+  String get ingredientAddedYes => 'Oo, Magpatuloy';
 
   @override
   String customIngredientsHeader(int count) {
-    return 'Your Custom Ingredients ($count)';
+    return 'Iyong Mga Pasadyang Sangkap ($count)';
   }
 
   @override
-  String get customIngredientsSearchHint => 'Search your custom ingredients...';
+  String get customIngredientsSearchHint =>
+      'Maghanap sa iyong mga pasadyang sangkap...';
 
   @override
-  String get customIngredientsEmptyTitle => 'No custom ingredients yet';
+  String get customIngredientsEmptyTitle => 'Wala pang pasadyang sangkap';
 
   @override
   String get customIngredientsEmptySubtitle =>
-      'Create your first custom ingredient!';
+      'Gumawa ng iyong unang pasadyang sangkap!';
 
   @override
-  String get customIngredientsNoMatch => 'No ingredients match your search';
+  String get customIngredientsNoMatch =>
+      'Walang sangkap na tumugma sa iyong paghahanap';
 
   @override
   String labelCreatedBy(String creator) {
-    return 'by $creator';
+    return 'ni $creator';
   }
 
   @override
-  String get labelNotes => 'Notes:';
+  String get labelNotes => 'Mga tala:';
 
   @override
-  String get labelPriceHistory => 'Price History';
+  String get labelPriceHistory => 'Kasaysayan ng Presyo';
 
   @override
   String get labelCa => 'Ca';
@@ -960,59 +967,60 @@ class AppLocalizationsTl extends AppLocalizations {
   String get labelP => 'P';
 
   @override
-  String get priceHistoryEmpty => 'No price history available';
+  String get priceHistoryEmpty => 'Walang kasaysayan ng presyo';
 
   @override
-  String get priceHistoryError => 'Error loading price history';
+  String get priceHistoryError => 'Hindi ma-load ang kasaysayan ng presyo';
 
   @override
-  String get deleteCustomIngredientTitle => 'Delete Custom Ingredient?';
+  String get deleteCustomIngredientTitle => 'Tanggalin ang \"null\"?';
 
   @override
   String deleteCustomIngredientMessage(String name) {
-    return 'Remove \"$name\" from your custom ingredients?';
+    return 'Sigurado ka bang nais mong tanggalin ang pasadyang sangkap na ito?';
   }
 
   @override
   String ingredientRemovedSuccess(String name) {
-    return '$name removed';
+    return 'Inalis ang $name';
   }
 
   @override
-  String get exportFormatTitle => 'Export Format';
+  String get exportFormatTitle => 'Format ng Export';
 
   @override
   String get exportFormatMessage =>
-      'Choose export format for your custom ingredients:';
+      'Piliin ang format ng export para sa iyong mga pasadyang sangkap:';
 
   @override
-  String get exportingToJson => 'Exporting to JSON...';
+  String get exportingToJson => 'Ini-export sa JSON...';
 
   @override
-  String get exportingToCsv => 'Exporting to CSV...';
+  String get exportingToCsv => 'Ini-export sa CSV...';
 
   @override
-  String get exportFailed => 'Export failed';
+  String get exportFailed => 'Nabigo ang export';
 
   @override
   String exportFailedWithError(String error) {
-    return 'Export failed: $error';
+    return 'Nabigo ang export: $error';
   }
 
   @override
-  String get importCustomIngredientsTitle => 'Import Custom Ingredients';
+  String get importCustomIngredientsTitle =>
+      'I-import ang Mga Pasadyang Sangkap';
 
   @override
-  String get importFormatMessage => 'Choose the file format to import:';
+  String get importFormatMessage => 'Piliin ang format ng file na i-import:';
 
   @override
-  String get importingData => 'Importing data...';
+  String get importingData => 'Ini-import ang data...';
 
   @override
-  String get importSuccessTitle => 'Import Successful';
+  String get importSuccessTitle => 'Matagumpay ang Import';
 
   @override
-  String get importFailedTitle => 'Import Failed';
+  String get importFailedTitle => 'Nabigo ang Import';
 
   @override
   String importError(String error) {
@@ -1026,5 +1034,5 @@ class AppLocalizationsTl extends AppLocalizations {
   String get actionCsv => 'CSV';
 
   @override
-  String get labelIngredient => 'Ingredient';
+  String get labelIngredient => 'Sangkap';
 }

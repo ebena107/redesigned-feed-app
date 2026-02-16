@@ -55,6 +55,10 @@
   "@screenTitleAbout": {
     "description": "About screen title"
   },
+  "screenTitleImportWizard": "Import Wizard",
+  "@screenTitleImportWizard": {
+    "description": "Import wizard screen title"
+  },
   
   "actionCreate": "Create",
   "@actionCreate": {
@@ -800,10 +804,6 @@
   "@ingredientLibraryTitle": {
     "description": "Title for ingredient library screen"
   },
-  "actionRefresh": "Refresh",
-  "@actionRefresh": {
-    "description": "Refresh action tooltip"
-  },
   "manageInventoryTitle": "MANAGE INVENTORY",
   "@manageInventoryTitle": {
     "description": "Section title for inventory management"
@@ -812,40 +812,6 @@
   "@customIngredientsTitle": {
     "description": "Section title for custom ingredients"
   },
-  "actionAddNew": "Add New",
-  "@actionAddNew": {
-    "description": "Add new ingredient button label"
-  },
-  
-  "regionAll": "All",
-  "@regionAll": {
-    "description": "Region filter option for all regions"
-  },
-  "regionAfrica": "Africa",
-  "@regionAfrica": {
-    "description": "Region filter option for Africa"
-  },
-  "regionAsia": "Asia",
-  "@regionAsia": {
-    "description": "Region filter option for Asia"
-  },
-  "regionEurope": "Europe",
-  "@regionEurope": {
-    "description": "Region filter option for Europe"
-  },
-  "regionAmericas": "Americas",
-  "@regionAmericas": {
-    "description": "Region filter option for Americas"
-  },
-  "regionOceania": "Oceania",
-  "@regionOceania": {
-    "description": "Region filter option for Oceania"
-  },
-  "regionGlobal": "Global",
-  "@regionGlobal": {
-    "description": "Region filter option for global/general ingredients"
-  },
-  
   "updateDetailsTitle": "Update Details",
   "@updateDetailsTitle": {
     "description": "Form title for updating ingredient details"
@@ -866,23 +832,10 @@
   "@labelAvailableQty": {
     "description": "Label for available quantity input field"
   },
-  "actionDelete": "Delete",
-  "@actionDelete": {
-    "description": "Delete action button or tooltip"
-  },
   "actionPriceHistory": "Price History",
   "@actionPriceHistory": {
     "description": "Button to view price history"
   },
-  "actionReset": "Reset",
-  "@actionReset": {
-    "description": "Reset form button label"
-  },
-  "actionSaveChanges": "Save Changes",
-  "@actionSaveChanges": {
-    "description": "Save changes button label"
-  },
-  
   "deleteIngredientTitle": "Delete Ingredient?",
   "@deleteIngredientTitle": {
     "description": "Confirmation dialog title for deleting an ingredient"
@@ -895,11 +848,6 @@
   "@confirmCancel": {
     "description": "Cancel button in confirmation dialog"
   },
-  "confirmDelete": "Delete",
-  "@confirmDelete": {
-    "description": "Confirm delete button in confirmation dialog"
-  },
-  
   "successIngredientUpdated": "Ingredient updated successfully",
   "@successIngredientUpdated": {
     "description": "Success message when ingredient is updated"
@@ -953,14 +901,6 @@
   "tooltipAddIngredients": "Add more ingredients to feed",
   "@tooltipAddIngredients": {
     "description": "Tooltip for add ingredients button"
-  },
-  "actionSave": "Save",
-  "@actionSave": {
-    "description": "Save button label"
-  },
-  "actionUpdate": "Update",
-  "@actionUpdate": {
-    "description": "Update button label"
   },
   "tooltipSaveFeed": "Save feed",
   "@tooltipSaveFeed": {
@@ -1127,10 +1067,6 @@
     "description": "Label for phytate phosphorus (abbreviated)"
   },
   
-  "unitKcal": "Kcal",
-  "@unitKcal": {
-    "description": "Unit label for kilocalories"
-  },
   "unitPercent": "%",
   "@unitPercent": {
     "description": "Unit label for percentage"
@@ -1320,14 +1256,6 @@
     "description": "Description text for custom ingredient creation"
   },
   
-  "addFeedTitle": "Add Feed",
-  "@addFeedTitle": {
-    "description": "Title for add feed screen"
-  },
-  "updateFeedTitle": "Update Feed",
-  "@updateFeedTitle": {
-    "description": "Title for update feed screen"
-  },
   "newIngredientTitle": "New Ingredient",
   "@newIngredientTitle": {
     "description": "Title for new ingredient form"
@@ -1344,27 +1272,6 @@
   "@fieldLabelProductionStage": {
     "description": "Label for production stage field"
   },
-  "actionAddIngredients": "Add Ingredients",
-  "@actionAddIngredients": {
-    "description": "Action button to add ingredients"
-  },
-  "tooltipAddIngredients": "Add ingredients to your feed formulation",
-  "@tooltipAddIngredients": {
-    "description": "Tooltip for add ingredients button"
-  },
-  "tooltipSaveFeed": "Save your feed formulation",
-  "@tooltipSaveFeed": {
-    "description": "Tooltip for save feed button"
-  },
-  "tooltipUpdateFeed": "Update your feed formulation",
-  "@tooltipUpdateFeed": {
-    "description": "Tooltip for update feed button"
-  },
-  "tooltipAnalyseFeed": "Analyze the nutritional composition of your feed",
-  "@tooltipAnalyseFeed": {
-    "description": "Tooltip for analyze feed button"
-  },
-  
   "ingredientAddedSuccessTitle": "{name} Added Successfully",
   "@ingredientAddedSuccessTitle": {
     "description": "Success dialog title when ingredient is added",
@@ -1538,10 +1445,6 @@
     }
   },
   
-  "actionOk": "OK",
-  "@actionOk": {
-    "description": "OK button label"
-  },
   "actionJson": "JSON",
   "@actionJson": {
     "description": "JSON format option"

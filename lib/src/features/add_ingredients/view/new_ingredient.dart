@@ -1,5 +1,5 @@
 import 'package:feed_estimator/src/features/add_ingredients/widgets/ingredient_form.dart';
-import 'package:feed_estimator/src/utils/widgets/app_drawer.dart';
+import 'package:feed_estimator/src/utils/widgets/responsive_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:feed_estimator/src/core/localization/localization_helper.dart';
@@ -18,8 +18,7 @@ class NewIngredient extends StatelessWidget {
             ? null
             : int.tryParse(ingredientId!);
 
-    return Scaffold(
-      drawer: const FeedAppDrawer(),
+    return ResponsiveScaffold(
       body: SafeArea(
         top: false,
         child: CustomScrollView(

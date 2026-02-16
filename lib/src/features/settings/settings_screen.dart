@@ -14,6 +14,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:feed_estimator/src/features/main/providers/main_async_provider.dart';
+import 'package:feed_estimator/src/utils/widgets/responsive_scaffold.dart';
 
 // ignore_for_file: use_build_context_synchronously, deprecated_member_use
 
@@ -71,7 +72,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final consentState = ref.watch(privacyConsentProvider);
     final theme = Theme.of(context);
 
-    return Scaffold(
+    return ResponsiveScaffold(
       appBar: AppBar(
         title: Text(context.l10n.settingsTitle),
         elevation: 0,

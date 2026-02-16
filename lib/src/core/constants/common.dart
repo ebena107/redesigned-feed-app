@@ -39,6 +39,9 @@ class AppConstants {
   static const double spacing32 = 32.0;
   static const double spacing48 = 48.0;
 
+  // Responsive layout
+  static const double mobileLayoutMaxWidth = 720.0;
+
   // Border Radius
   static const double radiusSmall = 8.0;
   static const double radiusMedium = 16.0;
@@ -75,6 +78,10 @@ double displayHeight(BuildContext context) {
 
 double displayWidth(BuildContext context) {
   return displaySize(context).width;
+}
+
+bool isCompactLayout(BuildContext context) {
+  return displayWidth(context) <= AppConstants.mobileLayoutMaxWidth;
 }
 
 //=================CONSOLIDATED TEXT STYLES (Material 3)==========================//

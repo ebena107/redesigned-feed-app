@@ -2,9 +2,9 @@ import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dar
 import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients_provider.dart';
 import 'package:feed_estimator/src/features/store_ingredients/providers/stored_ingredient_provider.dart';
 import 'package:feed_estimator/src/core/localization/localization_helper.dart';
-import 'package:feed_estimator/src/core/router/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class IngredientSelectorTile extends ConsumerWidget {
   const IngredientSelectorTile({super.key});
@@ -358,7 +358,7 @@ class _IngredientSearchSheetState
                                 .read(ingredientProvider.notifier)
                                 .copyFromIngredient(ing);
                             // Navigate to new ingredient screen
-                            const NewIngredientRoute().go(context);
+                            context.go('/newIngredient');
                           },
                         );
                       },
