@@ -10,7 +10,9 @@ import 'package:feed_estimator/src/features/feed_formulator/model/feed_type.dart
 import 'package:feed_estimator/src/features/feed_formulator/model/formulator_constraint.dart';
 import 'package:feed_estimator/src/features/feed_formulator/model/formulator_input.dart';
 import 'package:feed_estimator/src/features/feed_formulator/model/formulator_result.dart';
+import 'package:feed_estimator/src/features/feed_formulator/model/formulation_record.dart';
 import 'package:feed_estimator/src/features/feed_formulator/model/nutrient_requirements.dart';
+import 'package:feed_estimator/src/features/feed_formulator/repository/formulation_repository.dart';
 import 'package:feed_estimator/src/features/feed_formulator/services/feed_formulator_engine.dart';
 
 /// PROVIDER
@@ -334,6 +336,100 @@ class FeedFormulatorNotifier extends Notifier<FeedFormulatorState> {
     }
 
     return shadow;
+  }
+
+  /// SAVE FORMULATION
+  /// Saves the current formulation result to the database
+  Future<int?> saveFormulation({
+    String? name,
+    String? notes,
+  }) async {
+    final currentResult = state.result;
+    if (currentResult == null) {
+      AppLogger.warning('Cannot save formulation: no result available',
+          tag: 'FeedFormulatorNotifier');
+      return null;
+    }
+
+    try {
+      final repository = ref.read(formulationRepositoryProvider);
+      final record = FormulationRecord(
+        animalTypeId: state.input.animalTypeId,
+        feedType: state.input.feedType.name,
+        formulationName: name,
+        createdAt: DateTime.now(),
+        constraints: state.input.constraints,
+        selectedIngredientIds:
+            state.input.selectedIngredientIds.map((id) => id.toInt()).toList(),
+        result: currentResult,
+        notes: notes,
+      );
+
+      final id = await repository.save(record);
+      AppLogger.info('Saved formulation with ID: $id',
+          tag: 'FeedFormulatorNotifier');
+      return id;
+    } catch (e, stackTrace) {
+      AppLogger.error('Error saving formulation: $e',
+          tag: 'FeedFormulatorNotifier', error: e, stackTrace: stackTrace);
+      return null;
+    }
+  }
+
+  /// LOAD FORMULATION
+  /// Loads a saved formulation from the database and restores the state
+  Future<bool> loadFormulation(int id) async {
+    try {
+      final repository = ref.read(formulationRepositoryProvider);
+      final record = await repository.getById(id);
+
+      if (record == null) {
+        AppLogger.warning('Formulation $id not found',
+            tag: 'FeedFormulatorNotifier');
+        return false;
+      }
+
+      // Restore the state from the loaded record
+      state = state.copyWith(
+        input: state.input.copyWith(
+          animalTypeId: record.animalTypeId,
+          feedType: record.feedType != null
+              ? FeedType.values.firstWhere(
+                  (ft) => ft.name == record.feedType,
+                  orElse: () => FeedType.starter,
+                )
+              : state.input.feedType,
+          constraints: record.constraints,
+          selectedIngredientIds:
+              record.selectedIngredientIds.map((id) => id as num).toSet(),
+        ),
+        result: record.result,
+        status: FormulatorStatus.success,
+      );
+
+      AppLogger.info('Loaded formulation $id', tag: 'FeedFormulatorNotifier');
+      return true;
+    } catch (e, stackTrace) {
+      AppLogger.error('Error loading formulation $id: $e',
+          tag: 'FeedFormulatorNotifier', error: e, stackTrace: stackTrace);
+      return false;
+    }
+  }
+
+  /// DELETE FORMULATION
+  /// Deletes a saved formulation from the database
+  Future<bool> deleteFormulation(int id) async {
+    try {
+      final repository = ref.read(formulationRepositoryProvider);
+      final rowsAffected = await repository.delete(id);
+      AppLogger.info('Deleted formulation $id (rows affected: $rowsAffected)',
+          tag: 'FeedFormulatorNotifier');
+      return rowsAffected > 0;
+    } catch (e, stackTrace) {
+      AppLogger.error('Error deleting formulation $id: $e',
+          tag: 'FeedFormulatorNotifier', error: e, stackTrace: stackTrace);
+      return false;
+    }
   }
 
   /// SELECT INGREDIENTS
