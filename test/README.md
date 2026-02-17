@@ -22,21 +22,25 @@ test/
 ## Running Tests
 
 ### Run All Tests
+
 ```bash
 flutter test
 ```
 
 ### Run Specific Test File
+
 ```bash
 flutter test test/unit/data_validator_test.dart
 ```
 
 ### Run Tests with Coverage
+
 ```bash
 flutter test --coverage
 ```
 
 ### View Coverage Report
+
 ```bash
 # Generate HTML report (requires lcov)
 genhtml coverage/lcov.info -o coverage/html
@@ -47,6 +51,7 @@ genhtml coverage/lcov.info -o coverage/html
 ### Unit Tests (test/unit/)
 
 **Data Validation Tests** (`data_validator_test.dart`)
+
 - Negative value validation
 - Bran product validation
 - Total nutritional content validation
@@ -55,6 +60,7 @@ genhtml coverage/lcov.info -o coverage/html
 - Complex validation scenarios
 
 **Ingredient Model Tests** (`ingredient_model_test.dart`)
+
 - Constructor and properties
 - JSON serialization/deserialization
 - copyWith method
@@ -62,6 +68,7 @@ genhtml coverage/lcov.info -o coverage/html
 - Real-world ingredient examples
 
 **Feed Model Tests** (`feed_model_test.dart`)
+
 - Feed constructor and properties
 - FeedIngredients model
 - JSON serialization
@@ -69,6 +76,7 @@ genhtml coverage/lcov.info -o coverage/html
 - Calculations and business logic
 
 **Input Validators Tests** (`input_validators_test.dart`)
+
 - Price validation
 - Quantity validation
 - Name validation
@@ -79,6 +87,7 @@ genhtml coverage/lcov.info -o coverage/html
 - Regex patterns
 
 **Price Value Object Tests** (`price_value_object_test.dart`)
+
 - Constructor and validation
 - Map serialization
 - Arithmetic operations (+, -, *, /)
@@ -88,6 +97,7 @@ genhtml coverage/lcov.info -o coverage/html
 - Complex scenarios (discounts, taxes, etc.)
 
 **Common Utils Tests** (`common_utils_test.dart`)
+
 - Display size functions
 - Text style functions
 - Time functions
@@ -99,6 +109,7 @@ genhtml coverage/lcov.info -o coverage/html
 ### Integration Tests (test/integration/)
 
 **Feed Integration Tests** (`feed_integration_test.dart`)
+
 - Complete feed creation workflow
 - Ingredient validation in feed context
 - Feed updates and modifications
@@ -198,6 +209,7 @@ void main() {
 ## Continuous Integration
 
 Tests are automatically run on:
+
 - Every pull request
 - Every commit to main branch
 - Nightly builds
@@ -207,6 +219,7 @@ Tests are automatically run on:
 ### Common Issues
 
 **Issue: Tests fail with "No Material widget found"**
+
 ```dart
 // Solution: Wrap widget in MaterialApp
 await tester.pumpWidget(
@@ -215,12 +228,14 @@ await tester.pumpWidget(
 ```
 
 **Issue: Async tests timeout**
+
 ```dart
 // Solution: Increase timeout or use pumpAndSettle
 await tester.pumpAndSettle(const Duration(seconds: 5));
 ```
 
 **Issue: Provider tests fail**
+
 ```dart
 // Solution: Use ProviderScope and proper disposal
 final container = ProviderContainer();
@@ -230,6 +245,7 @@ addTearDown(container.dispose);
 ## Contributing
 
 When adding new features:
+
 1. Write tests first (TDD approach recommended)
 2. Ensure all tests pass
 3. Maintain or improve coverage

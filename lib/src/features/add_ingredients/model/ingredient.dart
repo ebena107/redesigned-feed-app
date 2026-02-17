@@ -177,15 +177,20 @@ class Ingredient {
     final String? parsedSeparationNotes = json['separation_notes'];
 
     // Parse max_inclusion_json which may be a JSON string or map
+    // NOTE: JSON file uses 'max_inclusion_pct', database uses 'max_inclusion_json'
     Map<String, dynamic>? parsedMaxInclusionJson;
-    if (json['max_inclusion_json'] != null) {
+    
+    // Try 'max_inclusion_json' first (database format)
+    final maxInclusionField = json['max_inclusion_json'] ?? json['max_inclusion_pct'];
+    
+    if (maxInclusionField != null) {
       try {
-        if (json['max_inclusion_json'] is String) {
+        if (maxInclusionField is String) {
           parsedMaxInclusionJson =
-              jsonDecode(json['max_inclusion_json']) as Map<String, dynamic>;
-        } else if (json['max_inclusion_json'] is Map) {
+              jsonDecode(maxInclusionField) as Map<String, dynamic>;
+        } else if (maxInclusionField is Map) {
           parsedMaxInclusionJson =
-              Map<String, dynamic>.from(json['max_inclusion_json']);
+              Map<String, dynamic>.from(maxInclusionField);
         }
       } catch (_) {
         parsedMaxInclusionJson = null;

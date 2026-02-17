@@ -30,6 +30,10 @@
   "@navAbout": {
     "description": "Navigation label for about screen"
   },
+  "navFeedFormulator": "Formulador",
+  "@navFeedFormulator": {
+    "description": "Navigation label for feed formulator"
+  },
   
   "screenTitleHome": "Formulación de Alimento",
   "@screenTitleHome": {
@@ -58,6 +62,10 @@
   "screenTitleImportWizard": "Asistente de importación",
   "@screenTitleImportWizard": {
     "description": "Import wizard screen title"
+  },
+  "screenTitleFeedFormulator": "Formulador de alimento",
+  "@screenTitleFeedFormulator": {
+    "description": "Feed formulator screen title"
   },
   
   "actionCreate": "Crear",
@@ -127,6 +135,144 @@
   "actionReset": "Restablecer",
   "@actionReset": {
     "description": "Action button to reset form"
+  },
+  "actionBack": "Atrás",
+  "@actionBack": {
+    "description": "Action button to go back"
+  },
+  "actionNext": "Siguiente",
+  "@actionNext": {
+    "description": "Action button to go forward"
+  },
+  "formulatorStepIndicator": "Paso {step} de {total}",
+  "@formulatorStepIndicator": {
+    "description": "Step indicator for feed formulator wizard",
+    "placeholders": {
+      "step": {
+        "type": "int",
+        "example": "2"
+      },
+      "total": {
+        "type": "int",
+        "example": "4"
+      }
+    }
+  },
+  "formulatorStepAnimal": "Perfil del animal",
+  "@formulatorStepAnimal": {
+    "description": "Formulator step title for animal selection"
+  },
+  "formulatorStepIngredients": "Seleccionar ingredientes",
+  "@formulatorStepIngredients": {
+    "description": "Formulator step title for ingredient selection"
+  },
+  "formulatorStepConstraints": "Definir objetivos nutricionales",
+  "@formulatorStepConstraints": {
+    "description": "Formulator step title for constraint entry"
+  },
+  "formulatorStepResults": "Fórmula optimizada",
+  "@formulatorStepResults": {
+    "description": "Formulator step title for results"
+  },
+  "formulatorSelectIngredientsHint": "Elige ingredientes para la optimización",
+  "@formulatorSelectIngredientsHint": {
+    "description": "Hint text shown on ingredient selection step"
+  },
+  "formulatorSearchIngredients": "Buscar ingredientes",
+  "@formulatorSearchIngredients": {
+    "description": "Label for ingredient search field"
+  },
+  "formulatorIngredientSearchHint": "Buscar por nombre",
+  "@formulatorIngredientSearchHint": {
+    "description": "Hint for ingredient search field"
+  },
+  "formulatorSelectedCount": "{count} seleccionados",
+  "@formulatorSelectedCount": {
+    "description": "Selected ingredient count",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "12"
+      }
+    }
+  },
+  "formulatorSelectAll": "Seleccionar todo",
+  "@formulatorSelectAll": {
+    "description": "Select all ingredients action"
+  },
+  "formulatorResetSelection": "Limpiar selección",
+  "@formulatorResetSelection": {
+    "description": "Clear selected ingredients action"
+  },
+  "formulatorConstraintMin": "Mínimo",
+  "@formulatorConstraintMin": {
+    "description": "Minimum constraint label"
+  },
+  "formulatorConstraintMax": "Máximo",
+  "@formulatorConstraintMax": {
+    "description": "Maximum constraint label"
+  },
+  "formulatorConstraintHelp": "Deja en blanco para ignorar el límite",
+  "@formulatorConstraintHelp": {
+    "description": "Helper text for constraint bounds"
+  },
+  "formulatorActionSolve": "Optimizar",
+  "@formulatorActionSolve": {
+    "description": "Action button to run optimization"
+  },
+  "formulatorNoResults": "Ejecuta la optimización para ver resultados.",
+  "@formulatorNoResults": {
+    "description": "Empty results message for formulator"
+  },
+  "formulatorStatusSolving": "Optimizando...",
+  "@formulatorStatusSolving": {
+    "description": "Status message while optimization runs"
+  },
+  "formulatorStatusFailed": "Falló la optimización",
+  "@formulatorStatusFailed": {
+    "description": "Generic optimization failure message"
+  },
+  "formulatorStatusInfeasible": "No hay solución factible con las restricciones actuales.",
+  "@formulatorStatusInfeasible": {
+    "description": "Infeasible optimization message"
+  },
+  "formulatorStatusUnbounded": "La optimización no está acotada. Revisa las restricciones.",
+  "@formulatorStatusUnbounded": {
+    "description": "Unbounded optimization message"
+  },
+  "formulatorCostPerKg": "Costo por kg",
+  "@formulatorCostPerKg": {
+    "description": "Cost per kilogram label"
+  },
+  "formulatorNutrientsSummary": "Resumen de nutrientes",
+  "@formulatorNutrientsSummary": {
+    "description": "Results nutrient summary section title"
+  },
+  "formulatorIngredientMix": "Mezcla de ingredientes",
+  "@formulatorIngredientMix": {
+    "description": "Results ingredient mix section title"
+  },
+  "formulatorWarnings": "Advertencias",
+  "@formulatorWarnings": {
+    "description": "Results warnings section title"
+  },
+  "formulatorEmptySelection": "Selecciona al menos un ingrediente para continuar.",
+  "@formulatorEmptySelection": {
+    "description": "Validation message for empty ingredient selection"
+  },
+  "formulatorLoadingAnimals": "Cargando tipos de animales...",
+  "@formulatorLoadingAnimals": {
+    "description": "Loading message for animal types"
+  },
+  "formulatorLoadAnimalsFailed": "No se pudieron cargar los tipos de animales: {error}",
+  "@formulatorLoadAnimalsFailed": {
+    "description": "Error message for animal type loading failure",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Database error"
+      }
+    }
   },
   
   "homeEmptyTitle": "Sin Alimentos Aún",
@@ -945,6 +1091,7 @@
     }
   },
   
+  "actionOk": "Aceptar",
   "@actionOk": {
     "description": "OK button label"
   },

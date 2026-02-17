@@ -65,6 +65,10 @@ RouteBase get $homeRoute => GoRouteData.$route(
           factory: $ImportWizardRouteExtension._fromState,
         ),
         GoRouteData.$route(
+          path: '/formulator',
+          factory: $FeedFormulatorRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
           path: '/settings',
           factory: $SettingsRouteExtension._fromState,
         ),
@@ -304,6 +308,24 @@ extension $ImportWizardRouteExtension on ImportWizardRoute {
 
   String get location => GoRouteData.$location(
         '/importWizard',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $FeedFormulatorRouteExtension on FeedFormulatorRoute {
+  static FeedFormulatorRoute _fromState(GoRouterState state) =>
+      const FeedFormulatorRoute();
+
+  String get location => GoRouteData.$location(
+        '/formulator',
       );
 
   void go(BuildContext context) => context.go(location);

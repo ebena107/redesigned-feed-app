@@ -51,6 +51,7 @@ class AppConstants {
   // Android 15+ edge-to-edge: Removed deprecated color properties
   // (statusBarColor, systemNavigationBarColor, systemNavigationBarDividerColor)
   static SystemUiOverlayStyle pagesBar = SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
     statusBarIconBrightness: Brightness.dark,
     statusBarBrightness:
         Platform.isAndroid ? Brightness.light : Brightness.dark,
@@ -60,6 +61,7 @@ class AppConstants {
   // Android 15+ edge-to-edge: Removed deprecated color properties
   // (statusBarColor, systemNavigationBarColor, systemNavigationBarDividerColor)
   static SystemUiOverlayStyle mainBar = SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
     statusBarIconBrightness: Brightness.light,
     statusBarBrightness:
         Platform.isAndroid ? Brightness.light : Brightness.dark,

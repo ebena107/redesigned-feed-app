@@ -2,6 +2,7 @@ import 'package:feed_estimator/src/features/About/about.dart';
 import 'package:feed_estimator/src/features/add_ingredients/view/new_ingredient.dart';
 import 'package:feed_estimator/src/features/add_update_feed/view/add_update_feed.dart';
 import 'package:feed_estimator/src/features/add_update_feed/widget/feed_ingredients/view/feed_ingredients_list.dart';
+import 'package:feed_estimator/src/features/feed_formulator/view/feed_formulator_screen.dart';
 import 'package:feed_estimator/src/features/import_export/view/import_wizard_screen.dart';
 import 'package:feed_estimator/src/features/main/model/feed.dart';
 import 'package:feed_estimator/src/features/main/view/feed_home.dart';
@@ -58,12 +59,17 @@ part 'routes.g.dart';
       path: '/importWizard',
     ),
 
-    // 5. SETTINGS
+    // 5. FEED FORMULATOR
+    TypedGoRoute<FeedFormulatorRoute>(
+      path: '/formulator',
+    ),
+
+    // 6. SETTINGS
     TypedGoRoute<SettingsRoute>(
       path: '/settings',
     ),
 
-    // 6. ABOUT
+    // 7. ABOUT
     TypedGoRoute<AboutRoute>(
       path: '/about',
     ),
@@ -124,6 +130,14 @@ class ImportWizardRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       const ImportWizardScreen();
+}
+
+@immutable
+class FeedFormulatorRoute extends GoRouteData {
+  const FeedFormulatorRoute();
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const FeedFormulatorScreen();
 }
 
 @immutable

@@ -71,6 +71,17 @@ class FeedAppDrawer extends ConsumerWidget {
                         context.go('/newFeed');
                       },
                     ),
+                    const SizedBox(height: 8),
+                    _DrawerTile(
+                      icon: Icons.tune_outlined,
+                      title: context.l10n.navFeedFormulator,
+                      subtitle: context.l10n.screenTitleFeedFormulator,
+                      selected: location.startsWith('/formulator'),
+                      onTap: () {
+                        context.pop();
+                        context.go('/formulator');
+                      },
+                    ),
                     const SizedBox(height: 14),
                     _SectionLabel(text: context.l10n.navIngredients),
                     const SizedBox(height: 6),

@@ -11,13 +11,13 @@ untranslated-messages-file: untranslated_messages.json
 # These correspond to the app_*.arb files in lib/l10n/
 supported-locales:
   - en
-  - pt
-  - es
-  - yo
-  - fr
-  - sw
-  - fil
-  - tl
+  # - pt
+  # - es
+  # - yo
+  # - fr
+  # - sw
+  # - fil
+  # - tl
 
 # Null safety - generate null-safe code
 null-safety: true

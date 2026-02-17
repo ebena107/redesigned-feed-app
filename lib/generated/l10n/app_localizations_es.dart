@@ -31,6 +31,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get navAbout => 'Acerca de';
 
   @override
+  String get navFeedFormulator => 'Formulador';
+
+  @override
   String get screenTitleHome => 'Formulación de Alimento';
 
   @override
@@ -50,6 +53,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get screenTitleImportWizard => 'Asistente de importación';
+
+  @override
+  String get screenTitleFeedFormulator => 'Formulador de alimento';
 
   @override
   String get actionCreate => 'Crear';
@@ -98,6 +104,105 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get actionReset => 'Restablecer';
+
+  @override
+  String get actionBack => 'Atrás';
+
+  @override
+  String get actionNext => 'Siguiente';
+
+  @override
+  String formulatorStepIndicator(int step, int total) {
+    return 'Paso $step de $total';
+  }
+
+  @override
+  String get formulatorStepAnimal => 'Perfil del animal';
+
+  @override
+  String get formulatorStepIngredients => 'Seleccionar ingredientes';
+
+  @override
+  String get formulatorStepConstraints => 'Definir objetivos nutricionales';
+
+  @override
+  String get formulatorStepResults => 'Fórmula optimizada';
+
+  @override
+  String get formulatorSelectIngredientsHint =>
+      'Elige ingredientes para la optimización';
+
+  @override
+  String get formulatorSearchIngredients => 'Buscar ingredientes';
+
+  @override
+  String get formulatorIngredientSearchHint => 'Buscar por nombre';
+
+  @override
+  String formulatorSelectedCount(int count) {
+    return '$count seleccionados';
+  }
+
+  @override
+  String get formulatorSelectAll => 'Seleccionar todo';
+
+  @override
+  String get formulatorResetSelection => 'Limpiar selección';
+
+  @override
+  String get formulatorConstraintMin => 'Mínimo';
+
+  @override
+  String get formulatorConstraintMax => 'Máximo';
+
+  @override
+  String get formulatorConstraintHelp =>
+      'Deja en blanco para ignorar el límite';
+
+  @override
+  String get formulatorActionSolve => 'Optimizar';
+
+  @override
+  String get formulatorNoResults =>
+      'Ejecuta la optimización para ver resultados.';
+
+  @override
+  String get formulatorStatusSolving => 'Optimizando...';
+
+  @override
+  String get formulatorStatusFailed => 'Falló la optimización';
+
+  @override
+  String get formulatorStatusInfeasible =>
+      'No hay solución factible con las restricciones actuales.';
+
+  @override
+  String get formulatorStatusUnbounded =>
+      'La optimización no está acotada. Revisa las restricciones.';
+
+  @override
+  String get formulatorCostPerKg => 'Costo por kg';
+
+  @override
+  String get formulatorNutrientsSummary => 'Resumen de nutrientes';
+
+  @override
+  String get formulatorIngredientMix => 'Mezcla de ingredientes';
+
+  @override
+  String get formulatorWarnings => 'Advertencias';
+
+  @override
+  String get formulatorEmptySelection =>
+      'Selecciona al menos un ingrediente para continuar.';
+
+  @override
+  String get formulatorLoadingAnimals => 'Cargando tipos de animales...';
+
+  @override
+  String formulatorLoadAnimalsFailed(String error) {
+    return 'No se pudieron cargar los tipos de animales: $error';
+  }
 
   @override
   String get homeEmptyTitle => 'Sin Alimentos Aún';
@@ -675,7 +780,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get errorGenericMessage => 'Inténtelo nuevamente.';
 
   @override
-  String get actionOk => 'ACEPTAR';
+  String get actionOk => 'Aceptar';
 
   @override
   String get analyseDialogTitle => 'Analizar Composición del Alimento';
@@ -1026,4 +1131,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get labelIngredient => 'Ingrediente';
+
+  @override
+  String get actionShare => 'Share';
+
+  @override
+  String get exportingToPdf => 'Exporting to PDF...';
 }

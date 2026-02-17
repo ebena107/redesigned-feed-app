@@ -152,6 +152,12 @@ abstract class AppLocalizations {
   /// **'About'**
   String get navAbout;
 
+  /// Navigation label for feed formulator
+  ///
+  /// In en, this message translates to:
+  /// **'Formulator'**
+  String get navFeedFormulator;
+
   /// Home screen title
   ///
   /// In en, this message translates to:
@@ -193,6 +199,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Import Wizard'**
   String get screenTitleImportWizard;
+
+  /// Feed formulator screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Feed Formulator'**
+  String get screenTitleFeedFormulator;
 
   /// Action button to create new item
   ///
@@ -289,6 +301,180 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reset'**
   String get actionReset;
+
+  /// Action button to go back
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get actionBack;
+
+  /// Action button to go forward
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get actionNext;
+
+  /// Step indicator for feed formulator wizard
+  ///
+  /// In en, this message translates to:
+  /// **'Step {step} of {total}'**
+  String formulatorStepIndicator(int step, int total);
+
+  /// Formulator step title for animal selection
+  ///
+  /// In en, this message translates to:
+  /// **'Animal profile'**
+  String get formulatorStepAnimal;
+
+  /// Formulator step title for ingredient selection
+  ///
+  /// In en, this message translates to:
+  /// **'Select ingredients'**
+  String get formulatorStepIngredients;
+
+  /// Formulator step title for constraint entry
+  ///
+  /// In en, this message translates to:
+  /// **'Set nutrient targets'**
+  String get formulatorStepConstraints;
+
+  /// Formulator step title for results
+  ///
+  /// In en, this message translates to:
+  /// **'Optimized formula'**
+  String get formulatorStepResults;
+
+  /// Hint text shown on ingredient selection step
+  ///
+  /// In en, this message translates to:
+  /// **'Choose ingredients to include in optimization'**
+  String get formulatorSelectIngredientsHint;
+
+  /// Label for ingredient search field
+  ///
+  /// In en, this message translates to:
+  /// **'Search ingredients'**
+  String get formulatorSearchIngredients;
+
+  /// Hint for ingredient search field
+  ///
+  /// In en, this message translates to:
+  /// **'Search by name'**
+  String get formulatorIngredientSearchHint;
+
+  /// Selected ingredient count
+  ///
+  /// In en, this message translates to:
+  /// **'{count} selected'**
+  String formulatorSelectedCount(int count);
+
+  /// Select all ingredients action
+  ///
+  /// In en, this message translates to:
+  /// **'Select all'**
+  String get formulatorSelectAll;
+
+  /// Clear selected ingredients action
+  ///
+  /// In en, this message translates to:
+  /// **'Clear selection'**
+  String get formulatorResetSelection;
+
+  /// Minimum constraint label
+  ///
+  /// In en, this message translates to:
+  /// **'Minimum'**
+  String get formulatorConstraintMin;
+
+  /// Maximum constraint label
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum'**
+  String get formulatorConstraintMax;
+
+  /// Helper text for constraint bounds
+  ///
+  /// In en, this message translates to:
+  /// **'Leave blank to ignore a bound'**
+  String get formulatorConstraintHelp;
+
+  /// Action button to run optimization
+  ///
+  /// In en, this message translates to:
+  /// **'Solve'**
+  String get formulatorActionSolve;
+
+  /// Empty results message for formulator
+  ///
+  /// In en, this message translates to:
+  /// **'Run optimization to see results.'**
+  String get formulatorNoResults;
+
+  /// Status message while optimization runs
+  ///
+  /// In en, this message translates to:
+  /// **'Optimizing...'**
+  String get formulatorStatusSolving;
+
+  /// Generic optimization failure message
+  ///
+  /// In en, this message translates to:
+  /// **'Optimization failed'**
+  String get formulatorStatusFailed;
+
+  /// Infeasible optimization message
+  ///
+  /// In en, this message translates to:
+  /// **'No feasible solution with current constraints.'**
+  String get formulatorStatusInfeasible;
+
+  /// Unbounded optimization message
+  ///
+  /// In en, this message translates to:
+  /// **'Optimization is unbounded. Check constraints.'**
+  String get formulatorStatusUnbounded;
+
+  /// Cost per kilogram label
+  ///
+  /// In en, this message translates to:
+  /// **'Cost per kg'**
+  String get formulatorCostPerKg;
+
+  /// Results nutrient summary section title
+  ///
+  /// In en, this message translates to:
+  /// **'Nutrient summary'**
+  String get formulatorNutrientsSummary;
+
+  /// Results ingredient mix section title
+  ///
+  /// In en, this message translates to:
+  /// **'Ingredient mix'**
+  String get formulatorIngredientMix;
+
+  /// Results warnings section title
+  ///
+  /// In en, this message translates to:
+  /// **'Warnings'**
+  String get formulatorWarnings;
+
+  /// Validation message for empty ingredient selection
+  ///
+  /// In en, this message translates to:
+  /// **'Select at least one ingredient to continue.'**
+  String get formulatorEmptySelection;
+
+  /// Loading message for animal types
+  ///
+  /// In en, this message translates to:
+  /// **'Loading animal types...'**
+  String get formulatorLoadingAnimals;
+
+  /// Error message for animal type loading failure
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load animal types: {error}'**
+  String formulatorLoadAnimalsFailed(String error);
 
   /// Empty state title on home screen
   ///
@@ -1969,6 +2155,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Ingredient'**
   String get labelIngredient;
+
+  /// Action button to share content
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get actionShare;
+
+  /// Message while exporting to PDF
+  ///
+  /// In en, this message translates to:
+  /// **'Exporting to PDF...'**
+  String get exportingToPdf;
 }
 
 class _AppLocalizationsDelegate

@@ -30,6 +30,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get navAbout => 'Sobre';
 
   @override
+  String get navFeedFormulator => 'Formulator';
+
+  @override
   String get screenTitleHome => 'Formulação de Ração';
 
   @override
@@ -49,6 +52,9 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get screenTitleImportWizard => 'Assistente de Importação';
+
+  @override
+  String get screenTitleFeedFormulator => 'Feed Formulator';
 
   @override
   String get actionCreate => 'Criar';
@@ -97,6 +103,103 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get actionReset => 'Redefinir';
+
+  @override
+  String get actionBack => 'Back';
+
+  @override
+  String get actionNext => 'Next';
+
+  @override
+  String formulatorStepIndicator(int step, int total) {
+    return 'Step $step of $total';
+  }
+
+  @override
+  String get formulatorStepAnimal => 'Animal profile';
+
+  @override
+  String get formulatorStepIngredients => 'Select ingredients';
+
+  @override
+  String get formulatorStepConstraints => 'Set nutrient targets';
+
+  @override
+  String get formulatorStepResults => 'Optimized formula';
+
+  @override
+  String get formulatorSelectIngredientsHint =>
+      'Choose ingredients to include in optimization';
+
+  @override
+  String get formulatorSearchIngredients => 'Search ingredients';
+
+  @override
+  String get formulatorIngredientSearchHint => 'Search by name';
+
+  @override
+  String formulatorSelectedCount(int count) {
+    return '$count selected';
+  }
+
+  @override
+  String get formulatorSelectAll => 'Select all';
+
+  @override
+  String get formulatorResetSelection => 'Clear selection';
+
+  @override
+  String get formulatorConstraintMin => 'Minimum';
+
+  @override
+  String get formulatorConstraintMax => 'Maximum';
+
+  @override
+  String get formulatorConstraintHelp => 'Leave blank to ignore a bound';
+
+  @override
+  String get formulatorActionSolve => 'Solve';
+
+  @override
+  String get formulatorNoResults => 'Run optimization to see results.';
+
+  @override
+  String get formulatorStatusSolving => 'Optimizing...';
+
+  @override
+  String get formulatorStatusFailed => 'Optimization failed';
+
+  @override
+  String get formulatorStatusInfeasible =>
+      'No feasible solution with current constraints.';
+
+  @override
+  String get formulatorStatusUnbounded =>
+      'Optimization is unbounded. Check constraints.';
+
+  @override
+  String get formulatorCostPerKg => 'Cost per kg';
+
+  @override
+  String get formulatorNutrientsSummary => 'Nutrient summary';
+
+  @override
+  String get formulatorIngredientMix => 'Ingredient mix';
+
+  @override
+  String get formulatorWarnings => 'Warnings';
+
+  @override
+  String get formulatorEmptySelection =>
+      'Select at least one ingredient to continue.';
+
+  @override
+  String get formulatorLoadingAnimals => 'Loading animal types...';
+
+  @override
+  String formulatorLoadAnimalsFailed(String error) {
+    return 'Failed to load animal types: $error';
+  }
 
   @override
   String get homeEmptyTitle => 'Sem Rações Ainda';
@@ -1027,4 +1130,10 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get labelIngredient => 'Ingrediente';
+
+  @override
+  String get actionShare => 'Share';
+
+  @override
+  String get exportingToPdf => 'Exporting to PDF...';
 }

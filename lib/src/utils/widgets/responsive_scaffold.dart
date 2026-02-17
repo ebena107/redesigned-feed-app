@@ -31,11 +31,12 @@ class ResponsiveScaffold extends ConsumerWidget {
       return 0;
     }
     if (location.startsWith('/newFeed')) return 1;
-    if (location.startsWith('/ingredientStore')) return 2;
-    if (location.startsWith('/newIngredient')) return 3;
-    if (location.startsWith('/feedStore')) return 4;
-    if (location.startsWith('/importWizard')) return 5;
-    if (location.startsWith('/settings')) return 6;
+    if (location.startsWith('/formulator')) return 2;
+    if (location.startsWith('/ingredientStore')) return 3;
+    if (location.startsWith('/newIngredient')) return 4;
+    if (location.startsWith('/feedStore')) return 5;
+    if (location.startsWith('/importWizard')) return 6;
+    if (location.startsWith('/settings')) return 7;
     return 0;
   }
 
@@ -55,19 +56,22 @@ class ResponsiveScaffold extends ConsumerWidget {
         context.go('/newFeed');
         break;
       case 2:
-        context.go('/ingredientStore');
+        context.go('/formulator');
         break;
       case 3:
+        context.go('/ingredientStore');
+        break;
+      case 4:
         ref.read(ingredientProvider.notifier).setDefaultValues();
         context.go('/newIngredient');
         break;
-      case 4:
+      case 5:
         context.go('/feedStore');
         break;
-      case 5:
+      case 6:
         context.go('/importWizard');
         break;
-      case 6:
+      case 7:
         context.go('/settings');
         break;
       default:
@@ -138,6 +142,11 @@ class ResponsiveScaffold extends ConsumerWidget {
                   icon: const Icon(Icons.add_circle_outline),
                   selectedIcon: const Icon(Icons.add_circle),
                   label: Text(context.l10n.homeCreateFeed),
+                ),
+                NavigationRailDestination(
+                  icon: const Icon(Icons.tune_outlined),
+                  selectedIcon: const Icon(Icons.tune),
+                  label: Text(context.l10n.navFeedFormulator),
                 ),
                 NavigationRailDestination(
                   icon: const Icon(Icons.inventory_2_outlined),

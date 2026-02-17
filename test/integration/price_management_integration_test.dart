@@ -19,7 +19,12 @@ void main() {
   // Initialize Flutter bindings for test environment
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  group('Price Management Integration Tests', () {
+  const runIntegrationTests =
+      bool.fromEnvironment('RUN_INTEGRATION_TESTS', defaultValue: false);
+
+  group(
+    'Price Management Integration Tests',
+    () {
     late PriceHistoryRepository repository;
 
     setUp(() async {
@@ -174,5 +179,9 @@ void main() {
       expect(history.any((h) => h.currency == 'NGN'), true);
       expect(history.any((h) => h.currency == 'USD'), true);
     });
-  });
+    },
+    skip: runIntegrationTests
+        ? false
+        : 'Requires integration test environment with path_provider.',
+  );
 }

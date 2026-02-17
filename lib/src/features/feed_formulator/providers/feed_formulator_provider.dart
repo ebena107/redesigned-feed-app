@@ -173,7 +173,7 @@ class FeedFormulatorNotifier extends Notifier<FeedFormulatorState> {
     final updated = state.input.constraints.map((c) {
       if (c.key != key) return c;
 
-      return NutrientConstraint(
+      return createNutrientConstraint(
         key: key,
         min: min,
         max: max,
@@ -314,7 +314,7 @@ class FeedFormulatorNotifier extends Notifier<FeedFormulatorState> {
       final modified = constraints.map((c) {
         if (c.key != constraint.key) return c;
 
-        return NutrientConstraint(
+        return createNutrientConstraint(
           key: c.key,
           min: c.min! + delta,
           max: c.max,

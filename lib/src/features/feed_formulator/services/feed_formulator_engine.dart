@@ -52,7 +52,6 @@ class FeedFormulatorEngine {
     const double minInclusionPct =
         5.0; // All ingredients must be at least 5% of formulation
 
-    print('\n🔒 ADDING MINIMUM INCLUSION CONSTRAINTS (5% per ingredient):');
     for (var i = 0; i < ingredients.length; i++) {
       final coeffs = List<double>.filled(ingredients.length, 0);
       coeffs[i] = 1;
@@ -65,30 +64,28 @@ class FeedFormulatorEngine {
           type: ConstraintType.greaterOrEqual,
         ),
       );
-      print('   ${ingredients[i].name} >= 5%');
     }
 
     if (enforceMaxInclusion) {
       for (var i = 0; i < ingredients.length; i++) {
         // Get max inclusion % for this specific animal type & feed stage
         double? maxPct;
+        final ingredient = ingredients[i];
 
-        final maxInclusionJson = ingredients[i].maxInclusionJson;
+        final maxInclusionJson = ingredient.maxInclusionJson;
         if (maxInclusionJson != null &&
             maxInclusionJson.isNotEmpty &&
             feedTypeName != null) {
           // Build key from animal type ID and feed stage name
           final key = _getInclusionKey(animalTypeId, feedTypeName);
 
-          if (key != null && maxInclusionJson.containsKey(key)) {
+          if (key != null) {
             maxPct = (maxInclusionJson[key] as num?)?.toDouble();
           }
         }
 
         // Fallback to generic maxInclusionPct if specific key not found
-        if (maxPct == null) {
-          maxPct = ingredients[i].maxInclusionPct?.toDouble();
-        }
+        maxPct ??= ingredients[i].maxInclusionPct?.toDouble();
 
         if (maxPct != null && maxPct > 0) {
           final coeffs = List<double>.filled(ingredients.length, 0);
@@ -135,17 +132,6 @@ class FeedFormulatorEngine {
       objective: objective,
       constraints: lpConstraints,
     );
-
-    print('\n📊 SOLVER RESULT:');
-    print(
-        '   Status: ${solution.isOptimal ? "OPTIMAL" : solution.isInfeasible ? "INFEASIBLE" : "SUBOPTIMAL"}');
-    if (solution.isOptimal || solution.solution.isNotEmpty) {
-      print('   Solution values:');
-      for (var i = 0; i < ingredients.length; i++) {
-        final pct = solution.solution[i] * 100;
-        print('      ${ingredients[i].name}: ${pct.toStringAsFixed(2)}%');
-      }
-    }
 
     if (solution.isInfeasible || !solution.isOptimal) {
       if (solution.isInfeasible) {
@@ -441,11 +427,6 @@ class FeedFormulatorEngine {
         ingredientNutrients.add('$name: $nutrientVal');
       }
 
-      print('=== FEASIBILITY CHECK: ${constraint.key.name} ===');
-      print('Ingredients: ${ingredientNutrients.join(' | ')}');
-      print('Min possible: $minPossible, Max possible: $maxPossible');
-      print('Required: min=${constraint.min}, max=${constraint.max}');
-
       if (constraint.min != null && constraint.min! > maxPossible) {
         throw CalculationException(
           operation: 'formulate',
@@ -484,7 +465,6 @@ class FeedFormulatorEngine {
     };
 
     if (prefix == null) {
-      print('⚠️  Unknown animal type ID: $animalTypeId');
       return null;
     }
 
@@ -508,8 +488,6 @@ class FeedFormulatorEngine {
     };
 
     final key = '${prefix}_$feedTypeKey';
-    print(
-        '🔑 Generated inclusion key: "$key" (animalTypeId=$animalTypeId, feedType=$feedTypeName)');
     return key;
   }
 }
