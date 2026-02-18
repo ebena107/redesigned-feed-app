@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:feed_estimator/src/core/utils/logger.dart';
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dart';
 import 'package:feed_estimator/src/features/main/model/feed.dart';
 import 'package:feed_estimator/src/features/add_update_feed/services/inclusion_validator.dart';
@@ -62,6 +63,17 @@ class EnhancedCalculationEngine {
       ingredientCache,
       enhancedCalcs,
       inclusionValidation,
+    );
+
+    // DIAGNOSTIC: Log v5 field population
+    AppLogger.info(
+      'EnhancedCalculationEngine: Building result - totalQuantity=$totalQuantity, '
+      'mEnergy=${legacyCalcs['mEnergy']}, ash=${enhancedCalcs['ash']}, '
+      'totalPhosphorus=${enhancedCalcs['totalPhosphorus']}, '
+      'hasAminoAcidsTotal=${enhancedCalcs['aminoAcidsTotalJson'] != null}, '
+      'hasEnergy=${enhancedCalcs['energyJson'] != null}, '
+      'warningsCount=${warnings.length}',
+      tag: 'EnhancedCalculationEngine',
     );
 
     return Result(

@@ -1,4 +1,5 @@
 import 'package:feed_estimator/src/core/constants/common.dart';
+import 'package:feed_estimator/src/core/utils/logger.dart';
 
 import 'package:feed_estimator/src/features/add_update_feed/providers/feed_provider.dart';
 import 'package:feed_estimator/src/features/main/model/feed.dart';
@@ -277,7 +278,26 @@ class AnalysisPage extends ConsumerWidget {
             orElse: () => Result(),
           );
 
-    if (result == null) return const SizedBox.shrink();
+    // DIAGNOSTIC: Log what result data we have
+    AppLogger.info(
+      'AnalysisPage._buildEnhancedNutrientCards: feedId=$feedId, type=$type, '
+      'result.mEnergy=${result?.mEnergy}, '
+      'hasAminoAcidsTotal=${result?.aminoAcidsTotalJson != null}, '
+      'hasAminoAcidsSid=${result?.aminoAcidsSidJson != null}, '
+      'hasEnergy=${result?.energyJson != null}, '
+      'hasWarnings=${result?.warningsJson != null}, '
+      'totalResults=${provider.results.length}',
+      tag: 'AnalysisPage',
+    );
+
+    if (result == null || (result.mEnergy == null || result.mEnergy == 0)) {
+      AppLogger.warning(
+        'AnalysisPage: Result missing or empty. feedId=$feedId, mEnergy=${result?.mEnergy}, '
+        'resultList.length=${provider.results.length}',
+        tag: 'AnalysisPage',
+      );
+      return const SizedBox.shrink();
+    }
 
     return Column(
       children: [
