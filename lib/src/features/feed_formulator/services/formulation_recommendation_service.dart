@@ -46,7 +46,7 @@ class FormulationRecommendationService {
 
     // Analyze ingredient nutrient coverage
     final coverageIssues =
-      _analyzeNutrientCoverage(ingredients, constraints, animalTypeId);
+        _analyzeNutrientCoverage(ingredients, constraints, animalTypeId);
     recommendations.addAll(coverageIssues);
 
     // Check inclusion limits
@@ -139,8 +139,8 @@ class FormulationRecommendationService {
           break;
         case NutrientKey.energy:
           maxNutrient = ingredients
-            .map((i) => _energyValueForRecommendation(i, animalTypeId))
-            .reduce((a, b) => a > b ? a : b);
+              .map((i) => _energyValueForRecommendation(i, animalTypeId))
+              .reduce((a, b) => a > b ? a : b);
           break;
         case NutrientKey.calcium:
           maxNutrient = (ingredients

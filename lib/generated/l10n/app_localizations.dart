@@ -2167,6 +2167,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Exporting to PDF...'**
   String get exportingToPdf;
+
+  /// Warning when ingredient prices are missing
+  ///
+  /// In en, this message translates to:
+  /// **'Missing price for {count} ingredients; using average price.'**
+  String missingPriceWarning(int count);
+
+  /// Recommendation to add more ingredients for better formulation
+  ///
+  /// In en, this message translates to:
+  /// **'Add more ingredients (at least 3-5 recommended) to have more flexibility in meeting nutrient targets.'**
+  String get addMoreIngredientsRecommendation;
+
+  /// Recommendation when constraints are too tight
+  ///
+  /// In en, this message translates to:
+  /// **'The nutrient requirements may be too strict for the selected ingredients. Try relaxing the min/max ranges by 5-10%.'**
+  String get tightenedConstraintsRecommendation;
+
+  /// Alternative recommendation for higher nutrient ingredients
+  ///
+  /// In en, this message translates to:
+  /// **'Alternatively, add ingredients with higher nutrient density in limiting nutrients.'**
+  String get addHigherNutrientIngredientsRecommendation;
+
+  /// Error when nutrient minimum exceeds maximum
+  ///
+  /// In en, this message translates to:
+  /// **'Minimum ({min}) exceeds maximum ({max}). Please correct this.'**
+  String conflictingConstraintsError(String min, String max);
+
+  /// Warning when nutrient range is too narrow
+  ///
+  /// In en, this message translates to:
+  /// **'Range is very narrow ({range}). Try widening by 10-20%.'**
+  String narrowRangeWarning(String range);
+
+  /// Warning when ingredient cannot meet nutrient requirement
+  ///
+  /// In en, this message translates to:
+  /// **'Max available from ingredients is {max}, but minimum required is {min}. Lower the requirement or select ingredients with higher {nutrient}.'**
+  String nutrientCoverageIssue(String max, String min, String nutrient);
+
+  /// Warning when ingredients have restrictive inclusion limits
+  ///
+  /// In en, this message translates to:
+  /// **'Several ingredients have very low maximum inclusion limits. Add more diverse ingredients to balance constraints.'**
+  String get lowInclusionLimitsWarning;
+
+  /// Warning when total inclusion limits are too restrictive
+  ///
+  /// In en, this message translates to:
+  /// **'Total maximum inclusion across selected ingredients is {total}%. Add more ingredients or increase individual limits.'**
+  String totalInclusionLimitWarning(String total);
 }
 
 class _AppLocalizationsDelegate

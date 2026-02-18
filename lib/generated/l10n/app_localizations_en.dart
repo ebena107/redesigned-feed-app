@@ -1129,4 +1129,45 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get exportingToPdf => 'Exporting to PDF...';
+
+  @override
+  String missingPriceWarning(int count) {
+    return 'Missing price for $count ingredients; using average price.';
+  }
+
+  @override
+  String get addMoreIngredientsRecommendation =>
+      'Add more ingredients (at least 3-5 recommended) to have more flexibility in meeting nutrient targets.';
+
+  @override
+  String get tightenedConstraintsRecommendation =>
+      'The nutrient requirements may be too strict for the selected ingredients. Try relaxing the min/max ranges by 5-10%.';
+
+  @override
+  String get addHigherNutrientIngredientsRecommendation =>
+      'Alternatively, add ingredients with higher nutrient density in limiting nutrients.';
+
+  @override
+  String conflictingConstraintsError(String min, String max) {
+    return 'Minimum ($min) exceeds maximum ($max). Please correct this.';
+  }
+
+  @override
+  String narrowRangeWarning(String range) {
+    return 'Range is very narrow ($range). Try widening by 10-20%.';
+  }
+
+  @override
+  String nutrientCoverageIssue(String max, String min, String nutrient) {
+    return 'Max available from ingredients is $max, but minimum required is $min. Lower the requirement or select ingredients with higher $nutrient.';
+  }
+
+  @override
+  String get lowInclusionLimitsWarning =>
+      'Several ingredients have very low maximum inclusion limits. Add more diverse ingredients to balance constraints.';
+
+  @override
+  String totalInclusionLimitWarning(String total) {
+    return 'Total maximum inclusion across selected ingredients is $total%. Add more ingredients or increase individual limits.';
+  }
 }

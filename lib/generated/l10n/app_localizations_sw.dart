@@ -1130,4 +1130,45 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get exportingToPdf => 'Exporting to PDF...';
+
+  @override
+  String missingPriceWarning(int count) {
+    return 'Fare inayokosea kwa $count vijenzi; kutumia bei wastani.';
+  }
+
+  @override
+  String get addMoreIngredientsRecommendation =>
+      'Ongeza vijenzi zaidi (angalau 3-5 inayopendekezwa) kwa njia nyingi zaidi ya kukidhi lengo la dafu.';
+
+  @override
+  String get tightenedConstraintsRecommendation =>
+      'Mahitaji ya virutubishi yanaweza kuwa madhambaa sana kwa vijenzi vilivyochaguliwa. Jaribu kupanua kiwango cha min/max kwa 5-10%.';
+
+  @override
+  String get addHigherNutrientIngredientsRecommendation =>
+      'Badala yake, ongeza vijenzi vya uzani wa virutubishi zaidi katika virutubishi vya vikwazo.';
+
+  @override
+  String conflictingConstraintsError(String min, String max) {
+    return 'Minimal ($min) inazidi zaidi ya upeo ($max). Tafadhali sahihisha hii.';
+  }
+
+  @override
+  String narrowRangeWarning(String range) {
+    return 'Kiwango ni nyembamba sana ($range). Jaribu kupanua kwa 10-20%.';
+  }
+
+  @override
+  String nutrientCoverageIssue(String max, String min, String nutrient) {
+    return 'Kupitia vijenzi ni $max, lakini kiwango kidogo kinachohitajika ni $min. Punguza mahitaji au chagua vijenzi vya $nutrient zaidi.';
+  }
+
+  @override
+  String get lowInclusionLimitsWarning =>
+      'Vijenzi kadhaa vina kiwango cha chini sana cha upeo wa pamoja. Ongeza vijenzi vya aina tofauti ili kusarili vikwazo.';
+
+  @override
+  String totalInclusionLimitWarning(String total) {
+    return 'Jumla ya upeo wa pamoja wa vijenzi vilivyochaguliwa ni $total%. Ongeza vijenzi zaidi au kuongeza kiwango cha mtu binafsi.';
+  }
 }

@@ -1146,4 +1146,45 @@ class AppLocalizationsFil extends AppLocalizations {
 
   @override
   String get exportingToPdf => 'Exporting to PDF...';
+
+  @override
+  String missingPriceWarning(int count) {
+    return 'Nawawalang presyo para sa $count sangkap; gumagamit ng average na presyo.';
+  }
+
+  @override
+  String get addMoreIngredientsRecommendation =>
+      'Magdagdag ng mas maraming sangkap (inirerekomenda ang hindi bababa sa 3-5) para sa mas maraming flexibility sa pagtugunan ang mga layuning pangnutrisyon.';
+
+  @override
+  String get tightenedConstraintsRecommendation =>
+      'Ang mga pangangailangan sa nutrisyon ay maaaring masyadong mahigpit para sa mga napiling sangkap. Subukan na palawakin ang min/max na mga hanay ng 5-10%.';
+
+  @override
+  String get addHigherNutrientIngredientsRecommendation =>
+      'Bilang alternatibo, magdagdag ng mga sangkap na may mas mataas na densidad ng nutrisyon sa mga limitadong nutriente.';
+
+  @override
+  String conflictingConstraintsError(String min, String max) {
+    return 'Minimum ($min) lumampas sa maximum ($max). Mangyaring ayusin ito.';
+  }
+
+  @override
+  String narrowRangeWarning(String range) {
+    return 'Ang hanay ay napakalaki ($range). Subukan na palawakin ng 10-20%.';
+  }
+
+  @override
+  String nutrientCoverageIssue(String max, String min, String nutrient) {
+    return 'Ang pinakamataas na available mula sa mga sangkap ay $max, ngunit ang kinakailangang minimum ay $min. Bawasan ang requirement o pumili ng mga sangkap na may mas mataas na $nutrient.';
+  }
+
+  @override
+  String get lowInclusionLimitsWarning =>
+      'Maraming sangkap ang may napakababang maximum inclusion limits. Magdagdag ng mas maraming iba\'t ibang sangkap upang makapantay sa mga hadlang.';
+
+  @override
+  String totalInclusionLimitWarning(String total) {
+    return 'Ang kabuuang maximum inclusion sa mga napiling sangkap ay $total%. Magdagdag ng mas maraming sangkap o taasan ang indibidwal na mga limitasyon.';
+  }
 }

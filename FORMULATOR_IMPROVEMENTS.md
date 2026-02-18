@@ -212,8 +212,8 @@ final formulator = FeedFormulatorEngine(
 
 ### 📊 Architecture Benefits
 
-| Feature | Before | After | Benefit|
-|---------|--------|-------|--------|
+| Feature | Before | After | Benefit |
+| --------- | -------- | ------- | --------- |
 | Configuration | Scattered params | FormulationOptions | Single source of truth |
 | Fixed ingredients | Not supported | Full support | Premix handling |
 | Safety margin | Manual | Built-in | Simpler, safer formulas |
@@ -273,7 +273,7 @@ Once helper methods are added, expect these to resolve:
 ### 🚀 Benefits Over Original Implementation
 
 | Aspect | Original | Enhanced |
-|--------|----------|----------|
+| -------- | ---------- | ---------- |
 | **Config** | 3 params | 1 FormulationOptions |
 | **Fixed Ingredients** | ❌ Not supported | ✅ Full support |
 | **Safety Margin** | ❌ Manual | ✅ Built-in |

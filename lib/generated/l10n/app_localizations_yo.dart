@@ -1124,4 +1124,45 @@ class AppLocalizationsYo extends AppLocalizations {
 
   @override
   String get exportingToPdf => 'Exporting to PDF...';
+
+  @override
+  String missingPriceWarning(int count) {
+    return 'Iye kò sì fun $count nukan; lo iye aarin.';
+  }
+
+  @override
+  String get addMoreIngredientsRecommendation =>
+      'Safikan nukan pupo (a gbà 3-5 lẹwa) láti ni iranlowoọ diẹ nin pese awon eka iso nutiriennti.';
+
+  @override
+  String get tightenedConstraintsRecommendation =>
+      'Awon eka iso nutiriennti maa se gidigidi julo fun awon nukan tó ya. Gbiyanju láti tun awon igunguni min/max kà tó 5-10% dii.';
+
+  @override
+  String get addHigherNutrientIngredientsRecommendation =>
+      'Tabini ni ó, safikan awon nukan tó ni iye nutiriennti giga julo ninu awon nutiriennti tó nipesun.';
+
+  @override
+  String conflictingConstraintsError(String min, String max) {
+    return 'Ikekiji ($min) je ti ó ju maximum ($max) lo. Jowo tun gbẹ yii.';
+  }
+
+  @override
+  String narrowRangeWarning(String range) {
+    return 'Are kekere gidigidi ($range). Gbiyanju láti tun un kà tó 10-20% dii.';
+  }
+
+  @override
+  String nutrientCoverageIssue(String max, String min, String nutrient) {
+    return 'Maximum tó wa ninu nukan ni $max, sugbun ikekiji pelu ni $min. Dinuku ape tabi yan awon nukan tó ni $nutrient giga julo.';
+  }
+
+  @override
+  String get lowInclusionLimitsWarning =>
+      'Awon nukan tówopu ni awon igunguni tó kekere gidigidi. Safikan awon nukan ayida láti dapad à awon àpo.';
+
+  @override
+  String totalInclusionLimitWarning(String total) {
+    return 'Toto maximum tó lè wa fun nukan tó ya ni $total%. Safikan gidigidi nukan tabi tin awon igunguni.';
+  }
 }

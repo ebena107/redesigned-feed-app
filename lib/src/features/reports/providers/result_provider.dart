@@ -71,66 +71,51 @@ class ResultNotifier extends Notifier<ResultsState> {
   }
 
   Future<void> setFeed(List<Feed> feeds) async {
-    //final data = ref.watch(asyncMainProvider);
-
-    //  debugPrint('result - setFeed entered with feed: ${feeds.length.toString()}');
     state = state.copyWith(results: []);
-
     resetResult();
 
     if (feeds.isNotEmpty) {
       for (var feed in feeds) {
-        if (feed.feedIngredients != null) {
-          if (feed.feedIngredients!.isNotEmpty) {
-            //
-            _feed = feed;
+        if (feed.feedIngredients != null && feed.feedIngredients!.isNotEmpty) {
+          _feed = feed;
 
+          try {
             await calculateResult();
-
-            // Use the enhanced result from state.myResult (set by calculateResult)
-            // and add the feedId to it
-            if (state.myResult != null) {
-              _newResult = Result(
-                feedId: feed.feedId,
-                mEnergy: state.myResult!.mEnergy,
-                cProtein: state.myResult!.cProtein,
-                cFat: state.myResult!.cFat,
-                cFibre: state.myResult!.cFibre,
-                calcium: state.myResult!.calcium,
-                phosphorus: state.myResult!.phosphorus,
-                lysine: state.myResult!.lysine,
-                methionine: state.myResult!.methionine,
-                costPerUnit: state.myResult!.costPerUnit,
-                totalCost: state.myResult!.totalCost,
-                totalQuantity: state.myResult!.totalQuantity,
-                // Include all v5 enhanced fields
-                ash: state.myResult!.ash,
-                moisture: state.myResult!.moisture,
-                totalPhosphorus: state.myResult!.totalPhosphorus,
-                availablePhosphorus: state.myResult!.availablePhosphorus,
-                phytatePhosphorus: state.myResult!.phytatePhosphorus,
-                aminoAcidsTotalJson: state.myResult!.aminoAcidsTotalJson,
-                aminoAcidsSidJson: state.myResult!.aminoAcidsSidJson,
-                energyJson: state.myResult!.energyJson,
-                warningsJson: state.myResult!.warningsJson,
-              );
-            }
+          } catch (e, stackTrace) {
+            debugPrint('[ResultProvider] ERROR in calculateResult: $e');
+            debugPrint('[ResultProvider] Stack trace: $stackTrace');
+            // Continue processing other feeds even if one fails
+            continue;
           }
-        }
 
-        if (_resultList.isNotEmpty && _newResult.mEnergy != 0) {
-          var available = _resultList.firstWhere(
-              (r) => r.feedId == _newResult.feedId,
-              orElse: () => Result());
-
-          if (available == Result()) {
-            _resultList.add(_newResult);
-          } else {
-            _resultList.removeWhere((element) => element.feedId == feed.feedId);
+          // Use the enhanced result from state.myResult (set by calculateResult)
+          if (state.myResult != null && state.myResult!.mEnergy != null && state.myResult!.mEnergy! > 0) {
+            _newResult = Result(
+              feedId: feed.feedId,
+              mEnergy: state.myResult!.mEnergy,
+              cProtein: state.myResult!.cProtein,
+              cFat: state.myResult!.cFat,
+              cFibre: state.myResult!.cFibre,
+              calcium: state.myResult!.calcium,
+              phosphorus: state.myResult!.phosphorus,
+              lysine: state.myResult!.lysine,
+              methionine: state.myResult!.methionine,
+              costPerUnit: state.myResult!.costPerUnit,
+              totalCost: state.myResult!.totalCost,
+              totalQuantity: state.myResult!.totalQuantity,
+              // Include all v5 enhanced fields
+              ash: state.myResult!.ash,
+              moisture: state.myResult!.moisture,
+              totalPhosphorus: state.myResult!.totalPhosphorus,
+              availablePhosphorus: state.myResult!.availablePhosphorus,
+              phytatePhosphorus: state.myResult!.phytatePhosphorus,
+              aminoAcidsTotalJson: state.myResult!.aminoAcidsTotalJson,
+              aminoAcidsSidJson: state.myResult!.aminoAcidsSidJson,
+              energyJson: state.myResult!.energyJson,
+              warningsJson: state.myResult!.warningsJson,
+            );
             _resultList.add(_newResult);
           }
-        } else if (_newResult.mEnergy != 0) {
-          _resultList.add(_newResult);
         }
       }
       state = state.copyWith(results: _resultList);
@@ -256,29 +241,38 @@ class ResultNotifier extends Notifier<ResultsState> {
           currentPrices[id] = latest.price;
         }
       }
-    } catch (_) {
+    } catch (e) {
+      debugPrint('[ResultProvider] Warning: Price history fetch failed: $e');
       // If price history repo fails, we silently fallback to existing prices
     }
 
-    // Use enhanced v5 calculation engine
-    final enhanced = EnhancedCalculationEngine.calculateEnhancedResult(
-      feedIngredients: ingList,
-      ingredientCache: _ingredientCache,
-      animalTypeId: animalTypeId,
-      currentPrices: currentPrices.isNotEmpty ? currentPrices : null,
-    );
+    try {
+      // Use enhanced v5 calculation engine
+      final enhanced = EnhancedCalculationEngine.calculateEnhancedResult(
+        feedIngredients: ingList,
+        ingredientCache: _ingredientCache,
+        animalTypeId: animalTypeId,
+        currentPrices: currentPrices.isNotEmpty ? currentPrices : null,
+      );
 
-    // Add context fields for report display (feedName, animalTypeName, productionStage)
-    final animalTypeName = AnimalCategoryMapper.getAnimalTypeName(animalTypeId);
-    final enhancedWithContext = enhanced.copyWith(
-      feedName: _feed.feedName,
-      animalTypeName: animalTypeName,
-      productionStage: _feed.productionStage,
-    );
+      // Add context fields for report display (feedName, animalTypeName, productionStage)
+      final animalTypeName = AnimalCategoryMapper.getAnimalTypeName(animalTypeId);
+      final enhancedWithContext = enhanced.copyWith(
+        feedName: _feed.feedName,
+        animalTypeName: animalTypeName,
+        productionStage: _feed.productionStage,
+      );
 
-    // CRITICAL FIX: Update state with the complete enhanced result
-    // This ensures all v5 fields (ash, moisture, amino acids, warnings, etc.) are available
-    state = state.copyWith(myResult: enhancedWithContext);
+      // CRITICAL FIX: Update state with the complete enhanced result
+      // This ensures all v5 fields (ash, moisture, amino acids, warnings, etc.) are available
+      state = state.copyWith(myResult: enhancedWithContext);
+    } catch (e, stackTrace) {
+      debugPrint('[ResultProvider] ERROR in EnhancedCalculationEngine: $e');
+      debugPrint('[ResultProvider] Stack trace: $stackTrace');
+      // Return empty result to prevent blank page
+      state = state.copyWith(myResult: Result());
+      rethrow; // Re-throw to be caught by setFeed
+    }
   }
 
   double _calcTotalQuantity(List<FeedIngredients> ingList) {
