@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:feed_estimator/src/core/localization/localization_helper.dart';
+import 'package:feed_estimator/src/core/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:feed_estimator/src/core/constants/ui_constants.dart';
@@ -41,8 +42,18 @@ class _AminoAcidProfileCardState extends State<AminoAcidProfileCard> {
         totalData =
             Map<String, num>.from(json.decode(widget.aminoAcidsTotalJson!));
       }
+      AppLogger.info(
+        'AminoAcidProfileCard.build: hasSidData=${sidData != null}, hasTotalData=${totalData != null}, '
+        'sidSize=${sidData?.length ?? 0}, totalSize=${totalData?.length ?? 0}',
+        tag: 'AminoAcidProfileCard',
+      );
     } catch (e) {
       // Invalid JSON, show error state
+      AppLogger.error(
+        'AminoAcidProfileCard: JSON parse error',
+        tag: 'AminoAcidProfileCard',
+        error: e,
+      );
       return Card(
         margin: UIConstants.paddingAllSmall,
         child: ListTile(
@@ -54,11 +65,26 @@ class _AminoAcidProfileCardState extends State<AminoAcidProfileCard> {
 
     // If no data available
     if (sidData == null && totalData == null) {
+      AppLogger.warning(
+        'AminoAcidProfileCard: No amino acid data available',
+        tag: 'AminoAcidProfileCard',
+      );
       return const SizedBox.shrink();
     }
 
     final displayData = _showSid ? (sidData ?? totalData) : totalData;
-    if (displayData == null) return const SizedBox.shrink();
+    if (displayData == null) {
+      AppLogger.warning(
+        'AminoAcidProfileCard: displayData is null (showSid=$_showSid)',
+        tag: 'AminoAcidProfileCard',
+      );
+      return const SizedBox.shrink();
+    }
+
+    AppLogger.info(
+      'AminoAcidProfileCard: Building card with ${displayData.length} amino acids',
+      tag: 'AminoAcidProfileCard',
+    );
 
     return Card(
       margin: UIConstants.paddingAllSmall,

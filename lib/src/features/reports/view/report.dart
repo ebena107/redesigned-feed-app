@@ -299,30 +299,48 @@ class AnalysisPage extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
+    AppLogger.info(
+      'AnalysisPage._buildEnhancedNutrientCards: About to build Column with cards',
+      tag: 'AnalysisPage',
+    );
+
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         // Amino Acid Profile Card
-        AminoAcidProfileCard(
-          aminoAcidsSidJson: result.aminoAcidsSidJson,
-          aminoAcidsTotalJson: result.aminoAcidsTotalJson,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: AminoAcidProfileCard(
+            aminoAcidsSidJson: result.aminoAcidsSidJson,
+            aminoAcidsTotalJson: result.aminoAcidsTotalJson,
+          ),
         ),
 
         // Phosphorus Breakdown Card
-        PhosphorusBreakdownCard(
-          totalPhosphorus: result.totalPhosphorus,
-          availablePhosphorus: result.availablePhosphorus,
-          phytatePhosphorus: result.phytatePhosphorus,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: PhosphorusBreakdownCard(
+            totalPhosphorus: result.totalPhosphorus,
+            availablePhosphorus: result.availablePhosphorus,
+            phytatePhosphorus: result.phytatePhosphorus,
+          ),
         ),
 
         // Energy Values Card
-        EnergyValuesCard(
-          energyJson: result.energyJson,
-          animalTypeId: feed.animalId as int? ?? 1,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: EnergyValuesCard(
+            energyJson: result.energyJson,
+            animalTypeId: feed.animalId as int? ?? 1,
+          ),
         ),
 
         // Formulation Warnings Card
-        FormulationWarningsCard(
-          warningsJson: result.warningsJson,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: FormulationWarningsCard(
+            warningsJson: result.warningsJson,
+          ),
         ),
       ],
     );

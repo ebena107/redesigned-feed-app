@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:feed_estimator/src/core/localization/localization_helper.dart';
+import 'package:feed_estimator/src/core/utils/logger.dart';
 import 'package:flutter/material.dart';
 
 /// Formulation Warnings Card - displays warnings and recommendations
@@ -22,14 +23,33 @@ class _FormulationWarningsCardState extends State<FormulationWarningsCard> {
   @override
   Widget build(BuildContext context) {
     if (widget.warningsJson == null || widget.warningsJson!.isEmpty) {
+      AppLogger.warning(
+        'FormulationWarningsCard: warningsJson is null or empty',
+        tag: 'FormulationWarningsCard',
+      );
       return const SizedBox.shrink();
     }
 
     List<dynamic> warnings;
     try {
       warnings = json.decode(widget.warningsJson!);
-      if (warnings.isEmpty) return const SizedBox.shrink();
+      AppLogger.info(
+        'FormulationWarningsCard.build: Parsed ${warnings.length} warnings',
+        tag: 'FormulationWarningsCard',
+      );
+      if (warnings.isEmpty) {
+        AppLogger.warning(
+          'FormulationWarningsCard: warnings list is empty after parsing',
+          tag: 'FormulationWarningsCard',
+        );
+        return const SizedBox.shrink();
+      }
     } catch (e) {
+      AppLogger.error(
+        'FormulationWarningsCard: JSON parse error',
+        tag: 'FormulationWarningsCard',
+        error: e,
+      );
       return const SizedBox.shrink();
     }
 

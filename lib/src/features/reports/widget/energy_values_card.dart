@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:feed_estimator/src/core/utils/logger.dart';
 import 'package:flutter/material.dart';
 
 /// Energy Values Card - displays comprehensive energy values for all animal types
@@ -22,13 +23,26 @@ class _EnergyValuesCardState extends State<EnergyValuesCard> {
   @override
   Widget build(BuildContext context) {
     if (widget.energyJson == null || widget.energyJson!.isEmpty) {
+      AppLogger.warning(
+        'EnergyValuesCard: energyJson is null or empty',
+        tag: 'EnergyValuesCard',
+      );
       return const SizedBox.shrink();
     }
 
     Map<String, dynamic> energyData;
     try {
       energyData = json.decode(widget.energyJson!);
+      AppLogger.info(
+        'EnergyValuesCard.build: Parsed energy data with keys: ${energyData.keys.join(", ")}',
+        tag: 'EnergyValuesCard',
+      );
     } catch (e) {
+      AppLogger.error(
+        'EnergyValuesCard: JSON parse error',
+        tag: 'EnergyValuesCard',
+        error: e,
+      );
       return const SizedBox.shrink();
     }
 

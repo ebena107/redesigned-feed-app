@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:feed_estimator/src/core/constants/ui_constants.dart';
+import 'package:feed_estimator/src/core/utils/logger.dart';
 import 'package:feed_estimator/src/utils/nutrient_formatter.dart';
 
 /// Card displaying phosphorus breakdown (Total, Available, Phytate)
@@ -24,8 +25,17 @@ class PhosphorusBreakdownCard extends StatelessWidget {
     if (totalPhosphorus == null &&
         availablePhosphorus == null &&
         phytatePhosphorus == null) {
+      AppLogger.warning(
+        'PhosphorusBreakdownCard: No phosphorus data available',
+        tag: 'PhosphorusBreakdownCard',
+      );
       return const SizedBox.shrink();
     }
+
+    AppLogger.info(
+      'PhosphorusBreakdownCard.build: total=$totalPhosphorus, available=$availablePhosphorus, phytate=$phytatePhosphorus',
+      tag: 'PhosphorusBreakdownCard',
+    );
 
     // Calculate availability percentage
     double? availabilityPct;
