@@ -16,7 +16,6 @@ import 'package:feed_estimator/src/features/feed_formulator/providers/formulator
 import 'package:feed_estimator/src/utils/widgets/responsive_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
 
 class FeedFormulatorScreen extends ConsumerStatefulWidget {
@@ -237,38 +236,43 @@ class _FeedFormulatorScreenState extends ConsumerState<FeedFormulatorScreen> {
                               'Solve button pressed - Status: ${formState.status}, Selected ingredients: ${formState.input.selectedIngredientIds.length}',
                               tag: 'FeedFormulatorScreen',
                             );
-                            
+
                             await ref
                                 .read(feedFormulatorProvider.notifier)
                                 .solve();
-                            
+
                             if (!mounted) {
-                              AppLogger.debug('Widget unmounted after solve', tag: 'FeedFormulatorScreen');
+                              AppLogger.debug('Widget unmounted after solve',
+                                  tag: 'FeedFormulatorScreen');
                               return;
                             }
-                            
-                            final updatedStatus = ref.read(feedFormulatorProvider).status;
+
+                            final updatedStatus =
+                                ref.read(feedFormulatorProvider).status;
                             AppLogger.debug(
                               'Solve completed - Status: $updatedStatus',
                               tag: 'FeedFormulatorScreen',
                             );
-                            
+
                             if (updatedStatus == FormulatorStatus.success) {
-                              AppLogger.debug('Formulation successful, navigating to results', tag: 'FeedFormulatorScreen');
+                              AppLogger.debug(
+                                  'Formulation successful, navigating to results',
+                                  tag: 'FeedFormulatorScreen');
                               setState(() {
                                 _stepIndex = 3;
                               });
                             } else {
-                              final errorState = ref.read(feedFormulatorProvider);
+                              final errorState =
+                                  ref.read(feedFormulatorProvider);
                               final errorMessage = errorState.message.isNotEmpty
                                   ? errorState.message
                                   : 'Formulation failed. Please check your ingredient selection and constraints.';
-                              
+
                               AppLogger.warning(
                                 'Formulation failed with message: "$errorMessage"',
                                 tag: 'FeedFormulatorScreen',
                               );
-                              
+
                               if (context.mounted) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
@@ -279,7 +283,8 @@ class _FeedFormulatorScreenState extends ConsumerState<FeedFormulatorScreen> {
                                       label: 'Dismiss',
                                       textColor: Colors.white,
                                       onPressed: () {
-                                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                                        ScaffoldMessenger.of(context)
+                                            .hideCurrentSnackBar();
                                       },
                                     ),
                                   ),
@@ -994,29 +999,34 @@ class _ResultsStep extends ConsumerWidget {
     WidgetRef ref,
     FormulatorResult result,
   ) {
+    // Capture localized strings BEFORE showing dialog
+    final exportTitle = context.l10n.exportFormatTitle;
+    final exportMessage = context.l10n.exportFormatMessage;
+    final cancelLabel = context.l10n.actionCancel;
+
     showDialog<void>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(context.l10n.exportFormatTitle),
-        content: Text(context.l10n.exportFormatMessage),
+      builder: (dialogContext) => AlertDialog(
+        title: Text(exportTitle),
+        content: Text(exportMessage),
         actions: [
           TextButton(
             onPressed: () {
-              context.pop();
+              Navigator.of(dialogContext).pop();
               _handleExportPdf(context, ref, result);
             },
             child: const Text('PDF'),
           ),
           TextButton(
             onPressed: () {
-              context.pop();
+              Navigator.of(dialogContext).pop();
               _handleExportCsv(context, ref, result);
             },
             child: const Text('CSV'),
           ),
           TextButton(
-            onPressed: () => context.pop(),
-            child: Text(context.l10n.actionCancel),
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            child: Text(cancelLabel),
           ),
         ],
       ),

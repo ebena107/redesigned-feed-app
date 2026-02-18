@@ -243,11 +243,12 @@ Future<Uint8List> makePdf(
                   ),
                   Expanded(
                       // width: 40,
-                      child: paddedText(feed.animalId == 5
-                          ? 'Digestive Energy (DE)'
-                          : feed.animalId == 1
-                              ? 'Net Energy (NE)'
-                              : 'Metabolizable Energy (ME)')),
+                      child:
+                          paddedText((feed.animalId == 8 || feed.animalId == 9)
+                              ? 'Digestive Energy (DE)'
+                              : feed.animalId == 1
+                                  ? 'Net Energy (NE)'
+                                  : 'Metabolizable Energy (ME)')),
                   SizedBox(
                       width: 120,
                       child: paddedText(

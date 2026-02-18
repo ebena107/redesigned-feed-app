@@ -26,10 +26,17 @@ class ResultCard extends ConsumerWidget {
     if (type == 'estimate') {
       result = provider.myResult;
     } else {
-      result = provider.results.firstWhere(
-        (r) => r.feedId == (feedId ?? feed.feedId),
-        orElse: () => Result(),
-      );
+      // First try to find result in results list
+      Result? found;
+      try {
+        found = provider.results.firstWhere(
+          (r) => r.feedId == (feedId ?? feed.feedId),
+        );
+      } catch (_) {
+        found = null;
+      }
+      // Fallback to myResult if not found (can happen during on-demand calculation)
+      result = found ?? provider.myResult;
     }
 
     if (result == null || result.mEnergy == null) {
@@ -72,7 +79,7 @@ class ResultCard extends ConsumerWidget {
             children: [
               Expanded(
                 child: _StatItem(
-                  label: feed.animalId == 5
+                  label: (feed.animalId == 8 || feed.animalId == 9)
                       ? context.l10n.nutrientDigestiveEnergy
                       : context.l10n.nutrientMetabolicEnergy,
                   value: result.mEnergy?.toStringAsFixed(0) ?? '0',

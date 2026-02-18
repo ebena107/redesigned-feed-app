@@ -514,12 +514,15 @@ class EnhancedCalculationEngine {
     }
 
     // RUMINANTS: Use ME
-    if (animalTypeId == 4) {
+    if (animalTypeId == 4 ||
+        animalTypeId == 5 ||
+        animalTypeId == 6 ||
+        animalTypeId == 7) {
       return (ing.energy?.meRuminant ?? ing.meRuminant ?? 0).toDouble();
     }
 
-    // SALMONIDS: Use DE
-    if (animalTypeId == 5) {
+    // SALMONIDS (FISH): Use DE
+    if (animalTypeId == 8 || animalTypeId == 9) {
       return (ing.energy?.deSalmonids ?? ing.deSalmonids ?? 0).toDouble();
     }
 

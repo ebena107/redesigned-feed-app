@@ -28,7 +28,7 @@ class AppDatabase {
   static final AppDatabase _instance = AppDatabase._();
 
   // Current database version - increment when adding migrations
-  static const int _currentVersion = 15;
+  static const int _currentVersion = 16;
 
   factory AppDatabase() => _instance;
 
@@ -165,6 +165,9 @@ class AppDatabase {
         break;
       case 15:
         await _migrationV14ToV15(db);
+        break;
+      case 16:
+        await _migrationV15ToV16(db);
         break;
       // Add future migrations here
       default:
@@ -637,6 +640,40 @@ class AppDatabase {
       debugPrint('Stack trace: $stackTrace');
       rethrow;
     }
+  }
+
+  /// Migration from v15 to v16: Update animal_types with complete list
+  /// Clears old 5 animal types and repopulates with all 9 animal types
+  Future<void> _migrationV15ToV16(Database db) async {
+    debugPrint('Migration 15→16: Updating animal_types table');
+
+    try {
+      // Clear existing animal types
+      await db.execute('DELETE FROM ${AnimalTypeRepository.tableName}');
+      debugPrint('Migration 15→16: Cleared existing animal types');
+
+      // Load new animal types from JSON
+      final animalTypes = await loadAnimalTypeJson();
+      final batch = db.batch();
+
+      for (final animalType in animalTypes) {
+        batch.insert(
+          AnimalTypeRepository.tableName,
+          animalType.toJson(),
+          conflictAlgorithm: ConflictAlgorithm.ignore,
+        );
+      }
+
+      await batch.commit(noResult: true);
+      debugPrint(
+          'Migration 15→16: Successfully inserted ${animalTypes.length} animal types');
+    } catch (e, stackTrace) {
+      debugPrint('Migration 15→16: Error updating animal types: $e');
+      debugPrint('Stack trace: $stackTrace');
+      rethrow;
+    }
+
+    debugPrint('Migration 15→16: Complete');
   }
 
   /// Migration from v14 to v15: Create formulation_history table

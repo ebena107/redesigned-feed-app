@@ -87,8 +87,19 @@ class AnalysisPage extends ConsumerWidget {
                 ),
                 // style: titleTextStyle(),
               ),
-              background:
-                  const Image(image: AssetImage('assets/images/back.png')),
+              background: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.deepPurple,
+                      Colors.deepPurple.shade700,
+                      Colors.deepPurple.shade800,
+                    ],
+                  ),
+                ),
+              ),
               // background: Stack(
               //   fit: StackFit.expand,
               //   children: [

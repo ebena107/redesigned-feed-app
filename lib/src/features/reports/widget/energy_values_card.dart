@@ -134,19 +134,19 @@ class _EnergyValuesCardState extends State<EnergyValuesCard> {
         {
           'label': 'ME (Ruminant)',
           'value': energyData['me_ruminant'],
-          'primary': animalTypeId == 3
+          'primary': animalTypeId >= 4 && animalTypeId <= 7
         },
       if (energyData['me_rabbit'] != null)
         {
           'label': 'ME (Rabbit)',
           'value': energyData['me_rabbit'],
-          'primary': animalTypeId == 4
+          'primary': animalTypeId == 3
         },
       if (energyData['de_salmonids'] != null)
         {
           'label': 'DE (Fish)',
           'value': energyData['de_salmonids'],
-          'primary': animalTypeId == 5
+          'primary': animalTypeId == 8 || animalTypeId == 9
         },
     ];
 

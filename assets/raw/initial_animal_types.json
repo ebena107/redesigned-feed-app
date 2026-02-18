@@ -1,24 +1,38 @@
 [
     {
         "type_id": 1,
-        "type": "Pigs"
-            },
+        "type": "Pig"
+    },
     {
         "type_id": 2,
         "type": "Poultry"
-
     },
     {
         "type_id": 3,
         "type": "Rabbit"
-
     },
     {
-        "type": "Ruminants",
-        "type_id": 4
+        "type_id": 4,
+        "type": "Dairy Cattle"
     },
     {
-        "type": "Fish",
-        "type_id": 5
+        "type_id": 5,
+        "type": "Beef Cattle"
+    },
+    {
+        "type_id": 6,
+        "type": "Sheep"
+    },
+    {
+        "type_id": 7,
+        "type": "Goat"
+    },
+    {
+        "type_id": 8,
+        "type": "Fish (Tilapia)"
+    },
+    {
+        "type_id": 9,
+        "type": "Fish (Catfish)"
     }
 ]

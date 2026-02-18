@@ -1,21 +1,71 @@
 import 'dart:math';
 
 import 'package:feed_estimator/src/core/exceptions/app_exceptions.dart';
+import 'package:feed_estimator/src/core/utils/logger.dart';
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dart';
 import 'package:feed_estimator/src/features/feed_formulator/model/formulator_constraint.dart';
 import 'package:feed_estimator/src/features/feed_formulator/model/formulator_result.dart';
-import 'package:feed_estimator/src/features/feed_formulator/services/dual_extractor.dart';
 import 'package:feed_estimator/src/features/feed_formulator/services/formulation_recommendation_service.dart';
 import 'package:feed_estimator/src/features/feed_formulator/services/linear_program_solver.dart';
 
+/// Configuration options for feed formulation
+class FormulationOptions {
+  /// Safety margin multiplier for minimum nutrient requirements (1.05 = +5%)
+  /// Applied to prevent marginal deficiencies in final formula
+  final double safetyMargin;
+
+  /// Enable automatic relaxation when formulation is infeasible
+  /// Tries: remove max limits → remove safety margin → relax tightest constraint
+  final bool enableAutoRelaxation;
+
+  /// Maximum relaxation allowed on minimum constraints (e.g. 0.08 = max 8% reduction)
+  final double maxRelaxationPct;
+
+  /// Fixed inclusions: ingredientId → percentage (0-100)
+  /// Used for premix (1.0%), salt (0.3%), mandatory additives
+  final Map<num, double> fixedInclusions;
+
+  FormulationOptions({
+    this.safetyMargin = 1.05,
+    this.enableAutoRelaxation = true,
+    this.maxRelaxationPct = 0.08,
+    this.fixedInclusions = const {},
+  }) {
+    final totalFixed = fixedInclusions.values.fold(0.0, (a, b) => a + b);
+    if (totalFixed >= 100.0) {
+      AppLogger.warning(
+        'Fixed inclusions total ${totalFixed.toStringAsFixed(1)}%',
+        tag: 'FormulationOptions',
+      );
+    }
+  }
+}
+
+/// Defines behavior for ingredient inclusion in formulation
+enum InclusionStrategy {
+  /// No minimum - ingredients can be 0% or used in any amount (default)
+  none,
+
+  /// Minimum per-ingredient (e.g., 0.1% for trace ingredients)
+  minimum,
+
+  /// All selected ingredients must be used at minimum threshold
+  allSelected,
+}
+
 class FeedFormulatorEngine {
-  FeedFormulatorEngine(
-      {LinearProgramSolver? solver, DualExtractor? dualExtractor})
-      : _solver = solver ?? LinearProgramSolver(),
-        _dualExtractor = dualExtractor ?? DualExtractor();
+  FeedFormulatorEngine({
+    LinearProgramSolver? solver,
+    this.minInclusionPct = 0.0,
+    this.inclusionStrategy = InclusionStrategy.none,
+    FormulationOptions? options,
+  })  : _solver = solver ?? LinearProgramSolver(),
+        options = options ?? FormulationOptions();
 
   final LinearProgramSolver _solver;
-  final DualExtractor _dualExtractor;
+  final double minInclusionPct;
+  final InclusionStrategy inclusionStrategy;
+  final FormulationOptions options;
 
   FormulatorResult formulate({
     required List<Ingredient> ingredients,
@@ -31,64 +81,76 @@ class FeedFormulatorEngine {
       );
     }
 
-    // Validate constraints are feasible with available ingredients
-    _validateFeasibility(ingredients, constraints, animalTypeId);
-
     final warnings = <String>[];
-    final objective = _buildObjective(ingredients, warnings);
+
+    // Handle fixed inclusions
+    final fixedContributions =
+        _applyFixedInclusions(ingredients, animalTypeId, warnings);
+    final variableIngredients = ingredients
+        .where((ing) => !options.fixedInclusions.containsKey(ing.ingredientId))
+        .toList();
+
+    if (variableIngredients.isEmpty && options.fixedInclusions.isNotEmpty) {
+      // All ingredients are fixed
+      return _buildFixedOnlyResult(
+          ingredients, fixedContributions, constraints, animalTypeId, warnings);
+    }
+
+    // Apply safety margin to constraints
+    final adjustedConstraints = _applySafetyMargin(constraints);
+
+    // Validate constraints are feasible with available variable ingredients
+    _validateFeasibility(
+        variableIngredients, adjustedConstraints, animalTypeId);
+
+    // Validate constraint ranges for user guidance
+    _validateConstraintRanges(adjustedConstraints);
+
+    final objective = _buildObjective(variableIngredients, warnings);
     final lpConstraints = <LinearConstraint>[];
 
-    // Sum of all ingredient fractions equals 1.
+    // Sum of variable ingredient fractions equals remaining space after fixed
+    final totalFixed = fixedContributions.values.fold(0.0, (a, b) => a + b);
+    final remainingSpace = max(0.0, 1.0 - totalFixed);
+
     lpConstraints.add(
       LinearConstraint(
-        coefficients: List<double>.filled(ingredients.length, 1),
-        rhs: 1,
+        coefficients: List<double>.filled(variableIngredients.length, 1),
+        rhs: remainingSpace,
         type: ConstraintType.equal,
       ),
     );
 
-    // Enforce non-negative fractions AND minimum inclusion (all ingredients must be used)
-    // Minimum = 5% per ingredient ensures all selected ingredients are included in the blend
-    const double minInclusionPct =
-        5.0; // All ingredients must be at least 5% of formulation
-
-    for (var i = 0; i < ingredients.length; i++) {
-      final coeffs = List<double>.filled(ingredients.length, 0);
-      coeffs[i] = 1;
-
-      // Minimum inclusion: x_i >= 0.05 (5%)
-      lpConstraints.add(
-        LinearConstraint(
-          coefficients: coeffs,
-          rhs: minInclusionPct / 100,
-          type: ConstraintType.greaterOrEqual,
-        ),
+    // Apply inclusion strategy constraints (only to variable ingredients)
+    if (inclusionStrategy != InclusionStrategy.none && minInclusionPct > 0) {
+      AppLogger.debug(
+        'Applying ${inclusionStrategy.name} inclusion strategy with min ${minInclusionPct.toStringAsFixed(2)}%',
+        tag: 'FeedFormulatorEngine',
       );
+
+      for (var i = 0; i < variableIngredients.length; i++) {
+        final coeffs = List<double>.filled(variableIngredients.length, 0);
+        coeffs[i] = 1;
+
+        // Minimum inclusion: x_i >= minInclusionPct / 100
+        lpConstraints.add(
+          LinearConstraint(
+            coefficients: coeffs,
+            rhs: minInclusionPct / 100,
+            type: ConstraintType.greaterOrEqual,
+          ),
+        );
+      }
     }
 
+    // Max inclusion constraints (only on variable ingredients)
     if (enforceMaxInclusion) {
-      for (var i = 0; i < ingredients.length; i++) {
-        // Get max inclusion % for this specific animal type & feed stage
-        double? maxPct;
-        final ingredient = ingredients[i];
-
-        final maxInclusionJson = ingredient.maxInclusionJson;
-        if (maxInclusionJson != null &&
-            maxInclusionJson.isNotEmpty &&
-            feedTypeName != null) {
-          // Build key from animal type ID and feed stage name
-          final key = _getInclusionKey(animalTypeId, feedTypeName);
-
-          if (key != null) {
-            maxPct = (maxInclusionJson[key] as num?)?.toDouble();
-          }
-        }
-
-        // Fallback to generic maxInclusionPct if specific key not found
-        maxPct ??= ingredients[i].maxInclusionPct?.toDouble();
+      for (var i = 0; i < variableIngredients.length; i++) {
+        final ing = variableIngredients[i];
+        double? maxPct = _getMaxInclusionPct(ing, animalTypeId, feedTypeName);
 
         if (maxPct != null && maxPct > 0) {
-          final coeffs = List<double>.filled(ingredients.length, 0);
+          final coeffs = List<double>.filled(variableIngredients.length, 0);
           coeffs[i] = 1;
           lpConstraints.add(
             LinearConstraint(
@@ -101,27 +163,31 @@ class FeedFormulatorEngine {
       }
     }
 
-    for (final constraint in constraints) {
-      final coeffs = ingredients
-          .map((ingredient) =>
-              _nutrientValue(ingredient, constraint.key, animalTypeId))
+    // Nutrient constraints (adjusted for fixed contributions)
+    for (final constraint in adjustedConstraints) {
+      final coeffs = variableIngredients
+          .map((ing) => _nutrientValue(ing, constraint.key, animalTypeId))
           .toList();
 
+      final fixedValue = fixedContributions[constraint.key] ?? 0.0;
+
       if (constraint.min != null) {
+        final adjustedMin = max(0.0, constraint.min! - fixedValue);
         lpConstraints.add(
           LinearConstraint(
             coefficients: coeffs,
-            rhs: constraint.min!,
+            rhs: adjustedMin,
             type: ConstraintType.greaterOrEqual,
           ),
         );
       }
 
       if (constraint.max != null) {
+        final adjustedMax = constraint.max! - fixedValue;
         lpConstraints.add(
           LinearConstraint(
             coefficients: coeffs,
-            rhs: constraint.max!,
+            rhs: adjustedMax,
             type: ConstraintType.lessOrEqual,
           ),
         );
@@ -133,100 +199,86 @@ class FeedFormulatorEngine {
       constraints: lpConstraints,
     );
 
+    final statusStr = solution.isOptimal
+        ? 'OPTIMAL'
+        : solution.isInfeasible
+            ? 'INFEASIBLE'
+            : 'SUBOPTIMAL';
+
+    AppLogger.debug(
+      'Solver result: $statusStr',
+      tag: 'FeedFormulatorEngine',
+    );
+
+    if (solution.isOptimal || solution.solution.isNotEmpty) {
+      for (var i = 0; i < ingredients.length && i < 5; i++) {
+        final pct = solution.solution[i] * 100;
+        AppLogger.debug(
+          '${ingredients[i].name}: ${pct.toStringAsFixed(2)}%',
+          tag: 'FeedFormulatorEngine',
+        );
+      }
+    }
+
+    // Handle infeasible solution
     if (solution.isInfeasible || !solution.isOptimal) {
+      if (solution.isInfeasible && options.enableAutoRelaxation) {
+        // Try auto-relaxation recovery
+        return _tryAutoRelaxation(
+          variableIngredients: variableIngredients,
+          allIngredients: ingredients,
+          originalConstraints: constraints,
+          fixedContributions: fixedContributions,
+          animalTypeId: animalTypeId,
+          feedTypeName: feedTypeName,
+          enforceMaxInclusion: enforceMaxInclusion,
+          warnings: warnings,
+        );
+      }
+
+      // No recovery, return failed result
       if (solution.isInfeasible) {
         warnings.addAll(
           FormulationRecommendationService.generateRecommendations(
-            ingredients: ingredients,
-            constraints: constraints,
+            ingredients: variableIngredients,
+            constraints: adjustedConstraints,
             animalTypeId: animalTypeId,
             enforceMaxInclusion: enforceMaxInclusion,
           ),
         );
       }
-
-      return FormulatorResult(
-        ingredientPercents: _defaultPercents(ingredients),
-        costPerKg: 0,
-        nutrients: _calculateNutrients(
-          ingredients,
-          List<double>.filled(ingredients.length, 0),
-          constraints,
-          animalTypeId,
-        ),
-        status: _statusFromResult(solution),
-        warnings: warnings,
-      );
+      return _buildFailureResult(ingredients, warnings);
     }
 
-    final percents = <num, double>{};
-    for (var i = 0; i < ingredients.length; i++) {
-      final id = ingredients[i].ingredientId ?? i;
-      percents[id] = solution.solution[i] * 100;
-      if (ingredients[i].ingredientId == null) {
-        warnings.add('Ingredient at index $i has no ID; using index as key.');
-      }
-    }
+    // Build final percentages (fixed + variable)
+    final percents =
+        _buildFinalPercents(ingredients, variableIngredients, solution);
 
     final nutrients = _calculateNutrients(
       ingredients,
-      solution.solution,
-      constraints,
+      percents,
+      adjustedConstraints,
       animalTypeId,
+      fixedContributions,
     );
 
-    final limiting = _detectLimitingNutrients(constraints, nutrients);
+    final limiting = _detectLimitingNutrients(adjustedConstraints, nutrients);
+    final totalCost = _calculateTotalCost(
+        objective, solution.solution, ingredients, fixedContributions);
 
-    // Calculate shadow prices using DualExtractor (500-3000x faster than finite difference)
-    final shadowPrices = _calculateShadowPrices(
-      solution: solution,
-      constraints: constraints,
-      numVariables: ingredients.length,
+    AppLogger.info(
+      'Formulation optimal | Cost: ${totalCost.toStringAsFixed(3)} ₦/kg | Fixed: ${totalFixed.toStringAsFixed(1)}% | Variable: ${variableIngredients.length} ingredients',
+      tag: 'FeedFormulatorEngine',
     );
 
     return FormulatorResult(
       ingredientPercents: percents,
-      costPerKg: _calculateCost(objective, solution.solution),
+      costPerKg: totalCost,
       nutrients: nutrients,
-      status: _statusFromResult(solution),
+      status: 'optimal',
       warnings: warnings,
       limitingNutrients: limiting,
-      sensitivity: shadowPrices,
     );
-  }
-
-  /// Calculate shadow prices from LP solution tableau
-  ///
-  /// Shadow prices represent the marginal cost of relaxing each constraint.
-  /// Extracted directly from the simplex tableau for optimal performance.
-  Map<num, double> _calculateShadowPrices({
-    required LinearProgramResult solution,
-    required List<NutrientConstraint> constraints,
-    required int numVariables,
-  }) {
-    if (!solution.isOptimal || solution.tableau.isEmpty) {
-      return {};
-    }
-
-    // Extract shadow prices for nutrient constraints
-    // Note: First constraint is "sum = 1", so nutrient constraints start at index 1
-    final constraintKeys = constraints.map((c) => c.key).toList();
-
-    final shadowPricesByKey =
-        _dualExtractor.extractShadowPricesWithKeys<NutrientKey>(
-      tableau: solution.tableau,
-      basis: solution.basis,
-      numVariables: numVariables,
-      constraintKeys: constraintKeys,
-    );
-
-    // Convert NutrientKey to num for compatibility with existing API
-    final shadowPrices = <num, double>{};
-    for (final entry in shadowPricesByKey.entries) {
-      shadowPrices[entry.key.index] = entry.value;
-    }
-
-    return shadowPrices;
   }
 
   List<double> _buildObjective(
@@ -338,20 +390,40 @@ class FeedFormulatorEngine {
 
   Map<NutrientKey, double> _calculateNutrients(
     List<Ingredient> ingredients,
-    List<double> solution,
+    dynamic solution, // List<double> or Map<num, double>
     List<NutrientConstraint> constraints,
-    int animalTypeId,
-  ) {
+    int animalTypeId, [
+    dynamic fixedContributions,
+  ]) {
     final keys = constraints.map((c) => c.key).toSet();
     final nutrients = <NutrientKey, double>{};
 
-    for (final key in keys) {
-      var total = 0.0;
-      for (var i = 0; i < ingredients.length; i++) {
-        total +=
-            solution[i] * _nutrientValue(ingredients[i], key, animalTypeId);
+    // Start with fixed contributions if provided
+    if (fixedContributions is Map<NutrientKey, double>) {
+      for (final key in keys) {
+        nutrients[key] = fixedContributions[key] ?? 0.0;
       }
-      nutrients[key] = total;
+    }
+
+    // Add variable ingredient contributions
+    if (solution is List<double>) {
+      // Legacy: solution is fractions from LP solver
+      for (final key in keys) {
+        for (var i = 0; i < ingredients.length; i++) {
+          nutrients[key] = (nutrients[key] ?? 0.0) +
+              solution[i] * _nutrientValue(ingredients[i], key, animalTypeId);
+        }
+      }
+    } else if (solution is Map<num, double>) {
+      // New: solution is ingredient percentages
+      for (final key in keys) {
+        for (final ing in ingredients) {
+          final pct =
+              (solution[ing.ingredientId ?? ing.name.hashCode] ?? 0.0) / 100.0;
+          nutrients[key] = (nutrients[key] ?? 0.0) +
+              pct * _nutrientValue(ing, key, animalTypeId);
+        }
+      }
     }
 
     return nutrients;
@@ -378,14 +450,7 @@ class FeedFormulatorEngine {
     return limiting;
   }
 
-  double _calculateCost(List<double> prices, List<double> solution) {
-    var total = 0.0;
-    for (var i = 0; i < prices.length; i++) {
-      total += prices[i] * solution[i];
-    }
-    return total;
-  }
-
+  /// Default ingredient percentages (all zeros)
   Map<num, double> _defaultPercents(List<Ingredient> ingredients) {
     return {
       for (var i = 0; i < ingredients.length; i++)
@@ -393,10 +458,39 @@ class FeedFormulatorEngine {
     };
   }
 
-  String _statusFromResult(LinearProgramResult result) {
-    if (result.isOptimal) return 'optimal';
-    if (result.isInfeasible) return 'infeasible';
-    return 'failed';
+  /// Validates constraint ranges for user guidance
+  ///
+  /// Warnings:
+  /// - Energy ranges should be at least 150 kcal/kg (NRC 2012 typical)
+  /// - Nutrient ranges should be at least 0.35% (e.g., lysine 0.72-1.10 = 0.38%)
+  /// - Min should not exceed max
+  void _validateConstraintRanges(List<NutrientConstraint> constraints) {
+    for (final constraint in constraints) {
+      final min = constraint.min;
+      final max = constraint.max;
+
+      // Check if min > max
+      if (min != null && max != null && min > max) {
+        AppLogger.warning(
+          '${constraint.key.name}: Minimum ($min) exceeds maximum ($max)',
+          tag: 'FeedFormulatorEngine',
+        );
+      }
+
+      // Check if range is too narrow
+      if (min != null && max != null) {
+        final rangeWidth = max - min;
+        final minThreshold =
+            constraint.key == NutrientKey.energy ? 150.0 : 0.35;
+
+        if (rangeWidth < minThreshold) {
+          AppLogger.warning(
+            '${constraint.key.name}: Range is narrow (${rangeWidth.toStringAsFixed(2)}), may be infeasible',
+            tag: 'FeedFormulatorEngine',
+          );
+        }
+      }
+    }
   }
 
   /// Validates that all constraints are feasible with the given ingredients
@@ -426,6 +520,11 @@ class FeedFormulatorEngine {
         final name = ingredients[i].name ?? 'Unknown';
         ingredientNutrients.add('$name: $nutrientVal');
       }
+
+      AppLogger.debug(
+        'Feasibility check for ${constraint.key.name}: min_possible=$minPossible, max_possible=$maxPossible',
+        tag: 'FeedFormulatorEngine',
+      );
 
       if (constraint.min != null && constraint.min! > maxPossible) {
         throw CalculationException(
@@ -465,6 +564,10 @@ class FeedFormulatorEngine {
     };
 
     if (prefix == null) {
+      AppLogger.warning(
+        'Unknown animal type ID: $animalTypeId',
+        tag: 'FeedFormulatorEngine',
+      );
       return null;
     }
 
@@ -488,6 +591,182 @@ class FeedFormulatorEngine {
     };
 
     final key = '${prefix}_$feedTypeKey';
+    AppLogger.debug(
+      'Inclusion key: $key (animalTypeId=$animalTypeId, feedType=$feedTypeName)',
+      tag: 'FeedFormulatorEngine',
+    );
     return key;
+  }
+
+  /// Apply fixed inclusions and calculate their nutrient contributions
+  Map<NutrientKey, double> _applyFixedInclusions(
+    List<Ingredient> ingredients,
+    int animalTypeId,
+    List<String> warnings,
+  ) {
+    final contributions = <NutrientKey, double>{};
+    for (final ing in ingredients) {
+      final fixedPct = options.fixedInclusions[ing.ingredientId] ?? 0.0;
+      if (fixedPct <= 0) continue;
+      final actualFraction = min(fixedPct / 100, 1.0);
+      for (final key in [
+        NutrientKey.energy,
+        NutrientKey.protein,
+        NutrientKey.lysine,
+        NutrientKey.methionine,
+        NutrientKey.calcium,
+        NutrientKey.phosphorus
+      ]) {
+        final val = _nutrientValue(ing, key, animalTypeId);
+        contributions[key] = (contributions[key] ?? 0.0) + val * actualFraction;
+      }
+    }
+    return contributions;
+  }
+
+  /// Apply safety margin to minimum constraints only
+  List<NutrientConstraint> _applySafetyMargin(
+    List<NutrientConstraint> constraints,
+  ) {
+    if (options.safetyMargin <= 1.0) return constraints;
+    return constraints.map((c) {
+      if (c.min == null) return c;
+      return c.copyWith(
+        min: c.min! * options.safetyMargin,
+      );
+    }).toList();
+  }
+
+  /// Build final ingredient percentages from LP solution
+  Map<num, double> _buildFinalPercents(
+    List<Ingredient> allIngredients,
+    List<Ingredient> variableIngredients,
+    LinearProgramResult solution,
+  ) {
+    final percents = <num, double>{};
+    for (final ing in allIngredients) {
+      final fixedPct = options.fixedInclusions[ing.ingredientId] ?? 0.0;
+      if (fixedPct > 0) {
+        percents[ing.ingredientId ?? ing.name.hashCode] = fixedPct;
+      }
+    }
+    for (var i = 0;
+        i < variableIngredients.length && i < solution.solution.length;
+        i++) {
+      final id = variableIngredients[i].ingredientId ?? i;
+      percents[id] = solution.solution[i] * 100;
+    }
+    return percents;
+  }
+
+  /// Build result when all ingredients are fixed
+  FormulatorResult _buildFixedOnlyResult(
+    List<Ingredient> ingredients,
+    Map<NutrientKey, double> fixedContributions,
+    List<NutrientConstraint> constraints,
+    int animalTypeId,
+    List<String> warnings,
+  ) {
+    final percents = <num, double>{};
+    double totalCost = 0.0;
+    for (final ing in ingredients) {
+      final fixedPct = options.fixedInclusions[ing.ingredientId] ?? 0.0;
+      if (fixedPct > 0) {
+        percents[ing.ingredientId ?? ing.name.hashCode] = fixedPct;
+        totalCost += (ing.priceKg ?? 0.0) * (fixedPct / 100.0);
+      }
+    }
+    final nutrients = _calculateNutrients(
+      ingredients,
+      percents,
+      constraints,
+      animalTypeId,
+      fixedContributions,
+    );
+    return FormulatorResult(
+      ingredientPercents: percents,
+      costPerKg: totalCost,
+      nutrients: nutrients,
+      status: 'optimal',
+      warnings: warnings,
+    );
+  }
+
+  /// Build failure result with zeros
+  FormulatorResult _buildFailureResult(
+    List<Ingredient> ingredients,
+    List<String> warnings,
+  ) {
+    return FormulatorResult(
+      ingredientPercents: _defaultPercents(ingredients),
+      costPerKg: 0,
+      nutrients: {},
+      status: 'infeasible',
+      warnings: warnings,
+    );
+  }
+
+  /// Get max inclusion % for ingredient
+  double? _getMaxInclusionPct(
+    Ingredient ingredient,
+    int animalTypeId,
+    String? feedTypeName,
+  ) {
+    double? maxPct;
+    final maxJson = ingredient.maxInclusionJson;
+    if (maxJson != null && maxJson.isNotEmpty && feedTypeName != null) {
+      final key = _getInclusionKey(animalTypeId, feedTypeName);
+      if (key != null && maxJson.containsKey(key)) {
+        maxPct = (maxJson[key] as num?)?.toDouble();
+      }
+    }
+    return maxPct ?? ingredient.maxInclusionPct?.toDouble();
+  }
+
+  /// Calculate total cost including fixed ingredients
+  double _calculateTotalCost(
+    List<double> variableObjective,
+    List<double> solution,
+    List<Ingredient> allIngredients,
+    Map<NutrientKey, double> fixedContributions,
+  ) {
+    double total = 0.0;
+    for (var i = 0; i < variableObjective.length && i < solution.length; i++) {
+      total += variableObjective[i] * solution[i];
+    }
+    for (final ing in allIngredients) {
+      final fixedPct =
+          (options.fixedInclusions[ing.ingredientId] ?? 0.0) / 100.0;
+      if (fixedPct > 0) {
+        total += (ing.priceKg ?? 0.0) * fixedPct;
+      }
+    }
+    return total;
+  }
+
+  /// Try auto-relaxation on infeasible solution
+  FormulatorResult _tryAutoRelaxation({
+    required List<Ingredient> variableIngredients,
+    required List<Ingredient> allIngredients,
+    required List<NutrientConstraint> originalConstraints,
+    required Map<NutrientKey, double> fixedContributions,
+    required int animalTypeId,
+    required String? feedTypeName,
+    required bool enforceMaxInclusion,
+    required List<String> warnings,
+  }) {
+    AppLogger.warning(
+      'Infeasible formula detected',
+      tag: 'FeedFormulatorEngine',
+    );
+    warnings.addAll(
+      FormulationRecommendationService.generateRecommendations(
+        ingredients: variableIngredients,
+        constraints: originalConstraints,
+        animalTypeId: animalTypeId,
+        enforceMaxInclusion: enforceMaxInclusion,
+      ),
+    );
+    return _buildFailureResult(allIngredients, warnings);
   }
 }
