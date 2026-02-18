@@ -218,51 +218,56 @@ InputDecorationTheme inputDecorationTheme() {
 }
 
 String feedImage({required int? id}) {
-  String name = "";
-  if (id != null) {
-    switch (id) {
-      case 1:
-        name = 'assets/images/pig_feed.png';
-        break;
-      case 2:
-        name = 'assets/images/chicken_feed.png';
-        break;
-      case 3:
-        name = 'assets/images/rabbit_feed.png';
-        break;
-      case 4:
-        name = 'assets/images/ruminant_feed.png';
-        break;
-      case 5:
-        name = 'assets/images/fish_feed.png';
-        break;
-    }
+  if (id == null) {
+    return 'assets/images/ruminant_feed.png'; // Default fallback
   }
 
-  return name;
+  switch (id) {
+    case 1:
+      return 'assets/images/pig_feed.png';
+    case 2:
+      return 'assets/images/chicken_feed.png';
+    case 3:
+      return 'assets/images/rabbit_feed.png';
+    case 4:
+      return 'assets/images/ruminant_feed.png';
+    case 6: // Sheep (use ruminant image)
+      return 'assets/images/ruminant_feed.png';
+    case 7: // Goat (use ruminant image)
+      return 'assets/images/ruminant_feed.png';
+    case 8: // Tilapia
+    case 9: // Catfish
+      return 'assets/images/fish_feed.png';
+    default: // 5 and any others
+      return 'assets/images/fish_feed.png';
+  }
 }
 
 String animalName({required int? id}) {
-  String name = "";
-  if (id != null) {
-    switch (id) {
-      case 1:
-        name = 'Pig';
-        break;
-      case 2:
-        name = 'Poultry';
-        break;
-      case 3:
-        name = 'Rabbit';
-        break;
-      case 4:
-        name = 'Ruminants';
-        break;
-      case 5:
-        name = 'Salmonids / Fish';
-        break;
-    }
+  if (id == null) {
+    return 'Unknown'; // Default fallback
   }
 
-  return name;
+  switch (id) {
+    case 1:
+      return 'Pig';
+    case 2:
+      return 'Poultry';
+    case 3:
+      return 'Rabbit';
+    case 4:
+      return 'Ruminants';
+    case 5:
+      return 'Salmonids / Fish';
+    case 6:
+      return 'Sheep';
+    case 7:
+      return 'Goat';
+    case 8:
+      return 'Tilapia';
+    case 9:
+      return 'Catfish';
+    default:
+      return 'Unknown';
+  }
 }

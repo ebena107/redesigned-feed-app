@@ -89,7 +89,9 @@ class ResultNotifier extends Notifier<ResultsState> {
           }
 
           // Use the enhanced result from state.myResult (set by calculateResult)
-          if (state.myResult != null && state.myResult!.mEnergy != null && state.myResult!.mEnergy! > 0) {
+          if (state.myResult != null &&
+              state.myResult!.mEnergy != null &&
+              state.myResult!.mEnergy! > 0) {
             _newResult = Result(
               feedId: feed.feedId,
               mEnergy: state.myResult!.mEnergy,
@@ -256,7 +258,8 @@ class ResultNotifier extends Notifier<ResultsState> {
       );
 
       // Add context fields for report display (feedName, animalTypeName, productionStage)
-      final animalTypeName = AnimalCategoryMapper.getAnimalTypeName(animalTypeId);
+      final animalTypeName =
+          AnimalCategoryMapper.getAnimalTypeName(animalTypeId);
       final enhancedWithContext = enhanced.copyWith(
         feedName: _feed.feedName,
         animalTypeName: animalTypeName,
