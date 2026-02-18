@@ -231,12 +231,15 @@ String feedImage({required int? id}) {
       return 'assets/images/rabbit_feed.png';
     case 4: // Dairy Cattle
     case 5: // Beef Cattle
-    case 6: // Sheep
-    case 7: // Goat
       return 'assets/images/ruminant_feed.png';
+    case 6: // Sheep
+      return 'assets/images/sheep_feed.png';
+    case 7: // Goat
+      return 'assets/images/goat_feed.png';
     case 8: // Tilapia
+      return 'assets/images/tilapia_feed.png';
     case 9: // Catfish
-      return 'assets/images/fish_feed.png';
+      return 'assets/images/catfish_feed.png';
     default:
       return 'assets/images/ruminant_feed.png'; // Safe default
   }
