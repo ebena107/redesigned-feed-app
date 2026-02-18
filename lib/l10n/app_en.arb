@@ -1611,6 +1611,64 @@
   "exportingToPdf": "Exporting to PDF...",
   "@exportingToPdf": {
     "description": "Message while exporting to PDF"
+  },
+  
+  "missingPriceWarning": "Missing price for {count} ingredients; using average price.",
+  "@missingPriceWarning": {
+    "description": "Warning when ingredient prices are missing",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "addMoreIngredientsRecommendation": "Add more ingredients (at least 3-5 recommended) to have more flexibility in meeting nutrient targets.",
+  "@addMoreIngredientsRecommendation": {
+    "description": "Recommendation to add more ingredients for better formulation"
+  },
+  "tightenedConstraintsRecommendation": "The nutrient requirements may be too strict for the selected ingredients. Try relaxing the min/max ranges by 5-10%.",
+  "@tightenedConstraintsRecommendation": {
+    "description": "Recommendation when constraints are too tight"
+  },
+  "addHigherNutrientIngredientsRecommendation": "Alternatively, add ingredients with higher nutrient density in limiting nutrients.",
+  "@addHigherNutrientIngredientsRecommendation": {
+    "description": "Alternative recommendation for higher nutrient ingredients"
+  },
+  "conflictingConstraintsError": "Minimum ({min}) exceeds maximum ({max}). Please correct this.",
+  "@conflictingConstraintsError": {
+    "description": "Error when nutrient minimum exceeds maximum",
+    "placeholders": {
+      "min": {"type": "String"},
+      "max": {"type": "String"}
+    }
+  },
+  "narrowRangeWarning": "Range is very narrow ({range}). Try widening by 10-20%.",
+  "@narrowRangeWarning": {
+    "description": "Warning when nutrient range is too narrow",
+    "placeholders": {
+      "range": {"type": "String"}
+    }
+  },
+  "nutrientCoverageIssue": "Max available from ingredients is {max}, but minimum required is {min}. Lower the requirement or select ingredients with higher {nutrient}.",
+  "@nutrientCoverageIssue": {
+    "description": "Warning when ingredient cannot meet nutrient requirement",
+    "placeholders": {
+      "max": {"type": "String"},
+      "min": {"type": "String"},
+      "nutrient": {"type": "String"}
+    }
+  },
+  "lowInclusionLimitsWarning": "Several ingredients have very low maximum inclusion limits. Add more diverse ingredients to balance constraints.",
+  "@lowInclusionLimitsWarning": {
+    "description": "Warning when ingredients have restrictive inclusion limits"
+  },
+  "totalInclusionLimitWarning": "Total maximum inclusion across selected ingredients is {total}%. Add more ingredients or increase individual limits.",
+  "@totalInclusionLimitWarning": {
+    "description": "Warning when total inclusion limits are too restrictive",
+    "placeholders": {
+      "total": {"type": "String"}
+    }
   }
 }
 

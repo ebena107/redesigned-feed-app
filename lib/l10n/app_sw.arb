@@ -1383,5 +1383,24 @@
   "labelIngredient": "Kiungo",
   "@labelIngredient": {
     "description": "Generic label for ingredient"
-  }
+  },
+  
+  "missingPriceWarning": "Fare inayokosea kwa {count} vijenzi; kutumia bei wastani.",
+  "@missingPriceWarning": {"description": "Warning when ingredient prices are missing", "placeholders": {"count": {"type": "int", "example": "3"}}},
+  "addMoreIngredientsRecommendation": "Ongeza vijenzi zaidi (angalau 3-5 inayopendekezwa) kwa njia nyingi zaidi ya kukidhi lengo la dafu.",
+  "@addMoreIngredientsRecommendation": {"description": "Recommendation to add more ingredients for better formulation"},
+  "tightenedConstraintsRecommendation": "Mahitaji ya virutubishi yanaweza kuwa madhambaa sana kwa vijenzi vilivyochaguliwa. Jaribu kupanua kiwango cha min/max kwa 5-10%.",
+  "@tightenedConstraintsRecommendation": {"description": "Recommendation when constraints are too tight"},
+  "addHigherNutrientIngredientsRecommendation": "Badala yake, ongeza vijenzi vya uzani wa virutubishi zaidi katika virutubishi vya vikwazo.",
+  "@addHigherNutrientIngredientsRecommendation": {"description": "Alternative recommendation for higher nutrient ingredients"},
+  "conflictingConstraintsError": "Minimal ({min}) inazidi zaidi ya upeo ({max}). Tafadhali sahihisha hii.",
+  "@conflictingConstraintsError": {"description": "Error when nutrient minimum exceeds maximum", "placeholders": {"min": {"type": "String"}, "max": {"type": "String"}}},
+  "narrowRangeWarning": "Kiwango ni nyembamba sana ({range}). Jaribu kupanua kwa 10-20%.",
+  "@narrowRangeWarning": {"description": "Warning when nutrient range is too narrow", "placeholders": {"range": {"type": "String"}}},
+  "nutrientCoverageIssue": "Kupitia vijenzi ni {max}, lakini kiwango kidogo kinachohitajika ni {min}. Punguza mahitaji au chagua vijenzi vya {nutrient} zaidi.",
+  "@nutrientCoverageIssue": {"description": "Warning when ingredient cannot meet nutrient requirement", "placeholders": {"max": {"type": "String"}, "min": {"type": "String"}, "nutrient": {"type": "String"}}},
+  "lowInclusionLimitsWarning": "Vijenzi kadhaa vina kiwango cha chini sana cha upeo wa pamoja. Ongeza vijenzi vya aina tofauti ili kusarili vikwazo.",
+  "@lowInclusionLimitsWarning": {"description": "Warning when ingredients have restrictive inclusion limits"},
+  "totalInclusionLimitWarning": "Jumla ya upeo wa pamoja wa vijenzi vilivyochaguliwa ni {total}%. Ongeza vijenzi zaidi au kuongeza kiwango cha mtu binafsi.",
+  "@totalInclusionLimitWarning": {"description": "Warning when total inclusion limits are too restrictive", "placeholders": {"total": {"type": "String"}}}
 }

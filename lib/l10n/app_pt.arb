@@ -1031,5 +1031,24 @@
   "labelIngredient": "Ingrediente",
   "@labelIngredient": {
     "description": "Generic label for ingredient"
-  }
+  },
+  
+  "missingPriceWarning": "Preço ausente para {count} ingredientes; usando preço médio.",
+  "@missingPriceWarning": {"description": "Warning when ingredient prices are missing", "placeholders": {"count": {"type": "int", "example": "3"}}},
+  "addMoreIngredientsRecommendation": "Adicione mais ingredientes (pelo menos 3-5 recomendados) para mais flexibilidade ao atender os objetivos nutricionais.",
+  "@addMoreIngredientsRecommendation": {"description": "Recommendation to add more ingredients for better formulation"},
+  "tightenedConstraintsRecommendation": "Os requisitos nutricionais podem ser muito rigorosos para os ingredientes selecionados. Tente ampliar os intervalos mín/máx em 5-10%.",
+  "@tightenedConstraintsRecommendation": {"description": "Recommendation when constraints are too tight"},
+  "addHigherNutrientIngredientsRecommendation": "Alternativamente, adicione ingredientes com maior densidade nutricional em nutrientes limitantes.",
+  "@addHigherNutrientIngredientsRecommendation": {"description": "Alternative recommendation for higher nutrient ingredients"},
+  "conflictingConstraintsError": "Mínimo ({min}) excede máximo ({max}). Por favor, corrija isto.",
+  "@conflictingConstraintsError": {"description": "Error when nutrient minimum exceeds maximum", "placeholders": {"min": {"type": "String"}, "max": {"type": "String"}}},
+  "narrowRangeWarning": "Intervalo muito estreito ({range}). Tente ampliá-lo em 10-20%.",
+  "@narrowRangeWarning": {"description": "Warning when nutrient range is too narrow", "placeholders": {"range": {"type": "String"}}},
+  "nutrientCoverageIssue": "Máximo disponível dos ingredientes é {max}, mas o mínimo necessário é {min}. Reduza o requisito ou selecione ingredientes com {nutrient} mais alto.",
+  "@nutrientCoverageIssue": {"description": "Warning when ingredient cannot meet nutrient requirement", "placeholders": {"max": {"type": "String"}, "min": {"type": "String"}, "nutrient": {"type": "String"}}},
+  "lowInclusionLimitsWarning": "Vários ingredientes têm limites de inclusão máxima muito baixos. Adicione ingredientes mais diversos para equilibrar as restrições.",
+  "@lowInclusionLimitsWarning": {"description": "Warning when ingredients have restrictive inclusion limits"},
+  "totalInclusionLimitWarning": "A inclusão máxima total dos ingredientes selecionados é {total}%. Adicione mais ingredientes ou aumente limites individuais.",
+  "@totalInclusionLimitWarning": {"description": "Warning when total inclusion limits are too restrictive", "placeholders": {"total": {"type": "String"}}}
 }

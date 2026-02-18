@@ -3,6 +3,18 @@ import 'package:feed_estimator/src/features/feed_formulator/model/formulator_con
 
 /// Service to generate recommendations when feed formulation is infeasible
 ///
+/// NOTE: This service generates English messages. Localization should be applied
+/// at the UI layer (display_recommendations) to use context.l10n keys:
+/// - missingPriceWarning
+/// - addMoreIngredientsRecommendation
+/// - tightenedConstraintsRecommendation
+/// - addHigherNutrientIngredientsRecommendation
+/// - conflictingConstraintsError
+/// - narrowRangeWarning
+/// - nutrientCoverageIssue
+/// - lowInclusionLimitsWarning
+/// - totalInclusionLimitWarning
+///
 /// UNIT HANDLING (RESOLVED):
 /// - Energy values in kcal/kg (ingredients stored as mePoultry, etc. in kcal)
 /// - Nutrient values in % (protein, amino acids, minerals)

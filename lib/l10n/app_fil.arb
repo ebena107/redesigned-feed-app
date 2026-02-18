@@ -1382,5 +1382,24 @@
   "labelIngredient": "Sangkap",
   "@labelIngredient": {
     "description": "Generic label for ingredient"
-  }
+  },
+  
+  "missingPriceWarning": "Nawawalang presyo para sa {count} sangkap; gumagamit ng average na presyo.",
+  "@missingPriceWarning": {"description": "Warning when ingredient prices are missing", "placeholders": {"count": {"type": "int", "example": "3"}}},
+  "addMoreIngredientsRecommendation": "Magdagdag ng mas maraming sangkap (inirerekomenda ang hindi bababa sa 3-5) para sa mas maraming flexibility sa pagtugunan ang mga layuning pangnutrisyon.",
+  "@addMoreIngredientsRecommendation": {"description": "Recommendation to add more ingredients for better formulation"},
+  "tightenedConstraintsRecommendation": "Ang mga pangangailangan sa nutrisyon ay maaaring masyadong mahigpit para sa mga napiling sangkap. Subukan na palawakin ang min/max na mga hanay ng 5-10%.",
+  "@tightenedConstraintsRecommendation": {"description": "Recommendation when constraints are too tight"},
+  "addHigherNutrientIngredientsRecommendation": "Bilang alternatibo, magdagdag ng mga sangkap na may mas mataas na densidad ng nutrisyon sa mga limitadong nutriente.",
+  "@addHigherNutrientIngredientsRecommendation": {"description": "Alternative recommendation for higher nutrient ingredients"},
+  "conflictingConstraintsError": "Minimum ({min}) lumampas sa maximum ({max}). Mangyaring ayusin ito.",
+  "@conflictingConstraintsError": {"description": "Error when nutrient minimum exceeds maximum", "placeholders": {"min": {"type": "String"}, "max": {"type": "String"}}},
+  "narrowRangeWarning": "Ang hanay ay napakalaki ({range}). Subukan na palawakin ng 10-20%.",
+  "@narrowRangeWarning": {"description": "Warning when nutrient range is too narrow", "placeholders": {"range": {"type": "String"}}},
+  "nutrientCoverageIssue": "Ang pinakamataas na available mula sa mga sangkap ay {max}, ngunit ang kinakailangang minimum ay {min}. Bawasan ang requirement o pumili ng mga sangkap na may mas mataas na {nutrient}.",
+  "@nutrientCoverageIssue": {"description": "Warning when ingredient cannot meet nutrient requirement", "placeholders": {"max": {"type": "String"}, "min": {"type": "String"}, "nutrient": {"type": "String"}}},
+  "lowInclusionLimitsWarning": "Maraming sangkap ang may napakababang maximum inclusion limits. Magdagdag ng mas maraming iba't ibang sangkap upang makapantay sa mga hadlang.",
+  "@lowInclusionLimitsWarning": {"description": "Warning when ingredients have restrictive inclusion limits"},
+  "totalInclusionLimitWarning": "Ang kabuuang maximum inclusion sa mga napiling sangkap ay {total}%. Magdagdag ng mas maraming sangkap o taasan ang indibidwal na mga limitasyon.",
+  "@totalInclusionLimitWarning": {"description": "Warning when total inclusion limits are too restrictive", "placeholders": {"total": {"type": "String"}}}
 }
