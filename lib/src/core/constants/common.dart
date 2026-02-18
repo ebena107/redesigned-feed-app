@@ -229,17 +229,16 @@ String feedImage({required int? id}) {
       return 'assets/images/chicken_feed.png';
     case 3:
       return 'assets/images/rabbit_feed.png';
-    case 4:
-      return 'assets/images/ruminant_feed.png';
-    case 6: // Sheep (use ruminant image)
-      return 'assets/images/ruminant_feed.png';
-    case 7: // Goat (use ruminant image)
+    case 4: // Dairy Cattle
+    case 5: // Beef Cattle
+    case 6: // Sheep
+    case 7: // Goat
       return 'assets/images/ruminant_feed.png';
     case 8: // Tilapia
     case 9: // Catfish
       return 'assets/images/fish_feed.png';
-    default: // 5 and any others
-      return 'assets/images/fish_feed.png';
+    default:
+      return 'assets/images/ruminant_feed.png'; // Safe default
   }
 }
 
@@ -256,17 +255,17 @@ String animalName({required int? id}) {
     case 3:
       return 'Rabbit';
     case 4:
-      return 'Ruminants';
+      return 'Dairy Cattle';
     case 5:
-      return 'Salmonids / Fish';
+      return 'Beef Cattle';
     case 6:
       return 'Sheep';
     case 7:
       return 'Goat';
     case 8:
-      return 'Tilapia';
+      return 'Fish (Tilapia)';
     case 9:
-      return 'Catfish';
+      return 'Fish (Catfish)';
     default:
       return 'Unknown';
   }
