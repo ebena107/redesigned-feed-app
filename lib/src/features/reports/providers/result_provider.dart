@@ -1,5 +1,6 @@
 import 'package:feed_estimator/src/core/database/app_db.dart';
 import 'package:feed_estimator/src/core/constants/animal_categories.dart';
+import 'package:feed_estimator/src/core/utils/logger.dart';
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dart';
 
 import 'package:feed_estimator/src/features/add_ingredients/repository/ingredients_repository.dart';
@@ -10,7 +11,6 @@ import 'package:feed_estimator/src/features/reports/providers/enhanced_calculati
 import 'package:feed_estimator/src/features/price_management/repository/price_history_repository.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter/foundation.dart';
 
 final resultProvider =
     NotifierProvider<ResultNotifier, ResultsState>(ResultNotifier.new);
@@ -82,8 +82,12 @@ class ResultNotifier extends Notifier<ResultsState> {
           try {
             await calculateResult();
           } catch (e, stackTrace) {
-            debugPrint('[ResultProvider] ERROR in calculateResult: $e');
-            debugPrint('[ResultProvider] Stack trace: $stackTrace');
+            AppLogger.error(
+              'setFeed() ERROR calculating feed: ${feed.feedName} (ID: ${feed.feedId})',
+              tag: 'ResultProvider',
+              error: e,
+              stackTrace: stackTrace,
+            );
             // Continue processing other feeds even if one fails
             continue;
           }
@@ -160,13 +164,10 @@ class ResultNotifier extends Notifier<ResultsState> {
 
     resetResult();
 
-    debugPrint('[ResultProvider] estimatedResult called:');
-    debugPrint('[ResultProvider]   feedId=$feedId, animal=$animal');
-    debugPrint('[ResultProvider]   ingList length=${ingList?.length ?? 0}');
-    if (ingList != null && ingList.isNotEmpty) {
-      debugPrint(
-          '[ResultProvider]   First ingredient: id=${ingList.first.ingredientId}, qty=${ingList.first.quantity}');
-    }
+    AppLogger.info(
+      'estimatedResult called: feedId=$feedId, animal=$animal, ingredients=${ingList?.length ?? 0}',
+      tag: 'ResultProvider',
+    );
 
     bool checked = false;
 
@@ -191,10 +192,12 @@ class ResultNotifier extends Notifier<ResultsState> {
       state = state.copyWith(myResult: _newResult);
     }
 
-    debugPrint('[ResultProvider] checked=$checked');
+    AppLogger.info(
+      'estimatedResult checked=$checked',
+      tag: 'ResultProvider',
+    );
 
     if (checked) {
-      debugPrint('[ResultProvider] Starting calculateResult...');
       // debugPrint('result estimate: - resultProvider - : feedIng length: ${ingList.length}');
       await calculateResult();
 
@@ -244,7 +247,10 @@ class ResultNotifier extends Notifier<ResultsState> {
         }
       }
     } catch (e) {
-      debugPrint('[ResultProvider] Warning: Price history fetch failed: $e');
+      AppLogger.info(
+        'calculateResult() Note: Price history fetch failed, continuing with stored prices',
+        tag: 'ResultProvider',
+      );
       // If price history repo fails, we silently fallback to existing prices
     }
 
@@ -269,9 +275,18 @@ class ResultNotifier extends Notifier<ResultsState> {
       // CRITICAL FIX: Update state with the complete enhanced result
       // This ensures all v5 fields (ash, moisture, amino acids, warnings, etc.) are available
       state = state.copyWith(myResult: enhancedWithContext);
+
+      AppLogger.info(
+        'calculateResult() SUCCESS: Calculated ${_feed.feedName} - mEnergy=${enhancedWithContext.mEnergy}',
+        tag: 'ResultProvider',
+      );
     } catch (e, stackTrace) {
-      debugPrint('[ResultProvider] ERROR in EnhancedCalculationEngine: $e');
-      debugPrint('[ResultProvider] Stack trace: $stackTrace');
+      AppLogger.error(
+        'calculateResult() ERROR in EnhancedCalculationEngine for ${_feed.feedName}',
+        tag: 'ResultProvider',
+        error: e,
+        stackTrace: stackTrace,
+      );
       // Return empty result to prevent blank page
       state = state.copyWith(myResult: Result());
       rethrow; // Re-throw to be caught by setFeed
