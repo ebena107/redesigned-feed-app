@@ -15,6 +15,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:feed_estimator/src/core/localization/localization_helper.dart';
+import 'package:feed_estimator/src/core/utils/widget_builders.dart';
 
 const String _tag = 'FeedIngredients';
 
@@ -393,23 +394,15 @@ class _DeleteIngredientDialogState
         "${widget.actionRemove} $ingredientName. ${widget.confirmDeletionWarning}",
       ),
       actions: [
-        OutlinedButton(
+        WidgetBuilders.buildOutlinedButton(
           onPressed: _isDeleting ? null : () => Navigator.of(context).pop(),
-          child: Text(widget.actionCancel),
+          label: widget.actionCancel,
         ),
-        FilledButton(
-          style: FilledButton.styleFrom(backgroundColor: Colors.red[600]),
+        WidgetBuilders.buildPrimaryButton(
+          backgroundColor: Colors.red[600],
           onPressed: _isDeleting ? null : _handleDelete,
-          child: _isDeleting
-              ? const SizedBox(
-                  width: 16,
-                  height: 16,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    color: Colors.white,
-                  ),
-                )
-              : Text(widget.actionRemove),
+          isLoading: _isDeleting,
+          label: widget.actionRemove,
         ),
       ],
     );
@@ -579,7 +572,8 @@ class _UpdateIngredientDialogState
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   // Price field
-                  TextField(
+                  WidgetBuilders.buildTextField(
+                    label: "${widget.labelPrice} ${widget.unitKg}",
                     controller: _priceController,
                     enabled: !_isUpdating,
                     textInputAction: TextInputAction.next,
@@ -587,19 +581,14 @@ class _UpdateIngredientDialogState
                       decimal: true,
                     ),
                     inputFormatters: InputValidators.numericFormatters,
-                    decoration: InputDecoration(
-                      labelText: "${widget.labelPrice} ${widget.unitKg}",
-                      hintText: widget.hintEnterPrice,
-                      errorText: _priceError,
-                      filled: false,
-                      border: const UnderlineInputBorder(),
-                    ),
+                    hint: widget.hintEnterPrice,
+                    errorText: _priceError,
                     onChanged: _validatePrice,
-                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
-                  const SizedBox(height: 8.0),
+                  const SizedBox(height: 16.0),
                   // Quantity field
-                  TextField(
+                  WidgetBuilders.buildTextField(
+                    label: "${widget.labelQuantity} (${widget.unitKg})",
                     controller: _quantityController,
                     enabled: !_isUpdating,
                     textInputAction: TextInputAction.done,
@@ -607,16 +596,10 @@ class _UpdateIngredientDialogState
                       decimal: true,
                     ),
                     inputFormatters: InputValidators.numericFormatters,
-                    decoration: InputDecoration(
-                      labelText: "${widget.labelQuantity} (${widget.unitKg})",
-                      hintText: widget.hintEnterQuantity,
-                      errorText: _quantityError,
-                      filled: false,
-                      border: const UnderlineInputBorder(),
-                    ),
+                    hint: widget.hintEnterQuantity,
+                    errorText: _quantityError,
                     onChanged: _validateQuantity,
                     onSubmitted: (_) => _handleUpdate(),
-                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
               ),
@@ -625,26 +608,18 @@ class _UpdateIngredientDialogState
         ),
       ),
       actions: [
-        OutlinedButton(
+        WidgetBuilders.buildOutlinedButton(
           onPressed: _isUpdating
               ? null
               : () {
                   Navigator.of(context).pop();
                 },
-          child: Text(widget.actionCancel),
+          label: widget.actionCancel,
         ),
-        FilledButton(
+        WidgetBuilders.buildPrimaryButton(
           onPressed: _isUpdating ? null : _handleUpdate,
-          child: _isUpdating
-              ? const SizedBox(
-                  width: 16,
-                  height: 16,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    color: Colors.white,
-                  ),
-                )
-              : Text(widget.actionUpdate),
+          isLoading: _isUpdating,
+          label: widget.actionUpdate,
         ),
       ],
     );
