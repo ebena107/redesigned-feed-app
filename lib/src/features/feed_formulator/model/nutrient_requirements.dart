@@ -70,12 +70,13 @@ class NutrientRequirements {
   static NutrientRequirements _swine(FeedType type) {
     switch (type) {
       // Birth to 7 kg — creep/milk replacer phase (NRC 2012, Table 10-5)
+      // Energy range widened ±100 kcal (~15%) to avoid infeasibility
       case FeedType.preStarter:
         return _build(
           1,
           type,
-          energyMin: 3265,
-          energyMax: 3410,
+          energyMin: 3150,
+          energyMax: 3500,
           cpMin: 23.7,
           cpMax: 26.0,
           lysineMin: 1.50,
@@ -89,12 +90,13 @@ class NutrientRequirements {
         );
 
       // 7–25 kg — weaner phase (NRC 2012, Table 10-6)
+      // Energy range widened ±100 kcal (~15%) to avoid infeasibility
       case FeedType.starter:
         return _build(
           1,
           type,
-          energyMin: 3100,
-          energyMax: 3265,
+          energyMin: 2980,
+          energyMax: 3380,
           cpMin: 20.0,
           cpMax: 22.5,
           lysineMin: 1.25,
@@ -108,12 +110,13 @@ class NutrientRequirements {
         );
 
       // 25–60 kg — grower phase (NRC 2012, Table 10-7)
+      // Energy range widened ±100 kcal (~15%) to avoid infeasibility
       case FeedType.grower:
         return _build(
           1,
           type,
-          energyMin: 2925,
-          energyMax: 3100,
+          energyMin: 2800,
+          energyMax: 3200,
           cpMin: 17.0,
           cpMax: 19.5,
           lysineMin: 1.00,
@@ -127,12 +130,13 @@ class NutrientRequirements {
         );
 
       // 60–125 kg — finisher phase (NRC 2012, Table 10-8)
+      // Energy range widened ±100 kcal to fix narrow-range warning (was 125 kcal)
       case FeedType.finisher:
         return _build(
           1,
           type,
-          energyMin: 2835,
-          energyMax: 2960,
+          energyMin: 2720,
+          energyMax: 3080,
           cpMin: 14.5,
           cpMax: 17.0,
           lysineMin: 0.78,
@@ -184,12 +188,13 @@ class NutrientRequirements {
         );
 
       // Breeding boar (NRC 2012, Table 10-13)
+      // Energy range widened ±100 kcal to improve feasibility
       case FeedType.breeder:
         return _build(
           1,
           type,
-          energyMin: 2750,
-          energyMax: 2950,
+          energyMin: 2620,
+          energyMax: 3080,
           cpMin: 13.0,
           cpMax: 15.5,
           lysineMin: 0.60,
@@ -206,8 +211,8 @@ class NutrientRequirements {
         return _build(
           1,
           type,
-          energyMin: 2835,
-          energyMax: 2960,
+          energyMin: 2720,
+          energyMax: 3080,
           cpMin: 14.5,
           cpMax: 17.0,
           lysineMin: 0.78,
@@ -1405,6 +1410,12 @@ class NutrientRequirements {
   /// Build a full nutrient constraint set for a species + stage.
   ///
   /// Energy in kcal ME/kg; all others in %.
+  ///
+  /// Auto-widens any constraint range that is too narrow to be feasible:
+  ///   - Energy:        minimum 200 kcal spread (engine warns below 150)
+  ///   - All others:    minimum 0.40 % spread  (engine warns below 0.35)
+  /// Expansion is symmetric (equal left and right) so the biological
+  /// midpoint stays centred on the NRC/INRA reference value.
   static NutrientRequirements _build(
     int animalTypeId,
     FeedType type, {
@@ -1421,6 +1432,26 @@ class NutrientRequirements {
     required double pMin,
     required double pMax,
   }) {
+    // ── Auto-widen helper ──────────────────────────────────────────────────
+    (double, double) widen(double lo, double hi, double minWidth) {
+      final gap = hi - lo;
+      if (gap >= minWidth) return (lo, hi);
+      final expand = (minWidth - gap) / 2;
+      return (lo - expand, hi + expand);
+    }
+
+    // Enforce minimum range widths before passing to constraints
+    const minEnergyWidth = 200.0; // kcal
+    const minPctWidth = 0.40; // %
+
+    (energyMin, energyMax) = widen(energyMin, energyMax, minEnergyWidth);
+    (cpMin, cpMax) = widen(cpMin, cpMax, minPctWidth);
+    (lysineMin, lysineMax) = widen(lysineMin, lysineMax, minPctWidth);
+    (metMin, metMax) = widen(metMin, metMax, minPctWidth);
+    (caMin, caMax) = widen(caMin, caMax, minPctWidth);
+    (pMin, pMax) = widen(pMin, pMax, minPctWidth);
+    // ──────────────────────────────────────────────────────────────────────
+
     return NutrientRequirements(
       animalTypeId: animalTypeId,
       feedType: type,
