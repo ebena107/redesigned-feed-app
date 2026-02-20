@@ -47,14 +47,18 @@ void registerErrorHandlers() {
     debugPrint(error.toString());
     return true;
   };
-  // * Show some error UI when any widget in the app fails to build
   ErrorWidget.builder = (FlutterErrorDetails details) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.red,
-        title: const Text('An error occurred'),
+    return Material(
+      color: Colors.red.shade100,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            details.exception.toString(),
+            style: const TextStyle(color: Colors.red),
+          ),
+        ),
       ),
-      body: Center(child: Text(details.toString())),
     );
   };
 }

@@ -285,6 +285,19 @@ class FeedFormulatorEngine {
       warnings,
     );
 
+    // Post-solve enforcement: force mandatory additives (e.g. Salt) to their
+    // minimum inclusion if the LP set them to 0% (common when an ingredient
+    // contributes nothing to the nutrient objective, making it cost-optimal
+    // for the LP to exclude it despite the min-inclusion constraint).
+    if (inclusionStrategy != InclusionStrategy.none) {
+      _enforceMinimumsPostSolve(
+        percents,
+        variableIngredients,
+        animalTypeId,
+        feedTypeName,
+      );
+    }
+
     final nutrients = _calculateNutrients(
       ingredients,
       percents,
@@ -726,21 +739,27 @@ class FeedFormulatorEngine {
     const minSlack = 0.001; // ignore sub-0.1% residuals (floating point)
     if (slack < minSlack) return;
 
-    // Find the cheapest variable ingredient that still has room under its cap
+    // Find the cheapest BULK (non-premix) variable ingredient with room.
+    // Bug fix: Limestone and other minerals are cheap but should NOT receive
+    // slack — they would contribute excessive Ca/Mg at >2-3% inclusion.
+    // Only grains, protein meals, and other bulk ingredients absorb slack.
     Ingredient? bestIng;
     double bestPrice = double.infinity;
 
     for (final ing in variableIngredients) {
+      // Skip premix, mineral, vitamin, and salt ingredients —
+      // they have nutrient-dense profiles unsuitable as bulk fillers
+      if (_isPremixIngredient(ing)) continue;
+
       final price = ing.priceKg?.toDouble() ?? double.infinity;
       if (price >= bestPrice) continue;
 
       final id = ing.ingredientId ?? ing.name.hashCode;
       final currentPct = percents[id] ?? 0.0;
       final maxPct = _getMaxInclusionPct(ing, animalTypeId, feedTypeName);
-      final effectiveMax = maxPct ?? 100.0; // uncapped = can absorb all slack
+      final effectiveMax = maxPct ?? 100.0;
 
       if (currentPct < effectiveMax - 0.01) {
-        // This ingredient still has headroom
         bestIng = ing;
         bestPrice = price;
       }
@@ -769,6 +788,74 @@ class FeedFormulatorEngine {
       '(slack was ${(slack * 100).toStringAsFixed(2)}%)',
       tag: 'FeedFormulatorEngine',
     );
+
+    // Recurse once in case there is still remaining slack after this ingredient
+    // hit its own cap (e.g., maize@65% received only part of the slack).
+    _fillSlack(percents, variableIngredients, remainingSpace, animalTypeId,
+        feedTypeName, warnings);
+  }
+
+  /// Post-solve enforcement: if an ingredient should have a minimum inclusion
+  /// but the LP set it to 0 (common with additives like Salt), force it up
+  /// by taking the space from the cheapest bulk ingredient.
+  ///
+  /// This is needed because LP solvers may not strictly honour lower-bound
+  /// constraints when the ingredients contribute nothing to the objective
+  /// improvement — e.g., Salt has no macro-nutrient value, so the LP
+  /// minimises cost by setting it to 0 even with x_salt >= 0.005.
+  void _enforceMinimumsPostSolve(
+    Map<num, double> percents,
+    List<Ingredient> variableIngredients,
+    int animalTypeId,
+    String? feedTypeName,
+  ) {
+    for (final ing in variableIngredients) {
+      final id = ing.ingredientId ?? ing.name.hashCode;
+      final currentPct = percents[id] ?? 0.0;
+      if (currentPct > 0) continue; // already has some inclusion
+
+      // Determine what the effective minimum should be
+      final maxPct = _getMaxInclusionPct(ing, animalTypeId, feedTypeName);
+      final effectiveMin = (maxPct != null && maxPct < minInclusionPct)
+          ? maxPct
+          : minInclusionPct;
+      if (effectiveMin <= 0) continue; // no minimum required
+
+      // The LP left this ingredient at 0 despite the minimum bound.
+      // Force it to effectiveMin by taking space from the cheapest bulk ingredient.
+      AppLogger.debug(
+        '_enforceMinimumsPostSolve: ${ing.name} is at 0% despite '
+        'effectiveMin=${effectiveMin.toStringAsFixed(2)}% — forcing up',
+        tag: 'FeedFormulatorEngine',
+      );
+
+      // Find cheapest bulk donor
+      Ingredient? donor;
+      double donorPrice = double.infinity;
+      for (final d in variableIngredients) {
+        if (d.ingredientId == ing.ingredientId) continue;
+        if (_isPremixIngredient(d)) continue; // minerals can't donate either
+        final dId = d.ingredientId ?? d.name.hashCode;
+        final dPct = percents[dId] ?? 0.0;
+        final dPrice = d.priceKg?.toDouble() ?? double.infinity;
+        if (dPct > effectiveMin + 0.01 && dPrice < donorPrice) {
+          donor = d;
+          donorPrice = dPrice;
+        }
+      }
+
+      if (donor == null) continue; // can't enforce — no donor available
+
+      final dId = donor.ingredientId ?? donor.name.hashCode;
+      percents[id] = effectiveMin;
+      percents[dId] = (percents[dId] ?? 0.0) - effectiveMin;
+
+      AppLogger.debug(
+        '_enforceMinimumsPostSolve: moved ${effectiveMin.toStringAsFixed(2)}% '
+        'from ${donor.name} → ${ing.name}',
+        tag: 'FeedFormulatorEngine',
+      );
+    }
   }
 
   /// Build final ingredient percentages from LP solution

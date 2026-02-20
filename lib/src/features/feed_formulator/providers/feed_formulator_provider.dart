@@ -14,6 +14,9 @@ import 'package:feed_estimator/src/features/feed_formulator/model/formulation_re
 import 'package:feed_estimator/src/features/feed_formulator/model/nutrient_requirements.dart';
 import 'package:feed_estimator/src/features/feed_formulator/repository/formulation_repository.dart';
 import 'package:feed_estimator/src/features/feed_formulator/services/feed_formulator_engine.dart';
+import 'package:feed_estimator/src/features/main/model/feed.dart';
+import 'package:feed_estimator/src/features/main/repository/feed_repository.dart';
+import 'package:feed_estimator/src/features/main/repository/feed_ingredient_repository.dart';
 
 /// PROVIDER
 final feedFormulatorProvider =
@@ -183,6 +186,30 @@ class FeedFormulatorNotifier extends Notifier<FeedFormulatorState> {
     }).toList();
 
     setConstraints(updated);
+  }
+
+  void setIngredientPriceOverride(num ingredientId, double? price) {
+    final updated = Map<num, double>.from(state.input.priceOverrides);
+    if (price == null) {
+      updated.remove(ingredientId);
+    } else {
+      updated[ingredientId] = price;
+    }
+    state = state.copyWith(
+      input: state.input.copyWith(priceOverrides: updated),
+    );
+  }
+
+  void setIngredientMaxInclusionOverride(num ingredientId, double? maxPct) {
+    final updated = Map<num, double>.from(state.input.maxInclusionOverrides);
+    if (maxPct == null) {
+      updated.remove(ingredientId);
+    } else {
+      updated[ingredientId] = maxPct;
+    }
+    state = state.copyWith(
+      input: state.input.copyWith(maxInclusionOverrides: updated),
+    );
   }
 
   void resetResult() {
@@ -376,6 +403,62 @@ class FeedFormulatorNotifier extends Notifier<FeedFormulatorState> {
     }
   }
 
+  /// SAVE AS FEED (to main app database)
+  Future<bool> saveAsFeed(String feedName) async {
+    final currentResult = state.result;
+    if (currentResult == null) return false;
+
+    try {
+      final feedRepo = ref.read(feedRepository);
+      final feedIngRepo = ref.read(feedIngredientRepository);
+
+      final feed = Feed(
+        feedName: feedName,
+        animalId: state.input.animalTypeId,
+        timestampModified: DateTime.now().millisecondsSinceEpoch,
+        productionStage: state.input.feedType.name,
+      );
+
+      final feedId = await feedRepo.create(feed.toJson());
+
+      // Get ingredient data to map IDs to price
+      final ingredientData = ref.read(ingredientProvider);
+      final ingredientCache = {
+        for (final ing in ingredientData.ingredients)
+          if (ing.ingredientId != null) ing.ingredientId!: ing
+      };
+
+      final futures =
+          currentResult.ingredientPercents.entries.map((entry) async {
+        final ingId = entry.key;
+        final percentage = entry.value;
+
+        // Skip ingredients with 0% inclusion
+        if (percentage <= 0) return;
+
+        final baseIng = ingredientCache[ingId];
+        final priceOverride = state.input.priceOverrides[ingId];
+        final price = priceOverride ?? baseIng?.priceKg ?? 0.0;
+
+        final feedIng = FeedIngredients(
+          feedId: feedId,
+          ingredientId: ingId,
+          quantity: percentage,
+          priceUnitKg: price,
+        );
+
+        await feedIngRepo.create(feedIng.toJson());
+      });
+
+      await Future.wait(futures);
+      return true;
+    } catch (e, stackTrace) {
+      AppLogger.error('Error saving formulation as feed: $e',
+          tag: 'FeedFormulatorNotifier', error: e, stackTrace: stackTrace);
+      return false;
+    }
+  }
+
   /// LOAD FORMULATION
   /// Loads a saved formulation from the database and restores the state
   Future<bool> loadFormulation(int id) async {
@@ -432,7 +515,7 @@ class FeedFormulatorNotifier extends Notifier<FeedFormulatorState> {
     }
   }
 
-  /// SELECT INGREDIENTS
+  /// SELECT INGREDIENTS AND APPLY OVERRIDES
   List<Ingredient> _selectIngredients(
     List<Ingredient> all,
     Set<num> selectedIds,
@@ -443,7 +526,15 @@ class FeedFormulatorNotifier extends Notifier<FeedFormulatorState> {
       final id = ingredient.ingredientId;
 
       if (id != null && selectedIds.contains(id)) {
-        selected.add(ingredient);
+        var merged = ingredient;
+        if (state.input.priceOverrides.containsKey(id)) {
+          merged = merged.copyWith(priceKg: state.input.priceOverrides[id]);
+        }
+        if (state.input.maxInclusionOverrides.containsKey(id)) {
+          merged = merged.copyWith(
+              maxInclusionPct: state.input.maxInclusionOverrides[id]);
+        }
+        selected.add(merged);
       }
     }
 

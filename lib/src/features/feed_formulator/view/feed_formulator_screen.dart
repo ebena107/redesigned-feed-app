@@ -121,6 +121,94 @@ class _FeedFormulatorScreenState extends ConsumerState<FeedFormulatorScreen> {
         );
   }
 
+  Future<void> _handleSaveAsFeed(BuildContext context) async {
+    final scaffold = ScaffoldMessenger.of(context);
+
+    String feedName = 'Formulated Feed';
+    final TextEditingController nameController =
+        TextEditingController(text: feedName);
+
+    final bool? shouldSave = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Save to My Feeds'),
+        content: SizedBox(
+          width: double.maxFinite,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Enter a name for this new feed:'),
+              const SizedBox(height: UIConstants.paddingSmall),
+              TextField(
+                controller: nameController,
+                decoration: const InputDecoration(
+                  labelText: 'Feed Name',
+                  border: OutlineInputBorder(),
+                ),
+                autofocus: true,
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: Text(context.l10n.actionCancel),
+          ),
+          TextButton(
+            onPressed: () {
+              feedName = nameController.text.trim();
+              if (feedName.isEmpty) return;
+              Navigator.of(dialogContext).pop(true);
+            },
+            child: const Text('Save'),
+          ),
+        ],
+      ),
+    );
+
+    nameController.dispose();
+
+    if (shouldSave != true) return;
+    if (!mounted) return;
+
+    scaffold.showSnackBar(
+      const SnackBar(content: Text('Saving feed...')),
+    );
+
+    try {
+      final success =
+          await ref.read(feedFormulatorProvider.notifier).saveAsFeed(feedName);
+
+      if (!mounted) return;
+
+      if (success) {
+        scaffold.showSnackBar(
+          const SnackBar(
+            content: Text('Formulation successfully saved to My Feeds.'),
+            duration: Duration(seconds: 3),
+          ),
+        );
+      } else {
+        scaffold.showSnackBar(
+          const SnackBar(
+            content: Text('Failed to save to My Feeds.'),
+            backgroundColor: Colors.redAccent,
+          ),
+        );
+      }
+    } catch (e) {
+      if (!mounted) return;
+      scaffold.showSnackBar(
+        SnackBar(
+          content: Text('Error saving feed: $e'),
+          backgroundColor: Colors.redAccent,
+        ),
+      );
+    }
+  }
+
   Widget _buildBottomBar(BuildContext context) {
     final formState = ref.watch(feedFormulatorProvider);
 
@@ -217,6 +305,16 @@ class _FeedFormulatorScreenState extends ConsumerState<FeedFormulatorScreen> {
                           }
                         },
                   isLoading: formState.status == FormulatorStatus.solving,
+                ),
+              )
+            else if (_stepIndex == 3)
+              Expanded(
+                child: WidgetBuilders.buildPrimaryButton(
+                  label: 'Save to My Feeds',
+                  icon: const Icon(Icons.save),
+                  onPressed: formState.result == null
+                      ? null
+                      : () => _handleSaveAsFeed(context),
                 ),
               )
             else
@@ -673,7 +771,7 @@ class _IngredientStepState extends ConsumerState<_IngredientStep> {
   }
 }
 
-class _CustomizationStep extends StatelessWidget {
+class _CustomizationStep extends ConsumerWidget {
   const _CustomizationStep({
     required this.constraints,
     required this.minControllers,
@@ -689,19 +787,28 @@ class _CustomizationStep extends StatelessWidget {
   final String Function(BuildContext, NutrientKey) labelBuilder;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final formState = ref.watch(feedFormulatorProvider);
+    final selectedIngredientIds = formState.input.selectedIngredientIds;
+    final ingredientState = ref.watch(ingredientProvider);
+    final selectedIngredients = ingredientState.ingredients
+        .where((ing) =>
+            ing.ingredientId != null &&
+            selectedIngredientIds.contains(ing.ingredientId))
+        .toList();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           'Optional: Customize Nutrient Ranges',
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: AppConstants.appIconGreyColor,
+          style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                fontWeight: FontWeight.w700,
               ),
         ),
         const SizedBox(height: UIConstants.paddingSmall),
         Text(
-          'Modify the default nutrient requirements or ingredient inclusion limits below',
+          'Modify the default nutrient requirements below.',
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: AppConstants.appIconGreyColor,
                 fontSize: 12,
@@ -758,7 +865,137 @@ class _CustomizationStep extends StatelessWidget {
             );
           },
         ),
+        if (selectedIngredients.isNotEmpty) ...[
+          const SizedBox(height: UIConstants.paddingNormal),
+          Text(
+            'Ingredient Prices & Limits',
+            style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
+          ),
+          const SizedBox(height: UIConstants.paddingSmall),
+          Text(
+            'Override default prices and maximum inclusion caps for specific ingredients.',
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: AppConstants.appIconGreyColor,
+                  fontSize: 12,
+                ),
+          ),
+          const SizedBox(height: UIConstants.paddingSmall),
+          ListView.separated(
+            itemCount: selectedIngredients.length,
+            separatorBuilder: (_, __) =>
+                const SizedBox(height: UIConstants.paddingSmall),
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              final ingredient = selectedIngredients[index];
+              return _IngredientOverrideCard(ingredient: ingredient);
+            },
+          ),
+        ],
       ],
+    );
+  }
+}
+
+class _IngredientOverrideCard extends ConsumerStatefulWidget {
+  const _IngredientOverrideCard({required this.ingredient});
+  final Ingredient ingredient;
+
+  @override
+  ConsumerState<_IngredientOverrideCard> createState() =>
+      _IngredientOverrideCardState();
+}
+
+class _IngredientOverrideCardState
+    extends ConsumerState<_IngredientOverrideCard> {
+  late final TextEditingController _priceController;
+  late final TextEditingController _maxController;
+
+  @override
+  void initState() {
+    super.initState();
+    final state = ref.read(feedFormulatorProvider);
+    final id = widget.ingredient.ingredientId!;
+    final priceOverride = state.input.priceOverrides[id];
+    final maxOverride = state.input.maxInclusionOverrides[id];
+
+    _priceController = TextEditingController(
+      text: priceOverride?.toString() ??
+          widget.ingredient.priceKg?.toString() ??
+          '',
+    );
+    _maxController = TextEditingController(
+      text: maxOverride?.toString() ??
+          widget.ingredient.maxInclusionPct?.toString() ??
+          '',
+    );
+  }
+
+  @override
+  void dispose() {
+    _priceController.dispose();
+    _maxController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return WidgetBuilders.buildCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            widget.ingredient.name ?? '',
+            style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          const SizedBox(height: UIConstants.paddingSmall),
+          Row(
+            children: [
+              Expanded(
+                child: WidgetBuilders.buildTextField(
+                  label: 'Price / kg',
+                  controller: _priceController,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: InputValidators.numericFormatters,
+                  onChanged: (val) {
+                    final price = double.tryParse(val.replaceAll(',', '.'));
+                    ref
+                        .read(feedFormulatorProvider.notifier)
+                        .setIngredientPriceOverride(
+                          widget.ingredient.ingredientId!,
+                          price,
+                        );
+                  },
+                ),
+              ),
+              const SizedBox(width: UIConstants.paddingSmall),
+              Expanded(
+                child: WidgetBuilders.buildTextField(
+                  label: 'Max %',
+                  controller: _maxController,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: InputValidators.numericFormatters,
+                  onChanged: (val) {
+                    final maxPct = double.tryParse(val.replaceAll(',', '.'));
+                    ref
+                        .read(feedFormulatorProvider.notifier)
+                        .setIngredientMaxInclusionOverride(
+                          widget.ingredient.ingredientId!,
+                          maxPct,
+                        );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
@@ -1006,7 +1243,7 @@ class _ResultsStep extends ConsumerWidget {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 4),
-            child: WidgetBuilders.buildPrimaryButton(
+            child: WidgetBuilders.buildOutlinedButton(
               label: context.l10n.actionExport,
               onPressed: () => _showExportMenu(context, ref, result),
               icon: const Icon(Icons.download),

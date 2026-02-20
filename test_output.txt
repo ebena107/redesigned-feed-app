@@ -1,0 +1,71 @@
+00:00 +0: loading C:/dev/feed_estimator/redesigned-feed-app/test/formulator/formulator_overrides_test.dart
+00:00 +0: Formulator Overrides Test Overriding Max Inclusion limits ingredient usage
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Feasibility check for energy: min_possible=0.0, max_possible=3480.0
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Feasibility check for protein: min_possible=0.0, max_possible=62.0
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Feasibility check for lysine: min_possible=0.0, max_possible=4.8
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Feasibility check for methionine: min_possible=0.0, max_possible=1.8
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Feasibility check for calcium: min_possible=0.0, max_possible=38.0
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Feasibility check for phosphorus: min_possible=0.0, max_possible=2.8
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Applying allSelected inclusion strategy with min 0.50%
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Solver result: INFEASIBLE
+[FeedEstimator] 19:37:16 [WARNING] [FeedFormulatorEngine] Infeasible formula detected
+00:00 +0 -1: Formulator Overrides Test Overriding Max Inclusion limits ingredient usage [E]
+  Expected: 'optimal'
+    Actual: 'infeasible'
+     Which: is different.
+            Expected: optimal
+              Actual: infeasible ...
+                      ^
+             Differ at offset 0
+  
+  package:matcher                                      expect
+  package:flutter_test/src/widget_tester.dart 473:18   expect
+  test\formulator\formulator_overrides_test.dart 43:7  main.<fn>.<fn>
+  
+00:00 +0 -1: Formulator Overrides Test Overriding Price affects formulation choice or cost output
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Feasibility check for energy: min_possible=0.0, max_possible=3480.0
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Feasibility check for protein: min_possible=0.0, max_possible=62.0
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Feasibility check for lysine: min_possible=0.0, max_possible=4.8
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Feasibility check for methionine: min_possible=0.0, max_possible=1.8
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Feasibility check for calcium: min_possible=0.0, max_possible=38.0
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Feasibility check for phosphorus: min_possible=0.0, max_possible=2.8
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Applying allSelected inclusion strategy with min 0.50%
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Solver result: OPTIMAL
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Fish meal, 62% protein: 0.00%
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Maize (Corn): 65.00%
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Soybean meal, 48% CP, solvent extracted: 20.17%
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Palm kernel meal, oil < 5%: 11.83%
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Wheat bran: 0.00%
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] _enforceMinimumsPostSolve: Fish meal, 62% protein is at 0% despite effectiveMin=0.50% — forcing up
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] _enforceMinimumsPostSolve: moved 0.50% from Palm kernel meal, oil < 5% → Fish meal, 62% protein
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] _enforceMinimumsPostSolve: Wheat bran is at 0% despite effectiveMin=0.50% — forcing up
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] _enforceMinimumsPostSolve: moved 0.50% from Palm kernel meal, oil < 5% → Wheat bran
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] _enforceMinimumsPostSolve: Limestone (ground) is at 0% despite effectiveMin=0.50% — forcing up
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] _enforceMinimumsPostSolve: moved 0.50% from Palm kernel meal, oil < 5% → Limestone (ground)
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] _enforceMinimumsPostSolve: Salt (Sodium chloride) is at 0% despite effectiveMin=0.50% — forcing up
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] _enforceMinimumsPostSolve: moved 0.50% from Palm kernel meal, oil < 5% → Salt (Sodium chloride)
+[FeedEstimator] 19:37:16 [INFO] [FeedFormulatorEngine] Formulation optimal | Cost: 6708.642 ₦/kg | Fixed: 0.0% | Variable: 8 ingredients
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Feasibility check for energy: min_possible=0.0, max_possible=3480.0
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Feasibility check for protein: min_possible=0.0, max_possible=62.0
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Feasibility check for lysine: min_possible=0.0, max_possible=4.8
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Feasibility check for methionine: min_possible=0.0, max_possible=1.8
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Feasibility check for calcium: min_possible=0.0, max_possible=38.0
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Feasibility check for phosphorus: min_possible=0.0, max_possible=2.8
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Applying allSelected inclusion strategy with min 0.50%
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Solver result: OPTIMAL
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Fish meal, 62% protein: 0.00%
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Maize (Corn): 65.00%
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Soybean meal, 48% CP, solvent extracted: 20.17%
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Palm kernel meal, oil < 5%: 11.83%
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] Wheat bran: 0.00%
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] _enforceMinimumsPostSolve: Fish meal, 62% protein is at 0% despite effectiveMin=0.50% — forcing up
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] _enforceMinimumsPostSolve: moved 0.50% from Palm kernel meal, oil < 5% → Fish meal, 62% protein
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] _enforceMinimumsPostSolve: Wheat bran is at 0% despite effectiveMin=0.50% — forcing up
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] _enforceMinimumsPostSolve: moved 0.50% from Palm kernel meal, oil < 5% → Wheat bran
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] _enforceMinimumsPostSolve: Limestone (ground) is at 0% despite effectiveMin=0.50% — forcing up
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] _enforceMinimumsPostSolve: moved 0.50% from Palm kernel meal, oil < 5% → Limestone (ground)
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] _enforceMinimumsPostSolve: Salt (Sodium chloride) is at 0% despite effectiveMin=0.50% — forcing up
+[FeedEstimator] 19:37:16 [DEBUG] [FeedFormulatorEngine] _enforceMinimumsPostSolve: moved 0.50% from Palm kernel meal, oil < 5% → Salt (Sodium chloride)
+[FeedEstimator] 19:37:16 [INFO] [FeedFormulatorEngine] Formulation optimal | Cost: 493.992 ₦/kg | Fixed: 0.0% | Variable: 8 ingredients
+Base Cost: ${baseResult.costPerKg.toStringAsFixed(2)}, High Maize Cost: ${result.costPerKg.toStringAsFixed(2)}
+00:00 +1 -1: Some tests failed.

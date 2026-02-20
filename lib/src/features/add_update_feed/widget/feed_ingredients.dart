@@ -195,23 +195,31 @@ class FeedIngredientsField extends ConsumerWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    ingredient.quantity?.toString() ?? '0',
-                                    style: Theme.of(
-                                      context,
-                                    ).textTheme.bodyMedium,
+                                  Flexible(
+                                    child: Text(
+                                      ingredient.quantity?.toString() ?? '0',
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.bodyMedium,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                   ),
-                                  Text(
-                                    data.totalQuantity > 0
-                                        ? "${ref.watch(feedProvider.notifier).calcPercent(ingredient.quantity).toStringAsFixed(1)}%"
-                                        : "0.0%",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall
-                                        ?.copyWith(
-                                          color: AppConstants.appIconGreyColor,
-                                        ),
-                                    textAlign: TextAlign.center,
+                                  const SizedBox(width: 2),
+                                  Flexible(
+                                    child: Text(
+                                      data.totalQuantity > 0
+                                          ? "${ref.watch(feedProvider.notifier).calcPercent(ingredient.quantity).toStringAsFixed(1)}%"
+                                          : "0.0%",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall
+                                          ?.copyWith(
+                                            color:
+                                                AppConstants.appIconGreyColor,
+                                          ),
+                                      textAlign: TextAlign.right,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                   ),
                                 ],
                               ),

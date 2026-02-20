@@ -10,6 +10,8 @@ sealed class FormulatorInput {
     required this.constraints,
     required this.selectedIngredientIds,
     required this.enforceMaxInclusion,
+    required this.priceOverrides,
+    required this.maxInclusionOverrides,
   });
 
   final int animalTypeId;
@@ -18,12 +20,20 @@ sealed class FormulatorInput {
   final Set<num> selectedIngredientIds;
   final bool enforceMaxInclusion;
 
+  /// User-defined overrides for ingredient price per kg
+  final Map<num, double> priceOverrides;
+
+  /// User-defined overrides for ingredient maximum inclusion percentage
+  final Map<num, double> maxInclusionOverrides;
+
   FormulatorInput copyWith({
     int? animalTypeId,
     FeedType? feedType,
     List<NutrientConstraint>? constraints,
     Set<num>? selectedIngredientIds,
     bool? enforceMaxInclusion,
+    Map<num, double>? priceOverrides,
+    Map<num, double>? maxInclusionOverrides,
   });
 
   static FormulatorInput initial() {
@@ -35,6 +45,8 @@ sealed class FormulatorInput {
       constraints: defaults.constraints,
       selectedIngredientIds: {},
       enforceMaxInclusion: true,
+      priceOverrides: {},
+      maxInclusionOverrides: {},
     );
   }
 }
@@ -47,6 +59,8 @@ class _FormulatorInput extends FormulatorInput {
     required super.constraints,
     required super.selectedIngredientIds,
     required super.enforceMaxInclusion,
+    required super.priceOverrides,
+    required super.maxInclusionOverrides,
   });
 
   @override
@@ -56,6 +70,8 @@ class _FormulatorInput extends FormulatorInput {
     List<NutrientConstraint>? constraints,
     Set<num>? selectedIngredientIds,
     bool? enforceMaxInclusion,
+    Map<num, double>? priceOverrides,
+    Map<num, double>? maxInclusionOverrides,
   }) {
     return _FormulatorInput(
       animalTypeId: animalTypeId ?? this.animalTypeId,
@@ -64,6 +80,9 @@ class _FormulatorInput extends FormulatorInput {
       selectedIngredientIds:
           selectedIngredientIds ?? this.selectedIngredientIds,
       enforceMaxInclusion: enforceMaxInclusion ?? this.enforceMaxInclusion,
+      priceOverrides: priceOverrides ?? this.priceOverrides,
+      maxInclusionOverrides:
+          maxInclusionOverrides ?? this.maxInclusionOverrides,
     );
   }
 }

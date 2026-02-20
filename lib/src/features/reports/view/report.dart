@@ -10,6 +10,7 @@ import 'package:feed_estimator/src/features/reports/widget/ingredients_list.dart
 import 'package:feed_estimator/src/features/reports/widget/phosphorus_breakdown_card.dart';
 
 import 'package:feed_estimator/src/features/reports/widget/result_card.dart';
+import 'package:feed_estimator/src/features/reports/widget/report_bottom_bar.dart';
 import 'package:feed_estimator/src/utils/widgets/unified_gradient_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -112,7 +113,7 @@ class _AnalysisPageState extends ConsumerState<AnalysisPage> {
 
       return ResponsiveScaffold(
         backgroundColor: AppConstants.appBackgroundColor,
-        // bottomNavigationBar: const ReportBottomBar(), // Removed as ResponsiveScaffold handles nav
+        bottomNavigationBar: const ReportBottomBar(),
         body: CustomScrollView(
           slivers: [
             UnifiedGradientHeader(
