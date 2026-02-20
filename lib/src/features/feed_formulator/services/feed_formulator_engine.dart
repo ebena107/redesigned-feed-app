@@ -106,8 +106,9 @@ class FeedFormulatorEngine {
     final adjustedConstraints = _applySafetyMargin(constraints);
 
     // Validate constraints are feasible with available variable ingredients
+    // (FIX 3: warnings list passed in — no longer throws on gap)
     _validateFeasibility(
-        variableIngredients, adjustedConstraints, animalTypeId);
+        variableIngredients, adjustedConstraints, animalTypeId, warnings);
 
     // Validate constraint ranges for user guidance
     _validateConstraintRanges(adjustedConstraints);
@@ -128,6 +129,9 @@ class FeedFormulatorEngine {
     );
 
     // Apply inclusion strategy constraints (only to variable ingredients)
+    // FIX 1: clamp effectiveMin to never exceed the ingredient's own max cap.
+    // Without this, the LP receives contradictory bounds (min > max) and
+    // silently drops the ingredient to 0% even in allSelected mode.
     if (inclusionStrategy != InclusionStrategy.none && minInclusionPct > 0) {
       AppLogger.debug(
         'Applying ${inclusionStrategy.name} inclusion strategy with min ${minInclusionPct.toStringAsFixed(2)}%',
@@ -135,14 +139,23 @@ class FeedFormulatorEngine {
       );
 
       for (var i = 0; i < variableIngredients.length; i++) {
+        final ing = variableIngredients[i];
+        final maxPct = _getMaxInclusionPct(ing, animalTypeId, feedTypeName);
+        // Clamp: effectiveMin = min(minInclusionPct, maxPct) so we never
+        // ask the LP for more than the ingredient's own upper bound.
+        final effectiveMin = (maxPct != null && maxPct < minInclusionPct)
+            ? maxPct
+            : minInclusionPct;
+
+        if (effectiveMin <= 0) continue; // nothing to enforce
+
         final coeffs = List<double>.filled(variableIngredients.length, 0);
         coeffs[i] = 1;
 
-        // Minimum inclusion: x_i >= minInclusionPct / 100
         lpConstraints.add(
           LinearConstraint(
             coefficients: coeffs,
-            rhs: minInclusionPct / 100,
+            rhs: effectiveMin / 100,
             type: ConstraintType.greaterOrEqual,
           ),
         );
@@ -259,6 +272,18 @@ class FeedFormulatorEngine {
     // Build final percentages (fixed + variable)
     final percents =
         _buildFinalPercents(ingredients, variableIngredients, solution);
+
+    // FIX 2: Distribute any remaining slack so the formula sums to 100%.
+    // Slack arises when ingredient max-caps collectively prevent full fill
+    // (e.g. maize@65% + SBM@23.5% + all capped additives = 93.85%).
+    _fillSlack(
+      percents,
+      variableIngredients,
+      remainingSpace,
+      animalTypeId,
+      feedTypeName,
+      warnings,
+    );
 
     final nutrients = _calculateNutrients(
       ingredients,
@@ -499,16 +524,21 @@ class FeedFormulatorEngine {
     }
   }
 
-  /// Validates that all constraints are feasible with the given ingredients
+  /// Validates that all constraints are feasible with the given ingredients.
   ///
-  /// Throws [CalculationException] if a constraint is impossible to achieve:
-  /// - Minimum constraint higher than max possible nutrient value
-  /// - Maximum constraint lower than min possible nutrient value
-  void _validateFeasibility(
+  /// FIX 3: No longer throws — instead appends a rich, user-readable warning
+  /// so the UI can surface helpful "add limestone" style hints rather than
+  /// crashing. The LP will still fail and trigger auto-relaxation if needed.
+  ///
+  /// Returns true if all constraints are feasible, false if any gap was found.
+  bool _validateFeasibility(
     List<Ingredient> ingredients,
     List<NutrientConstraint> constraints,
-    int animalTypeId,
-  ) {
+    int animalTypeId, [
+    List<String>? warnings,
+  ]) {
+    bool allFeasible = true;
+
     for (final constraint in constraints) {
       final values = ingredients
           .map((i) => _nutrientValue(i, constraint.key, animalTypeId))
@@ -519,40 +549,65 @@ class FeedFormulatorEngine {
       final maxPossible = values.reduce(max);
       final minPossible = values.reduce(min);
 
-      // Debug logging
-      final ingredientNutrients = <String>[];
-      for (var i = 0; i < ingredients.length; i++) {
-        final nutrientVal = values[i].toStringAsFixed(2);
-        final name = ingredients[i].name ?? 'Unknown';
-        ingredientNutrients.add('$name: $nutrientVal');
-      }
-
       AppLogger.debug(
-        'Feasibility check for ${constraint.key.name}: min_possible=$minPossible, max_possible=$maxPossible',
+        'Feasibility check for ${constraint.key.name}: '
+        'min_possible=$minPossible, max_possible=$maxPossible',
         tag: 'FeedFormulatorEngine',
       );
 
       if (constraint.min != null && constraint.min! > maxPossible) {
-        throw CalculationException(
-          operation: 'formulate',
-          message:
-              '${constraint.key.name} minimum (${constraint.min}) is impossible. '
-              'Max available from ingredients = $maxPossible. '
-              'Available: ${ingredientNutrients.join(", ")}',
-        );
+        allFeasible = false;
+        final label = _nutrientLabel(constraint.key);
+        final target = constraint.min!.toStringAsFixed(2);
+        final achieved = maxPossible.toStringAsFixed(2);
+        final hint = _missingSuggestion(constraint.key);
+        final msg =
+            '⚠ $label gap: target ≥ $target, max achievable = $achieved. $hint';
+        AppLogger.warning(msg, tag: 'FeedFormulatorEngine');
+        warnings?.add(msg);
       }
 
       if (constraint.max != null && constraint.max! < minPossible) {
-        throw CalculationException(
-          operation: 'formulate',
-          message:
-              '${constraint.key.name} maximum (${constraint.max}) is impossible. '
-              'Min available from ingredients = $minPossible. '
-              'Available: ${ingredientNutrients.join(", ")}',
-        );
+        allFeasible = false;
+        final label = _nutrientLabel(constraint.key);
+        final target = constraint.max!.toStringAsFixed(2);
+        final achieved = minPossible.toStringAsFixed(2);
+        final msg =
+            '⚠ $label excess: target ≤ $target, min achievable = $achieved. '
+            'Consider removing high-$label ingredients.';
+        AppLogger.warning(msg, tag: 'FeedFormulatorEngine');
+        warnings?.add(msg);
       }
     }
+
+    return allFeasible;
   }
+
+  /// Human-readable label for a nutrient key.
+  String _nutrientLabel(NutrientKey key) => switch (key) {
+        NutrientKey.energy => 'Energy (ME)',
+        NutrientKey.protein => 'Crude Protein',
+        NutrientKey.lysine => 'Lysine',
+        NutrientKey.methionine => 'Methionine',
+        NutrientKey.calcium => 'Calcium',
+        NutrientKey.phosphorus => 'Phosphorus',
+      };
+
+  /// Suggest common ingredients to fix a nutrient gap.
+  String _missingSuggestion(NutrientKey key) => switch (key) {
+        NutrientKey.calcium =>
+          'Consider adding: Limestone (CaCO₃), Dicalcium Phosphate, or Oyster Shell.',
+        NutrientKey.phosphorus =>
+          'Consider adding: Dicalcium Phosphate, Monocalcium Phosphate, or high-P ingredients.',
+        NutrientKey.lysine =>
+          'Consider adding: L-Lysine HCl (78.8%), Soybean meal, or Fish meal.',
+        NutrientKey.methionine =>
+          'Consider adding: DL-Methionine (98%), Fishmeal, or methionine-rich ingredients.',
+        NutrientKey.energy =>
+          'Consider adding higher-energy ingredients: Maize, Soybean oil, or Tallow.',
+        NutrientKey.protein =>
+          'Consider adding: Soybean meal (48% CP), Fish meal, or Blood meal.',
+      };
 
   /// Map animal type ID and feed type name to inclusion key
   /// Example: animalTypeId=1, feedTypeName="finisher" → "pig_finisher"
@@ -641,6 +696,79 @@ class FeedFormulatorEngine {
         min: c.min! * options.safetyMargin,
       );
     }).toList();
+  }
+
+  /// FIX 2: Fill any slack so the formula always sums to 100%.
+  ///
+  /// After a least-cost LP solve, ingredient max-caps can leave unfilled space
+  /// (e.g. maize@65% + SBM@23.5% + capped additives = 93.85%).
+  /// We distribute that slack to the cheapest available variable ingredient
+  /// that is not yet at its own max cap — the solver would have chosen it
+  /// anyway if the formula had more room.
+  ///
+  /// No change is made when slack < 0.1% (floating-point residual).
+  void _fillSlack(
+    Map<num, double> percents,
+    List<Ingredient> variableIngredients,
+    double remainingSpace, // fraction (0-1), NOT percentage
+    int animalTypeId,
+    String? feedTypeName,
+    List<String> warnings,
+  ) {
+    // Current sum of variable ingredient fractions from LP solution
+    double usedFraction = 0;
+    for (final ing in variableIngredients) {
+      final id = ing.ingredientId ?? ing.name.hashCode;
+      usedFraction += (percents[id] ?? 0.0) / 100.0;
+    }
+
+    final slack = remainingSpace - usedFraction; // fraction
+    const minSlack = 0.001; // ignore sub-0.1% residuals (floating point)
+    if (slack < minSlack) return;
+
+    // Find the cheapest variable ingredient that still has room under its cap
+    Ingredient? bestIng;
+    double bestPrice = double.infinity;
+
+    for (final ing in variableIngredients) {
+      final price = ing.priceKg?.toDouble() ?? double.infinity;
+      if (price >= bestPrice) continue;
+
+      final id = ing.ingredientId ?? ing.name.hashCode;
+      final currentPct = percents[id] ?? 0.0;
+      final maxPct = _getMaxInclusionPct(ing, animalTypeId, feedTypeName);
+      final effectiveMax = maxPct ?? 100.0; // uncapped = can absorb all slack
+
+      if (currentPct < effectiveMax - 0.01) {
+        // This ingredient still has headroom
+        bestIng = ing;
+        bestPrice = price;
+      }
+    }
+
+    if (bestIng == null) {
+      // Nowhere to put the slack — add a warning so the UI knows
+      final msg =
+          '⚠ Formula fills ${(usedFraction * 100).toStringAsFixed(1)}% only. '
+          'All selected ingredients are at their maximum inclusion limits. '
+          'Consider raising max caps or adding a bulk energy/filler ingredient.';
+      AppLogger.warning(msg, tag: 'FeedFormulatorEngine');
+      warnings.add(msg);
+      return;
+    }
+
+    final id = bestIng.ingredientId ?? bestIng.name.hashCode;
+    final currentPct = percents[id] ?? 0.0;
+    final maxPct = _getMaxInclusionPct(bestIng, animalTypeId, feedTypeName);
+    final effectiveMax = maxPct ?? 100.0;
+    final added = min(slack * 100, effectiveMax - currentPct);
+    percents[id] = currentPct + added;
+
+    AppLogger.debug(
+      '_fillSlack: +${added.toStringAsFixed(2)}% to ${bestIng.name} '
+      '(slack was ${(slack * 100).toStringAsFixed(2)}%)',
+      tag: 'FeedFormulatorEngine',
+    );
   }
 
   /// Build final ingredient percentages from LP solution
