@@ -106,18 +106,21 @@ class ResultCard extends ConsumerWidget {
                 child: _StatItem(
                   label: context.l10n.nutrientCrudeFiber,
                   value: '${result.cFibre?.toStringAsFixed(2)}',
+                  unit: context.l10n.unitPercent,
                 ),
               ),
               Expanded(
                 child: _StatItem(
                   label: context.l10n.nutrientCrudeFat,
                   value: '${result.cFat?.toStringAsFixed(2)}',
+                  unit: context.l10n.unitPercent,
                 ),
               ),
               Expanded(
                 child: _StatItem(
                   label: context.l10n.nutrientCalcium,
                   value: '${result.calcium?.toStringAsFixed(2)}',
+                  unit: context.l10n.unitGramPerKg,
                 ),
               ),
             ],
@@ -130,18 +133,21 @@ class ResultCard extends ConsumerWidget {
                 child: _StatItem(
                   label: context.l10n.nutrientPhosphorus,
                   value: '${result.phosphorus?.toStringAsFixed(2)}',
+                  unit: context.l10n.unitGramPerKg,
                 ),
               ),
               Expanded(
                 child: _StatItem(
                   label: context.l10n.nutrientLysine,
                   value: '${result.lysine?.toStringAsFixed(2)}',
+                  unit: context.l10n.unitGramPerKg,
                 ),
               ),
               Expanded(
                 child: _StatItem(
                   label: context.l10n.nutrientMethionine,
                   value: '${result.methionine?.toStringAsFixed(2)}',
+                  unit: context.l10n.unitGramPerKg,
                 ),
               ),
             ],

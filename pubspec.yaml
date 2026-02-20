@@ -18,8 +18,8 @@ dependencies:
   # UI & DESIGN
   # ============================================
   cupertino_icons: ^1.0.8        # iOS-style icons
-  flex_color_scheme: ^7.3.1      # Advanced theming system
-  google_fonts: ^6.2.1           # Custom fonts from Google
+  flex_color_scheme: ^8.4.0      # Advanced theming system
+  google_fonts: ^8.0.2           # Custom fonts from Google
   flutter_spinkit: ^5.2.1        # Loading animations
   gap: ^3.0.1                    # Spacing widgets
 
@@ -31,17 +31,17 @@ dependencies:
   # ============================================
   # STATE MANAGEMENT
   # ============================================
-  flutter_riverpod: ^2.6.1       # Reactive state management
-  riverpod_annotation: ^2.6.1    # Code generation for Riverpod
-  riverpod: ^2.6.1               # Core Riverpod (for Ref and non-Flutter use)
+  flutter_riverpod: ^3.1.0       # Reactive state management
+  riverpod_annotation: ^4.0.0    # Code generation for Riverpod
+  riverpod: ^3.1.0               # Core Riverpod (for Ref and non-Flutter use)
 
   # ============================================
   # DATA PERSISTENCE & DATABASE
   # ============================================
   sqflite: ^2.3.3+1              # SQLite database (mobile)
   sqflite_common_ffi: ^2.3.3     # SQLite FFI support (desktop)
-  sqflite_common_ffi_web: ^0.4.5+3  # SQLite web support
-  sqlite3_flutter_libs: ^0.5.24  # Native SQLite libraries
+  sqflite_common_ffi_web: ^1.1.1  # SQLite web support
+  sqlite3_flutter_libs: ^0.6.0+eol  # Native SQLite libraries
   shared_preferences: ^2.2.2     # Key-value storage
   path_provider: ^2.1.4          # System directories access
   path: ^1.9.0                   # Path manipulation utilities
@@ -53,6 +53,7 @@ dependencies:
   equatable: ^2.0.7              # Value equality
   intl: ^0.20.2                  # Internationalization & date formatting
   csv: ^6.0.0                    # CSV parsing and generation
+
 
   # ============================================
   # PDF GENERATION & PRINTING
@@ -70,7 +71,7 @@ dependencies:
   # SYSTEM & DEVICE
   # ============================================
   devicelocale: ^0.8.1           # Device locale detection
-  package_info_plus: ^8.0.2      # App version & package info
+  package_info_plus: ^9.0.0      # App version & package info
   url_launcher: ^6.2.5           # Open URLs & deep links
 
   # ============================================
@@ -86,18 +87,18 @@ dev_dependencies:
   # ============================================
   # CODE QUALITY & LINTING
   # ============================================
-  flutter_lints: ^5.0.0          # Official Flutter lints
-  custom_lint: ^0.7.0            # Custom lint rules
-  riverpod_lint: ^2.6.2          # Riverpod-specific lints
+  flutter_lints: ^6.0.0          # Official Flutter lints
+  custom_lint: ^0.8.1            # Custom lint rules
+  riverpod_lint: ^3.1.0          # Riverpod-specific lints
 
   # ============================================
   # CODE GENERATION
   # ============================================
   build_runner: ^2.4.13          # Build system for code generation
   build_verify: any
-  riverpod_generator: ^2.6.2     # Generates Riverpod providers
+  riverpod_generator: ^4.0.0+1     # Generates Riverpod providers
   json_serializable: ^6.8.0      # Generates JSON serialization
-  go_router_builder: ^2.9.0      # Generates type-safe routes
+  go_router_builder: ^4.2.0      # Generates type-safe routes
 
 flutter:
   uses-material-design: true

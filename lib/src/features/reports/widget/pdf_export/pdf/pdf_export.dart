@@ -598,7 +598,7 @@ Future<Uint8List> makePdf(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('⚠ ',
+                    Text('[!] ',
                         style: Theme.of(context)
                             .header3
                             .copyWith(color: PdfColors.white)),

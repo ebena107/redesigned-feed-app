@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:feed_estimator/src/core/constants/common.dart';
 import 'package:feed_estimator/src/core/constants/ui_constants.dart';
-import 'package:feed_estimator/src/core/utils/logger.dart';
 import 'package:feed_estimator/src/utils/nutrient_formatter.dart';
 
 /// Card displaying phosphorus breakdown (Total, Available, Phytate)
-class PhosphorusBreakdownCard extends StatelessWidget {
+class PhosphorusBreakdownCard extends StatefulWidget {
   final num? totalPhosphorus; // g/kg
   final num? availablePhosphorus; // g/kg
   final num? phytatePhosphorus; // g/kg
@@ -20,34 +19,38 @@ class PhosphorusBreakdownCard extends StatelessWidget {
   });
 
   @override
+  State<PhosphorusBreakdownCard> createState() =>
+      _PhosphorusBreakdownCardState();
+}
+
+class _PhosphorusBreakdownCardState extends State<PhosphorusBreakdownCard> {
+  late bool _isExpanded;
+
+  @override
+  void initState() {
+    super.initState();
+    _isExpanded = widget.initiallyExpanded;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // Don't show if no phosphorus data
-    if (totalPhosphorus == null &&
-        availablePhosphorus == null &&
-        phytatePhosphorus == null) {
-      AppLogger.warning(
-        'PhosphorusBreakdownCard: No phosphorus data available',
-        tag: 'PhosphorusBreakdownCard',
-      );
+    if (widget.totalPhosphorus == null &&
+        widget.availablePhosphorus == null &&
+        widget.phytatePhosphorus == null) {
       return const SizedBox.shrink();
     }
 
-    AppLogger.info(
-      'PhosphorusBreakdownCard.build: total=$totalPhosphorus, available=$availablePhosphorus, phytate=$phytatePhosphorus',
-      tag: 'PhosphorusBreakdownCard',
-    );
-
     // Calculate availability percentage
     double? availabilityPct;
-    if (totalPhosphorus != null &&
-        availablePhosphorus != null &&
-        totalPhosphorus! > 0) {
-      availabilityPct = (availablePhosphorus! / totalPhosphorus!) * 100;
+    if (widget.totalPhosphorus != null &&
+        widget.availablePhosphorus != null &&
+        widget.totalPhosphorus! > 0) {
+      availabilityPct =
+          (widget.availablePhosphorus! / widget.totalPhosphorus!) * 100;
     }
 
-    // Check environmental compliance (EU: <3.5 g/kg total P)
     final isEnvironmentallyCompliant =
-        totalPhosphorus != null && totalPhosphorus! <= 3.5;
+        widget.totalPhosphorus != null && widget.totalPhosphorus! <= 3.5;
 
     return Card(
       margin: UIConstants.paddingAllSmall,
@@ -55,126 +58,147 @@ class PhosphorusBreakdownCard extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppConstants.radiusMedium),
       ),
-      child: ExpansionTile(
-        initiallyExpanded: initiallyExpanded,
-        leading: Icon(
-          Icons.water_drop,
-          color: isEnvironmentallyCompliant ? Colors.green : Colors.orange,
-        ),
-        title: const Text(
-          'Phosphorus Breakdown',
-          style: TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 16,
-          ),
-        ),
-        subtitle: totalPhosphorus != null
-            ? Text(
-                'Total: ${NutrientFormatter.formatPhosphorus(totalPhosphorus)}',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey[600],
-                ),
-              )
-            : null,
+      child: Column(
         children: [
-          Padding(
-            padding: UIConstants.paddingAllMedium,
-            child: Column(
-              children: [
-                // Phosphorus values
-                _buildPhosphorusRow(
-                  'Total Phosphorus',
-                  totalPhosphorus,
-                  Icons.analytics,
-                  Colors.blue,
-                ),
-                const SizedBox(height: UIConstants.paddingSmall),
-                _buildPhosphorusRow(
-                  'Available Phosphorus',
-                  availablePhosphorus,
-                  Icons.check_circle,
-                  Colors.green,
-                ),
-                const SizedBox(height: UIConstants.paddingSmall),
-                _buildPhosphorusRow(
-                  'Phytate Phosphorus',
-                  phytatePhosphorus,
-                  Icons.block,
-                  Colors.orange,
-                ),
-
-                // Availability percentage
-                if (availabilityPct != null) ...[
-                  const SizedBox(height: UIConstants.paddingMedium),
-                  const Divider(),
-                  const SizedBox(height: UIConstants.paddingSmall),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Availability:',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14,
-                        ),
-                      ),
-                      Text(
-                        '${availabilityPct.toStringAsFixed(1)}%',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: availabilityPct >= 40
-                              ? Colors.green
-                              : Colors.orange,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-
-                // Environmental compliance indicator
-                const SizedBox(height: UIConstants.paddingMedium),
-                Container(
-                  padding: UIConstants.paddingAllSmall,
-                  decoration: BoxDecoration(
+          InkWell(
+            onTap: () {
+              setState(() {
+                _isExpanded = !_isExpanded;
+              });
+            },
+            borderRadius: BorderRadius.circular(AppConstants.radiusMedium),
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.water_drop,
                     color: isEnvironmentallyCompliant
-                        ? Colors.green[50]
-                        : Colors.orange[50],
-                    borderRadius:
-                        BorderRadius.circular(AppConstants.radiusSmall),
+                        ? Colors.green
+                        : Colors.orange,
                   ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        isEnvironmentallyCompliant
-                            ? Icons.eco
-                            : Icons.warning_amber,
-                        size: 16,
-                        color: isEnvironmentallyCompliant
-                            ? Colors.green[700]
-                            : Colors.orange[700],
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          isEnvironmentallyCompliant
-                              ? 'Meets EU environmental standards (<3.5 g/kg)'
-                              : 'Above EU environmental limit (3.5 g/kg)',
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Phosphorus Breakdown',
                           style: TextStyle(
-                            fontSize: 11,
-                            color: isEnvironmentallyCompliant
-                                ? Colors.green[700]
-                                : Colors.orange[700],
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
                           ),
                         ),
-                      ),
-                    ],
+                        if (widget.totalPhosphorus != null)
+                          Text(
+                            'Total: ${NutrientFormatter.formatPhosphorus(widget.totalPhosphorus!)}',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                  Icon(_isExpanded ? Icons.expand_less : Icons.expand_more),
+                ],
+              ),
             ),
           ),
+          if (_isExpanded)
+            Padding(
+              padding: UIConstants.paddingAllMedium,
+              child: Column(
+                children: [
+                  _buildPhosphorusRow(
+                    'Total Phosphorus',
+                    widget.totalPhosphorus,
+                    Icons.analytics,
+                    Colors.blue,
+                  ),
+                  const SizedBox(height: UIConstants.paddingSmall),
+                  _buildPhosphorusRow(
+                    'Available Phosphorus',
+                    widget.availablePhosphorus,
+                    Icons.check_circle,
+                    Colors.green,
+                  ),
+                  const SizedBox(height: UIConstants.paddingSmall),
+                  _buildPhosphorusRow(
+                    'Phytate Phosphorus',
+                    widget.phytatePhosphorus,
+                    Icons.block,
+                    Colors.orange,
+                  ),
+                  if (availabilityPct != null) ...[
+                    const SizedBox(height: UIConstants.paddingMedium),
+                    const Divider(),
+                    const SizedBox(height: UIConstants.paddingSmall),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Availability:',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                          ),
+                        ),
+                        Text(
+                          '${availabilityPct.toStringAsFixed(1)}%',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: availabilityPct >= 40
+                                ? Colors.green
+                                : Colors.orange,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                  const SizedBox(height: UIConstants.paddingMedium),
+                  Container(
+                    padding: UIConstants.paddingAllSmall,
+                    decoration: BoxDecoration(
+                      color: isEnvironmentallyCompliant
+                          ? Colors.green[50]
+                          : Colors.orange[50],
+                      borderRadius:
+                          BorderRadius.circular(AppConstants.radiusSmall),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          isEnvironmentallyCompliant
+                              ? Icons.eco
+                              : Icons.warning_amber,
+                          size: 16,
+                          color: isEnvironmentallyCompliant
+                              ? Colors.green[700]
+                              : Colors.orange[700],
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            isEnvironmentallyCompliant
+                                ? 'Meets EU environmental standards (<3.5 g/kg)'
+                                : 'Above EU environmental limit (3.5 g/kg)',
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: isEnvironmentallyCompliant
+                                  ? Colors.green[700]
+                                  : Colors.orange[700],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
         ],
       ),
     );
@@ -187,8 +211,7 @@ class PhosphorusBreakdownCard extends StatelessWidget {
     Color color,
   ) {
     return Container(
-      padding: UIConstants.paddingSmallVertical
-          .add(UIConstants.paddingSmallHorizontal),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(AppConstants.radiusSmall),

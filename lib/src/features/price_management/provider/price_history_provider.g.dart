@@ -6,29 +6,8 @@ part of 'price_history_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$priceHistoryHash() => r'32dcbc88469a7c8f404472ada666400c80b0f7d3';
-
-/// Copied from Dart SDK
-class _SystemHash {
-  _SystemHash._();
-
-  static int combine(int hash, int value) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + value);
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
-  }
-
-  static int finish(int hash) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    // ignore: parameter_assignments
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
-  }
-}
-
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 /// Async provider for fetching price history for a specific ingredient
 ///
 /// Automatically manages:
@@ -42,10 +21,9 @@ class _SystemHash {
 /// final history = ref.watch(priceHistoryProvider(ingredientId));
 /// // AsyncValue<List<PriceHistory>>
 /// ```
-///
-/// Copied from [priceHistory].
+
 @ProviderFor(priceHistory)
-const priceHistoryProvider = PriceHistoryFamily();
+final priceHistoryProvider = PriceHistoryFamily._();
 
 /// Async provider for fetching price history for a specific ingredient
 ///
@@ -60,9 +38,14 @@ const priceHistoryProvider = PriceHistoryFamily();
 /// final history = ref.watch(priceHistoryProvider(ingredientId));
 /// // AsyncValue<List<PriceHistory>>
 /// ```
-///
-/// Copied from [priceHistory].
-class PriceHistoryFamily extends Family<AsyncValue<List<PriceHistory>>> {
+
+final class PriceHistoryProvider extends $FunctionalProvider<
+        AsyncValue<List<PriceHistory>>,
+        List<PriceHistory>,
+        FutureOr<List<PriceHistory>>>
+    with
+        $FutureModifier<List<PriceHistory>>,
+        $FutureProvider<List<PriceHistory>> {
   /// Async provider for fetching price history for a specific ingredient
   ///
   /// Automatically manages:
@@ -76,169 +59,98 @@ class PriceHistoryFamily extends Family<AsyncValue<List<PriceHistory>>> {
   /// final history = ref.watch(priceHistoryProvider(ingredientId));
   /// // AsyncValue<List<PriceHistory>>
   /// ```
-  ///
-  /// Copied from [priceHistory].
-  const PriceHistoryFamily();
-
-  /// Async provider for fetching price history for a specific ingredient
-  ///
-  /// Automatically manages:
-  /// - Async loading state
-  /// - Error handling
-  /// - Caching with 5-minute invalidation
-  /// - Dependency on priceHistoryRepository
-  ///
-  /// Usage:
-  /// ```dart
-  /// final history = ref.watch(priceHistoryProvider(ingredientId));
-  /// // AsyncValue<List<PriceHistory>>
-  /// ```
-  ///
-  /// Copied from [priceHistory].
-  PriceHistoryProvider call(
-    int ingredientId,
-  ) {
-    return PriceHistoryProvider(
-      ingredientId,
-    );
-  }
-
-  @override
-  PriceHistoryProvider getProviderOverride(
-    covariant PriceHistoryProvider provider,
-  ) {
-    return call(
-      provider.ingredientId,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'priceHistoryProvider';
-}
-
-/// Async provider for fetching price history for a specific ingredient
-///
-/// Automatically manages:
-/// - Async loading state
-/// - Error handling
-/// - Caching with 5-minute invalidation
-/// - Dependency on priceHistoryRepository
-///
-/// Usage:
-/// ```dart
-/// final history = ref.watch(priceHistoryProvider(ingredientId));
-/// // AsyncValue<List<PriceHistory>>
-/// ```
-///
-/// Copied from [priceHistory].
-class PriceHistoryProvider extends FutureProvider<List<PriceHistory>> {
-  /// Async provider for fetching price history for a specific ingredient
-  ///
-  /// Automatically manages:
-  /// - Async loading state
-  /// - Error handling
-  /// - Caching with 5-minute invalidation
-  /// - Dependency on priceHistoryRepository
-  ///
-  /// Usage:
-  /// ```dart
-  /// final history = ref.watch(priceHistoryProvider(ingredientId));
-  /// // AsyncValue<List<PriceHistory>>
-  /// ```
-  ///
-  /// Copied from [priceHistory].
-  PriceHistoryProvider(
-    int ingredientId,
-  ) : this._internal(
-          (ref) => priceHistory(
-            ref as PriceHistoryRef,
-            ingredientId,
-          ),
-          from: priceHistoryProvider,
+  PriceHistoryProvider._(
+      {required PriceHistoryFamily super.from, required int super.argument})
+      : super(
+          retry: null,
           name: r'priceHistoryProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$priceHistoryHash,
-          dependencies: PriceHistoryFamily._dependencies,
-          allTransitiveDependencies:
-              PriceHistoryFamily._allTransitiveDependencies,
-          ingredientId: ingredientId,
+          isAutoDispose: false,
+          dependencies: null,
+          $allTransitiveDependencies: null,
         );
 
-  PriceHistoryProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.ingredientId,
-  }) : super.internal();
-
-  final int ingredientId;
+  @override
+  String debugGetCreateSourceHash() => _$priceHistoryHash();
 
   @override
-  Override overrideWith(
-    FutureOr<List<PriceHistory>> Function(PriceHistoryRef provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: PriceHistoryProvider._internal(
-        (ref) => create(ref as PriceHistoryRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        ingredientId: ingredientId,
-      ),
-    );
+  String toString() {
+    return r'priceHistoryProvider'
+        ''
+        '($argument)';
   }
 
+  @$internal
   @override
-  FutureProviderElement<List<PriceHistory>> createElement() {
-    return _PriceHistoryProviderElement(this);
+  $FutureProviderElement<List<PriceHistory>> $createElement(
+          $ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<List<PriceHistory>> create(Ref ref) {
+    final argument = this.argument as int;
+    return priceHistory(
+      ref,
+      argument,
+    );
   }
 
   @override
   bool operator ==(Object other) {
-    return other is PriceHistoryProvider && other.ingredientId == ingredientId;
+    return other is PriceHistoryProvider && other.argument == argument;
   }
 
   @override
   int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, ingredientId.hashCode);
-
-    return _SystemHash.finish(hash);
+    return argument.hashCode;
   }
 }
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin PriceHistoryRef on FutureProviderRef<List<PriceHistory>> {
-  /// The parameter `ingredientId` of this provider.
-  int get ingredientId;
-}
+String _$priceHistoryHash() => r'32dcbc88469a7c8f404472ada666400c80b0f7d3';
 
-class _PriceHistoryProviderElement
-    extends FutureProviderElement<List<PriceHistory>> with PriceHistoryRef {
-  _PriceHistoryProviderElement(super.provider);
+/// Async provider for fetching price history for a specific ingredient
+///
+/// Automatically manages:
+/// - Async loading state
+/// - Error handling
+/// - Caching with 5-minute invalidation
+/// - Dependency on priceHistoryRepository
+///
+/// Usage:
+/// ```dart
+/// final history = ref.watch(priceHistoryProvider(ingredientId));
+/// // AsyncValue<List<PriceHistory>>
+/// ```
+
+final class PriceHistoryFamily extends $Family
+    with $FunctionalFamilyOverride<FutureOr<List<PriceHistory>>, int> {
+  PriceHistoryFamily._()
+      : super(
+          retry: null,
+          name: r'priceHistoryProvider',
+          dependencies: null,
+          $allTransitiveDependencies: null,
+          isAutoDispose: false,
+        );
+
+  /// Async provider for fetching price history for a specific ingredient
+  ///
+  /// Automatically manages:
+  /// - Async loading state
+  /// - Error handling
+  /// - Caching with 5-minute invalidation
+  /// - Dependency on priceHistoryRepository
+  ///
+  /// Usage:
+  /// ```dart
+  /// final history = ref.watch(priceHistoryProvider(ingredientId));
+  /// // AsyncValue<List<PriceHistory>>
+  /// ```
+
+  PriceHistoryProvider call(
+    int ingredientId,
+  ) =>
+      PriceHistoryProvider._(argument: ingredientId, from: this);
 
   @override
-  int get ingredientId => (origin as PriceHistoryProvider).ingredientId;
+  String toString() => r'priceHistoryProvider';
 }
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -86,102 +86,119 @@ class _AminoAcidProfileCardState extends State<AminoAcidProfileCard> {
       tag: 'AminoAcidProfileCard',
     );
 
-    return Card(
-      margin: UIConstants.paddingAllSmall,
-      elevation: UIConstants.cardElevation,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppConstants.radiusMedium),
-      ),
-      child: ExpansionTile(
-        initiallyExpanded: widget.initiallyExpanded,
-        leading: const Icon(Icons.science, color: AppConstants.appBlueColor),
-        title: Text(
-          context.l10n.aminoAcidProfileTitle,
-          style: const TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 16,
-          ),
+    try {
+      return Card(
+        margin: UIConstants.paddingAllSmall,
+        elevation: UIConstants.cardElevation,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppConstants.radiusMedium),
         ),
-        subtitle: Text(
-          _showSid
-              ? context.l10n.aminoAcidSidLabel
-              : context.l10n.aminoAcidTotalLabel,
-          style: TextStyle(
-            fontSize: 12,
-            color: Colors.grey[600],
-          ),
-        ),
-        children: [
-          Padding(
-            padding: UIConstants.paddingAllMedium,
-            child: Column(
-              children: [
-                // Toggle between SID and Total
-                if (sidData != null && totalData != null) ...[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SegmentedButton<bool>(
-                        segments: [
-                          ButtonSegment(
-                            value: true,
-                            label: Text(context.l10n.aminoAcidSidButton),
-                            icon: const Icon(Icons.check_circle, size: 16),
-                          ),
-                          ButtonSegment(
-                            value: false,
-                            label: Text(context.l10n.aminoAcidTotalButton),
-                          ),
-                        ],
-                        selected: {_showSid},
-                        onSelectionChanged: (Set<bool> selection) {
-                          setState(() {
-                            _showSid = selection.first;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: UIConstants.paddingMedium),
-                ],
-
-                // Amino acid table
-                _buildAminoAcidTable(displayData, context),
-
-                // Info note
-                const SizedBox(height: UIConstants.paddingSmall),
-                Container(
-                  padding: UIConstants.paddingAllSmall,
-                  decoration: BoxDecoration(
-                    color: Colors.blue[50],
-                    borderRadius:
-                        BorderRadius.circular(AppConstants.radiusSmall),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(Icons.info_outline,
-                          size: 16, color: Colors.blue[700]),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          _showSid
-                              ? context.l10n.aminoAcidSidInfo
-                              : context.l10n.aminoAcidTotalInfo,
-                          style: TextStyle(
-                            fontSize: 11,
-                            color: Colors.blue[700],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+        child: ExpansionTile(
+          initiallyExpanded: widget.initiallyExpanded,
+          leading: const Icon(Icons.science, color: AppConstants.appBlueColor),
+          title: Text(
+            context.l10n.aminoAcidProfileTitle,
+            style: const TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 16,
             ),
           ),
-        ],
-      ),
-    );
+          subtitle: Text(
+            _showSid
+                ? context.l10n.aminoAcidSidLabel
+                : context.l10n.aminoAcidTotalLabel,
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.grey[600],
+            ),
+          ),
+          children: [
+            Padding(
+              padding: UIConstants.paddingAllMedium,
+              child: Column(
+                children: [
+                  // Toggle between SID and Total
+                  if (sidData != null && totalData != null) ...[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SegmentedButton<bool>(
+                          segments: [
+                            ButtonSegment(
+                              value: true,
+                              label: Text(context.l10n.aminoAcidSidButton),
+                              icon: const Icon(Icons.check_circle, size: 16),
+                            ),
+                            ButtonSegment(
+                              value: false,
+                              label: Text(context.l10n.aminoAcidTotalButton),
+                            ),
+                          ],
+                          selected: {_showSid},
+                          onSelectionChanged: (Set<bool> selection) {
+                            setState(() {
+                              _showSid = selection.first;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: UIConstants.paddingMedium),
+                  ],
+
+                  // Amino acid table
+                  _buildAminoAcidTable(displayData, context),
+
+                  // Info note
+                  const SizedBox(height: UIConstants.paddingSmall),
+                  Container(
+                    padding: UIConstants.paddingAllSmall,
+                    decoration: BoxDecoration(
+                      color: Colors.blue[50],
+                      borderRadius:
+                          BorderRadius.circular(AppConstants.radiusSmall),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.info_outline,
+                            size: 16, color: Colors.blue[700]),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            _showSid
+                                ? context.l10n.aminoAcidSidInfo
+                                : context.l10n.aminoAcidTotalInfo,
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: Colors.blue[700],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    } catch (e, stackTrace) {
+      AppLogger.error(
+        'AminoAcidProfileCard: Exception during build',
+        tag: 'AminoAcidProfileCard',
+        error: e,
+        stackTrace: stackTrace,
+      );
+      return Card(
+        margin: UIConstants.paddingAllSmall,
+        child: ListTile(
+          leading: const Icon(Icons.error, color: Colors.red),
+          title: const Text('Amino Acid Card Error'),
+          subtitle: Text('$e'),
+        ),
+      );
+    }
   }
 
   Widget _buildAminoAcidTable(Map<String, num> data, BuildContext context) {

@@ -1,0 +1,19 @@
+Analyzing redesigned-feed-app...                                
+
+   info - Missing type annotation - lib\src\core\constants\common.dart:160:25 - strict_top_level_inference
+   info - Missing type annotation - lib\src\core\router\router.dart:9:17 - strict_top_level_inference
+  error - Undefined name '$appRoutes' - lib\src\core\router\router.dart:15:13 - undefined_identifier
+  error - Target of URI hasn't been generated: 'package:feed_estimator/src/core/router/routes.g.dart' - lib\src\core\router\routes.dart:17:6 - uri_has_not_been_generated
+   info - Missing type annotation - lib\src\features\add_ingredients\widgets\form_widgets.dart:581:16 - strict_top_level_inference
+  error - The name 'ListToCsvConverter' isn't a class - lib\src\features\feed_formulator\services\formulator_export_service.dart:138:25 - creation_with_non_type
+  error - The argument type 'Iterable<Chip>' can't be assigned to the parameter type 'List<Widget>'.  - lib\src\features\feed_formulator\widget\formulation_summary.dart:52:27 - argument_type_not_assignable
+  error - The argument type 'Iterable<DropdownMenuItem<int>>' can't be assigned to the parameter type 'List<DropdownMenuItem<int>>?'.  - lib\src\features\feed_formulator\widget\formulator_header.dart:45:22 - argument_type_not_assignable
+  error - The argument type 'Iterable<FilterChip>' can't be assigned to the parameter type 'List<Widget>'.  - lib\src\features\feed_formulator\widget\formulator_header.dart:65:19 - argument_type_not_assignable
+   info - The import of 'package:riverpod/riverpod.dart' is unnecessary because all of the used elements are also provided by the import of 'package:riverpod_annotation/riverpod_annotation.dart' - lib\src\features\import_export\provider\csv_parser_provider.dart:8:8 - unnecessary_import
+  error - The name 'CsvToListConverter' isn't a class - lib\src\features\import_export\service\csv_parser_service.dart:42:26 - creation_with_non_type
+   info - Missing type annotation - lib\src\features\main\repository\feed_ingredient_repository.dart:46:30 - strict_top_level_inference
+   info - The import of 'package:flutter_riverpod/flutter_riverpod.dart' is unnecessary because all of the used elements are also provided by the import of 'package:riverpod_annotation/riverpod_annotation.dart' - lib\src\features\price_management\provider\current_price_provider.dart:5:8 - unnecessary_import
+   info - The import of 'package:flutter_riverpod/flutter_riverpod.dart' is unnecessary because all of the used elements are also provided by the import of 'package:riverpod_annotation/riverpod_annotation.dart' - lib\src\features\price_management\provider\price_history_provider.dart:4:8 - unnecessary_import
+warning - The member 'copyWithPrevious' can only be used within its package - lib\src\features\reports\providers\report_page_controller.dart:21:34 - invalid_use_of_internal_member
+   info - The import of 'package:flutter_riverpod/flutter_riverpod.dart' is unnecessary because all of the used elements are also provided by the import of 'package:riverpod_annotation/riverpod_annotation.dart' - lib\src\features\store_ingredients\providers\async_stored_ingredient.dart:7:8 - unnecessary_import
+

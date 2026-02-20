@@ -6,29 +6,8 @@ part of 'current_price_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$currentPriceHash() => r'7960328da923a22528908f98e3c8b1873912ddfa';
-
-/// Copied from Dart SDK
-class _SystemHash {
-  _SystemHash._();
-
-  static int combine(int hash, int value) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + value);
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
-  }
-
-  static int finish(int hash) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    // ignore: parameter_assignments
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
-  }
-}
-
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 /// Get the current (latest) price for an ingredient
 ///
 /// Priority:
@@ -42,10 +21,9 @@ class _SystemHash {
 /// - Price trend awareness (compares with history)
 ///
 /// Cached for 5 minutes to reduce database queries
-///
-/// Copied from [currentPrice].
+
 @ProviderFor(currentPrice)
-const currentPriceProvider = CurrentPriceFamily();
+final currentPriceProvider = CurrentPriceFamily._();
 
 /// Get the current (latest) price for an ingredient
 ///
@@ -60,9 +38,10 @@ const currentPriceProvider = CurrentPriceFamily();
 /// - Price trend awareness (compares with history)
 ///
 /// Cached for 5 minutes to reduce database queries
-///
-/// Copied from [currentPrice].
-class CurrentPriceFamily extends Family<AsyncValue<double>> {
+
+final class CurrentPriceProvider
+    extends $FunctionalProvider<AsyncValue<double>, double, FutureOr<double>>
+    with $FutureModifier<double>, $FutureProvider<double> {
   /// Get the current (latest) price for an ingredient
   ///
   /// Priority:
@@ -76,311 +55,180 @@ class CurrentPriceFamily extends Family<AsyncValue<double>> {
   /// - Price trend awareness (compares with history)
   ///
   /// Cached for 5 minutes to reduce database queries
-  ///
-  /// Copied from [currentPrice].
-  const CurrentPriceFamily();
-
-  /// Get the current (latest) price for an ingredient
-  ///
-  /// Priority:
-  /// 1. Use latest price from price_history table (if available)
-  /// 2. Fallback to ingredient.priceKg (default price)
-  /// 3. Return 0 if neither available
-  ///
-  /// This provider is used for:
-  /// - Displaying current price in ingredient selection
-  /// - Cost calculations based on most recent price
-  /// - Price trend awareness (compares with history)
-  ///
-  /// Cached for 5 minutes to reduce database queries
-  ///
-  /// Copied from [currentPrice].
-  CurrentPriceProvider call({
-    required int ingredientId,
-  }) {
-    return CurrentPriceProvider(
-      ingredientId: ingredientId,
-    );
-  }
-
-  @override
-  CurrentPriceProvider getProviderOverride(
-    covariant CurrentPriceProvider provider,
-  ) {
-    return call(
-      ingredientId: provider.ingredientId,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'currentPriceProvider';
-}
-
-/// Get the current (latest) price for an ingredient
-///
-/// Priority:
-/// 1. Use latest price from price_history table (if available)
-/// 2. Fallback to ingredient.priceKg (default price)
-/// 3. Return 0 if neither available
-///
-/// This provider is used for:
-/// - Displaying current price in ingredient selection
-/// - Cost calculations based on most recent price
-/// - Price trend awareness (compares with history)
-///
-/// Cached for 5 minutes to reduce database queries
-///
-/// Copied from [currentPrice].
-class CurrentPriceProvider extends FutureProvider<double> {
-  /// Get the current (latest) price for an ingredient
-  ///
-  /// Priority:
-  /// 1. Use latest price from price_history table (if available)
-  /// 2. Fallback to ingredient.priceKg (default price)
-  /// 3. Return 0 if neither available
-  ///
-  /// This provider is used for:
-  /// - Displaying current price in ingredient selection
-  /// - Cost calculations based on most recent price
-  /// - Price trend awareness (compares with history)
-  ///
-  /// Cached for 5 minutes to reduce database queries
-  ///
-  /// Copied from [currentPrice].
-  CurrentPriceProvider({
-    required int ingredientId,
-  }) : this._internal(
-          (ref) => currentPrice(
-            ref as CurrentPriceRef,
-            ingredientId: ingredientId,
-          ),
-          from: currentPriceProvider,
+  CurrentPriceProvider._(
+      {required CurrentPriceFamily super.from, required int super.argument})
+      : super(
+          retry: null,
           name: r'currentPriceProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$currentPriceHash,
-          dependencies: CurrentPriceFamily._dependencies,
-          allTransitiveDependencies:
-              CurrentPriceFamily._allTransitiveDependencies,
-          ingredientId: ingredientId,
+          isAutoDispose: false,
+          dependencies: null,
+          $allTransitiveDependencies: null,
         );
 
-  CurrentPriceProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.ingredientId,
-  }) : super.internal();
-
-  final int ingredientId;
+  @override
+  String debugGetCreateSourceHash() => _$currentPriceHash();
 
   @override
-  Override overrideWith(
-    FutureOr<double> Function(CurrentPriceRef provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: CurrentPriceProvider._internal(
-        (ref) => create(ref as CurrentPriceRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        ingredientId: ingredientId,
-      ),
-    );
+  String toString() {
+    return r'currentPriceProvider'
+        ''
+        '($argument)';
   }
 
+  @$internal
   @override
-  FutureProviderElement<double> createElement() {
-    return _CurrentPriceProviderElement(this);
+  $FutureProviderElement<double> $createElement($ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<double> create(Ref ref) {
+    final argument = this.argument as int;
+    return currentPrice(
+      ref,
+      ingredientId: argument,
+    );
   }
 
   @override
   bool operator ==(Object other) {
-    return other is CurrentPriceProvider && other.ingredientId == ingredientId;
+    return other is CurrentPriceProvider && other.argument == argument;
   }
 
   @override
   int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, ingredientId.hashCode);
-
-    return _SystemHash.finish(hash);
+    return argument.hashCode;
   }
 }
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin CurrentPriceRef on FutureProviderRef<double> {
-  /// The parameter `ingredientId` of this provider.
-  int get ingredientId;
-}
+String _$currentPriceHash() => r'7960328da923a22528908f98e3c8b1873912ddfa';
 
-class _CurrentPriceProviderElement extends FutureProviderElement<double>
-    with CurrentPriceRef {
-  _CurrentPriceProviderElement(super.provider);
+/// Get the current (latest) price for an ingredient
+///
+/// Priority:
+/// 1. Use latest price from price_history table (if available)
+/// 2. Fallback to ingredient.priceKg (default price)
+/// 3. Return 0 if neither available
+///
+/// This provider is used for:
+/// - Displaying current price in ingredient selection
+/// - Cost calculations based on most recent price
+/// - Price trend awareness (compares with history)
+///
+/// Cached for 5 minutes to reduce database queries
+
+final class CurrentPriceFamily extends $Family
+    with $FunctionalFamilyOverride<FutureOr<double>, int> {
+  CurrentPriceFamily._()
+      : super(
+          retry: null,
+          name: r'currentPriceProvider',
+          dependencies: null,
+          $allTransitiveDependencies: null,
+          isAutoDispose: false,
+        );
+
+  /// Get the current (latest) price for an ingredient
+  ///
+  /// Priority:
+  /// 1. Use latest price from price_history table (if available)
+  /// 2. Fallback to ingredient.priceKg (default price)
+  /// 3. Return 0 if neither available
+  ///
+  /// This provider is used for:
+  /// - Displaying current price in ingredient selection
+  /// - Cost calculations based on most recent price
+  /// - Price trend awareness (compares with history)
+  ///
+  /// Cached for 5 minutes to reduce database queries
+
+  CurrentPriceProvider call({
+    required int ingredientId,
+  }) =>
+      CurrentPriceProvider._(argument: ingredientId, from: this);
 
   @override
-  int get ingredientId => (origin as CurrentPriceProvider).ingredientId;
+  String toString() => r'currentPriceProvider';
+}
+
+/// Track price change from default
+
+@ProviderFor(priceChange)
+final priceChangeProvider = PriceChangeFamily._();
+
+/// Track price change from default
+
+final class PriceChangeProvider extends $FunctionalProvider<
+        AsyncValue<PriceChange>, PriceChange, FutureOr<PriceChange>>
+    with $FutureModifier<PriceChange>, $FutureProvider<PriceChange> {
+  /// Track price change from default
+  PriceChangeProvider._(
+      {required PriceChangeFamily super.from, required int super.argument})
+      : super(
+          retry: null,
+          name: r'priceChangeProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$priceChangeHash();
+
+  @override
+  String toString() {
+    return r'priceChangeProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  $FutureProviderElement<PriceChange> $createElement(
+          $ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<PriceChange> create(Ref ref) {
+    final argument = this.argument as int;
+    return priceChange(
+      ref,
+      ingredientId: argument,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is PriceChangeProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
 }
 
 String _$priceChangeHash() => r'9b4a229fd44784f295a79780daf48da5776fde18';
 
 /// Track price change from default
-///
-/// Copied from [priceChange].
-@ProviderFor(priceChange)
-const priceChangeProvider = PriceChangeFamily();
 
-/// Track price change from default
-///
-/// Copied from [priceChange].
-class PriceChangeFamily extends Family<AsyncValue<PriceChange>> {
-  /// Track price change from default
-  ///
-  /// Copied from [priceChange].
-  const PriceChangeFamily();
-
-  /// Track price change from default
-  ///
-  /// Copied from [priceChange].
-  PriceChangeProvider call({
-    required int ingredientId,
-  }) {
-    return PriceChangeProvider(
-      ingredientId: ingredientId,
-    );
-  }
-
-  @override
-  PriceChangeProvider getProviderOverride(
-    covariant PriceChangeProvider provider,
-  ) {
-    return call(
-      ingredientId: provider.ingredientId,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'priceChangeProvider';
-}
-
-/// Track price change from default
-///
-/// Copied from [priceChange].
-class PriceChangeProvider extends AutoDisposeFutureProvider<PriceChange> {
-  /// Track price change from default
-  ///
-  /// Copied from [priceChange].
-  PriceChangeProvider({
-    required int ingredientId,
-  }) : this._internal(
-          (ref) => priceChange(
-            ref as PriceChangeRef,
-            ingredientId: ingredientId,
-          ),
-          from: priceChangeProvider,
+final class PriceChangeFamily extends $Family
+    with $FunctionalFamilyOverride<FutureOr<PriceChange>, int> {
+  PriceChangeFamily._()
+      : super(
+          retry: null,
           name: r'priceChangeProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$priceChangeHash,
-          dependencies: PriceChangeFamily._dependencies,
-          allTransitiveDependencies:
-              PriceChangeFamily._allTransitiveDependencies,
-          ingredientId: ingredientId,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+          isAutoDispose: true,
         );
 
-  PriceChangeProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.ingredientId,
-  }) : super.internal();
+  /// Track price change from default
 
-  final int ingredientId;
+  PriceChangeProvider call({
+    required int ingredientId,
+  }) =>
+      PriceChangeProvider._(argument: ingredientId, from: this);
 
   @override
-  Override overrideWith(
-    FutureOr<PriceChange> Function(PriceChangeRef provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: PriceChangeProvider._internal(
-        (ref) => create(ref as PriceChangeRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        ingredientId: ingredientId,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeFutureProviderElement<PriceChange> createElement() {
-    return _PriceChangeProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is PriceChangeProvider && other.ingredientId == ingredientId;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, ingredientId.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
+  String toString() => r'priceChangeProvider';
 }
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin PriceChangeRef on AutoDisposeFutureProviderRef<PriceChange> {
-  /// The parameter `ingredientId` of this provider.
-  int get ingredientId;
-}
-
-class _PriceChangeProviderElement
-    extends AutoDisposeFutureProviderElement<PriceChange> with PriceChangeRef {
-  _PriceChangeProviderElement(super.provider);
-
-  @override
-  int get ingredientId => (origin as PriceChangeProvider).ingredientId;
-}
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

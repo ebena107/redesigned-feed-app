@@ -33,26 +33,30 @@ class ReportBottomBar extends ConsumerWidget {
               ),
             ],
           ),
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: SegmentedButton<int>(
-              segments: const [
-                ButtonSegment<int>(
-                  value: 0,
-                  icon: Icon(CupertinoIcons.chart_bar_alt_fill),
-                  label: Text('Analysis'),
-                ),
-                ButtonSegment<int>(
-                  value: 1,
-                  icon: Icon(CupertinoIcons.list_bullet),
-                  label: Text('Ingredients'),
-                ),
-              ],
-              selected: {showIngredients ? 1 : 0},
-              onSelectionChanged: (selection) {
-                ref.read(resultProvider.notifier).toggle(selection.first == 1);
-              },
-            ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              SegmentedButton<int>(
+                segments: const [
+                  ButtonSegment<int>(
+                    value: 0,
+                    icon: Icon(CupertinoIcons.chart_bar_alt_fill),
+                    label: Text('Analysis'),
+                  ),
+                  ButtonSegment<int>(
+                    value: 1,
+                    icon: Icon(CupertinoIcons.list_bullet),
+                    label: Text('Ingredients'),
+                  ),
+                ],
+                selected: {showIngredients ? 1 : 0},
+                onSelectionChanged: (selection) {
+                  ref
+                      .read(resultProvider.notifier)
+                      .toggle(selection.first == 1);
+                },
+              ),
+            ],
           ),
         ),
       );

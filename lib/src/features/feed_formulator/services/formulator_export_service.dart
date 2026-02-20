@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:csv/csv.dart';
+import 'package:csv/csv.dart' as csv_pkg;
 import 'package:feed_estimator/src/core/utils/logger.dart';
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dart';
 import 'package:feed_estimator/src/features/feed_formulator/model/formulator_result.dart';
@@ -135,7 +135,7 @@ class FormulatorExportService {
       }
 
       // Convert to CSV string
-      final csv = const ListToCsvConverter().convert(rows);
+      final csv = const csv_pkg.ListToCsvConverter().convert(rows);
 
       // Save to file
       final outputFile = await _getSaveFile('Formulation_Report.csv');

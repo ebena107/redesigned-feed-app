@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:csv/csv.dart';
+import 'package:csv/csv.dart' as csv_pkg;
 import 'package:feed_estimator/src/core/utils/logger.dart';
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dart';
 
@@ -39,7 +39,7 @@ class CsvParserService {
       }
 
       // Parse CSV
-      final rows = const CsvToListConverter().convert(content);
+      final rows = const csv_pkg.CsvToListConverter().convert(content);
       if (rows.isEmpty) {
         throw CSVParsingException('No rows found in CSV');
       }

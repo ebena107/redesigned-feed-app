@@ -5,7 +5,6 @@ import 'package:feed_estimator/src/features/import_export/model/conflict_resolut
 import 'package:feed_estimator/src/features/import_export/repository/csv_import_repository.dart';
 import 'package:feed_estimator/src/features/import_export/service/ingredient_mapper.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:riverpod/riverpod.dart';
 
 part 'csv_parser_provider.g.dart';
 

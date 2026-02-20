@@ -43,7 +43,7 @@ class FeedIngredientRepository implements Repository {
 
   //static final columnsString = columns.join(',');
 
-  Future<int> deleteByFeedId(id) async {
+  Future<int> deleteByFeedId(int id) async {
     try {
       final result =
           await db.delete(tableName: tableName, query: colFeedId, param: id);
@@ -77,7 +77,7 @@ class FeedIngredientRepository implements Repository {
   }
 
   @override
-  Future<int> create(placeData) async {
+  Future<int> create(Map<String, Object?> placeData) async {
     try {
       final result = await db.insert(
         tableName: tableName,
@@ -96,7 +96,7 @@ class FeedIngredientRepository implements Repository {
   }
 
   @override
-  Future<int> delete(id) async {
+  Future<int> delete(num id) async {
     try {
       final result = await db.delete(
           tableName: tableName, query: colIngredientId, param: id);

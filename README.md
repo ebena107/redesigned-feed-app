@@ -65,6 +65,15 @@ A professional Flutter application for livestock feed formulation and nutritiona
    flutter run
    ```
 
+### Windows Development
+
+If you encounter `sqlite3.dll` errors (Error 126) when running on Windows:
+1. Navigate to `build/native_assets/windows/`
+2. Copy `sqlite3.dll`
+3. Paste it into `build/windows/x64/runner/Debug/` (or `Release/` for release builds)
+
+This is a known issue with the `sqlite3_flutter_libs` package on some Windows configurations.
+
 ### Building for Production
 
 **Android APK**

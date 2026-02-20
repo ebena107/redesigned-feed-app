@@ -131,7 +131,7 @@ Widget proteinField(WidgetRef ref, context) {
   return _FormTextField(
     controller: proteinController,
     decoration: inputDecoration(
-      hint: 'Protein (CP)',
+      hint: 'Protein (CP) %',
       errorText: data.error,
       icon: CupertinoIcons.square_favorites,
     ),
@@ -155,7 +155,7 @@ Widget fatField(WidgetRef ref) {
   return _FormTextField(
     controller: myController,
     decoration: inputDecoration(
-      hint: 'Fat',
+      hint: 'Fat %',
       errorText: data.error,
       icon: CupertinoIcons.square_favorites,
     ),
@@ -178,7 +178,7 @@ Widget fibreField(WidgetRef ref) {
   return _FormTextField(
     controller: myController,
     decoration: inputDecoration(
-      hint: 'Fiber',
+      hint: 'Fiber %',
       errorText: data.error,
       icon: CupertinoIcons.square_favorites,
     ),
@@ -202,7 +202,7 @@ Widget energyField(WidgetRef ref) {
   return _FormTextField(
     controller: myController,
     decoration: inputDecoration(
-      hint: 'M.Energy',
+      hint: 'M.Energy (Kcal/kg)',
       errorText: data.error,
       icon: CupertinoIcons.flame,
     ),
@@ -227,7 +227,7 @@ Widget energyAdultPigField(WidgetRef ref) {
   return _FormTextField(
     controller: myController,
     decoration: inputDecoration(
-      hint: 'Adult Pig (ME)',
+      hint: 'Adult Pig (ME) Kcal/kg',
       errorText: data.error,
       icon: CupertinoIcons.flame,
     ),
@@ -252,7 +252,7 @@ Widget energyGrowingPigField(WidgetRef ref) {
   return _FormTextField(
     controller: myController,
     decoration: inputDecoration(
-      hint: 'Growing Pig (ME)',
+      hint: 'Growing Pig (ME) Kcal/kg',
       errorText: data.error,
       icon: CupertinoIcons.flame,
     ),
@@ -277,7 +277,7 @@ Widget energyRabbitField(WidgetRef ref) {
   return _FormTextField(
     controller: myController,
     decoration: inputDecoration(
-      hint: 'Rabbit (ME)',
+      hint: 'Rabbit (ME) Kcal/kg',
       errorText: data.error,
       icon: CupertinoIcons.flame,
     ),
@@ -302,7 +302,7 @@ Widget energyRuminantField(WidgetRef ref) {
   return _FormTextField(
     controller: myController,
     decoration: inputDecoration(
-      hint: 'Ruminants (ME)',
+      hint: 'Ruminants (ME) Kcal/kg',
       errorText: data.error,
       icon: CupertinoIcons.flame,
     ),
@@ -327,7 +327,7 @@ Widget energyPoultryField(WidgetRef ref) {
   return _FormTextField(
     controller: myController,
     decoration: inputDecoration(
-      hint: 'Poultry (ME)',
+      hint: 'Poultry (ME) Kcal/kg',
       errorText: data.error,
       icon: CupertinoIcons.flame,
     ),
@@ -352,7 +352,7 @@ Widget energyFishField(WidgetRef ref) {
   return _FormTextField(
     controller: myController,
     decoration: inputDecoration(
-      hint: 'Salmonids/Fish (DE)',
+      hint: 'Salmonids/Fish (DE) Kcal/kg',
       errorText: data.error,
       icon: CupertinoIcons.flame,
     ),
@@ -377,7 +377,7 @@ Widget lyzineField(WidgetRef ref) {
   return _FormTextField(
     controller: myController,
     decoration: inputDecoration(
-      hint: 'Lyzine',
+      hint: 'Lysine (g/kg)',
       errorText: data.error,
       icon: Icons.food_bank_outlined,
     ),
@@ -401,7 +401,7 @@ Widget methionineField(WidgetRef ref) {
   return _FormTextField(
     controller: myController,
     decoration: inputDecoration(
-      hint: 'Methionine',
+      hint: 'Methionine (g/kg)',
       errorText: data.error,
       icon: Icons.food_bank_outlined,
     ),
@@ -424,7 +424,7 @@ Widget phosphorusField(WidgetRef ref) {
   return _FormTextField(
     controller: myController,
     decoration: inputDecoration(
-      hint: 'Phosphorus',
+      hint: 'Phosphorus (g/kg)',
       errorText: data.error,
       icon: Icons.food_bank_outlined,
     ),
@@ -449,7 +449,7 @@ Widget calciumField(WidgetRef ref) {
   return _FormTextField(
     controller: myController,
     decoration: inputDecoration(
-      hint: 'Calcium',
+      hint: 'Calcium (g/kg)',
       errorText: data.error,
       icon: Icons.food_bank_outlined,
     ),
@@ -578,7 +578,7 @@ class SaveButton extends ConsumerWidget {
   }
 }
 
-void showAlert(context, QuickAlertType type, String message) {
+void showAlert(BuildContext context, QuickAlertType type, String message) {
   QuickAlert.show(
     context: context,
     type: type,

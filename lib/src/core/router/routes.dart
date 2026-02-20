@@ -37,46 +37,31 @@ part 'routes.g.dart';
     ),
 
     // === TOP LEVEL SCREENS (Moved Inside) ===
-    // Note: 'path' does not need the leading '/' when nested
-
-    // 1. FEED STORE
     TypedGoRoute<FeedStoreRoute>(
       path: '/feedStore',
     ),
-
-    // 2. INGREDIENT STORE
     TypedGoRoute<IngredientStoreRoute>(
       path: '/ingredientStore',
     ),
-
-    // 3. NEW INGREDIENT
     TypedGoRoute<NewIngredientRoute>(
       path: '/newIngredient',
     ),
-
-    // 4. IMPORT WIZARD
     TypedGoRoute<ImportWizardRoute>(
       path: '/importWizard',
     ),
-
-    // 5. FEED FORMULATOR
     TypedGoRoute<FeedFormulatorRoute>(
       path: '/formulator',
     ),
-
-    // 6. SETTINGS
     TypedGoRoute<SettingsRoute>(
       path: '/settings',
     ),
-
-    // 7. ABOUT
     TypedGoRoute<AboutRoute>(
       path: '/about',
     ),
   ],
 )
 @immutable
-class HomeRoute extends GoRouteData {
+class HomeRoute extends GoRouteData with $HomeRoute {
   const HomeRoute();
 
   @override
@@ -90,14 +75,14 @@ class HomeRoute extends GoRouteData {
 // ==========================================
 
 @immutable
-class AboutRoute extends GoRouteData {
+class AboutRoute extends GoRouteData with $AboutRoute {
   const AboutRoute();
   @override
   Widget build(BuildContext context, GoRouterState state) => const About();
 }
 
 @immutable
-class FeedStoreRoute extends GoRouteData {
+class FeedStoreRoute extends GoRouteData with $FeedStoreRoute {
   const FeedStoreRoute();
   @override
   Widget build(BuildContext context, GoRouterState state) =>
@@ -105,7 +90,7 @@ class FeedStoreRoute extends GoRouteData {
 }
 
 @immutable
-class IngredientStoreRoute extends GoRouteData {
+class IngredientStoreRoute extends GoRouteData with $IngredientStoreRoute {
   const IngredientStoreRoute();
   @override
   Widget build(BuildContext context, GoRouterState state) =>
@@ -113,7 +98,7 @@ class IngredientStoreRoute extends GoRouteData {
 }
 
 @immutable
-class NewIngredientRoute extends GoRouteData {
+class NewIngredientRoute extends GoRouteData with $NewIngredientRoute {
   const NewIngredientRoute({this.ingredientId});
   final String? ingredientId;
 
@@ -125,7 +110,7 @@ class NewIngredientRoute extends GoRouteData {
 }
 
 @immutable
-class ImportWizardRoute extends GoRouteData {
+class ImportWizardRoute extends GoRouteData with $ImportWizardRoute {
   const ImportWizardRoute();
   @override
   Widget build(BuildContext context, GoRouterState state) =>
@@ -133,7 +118,7 @@ class ImportWizardRoute extends GoRouteData {
 }
 
 @immutable
-class FeedFormulatorRoute extends GoRouteData {
+class FeedFormulatorRoute extends GoRouteData with $FeedFormulatorRoute {
   const FeedFormulatorRoute();
   @override
   Widget build(BuildContext context, GoRouterState state) =>
@@ -141,7 +126,7 @@ class FeedFormulatorRoute extends GoRouteData {
 }
 
 @immutable
-class SettingsRoute extends GoRouteData {
+class SettingsRoute extends GoRouteData with $SettingsRoute {
   const SettingsRoute();
   @override
   Widget build(BuildContext context, GoRouterState state) =>
@@ -150,7 +135,7 @@ class SettingsRoute extends GoRouteData {
 
 // ... [Keep AddFeedRoute, ReportRoute, PdfRoute, etc. exactly as they were]
 @immutable
-class AddFeedRoute extends GoRouteData {
+class AddFeedRoute extends GoRouteData with $AddFeedRoute {
   const AddFeedRoute();
   @override
   Widget build(BuildContext context, GoRouterState state) =>
@@ -158,7 +143,7 @@ class AddFeedRoute extends GoRouteData {
 }
 
 @immutable
-class ReportRoute extends GoRouteData {
+class ReportRoute extends GoRouteData with $ReportRoute {
   const ReportRoute(this.feedId, {this.type});
   final int feedId;
   final String? type;
@@ -168,7 +153,7 @@ class ReportRoute extends GoRouteData {
 }
 
 @immutable
-class PdfRoute extends GoRouteData {
+class PdfRoute extends GoRouteData with $PdfRoute {
   const PdfRoute(this.feedId, {this.type, this.$extra});
   final int feedId;
   final String? type;
@@ -187,7 +172,8 @@ class PdfRoute extends GoRouteData {
 }
 
 @immutable
-class NewFeedIngredientsRoute extends GoRouteData {
+class NewFeedIngredientsRoute extends GoRouteData
+    with $NewFeedIngredientsRoute {
   const NewFeedIngredientsRoute(this.feedId);
   final int? feedId;
   @override
@@ -196,7 +182,7 @@ class NewFeedIngredientsRoute extends GoRouteData {
 }
 
 @immutable
-class FeedRoute extends GoRouteData {
+class FeedRoute extends GoRouteData with $FeedRoute {
   const FeedRoute({required this.feedId});
   final int feedId;
   @override
@@ -205,7 +191,7 @@ class FeedRoute extends GoRouteData {
 }
 
 @immutable
-class EditFeedRoute extends GoRouteData {
+class EditFeedRoute extends GoRouteData with $EditFeedRoute {
   const EditFeedRoute(this.feedId);
   final int feedId;
   @override
@@ -214,7 +200,7 @@ class EditFeedRoute extends GoRouteData {
 }
 
 @immutable
-class FeedIngredientsRoute extends GoRouteData {
+class FeedIngredientsRoute extends GoRouteData with $FeedIngredientsRoute {
   const FeedIngredientsRoute(this.feedId);
   final int feedId;
   @override
