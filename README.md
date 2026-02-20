@@ -106,8 +106,8 @@ lib/
 
 ## Key Technologies
 
-- **State Management**: Riverpod 2.5+
-- **Navigation**: GoRouter 14.6+
+- **State Management**: Riverpod 3.1.0+
+- **Navigation**: GoRouter 17.0.1+
 - **Database**: SQLite (sqflite)
 - **UI Framework**: Flutter Material Design 3
 - **Code Generation**: build_runner, json_serializable
@@ -145,7 +145,14 @@ This app prioritizes user privacy:
 
 ## Version History
 
-### v0.1.1+10 (Current)
+### v1.1.6+15 (Current)
+- **Windows Support**: Full desktop support with optimized layouts and runtime fixes (sqlite3.dll).
+- **Unit Standardization**: Consistent units across UI, Calculation Engine, and Reports (%, g/kg, Kcal/kg).
+- **UI/UX Improvements**: Fixed Analysis Page layout regression and blank screens on desktop.
+- **Reporting**: Enhanced PDF exports with correct unit display and special character handling.
+- **Bug Fixes**: Resolved navigation issues and localized text rendering.
+
+### v0.1.1+10 (Legacy)
 - Modern dialog system with consistent design
 - SnackBar standardization across app
 - Fixed export/import functionality
