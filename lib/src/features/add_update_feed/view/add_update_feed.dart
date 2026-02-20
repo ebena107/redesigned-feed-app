@@ -8,9 +8,9 @@ import 'package:feed_estimator/src/features/add_update_feed/widget/analyse_data_
 import 'package:feed_estimator/src/features/main/providers/main_async_provider.dart';
 import 'package:feed_estimator/src/features/reports/providers/result_provider.dart';
 import 'package:feed_estimator/src/utils/widgets/responsive_scaffold.dart';
+import 'package:feed_estimator/src/utils/widgets/unified_gradient_header.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:feed_estimator/src/core/localization/localization_helper.dart';
@@ -51,47 +51,12 @@ class NewFeedPage extends ConsumerWidget {
         top: false,
         child: CustomScrollView(
           slivers: [
-            SliverAppBar(
-              pinned: true,
-              snap: false,
-              floating: true,
-              backgroundColor: isEdit
-                  ? AppConstants.appCarrotColor
-                  : AppConstants.appBlueColor,
+            UnifiedGradientHeader(
+              title: title,
               expandedHeight: displayHeight(context) * .25,
-              // Android 15+ edge-to-edge: Removed deprecated statusBarColor
-              systemOverlayStyle: const SystemUiOverlayStyle(
-                statusBarIconBrightness: Brightness.light,
-                statusBarBrightness: Brightness.dark,
-              ),
-              //  title: feedId == null ? Text("Set New Feed") : Text("Update Feed"),
-              flexibleSpace: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.bottomLeft,
-                    end: Alignment.topRight,
-                    tileMode: TileMode.repeated,
-                    stops: const [0.6, 0.9],
-                    colors: isEdit
-                        ? [const Color(0xffff6f00), Colors.deepOrange]
-                        : [Colors.blue, const Color(0xff2962ff)],
-                  ),
-                ),
-                child: FlexibleSpaceBar(
-                    centerTitle: true,
-                    title: Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 0.5,
-                        color: Colors.white,
-                      ),
-                      // style: titleTextStyle(),
-                    ),
-                    background: const Image(
-                        image: AssetImage('assets/images/back.png'))),
-              ),
+              gradientColors: isEdit
+                  ? [const Color(0xffff6f00), Colors.deepOrange]
+                  : [Colors.blue, const Color(0xff2962ff)],
             ),
             SliverToBoxAdapter(
               child: Container(

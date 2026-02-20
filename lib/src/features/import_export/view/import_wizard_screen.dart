@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:feed_estimator/src/utils/widgets/responsive_scaffold.dart';
+import 'package:feed_estimator/src/utils/widgets/unified_gradient_header.dart';
 
 class ImportWizardScreen extends ConsumerWidget {
   const ImportWizardScreen({super.key});
@@ -16,25 +17,34 @@ class ImportWizardScreen extends ConsumerWidget {
     final state = ref.watch(importWizardProvider);
 
     return ResponsiveScaffold(
-      appBar: AppBar(
-        title: const Text('Import Ingredients'),
-        actions: [
-          if (state.currentStep != ImportWizardStep.fileSelection &&
-              state.currentStep != ImportWizardStep.importing)
-            TextButton(
-              onPressed: () {
-                ref.read(importWizardProvider.notifier).reset();
-              },
-              child: const Text('Start Over'),
-            ),
-        ],
-      ),
-      body: Column(
-        children: [
-          // Progress indicator
-          _buildProgressIndicator(state.currentStep),
-          // Step content
-          Expanded(
+      appBar: null,
+      body: CustomScrollView(
+        slivers: [
+          UnifiedGradientHeader(
+            title: 'Import Ingredients',
+            gradientColors: [
+              Colors.indigo.shade800,
+              Colors.indigo.shade600,
+            ],
+            actions: [
+              if (state.currentStep != ImportWizardStep.fileSelection &&
+                  state.currentStep != ImportWizardStep.importing)
+                TextButton(
+                  onPressed: () {
+                    ref.read(importWizardProvider.notifier).reset();
+                  },
+                  child: const Text(
+                    'Start Over',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+            ],
+          ),
+          SliverToBoxAdapter(
+            child: _buildProgressIndicator(state.currentStep),
+          ),
+          SliverFillRemaining(
+            hasScrollBody: false,
             child: _buildStepContent(state, context, ref),
           ),
         ],

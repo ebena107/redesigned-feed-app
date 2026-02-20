@@ -9,8 +9,8 @@ import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 import 'package:feed_estimator/src/utils/widgets/responsive_scaffold.dart';
 import 'package:feed_estimator/src/utils/widgets/error_widget.dart';
 import 'package:feed_estimator/src/utils/widgets/loading_widget.dart';
+import 'package:feed_estimator/src/utils/widgets/unified_gradient_header.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -27,62 +27,16 @@ class MainView extends ConsumerWidget {
       body: CustomScrollView(
         slivers: <Widget>[
           // Modern SliverAppBar with Material Design 3
-          SliverAppBar(
-            pinned: true,
-            snap: false,
-            floating: true,
+          UnifiedGradientHeader(
+            title: context.l10n.appTitle,
             expandedHeight: compact
                 ? UIConstants.fieldHeight * 2.5
                 : UIConstants.fieldHeight * 2.0,
-            elevation: 0,
-            backgroundColor: AppConstants.mainAppColor,
-            foregroundColor: Colors.white,
-            // Extend app bar color into status bar
-            systemOverlayStyle: const SystemUiOverlayStyle(
-              statusBarColor: AppConstants.mainAppColor,
-              statusBarIconBrightness: Brightness.light,
-              statusBarBrightness: Brightness.dark,
-            ),
-            flexibleSpace: FlexibleSpaceBar(
-              title: Text(
-                context.l10n.appTitle,
-                style: const TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 0.5,
-                  color: Colors.white,
-                ),
-              ),
-              centerTitle: true,
-              expandedTitleScale: compact ? 1.3 : 1.15,
-              collapseMode: CollapseMode.parallax,
-              background: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    stops: const [0.0, 0.6, 1.0],
-                    colors: [
-                      AppConstants.mainAppColor,
-                      AppConstants.mainAppColor.withValues(alpha: 0.8),
-                      const Color(0xff67C79F),
-                    ],
-                  ),
-                ),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Opacity(
-                      opacity: 0.1,
-                      child: Image.asset(
-                        'assets/images/back.png',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            gradientColors: [
+              AppConstants.mainAppColor,
+              AppConstants.mainAppColor.withValues(alpha: 0.8),
+              const Color(0xff67C79F),
+            ],
           ),
 
           // Spacing between app bar and content

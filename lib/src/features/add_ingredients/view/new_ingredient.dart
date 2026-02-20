@@ -1,7 +1,7 @@
 import 'package:feed_estimator/src/features/add_ingredients/widgets/ingredient_form.dart';
 import 'package:feed_estimator/src/utils/widgets/responsive_scaffold.dart';
+import 'package:feed_estimator/src/utils/widgets/unified_gradient_header.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 
 class NewIngredient extends StatelessWidget {
@@ -24,46 +24,16 @@ class NewIngredient extends StatelessWidget {
         child: CustomScrollView(
           slivers: [
             // Modern SliverAppBar with back.png background
-            SliverAppBar(
-                systemOverlayStyle: const SystemUiOverlayStyle(
-                  statusBarColor: Color(0xff87643E),
-                  statusBarIconBrightness: Brightness.light,
-                  statusBarBrightness: Brightness.dark,
-                ),
-                pinned: true,
-                expandedHeight: 180,
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                iconTheme: const IconThemeData(color: Colors.white),
-                flexibleSpace: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        const Color(0xff87643E).withValues(alpha: 0.4),
-                        const Color(0xff87643E).withValues(alpha: 0.7),
-                      ],
-                    ),
-                  ),
-                  child: FlexibleSpaceBar(
-                    title: Text(
-                      ingId != null
-                          ? "${context.l10n.actionUpdate} ${context.l10n.navIngredients}"
-                          : "${context.l10n.actionAdd} ${context.l10n.navIngredients}",
-                      style:
-                          Theme.of(context).textTheme.headlineSmall?.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700,
-                              ),
-                    ),
-                    collapseMode: CollapseMode.parallax,
-                    background: const Image(
-                      image: AssetImage('assets/images/back.png'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                )),
+            UnifiedGradientHeader(
+              title: ingId != null
+                  ? "${context.l10n.actionUpdate} ${context.l10n.navIngredients}"
+                  : "${context.l10n.actionAdd} ${context.l10n.navIngredients}",
+              expandedHeight: 180,
+              gradientColors: [
+                const Color(0xff87643E).withValues(alpha: 0.4),
+                const Color(0xff87643E).withValues(alpha: 0.7),
+              ],
+            ),
 
             // Content section with modern styling
             SliverToBoxAdapter(

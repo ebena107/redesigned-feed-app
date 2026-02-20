@@ -15,6 +15,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:feed_estimator/src/features/main/providers/main_async_provider.dart';
 import 'package:feed_estimator/src/utils/widgets/responsive_scaffold.dart';
+import 'package:feed_estimator/src/utils/widgets/unified_gradient_header.dart';
 
 // ignore_for_file: use_build_context_synchronously, deprecated_member_use
 
@@ -73,14 +74,23 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final theme = Theme.of(context);
 
     return ResponsiveScaffold(
-      appBar: AppBar(
-        title: Text(context.l10n.settingsTitle),
-        elevation: 0,
-      ),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : ListView(
-              children: [
+      appBar: null,
+      body: CustomScrollView(
+        slivers: [
+          UnifiedGradientHeader(
+            title: context.l10n.settingsTitle,
+            gradientColors: [
+              Colors.blueGrey.shade800,
+              Colors.blueGrey.shade600,
+            ],
+          ),
+          if (_isLoading)
+            const SliverFillRemaining(
+              child: Center(child: CircularProgressIndicator()),
+            )
+          else
+            SliverList(
+              delegate: SliverChildListDelegate([
                 // Language Section
                 _buildSectionHeader(context.l10n.settingsSectionLanguage),
                 _buildLanguageSelector(ref),
@@ -248,8 +258,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   ),
                 ),
                 const SizedBox(height: 16),
-              ],
+              ]),
             ),
+        ],
+      ),
     );
   }
 

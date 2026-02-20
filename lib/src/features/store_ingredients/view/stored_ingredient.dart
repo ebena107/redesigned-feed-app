@@ -4,9 +4,9 @@ import 'package:feed_estimator/src/features/price_management/view/price_history_
 import 'package:feed_estimator/src/features/store_ingredients/providers/stored_ingredient_provider.dart';
 import 'package:feed_estimator/src/features/store_ingredients/widget/ingredient_select_widget.dart';
 import 'package:feed_estimator/src/utils/widgets/responsive_scaffold.dart';
+import 'package:feed_estimator/src/utils/widgets/unified_gradient_header.dart';
 import 'package:feed_estimator/src/core/localization/localization_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -25,40 +25,12 @@ class StoredIngredients extends ConsumerWidget {
       body: CustomScrollView(
         slivers: [
           // Modern app bar
-          SliverAppBar.medium(
-            backgroundColor: _brandColor,
-            foregroundColor: Colors.white,
-            systemOverlayStyle: SystemUiOverlayStyle.light,
-            title: Text(
-              context.l10n.ingredientLibraryTitle,
-              style: const TextStyle(fontWeight: FontWeight.w600),
-            ),
-            flexibleSpace: FlexibleSpaceBar(
-              collapseMode: CollapseMode.parallax,
-              background: Stack(
-                fit: StackFit.expand,
-                children: [
-                  // Back pattern background
-                  const Image(
-                    image: AssetImage('assets/images/back.png'),
-                    fit: BoxFit.cover,
-                  ),
-                  // Brown overlay gradient
-                  Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          _brandColor.withValues(alpha: 0.6),
-                          _brandColor.withValues(alpha: 0.9),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          UnifiedGradientHeader(
+            title: context.l10n.ingredientLibraryTitle,
+            gradientColors: [
+              _brandColor.withValues(alpha: 0.6),
+              _brandColor.withValues(alpha: 0.9),
+            ],
             actions: [
               IconButton(
                 icon: const Icon(Icons.refresh_rounded),

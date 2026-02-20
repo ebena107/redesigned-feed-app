@@ -9,6 +9,7 @@ import 'package:feed_estimator/src/features/add_ingredients/provider/ingredients
 import 'package:feed_estimator/src/features/add_update_feed/model/animal_type.dart';
 import 'package:feed_estimator/src/features/add_update_feed/repository/animal_type_repository.dart';
 import 'package:feed_estimator/src/features/feed_formulator/model/feed_type.dart';
+import 'package:feed_estimator/src/utils/widgets/unified_gradient_header.dart';
 import 'package:feed_estimator/src/features/feed_formulator/model/formulator_constraint.dart';
 import 'package:feed_estimator/src/features/feed_formulator/model/formulator_result.dart';
 import 'package:feed_estimator/src/features/feed_formulator/providers/feed_formulator_provider.dart';
@@ -120,206 +121,237 @@ class _FeedFormulatorScreenState extends ConsumerState<FeedFormulatorScreen> {
         );
   }
 
+  Widget _buildBottomBar(BuildContext context) {
+    final formState = ref.watch(feedFormulatorProvider);
+
+    return Container(
+      padding: const EdgeInsets.all(UIConstants.paddingNormal),
+      decoration: BoxDecoration(
+        color: AppConstants.appBackgroundColor,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, -5),
+          ),
+        ],
+      ),
+      child: SafeArea(
+        child: Row(
+          children: [
+            WidgetBuilders.buildOutlinedButton(
+              label: context.l10n.actionBack,
+              onPressed: _stepIndex == 0
+                  ? null
+                  : () {
+                      setState(() {
+                        _stepIndex -= 1;
+                      });
+                    },
+            ),
+            const SizedBox(width: UIConstants.paddingSmall),
+            if (_stepIndex == 2)
+              Expanded(
+                child: WidgetBuilders.buildPrimaryButton(
+                  label: context.l10n.formulatorActionSolve,
+                  onPressed: formState.status == FormulatorStatus.solving
+                      ? null
+                      : () async {
+                          AppLogger.debug(
+                            'Solve button pressed - Status: ${formState.status}, Selected ingredients: ${formState.input.selectedIngredientIds.length}',
+                            tag: 'FeedFormulatorScreen',
+                          );
+
+                          await ref
+                              .read(feedFormulatorProvider.notifier)
+                              .solve();
+
+                          if (!mounted) {
+                            AppLogger.debug('Widget unmounted after solve',
+                                tag: 'FeedFormulatorScreen');
+                            return;
+                          }
+
+                          final updatedStatus =
+                              ref.read(feedFormulatorProvider).status;
+                          AppLogger.debug(
+                            'Solve completed - Status: $updatedStatus',
+                            tag: 'FeedFormulatorScreen',
+                          );
+
+                          if (updatedStatus == FormulatorStatus.success) {
+                            AppLogger.debug(
+                                'Formulation successful, navigating to results',
+                                tag: 'FeedFormulatorScreen');
+                            setState(() {
+                              _stepIndex = 3;
+                            });
+                          } else {
+                            final errorState = ref.read(feedFormulatorProvider);
+                            final errorMessage = errorState.message.isNotEmpty
+                                ? errorState.message
+                                : 'Formulation failed. Please check your ingredient selection and constraints.';
+
+                            AppLogger.warning(
+                              'Formulation failed with message: "$errorMessage"',
+                              tag: 'FeedFormulatorScreen',
+                            );
+
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(errorMessage),
+                                  backgroundColor: Colors.redAccent,
+                                  duration: const Duration(seconds: 5),
+                                  action: SnackBarAction(
+                                    label: 'Dismiss',
+                                    textColor: Colors.white,
+                                    onPressed: () {
+                                      ScaffoldMessenger.of(context)
+                                          .hideCurrentSnackBar();
+                                    },
+                                  ),
+                                ),
+                              );
+                            }
+                          }
+                        },
+                  isLoading: formState.status == FormulatorStatus.solving,
+                ),
+              )
+            else
+              Expanded(
+                child: WidgetBuilders.buildPrimaryButton(
+                  label: context.l10n.actionNext,
+                  onPressed: _stepIndex >= _totalSteps - 1
+                      ? null
+                      : () {
+                          if (_stepIndex == 1 &&
+                              formState.input.selectedIngredientIds.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  context.l10n.formulatorEmptySelection,
+                                ),
+                              ),
+                            );
+                            return;
+                          }
+                          setState(() {
+                            _stepIndex += 1;
+                          });
+                        },
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final formState = ref.watch(feedFormulatorProvider);
     _ensureControllers(formState.input.constraints);
 
     return ResponsiveScaffold(
-      appBar: AppBar(
-        title: Text(context.l10n.screenTitleFeedFormulator),
-        backgroundColor: AppConstants.mainAppColor,
-        foregroundColor: Colors.white,
-        actions: [
-          IconButton(
-            tooltip: context.l10n.actionReset,
-            onPressed: () {
-              ref.read(feedFormulatorProvider.notifier).resetResult();
-              setState(() {
-                _stepIndex = 0;
-              });
-            },
-            icon: const Icon(Icons.refresh),
-          ),
-        ],
-      ),
+      appBar: null,
       backgroundColor: AppConstants.appBackgroundColor,
-      body: Padding(
-        padding: UIConstants.paddingAllNormal,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              context.l10n.formulatorStepIndicator(
-                _stepIndex + 1,
-                _totalSteps,
+      bottomNavigationBar: _buildBottomBar(context),
+      body: CustomScrollView(
+        slivers: [
+          UnifiedGradientHeader(
+            title: context.l10n.screenTitleFeedFormulator,
+            gradientColors: [
+              AppConstants.mainAppColor,
+              AppConstants.mainAppColor.withValues(alpha: 0.7),
+            ],
+            actions: [
+              IconButton(
+                tooltip: context.l10n.actionReset,
+                onPressed: () {
+                  ref.read(feedFormulatorProvider.notifier).resetResult();
+                  setState(() {
+                    _stepIndex = 0;
+                  });
+                },
+                icon: const Icon(Icons.refresh),
               ),
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: AppConstants.appIconGreyColor,
-                    fontWeight: FontWeight.w600,
-                  ),
-            ),
-            const SizedBox(height: UIConstants.paddingSmall),
-            Text(
-              _stepTitle(context, _stepIndex),
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.w700,
-                  ),
-            ),
-            const SizedBox(height: UIConstants.paddingNormal),
-            Expanded(
-              child: IndexedStack(
-                index: _stepIndex,
+            ],
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: UIConstants.paddingAllNormal,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _AnimalAndFeedTypeStep(
-                    animalTypeId: formState.input.animalTypeId,
-                    feedType: formState.input.feedType,
-                    onAnimalTypeChanged: (value) => ref
-                        .read(feedFormulatorProvider.notifier)
-                        .setAnimalTypeId(value),
-                    onFeedTypeChanged: (value) => ref
-                        .read(feedFormulatorProvider.notifier)
-                        .setFeedType(value),
-                    constraints: formState.input.constraints,
-                    nutrientLabel: _nutrientLabel,
+                  Text(
+                    context.l10n.formulatorStepIndicator(
+                      _stepIndex + 1,
+                      _totalSteps,
+                    ),
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: AppConstants.appIconGreyColor,
+                          fontWeight: FontWeight.w600,
+                        ),
                   ),
-                  _IngredientStep(
-                    controller: _searchController,
-                    selectedIds: formState.input.selectedIngredientIds,
-                    onToggle: (id) => ref
-                        .read(feedFormulatorProvider.notifier)
-                        .toggleIngredientId(id),
-                    onSelectAll: (ids) => ref
-                        .read(feedFormulatorProvider.notifier)
-                        .setSelectedIngredientIds(ids),
-                    onClearSelection: () => ref
-                        .read(feedFormulatorProvider.notifier)
-                        .setSelectedIngredientIds({}),
-                    constraints: formState.input.constraints,
-                    nutrientLabel: _nutrientLabel,
+                  const SizedBox(height: UIConstants.paddingSmall),
+                  Text(
+                    _stepTitle(context, _stepIndex),
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.w700,
+                        ),
                   ),
-                  _CustomizationStep(
-                    constraints: formState.input.constraints,
-                    minControllers: _minControllers,
-                    maxControllers: _maxControllers,
-                    onChanged: _updateConstraint,
-                    labelBuilder: _nutrientLabel,
+                  const SizedBox(height: UIConstants.paddingNormal),
+                  IndexedStack(
+                    index: _stepIndex,
+                    children: [
+                      _AnimalAndFeedTypeStep(
+                        animalTypeId: formState.input.animalTypeId,
+                        feedType: formState.input.feedType,
+                        onAnimalTypeChanged: (value) => ref
+                            .read(feedFormulatorProvider.notifier)
+                            .setAnimalTypeId(value),
+                        onFeedTypeChanged: (value) => ref
+                            .read(feedFormulatorProvider.notifier)
+                            .setFeedType(value),
+                        constraints: formState.input.constraints,
+                        nutrientLabel: _nutrientLabel,
+                      ),
+                      _IngredientStep(
+                        controller: _searchController,
+                        selectedIds: formState.input.selectedIngredientIds,
+                        onToggle: (id) => ref
+                            .read(feedFormulatorProvider.notifier)
+                            .toggleIngredientId(id),
+                        onSelectAll: (ids) => ref
+                            .read(feedFormulatorProvider.notifier)
+                            .setSelectedIngredientIds(ids),
+                        onClearSelection: () => ref
+                            .read(feedFormulatorProvider.notifier)
+                            .setSelectedIngredientIds({}),
+                        constraints: formState.input.constraints,
+                        nutrientLabel: _nutrientLabel,
+                      ),
+                      _CustomizationStep(
+                        constraints: formState.input.constraints,
+                        minControllers: _minControllers,
+                        maxControllers: _maxControllers,
+                        onChanged: _updateConstraint,
+                        labelBuilder: _nutrientLabel,
+                      ),
+                      _ResultsStep(
+                        state: formState,
+                        nutrientLabel: _nutrientLabel,
+                      ),
+                    ],
                   ),
-                  _ResultsStep(
-                    state: formState,
-                    nutrientLabel: _nutrientLabel,
-                  ),
+                  const SizedBox(height: UIConstants.paddingNormal),
                 ],
               ),
             ),
-            const SizedBox(height: UIConstants.paddingNormal),
-            Row(
-              children: [
-                WidgetBuilders.buildOutlinedButton(
-                  label: context.l10n.actionBack,
-                  onPressed: _stepIndex == 0
-                      ? null
-                      : () {
-                          setState(() {
-                            _stepIndex -= 1;
-                          });
-                        },
-                ),
-                const SizedBox(width: UIConstants.paddingSmall),
-                if (_stepIndex == 2)
-                  WidgetBuilders.buildPrimaryButton(
-                    label: context.l10n.formulatorActionSolve,
-                    onPressed: formState.status == FormulatorStatus.solving
-                        ? null
-                        : () async {
-                            AppLogger.debug(
-                              'Solve button pressed - Status: ${formState.status}, Selected ingredients: ${formState.input.selectedIngredientIds.length}',
-                              tag: 'FeedFormulatorScreen',
-                            );
-
-                            await ref
-                                .read(feedFormulatorProvider.notifier)
-                                .solve();
-
-                            if (!mounted) {
-                              AppLogger.debug('Widget unmounted after solve',
-                                  tag: 'FeedFormulatorScreen');
-                              return;
-                            }
-
-                            final updatedStatus =
-                                ref.read(feedFormulatorProvider).status;
-                            AppLogger.debug(
-                              'Solve completed - Status: $updatedStatus',
-                              tag: 'FeedFormulatorScreen',
-                            );
-
-                            if (updatedStatus == FormulatorStatus.success) {
-                              AppLogger.debug(
-                                  'Formulation successful, navigating to results',
-                                  tag: 'FeedFormulatorScreen');
-                              setState(() {
-                                _stepIndex = 3;
-                              });
-                            } else {
-                              final errorState =
-                                  ref.read(feedFormulatorProvider);
-                              final errorMessage = errorState.message.isNotEmpty
-                                  ? errorState.message
-                                  : 'Formulation failed. Please check your ingredient selection and constraints.';
-
-                              AppLogger.warning(
-                                'Formulation failed with message: "$errorMessage"',
-                                tag: 'FeedFormulatorScreen',
-                              );
-
-                              if (context.mounted) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(errorMessage),
-                                    backgroundColor: Colors.redAccent,
-                                    duration: const Duration(seconds: 5),
-                                    action: SnackBarAction(
-                                      label: 'Dismiss',
-                                      textColor: Colors.white,
-                                      onPressed: () {
-                                        ScaffoldMessenger.of(context)
-                                            .hideCurrentSnackBar();
-                                      },
-                                    ),
-                                  ),
-                                );
-                              }
-                            }
-                          },
-                    isLoading: formState.status == FormulatorStatus.solving,
-                  )
-                else
-                  WidgetBuilders.buildPrimaryButton(
-                    label: context.l10n.actionNext,
-                    onPressed: _stepIndex >= _totalSteps - 1
-                        ? null
-                        : () {
-                            if (_stepIndex == 1 &&
-                                formState.input.selectedIngredientIds.isEmpty) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    context.l10n.formulatorEmptySelection,
-                                  ),
-                                ),
-                              );
-                              return;
-                            }
-                            setState(() {
-                              _stepIndex += 1;
-                            });
-                          },
-                  ),
-              ],
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -593,38 +625,37 @@ class _IngredientStepState extends ConsumerState<_IngredientStep> {
           ],
         ),
         const SizedBox(height: UIConstants.paddingSmall),
-        Expanded(
-          child: filtered.isEmpty
-              ? Center(
-                  child: Text(
-                    context.l10n.formulatorSelectIngredientsHint,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: AppConstants.appIconGreyColor,
-                        ),
-                  ),
-                )
-              : ListView.builder(
-                  itemCount: filtered.length,
-                  itemExtent: 56,
-                  itemBuilder: (context, index) {
-                    final ingredient = filtered[index];
-                    final id = ingredient.ingredientId;
-                    final isSelected =
-                        id != null && widget.selectedIds.contains(id);
-                    return ListTile(
-                      leading: Checkbox(
-                        value: isSelected,
-                        onChanged:
-                            id == null ? null : (_) => widget.onToggle(id),
+        filtered.isEmpty
+            ? Center(
+                child: Text(
+                  context.l10n.formulatorSelectIngredientsHint,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: AppConstants.appIconGreyColor,
                       ),
-                      title: Text(ingredient.name ?? ''),
-                      subtitle: Text(ingredient.standardReference ?? ''),
-                      onTap: id == null ? null : () => widget.onToggle(id),
-                    );
-                  },
                 ),
-        ),
+              )
+            : ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: filtered.length,
+                itemExtent: 56,
+                itemBuilder: (context, index) {
+                  final ingredient = filtered[index];
+                  final id = ingredient.ingredientId;
+                  final isSelected =
+                      id != null && widget.selectedIds.contains(id);
+                  return ListTile(
+                    leading: Checkbox(
+                      value: isSelected,
+                      onChanged: id == null ? null : (_) => widget.onToggle(id),
+                    ),
+                    title: Text(ingredient.name ?? ''),
+                    subtitle: Text(ingredient.standardReference ?? ''),
+                    onTap: id == null ? null : () => widget.onToggle(id),
+                  );
+                },
+              ),
       ],
     );
   }
@@ -677,55 +708,55 @@ class _CustomizationStep extends StatelessWidget {
               ),
         ),
         const SizedBox(height: UIConstants.paddingSmall),
-        Expanded(
-          child: ListView.separated(
-            itemCount: constraints.length,
-            separatorBuilder: (_, __) =>
-                const SizedBox(height: UIConstants.paddingSmall),
-            itemBuilder: (context, index) {
-              final constraint = constraints[index];
-              final minController = minControllers[constraint.key]!;
-              final maxController = maxControllers[constraint.key]!;
+        ListView.separated(
+          itemCount: constraints.length,
+          separatorBuilder: (_, __) =>
+              const SizedBox(height: UIConstants.paddingSmall),
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            final constraint = constraints[index];
+            final minController = minControllers[constraint.key]!;
+            final maxController = maxControllers[constraint.key]!;
 
-              return WidgetBuilders.buildCard(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      labelBuilder(context, constraint.key),
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                            fontWeight: FontWeight.w700,
-                          ),
-                    ),
-                    const SizedBox(height: UIConstants.paddingSmall),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: WidgetBuilders.buildTextField(
-                            label: context.l10n.formulatorConstraintMin,
-                            controller: minController,
-                            keyboardType: TextInputType.number,
-                            inputFormatters: InputValidators.numericFormatters,
-                            onChanged: (_) => onChanged(constraint.key),
-                          ),
+            return WidgetBuilders.buildCard(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    labelBuilder(context, constraint.key),
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w700,
                         ),
-                        const SizedBox(width: UIConstants.paddingSmall),
-                        Expanded(
-                          child: WidgetBuilders.buildTextField(
-                            label: context.l10n.formulatorConstraintMax,
-                            controller: maxController,
-                            keyboardType: TextInputType.number,
-                            inputFormatters: InputValidators.numericFormatters,
-                            onChanged: (_) => onChanged(constraint.key),
-                          ),
+                  ),
+                  const SizedBox(height: UIConstants.paddingSmall),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: WidgetBuilders.buildTextField(
+                          label: context.l10n.formulatorConstraintMin,
+                          controller: minController,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: InputValidators.numericFormatters,
+                          onChanged: (_) => onChanged(constraint.key),
                         ),
-                      ],
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
+                      ),
+                      const SizedBox(width: UIConstants.paddingSmall),
+                      Expanded(
+                        child: WidgetBuilders.buildTextField(
+                          label: context.l10n.formulatorConstraintMax,
+                          controller: maxController,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: InputValidators.numericFormatters,
+                          onChanged: (_) => onChanged(constraint.key),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          },
         ),
       ],
     );
@@ -770,6 +801,8 @@ class _ResultsStep extends ConsumerWidget {
     };
 
     return ListView(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       children: [
         // Export buttons
         Padding(

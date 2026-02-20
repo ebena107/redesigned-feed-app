@@ -8,12 +8,14 @@ import 'package:feed_estimator/src/features/reports/widget/energy_values_card.da
 import 'package:feed_estimator/src/features/reports/widget/formulation_warnings_card.dart';
 import 'package:feed_estimator/src/features/reports/widget/ingredients_list.dart';
 import 'package:feed_estimator/src/features/reports/widget/phosphorus_breakdown_card.dart';
-import 'package:feed_estimator/src/features/reports/widget/report_bottom_bar.dart';
+
 import 'package:feed_estimator/src/features/reports/widget/result_card.dart';
+import 'package:feed_estimator/src/utils/widgets/unified_gradient_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:feed_estimator/src/core/router/routes.dart';
+
+import 'package:feed_estimator/src/utils/widgets/responsive_scaffold.dart';
 
 class AnalysisPage extends ConsumerStatefulWidget {
   final int? feedId;
@@ -101,97 +103,101 @@ class _AnalysisPageState extends ConsumerState<AnalysisPage> {
       final result =
           resultState.myResult; //  <-- Correct: watch property from state
 
-      return Scaffold(
+      final String subtitle = [
+        '${animalName(id: (feed.animalId ?? 0).toInt())} Feed',
+        if (feed.productionStage != null && feed.productionStage!.isNotEmpty)
+          feed.productionStage!,
+        secondToDate(feed.timestampModified?.toInt())
+      ].join(' • ');
+
+      return ResponsiveScaffold(
         backgroundColor: AppConstants.appBackgroundColor,
-        appBar: AppBar(
-          title: Text(feed.feedName ?? 'Report'),
-          centerTitle: true,
-          elevation: 0,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () => context.pop(),
-          ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.picture_as_pdf),
-              onPressed: () {
-                if (feed.feedId != null) {
-                  PdfRoute(feed.feedId!.toInt(),
-                          type: widget.type, $extra: feed)
-                      .push(context);
-                }
-              },
+        // bottomNavigationBar: const ReportBottomBar(), // Removed as ResponsiveScaffold handles nav
+        body: CustomScrollView(
+          slivers: [
+            UnifiedGradientHeader(
+              title: feed.feedName ?? 'Report',
+              subtitle: subtitle,
+              gradientColors: [
+                Colors.deepPurple,
+                Colors.deepPurpleAccent,
+              ],
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.picture_as_pdf),
+                  onPressed: () {
+                    if (feed.feedId != null) {
+                      PdfRoute(feed.feedId!.toInt(),
+                              type: widget.type, $extra: feed)
+                          .push(context);
+                    }
+                  },
+                ),
+              ],
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 16, bottom: 80),
+                child: showIngredients
+                    ? ReportIngredientList(feed: feed)
+                    : Column(
+                        children: [
+                          // Main Result Card
+                          _buildSafeWidget(
+                            'ResultCard',
+                            () => ResultCard(
+                              feed: feed,
+                              feedId: widget.feedId,
+                              type: widget.type,
+                            ),
+                          ),
+
+                          // Only show detailed cards if we have a valid result
+                          if (result != null && result.mEnergy != null) ...[
+                            // Formulation Warnings
+                            _buildSafeWidget(
+                              'FormulationWarningsCard',
+                              () => FormulationWarningsCard(
+                                warningsJson: result.warningsJson,
+                              ),
+                            ),
+
+                            // Amino Acid Profile
+                            _buildSafeWidget(
+                              'AminoAcidProfileCard',
+                              () => AminoAcidProfileCard(
+                                aminoAcidsSidJson: result.aminoAcidsSidJson,
+                                aminoAcidsTotalJson: result.aminoAcidsTotalJson,
+                              ),
+                            ),
+
+                            // Energy Values
+                            _buildSafeWidget(
+                              'EnergyValuesCard',
+                              () => EnergyValuesCard(
+                                energyJson: result.energyJson,
+                                animalTypeId: feed.animalId?.toInt() ?? 1,
+                              ),
+                            ),
+
+                            // Phosphorus Breakdown
+                            _buildSafeWidget(
+                              'PhosphorusBreakdownCard',
+                              () => PhosphorusBreakdownCard(
+                                totalPhosphorus: result.totalPhosphorus,
+                                availablePhosphorus: result.availablePhosphorus,
+                                phytatePhosphorus: result.phytatePhosphorus,
+                              ),
+                            ),
+                          ],
+
+                          const SizedBox(height: 24),
+                        ],
+                      ),
+              ),
             ),
           ],
         ),
-        bottomNavigationBar: const ReportBottomBar(),
-        body: showIngredients
-            ? SingleChildScrollView(
-                padding: const EdgeInsets.only(top: 16, bottom: 80),
-                child: ReportIngredientList(feed: feed),
-              )
-            : SingleChildScrollView(
-                padding: const EdgeInsets.only(bottom: 80),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 16),
-                    // Restored Header
-                    _FeedHeader(feed: feed),
-                    const SizedBox(height: 16),
-
-                    // Main Result Card
-                    _buildSafeWidget(
-                      'ResultCard',
-                      () => ResultCard(
-                        feed: feed,
-                        feedId: widget.feedId,
-                        type: widget.type,
-                      ),
-                    ),
-
-                    // Only show detailed cards if we have a valid result
-                    if (result != null && result.mEnergy != null) ...[
-                      // Formulation Warnings
-                      _buildSafeWidget(
-                        'FormulationWarningsCard',
-                        () => FormulationWarningsCard(
-                          warningsJson: result.warningsJson,
-                        ),
-                      ),
-
-                      // Amino Acid Profile
-                      _buildSafeWidget(
-                        'AminoAcidProfileCard',
-                        () => AminoAcidProfileCard(
-                          aminoAcidsSidJson: result.aminoAcidsSidJson,
-                          aminoAcidsTotalJson: result.aminoAcidsTotalJson,
-                        ),
-                      ),
-
-                      // Energy Values
-                      _buildSafeWidget(
-                        'EnergyValuesCard',
-                        () => EnergyValuesCard(
-                          energyJson: result.energyJson,
-                          animalTypeId: feed.animalId?.toInt() ?? 1,
-                        ),
-                      ),
-
-                      // Phosphorus Breakdown
-                      _buildSafeWidget(
-                        'PhosphorusBreakdownCard',
-                        () => PhosphorusBreakdownCard(
-                          totalPhosphorus: result.totalPhosphorus,
-                          availablePhosphorus: result.availablePhosphorus,
-                          phytatePhosphorus: result.phytatePhosphorus,
-                        ),
-                      ),
-                    ],
-
-                    const SizedBox(height: 24),
-                  ],
-                ),
-              ),
       );
     } catch (e, stackTrace) {
       debugPrint('Error in AnalysisPage build: $e');
@@ -244,89 +250,5 @@ class _AnalysisPageState extends ConsumerState<AnalysisPage> {
         ),
       );
     }
-  }
-}
-
-class _FeedHeader extends StatelessWidget {
-  final Feed feed;
-  const _FeedHeader({required this.feed});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Column(
-        children: [
-          Text(
-            feed.feedName ?? 'Unknown Feed',
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black87,
-                ),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                decoration: BoxDecoration(
-                  color: Colors.deepPurple.shade50,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: Colors.deepPurple.shade200,
-                    width: 1,
-                  ),
-                ),
-                child: Text(
-                  '${animalName(id: (feed.animalId ?? 0).toInt())} Feed',
-                  style: TextStyle(
-                    color: Colors.deepPurple.shade700,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 13,
-                  ),
-                ),
-              ),
-              // Production Stage Chip
-              if (feed.productionStage != null &&
-                  feed.productionStage!.isNotEmpty) ...[
-                const SizedBox(width: 8),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: Colors.green.shade50,
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                      color: Colors.green.shade200,
-                      width: 1,
-                    ),
-                  ),
-                  child: Text(
-                    feed.productionStage!,
-                    style: TextStyle(
-                      color: Colors.green.shade700,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 13,
-                    ),
-                  ),
-                ),
-              ],
-            ],
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Modified: ${secondToDate(feed.timestampModified?.toInt())}',
-            style: TextStyle(
-              color: Colors.grey.shade400,
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }

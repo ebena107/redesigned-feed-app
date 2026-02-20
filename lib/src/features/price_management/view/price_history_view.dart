@@ -7,6 +7,7 @@ import 'package:feed_estimator/src/features/price_management/provider/price_hist
 import 'package:feed_estimator/src/features/price_management/widget/price_bulk_import_dialog.dart';
 import 'package:feed_estimator/src/features/price_management/repository/price_history_repository.dart';
 import 'package:feed_estimator/src/features/price_management/widget/price_edit_dialog.dart';
+import 'package:feed_estimator/src/utils/widgets/unified_gradient_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -37,117 +38,123 @@ class _PriceHistoryViewState extends ConsumerState<PriceHistoryView> {
         ref.watch(currentPriceProvider(ingredientId: widget.ingredientId));
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.ingredientName ?? 'Price History'),
-        elevation: 0,
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            // Current Price Card
-            _buildCurrentPriceCard(currentPriceAsync),
-            const SizedBox(height: UIConstants.paddingNormal),
+      body: CustomScrollView(
+        slivers: [
+          UnifiedGradientHeader(
+            title: widget.ingredientName ?? 'Price History',
+            gradientColors: [
+              Colors.teal.shade800,
+              Colors.teal.shade600,
+            ],
+          ),
+          SliverToBoxAdapter(
+            child: Column(
+              children: [
+                // Current Price Card
+                _buildCurrentPriceCard(currentPriceAsync),
+                const SizedBox(height: UIConstants.paddingNormal),
 
-            // Price History Section
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Header: title above, actions below to avoid Row overflow
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Price History',
-                        style: Theme.of(context).textTheme.titleMedium,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: UIConstants.paddingSmall),
-                      Wrap(
-                        spacing: UIConstants.paddingSmall,
-                        runSpacing: UIConstants.paddingSmall,
-                        children: [
-                          OutlinedButton.icon(
-                            onPressed: () => _showImportDialog(context),
-                            icon: const Icon(
-                              Icons.file_upload,
-                              size: UIConstants.iconSmall,
-                            ),
-                            label: const Text('Import CSV'),
-                          ),
-                          FilledButton.icon(
-                            onPressed: () => _showAddPriceDialog(context),
-                            label: const Text('Add Price'),
-                            icon: const Icon(
-                              Icons.add,
-                              size: UIConstants.iconSmall,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: UIConstants.paddingNormal),
-                ],
-              ),
-            ),
-
-            // Price History List
-            priceHistoryAsync.when(
-              loading: () => WidgetBuilders.buildLoadingIndicator(),
-              error: (error, stackTrace) {
-                AppLogger.error(
-                  'Error loading price history: $error',
-                  tag: _tag,
-                  error: error,
-                  stackTrace: stackTrace,
-                );
-                return WidgetBuilders.buildErrorState(
-                  message: 'Failed to load price history',
-                  onRetry: () =>
-                      ref.refresh(priceHistoryProvider(widget.ingredientId)),
-                );
-              },
-              data: (priceHistory) {
-                if (priceHistory.isEmpty) {
-                  return WidgetBuilders.buildEmptyState(
-                    message: 'No price history recorded yet',
-                    action: WidgetBuilders.buildPrimaryButton(
-                      label: 'Record First Price',
-                      onPressed: () => _showAddPriceDialog(context),
-                    ),
-                  );
-                }
-                return Padding(
+                // Price History Section
+                Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _buildStatsCard(priceHistory),
-                      const SizedBox(height: UIConstants.paddingNormal),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: priceHistory.length,
-                        itemBuilder: (context, index) {
-                          final price = priceHistory[index];
-                          return _buildPriceHistoryCard(
-                            price,
-                            priceHistory.length > 1 && index > 0
-                                ? priceHistory[index - 1]
-                                : null,
-                          );
-                        },
+                      // Header: title above, actions below to avoid Row overflow
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Price History',
+                            style: Theme.of(context).textTheme.titleMedium,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: UIConstants.paddingSmall),
+                          Wrap(
+                            spacing: UIConstants.paddingSmall,
+                            runSpacing: UIConstants.paddingSmall,
+                            children: [
+                              OutlinedButton.icon(
+                                onPressed: () => _showImportDialog(context),
+                                icon: const Icon(
+                                  Icons.file_upload,
+                                  size: UIConstants.iconSmall,
+                                ),
+                                label: const Text('Import CSV'),
+                              ),
+                              FilledButton.icon(
+                                onPressed: () => _showAddPriceDialog(context),
+                                label: const Text('Add Price'),
+                                icon: const Icon(
+                                  Icons.add,
+                                  size: UIConstants.iconSmall,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
+                      const SizedBox(height: UIConstants.paddingNormal),
                     ],
                   ),
-                );
-              },
+                ),
+
+                // Price History List
+                priceHistoryAsync.when(
+                  loading: () => WidgetBuilders.buildLoadingIndicator(),
+                  error: (error, stackTrace) {
+                    AppLogger.error(
+                      'Error loading price history: $error',
+                      tag: _tag,
+                      error: error,
+                      stackTrace: stackTrace,
+                    );
+                    return WidgetBuilders.buildErrorState(
+                      message: 'Failed to load price history',
+                      onRetry: () => ref
+                          .refresh(priceHistoryProvider(widget.ingredientId)),
+                    );
+                  },
+                  data: (priceHistory) {
+                    if (priceHistory.isEmpty) {
+                      return WidgetBuilders.buildEmptyState(
+                        message: 'No price history recorded yet',
+                        action: WidgetBuilders.buildPrimaryButton(
+                          label: 'Record First Price',
+                          onPressed: () => _showAddPriceDialog(context),
+                        ),
+                      );
+                    }
+                    return Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildStatsCard(priceHistory),
+                          const SizedBox(height: UIConstants.paddingNormal),
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: priceHistory.length,
+                            itemBuilder: (context, index) {
+                              final price = priceHistory[index];
+                              return _buildPriceHistoryCard(
+                                price,
+                                priceHistory.length > 1 && index > 0
+                                    ? priceHistory[index - 1]
+                                    : null,
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
