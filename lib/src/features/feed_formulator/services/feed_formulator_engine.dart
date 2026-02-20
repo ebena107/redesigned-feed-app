@@ -10,8 +10,9 @@ import 'package:feed_estimator/src/features/feed_formulator/services/linear_prog
 
 /// Configuration options for feed formulation
 class FormulationOptions {
-  /// Safety margin multiplier for minimum nutrient requirements (1.05 = +5%)
-  /// Applied to prevent marginal deficiencies in final formula
+  /// Safety margin multiplier for minimum nutrient requirements.
+  /// 1.02 = +2% buffer — keeps the problem feasible while preventing
+  /// marginal deficiencies (relaxed from the old 1.05 which was too tight).
   final double safetyMargin;
 
   /// Enable automatic relaxation when formulation is infeasible
@@ -26,7 +27,7 @@ class FormulationOptions {
   final Map<num, double> fixedInclusions;
 
   FormulationOptions({
-    this.safetyMargin = 1.05,
+    this.safetyMargin = 1.02,
     this.enableAutoRelaxation = true,
     this.maxRelaxationPct = 0.08,
     this.fixedInclusions = const {},
@@ -56,8 +57,13 @@ enum InclusionStrategy {
 class FeedFormulatorEngine {
   FeedFormulatorEngine({
     LinearProgramSolver? solver,
-    this.minInclusionPct = 0.0,
-    this.inclusionStrategy = InclusionStrategy.none,
+
+    /// Minimum % for each selected ingredient — ensures all ingredients appear.
+    /// Default 0.5% guarantees diversity without over-constraining the LP.
+    this.minInclusionPct = 0.5,
+
+    /// allSelected means every variable ingredient gets at least minInclusionPct.
+    this.inclusionStrategy = InclusionStrategy.allSelected,
     FormulationOptions? options,
   })  : _solver = solver ?? LinearProgramSolver(),
         options = options ?? FormulationOptions();
@@ -706,7 +712,30 @@ class FeedFormulatorEngine {
     );
   }
 
-  /// Get max inclusion % for ingredient
+  /// Keywords that identify premix/mineral/vitamin ingredients.
+  /// These should never exceed 3% in a complete feed.
+  static const _premixKeywords = [
+    'premix',
+    'pre-mix',
+    'mineral',
+    'vitamin',
+    'supplement',
+    'trace',
+    'micronutrient',
+    'salt',
+    'sodium chloride',
+  ];
+
+  /// Returns true if the ingredient name matches a premix/additive keyword.
+  bool _isPremixIngredient(Ingredient ingredient) {
+    final name = (ingredient.name ?? '').toLowerCase();
+    return _premixKeywords.any((kw) => name.contains(kw));
+  }
+
+  /// Get max inclusion % for ingredient.
+  /// Premix/mineral/vitamin ingredients are automatically capped at 3%
+  /// if they have no explicit max inclusion set — this prevents the LP
+  /// from using them as cheap filler at 100%.
   double? _getMaxInclusionPct(
     Ingredient ingredient,
     int animalTypeId,
@@ -720,7 +749,18 @@ class FeedFormulatorEngine {
         maxPct = (maxJson[key] as num?)?.toDouble();
       }
     }
-    return maxPct ?? ingredient.maxInclusionPct?.toDouble();
+    maxPct ??= ingredient.maxInclusionPct?.toDouble();
+
+    // Auto-cap premix/mineral/vitamin ingredients at 3% if not already set
+    if (maxPct == null && _isPremixIngredient(ingredient)) {
+      AppLogger.debug(
+        '${ingredient.name}: keyword-matched as premix/mineral/vitamin → capping at 3%',
+        tag: 'FeedFormulatorEngine',
+      );
+      maxPct = 3.0;
+    }
+
+    return maxPct;
   }
 
   /// Calculate total cost including fixed ingredients
