@@ -147,7 +147,22 @@ class IngredientsRepository implements Repository {
   Future<List<Ingredient>> getAll() async {
     final List<Map<String, Object?>> raw = await db.selectAll(tableName);
 
-    return raw.map((item) => Ingredient.fromJson(item)).toList();
+    final mappedList = raw.map((item) => Ingredient.fromJson(item)).toList();
+    mappedList.sort((a, b) {
+      final regionA = a.region ?? 'Global';
+      final regionB = b.region ?? 'Global';
+
+      final regionCompare = regionA.compareTo(regionB);
+      if (regionCompare != 0) {
+        return regionCompare;
+      }
+
+      final nameA = a.name ?? '';
+      final nameB = b.name ?? '';
+      return nameA.toLowerCase().compareTo(nameB.toLowerCase());
+    });
+
+    return mappedList;
   }
 
   @override
