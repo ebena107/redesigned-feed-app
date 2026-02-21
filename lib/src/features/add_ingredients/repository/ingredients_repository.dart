@@ -149,8 +149,15 @@ class IngredientsRepository implements Repository {
 
     final mappedList = raw.map((item) => Ingredient.fromJson(item)).toList();
     mappedList.sort((a, b) {
-      final regionA = a.region ?? 'Global';
-      final regionB = b.region ?? 'Global';
+      String getCanonicalRegion(Ingredient ing) {
+        if (ing.region == null || ing.region!.trim().isEmpty) {
+          return 'Global';
+        }
+        return ing.region!.split(',').first.trim();
+      }
+
+      final regionA = getCanonicalRegion(a);
+      final regionB = getCanonicalRegion(b);
 
       final regionCompare = regionA.compareTo(regionB);
       if (regionCompare != 0) {
