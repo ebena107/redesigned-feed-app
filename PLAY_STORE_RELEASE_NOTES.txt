@@ -1,137 +1,93 @@
 ═══════════════════════════════════════════════════════════
-PLAY STORE RELEASE NOTES - Version 1.1.5 (Build 14)
+PLAY STORE RELEASE NOTES - Version 1.2.0 (Build 16)
 ═══════════════════════════════════════════════════════════
 
 ─────────────────────────────────────────────────────────
 SHORT VERSION (500 characters - for Play Store "What's New")
 ─────────────────────────────────────────────────────────
 
-🔧 Critical Fix: Resolved issue where feed formulations became inaccessible after updates. Your data is safe and will be automatically restored!
+🚀 Huge Engine Upgrade! 
+The Feed Formulator algorithm is entirely rebuilt to be smarter and safer. It now perfectly respects required minimum ingredients (like salt/minerals) while prioritizing bulk ingredients properly.
 
-✨ New: Copy existing ingredients to create custom variations with one tap. Perfect for making quick adjustments to nutritional values.
+🛡️ Intelligent Safety Limits:
+New AI-guided ingredient mapping universally enforces safe inclusion limits per animal (e.g., automatically capping Cottonseed to prevent gossypol toxicity).
 
-🚀 Improvements: Enhanced database performance and stability. Better data management with improved error handling.
-
-Update now for a smoother, more reliable experience!
+🔧 Plus UI fixes for the saved feeds workflow and Analysis results page!
 
 ─────────────────────────────────────────────────────────
 MEDIUM VERSION (1000 characters - for detailed description)
 ─────────────────────────────────────────────────────────
 
-What's New in Version 1.1.5:
+What's New in Version 1.2.0 (Major Update):
 
-🚨 CRITICAL FIX - Feed Data Preservation
-We've fixed a critical database issue that caused some users' feed formulations to become inaccessible after app updates. This update includes:
-• Automatic data recovery - your feeds will be restored when you update
-• Corrected database structure for improved reliability
-• 100% data preservation - no feeds are lost
-• First launch after update may take 10-30 seconds (one-time migration)
+🚀 REBUILT FORMULATION ENGINE
+The core linear programming solver has received a massive upgrade!
+• Perfect minimum constraint handling: Mandated ingredients (like minerals and salt) are now guaranteed to meet your minimums without failing formulas.
+• Smart bulk priority: The engine prioritizes realistic bulk ingredients (grains, soy) to fill slack space perfectly.
 
-✨ NEW FEATURE - Copy Ingredients
-Create custom ingredients faster than ever:
-• Tap the copy button (📋) next to any ingredient
-• All nutritional values are pre-filled automatically
-• Modify the values as needed and save
-• Perfect for creating ingredient variations
+🛡️ INTELLIGENT INGREDIENT SAFETY
+Say goodbye to impossible or dangerous formulas!
+• New category-based inclusion limits automatically enforce industry-standard safe maximums.
+• Automatically flags and restricts ingredients with Anti-Nutritional Factors (Cottonseed, Sorghum, Blood Meal, etc.) based on the specific animal species.
+• Formulations for Fish have been significantly tightened to target optimal Fry Protein and Energy levels.
 
-🔧 IMPROVEMENTS
-• Enhanced database performance and query speed
-• Better error handling for improved stability
-• Optimized data relationships
-• Cleaner data management with cascade operations
+🔧 UI IMPROVEMENTS & FIXES
+• Restored the missing bottom navigation bar on the Feed Analysis page.
+• Streamlined the "Save to My Feeds" functionality directly into the navigation stack.
 
-Your data is our priority. Update with confidence!
+Update now to experience the smartest Feed Estimator yet!
 
 ─────────────────────────────────────────────────────────
 USER-FRIENDLY VERSION (for non-technical users)
 ─────────────────────────────────────────────────────────
 
-What's Fixed:
+What's New in Version 1.2.0:
 
-📋 Your Feeds Are Safe
-Some users reported their feed formulations went missing after updating. We found the problem and fixed it! When you install this update:
-✓ Your feeds will automatically come back
-✓ All your data is preserved and safe
-✓ The app may take a moment to start the first time (just updating the database)
+The "Expert AI" Update! We've made the formulation engine much smarter:
 
-What's New:
+🧠 Smarter Recipes
+The app's calculator is now much better at balancing your recipes. It knows exactly how to make sure vital small ingredients (like vitamins and salt) get included without breaking the math, while filling the rest of the feed with affordable bulk items.
 
-🎯 Quick Copy Feature
-Want to create a custom ingredient based on an existing one?
-1. Find the ingredient you want to copy
-2. Tap the copy button 📋
-3. All the nutrition values are filled in for you
-4. Change what you need and save!
+🛡️ Built-In Nutritionist Safety
+The app now acts like a built-in expert! We've updated the database with hundreds of new safety rules. For example, if you're making pig feed, the app automatically knows exactly how much Cottonseed Meal is safe to use and won't let the solver exceed that limit. It protects your animals from toxic or unbalanced limits automatically!
 
-Why Update:
+🐟 Better Fish Feed
+Updated the standard templates for Tilapia Pre-Starter and Starter to guarantee high-quality, high-protein formulations suited for fry.
 
-• Your feed formulations are important to us - this fix ensures they're always accessible
-• Faster and more reliable database operations
-• Better app performance overall
-• No more data mystery - everything works as it should!
-
-Questions? We're here to help through our support channels.
+📱 Interface Fixes
+Fixed missing buttons on the Analysis screen and made saving your feed recipes smoother. 
 
 ─────────────────────────────────────────────────────────
 TECHNICAL VERSION (for developer notes / metadata)
 ─────────────────────────────────────────────────────────
 
-Version: 1.1.5 (Build 14)
-Release Date: February 15, 2026
-Database Version: 13 (Migration V12→V13)
-Type: Critical bug fix + Feature release
+Version: 1.2.0 (Build 16)
+Release Date: February 21, 2026
+Database Version: 17 (Migration V16→V17)
+Type: Major Feature Update
 
-Changes:
-• Fixed: Incorrect foreign key references in feed_ingredients table causing data orphaning
-• Fixed: Database referential integrity violations
-• Added: Migration V12→V13 with automatic data recovery
-• Added: Copy ingredient feature with full value pre-population
-• Improved: Database cascade operations for cleaner data management
-• Improved: Error handling in database operations
-• Enhanced: Query performance with proper foreign key constraints
+Engine Changes:
+• Rewrote _enforceMinimumsPostSolve and slack distribution in feed_formulator_engine.dart for simplex optimization.
+• Fixed primary infeasibility errors triggered by conflicting zero-bounds vs minimums.
 
-Technical Details:
-- feed_id now correctly references feeds(feed_id) instead of self-reference
-- ingredient_id now correctly references ingredients(id) instead of ingredient_categories
-- ON DELETE CASCADE implemented for proper cleanup
-- All existing user data preserved through table recreation migration
-- Zero data loss, non-breaking change
+Database Changes:
+• Migrated AppDB to v17.
+• Calculated and applied 200+ specific `max_inclusion_json` mapping constraints.
+• Applied override constraints for gossypol, tannins, cyanogenic glycosides, and digestibility profiles.
 
-Build Info:
-- Release APK: 77.9 MB
-- App Bundle (AAB): 132.1 MB
-- Tree-shaking: Active (99.2% icon reduction)
-- ProGuard/R8: Enabled
-- Code obfuscation: Active
-
-─────────────────────────────────────────────────────────
-SOCIAL MEDIA / ANNOUNCEMENT VERSION
-─────────────────────────────────────────────────────────
-
-🎉 Feed Estimator v1.1.5 is Live!
-
-🔧 Critical Fix: We've resolved the issue where some users' feed formulations became inaccessible. Your data is safe and will be automatically restored when you update!
-
-✨ New Feature: Copy any ingredient with one tap to create custom variations. Perfect for quick adjustments!
-
-🚀 Plus: Faster performance, better stability, and improved data management.
-
-Update now on Google Play! Your feeds are waiting for you. 📱
-
-#FeedEstimator #AppUpdate #AnimalNutrition #FeedFormulation
+UI Changes:
+• Fixed Analysis/Report page bottom navigation bar configuration.
+• Refactored Feed Formulator completion step to integrate 'Save' into the standard stack.
+• Fixed Tilapia constraints for Calcium, Energy (>3000), and Protein.
 
 ─────────────────────────────────────────────────────────
 COPY-PASTE READY (Exactly 500 characters for Play Store)
 ─────────────────────────────────────────────────────────
 
-🔧 FIXED: Feed formulations now stay accessible after updates. Your data is safe and will auto-restore!
+🚀 Ultimate Engine Upgrade! 
+Our formulation algorithm is now smarter than ever. It perfectly balances mandated minimums (vitamins/salt) while heavily prioritizing affordable bulk.
 
-✨ NEW: Copy any ingredient to create custom versions instantly. Perfect for quick nutritional adjustments!
+🛡️ Industry Safety Standards:
+The app acts like a nutritionist! New database rules universally enforce safe ingredient limits per animal (e.g., auto-capping high-tannin sorghum or cottonseed).
 
-🚀 Enhanced database performance and stability. Better error handling for a smoother experience.
-
-⏱️ First launch may take 10-30 seconds for one-time database update.
-
-Update now - your feeds are important to us!
-
-─────────────────────────────────────────────────────────
+🔧 Plus: Upgraded Fish formulation profiles and fixed UI navigation on Analysis screens. Update for the best experience!
