@@ -1,5 +1,4 @@
 // ignore_for_file: avoid_print
-library screenshot8_test;
 
 /// Formulation test using the exact 8 ingredients from the app screenshot.
 /// These ingredients include Fish meal and Limestone, which should allow

@@ -1,5 +1,4 @@
 // ignore_for_file: avoid_print
-library screenshot10_test;
 
 import 'package:feed_estimator/src/features/add_ingredients/model/ingredient.dart';
 import 'package:feed_estimator/src/features/feed_formulator/model/formulator_constraint.dart';

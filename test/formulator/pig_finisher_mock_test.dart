@@ -363,7 +363,7 @@ void main() {
         for (final ing in pigIngredients) ing.ingredientId!: ing.name!
       };
 
-      // ignore: avoid_print
+      
       void log(String s) => print(s);
 
       log('\n══════════════════════════════════════════════════════');

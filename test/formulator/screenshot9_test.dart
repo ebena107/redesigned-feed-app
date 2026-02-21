@@ -1,5 +1,4 @@
 // ignore_for_file: avoid_print
-library screenshot9_test;
 
 /// Formulation test using the 8 ingredients from the app screenshot with
 /// updated prices and targeted for Pig Finisher (60-125kg).

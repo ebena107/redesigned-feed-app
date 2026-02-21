@@ -145,7 +145,13 @@ This app prioritizes user privacy:
 
 ## Version History
 
-### v1.1.6+15 (Current)
+### v1.2.0+16 (Current)
+- **Engine Overhaul**: Smarter linear programming solver guarantees required minimums (like salt/minerals) and prioritizes bulk ingredients effectively.
+- **Intelligent Safety**: Category-based ingredient inclusion limits enforce safe maximums (e.g., limiting gossypol-heavy Cottonseed) across various animal species automatically.
+- **Fish Formulation**: Enhanced Tilapia Starter and Pre-Starter nutritional profiles for specialized fry diets.
+- **UI & Flow**: Fixed missing bottom navigation bars on reports and streamlined "Save to My Feeds" actions.
+
+### v1.1.6+15
 - **Windows Support**: Full desktop support with optimized layouts and runtime fixes (sqlite3.dll).
 - **Unit Standardization**: Consistent units across UI, Calculation Engine, and Reports (%, g/kg, Kcal/kg).
 - **UI/UX Improvements**: Fixed Analysis Page layout regression and blank screens on desktop.

@@ -1,5 +1,4 @@
 // ignore_for_file: avoid_print
-library screenshot7_test;
 
 /// Formulation test using the exact 7 ingredients from the app screenshot.
 /// No calcium source is included — validates all 3 engine fixes:
