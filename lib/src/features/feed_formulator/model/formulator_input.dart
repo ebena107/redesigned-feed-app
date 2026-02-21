@@ -10,6 +10,7 @@ sealed class FormulatorInput {
     required this.constraints,
     required this.selectedIngredientIds,
     required this.enforceMaxInclusion,
+    required this.enhanceDiversity,
     required this.priceOverrides,
     required this.maxInclusionOverrides,
   });
@@ -19,6 +20,9 @@ sealed class FormulatorInput {
   final List<NutrientConstraint> constraints;
   final Set<num> selectedIngredientIds;
   final bool enforceMaxInclusion;
+
+  /// Forces the LP solver to spread inclusion caps to increase variety
+  final bool enhanceDiversity;
 
   /// User-defined overrides for ingredient price per kg
   final Map<num, double> priceOverrides;
@@ -32,6 +36,7 @@ sealed class FormulatorInput {
     List<NutrientConstraint>? constraints,
     Set<num>? selectedIngredientIds,
     bool? enforceMaxInclusion,
+    bool? enhanceDiversity,
     Map<num, double>? priceOverrides,
     Map<num, double>? maxInclusionOverrides,
   });
@@ -45,6 +50,7 @@ sealed class FormulatorInput {
       constraints: defaults.constraints,
       selectedIngredientIds: {},
       enforceMaxInclusion: true,
+      enhanceDiversity: false,
       priceOverrides: {},
       maxInclusionOverrides: {},
     );
@@ -59,6 +65,7 @@ class _FormulatorInput extends FormulatorInput {
     required super.constraints,
     required super.selectedIngredientIds,
     required super.enforceMaxInclusion,
+    required super.enhanceDiversity,
     required super.priceOverrides,
     required super.maxInclusionOverrides,
   });
@@ -70,6 +77,7 @@ class _FormulatorInput extends FormulatorInput {
     List<NutrientConstraint>? constraints,
     Set<num>? selectedIngredientIds,
     bool? enforceMaxInclusion,
+    bool? enhanceDiversity,
     Map<num, double>? priceOverrides,
     Map<num, double>? maxInclusionOverrides,
   }) {
@@ -80,6 +88,7 @@ class _FormulatorInput extends FormulatorInput {
       selectedIngredientIds:
           selectedIngredientIds ?? this.selectedIngredientIds,
       enforceMaxInclusion: enforceMaxInclusion ?? this.enforceMaxInclusion,
+      enhanceDiversity: enhanceDiversity ?? this.enhanceDiversity,
       priceOverrides: priceOverrides ?? this.priceOverrides,
       maxInclusionOverrides:
           maxInclusionOverrides ?? this.maxInclusionOverrides,

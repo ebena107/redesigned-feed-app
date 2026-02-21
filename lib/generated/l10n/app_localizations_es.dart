@@ -91,7 +91,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get actionRetry => 'Reintentar';
 
   @override
-  String get actionViewReport => 'Ver Reporte';
+  String get actionViewReport => 'Ver Informe';
+
+  @override
+  String get actionOptimize => 'Optimizar';
 
   @override
   String get actionClear => 'Limpiar';
@@ -161,6 +164,13 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get formulatorActionSolve => 'Optimizar';
+
+  @override
+  String get formulatorDiversityTitle => 'Modo de Diversidad Mejorado';
+
+  @override
+  String get formulatorDiversityDesc =>
+      'Fuerza al motor a usar una mayor variedad de los ingredientes seleccionados en lugar de elegir solo los más baratos.';
 
   @override
   String get formulatorNoResults =>

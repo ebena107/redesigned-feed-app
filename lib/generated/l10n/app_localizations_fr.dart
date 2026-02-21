@@ -94,6 +94,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get actionViewReport => 'Voir le Rapport';
 
   @override
+  String get actionOptimize => 'Optimize';
+
+  @override
   String get actionClear => 'Effacer';
 
   @override
@@ -160,6 +163,13 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get formulatorActionSolve => 'Optimiser';
+
+  @override
+  String get formulatorDiversityTitle => 'Enhanced Diversity Mode';
+
+  @override
+  String get formulatorDiversityDesc =>
+      'Forces the engine to use a wider spread of your selected ingredients rather than picking only the absolute cheapest ones.';
 
   @override
   String get formulatorNoResults =>

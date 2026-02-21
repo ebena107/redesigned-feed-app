@@ -272,11 +272,17 @@ abstract class AppLocalizations {
   /// **'Retry'**
   String get actionRetry;
 
-  /// Action to view detailed report
+  /// Button text to view the feed report
   ///
   /// In en, this message translates to:
   /// **'View Report'**
   String get actionViewReport;
+
+  /// Button text to open feed in formulator engine
+  ///
+  /// In en, this message translates to:
+  /// **'Optimize'**
+  String get actionOptimize;
 
   /// Action button to clear filters or selection
   ///
@@ -383,7 +389,7 @@ abstract class AppLocalizations {
   /// Minimum constraint label
   ///
   /// In en, this message translates to:
-  /// **'Minimum'**
+  /// **'Min'**
   String get formulatorConstraintMin;
 
   /// Maximum constraint label
@@ -401,8 +407,20 @@ abstract class AppLocalizations {
   /// Action button to run optimization
   ///
   /// In en, this message translates to:
-  /// **'Solve'**
+  /// **'Solve Formulation'**
   String get formulatorActionSolve;
+
+  /// Title for the enhanced diversity mode option
+  ///
+  /// In en, this message translates to:
+  /// **'Enhanced Diversity Mode'**
+  String get formulatorDiversityTitle;
+
+  /// Description for the enhanced diversity mode option
+  ///
+  /// In en, this message translates to:
+  /// **'Forces the engine to use a wider spread of your selected ingredients rather than picking only the absolute cheapest ones.'**
+  String get formulatorDiversityDesc;
 
   /// Empty results message for formulator
   ///

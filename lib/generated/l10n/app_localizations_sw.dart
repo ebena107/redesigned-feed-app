@@ -93,6 +93,9 @@ class AppLocalizationsSw extends AppLocalizations {
   String get actionViewReport => 'Tazama Ripoti';
 
   @override
+  String get actionOptimize => 'Optimize';
+
+  @override
   String get actionClear => 'Futa';
 
   @override
@@ -149,7 +152,7 @@ class AppLocalizationsSw extends AppLocalizations {
   String get formulatorResetSelection => 'Clear selection';
 
   @override
-  String get formulatorConstraintMin => 'Minimum';
+  String get formulatorConstraintMin => 'Min';
 
   @override
   String get formulatorConstraintMax => 'Maximum';
@@ -158,7 +161,14 @@ class AppLocalizationsSw extends AppLocalizations {
   String get formulatorConstraintHelp => 'Leave blank to ignore a bound';
 
   @override
-  String get formulatorActionSolve => 'Solve';
+  String get formulatorActionSolve => 'Solve Formulation';
+
+  @override
+  String get formulatorDiversityTitle => 'Enhanced Diversity Mode';
+
+  @override
+  String get formulatorDiversityDesc =>
+      'Forces the engine to use a wider spread of your selected ingredients rather than picking only the absolute cheapest ones.';
 
   @override
   String get formulatorNoResults => 'Run optimization to see results.';

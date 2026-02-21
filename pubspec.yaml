@@ -99,6 +99,7 @@ dev_dependencies:
   riverpod_generator: ^4.0.0+1     # Generates Riverpod providers
   json_serializable: ^6.8.0      # Generates JSON serialization
   go_router_builder: ^4.2.0      # Generates type-safe routes
+  msix: ^3.16.13
 
 flutter:
   uses-material-design: true
@@ -119,3 +120,10 @@ flutter:
     - family: Roboto
       fonts:
         - asset: assets/fonts/RobotoRegular.ttf
+
+msix_config:
+  display_name: Feed Estimator
+  publisher_display_name: Feed Estimator
+  identity_name: feedestimator
+  publisher: "CN=Placeholder"
+  version: 1.2.0.16

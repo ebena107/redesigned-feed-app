@@ -79,6 +79,7 @@ class FeedFormulatorEngine {
     required int animalTypeId,
     String? feedTypeName,
     bool enforceMaxInclusion = true,
+    bool enhanceDiversity = false,
   }) {
     if (ingredients.isEmpty) {
       throw CalculationException(
@@ -162,11 +163,36 @@ class FeedFormulatorEngine {
       }
     }
 
+    // Identify sources for enhanced diversity mode
+    final energySources = <int>[];
+    final proteinSources = <int>[];
+    if (enhanceDiversity) {
+      for (var i = 0; i < variableIngredients.length; i++) {
+        final ing = variableIngredients[i];
+        final energy = _energyValue(ing, animalTypeId);
+        final protein = _nutrientValue(ing, NutrientKey.protein, animalTypeId);
+        if (energy > 2200) energySources.add(i);
+        if (protein > 25.0) proteinSources.add(i);
+      }
+    }
+
     // Max inclusion constraints (only on variable ingredients)
     if (enforceMaxInclusion) {
       for (var i = 0; i < variableIngredients.length; i++) {
         final ing = variableIngredients[i];
         double? maxPct = _getMaxInclusionPct(ing, animalTypeId, feedTypeName);
+
+        // Enhanced Diversity dynamic capping
+        if (enhanceDiversity) {
+          if (energySources.length >= 3 && energySources.contains(i)) {
+            final cap = 35.0;
+            maxPct = maxPct != null ? min(maxPct, cap) : cap;
+          }
+          if (proteinSources.length >= 3 && proteinSources.contains(i)) {
+            final cap = 18.0;
+            maxPct = maxPct != null ? min(maxPct, cap) : cap;
+          }
+        }
 
         if (maxPct != null && maxPct > 0) {
           final coeffs = List<double>.filled(variableIngredients.length, 0);
@@ -241,9 +267,41 @@ class FeedFormulatorEngine {
 
     // Handle infeasible solution
     if (solution.isInfeasible || !solution.isOptimal) {
+      // 1. If Diversity Mode caused the infeasibility, try reverting it first
+      if (solution.isInfeasible && enhanceDiversity) {
+        AppLogger.warning(
+          'Infeasible formula with Enhanced Diversity. Retrying without it...',
+          tag: 'FeedFormulatorEngine',
+        );
+        final fallbackResult = formulate(
+          ingredients: ingredients,
+          constraints: constraints,
+          animalTypeId: animalTypeId,
+          feedTypeName: feedTypeName,
+          enforceMaxInclusion: enforceMaxInclusion,
+          enhanceDiversity: false,
+        );
+
+        if (fallbackResult.status == 'optimal') {
+          final updatedWarnings = List<String>.from(fallbackResult.warnings)
+            ..add(
+                'Enhanced Diversity mode was temporarily disabled because constraints were too strict for the selected ingredients. Reverted to standard optimization.');
+
+          return FormulatorResult(
+            ingredientPercents: fallbackResult.ingredientPercents,
+            costPerKg: fallbackResult.costPerKg,
+            nutrients: fallbackResult.nutrients,
+            status: fallbackResult.status,
+            warnings: updatedWarnings,
+            limitingNutrients: fallbackResult.limitingNutrients,
+            sensitivity: fallbackResult.sensitivity,
+          );
+        }
+      }
+
+      // 2. Try auto-relaxation recovery
       if (solution.isInfeasible && options.enableAutoRelaxation) {
-        // Try auto-relaxation recovery
-        return _tryAutoRelaxation(
+        final fallbackResult = _tryAutoRelaxation(
           variableIngredients: variableIngredients,
           allIngredients: ingredients,
           originalConstraints: constraints,
@@ -251,8 +309,10 @@ class FeedFormulatorEngine {
           animalTypeId: animalTypeId,
           feedTypeName: feedTypeName,
           enforceMaxInclusion: enforceMaxInclusion,
+          enhanceDiversity: enhanceDiversity,
           warnings: warnings,
         );
+        return fallbackResult;
       }
 
       // No recovery, return failed result
@@ -1008,6 +1068,7 @@ class FeedFormulatorEngine {
     required int animalTypeId,
     required String? feedTypeName,
     required bool enforceMaxInclusion,
+    required bool enhanceDiversity,
     required List<String> warnings,
   }) {
     AppLogger.warning(

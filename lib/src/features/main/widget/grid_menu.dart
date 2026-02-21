@@ -9,9 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:feed_estimator/src/features/feed_formulator/providers/feed_formulator_provider.dart';
 import '../providers/main_async_provider.dart';
 
-enum _MenuOption { view, update, delete }
+enum _MenuOption { view, update, optimize, delete }
 
 class GridMenu extends ConsumerWidget {
   final Feed? feed;
@@ -48,6 +49,12 @@ class GridMenu extends ConsumerWidget {
             icon: Icons.edit_outlined,
             color: AppConstants.appCarrotColor,
             label: context.l10n.actionUpdate,
+          ),
+          _buildMenuItem(
+            value: _MenuOption.optimize,
+            icon: Icons.auto_graph_outlined,
+            color: Colors.blue,
+            label: context.l10n.actionOptimize,
           ),
           const PopupMenuDivider(),
           _buildMenuItem(
@@ -96,6 +103,12 @@ class GridMenu extends ConsumerWidget {
           ..resetProvider()
           ..setFeed(feed!);
         context.go('/feed/$feedId');
+        break;
+
+      case _MenuOption.optimize:
+        // Load into the Formulator state and navigate there directly
+        ref.read(feedFormulatorProvider.notifier).loadFromSavedFeed(feed!);
+        context.go('/formulator');
         break;
 
       case _MenuOption.delete:

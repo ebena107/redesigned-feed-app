@@ -160,6 +160,14 @@ class FeedFormulatorNotifier extends Notifier<FeedFormulatorState> {
     setSelectedIngredientIds(updated);
   }
 
+  void toggleEnhancedDiversity(bool enabled) {
+    state = state.copyWith(
+      input: state.input.copyWith(
+        enhanceDiversity: enabled,
+      ),
+    );
+  }
+
   void setConstraints(
     List<NutrientConstraint> constraints,
   ) {
@@ -264,6 +272,7 @@ class FeedFormulatorNotifier extends Notifier<FeedFormulatorState> {
         animalTypeId: state.input.animalTypeId,
         feedTypeName: state.input.feedType.name,
         enforceMaxInclusion: state.input.enforceMaxInclusion,
+        enhanceDiversity: state.input.enhanceDiversity,
       );
 
       AppLogger.debug(
@@ -496,6 +505,78 @@ class FeedFormulatorNotifier extends Notifier<FeedFormulatorState> {
       AppLogger.error('Error loading formulation $id: $e',
           tag: 'FeedFormulatorNotifier', error: e, stackTrace: stackTrace);
       return false;
+    }
+  }
+
+  /// LOAD FROM SAVED FEED
+  /// Copies an existing `Feed` object into the Formulator state for re-optimization.
+  void loadFromSavedFeed(Feed feed) {
+    try {
+      if (feed.animalId == null) {
+        throw Exception('Cannot load feed: missing animal ID.');
+      }
+
+      resetResult();
+
+      // 1. Map Animal ID
+      final animalTypeId = feed.animalId!.toInt();
+
+      // 2. Map Production Stage strings back to the FeedType Enum
+      FeedType nextFeedType = FeedType.starter;
+      final availableTypes = FeedType.forAnimalType(animalTypeId);
+      if (feed.productionStage != null) {
+        try {
+          // Attempt to match the saved string name enum directly
+          nextFeedType = FeedType.values.firstWhere(
+            (ft) => ft.name == feed.productionStage,
+            orElse: () => availableTypes.isNotEmpty
+                ? availableTypes.first
+                : FeedType.starter,
+          );
+        } catch (_) {
+          nextFeedType = availableTypes.isNotEmpty
+              ? availableTypes.first
+              : FeedType.starter;
+        }
+      }
+
+      // 3. Load constraints based on the Animal and Type
+      _loadDefaultRequirements(animalTypeId, nextFeedType);
+
+      // 4. Map the selected ingredients & specific price overrides
+      final selectedIds = <num>{};
+      final parsedPriceOverrides = <num, double>{};
+
+      if (feed.feedIngredients != null) {
+        for (final item in feed.feedIngredients!) {
+          if (item.ingredientId != null) {
+            final ingId = item.ingredientId!;
+            selectedIds.add(ingId);
+
+            // If a specific price was saved with this feed, maintain it as an override.
+            if (item.priceUnitKg != null) {
+              parsedPriceOverrides[ingId] = item.priceUnitKg!.toDouble();
+            }
+          }
+        }
+      }
+
+      // 5. Build and inject the exact replica into the state input
+      state = state.copyWith(
+        input: state.input.copyWith(
+          animalTypeId: animalTypeId,
+          feedType: nextFeedType,
+          selectedIngredientIds: selectedIds,
+          priceOverrides: parsedPriceOverrides,
+        ),
+      );
+
+      AppLogger.info(
+          'Successfully loaded saved feed ${feed.feedId} into the formulator.',
+          tag: 'FeedFormulatorNotifier');
+    } catch (e, stackTrace) {
+      AppLogger.error('Error copying feed to formulator: $e',
+          tag: 'FeedFormulatorNotifier', error: e, stackTrace: stackTrace);
     }
   }
 

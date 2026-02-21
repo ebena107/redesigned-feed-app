@@ -122,8 +122,6 @@ class _FeedFormulatorScreenState extends ConsumerState<FeedFormulatorScreen> {
   }
 
   Future<void> _handleSaveAsFeed(BuildContext context) async {
-    final scaffold = ScaffoldMessenger.of(context);
-
     String feedName = 'Formulated Feed';
     final TextEditingController nameController =
         TextEditingController(text: feedName);
@@ -173,15 +171,15 @@ class _FeedFormulatorScreenState extends ConsumerState<FeedFormulatorScreen> {
     if (shouldSave != true) return;
     if (!mounted) return;
 
-    scaffold.showSnackBar(
-      const SnackBar(content: Text('Saving feed...')),
-    );
+    final scaffold = ScaffoldMessenger.of(context);
 
     try {
       final success =
           await ref.read(feedFormulatorProvider.notifier).saveAsFeed(feedName);
 
       if (!mounted) return;
+
+      scaffold.hideCurrentSnackBar();
 
       if (success) {
         scaffold.showSnackBar(
@@ -200,6 +198,7 @@ class _FeedFormulatorScreenState extends ConsumerState<FeedFormulatorScreen> {
       }
     } catch (e) {
       if (!mounted) return;
+      scaffold.hideCurrentSnackBar();
       scaffold.showSnackBar(
         SnackBar(
           content: Text('Error saving feed: $e'),
@@ -800,6 +799,36 @@ class _CustomizationStep extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        WidgetBuilders.buildCard(
+          child: SwitchListTile(
+            contentPadding: EdgeInsets.zero, // Keep card padding clean
+            activeColor: AppConstants.mainAppColor,
+            title: Text(
+              context.l10n.formulatorDiversityTitle,
+              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
+            ),
+            subtitle: Padding(
+              padding: const EdgeInsets.only(top: 4.0),
+              child: Text(
+                context.l10n.formulatorDiversityDesc,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: AppConstants.appIconGreyColor,
+                      fontSize: 12,
+                      height: 1.3,
+                    ),
+              ),
+            ),
+            value: formState.input.enhanceDiversity,
+            onChanged: (bool value) {
+              ref
+                  .read(feedFormulatorProvider.notifier)
+                  .toggleEnhancedDiversity(value);
+            },
+          ),
+        ),
+        const SizedBox(height: UIConstants.paddingNormal),
         Text(
           'Optional: Customize Nutrient Ranges',
           style: Theme.of(context).textTheme.titleSmall?.copyWith(

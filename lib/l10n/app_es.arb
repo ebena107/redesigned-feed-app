@@ -116,7 +116,8 @@
   "@actionRetry": {
     "description": "Action button to retry"
   },
-  "actionViewReport": "Ver Reporte",
+  "actionViewReport": "Ver Informe",
+  "actionOptimize": "Optimizar",
   "@actionViewReport": {
     "description": "Action to view detailed report"
   },
@@ -203,6 +204,18 @@
   "formulatorResetSelection": "Limpiar selección",
   "@formulatorResetSelection": {
     "description": "Clear selected ingredients action"
+  },
+  "formulatorActionSolve": "Optimizar",
+  "@formulatorActionSolve": {
+    "description": "Action button to run optimization"
+  },
+  "formulatorDiversityTitle": "Modo de Diversidad Mejorado",
+  "@formulatorDiversityTitle": {
+    "description": "Title for enhanced diversity mode setting"
+  },
+  "formulatorDiversityDesc": "Fuerza al motor a usar una mayor variedad de los ingredientes seleccionados en lugar de elegir solo los más baratos.",
+  "@formulatorDiversityDesc": {
+    "description": "Description for enhanced diversity mode setting"
   },
   "formulatorConstraintMin": "Mínimo",
   "@formulatorConstraintMin": {

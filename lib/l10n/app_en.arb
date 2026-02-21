@@ -114,7 +114,11 @@
   },
   "actionViewReport": "View Report",
   "@actionViewReport": {
-    "description": "Action to view detailed report"
+    "description": "Button text to view the feed report"
+  },
+  "actionOptimize": "Optimize",
+  "@actionOptimize": {
+    "description": "Button text to open feed in formulator engine"
   },
   "actionClear": "Clear",
   "@actionClear": {
@@ -212,9 +216,25 @@
   "@formulatorConstraintHelp": {
     "description": "Helper text for constraint bounds"
   },
-  "formulatorActionSolve": "Solve",
+  "formulatorActionSolve": "Solve Formulation",
   "@formulatorActionSolve": {
     "description": "Action button to run optimization"
+  },
+  "formulatorDiversityTitle": "Enhanced Diversity Mode",
+  "@formulatorDiversityTitle": {
+    "description": "Title for the enhanced diversity mode option"
+  },
+  "formulatorDiversityDesc": "Forces the engine to use a wider spread of your selected ingredients rather than picking only the absolute cheapest ones.",
+  "@formulatorDiversityDesc": {
+    "description": "Description for the enhanced diversity mode option"
+  },
+  "formulatorConstraintMin": "Min",
+  "@formulatorConstraintMin": {
+    "description": "Minimum constraint label"
+  },
+  "formulatorConstraintMax": "Maximum",
+  "@formulatorConstraintMax": {
+    "description": "Maximum constraint label"
   },
   "formulatorNoResults": "Run optimization to see results.",
   "@formulatorNoResults": {
