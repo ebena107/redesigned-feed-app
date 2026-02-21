@@ -28,7 +28,7 @@ class AppDatabase {
   static final AppDatabase _instance = AppDatabase._();
 
   // Current database version - increment when adding migrations
-  static const int _currentVersion = 16;
+  static const int _currentVersion = 17;
 
   factory AppDatabase() => _instance;
 
@@ -168,6 +168,9 @@ class AppDatabase {
         break;
       case 16:
         await _migrationV15ToV16(db);
+        break;
+      case 17:
+        await _migrationV16ToV17(db);
         break;
       // Add future migrations here
       default:
@@ -674,6 +677,49 @@ class AppDatabase {
     }
 
     debugPrint('Migration 15→16: Complete');
+  }
+
+  /// Migration from v16 to v17: Update `max_inclusion_json` for all ingredients
+  /// Overrides the previously unconstrained `max_inclusion_pct: 0` with realistic safety limits.
+  Future<void> _migrationV16ToV17(Database db) async {
+    debugPrint(
+        'Migration 16→17: Updating max inclusion limits for existing ingredients');
+
+    try {
+      final ingredients = await loadIngredientJson();
+      final batch = db.batch();
+
+      for (final ingredient in ingredients) {
+        final id = ingredient.ingredientId;
+        if (id == null) continue;
+
+        final data = <String, Object?>{};
+
+        if (ingredient.maxInclusionJson != null) {
+          data['max_inclusion_json'] = jsonEncode(ingredient.maxInclusionJson);
+        }
+        if (ingredient.maxInclusionPct != null) {
+          data['max_inclusion_pct'] = ingredient.maxInclusionPct;
+        }
+
+        if (data.isNotEmpty) {
+          batch.update(
+            IngredientsRepository.tableName,
+            data,
+            where: '${IngredientsRepository.colId} = ?',
+            whereArgs: [id],
+          );
+        }
+      }
+
+      await batch.commit(noResult: true);
+      debugPrint(
+          'Migration 16→17: Max inclusion JSON updated for ${ingredients.length} ingredients.');
+    } catch (e, stackTrace) {
+      debugPrint('Migration 16→17: Error updating max inclusion defaults: $e');
+      debugPrint('Stack trace: $stackTrace');
+      rethrow;
+    }
   }
 
   /// Migration from v14 to v15: Create formulation_history table

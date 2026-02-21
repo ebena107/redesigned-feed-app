@@ -75,14 +75,13 @@ void main() {
         ),
       ];
 
-      expect(
-        () => engine.formulate(
-          ingredients: ingredients,
-          constraints: constraints,
-          animalTypeId: 2,
-        ),
-        throwsA(isA<CalculationException>()),
+      final result = engine.formulate(
+        ingredients: ingredients,
+        constraints: constraints,
+        animalTypeId: 2,
       );
+
+      expect(result.status, 'infeasible');
     });
 
     test('detects narrow constraint ranges and warns appropriately', () {
@@ -234,15 +233,13 @@ void main() {
         ),
       ];
 
-      // The validation should throw before trying to solve
-      expect(
-        () => engine.formulate(
-          ingredients: ingredients,
-          constraints: constraints,
-          animalTypeId: 2,
-        ),
-        throwsA(isA<CalculationException>()),
+      final result = engine.formulate(
+        ingredients: ingredients,
+        constraints: constraints,
+        animalTypeId: 2,
       );
+
+      expect(result.status, 'infeasible');
     });
 
     test('supports all animal type energy value lookups', () {

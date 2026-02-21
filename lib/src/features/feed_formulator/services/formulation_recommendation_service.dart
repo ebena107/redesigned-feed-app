@@ -150,7 +150,11 @@ class FormulationRecommendationService {
           break;
         case NutrientKey.phosphorus:
           maxNutrient = (ingredients
-                  .map((i) => i.phosphorus ?? 0)
+                  .map((i) =>
+                      i.totalPhosphorus ??
+                      i.phosphorus ??
+                      i.availablePhosphorus ??
+                      0)
                   .reduce((a, b) => a > b ? a : b)) *
               1.0;
           break;

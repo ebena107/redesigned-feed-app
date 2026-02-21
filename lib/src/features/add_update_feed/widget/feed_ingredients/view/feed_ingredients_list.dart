@@ -89,11 +89,11 @@ class IngredientList extends ConsumerWidget {
                             ),
                             onPressed: () => search
                                 ? ref
-                                      .read(ingredientProvider.notifier)
-                                      .clearSearch()
+                                    .read(ingredientProvider.notifier)
+                                    .clearSearch()
                                 : ref
-                                      .read(ingredientProvider.notifier)
-                                      .toggleSearch(),
+                                    .read(ingredientProvider.notifier)
+                                    .toggleSearch(),
                             tooltip: search
                                 ? context.l10n.actionClear
                                 : context.l10n.hintSearch,
@@ -109,11 +109,11 @@ class IngredientList extends ConsumerWidget {
                             ),
                             onPressed: () => sort
                                 ? ref
-                                      .read(ingredientProvider.notifier)
-                                      .clearSort()
+                                    .read(ingredientProvider.notifier)
+                                    .clearSort()
                                 : ref
-                                      .read(ingredientProvider.notifier)
-                                      .toggleSort(),
+                                    .read(ingredientProvider.notifier)
+                                    .toggleSort(),
                             tooltip: sort
                                 ? context.l10n.actionClearFilters
                                 : context.l10n.actionClearFilters,
@@ -149,9 +149,9 @@ class IngredientList extends ConsumerWidget {
           Text(
             context.l10n.ingredientsEmptyFilteredTitle,
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              color: Colors.grey[700],
-              fontWeight: FontWeight.w600,
-            ),
+                  color: Colors.grey[700],
+                  fontWeight: FontWeight.w600,
+                ),
           ),
           const SizedBox(height: 8),
           Text(

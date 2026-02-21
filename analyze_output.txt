@@ -1,8 +1,0 @@
-Analyzing redesigned-feed-app...
-
-   info - lib\src\features\feed_formulator\widget\constraint_editor.dart:192:16 - Unnecessary use of 'toList' in a spread. Try removing the invocation of 'toList'. - unnecessary_to_list_in_spreads
-   info - lib\src\features\feed_formulator\widget\formulation_results.dart:91:28 - Unnecessary use of 'toList' in a spread. Try removing the invocation of 'toList'. - unnecessary_to_list_in_spreads
-   info - lib\src\features\feed_formulator\widget\formulation_results.dart:158:16 - Unnecessary use of 'toList' in a spread. Try removing the invocation of 'toList'. - unnecessary_to_list_in_spreads
-   info - lib\src\features\feed_formulator\widget\formulation_results.dart:190:16 - Unnecessary use of 'toList' in a spread. Try removing the invocation of 'toList'. - unnecessary_to_list_in_spreads
-
-4 issues found.

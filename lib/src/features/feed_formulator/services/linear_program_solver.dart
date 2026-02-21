@@ -90,11 +90,13 @@ class LinearProgramSolver {
         isOptimal: true,
         isInfeasible: false,
         solution: solution,
-        objectiveValue: tableau[rows - 1][cols - 1],
+        objectiveValue: -tableau[rows - 1][cols - 1],
         tableau: tableau,
         basis: basis,
       );
-    } catch (_) {
+    } catch (e, stack) {
+      print('Simplex Exception: \$e');
+      print(stack);
       return LinearProgramResult(
         isOptimal: false,
         isInfeasible: true,
@@ -233,7 +235,7 @@ class LinearProgramSolver {
     }
 
     for (int j = 0; j < numVariables; j++) {
-      tableau[rows - 1][j] = -objective[j];
+      tableau[rows - 1][j] = objective[j];
     }
 
     for (final col in artificialColumns) {
@@ -260,6 +262,10 @@ class LinearProgramSolver {
       final pivotRow = _findLeavingRow(pivotCol);
 
       if (pivotRow == -1) {
+        print('UNBOUNDED TABLEAU:');
+        for (final row in tableau) {
+          print(row);
+        }
         throw Exception("Unbounded");
       }
 
@@ -274,6 +280,8 @@ class LinearProgramSolver {
     double minValue = -epsilon;
 
     for (int j = 0; j < cols - 1; j++) {
+      if (artificialColumns.contains(j)) continue;
+
       if (tableau[rows - 1][j] < minValue) {
         minValue = tableau[rows - 1][j];
         pivotCol = j;

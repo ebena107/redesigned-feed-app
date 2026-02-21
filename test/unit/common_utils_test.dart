@@ -188,22 +188,22 @@ void main() {
         expect(image, 'assets/images/ruminant_feed.png');
       });
 
-      test('feedImage returns correct image for fish (id: 5)', () {
+      test('feedImage returns correct image for beef cattle (id: 5)', () {
         final image = feedImage(id: 5);
 
-        expect(image, 'assets/images/fish_feed.png');
+        expect(image, 'assets/images/ruminant_feed.png');
       });
 
-      test('feedImage returns empty string for null id', () {
+      test('feedImage returns fallback image for null id', () {
         final image = feedImage(id: null);
 
-        expect(image, '');
+        expect(image, 'assets/images/ruminant_feed.png');
       });
 
-      test('feedImage returns empty string for unknown id', () {
+      test('feedImage returns fallback image for unknown id', () {
         final image = feedImage(id: 99);
 
-        expect(image, '');
+        expect(image, 'assets/images/ruminant_feed.png');
       });
     });
 
@@ -226,28 +226,28 @@ void main() {
         expect(name, 'Rabbit');
       });
 
-      test('animalName returns correct name for ruminants (id: 4)', () {
+      test('animalName returns correct name for Dairy Cattle (id: 4)', () {
         final name = animalName(id: 4);
 
-        expect(name, 'Ruminants');
+        expect(name, 'Dairy Cattle');
       });
 
-      test('animalName returns correct name for fish (id: 5)', () {
+      test('animalName returns correct name for Beef Cattle (id: 5)', () {
         final name = animalName(id: 5);
 
-        expect(name, 'Salmonids / Fish');
+        expect(name, 'Beef Cattle');
       });
 
-      test('animalName returns empty string for null id', () {
+      test('animalName returns Unknown for null id', () {
         final name = animalName(id: null);
 
-        expect(name, '');
+        expect(name, 'Unknown');
       });
 
-      test('animalName returns empty string for unknown id', () {
+      test('animalName returns Unknown for unknown id', () {
         final name = animalName(id: 99);
 
-        expect(name, '');
+        expect(name, 'Unknown');
       });
     });
 

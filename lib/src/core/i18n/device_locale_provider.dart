@@ -7,12 +7,9 @@ part 'device_locale_provider.g.dart';
 
 @riverpod
 class DeviceLocale extends _$DeviceLocale {
-
   Future<String?> _getDefaultLocale() async {
     try {
       return await Devicelocale.currentLocale;
-
-
     } on PlatformException {
       if (kDebugMode) {
         print("Error obtaining default locale");
